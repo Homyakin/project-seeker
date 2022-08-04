@@ -11,6 +11,8 @@
     <properties>
         <java.version>18</java.version>
         <spring.version>2.7.2</spring.version>
+        <liquibase-maven-plugin.version>4.14.0</liquibase-maven-plugin.version>
+        <postgres.version>42.4.1</postgres.version>
 
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
     </properties>
@@ -31,6 +33,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
         </dependency>
     </dependencies>
 
@@ -86,6 +94,20 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase-maven-plugin.version}</version>
+                <configuration>
+                    <changeLogFile>database/migrations/main-changelog.xml</changeLogFile>
+                    <url>jdbc:postgresql://localhost:5432/seeker</url>
+                    <migrationSqlOutputFile>db/generated/liquibase-output.sql</migrationSqlOutputFile>
+                    <outputFileEncoding>UTF-8</outputFileEncoding>
+                    <username>dev</username> <!--TODO удалить отсюда, когда будет запуск миграций при старте приложения-->
+                    <password>dev</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="create-test">
+        <createTable tableName="test">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="test_pkey"/>
+            </column>
+            <column name="c1" type="VARCHAR(255)"/>
+            <column name="c2" type="INTEGER"/>
+            <column name="c3" type="SMALLINT"/>
+            <column name="c4" type="VARCHAR(255)"/>
+            <column name="c5" type="TEXT"/>
+            <column name="c6" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
