@@ -29,6 +29,11 @@ public class TelegramUpdateReceiver implements LongPollingBot {
     }
 
     @Override
+    public void onUpdateReceived(Update update) {
+        logger.debug("New update: " + update.toString());
+    }
+
+    @Override
     public String getBotUsername() {
         return config.username();
     }
@@ -36,11 +41,6 @@ public class TelegramUpdateReceiver implements LongPollingBot {
     @Override
     public String getBotToken() {
         return config.token();
-    }
-
-    @Override
-    public void onUpdateReceived(Update update) {
-        logger.debug("New update: " + update.toString());
     }
 
     @Override

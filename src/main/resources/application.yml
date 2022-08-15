@@ -2,6 +2,7 @@ spring:
   profiles:
     active: dev
 
-telegram-bot:
-  token: "stub"
-  username: "stub"
+ru.homyakin.seeker:
+  telegram:
+    token: "stub"
+    username: "stub"
