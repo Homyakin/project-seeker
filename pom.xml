@@ -11,10 +11,13 @@
     <properties>
         <java.version>18</java.version>
         <spring.version>2.7.2</spring.version>
-        <liquibase-maven-plugin.version>4.14.0</liquibase-maven-plugin.version>
+        <liquibase.version>4.15.0</liquibase.version>
         <postgres.version>42.4.1</postgres.version>
 
+        <junit.version>5.9.0</junit.version>
+
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+        <checkstyle.suppressions.location>suppression.xml</checkstyle.suppressions.location>
     </properties>
 
     <dependencies>
@@ -34,11 +37,36 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgres.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -85,6 +113,7 @@
                         <phase>validate</phase>
                         <configuration>
                             <configLocation>${checkstyle.config.location}</configLocation>
+                            <suppressionsLocation>${checkstyle.suppressions.location}</suppressionsLocation>
                             <encoding>UTF-8</encoding>
                             <logViolationsToConsole>true</logViolationsToConsole>
                             <failOnViolation>true</failOnViolation>
@@ -99,11 +128,10 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase-maven-plugin.version}</version>
+                <version>${liquibase.version}</version>
                 <configuration>
                     <changeLogFile>database/migrations/main-changelog.xml</changeLogFile>
                     <url>jdbc:postgresql://localhost:5432/seeker</url>
-                    <migrationSqlOutputFile>db/generated/liquibase-output.sql</migrationSqlOutputFile>
                     <outputFileEncoding>UTF-8</outputFileEncoding>
                     <username>dev</username> <!--TODO удалить отсюда, когда будет запуск миграций при старте приложения-->
                     <password>dev</password>

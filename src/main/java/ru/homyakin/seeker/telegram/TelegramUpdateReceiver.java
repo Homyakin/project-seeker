@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotOptions;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
+import ru.homyakin.seeker.command.CommandParser;
+import ru.homyakin.seeker.command.CommandProcessor;
 
 /*
 Наследование идёт от LongPollingBot вместо TelegramLongPollingBot, чтобы отдельно имплементировать DefaultAbsSender
@@ -19,18 +21,27 @@ public class TelegramUpdateReceiver implements LongPollingBot {
 
     private final TelegramBotConfig config;
     private final DefaultBotOptions botOptions;
+    private final CommandParser commandParser;
+    private final CommandProcessor commandProcessor;
 
     public TelegramUpdateReceiver(
         TelegramBotConfig config,
-        DefaultBotOptions botOptions
+        DefaultBotOptions botOptions,
+        CommandParser commandParser,
+        CommandProcessor commandProcessor
     ) {
         this.config = config;
         this.botOptions = botOptions;
+        this.commandParser = commandParser;
+        this.commandProcessor = commandProcessor;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         logger.debug("New update: " + update.toString());
+        if (TelegramUtils.needToProcessUpdate(update)) {
+            commandParser.parse(update).ifPresent(commandProcessor::process);
+        }
     }
 
     @Override

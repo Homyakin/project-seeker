@@ -1,0 +1,15 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="create-chat-table">
+        <createTable tableName="chat">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="chat_pkey"/>
+            </column>
+            <column name="is_active" type="BOOLEAN"/>
+            <column name="lang" type="varchar(2)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
