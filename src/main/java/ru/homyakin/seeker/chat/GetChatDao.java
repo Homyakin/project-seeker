@@ -2,6 +2,7 @@ package ru.homyakin.seeker.chat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -39,7 +40,8 @@ class GetChatDao {
             return new Chat(
                 rs.getLong("id"),
                 rs.getBoolean("is_active"),
-                Language.getOrDefault(rs.getString("lang"))
+                Language.getOrDefault(rs.getString("lang")),
+                rs.getTimestamp("last_event_date").toLocalDateTime()
             );
         }
     }

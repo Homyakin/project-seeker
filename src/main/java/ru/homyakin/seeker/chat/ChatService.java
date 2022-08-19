@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.chat;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.models.Chat;
@@ -43,7 +44,7 @@ public class ChatService {
     }
 
     private Chat createChat(Long chatId) {
-        final var chat = new Chat(chatId, true, Language.DEFAULT);
+        final var chat = new Chat(chatId, true, Language.DEFAULT, LocalDateTime.now());
         saveChatDao.save(chat);
         return chat;
     }

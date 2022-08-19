@@ -3,13 +3,33 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="create-chat-table">
+    <changeSet context="legacy" author="Homyakin" id="init-structure">
         <createTable tableName="chat">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="chat_pkey"/>
             </column>
             <column name="is_active" type="BOOLEAN"/>
             <column name="lang" type="varchar(2)"/>
+            <column name="init_date" type="DATETIME"/>
+            <column name="last_event_date" type="DATETIME"/>
         </createTable>
+
+        <createTable tableName="boss">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="boss_pkey"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="boss_locale">
+            <column name="boss_id" type="INTEGER"/>
+            <column name="lang" type="varchar(2)"/>
+            <column name="name" type="varchar(100)"/>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="boss_id, lang"
+                constraintName="boss_locale_pk"
+                tableName="boss_locale"
+        />
     </changeSet>
 </databaseChangeLog>
