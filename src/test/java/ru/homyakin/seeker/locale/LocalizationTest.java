@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.models.Language;
 
 public class LocalizationTest {
-    final List<String> keys = Arrays.stream(LocalizationKeys.values()).map(it -> it.value).toList();
+    final List<String> keys = Arrays.stream(LocalizationKeys.values()).map(Enum::name).toList();
 
     @Test
     public void resourceRuContainsAllKeys() {

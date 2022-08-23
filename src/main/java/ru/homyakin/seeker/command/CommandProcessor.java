@@ -7,8 +7,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.command.executor.CommandExecutor;
-import ru.homyakin.seeker.command.models.Command;
 
 @Component
 public final class CommandProcessor {

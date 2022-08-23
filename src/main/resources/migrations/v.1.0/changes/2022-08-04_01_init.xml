@@ -9,7 +9,7 @@
                 <constraints primaryKey="true" primaryKeyName="chat_pkey"/>
             </column>
             <column name="is_active" type="BOOLEAN"/>
-            <column name="lang" type="varchar(2)"/>
+            <column name="lang" type="TINYINT"/>
             <column name="init_date" type="DATETIME"/>
             <column name="last_event_date" type="DATETIME"/>
         </createTable>
@@ -22,8 +22,8 @@
 
         <createTable tableName="boss_locale">
             <column name="boss_id" type="INTEGER"/>
-            <column name="lang" type="varchar(2)"/>
-            <column name="name" type="varchar(100)"/>
+            <column name="lang" type="TINYINT"/>
+            <column name="name" type="VARCHAR(100)"/>
         </createTable>
 
         <addUniqueConstraint

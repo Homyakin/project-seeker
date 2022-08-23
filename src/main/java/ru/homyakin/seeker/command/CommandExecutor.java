@@ -1,7 +1,6 @@
-package ru.homyakin.seeker.command.executor;
+package ru.homyakin.seeker.command;
 
 import java.lang.reflect.ParameterizedType;
-import ru.homyakin.seeker.command.models.Command;
 
 public abstract class CommandExecutor<T extends Command> {
 

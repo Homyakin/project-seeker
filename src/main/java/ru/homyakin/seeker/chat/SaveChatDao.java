@@ -1,7 +1,5 @@
 package ru.homyakin.seeker.chat;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -25,7 +23,7 @@ class SaveChatDao {
         final var params = new HashMap<String, Object>();
         params.put("id", chat.id());
         params.put("is_active", chat.isActive());
-        params.put("lang", chat.language().value());
+        params.put("lang", chat.language().id());
         params.put("init_date", chat.lastEventDate());
         params.put("last_event_date", chat.lastEventDate());
         jdbcTemplate.update(

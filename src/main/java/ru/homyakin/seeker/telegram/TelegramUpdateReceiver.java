@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.generics.BotOptions;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import ru.homyakin.seeker.command.CommandParser;
 import ru.homyakin.seeker.command.CommandProcessor;
+import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 /*
 Наследование идёт от LongPollingBot вместо TelegramLongPollingBot, чтобы отдельно имплементировать DefaultAbsSender
@@ -39,7 +40,7 @@ public class TelegramUpdateReceiver implements LongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         logger.debug("New update: " + update.toString());
-        if (TelegramUtils.needToProcessUpdate(update)) {
+        if (TelegramUtils.needToProcessUpdate(update, getBotUsername())) {
             commandParser.parse(update).ifPresent(commandProcessor::process);
         }
     }

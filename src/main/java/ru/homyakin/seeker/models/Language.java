@@ -6,26 +6,32 @@ import java.util.Map;
 import java.util.Optional;
 
 public enum Language {
-    RU("ru"),
-    EN("en"),
+    RU(1, "ru"),
+    EN(2, "en"),
     ;
 
+    private final int id;
     private final String value;
 
-    Language(String value) {
+    Language(int id, String value) {
+        this.id = id;
         this.value = value;
     }
 
-    private static final Map<String, Language> map = new HashMap<>() {{
-        Arrays.stream(Language.values()).forEach(it -> put(it.value, it));
+    private static final Map<Integer, Language> map = new HashMap<>() {{
+        Arrays.stream(Language.values()).forEach(it -> put(it.id, it));
     }};
     public static final Language DEFAULT = RU;
 
-    public static Language getOrDefault(String value) {
+    public static Language getOrDefault(Integer value) {
         if (value == null) {
             return DEFAULT;
         }
         return Optional.ofNullable(map.get(value)).orElse(DEFAULT);
+    }
+
+    public int id() {
+        return id;
     }
 
     public String value() {

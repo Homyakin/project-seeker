@@ -9,6 +9,9 @@ public record Chat(
     Language language,
     LocalDateTime lastEventDate
 ) {
+    public boolean isSameLanguage(Language language) {
+        return this.language == language;
+    }
     public Chat copyWithActive(boolean isActive) {
         return new Chat(
             id,

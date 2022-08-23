@@ -21,8 +21,8 @@ public class ChatService {
     public Chat setActiveOrCreate(Long chatId) {
         var chat = getChat(chatId);
         if (chat.isPresent() && !chat.get().isActive()) {
-            updateChatActive(chatId, true);
-            return chat.get().copyWithActive(true);
+            updateChatDao.updateIsActive(chatId, true);
+            return getChat(chatId).orElseThrow();
         } else if (chat.isEmpty()) {
             return createChat(chatId);
         }
@@ -33,10 +33,19 @@ public class ChatService {
         getChat(chatId).ifPresent(
             chat -> {
                 if (chat.isActive()) {
-                    updateChatActive(chatId, false);
+                    updateChatDao.updateIsActive(chatId, false);
                 }
             }
         );
+    }
+
+    public Chat changeLanguage(Chat chat, Language language) {
+        if (!chat.isSameLanguage(language)) {
+            updateChatDao.updateLanguage(chat.id(), language);
+            return getChat(chat.id()).orElseThrow();
+        } else {
+            return chat;
+        }
     }
 
     private Optional<Chat> getChat(Long chatId) {
@@ -47,10 +56,6 @@ public class ChatService {
         final var chat = new Chat(chatId, true, Language.DEFAULT, LocalDateTime.now());
         saveChatDao.save(chat);
         return chat;
-    }
-
-    private void updateChatActive(Long chatId, boolean isActive) {
-        updateChatDao.updateIsActive(chatId, isActive);
     }
     
 }

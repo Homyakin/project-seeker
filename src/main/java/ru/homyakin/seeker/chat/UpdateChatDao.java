@@ -4,12 +4,19 @@ import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.models.Language;
 
 @Component
 public class UpdateChatDao {
     private static final String UPDATE_ACTIVE = """
         update chat
         set is_active = :is_active
+        where id = :id;
+        """;
+
+    private static final String UPDATE_LANGUAGE = """
+        update chat
+        set lang = :lang
         where id = :id;
         """;
 
@@ -25,6 +32,16 @@ public class UpdateChatDao {
         params.put("is_active", isActive);
         jdbcTemplate.update(
             UPDATE_ACTIVE,
+            params
+        );
+    }
+
+    public void updateLanguage(Long chatId, Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("id", chatId);
+        params.put("lang", language.id());
+        jdbcTemplate.update(
+            UPDATE_LANGUAGE,
             params
         );
     }

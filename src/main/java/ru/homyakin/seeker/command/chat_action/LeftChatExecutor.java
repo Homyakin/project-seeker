@@ -1,14 +1,15 @@
-package ru.homyakin.seeker.command.executor;
+package ru.homyakin.seeker.command.chat_action;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.chat.ChatService;
-import ru.homyakin.seeker.command.models.chat_action.LeftChat;
+import ru.homyakin.seeker.command.CommandExecutor;
+import ru.homyakin.seeker.command.chat_action.LeftChat;
 
 @Component
-class LeftChatCommandExecutor extends CommandExecutor<LeftChat> {
+class LeftChatExecutor extends CommandExecutor<LeftChat> {
     private final ChatService chatService;
 
-    LeftChatCommandExecutor(ChatService chatService) {
+    public LeftChatExecutor(ChatService chatService) {
         this.chatService = chatService;
     }
 
