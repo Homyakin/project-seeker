@@ -3,8 +3,9 @@ package ru.homyakin.seeker.command.language;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.chat.ChatService;
 import ru.homyakin.seeker.command.CommandExecutor;
+import ru.homyakin.seeker.command.CommandText;
 import ru.homyakin.seeker.locale.Localization;
-import ru.homyakin.seeker.models.Language;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.user.UserService;
@@ -27,7 +28,7 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
     @Override
     public void execute(GroupSelectLanguage command) {
         final var chat = chatService.setActiveOrCreate(command.chatId());
-        final var language = Language.getOrDefault(Integer.valueOf(command.data().split("_")[1]));
+        final var language = Language.getOrDefault(Integer.valueOf(command.data().split(CommandText.CALLBACK_DELIMITER)[1]));
         userService.isUserAdminInChat(command.chatId(), command.userId())
             .peek(isAdmin -> {
                     if (isAdmin) {

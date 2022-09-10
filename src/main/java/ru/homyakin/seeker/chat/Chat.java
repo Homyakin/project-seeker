@@ -1,6 +1,7 @@
-package ru.homyakin.seeker.models;
+package ru.homyakin.seeker.chat;
 
 import java.time.LocalDateTime;
+import ru.homyakin.seeker.locale.Language;
 
 // TODO добавить дату добавления
 public record Chat(
@@ -11,13 +12,5 @@ public record Chat(
 ) {
     public boolean isSameLanguage(Language language) {
         return this.language == language;
-    }
-    public Chat copyWithActive(boolean isActive) {
-        return new Chat(
-            id,
-            isActive,
-            language,
-            lastEventDate
-        );
     }
 }

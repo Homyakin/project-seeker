@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.homyakin.seeker.models.Language;
 
 public class LocalizationTest {
     final List<String> keys = Arrays.stream(LocalizationKeys.values()).map(Enum::name).toList();

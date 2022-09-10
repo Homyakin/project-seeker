@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import ru.homyakin.seeker.models.Language;
 
 public class Localization {
     private static final Map<Language, AbstractResource> map = new HashMap<>() {{

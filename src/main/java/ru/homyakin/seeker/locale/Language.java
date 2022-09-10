@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.models;
+package ru.homyakin.seeker.locale;
 
 import java.util.Arrays;
 import java.util.HashMap;

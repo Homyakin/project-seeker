@@ -3,8 +3,7 @@ package ru.homyakin.seeker.chat;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.models.Chat;
-import ru.homyakin.seeker.models.Language;
+import ru.homyakin.seeker.locale.Language;
 
 @Service
 public class ChatService {

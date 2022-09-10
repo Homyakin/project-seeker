@@ -3,7 +3,6 @@ package ru.homyakin.seeker.command.chat_action;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.chat.ChatService;
 import ru.homyakin.seeker.command.CommandExecutor;
-import ru.homyakin.seeker.command.chat_action.JoinChat;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;

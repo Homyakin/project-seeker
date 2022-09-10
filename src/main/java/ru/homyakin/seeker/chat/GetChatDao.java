@@ -8,8 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.models.Chat;
-import ru.homyakin.seeker.models.Language;
+import ru.homyakin.seeker.locale.Language;
 
 @Component
 class GetChatDao {

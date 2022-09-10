@@ -11,7 +11,6 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMem
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import ru.homyakin.seeker.models.errors.TelegramError;
 
 @Component
@@ -44,6 +43,7 @@ public class TelegramSender extends DefaultAbsSender {
             return Either.left(new TelegramError());
         }
     }
+
     public void send(AnswerCallbackQuery callbackQuery) {
         try {
             execute(callbackQuery);
@@ -57,8 +57,8 @@ public class TelegramSender extends DefaultAbsSender {
     public void send(EditMessageText editMessageText) {
         try {
             execute(editMessageText);
-        } catch (TelegramApiRequestException e) {
-            if(!e.getMessage().contains("Bad Request: message is not modified")) {
+        } catch (Exception e) {
+            if (!e.getMessage().contains("Bad Request: message is not modified")) {
                 logger.error(
                     "Unable edit message %d in chat %s".formatted(
                         editMessageText.getMessageId(), editMessageText.getChatId()
@@ -66,13 +66,6 @@ public class TelegramSender extends DefaultAbsSender {
                     e
                 );
             }
-        } catch (Exception e) {
-            logger.error(
-                "Unable edit message %d in chat %s".formatted(
-                    editMessageText.getMessageId(), editMessageText.getChatId()
-                ),
-                e
-            );
         }
     }
 

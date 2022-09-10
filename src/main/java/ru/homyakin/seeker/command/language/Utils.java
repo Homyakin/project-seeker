@@ -3,7 +3,7 @@ package ru.homyakin.seeker.command.language;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.homyakin.seeker.command.CommandText;
-import ru.homyakin.seeker.models.Language;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboardBuilder;
 
 class Utils {
@@ -16,7 +16,7 @@ class Utils {
             }
             final var buttonBuilder = InlineKeyboardButton
                 .builder()
-                .callbackData("%s_%d".formatted(CommandText.SELECT_LANGUAGE.text(), languages[i].id()));
+                .callbackData("%s%s%d".formatted(CommandText.SELECT_LANGUAGE, CommandText.CALLBACK_DELIMITER, languages[i].id()));
             if (currentLanguage == languages[i]) {
                 buttonBuilder.text("+" + languages[i].value());
             } else {

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.models.Chat;
 
 @Component
 class SaveChatDao {
