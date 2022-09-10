@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-user-table">
+        <createTable tableName="user">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" primaryKeyName="user_pkey"/>
+            </column>
+            <column name="is_active_private_messages" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lang" type="TINYINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="init_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

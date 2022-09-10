@@ -24,7 +24,7 @@ public final class CommandProcessor {
         executorMap = new HashMap<>();
 
         for (final CommandExecutor executor: executorList) {
-            executorMap.put(executor.getType(), executor);
+            executorMap.put(executor.getCommandType(), executor);
         }
     }
 
