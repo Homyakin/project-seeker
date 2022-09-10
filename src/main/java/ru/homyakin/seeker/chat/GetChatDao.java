@@ -13,7 +13,7 @@ import ru.homyakin.seeker.locale.Language;
 @Component
 class GetChatDao {
     private static final String GET_CHAT_BY_ID = "SELECT * FROM chat WHERE id = :id";
-    private static final ChatRowMapper chatRowMapper = new ChatRowMapper();
+    private static final ChatRowMapper CHAT_ROW_MAPPER = new ChatRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -26,7 +26,7 @@ class GetChatDao {
         final var result = jdbcTemplate.query(
             GET_CHAT_BY_ID,
             params,
-            chatRowMapper
+            CHAT_ROW_MAPPER
         );
         return result.stream().findFirst();
     }

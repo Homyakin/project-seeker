@@ -10,6 +10,7 @@ import ru.homyakin.seeker.command.language.GroupChangeLanguage;
 import ru.homyakin.seeker.command.chat_action.JoinChat;
 import ru.homyakin.seeker.command.chat_action.LeftChat;
 import ru.homyakin.seeker.command.language.GroupSelectLanguage;
+import ru.homyakin.seeker.command.user.StartUser;
 
 @Component
 public class CommandParser {
@@ -38,13 +39,20 @@ public class CommandParser {
         );
     }
 
-    private Optional<Command> parseMessage(Message message) {
+    private Optional<Command> parseMessage(Message message) { //TODO разделить на group и private
         if (!message.hasText()) {
             return Optional.empty();
         }
         final var text = message.getText().split("@")[0];
         final Command command = switch (text) {
             case CommandText.CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
+            case CommandText.START -> {
+                if (message.isUserMessage()) {
+                    yield new StartUser(message.getChatId());
+                } else {
+                    yield null;
+                }
+            }
             default -> null;
         };
         return Optional.ofNullable(command);

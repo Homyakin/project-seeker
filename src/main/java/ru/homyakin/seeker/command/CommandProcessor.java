@@ -36,6 +36,6 @@ public final class CommandProcessor {
                 commandExecutor -> {
                     commandExecutor.execute(command);
                 }
-            );
+            ); //TODO unknown command
     }
 }

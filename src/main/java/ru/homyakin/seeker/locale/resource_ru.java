@@ -8,6 +8,10 @@ public class resource_ru extends AbstractResource {
                 "Приветствую вас, Искатели."
             },
             {
+                LocalizationKeys.WELCOME_USER.name(),
+                "Приветствую тебя, Искатель."
+            },
+            {
                 LocalizationKeys.CHOOSE_LANGUAGE.name(),
                 "Выберите язык:"
             },

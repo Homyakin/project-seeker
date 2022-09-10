@@ -5,8 +5,12 @@ import java.util.ListResourceBundle;
 public abstract class AbstractResource extends ListResourceBundle {
     public static final String BASE_NAME = "ru.homyakin.seeker.locale.resource";
 
-    public String welcome() {
+    public String welcomeGroup() {
         return getString(LocalizationKeys.WELCOME_GROUP.name());
+    }
+
+    public String welcomeUser() {
+        return getString(LocalizationKeys.WELCOME_USER.name());
     }
 
     public String chooseLanguage() {

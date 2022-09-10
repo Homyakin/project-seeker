@@ -5,5 +5,5 @@
 >
     <include file="changes/2022-08-04_01_add-chat-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2022-09-10_01_add-boss-tables.xml" relativeToChangelogFile="true"/>
-    <include file="changes/2022-09-10_02_add-user-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2022-09-10_02_add-tg-user-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
