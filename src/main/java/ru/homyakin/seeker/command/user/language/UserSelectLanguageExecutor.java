@@ -1,16 +1,13 @@
 package ru.homyakin.seeker.command.user.language;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.chat.ChatService;
 import ru.homyakin.seeker.command.CommandExecutor;
 import ru.homyakin.seeker.command.CommandText;
-import ru.homyakin.seeker.command.chat.language.GroupSelectLanguage;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.Keyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.user.User;
 import ru.homyakin.seeker.user.UserService;
 
 @Component
