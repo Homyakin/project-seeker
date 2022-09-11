@@ -6,10 +6,10 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.homyakin.seeker.command.language.GroupChangeLanguage;
-import ru.homyakin.seeker.command.chat_action.JoinChat;
-import ru.homyakin.seeker.command.chat_action.LeftChat;
-import ru.homyakin.seeker.command.language.GroupSelectLanguage;
+import ru.homyakin.seeker.command.chat.language.GroupChangeLanguage;
+import ru.homyakin.seeker.command.chat.chat_action.JoinChat;
+import ru.homyakin.seeker.command.chat.chat_action.LeftChat;
+import ru.homyakin.seeker.command.chat.language.GroupSelectLanguage;
 import ru.homyakin.seeker.command.user.StartUser;
 
 @Component

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.command.language;
+package ru.homyakin.seeker.command.chat.language;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.chat.ChatService;

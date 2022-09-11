@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.command.language;
+package ru.homyakin.seeker.command.chat.language;
 
 import ru.homyakin.seeker.command.Command;
 

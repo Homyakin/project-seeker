@@ -1,9 +1,8 @@
-package ru.homyakin.seeker.command.chat_action;
+package ru.homyakin.seeker.command.chat.chat_action;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.chat.ChatService;
 import ru.homyakin.seeker.command.CommandExecutor;
-import ru.homyakin.seeker.command.chat_action.LeftChat;
 
 @Component
 class LeftChatExecutor extends CommandExecutor<LeftChat> {

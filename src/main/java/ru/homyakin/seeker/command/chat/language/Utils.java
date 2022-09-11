@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.command.language;
+package ru.homyakin.seeker.command.chat.language;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
