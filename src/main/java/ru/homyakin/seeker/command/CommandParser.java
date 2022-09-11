@@ -13,6 +13,7 @@ import ru.homyakin.seeker.command.chat.language.GroupSelectLanguage;
 import ru.homyakin.seeker.command.user.StartUser;
 import ru.homyakin.seeker.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.command.user.language.UserSelectLanguage;
+import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 @Component
 public class CommandParser {
@@ -45,46 +46,67 @@ public class CommandParser {
         if (!message.hasText()) {
             return Optional.empty();
         }
+        if (message.isUserMessage()) {
+            return parsePrivateMessage(message);
+        } else if (TelegramUtils.isGroupMessage(message)) {
+            return parseGroupMessage(message);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Command> parsePrivateMessage(Message message) {
+        final Command command = switch (message.getText()) {
+            case CommandText.CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
+            case CommandText.START -> new StartUser(message.getChatId());
+            default -> null;
+        };
+        return Optional.ofNullable(command);
+    }
+
+    private Optional<Command> parseGroupMessage(Message message) {
         final var text = message.getText().split("@")[0];
         final Command command = switch (text) {
-            case CommandText.CHANGE_LANGUAGE -> {
-                if (message.isUserMessage()) {
-                    yield new UserChangeLanguage(message.getChatId());
-                }
-                yield new GroupChangeLanguage(message.getChatId());
-            }
-            case CommandText.START -> {
-                if (message.isUserMessage()) {
-                    yield new StartUser(message.getChatId());
-                } else {
-                    yield null;
-                }
-            }
+            case CommandText.CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
             default -> null;
         };
         return Optional.ofNullable(command);
     }
 
     private Optional<Command> parseCallback(CallbackQuery callback) {
+        if (callback.getMessage().isUserMessage()) {
+            return parsePrivateCallback(callback);
+        } else if (TelegramUtils.isGroupMessage(callback.getMessage())) {
+            return parseGroupCallback(callback);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<Command> parsePrivateCallback(CallbackQuery callback) {
         final var text = callback.getData().split(CommandText.CALLBACK_DELIMITER)[0];
         final Command command = switch (text) {
-            case CommandText.SELECT_LANGUAGE -> {
-                if (callback.getMessage().isUserMessage()) {
-                    yield new UserSelectLanguage(
-                        callback.getId(),
-                        callback.getFrom().getId(),
-                        callback.getMessage().getMessageId(),
-                        callback.getData()
-                    );
-                }
-                yield new GroupSelectLanguage(
-                    callback.getId(),
-                    callback.getMessage().getChatId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getFrom().getId(),
-                    callback.getData()
-                );
-            }
+            case CommandText.SELECT_LANGUAGE -> new UserSelectLanguage(
+                callback.getId(),
+                callback.getFrom().getId(),
+                callback.getMessage().getMessageId(),
+                callback.getData()
+            );
+            default -> null;
+        };
+        return Optional.ofNullable(command);
+    }
+
+    private Optional<Command> parseGroupCallback(CallbackQuery callback) {
+        final var text = callback.getData().split(CommandText.CALLBACK_DELIMITER)[0];
+        final Command command = switch (text) {
+            case CommandText.SELECT_LANGUAGE -> new GroupSelectLanguage(
+                callback.getId(),
+                callback.getMessage().getChatId(),
+                callback.getMessage().getMessageId(),
+                callback.getFrom().getId(),
+                callback.getData()
+            );
             default -> null;
         };
         return Optional.ofNullable(command);
