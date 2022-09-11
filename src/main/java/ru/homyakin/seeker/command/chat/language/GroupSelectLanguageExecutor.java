@@ -7,6 +7,7 @@ import ru.homyakin.seeker.command.CommandText;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.utils.Keyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.user.UserService;
 
@@ -18,7 +19,8 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
 
     public GroupSelectLanguageExecutor(
         ChatService chatService,
-        UserService userService, TelegramSender telegramSender
+        UserService userService,
+        TelegramSender telegramSender
     ) {
         this.chatService = chatService;
         this.userService = userService;
@@ -27,7 +29,7 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
 
     @Override
     public void execute(GroupSelectLanguage command) {
-        final var chat = chatService.setActiveOrCreate(command.chatId());
+        final var chat = chatService.getOrCreate(command.chatId());
         final var language = Language.getOrDefault(Integer.valueOf(command.data().split(CommandText.CALLBACK_DELIMITER)[1]));
         userService.isUserAdminInChat(command.chatId(), command.userId())
             .peek(isAdmin -> {
@@ -38,7 +40,7 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
                                 command.chatId(),
                                 command.messageId(),
                                 Localization.get(updatedChat.language()).chooseLanguage(),
-                                Utils.languageKeyboard(updatedChat.language())
+                                Keyboards.languageKeyboard(updatedChat.language())
                             )
                         );
                     } else {

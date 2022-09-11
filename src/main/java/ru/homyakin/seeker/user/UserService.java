@@ -34,7 +34,7 @@ public class UserService {
             .mapLeft(it -> (EitherError) it); // Без этого преобразования не может сопоставить типы
     }
 
-    public User getOrCreateUser(Long userId, boolean isPrivateMessage) {
+    public User getOrCreate(Long userId, boolean isPrivateMessage) {
         var user = getUserDao.getById(userId);
         if (user.isPresent() && !user.get().isActivePrivateMessages() && isPrivateMessage) {
             updateUserDao.updateIsActivePrivateMessages(userId, true);
@@ -43,6 +43,15 @@ public class UserService {
             return createUser(userId, isPrivateMessage);
         }
         return user.get();
+    }
+
+    public User changeLanguage(User user, Language language) {
+        if (!user.isSameLanguage(language)) {
+            updateUserDao.updateLanguage(user.id(), language);
+            return getUserDao.getById(user.id()).orElseThrow();
+        } else {
+            return user;
+        }
     }
 
     private User createUser(Long userId, boolean isPrivateMessage) {

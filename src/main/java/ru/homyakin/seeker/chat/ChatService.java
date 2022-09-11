@@ -17,7 +17,7 @@ public class ChatService {
         this.updateChatDao = updateChatDao;
     }
 
-    public Chat setActiveOrCreate(Long chatId) {
+    public Chat getOrCreate(Long chatId) {
         var chat = getChat(chatId);
         if (chat.isPresent() && !chat.get().isActive()) {
             updateChatDao.updateIsActive(chatId, true);

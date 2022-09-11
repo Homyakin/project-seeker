@@ -19,7 +19,7 @@ class JoinChatExecutor extends CommandExecutor<JoinChat> {
 
     @Override
     public void execute(JoinChat command) {
-        final var chat = chatService.setActiveOrCreate(command.chatId());
+        final var chat = chatService.getOrCreate(command.chatId());
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 chat.id(),

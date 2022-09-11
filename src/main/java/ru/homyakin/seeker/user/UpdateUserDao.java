@@ -14,6 +14,12 @@ class UpdateUserDao {
         where id = :id;
         """;
 
+    private static final String UPDATE_LANGUAGE = """
+        update tg_user
+        set lang = :lang
+        where id = :id;
+        """;
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public UpdateUserDao(DataSource dataSource) {
@@ -26,6 +32,16 @@ class UpdateUserDao {
         params.put("is_active", isActivePrivateMessages);
         jdbcTemplate.update(
             UPDATE_ACTIVE_PRIVATE_MESSAGES,
+            params
+        );
+    }
+
+    public void updateLanguage(Long userId, Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("id", userId);
+        params.put("lang", language.id());
+        jdbcTemplate.update(
+            UPDATE_LANGUAGE,
             params
         );
     }

@@ -5,6 +5,7 @@ import ru.homyakin.seeker.chat.ChatService;
 import ru.homyakin.seeker.command.CommandExecutor;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.utils.Keyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
@@ -22,12 +23,12 @@ public class GroupChangeLanguageExecutor extends CommandExecutor<GroupChangeLang
 
     @Override
     public void execute(GroupChangeLanguage command) {
-        final var chat = chatService.setActiveOrCreate(command.chatId());
+        final var chat = chatService.getOrCreate(command.chatId());
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 command.chatId(),
                 Localization.get(chat.language()).chooseLanguage(),
-                Utils.languageKeyboard(chat.language())
+                Keyboards.languageKeyboard(chat.language())
             )
         );
     }

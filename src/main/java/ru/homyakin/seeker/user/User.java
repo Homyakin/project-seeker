@@ -7,4 +7,7 @@ public record User(
     boolean isActivePrivateMessages,
     Language language
 ) {
+    public boolean isSameLanguage(Language language) {
+        return this.language == language;
+    }
 }

@@ -11,6 +11,8 @@ import ru.homyakin.seeker.command.chat.chat_action.JoinChat;
 import ru.homyakin.seeker.command.chat.chat_action.LeftChat;
 import ru.homyakin.seeker.command.chat.language.GroupSelectLanguage;
 import ru.homyakin.seeker.command.user.StartUser;
+import ru.homyakin.seeker.command.user.language.UserChangeLanguage;
+import ru.homyakin.seeker.command.user.language.UserSelectLanguage;
 
 @Component
 public class CommandParser {
@@ -45,7 +47,12 @@ public class CommandParser {
         }
         final var text = message.getText().split("@")[0];
         final Command command = switch (text) {
-            case CommandText.CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
+            case CommandText.CHANGE_LANGUAGE -> {
+                if (message.isUserMessage()) {
+                    yield new UserChangeLanguage(message.getChatId());
+                }
+                yield new GroupChangeLanguage(message.getChatId());
+            }
             case CommandText.START -> {
                 if (message.isUserMessage()) {
                     yield new StartUser(message.getChatId());
@@ -61,13 +68,23 @@ public class CommandParser {
     private Optional<Command> parseCallback(CallbackQuery callback) {
         final var text = callback.getData().split(CommandText.CALLBACK_DELIMITER)[0];
         final Command command = switch (text) {
-            case CommandText.SELECT_LANGUAGE -> new GroupSelectLanguage(
-                callback.getId(),
-                callback.getMessage().getChatId(),
-                callback.getMessage().getMessageId(),
-                callback.getFrom().getId(),
-                callback.getData()
-            );
+            case CommandText.SELECT_LANGUAGE -> {
+                if (callback.getMessage().isUserMessage()) {
+                    yield new UserSelectLanguage(
+                        callback.getId(),
+                        callback.getFrom().getId(),
+                        callback.getMessage().getMessageId(),
+                        callback.getData()
+                    );
+                }
+                yield new GroupSelectLanguage(
+                    callback.getId(),
+                    callback.getMessage().getChatId(),
+                    callback.getMessage().getMessageId(),
+                    callback.getFrom().getId(),
+                    callback.getData()
+                );
+            }
             default -> null;
         };
         return Optional.ofNullable(command);

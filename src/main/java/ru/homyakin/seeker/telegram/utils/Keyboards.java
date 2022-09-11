@@ -1,12 +1,11 @@
-package ru.homyakin.seeker.command.chat.language;
+package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.homyakin.seeker.command.CommandText;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.utils.InlineKeyboardBuilder;
 
-class Utils {
+public class Keyboards {
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
         final var languages = Language.values();
         final var builder = InlineKeyboardBuilder.builder();
