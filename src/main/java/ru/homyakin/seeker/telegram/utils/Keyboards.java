@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.homyakin.seeker.command.CommandText;
 import ru.homyakin.seeker.locale.Language;
 
@@ -13,16 +12,15 @@ public class Keyboards {
             if (i % 5 == 0) {
                 builder.addRow();
             }
-            final var buttonBuilder = InlineKeyboardButton
-                .builder()
-                .callbackData("%s%s%d".formatted(CommandText.SELECT_LANGUAGE, CommandText.CALLBACK_DELIMITER, languages[i].id()));
+            final String text;
             if (currentLanguage == languages[i]) {
-                buttonBuilder.text("+" + languages[i].value());
+                text = ":white_check_mark:" + languages[i].value();
             } else {
-                buttonBuilder.text(languages[i].value());
+                text = languages[i].value();
             }
             builder.addButton(
-                buttonBuilder.build()
+                text,
+                "%s%s%d".formatted(CommandText.SELECT_LANGUAGE, CommandText.CALLBACK_DELIMITER, languages[i].id())
             );
         }
         return builder.build();

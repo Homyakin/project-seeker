@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.utils;
 
+import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,7 +13,7 @@ public class TelegramMethods {
         return SendMessage
             .builder()
             .chatId(chatId)
-            .text(text)
+            .text(EmojiParser.parseToUnicode(text))
             .build();
     }
 
@@ -20,7 +21,7 @@ public class TelegramMethods {
         return SendMessage
             .builder()
             .chatId(chatId)
-            .text(text)
+            .text(EmojiParser.parseToUnicode(text))
             .replyMarkup(keyboard)
             .build();
     }
@@ -29,7 +30,7 @@ public class TelegramMethods {
         return AnswerCallbackQuery
             .builder()
             .callbackQueryId(callbackId)
-            .text(text)
+            .text(EmojiParser.parseToUnicode(text))
             .showAlert(true)
             .build();
     }
@@ -47,7 +48,7 @@ public class TelegramMethods {
             .builder()
             .chatId(chatId)
             .messageId(messageId)
-            .text(text)
+            .text(EmojiParser.parseToUnicode(text))
             .replyMarkup(keyboard)
             .build();
     }

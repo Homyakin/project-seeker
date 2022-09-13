@@ -13,6 +13,9 @@
         <spring.version>2.7.2</spring.version>
         <liquibase.version>4.15.0</liquibase.version>
         <postgres.version>42.4.1</postgres.version>
+        <telegram.version>6.1.0</telegram.version>
+        <vavr.version>0.10.4</vavr.version>
+        <emoji.version>5.1.1</emoji.version>
 
         <junit.version>5.9.0</junit.version>
 
@@ -24,7 +27,7 @@
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
-            <version>6.1.0</version>
+            <version>${telegram.version}</version>
         </dependency>
 
         <dependency>
@@ -58,9 +61,14 @@
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
-            <version>0.10.4</version>
+            <version>${vavr.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>${emoji.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.utils;
 
+import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -27,11 +28,17 @@ public class InlineKeyboardBuilder {
         return this;
     }
 
-    public InlineKeyboardBuilder addButton(InlineKeyboardButton button) {
+    public InlineKeyboardBuilder addButton(String text, String callbackData) {
         if (row == null) {
             throw new IllegalStateException("Any row doesn't exist");
         }
-        row.add(button);
+        row.add(
+            InlineKeyboardButton
+                .builder()
+                .callbackData(EmojiParser.parseToUnicode(callbackData))
+                .text(EmojiParser.parseToUnicode(text))
+                .build()
+        );
         return this;
     }
 
