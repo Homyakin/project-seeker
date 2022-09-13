@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "locale": [
+      {
+        "lang": "ru",
+        "name": "Тестовое событие"
+      },
+      {
+        "lang": "en",
+        "name": "Test event"
+      }
+    ]
+  }
+]

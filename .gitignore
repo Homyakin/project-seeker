@@ -1,5 +1,6 @@
 .idea/
 *.log
 target/
+**/venv/
 
 src/main/resources/application-dev.yml
