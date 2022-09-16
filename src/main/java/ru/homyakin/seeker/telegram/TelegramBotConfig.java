@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 
 @Configuration
-@ConfigurationProperties(prefix = "ru.homyakin.seeker.telegram")
+@ConfigurationProperties(prefix = "homyakin.seeker.telegram")
 class TelegramBotConfig {
     private String token;
     private String username;

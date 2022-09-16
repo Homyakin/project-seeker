@@ -4,4 +4,4 @@ target/
 **/venv/
 __pycache__/
 
-src/main/resources/application-dev.yml
+src/main/resources/application-dev.properties

@@ -144,13 +144,6 @@
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
-                <configuration>
-                    <changeLogFile>database/migrations/main-changelog.xml</changeLogFile>
-                    <url>jdbc:postgresql://localhost:5432/seeker</url>
-                    <outputFileEncoding>UTF-8</outputFileEncoding>
-                    <username>dev</username> <!--TODO удалить отсюда, когда будет запуск миграций при старте приложения-->
-                    <password>dev</password>
-                </configuration>
             </plugin>
         </plugins>
     </build>
