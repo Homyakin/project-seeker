@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.command.chat.language;
 
 import ru.homyakin.seeker.command.Command;
+import ru.homyakin.seeker.command.CommandText;
 
 public record GroupSelectLanguage(
     String callbackId,
@@ -9,4 +10,7 @@ public record GroupSelectLanguage(
     Long userId,
     String data
 ) implements Command {
+    public Integer getLanguageId() {
+        return Integer.valueOf(data.split(CommandText.CALLBACK_DELIMITER)[1]);
+    }
 }

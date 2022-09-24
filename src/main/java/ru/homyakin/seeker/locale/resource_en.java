@@ -23,6 +23,26 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.INTERNAL_ERROR.name(),
                 "Unexpected error, try again later"
             },
+            {
+                LocalizationKeys.JOIN_EVENT.name(),
+                "Join"
+            },
+            {
+                LocalizationKeys.SUCCESS_JOIN_EVENT.name(),
+                "You have successfully joined the event!"
+            },
+            {
+                LocalizationKeys.USER_ALREADY_IN_THIS_EVENT.name(),
+                "You are already participating in this event!"
+            },
+            {
+                LocalizationKeys.USER_ALREADY_IN_OTHER_EVENT.name(),
+                "You are already participating in another event!"
+            },
+            {
+                LocalizationKeys.EXPIRED_EVENT.name(),
+                "The event is over!"
+            },
         };
 
     @Override

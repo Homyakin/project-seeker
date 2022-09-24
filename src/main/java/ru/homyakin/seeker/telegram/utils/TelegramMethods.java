@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.utils;
 
 import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -14,6 +15,7 @@ public class TelegramMethods {
             .builder()
             .chatId(chatId)
             .text(EmojiParser.parseToUnicode(text))
+            .parseMode(ParseMode.MARKDOWNV2)
             .build();
     }
 
@@ -23,6 +25,7 @@ public class TelegramMethods {
             .chatId(chatId)
             .text(EmojiParser.parseToUnicode(text))
             .replyMarkup(keyboard)
+            .parseMode(ParseMode.MARKDOWNV2)
             .build();
     }
 
@@ -41,6 +44,10 @@ public class TelegramMethods {
             .chatId(chatId)
             .userId(userId)
             .build();
+    }
+
+    public static EditMessageText createEditMessageText(Long chatId, Integer messageId, String text) {
+        return createEditMessageText(chatId, messageId, text, null);
     }
 
     public static EditMessageText createEditMessageText(Long chatId, Integer messageId, String text, InlineKeyboardMarkup keyboard) {

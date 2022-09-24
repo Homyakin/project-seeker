@@ -1,31 +1,44 @@
 package ru.homyakin.seeker.user;
 
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
+import ru.homyakin.seeker.event.launch.LaunchedEventService;
+import ru.homyakin.seeker.infrastructure.models.Success;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.models.errors.EitherError;
+import ru.homyakin.seeker.infrastructure.models.errors.EitherError;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.user.errors.EventError;
+import ru.homyakin.seeker.user.errors.EventNotExist;
+import ru.homyakin.seeker.user.errors.ExpiredEvent;
+import ru.homyakin.seeker.user.errors.UserInOtherEvent;
+import ru.homyakin.seeker.user.errors.UserInThisEvent;
 
 @Component
 public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final TelegramSender telegramSender;
     private final GetUserDao getUserDao;
     private final SaveUserDao saveUserDao;
     private final UpdateUserDao updateUserDao;
+    private final LaunchedEventService launchedEventService;
 
     public UserService(
         TelegramSender telegramSender,
         GetUserDao getUserDao,
         SaveUserDao saveUserDao,
-        UpdateUserDao updateUserDao
+        UpdateUserDao updateUserDao,
+        LaunchedEventService launchedEventService
     ) {
         this.telegramSender = telegramSender;
         this.getUserDao = getUserDao;
         this.saveUserDao = saveUserDao;
         this.updateUserDao = updateUserDao;
+        this.launchedEventService = launchedEventService;
     }
 
     public Either<EitherError, Boolean> isUserAdminInChat(Long chatId, Long userId) {
@@ -51,6 +64,28 @@ public class UserService {
             return getUserDao.getById(user.id()).orElseThrow();
         } else {
             return user;
+        }
+    }
+
+    public Either<EventError, Success> addEvent(User user, Long launchedEventId) {
+        final var requestedEvent = launchedEventService.getById(launchedEventId);
+        if (requestedEvent.isEmpty()) {
+            logger.error("Requested event " + launchedEventId + " doesn't present");
+            return Either.left(new EventNotExist());
+        } else if (!requestedEvent.get().isActive()){
+            return Either.left(new ExpiredEvent());
+        }
+
+        final var activeEvent = launchedEventService.getActiveEventByUserId(user.id());
+        if (activeEvent.isEmpty()) {
+            launchedEventService.addUserToLaunchedEvent(user.id(), launchedEventId);
+            return Either.right(new Success());
+        }
+
+        if (activeEvent.get().id() == launchedEventId) {
+            return Either.left(new UserInThisEvent());
+        } else {
+            return Either.left(new UserInOtherEvent());
         }
     }
 

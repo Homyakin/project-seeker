@@ -23,6 +23,26 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.INTERNAL_ERROR.name(),
                 "Произошла ошибка, попробуйте позже"
             },
+            {
+                LocalizationKeys.JOIN_EVENT.name(),
+                "Присоединиться"
+            },
+            {
+                LocalizationKeys.SUCCESS_JOIN_EVENT.name(),
+                "Вы успешно присоединились к событию!"
+            },
+            {
+                LocalizationKeys.USER_ALREADY_IN_THIS_EVENT.name(),
+                "Вы уже участвуете в данном событии!"
+            },
+            {
+                LocalizationKeys.USER_ALREADY_IN_OTHER_EVENT.name(),
+                "Вы уже участвуете в другом событии!"
+            },
+            {
+                LocalizationKeys.EXPIRED_EVENT.name(),
+                "Событие закончилось!"
+            },
         };
 
     @Override

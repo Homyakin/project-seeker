@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 class SaveChatDao {
     private static final String SAVE_CHAT = """
-        insert into chat (id, is_active, lang, init_date, last_event_date)
-        values (:id, :is_active, :lang, :init_date, :last_event_date)
+        insert into chat (id, is_active, lang, init_date, next_event_date)
+        values (:id, :is_active, :lang, :init_date, :next_event_date)
         """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -23,8 +23,8 @@ class SaveChatDao {
         params.put("id", chat.id());
         params.put("is_active", chat.isActive());
         params.put("lang", chat.language().id());
-        params.put("init_date", chat.lastEventDate());
-        params.put("last_event_date", chat.lastEventDate());
+        params.put("init_date", chat.nextEventDate());
+        params.put("next_event_date", chat.nextEventDate());
         jdbcTemplate.update(
             SAVE_CHAT,
             params

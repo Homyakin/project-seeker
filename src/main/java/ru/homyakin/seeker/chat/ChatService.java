@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.chat;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.locale.Language;
@@ -45,6 +47,14 @@ public class ChatService {
         } else {
             return chat;
         }
+    }
+
+    public List<Chat> getGetChatsWithLessNextEventDate(LocalDateTime maxNextEventDate) {
+        return getChatDao.getGetChatsWithLessNextEventDate(maxNextEventDate);
+    }
+
+    public void updateNextEventDate(Long chatId, LocalDateTime nextEventDate) {
+        updateChatDao.updateNextEventDate(chatId, nextEventDate);
     }
 
     private Optional<Chat> getChat(Long chatId) {

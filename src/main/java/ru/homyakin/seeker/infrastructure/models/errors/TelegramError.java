@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.models.errors;
+package ru.homyakin.seeker.infrastructure.models.errors;
 
 public record TelegramError() implements EitherError {
 }

@@ -24,4 +24,24 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String internalError() {
         return getString(LocalizationKeys.INTERNAL_ERROR.name());
     }
+
+    public String joinEvent() {
+        return getString(LocalizationKeys.JOIN_EVENT.name());
+    }
+
+    public String successJoinEvent() {
+        return getString(LocalizationKeys.SUCCESS_JOIN_EVENT.name());
+    }
+
+    public String userAlreadyInThisEvent() {
+        return getString(LocalizationKeys.USER_ALREADY_IN_THIS_EVENT.name());
+    }
+
+    public String userAlreadyInOtherEvent() {
+        return getString(LocalizationKeys.USER_ALREADY_IN_OTHER_EVENT.name());
+    }
+
+    public String expiredEvent() {
+        return getString(LocalizationKeys.EXPIRED_EVENT.name());
+    }
 }

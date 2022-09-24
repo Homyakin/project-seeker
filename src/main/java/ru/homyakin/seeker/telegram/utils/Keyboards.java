@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.utils;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.command.CommandText;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Localization;
 
 public class Keyboards {
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
@@ -24,5 +25,16 @@ public class Keyboards {
             );
         }
         return builder.build();
+    }
+
+    public static InlineKeyboardMarkup joinEventKeyboard(Language language, long chatEventId) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                Localization.get(language).joinEvent(),
+                "%s%s%d".formatted(CommandText.JOIN_EVENT, CommandText.CALLBACK_DELIMITER, chatEventId)
+            )
+            .build();
     }
 }

@@ -4,12 +4,17 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <changeSet context="legacy" author="Homyakin" id="add-event-tables">
+        <!--Базовая таблица для событий с характеристиками-->
         <createTable tableName="event">
             <column name="id" type="INTEGER">
                 <constraints primaryKey="true" primaryKeyName="event_pkey"/>
             </column>
+            <column name="duration" type="INTERVAL">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
+        <!--Локализация событий-->
         <createTable tableName="event_locale">
             <column name="event_id" type="INTEGER">
                 <constraints nullable="false"/>
@@ -20,6 +25,9 @@
             <column name="name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
+            <column name="description" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addUniqueConstraint
@@ -27,5 +35,96 @@
                 constraintName="event_locale_pk"
                 tableName="event_locale"
         />
+
+        <!--Запущенные события-->
+        <createTable tableName="launched_event">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="launched_event_pkey"/>
+            </column>
+            <column name="event_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="event_id"
+                baseTableName="launched_event"
+                constraintName="fk_launched_event_event"
+                referencedColumnNames="id"
+                referencedTableName="event"
+        />
+
+        <createIndex tableName="launched_event" indexName="idx_launched_event_end_date">
+            <column name="end_date"/>
+        </createIndex>
+
+        <!--События отправленные в чаты-->
+        <createTable tableName="chat_event">
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="launched_event_id, chat_id"
+                constraintName="chat_event_pk"
+                tableName="chat_event"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="chat_id"
+                baseTableName="chat_event"
+                constraintName="fk_chat_event_chat"
+                referencedColumnNames="id"
+                referencedTableName="chat"
+        />
+
+        <!--Связь пользователя с событиями в чатах-->
+        <createTable tableName="user_event">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="user_id, launched_event_id"
+                constraintName="user_chat_pk"
+                tableName="user_event"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="user_id"
+                baseTableName="user_event"
+                constraintName="fk_user_event_tg_user"
+                referencedColumnNames="id"
+                referencedTableName="tg_user"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="launched_event_id"
+                baseTableName="user_event"
+                constraintName="fk_user_event_launched_event"
+                referencedColumnNames="id"
+                referencedTableName="launched_event"
+        />
+
     </changeSet>
 </databaseChangeLog>

@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.homyakin.seeker.command.chat.event.JoinEvent;
 import ru.homyakin.seeker.command.chat.language.GroupChangeLanguage;
 import ru.homyakin.seeker.command.chat.chat_action.JoinChat;
 import ru.homyakin.seeker.command.chat.chat_action.LeftChat;
@@ -106,6 +107,14 @@ public class CommandParser {
                 callback.getMessage().getMessageId(),
                 callback.getFrom().getId(),
                 callback.getData()
+            );
+            case CommandText.JOIN_EVENT -> new JoinEvent(
+                callback.getId(),
+                callback.getMessage().getChatId(),
+                callback.getFrom().getId(),
+                callback.getData(),
+                callback.getMessage().getMessageId(),
+                callback.getMessage().getText()
             );
             default -> null;
         };

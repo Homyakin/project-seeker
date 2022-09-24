@@ -2,7 +2,9 @@ package ru.homyakin.seeker.chat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +15,7 @@ import ru.homyakin.seeker.locale.Language;
 @Component
 class GetChatDao {
     private static final String GET_CHAT_BY_ID = "SELECT * FROM chat WHERE id = :id";
+    private static final String GET_CHAT_WITH_LESS_NEXT_EVENT_DATE = "SELECT * FROM chat WHERE next_event_date  < :next_event_date";
     private static final ChatRowMapper CHAT_ROW_MAPPER = new ChatRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -31,6 +34,15 @@ class GetChatDao {
         return result.stream().findFirst();
     }
 
+    public List<Chat> getGetChatsWithLessNextEventDate(LocalDateTime maxNextEventDate) {
+        final var params = Collections.singletonMap("next_event_date", maxNextEventDate);
+        return jdbcTemplate.query(
+            GET_CHAT_WITH_LESS_NEXT_EVENT_DATE,
+            params,
+            CHAT_ROW_MAPPER
+        );
+    }
+
     private static class ChatRowMapper implements RowMapper<Chat> {
 
         @Override
@@ -39,7 +51,7 @@ class GetChatDao {
                 rs.getLong("id"),
                 rs.getBoolean("is_active"),
                 Language.getOrDefault(rs.getInt("lang")),
-                rs.getTimestamp("last_event_date").toLocalDateTime()
+                rs.getTimestamp("next_event_date").toLocalDateTime()
             );
         }
     }

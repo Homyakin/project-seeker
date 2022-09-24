@@ -17,7 +17,7 @@
             <column name="init_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_event_date" type="DATETIME">
+            <column name="next_event_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
         </createTable>

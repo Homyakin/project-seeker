@@ -8,7 +8,7 @@ public record Chat(
     Long id,
     boolean isActive,
     Language language,
-    LocalDateTime lastEventDate
+    LocalDateTime nextEventDate
 ) {
     public boolean isSameLanguage(Language language) {
         return this.language == language;

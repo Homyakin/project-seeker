@@ -10,8 +10,9 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
-import ru.homyakin.seeker.models.errors.TelegramError;
+import ru.homyakin.seeker.infrastructure.models.errors.TelegramError;
 
 @Component
 public class TelegramSender extends DefaultAbsSender {
@@ -23,13 +24,14 @@ public class TelegramSender extends DefaultAbsSender {
         this.token = botConfig.token();
     }
 
-    public void send(SendMessage sendMessage) {
+    public Either<TelegramError, Message> send(SendMessage sendMessage) {
         try {
-            execute(sendMessage);
+            return Either.right(execute(sendMessage));
         } catch (Exception e) {
             logger.error(
                 "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e
             );
+            return Either.left(new TelegramError());
         }
     }
 

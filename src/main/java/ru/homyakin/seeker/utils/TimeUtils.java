@@ -8,7 +8,7 @@ public class TimeUtils {
         return LocalDateTime.now(moscowZone());
     }
 
-    private static ZoneId moscowZone() {
+    public static ZoneId moscowZone() {
         return ZoneId.of("Europe/Moscow");
     }
 }
