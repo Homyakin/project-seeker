@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
-class UpdateUserDao {
+class UserUpdateDao {
     private static final String UPDATE_ACTIVE_PRIVATE_MESSAGES = """
         update tg_user
         set is_active_private_messages = :is_active_private_messages
@@ -22,7 +22,7 @@ class UpdateUserDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public UpdateUserDao(DataSource dataSource) {
+    public UserUpdateDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

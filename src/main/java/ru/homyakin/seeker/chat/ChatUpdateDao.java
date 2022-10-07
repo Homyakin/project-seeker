@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
-class UpdateChatDao {
+class ChatUpdateDao {
     private static final String UPDATE_ACTIVE = """
         update chat
         set is_active = :is_active
@@ -29,7 +29,7 @@ class UpdateChatDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public UpdateChatDao(DataSource dataSource) {
+    public ChatUpdateDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

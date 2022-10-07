@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
-class GetUserDao {
+class UserGetDao {
     private static final String GET_USER_BY_ID = "SELECT * FROM tg_user WHERE id = :id";
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public GetUserDao(DataSource dataSource) {
+    public UserGetDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

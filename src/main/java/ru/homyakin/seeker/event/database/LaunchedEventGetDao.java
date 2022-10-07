@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.event.models.LaunchedEvent;
 
 @Component
-public class GetLaunchedEventDao {
+public class LaunchedEventGetDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = """
         SELECT * FROM launched_event WHERE id = :id
         """;
@@ -30,7 +30,7 @@ public class GetLaunchedEventDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public GetLaunchedEventDao(DataSource dataSource) {
+    public LaunchedEventGetDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

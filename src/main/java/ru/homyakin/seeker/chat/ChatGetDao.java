@@ -13,14 +13,14 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
-class GetChatDao {
+class ChatGetDao {
     private static final String GET_CHAT_BY_ID = "SELECT * FROM chat WHERE id = :id";
     private static final String GET_CHAT_WITH_LESS_NEXT_EVENT_DATE = "SELECT * FROM chat WHERE next_event_date  < :next_event_date";
     private static final ChatRowMapper CHAT_ROW_MAPPER = new ChatRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public GetChatDao(DataSource dataSource) {
+    public ChatGetDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

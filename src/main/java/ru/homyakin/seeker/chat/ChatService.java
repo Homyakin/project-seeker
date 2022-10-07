@@ -9,20 +9,20 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class ChatService {
-    private final GetChatDao getChatDao;
-    private final SaveChatDao saveChatDao;
-    private final UpdateChatDao updateChatDao;
+    private final ChatGetDao chatGetDao;
+    private final ChatSaveDao chatSaveDao;
+    private final ChatUpdateDao chatUpdateDao;
 
-    public ChatService(GetChatDao getChatDao, SaveChatDao saveChatDao, UpdateChatDao updateChatDao) {
-        this.getChatDao = getChatDao;
-        this.saveChatDao = saveChatDao;
-        this.updateChatDao = updateChatDao;
+    public ChatService(ChatGetDao chatGetDao, ChatSaveDao chatSaveDao, ChatUpdateDao chatUpdateDao) {
+        this.chatGetDao = chatGetDao;
+        this.chatSaveDao = chatSaveDao;
+        this.chatUpdateDao = chatUpdateDao;
     }
 
     public Chat getOrCreate(Long chatId) {
         var chat = getChat(chatId);
         if (chat.isPresent() && !chat.get().isActive()) {
-            updateChatDao.updateIsActive(chatId, true);
+            chatUpdateDao.updateIsActive(chatId, true);
             return getChat(chatId).orElseThrow();
         } else if (chat.isEmpty()) {
             return createChat(chatId);
@@ -34,7 +34,7 @@ public class ChatService {
         getChat(chatId).ifPresent(
             chat -> {
                 if (chat.isActive()) {
-                    updateChatDao.updateIsActive(chatId, false);
+                    chatUpdateDao.updateIsActive(chatId, false);
                 }
             }
         );
@@ -42,7 +42,7 @@ public class ChatService {
 
     public Chat changeLanguage(Chat chat, Language language) {
         if (!chat.isSameLanguage(language)) {
-            updateChatDao.updateLanguage(chat.id(), language);
+            chatUpdateDao.updateLanguage(chat.id(), language);
             return getChat(chat.id()).orElseThrow();
         } else {
             return chat;
@@ -50,20 +50,20 @@ public class ChatService {
     }
 
     public List<Chat> getGetChatsWithLessNextEventDate(LocalDateTime maxNextEventDate) {
-        return getChatDao.getGetChatsWithLessNextEventDate(maxNextEventDate);
+        return chatGetDao.getGetChatsWithLessNextEventDate(maxNextEventDate);
     }
 
     public void updateNextEventDate(Long chatId, LocalDateTime nextEventDate) {
-        updateChatDao.updateNextEventDate(chatId, nextEventDate);
+        chatUpdateDao.updateNextEventDate(chatId, nextEventDate);
     }
 
     private Optional<Chat> getChat(Long chatId) {
-        return getChatDao.getById(chatId);
+        return chatGetDao.getById(chatId);
     }
 
     private Chat createChat(Long chatId) {
         final var chat = new Chat(chatId, true, Language.DEFAULT, TimeUtils.moscowTime());
-        saveChatDao.save(chat);
+        chatSaveDao.save(chat);
         return chat;
     }
     

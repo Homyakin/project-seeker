@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
-class SaveUserDao {
+class UserSaveDao {
     private static final String SAVE_USER = """
         insert into tg_user (id, is_active_private_messages, lang, init_date)
         values (:id, :is_active_private_messages, :lang, :init_date);
@@ -15,7 +15,7 @@ class SaveUserDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public SaveUserDao(DataSource dataSource) {
+    public UserSaveDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

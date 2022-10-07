@@ -23,24 +23,24 @@ import ru.homyakin.seeker.user.errors.UserInThisEvent;
 public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final TelegramSender telegramSender;
-    private final GetUserDao getUserDao;
-    private final SaveUserDao saveUserDao;
-    private final UpdateUserDao updateUserDao;
+    private final UserGetDao userGetDao;
+    private final UserSaveDao userSaveDao;
+    private final UserUpdateDao userUpdateDao;
     private final LaunchedEventService launchedEventService;
     private final EventService eventService;
 
     public UserService(
         TelegramSender telegramSender,
-        GetUserDao getUserDao,
-        SaveUserDao saveUserDao,
-        UpdateUserDao updateUserDao,
+        UserGetDao userGetDao,
+        UserSaveDao userSaveDao,
+        UserUpdateDao userUpdateDao,
         LaunchedEventService launchedEventService,
         EventService eventService
     ) {
         this.telegramSender = telegramSender;
-        this.getUserDao = getUserDao;
-        this.saveUserDao = saveUserDao;
-        this.updateUserDao = updateUserDao;
+        this.userGetDao = userGetDao;
+        this.userSaveDao = userSaveDao;
+        this.userUpdateDao = userUpdateDao;
         this.launchedEventService = launchedEventService;
         this.eventService = eventService;
     }
@@ -52,10 +52,10 @@ public class UserService {
     }
 
     public User getOrCreate(Long userId, boolean isPrivateMessage) {
-        var user = getUserDao.getById(userId);
+        var user = userGetDao.getById(userId);
         if (user.isPresent() && !user.get().isActivePrivateMessages() && isPrivateMessage) {
-            updateUserDao.updateIsActivePrivateMessages(userId, true);
-            return getUserDao.getById(userId).orElseThrow();
+            userUpdateDao.updateIsActivePrivateMessages(userId, true);
+            return userGetDao.getById(userId).orElseThrow();
         } else if (user.isEmpty()) {
             return createUser(userId, isPrivateMessage);
         }
@@ -64,8 +64,8 @@ public class UserService {
 
     public User changeLanguage(User user, Language language) {
         if (!user.isSameLanguage(language)) {
-            updateUserDao.updateLanguage(user.id(), language);
-            return getUserDao.getById(user.id()).orElseThrow();
+            userUpdateDao.updateLanguage(user.id(), language);
+            return userGetDao.getById(user.id()).orElseThrow();
         } else {
             return user;
         }
@@ -102,7 +102,7 @@ public class UserService {
             isPrivateMessage,
             Language.DEFAULT
         );
-        saveUserDao.save(user);
+        userSaveDao.save(user);
         return user;
     }
 }

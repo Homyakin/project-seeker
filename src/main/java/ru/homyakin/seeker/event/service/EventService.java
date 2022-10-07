@@ -2,24 +2,24 @@ package ru.homyakin.seeker.event.service;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.event.database.GetEventDao;
+import ru.homyakin.seeker.event.database.EventGetDao;
 import ru.homyakin.seeker.event.models.Event;
 
 @Service
 public class EventService {
-    private final GetEventDao getEventDao;
+    private final EventGetDao eventGetDao;
 
     public EventService(
-        GetEventDao getEventDao
+        EventGetDao eventGetDao
     ) {
-        this.getEventDao = getEventDao;
+        this.eventGetDao = eventGetDao;
     }
 
     public Event getRandomEvent() {
-        return getEventDao.getRandomEvent();
+        return eventGetDao.getRandomEvent();
     }
 
     public Optional<Event> getEventById(Integer id) {
-        return getEventDao.getById(id);
+        return eventGetDao.getById(id);
     }
 }

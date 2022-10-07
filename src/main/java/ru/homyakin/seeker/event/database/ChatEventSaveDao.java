@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.event.models.ChatEvent;
 
 @Component
-public class SaveChatEventDao {
+public class ChatEventSaveDao {
     private static final String SAVE_CHAT_EVENT = """
         insert into chat_event (launched_event_id, chat_id, message_id)
         values (:launched_event_id, :chat_id, :message_id);
@@ -15,7 +15,7 @@ public class SaveChatEventDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public SaveChatEventDao(DataSource dataSource) {
+    public ChatEventSaveDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

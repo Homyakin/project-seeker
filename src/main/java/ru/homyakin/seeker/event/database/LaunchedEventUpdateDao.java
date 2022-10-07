@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UpdateLaunchedEventDao {
+public class LaunchedEventUpdateDao {
     private static final String UPDATE_ACTIVE = """
         update launched_event
         set is_active = :is_active
@@ -15,7 +15,7 @@ public class UpdateLaunchedEventDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public UpdateLaunchedEventDao(DataSource dataSource) {
+    public LaunchedEventUpdateDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

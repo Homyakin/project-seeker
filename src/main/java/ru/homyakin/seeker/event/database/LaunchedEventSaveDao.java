@@ -8,10 +8,10 @@ import ru.homyakin.seeker.event.models.Event;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
-public class SaveLaunchedEventDao {
+public class LaunchedEventSaveDao {
     private final SimpleJdbcInsert jdbcInsert;
 
-    public SaveLaunchedEventDao(DataSource dataSource) {
+    public LaunchedEventSaveDao(DataSource dataSource) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("launched_event")
             .usingColumns(

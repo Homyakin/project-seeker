@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-class SaveChatDao {
+class ChatSaveDao {
     private static final String SAVE_CHAT = """
         insert into chat (id, is_active, lang, init_date, next_event_date)
         values (:id, :is_active, :lang, :init_date, :next_event_date)
@@ -14,7 +14,7 @@ class SaveChatDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public SaveChatDao(DataSource dataSource) {
+    public ChatSaveDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

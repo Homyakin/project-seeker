@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.event.models.ChatEvent;
 
 @Component
-public class GetChatEventDao {
+public class ChatEventGetDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = "SELECT * FROM chat_event WHERE launched_event_id = :launched_event_id";
     private static final ChatEventRowMapper LAUNCHED_EVENT_ROW_MAPPER = new ChatEventRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public GetChatEventDao(DataSource dataSource) {
+    public ChatEventGetDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
