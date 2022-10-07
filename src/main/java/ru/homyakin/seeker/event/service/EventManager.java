@@ -59,7 +59,7 @@ public class EventManager {
         logger.debug("Stopping event " + launchedEvent.id());
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getChatEvents(launchedEvent)
-            .forEach( chatEvent -> {
+            .forEach(chatEvent -> {
                 //TODO редактировать исходное сообщение
                 final var chat = chatService.getOrCreate(chatEvent.chatId());
                 final var event = eventService.getEventById(launchedEvent.eventId())

@@ -76,7 +76,7 @@ public class UserService {
         if (requestedEvent.isEmpty()) {
             logger.error("Requested event " + launchedEventId + " doesn't present");
             return Either.left(new EventNotExist());
-        } else if (!requestedEvent.get().isActive()){
+        } else if (!requestedEvent.get().isActive()) {
             return Either.left(eventService.getEventById(requestedEvent.get().eventId())
                 .<EventError>map(ExpiredEvent::new)
                 .orElseGet(EventNotExist::new)
