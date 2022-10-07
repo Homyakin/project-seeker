@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.launch.chat;
+package ru.homyakin.seeker.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,9 +8,10 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.event.models.ChatEvent;
 
 @Component
-class GetChatEventDao {
+public class GetChatEventDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = "SELECT * FROM chat_event WHERE launched_event_id = :launched_event_id";
     private static final ChatEventRowMapper LAUNCHED_EVENT_ROW_MAPPER = new ChatEventRowMapper();
 

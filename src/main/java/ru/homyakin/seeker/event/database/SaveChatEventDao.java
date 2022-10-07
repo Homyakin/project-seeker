@@ -1,12 +1,13 @@
-package ru.homyakin.seeker.event.launch.chat;
+package ru.homyakin.seeker.event.database;
 
 import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.event.models.ChatEvent;
 
 @Component
-class SaveChatEventDao {
+public class SaveChatEventDao {
     private static final String SAVE_CHAT_EVENT = """
         insert into chat_event (launched_event_id, chat_id, message_id)
         values (:launched_event_id, :chat_id, :message_id);

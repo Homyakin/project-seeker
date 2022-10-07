@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.launch;
+package ru.homyakin.seeker.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +10,10 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.event.models.LaunchedEvent;
 
 @Component
-class GetLaunchedEventDao {
+public class GetLaunchedEventDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = """
         SELECT * FROM launched_event WHERE id = :id
         """;

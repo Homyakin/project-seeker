@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.launch;
+package ru.homyakin.seeker.event.database;
 
 import java.util.HashMap;
 import javax.sql.DataSource;
@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-class SaveUserEventDao {
+public class SaveUserEventDao {
     private static final String SAVE_USER_EVENT = """
         insert into user_event (user_id, launched_event_id)
         values (:user_id, :launched_event_id);

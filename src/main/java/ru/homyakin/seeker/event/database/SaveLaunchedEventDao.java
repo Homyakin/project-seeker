@@ -1,14 +1,14 @@
-package ru.homyakin.seeker.event.launch;
+package ru.homyakin.seeker.event.database;
 
 import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.event.Event;
+import ru.homyakin.seeker.event.models.Event;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
-class SaveLaunchedEventDao {
+public class SaveLaunchedEventDao {
     private final SimpleJdbcInsert jdbcInsert;
 
     public SaveLaunchedEventDao(DataSource dataSource) {

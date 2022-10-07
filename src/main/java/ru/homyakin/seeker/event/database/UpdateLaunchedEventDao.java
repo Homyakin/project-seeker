@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.launch;
+package ru.homyakin.seeker.event.database;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
-class UpdateLaunchedEventDao {
+public class UpdateLaunchedEventDao {
     private static final String UPDATE_ACTIVE = """
         update launched_event
         set is_active = :is_active

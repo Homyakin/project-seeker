@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event;
+package ru.homyakin.seeker.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +12,13 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.event.models.Event;
+import ru.homyakin.seeker.event.models.EventLocale;
 import ru.homyakin.seeker.locale.Language;
 import org.postgresql.util.PGInterval;
 
 @Component
-class GetEventDao {
+public class GetEventDao {
     // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
     private static final String GET_RANDOM_EVENT = "SELECT * FROM event ORDER BY random() LIMIT 1";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";

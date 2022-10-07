@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.launch;
+package ru.homyakin.seeker.event.models;
 
 import java.time.LocalDateTime;
 

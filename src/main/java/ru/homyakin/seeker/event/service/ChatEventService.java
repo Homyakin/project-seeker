@@ -1,9 +1,12 @@
-package ru.homyakin.seeker.event.launch.chat;
+package ru.homyakin.seeker.event.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.chat.Chat;
-import ru.homyakin.seeker.event.launch.LaunchedEvent;
+import ru.homyakin.seeker.event.database.GetChatEventDao;
+import ru.homyakin.seeker.event.database.SaveChatEventDao;
+import ru.homyakin.seeker.event.models.ChatEvent;
+import ru.homyakin.seeker.event.models.LaunchedEvent;
 
 @Service
 public class ChatEventService {

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event;
+package ru.homyakin.seeker.event.config;
 
 import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;

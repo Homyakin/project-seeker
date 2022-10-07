@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.launch.chat;
+package ru.homyakin.seeker.event.models;
 
 public record ChatEvent(
     long launchedEventId,

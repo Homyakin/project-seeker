@@ -1,7 +1,9 @@
-package ru.homyakin.seeker.event;
+package ru.homyakin.seeker.event.service;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.event.database.GetEventDao;
+import ru.homyakin.seeker.event.models.Event;
 
 @Service
 public class EventService {
