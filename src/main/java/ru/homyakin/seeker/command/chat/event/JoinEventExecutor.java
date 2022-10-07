@@ -51,7 +51,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     command.chatId(),
                     command.messageId(),
-                    command.messageText()
+                    expiredEvent.event().getLocaleByLanguageOrDefault(chat.language()).toEndMessage()
                 ));
             } else {
                 // TODO когда будет паттерн-матчинг для switch - переделать

@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.chat.Chat;
 import ru.homyakin.seeker.chat.ChatService;
+import ru.homyakin.seeker.event.launch.LaunchedEvent;
 import ru.homyakin.seeker.event.launch.LaunchedEventService;
+import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.Keyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -49,7 +51,30 @@ public class EventManager {
     public void stopEvents() {
         launchedEventService
             .getExpiredActiveEvents()
-            .forEach(it -> launchedEventService.updateActive(it, false));
+            .forEach(this::stopLaunchedEvent);
+    }
+
+    private void stopLaunchedEvent(LaunchedEvent launchedEvent) {
+        logger.debug("Stopping event " + launchedEvent.id());
+        launchedEventService.updateActive(launchedEvent, false);
+        launchedEventService.getChatEvents(launchedEvent)
+            .forEach( chatEvent -> {
+                //TODO редактировать исходное сообщение
+                final var chat = chatService.getOrCreate(chatEvent.chatId());
+                final var event = eventService.getEventById(launchedEvent.eventId())
+                    .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
+                telegramSender.send(TelegramMethods.createEditMessageText(
+                    chatEvent.chatId(),
+                    chatEvent.messageId(),
+                    event.getLocaleByLanguageOrDefault(chat.language()).toEndMessage()
+                ));
+                telegramSender.send(TelegramMethods.createSendMessage(
+                    chatEvent.chatId(),
+                    Localization.get(chat.language()).expiredEvent(),
+                    chatEvent.messageId()
+                ));
+            });
+
     }
 
     private void launchEventInChat(Chat chat, Event event) {
@@ -57,7 +82,7 @@ public class EventManager {
         var result = telegramSender.send(
             TelegramMethods.createSendMessage(
                 chat.id(),
-                event.getLocaleByLanguageOrDefault(chat.language()).toMessage(),
+                event.getLocaleByLanguageOrDefault(chat.language()).toStartMessage(),
                 Keyboards.joinEventKeyboard(chat.language(), launchedEvent.id())
             )
         );

@@ -13,8 +13,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 class GetLaunchedEventDao {
-    private static final String GET_CHAT_EVENT_BY_ID = "SELECT * FROM launched_event WHERE id = :id";
-    private static final String GET_ACTIVE_CHAT_EVENTS_BY_USER_ID = """
+    private static final String GET_LAUNCHED_EVENT_BY_ID = """
+        SELECT * FROM launched_event WHERE id = :id
+        """;
+    private static final String GET_ACTIVE_EVENTS_BY_USER_ID = """
         SELECT * FROM user_event ue
          LEFT JOIN launched_event le on ue.launched_event_id = le.id
          WHERE ue.user_id = :user_id
@@ -31,10 +33,10 @@ class GetLaunchedEventDao {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Optional<LaunchedEvent> getById(Long chatEventId) {
-        final var params = Collections.singletonMap("id", chatEventId);
+    public Optional<LaunchedEvent> getById(Long launchedEventId) {
+        final var params = Collections.singletonMap("id", launchedEventId);
         final var result = jdbcTemplate.query(
-            GET_CHAT_EVENT_BY_ID,
+            GET_LAUNCHED_EVENT_BY_ID,
             params,
             LAUNCHED_EVENT_ROW_MAPPER
         );
@@ -44,7 +46,7 @@ class GetLaunchedEventDao {
     public Optional<LaunchedEvent> getActiveByUserId(Long userId) {
         final var params = Collections.singletonMap("user_id", userId);
         final var result = jdbcTemplate.query(
-            GET_ACTIVE_CHAT_EVENTS_BY_USER_ID,
+            GET_ACTIVE_EVENTS_BY_USER_ID,
             params,
             LAUNCHED_EVENT_ROW_MAPPER
         );

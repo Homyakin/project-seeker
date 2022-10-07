@@ -41,7 +41,7 @@ public class resource_ru extends AbstractResource {
             },
             {
                 LocalizationKeys.EXPIRED_EVENT.name(),
-                "Событие закончилось!"
+                "Событие завершилось!"
             },
         };
 

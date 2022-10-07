@@ -11,21 +11,25 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
 public class TelegramMethods {
     public static SendMessage createSendMessage(Long chatId, String text) {
-        return SendMessage
-            .builder()
-            .chatId(chatId)
-            .text(EmojiParser.parseToUnicode(text))
-            .parseMode(ParseMode.MARKDOWNV2)
-            .build();
+        return createSendMessage(chatId, text, null, null);
     }
 
     public static SendMessage createSendMessage(Long chatId, String text, ReplyKeyboard keyboard) {
+        return createSendMessage(chatId, text, null, keyboard);
+    }
+
+    public static SendMessage createSendMessage(Long chatId, String text, Integer replyMessageId) {
+        return createSendMessage(chatId, text, replyMessageId, null);
+    }
+
+    public static SendMessage createSendMessage(Long chatId, String text, Integer replyMessageId, ReplyKeyboard keyboard) {
         return SendMessage
             .builder()
             .chatId(chatId)
             .text(EmojiParser.parseToUnicode(text))
             .replyMarkup(keyboard)
-            .parseMode(ParseMode.MARKDOWNV2)
+            .parseMode(ParseMode.HTML)
+            .replyToMessageId(replyMessageId)
             .build();
     }
 
@@ -56,6 +60,7 @@ public class TelegramMethods {
             .chatId(chatId)
             .messageId(messageId)
             .text(EmojiParser.parseToUnicode(text))
+            .parseMode(ParseMode.HTML)
             .replyMarkup(keyboard)
             .build();
     }

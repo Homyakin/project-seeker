@@ -1,4 +1,8 @@
 package ru.homyakin.seeker.user.errors;
 
-public record ExpiredEvent() implements EventError {
+import ru.homyakin.seeker.event.Event;
+
+public record ExpiredEvent(
+    Event event
+) implements EventError {
 }

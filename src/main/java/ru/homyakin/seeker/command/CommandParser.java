@@ -111,10 +111,9 @@ public class CommandParser {
             case CommandText.JOIN_EVENT -> new JoinEvent(
                 callback.getId(),
                 callback.getMessage().getChatId(),
-                callback.getFrom().getId(),
-                callback.getData(),
                 callback.getMessage().getMessageId(),
-                callback.getMessage().getText()
+                callback.getFrom().getId(),
+                callback.getData()
             );
             default -> null;
         };

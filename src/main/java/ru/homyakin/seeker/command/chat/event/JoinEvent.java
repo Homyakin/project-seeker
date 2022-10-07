@@ -6,10 +6,9 @@ import ru.homyakin.seeker.command.CommandText;
 public record JoinEvent(
     String callbackId,
     Long chatId,
-    Long userId,
-    String data,
     Integer messageId,
-    String messageText
+    Long userId,
+    String data
 ) implements Command {
 
     public Long getLaunchedEventId() {

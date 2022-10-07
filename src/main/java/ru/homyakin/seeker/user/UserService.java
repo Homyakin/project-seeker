@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
+import ru.homyakin.seeker.event.EventService;
 import ru.homyakin.seeker.event.launch.LaunchedEventService;
 import ru.homyakin.seeker.infrastructure.models.Success;
 import ru.homyakin.seeker.locale.Language;
@@ -26,19 +27,22 @@ public class UserService {
     private final SaveUserDao saveUserDao;
     private final UpdateUserDao updateUserDao;
     private final LaunchedEventService launchedEventService;
+    private final EventService eventService;
 
     public UserService(
         TelegramSender telegramSender,
         GetUserDao getUserDao,
         SaveUserDao saveUserDao,
         UpdateUserDao updateUserDao,
-        LaunchedEventService launchedEventService
+        LaunchedEventService launchedEventService,
+        EventService eventService
     ) {
         this.telegramSender = telegramSender;
         this.getUserDao = getUserDao;
         this.saveUserDao = saveUserDao;
         this.updateUserDao = updateUserDao;
         this.launchedEventService = launchedEventService;
+        this.eventService = eventService;
     }
 
     public Either<EitherError, Boolean> isUserAdminInChat(Long chatId, Long userId) {
@@ -73,7 +77,10 @@ public class UserService {
             logger.error("Requested event " + launchedEventId + " doesn't present");
             return Either.left(new EventNotExist());
         } else if (!requestedEvent.get().isActive()){
-            return Either.left(new ExpiredEvent());
+            return Either.left(eventService.getEventById(requestedEvent.get().eventId())
+                .<EventError>map(ExpiredEvent::new)
+                .orElseGet(EventNotExist::new)
+            );
         }
 
         final var activeEvent = launchedEventService.getActiveEventByUserId(user.id());

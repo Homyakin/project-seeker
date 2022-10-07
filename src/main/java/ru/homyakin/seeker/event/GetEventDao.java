@@ -7,6 +7,7 @@ import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,8 +19,9 @@ import org.postgresql.util.PGInterval;
 class GetEventDao {
     // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
     private static final String GET_RANDOM_EVENT = "SELECT * FROM event ORDER BY random() LIMIT 1";
+    private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String GET_EVENT_LOCALES = "SELECT * FROM event_locale WHERE event_id = :event_id";
-    private static final EventRowMapper CHAT_ROW_MAPPER = new EventRowMapper();
+    private static final EventRowMapper EVENT_ROW_MAPPER = new EventRowMapper();
     private static final EventLocaleMapper EVENT_LOCALE_ROW_MAPPER = new EventLocaleMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -30,12 +32,12 @@ class GetEventDao {
     public Event getRandomEvent() {
         final var result = jdbcTemplate.query(
             GET_RANDOM_EVENT,
-            CHAT_ROW_MAPPER
+            EVENT_ROW_MAPPER
         );
         final var eventWithoutLocale = result
             .stream()
             .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No events in database"));
+            .orElseThrow(() -> new IllegalStateException("No events in database")); // TODO either
         final var locales = getEventLocales(eventWithoutLocale.id());
         return new Event(
             eventWithoutLocale.id(),
@@ -44,6 +46,29 @@ class GetEventDao {
             locales
         );
     }
+
+    public Optional<Event> getById(Integer eventId) {
+        final var params = Collections.singletonMap("id", eventId);
+        final var result = jdbcTemplate.query(
+            GET_EVENT_BY_ID,
+            params,
+            EVENT_ROW_MAPPER
+        );
+        final var eventWithoutLocale = result
+            .stream()
+            .findFirst();
+        if (eventWithoutLocale.isEmpty()) {
+            return Optional.empty();
+        }
+        final var locales = getEventLocales(eventWithoutLocale.get().id());
+        return Optional.of(new Event(
+            eventWithoutLocale.get().id(),
+            eventWithoutLocale.get().period(),
+            eventWithoutLocale.get().duration(),
+            locales
+        ));
+    }
+
     private List<EventLocale> getEventLocales(int eventId) {
         final var params = Collections.singletonMap("event_id", eventId);
         return jdbcTemplate.query(
@@ -60,7 +85,8 @@ class GetEventDao {
             final var period = Period.of(pgInterval.getYears(), pgInterval.getMonths(), pgInterval.getDays());
             final var duration = Duration.ofHours(pgInterval.getHours())
                 .plus(pgInterval.getMinutes(), ChronoUnit.MINUTES)
-                .plus(pgInterval.getMicroSeconds(), ChronoUnit.MILLIS);
+                .plus(pgInterval.getWholeSeconds(), ChronoUnit.SECONDS)
+                .plus(pgInterval.getMicroSeconds(), ChronoUnit.MICROS);
             return new EventWithoutLocale(
                 rs.getInt("id"),
                 period,

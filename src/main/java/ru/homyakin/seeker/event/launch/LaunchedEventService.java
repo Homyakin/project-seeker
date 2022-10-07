@@ -60,4 +60,8 @@ public class LaunchedEventService {
     public List<LaunchedEvent> getExpiredActiveEvents() {
         return getLaunchedEventDao.getActiveEventsWithLessEndDate(TimeUtils.moscowTime());
     }
+
+    public List<ChatEvent> getChatEvents(LaunchedEvent launchedEvent) {
+        return chatEventService.getByLaunchedEventId(launchedEvent.id());
+    }
 }
