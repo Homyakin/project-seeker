@@ -1,12 +1,12 @@
 package ru.homyakin.seeker.user;
 
 import ru.homyakin.seeker.locale.Language;
-
+//TODO перенести юзера и чат в телегу
 public record User(
-    //TODO переделать на player, добавить поле tg_user_id
-    Long id,
+    long id,
     boolean isActivePrivateMessages,
-    Language language
+    Language language,
+    long characterId
 ) {
     public boolean isSameLanguage(Language language) {
         return this.language == language;

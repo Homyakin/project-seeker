@@ -9,8 +9,8 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Component
 class UserSaveDao {
     private static final String SAVE_USER = """
-        insert into tg_user (id, is_active_private_messages, lang, init_date)
-        values (:id, :is_active_private_messages, :lang, :init_date);
+        insert into tg_user (id, is_active_private_messages, lang, init_date, character_id)
+        values (:id, :is_active_private_messages, :lang, :init_date, :character_id);
         """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -25,6 +25,7 @@ class UserSaveDao {
         params.put("is_active_private_messages", user.isActivePrivateMessages());
         params.put("lang", user.language().id());
         params.put("init_date", TimeUtils.moscowTime());
+        params.put("character_id", user.characterId());
         jdbcTemplate.update(
             SAVE_USER,
             params

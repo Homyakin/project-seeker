@@ -38,7 +38,8 @@ class UserGetDao {
             return new User(
                 rs.getLong("id"),
                 rs.getBoolean("is_active_private_messages"),
-                Language.getOrDefault(rs.getInt("lang"))
+                Language.getOrDefault(rs.getInt("lang")),
+                rs.getLong("character_id")
             );
         }
     }
