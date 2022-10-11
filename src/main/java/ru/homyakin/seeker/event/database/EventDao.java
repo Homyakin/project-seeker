@@ -18,7 +18,7 @@ import ru.homyakin.seeker.locale.Language;
 import org.postgresql.util.PGInterval;
 
 @Component
-public class EventGetDao {
+public class EventDao {
     // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
     private static final String GET_RANDOM_EVENT = "SELECT * FROM event ORDER BY random() LIMIT 1";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
@@ -27,7 +27,7 @@ public class EventGetDao {
     private static final EventLocaleMapper EVENT_LOCALE_ROW_MAPPER = new EventLocaleMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public EventGetDao(DataSource dataSource) {
+    public EventDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

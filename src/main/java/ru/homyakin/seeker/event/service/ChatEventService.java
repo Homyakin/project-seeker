@@ -3,32 +3,29 @@ package ru.homyakin.seeker.event.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.chat.Chat;
-import ru.homyakin.seeker.event.database.ChatEventGetDao;
-import ru.homyakin.seeker.event.database.ChatEventSaveDao;
+import ru.homyakin.seeker.event.database.ChatEventDao;
 import ru.homyakin.seeker.event.models.ChatEvent;
 import ru.homyakin.seeker.event.models.LaunchedEvent;
 
 @Service
 public class ChatEventService {
-    private final ChatEventSaveDao chatEventSaveDao;
-    private final ChatEventGetDao chatEventGetDao;
+    private final ChatEventDao chatEventDao;
 
-    public ChatEventService(ChatEventSaveDao chatEventSaveDao, ChatEventGetDao chatEventGetDao) {
-        this.chatEventSaveDao = chatEventSaveDao;
-        this.chatEventGetDao = chatEventGetDao;
+    public ChatEventService(ChatEventDao chatEventDao) {
+        this.chatEventDao = chatEventDao;
     }
 
-    public ChatEvent createChatEventDao(LaunchedEvent launchedEvent, Chat chat, Integer messageId) {
+    public ChatEvent createChatEvent(LaunchedEvent launchedEvent, Chat chat, Integer messageId) {
         var chatEvent = new ChatEvent(
             launchedEvent.id(),
             chat.id(),
             messageId
         );
-        chatEventSaveDao.save(chatEvent);
+        chatEventDao.save(chatEvent);
         return chatEvent;
     }
 
     public List<ChatEvent> getByLaunchedEventId(Long launchedEventId) {
-        return chatEventGetDao.getByLaunchedEventId(launchedEventId);
+        return chatEventDao.getByLaunchedEventId(launchedEventId);
     }
 }

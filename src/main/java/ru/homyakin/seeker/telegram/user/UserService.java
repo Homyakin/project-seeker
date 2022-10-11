@@ -25,26 +25,20 @@ import ru.homyakin.seeker.telegram.user.model.error.EventNotExist;
 public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final TelegramSender telegramSender;
-    private final UserGetDao userGetDao;
-    private final UserSaveDao userSaveDao;
-    private final UserUpdateDao userUpdateDao;
+    private final UserDao userDao;
     private final LaunchedEventService launchedEventService;
     private final EventService eventService;
     private final CharacterService characterService;
 
     public UserService(
         TelegramSender telegramSender,
-        UserGetDao userGetDao,
-        UserSaveDao userSaveDao,
-        UserUpdateDao userUpdateDao,
+        UserDao userDao,
         LaunchedEventService launchedEventService,
         EventService eventService,
         CharacterService characterService
     ) {
         this.telegramSender = telegramSender;
-        this.userGetDao = userGetDao;
-        this.userSaveDao = userSaveDao;
-        this.userUpdateDao = userUpdateDao;
+        this.userDao = userDao;
         this.launchedEventService = launchedEventService;
         this.eventService = eventService;
         this.characterService = characterService;
@@ -57,10 +51,10 @@ public class UserService {
     }
 
     public User getOrCreate(Long userId, boolean isPrivateMessage) {
-        var user = userGetDao.getById(userId);
+        var user = userDao.getById(userId);
         if (user.isPresent() && !user.get().isActivePrivateMessages() && isPrivateMessage) {
-            userUpdateDao.updateIsActivePrivateMessages(userId, true);
-            return userGetDao.getById(userId).orElseThrow();
+            userDao.updateIsActivePrivateMessages(userId, true);
+            return userDao.getById(userId).orElseThrow();
         } else if (user.isEmpty()) {
             return createUser(userId, isPrivateMessage);
         }
@@ -69,8 +63,8 @@ public class UserService {
 
     public User changeLanguage(User user, Language language) {
         if (!user.isSameLanguage(language)) {
-            userUpdateDao.updateLanguage(user.id(), language);
-            return userGetDao.getById(user.id()).orElseThrow();
+            userDao.updateLanguage(user.id(), language);
+            return userDao.getById(user.id()).orElseThrow();
         } else {
             return user;
         }
@@ -109,7 +103,7 @@ public class UserService {
             Language.DEFAULT,
             character.id()
         );
-        userSaveDao.save(user);
+        userDao.save(user);
         return user;
     }
 }
