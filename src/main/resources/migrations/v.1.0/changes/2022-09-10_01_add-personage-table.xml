@@ -3,10 +3,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="add-character-table">
-        <createTable tableName="character">
+    <changeSet context="legacy" author="Homyakin" id="add-personage-table">
+        <createTable tableName="personage">
             <column name="id" type="BIGSERIAL">
-                <constraints primaryKey="true" primaryKeyName="character_pkey"/>
+                <constraints primaryKey="true" primaryKeyName="personage_pkey"/>
             </column>
             <column name="level" type="TINYINT">
                 <constraints nullable="false"/>

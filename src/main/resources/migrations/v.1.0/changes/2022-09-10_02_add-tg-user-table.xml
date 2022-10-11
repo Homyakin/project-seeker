@@ -17,17 +17,17 @@
             <column name="init_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="character_id" type="BIGINT">
+            <column name="personage_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
         <addForeignKeyConstraint
-                baseColumnNames="character_id"
+                baseColumnNames="personage_id"
                 baseTableName="tg_user"
-                constraintName="fk_tg_user_character"
+                constraintName="fk_tg_user_personage"
                 referencedColumnNames="id"
-                referencedTableName="character"
+                referencedTableName="personage"
         />
     </changeSet>
 </databaseChangeLog>

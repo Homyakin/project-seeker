@@ -16,8 +16,8 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Component
 public class UserDao {
     private static final String SAVE_USER = """
-        insert into tg_user (id, is_active_private_messages, lang, init_date, character_id)
-        values (:id, :is_active_private_messages, :lang, :init_date, :character_id);
+        insert into tg_user (id, is_active_private_messages, lang, init_date, personage_id)
+        values (:id, :is_active_private_messages, :lang, :init_date, :personage_id);
         """;
     private static final String GET_USER_BY_ID = """
         SELECT * FROM tg_user
@@ -42,7 +42,7 @@ public class UserDao {
             put("is_active_private_messages", user.isActivePrivateMessages());
             put("lang", user.language().id());
             put("init_date", TimeUtils.moscowTime());
-            put("character_id", user.characterId());
+            put("personage_id", user.personageId());
         }};
         jdbcTemplate.update(
             SAVE_USER,
@@ -80,7 +80,7 @@ public class UserDao {
                 rs.getLong("id"),
                 rs.getBoolean("is_active_private_messages"),
                 Language.getOrDefault(rs.getInt("lang")),
-                rs.getLong("character_id")
+                rs.getLong("personage_id")
             );
         }
     }

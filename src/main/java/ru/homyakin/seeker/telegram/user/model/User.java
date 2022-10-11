@@ -8,7 +8,7 @@ public record User(
     long id,
     boolean isActivePrivateMessages,
     Language language,
-    long characterId
+    long personageId
 ) {
     public boolean isSameLanguage(Language newLanguage) {
         return language == newLanguage;
@@ -20,7 +20,7 @@ public record User(
                 id,
                 isActivePrivateMessages,
                 newLanguage,
-                characterId
+                personageId
             );
             userDao.update(user);
             return user;
@@ -34,7 +34,7 @@ public record User(
                 id,
                 true,
                 language,
-                characterId
+                personageId
             );
             userDao.update(user);
             return user;

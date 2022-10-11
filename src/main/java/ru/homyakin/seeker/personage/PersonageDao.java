@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.character;
+package ru.homyakin.seeker.personage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,17 +12,17 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CharacterDao {
+public class PersonageDao {
     private static final String GET_BY_ID = """
-        SELECT * FROM character WHERE id = :id
+        SELECT * FROM personage WHERE id = :id
         """;
-    private static final CharacterRowMapper CHARACTER_ROW_MAPPER = new CharacterRowMapper();
+    private static final PersonageRowMapper PERSONAGE_ROW_MAPPER = new PersonageRowMapper();
     private final SimpleJdbcInsert jdbcInsert;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CharacterDao(DataSource dataSource) {
+    public PersonageDao(DataSource dataSource) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
-            .withTableName("character")
+            .withTableName("personage")
             .usingColumns(
                 "level",
                 "current_exp"
@@ -32,7 +32,7 @@ public class CharacterDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public long saveCharacter(int level, long currentExp) {
+    public long save(int level, long currentExp) {
         final var params = new HashMap<String, Object>() {{
             put("level", level);
             put("current_exp", currentExp);
@@ -42,21 +42,21 @@ public class CharacterDao {
         ).longValue();
     }
 
-    public Optional<Character> getById(Long id) {
+    public Optional<Personage> getById(Long id) {
         final var params = Collections.singletonMap("id", id);
         final var result = jdbcTemplate.query(
             GET_BY_ID,
             params,
-            CHARACTER_ROW_MAPPER
+            PERSONAGE_ROW_MAPPER
         );
         return result.stream().findFirst();
     }
 
-    private static class CharacterRowMapper implements RowMapper<Character> {
+    private static class PersonageRowMapper implements RowMapper<Personage> {
 
         @Override
-        public Character mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Character(
+        public Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Personage(
                 rs.getLong("id"),
                 rs.getInt("level"),
                 rs.getLong("current_exp")

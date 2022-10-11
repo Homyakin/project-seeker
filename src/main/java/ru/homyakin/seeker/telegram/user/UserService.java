@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
-import ru.homyakin.seeker.character.CharacterService;
+import ru.homyakin.seeker.personage.PersonageService;
 import ru.homyakin.seeker.event.service.EventService;
 import ru.homyakin.seeker.event.service.LaunchedEventService;
 import ru.homyakin.seeker.infrastructure.models.Success;
@@ -28,20 +28,20 @@ public class UserService {
     private final UserDao userDao;
     private final LaunchedEventService launchedEventService;
     private final EventService eventService;
-    private final CharacterService characterService;
+    private final PersonageService personageService;
 
     public UserService(
         TelegramSender telegramSender,
         UserDao userDao,
         LaunchedEventService launchedEventService,
         EventService eventService,
-        CharacterService characterService
+        PersonageService personageService
     ) {
         this.telegramSender = telegramSender;
         this.userDao = userDao;
         this.launchedEventService = launchedEventService;
         this.eventService = eventService;
-        this.characterService = characterService;
+        this.personageService = personageService;
     }
 
     public Either<EitherError, Boolean> isUserAdminInChat(Long chatId, Long userId) {
@@ -92,12 +92,12 @@ public class UserService {
     }
 
     private User createUser(Long userId, boolean isPrivateMessage) {
-        final var character = characterService.createCharacter();
+        final var personage = personageService.createPersonage();
         final var user = new User(
             userId,
             isPrivateMessage,
             Language.DEFAULT,
-            character.id()
+            personage.id()
         );
         userDao.save(user);
         return user;
