@@ -21,19 +21,9 @@ class ChatDao {
         insert into chat (id, is_active, lang, init_date, next_event_date)
         values (:id, :is_active, :lang, :init_date, :next_event_date)
         """;
-    private static final String UPDATE_ACTIVE = """
+    private static final String UPDATE = """
         update chat
-        set is_active = :is_active
-        where id = :id;
-        """;
-    private static final String UPDATE_LANGUAGE = """
-        update chat
-        set lang = :lang
-        where id = :id;
-        """;
-    private static final String UPDATE_NEXT_EVENT_DATE = """
-        update chat
-        set next_event_date = :next_event_date
+        set is_active = :is_active and lang = :lang and next_event_date = :next_event_date
         where id = :id;
         """;
 
@@ -79,35 +69,15 @@ class ChatDao {
         );
     }
 
-    public void updateIsActive(Long chatId, boolean isActive) {
+    public void update(Chat chat) {
         final var params = new HashMap<String, Object>() {{
-            put("id", chatId);
-            put("is_active", isActive);
+            put("id", chat.id());
+            put("is_active", chat.isActive());
+            put("lang", chat.language().id());
+            put("next_event_date", chat.nextEventDate());
         }};
         jdbcTemplate.update(
-            UPDATE_ACTIVE,
-            params
-        );
-    }
-
-    public void updateLanguage(Long chatId, Language language) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", chatId);
-            put("lang", language.id());
-        }};
-        jdbcTemplate.update(
-            UPDATE_LANGUAGE,
-            params
-        );
-    }
-
-    public void updateNextEventDate(Long chatId, LocalDateTime nextEventDate) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", chatId);
-            put("next_event_date", nextEventDate);
-        }};
-        jdbcTemplate.update(
-            UPDATE_NEXT_EVENT_DATE,
+            UPDATE,
             params
         );
     }

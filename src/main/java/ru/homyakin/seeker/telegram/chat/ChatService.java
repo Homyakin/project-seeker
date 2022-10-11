@@ -16,41 +16,25 @@ public class ChatService {
     }
 
     public Chat getOrCreate(Long chatId) {
-        var chat = getChat(chatId);
-        if (chat.isPresent() && !chat.get().isActive()) {
-            chatDao.updateIsActive(chatId, true);
-            return getChat(chatId).orElseThrow();
-        } else if (chat.isEmpty()) {
-            return createChat(chatId);
-        }
-        return chat.get();
+        return getChat(chatId)
+            .map(chat -> chat.activate(chatDao))
+            .orElseGet(() -> createChat(chatId));
     }
 
     public void setNotActive(Long chatId) {
-        getChat(chatId).ifPresent(
-            chat -> {
-                if (chat.isActive()) {
-                    chatDao.updateIsActive(chatId, false);
-                }
-            }
-        );
+        getChat(chatId).map(chat -> chat.deactivate(chatDao));
     }
 
     public Chat changeLanguage(Chat chat, Language language) {
-        if (!chat.isSameLanguage(language)) {
-            chatDao.updateLanguage(chat.id(), language);
-            return getChat(chat.id()).orElseThrow();
-        } else {
-            return chat;
-        }
+        return chat.changeLanguage(language, chatDao);
     }
 
     public List<Chat> getGetChatsWithLessNextEventDate(LocalDateTime maxNextEventDate) {
         return chatDao.getGetChatsWithLessNextEventDate(maxNextEventDate);
     }
 
-    public void updateNextEventDate(Long chatId, LocalDateTime nextEventDate) {
-        chatDao.updateNextEventDate(chatId, nextEventDate);
+    public void updateNextEventDate(Chat chat, LocalDateTime nextEventDate) {
+        chat.updateNextEventDate(nextEventDate, chatDao);
     }
 
     private Optional<Chat> getChat(Long chatId) {

@@ -93,7 +93,7 @@ public class EventManager {
         }
         launchedEventService.addChatMessage(launchedEvent, chat, result.get().getMessageId());
         chatService.updateNextEventDate(
-            chat.id(),
+            chat,
             TimeUtils.moscowTime()
                 .plus(
                     RandomUtils.getRandomDuration(
