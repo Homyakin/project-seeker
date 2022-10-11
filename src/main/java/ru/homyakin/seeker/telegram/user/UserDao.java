@@ -19,16 +19,14 @@ public class UserDao {
         insert into tg_user (id, is_active_private_messages, lang, init_date, character_id)
         values (:id, :is_active_private_messages, :lang, :init_date, :character_id);
         """;
-    private static final String GET_USER_BY_ID = "SELECT * FROM tg_user WHERE id = :id";
-    private static final String UPDATE_ACTIVE_PRIVATE_MESSAGES = """
-        update tg_user
-        set is_active_private_messages = :is_active_private_messages
-        where id = :id;
+    private static final String GET_USER_BY_ID = """
+        SELECT * FROM tg_user
+        WHERE id = :id
         """;
-    private static final String UPDATE_LANGUAGE = """
+    private static final String UPDATE = """
         update tg_user
-        set lang = :lang
-        where id = :id;
+        set is_active_private_messages = :is_active_private_messages and lang = :lang
+        where id = :id
         """;
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
 
@@ -62,24 +60,14 @@ public class UserDao {
         return result.stream().findFirst();
     }
 
-    public void updateIsActivePrivateMessages(Long userId, boolean isActivePrivateMessages) {
+    public void update(User user) {
         final var params = new HashMap<String, Object>() {{
-            put("id", userId);
-            put("is_active", isActivePrivateMessages);
+            put("id", user.id());
+            put("lang", user.language().id());
+            put("is_active_private_messages", user.isActivePrivateMessages());
         }};
         jdbcTemplate.update(
-            UPDATE_ACTIVE_PRIVATE_MESSAGES,
-            params
-        );
-    }
-
-    public void updateLanguage(Long userId, Language language) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", userId);
-            put("lang", language.id());
-        }};
-        jdbcTemplate.update(
-            UPDATE_LANGUAGE,
+            UPDATE,
             params
         );
     }

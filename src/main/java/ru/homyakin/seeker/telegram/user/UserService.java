@@ -51,23 +51,19 @@ public class UserService {
     }
 
     public User getOrCreate(Long userId, boolean isPrivateMessage) {
-        var user = userDao.getById(userId);
-        if (user.isPresent() && !user.get().isActivePrivateMessages() && isPrivateMessage) {
-            userDao.updateIsActivePrivateMessages(userId, true);
-            return userDao.getById(userId).orElseThrow();
-        } else if (user.isEmpty()) {
-            return createUser(userId, isPrivateMessage);
-        }
-        return user.get();
+        return userDao
+            .getById(userId)
+            .map(user -> {
+                if (isPrivateMessage) {
+                    return user.activatePrivateMessages(userDao);
+                }
+                return user;
+            })
+            .orElseGet(() -> createUser(userId, isPrivateMessage));
     }
 
     public User changeLanguage(User user, Language language) {
-        if (!user.isSameLanguage(language)) {
-            userDao.updateLanguage(user.id(), language);
-            return userDao.getById(user.id()).orElseThrow();
-        } else {
-            return user;
-        }
+        return user.changeLanguage(language, userDao);
     }
 
     public Either<EventError, Success> addEvent(User user, Long launchedEventId) {
