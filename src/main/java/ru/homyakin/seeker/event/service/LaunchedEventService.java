@@ -3,7 +3,7 @@ package ru.homyakin.seeker.event.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.chat.Chat;
+import ru.homyakin.seeker.telegram.chat.Chat;
 import ru.homyakin.seeker.event.models.Event;
 import ru.homyakin.seeker.event.database.LaunchedEventGetDao;
 import ru.homyakin.seeker.event.database.LaunchedEventSaveDao;

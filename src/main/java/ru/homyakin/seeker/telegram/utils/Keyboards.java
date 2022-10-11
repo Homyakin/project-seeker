@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.command.CommandText;
+import ru.homyakin.seeker.telegram.command.CommandText;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
 

@@ -8,8 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import org.telegram.telegrambots.meta.generics.BotOptions;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
-import ru.homyakin.seeker.command.CommandParser;
-import ru.homyakin.seeker.command.CommandProcessor;
+import ru.homyakin.seeker.telegram.command.CommandParser;
+import ru.homyakin.seeker.telegram.command.CommandProcessor;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 /*
