@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.telegram.command.CommandText;
+import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
 
@@ -21,7 +21,7 @@ public class Keyboards {
             }
             builder.addButton(
                 text,
-                "%s%s%d".formatted(CommandText.SELECT_LANGUAGE, CommandText.CALLBACK_DELIMITER, languages[i].id())
+                "%s%s%d".formatted(CommandType.SELECT_LANGUAGE.getText(), CommandType.CALLBACK_DELIMITER, languages[i].id())
             );
         }
         return builder.build();
@@ -33,7 +33,7 @@ public class Keyboards {
             .addRow()
             .addButton(
                 Localization.get(language).joinEvent(),
-                "%s%s%d".formatted(CommandText.JOIN_EVENT, CommandText.CALLBACK_DELIMITER, chatEventId)
+                "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), CommandType.CALLBACK_DELIMITER, chatEventId)
             )
             .build();
     }

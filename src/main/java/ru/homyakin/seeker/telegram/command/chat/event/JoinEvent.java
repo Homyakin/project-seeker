@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.chat.event;
 
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.command.CommandText;
+import ru.homyakin.seeker.telegram.command.CommandType;
 
 public record JoinEvent(
     String callbackId,
@@ -12,6 +12,6 @@ public record JoinEvent(
 ) implements Command {
 
     public Long getLaunchedEventId() {
-        return Long.valueOf(data.split(CommandText.CALLBACK_DELIMITER)[1]);
+        return Long.valueOf(data.split(CommandType.CALLBACK_DELIMITER)[1]);
     }
 }

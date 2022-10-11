@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.telegram.command.user.language;
 
-import ru.homyakin.seeker.telegram.command.CommandText;
+import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.telegram.command.Command;
 
 public record UserSelectLanguage(
@@ -10,6 +10,6 @@ public record UserSelectLanguage(
     String data
 ) implements Command {
     public Integer getLanguageId() {
-        return Integer.valueOf(data.split(CommandText.CALLBACK_DELIMITER)[1]);
+        return Integer.valueOf(data.split(CommandType.CALLBACK_DELIMITER)[1]);
     }
 }

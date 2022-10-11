@@ -6,8 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.command.CommandText;
 import ru.homyakin.seeker.telegram.command.chat.language.GroupChangeLanguage;
 import ru.homyakin.seeker.telegram.command.chat.chat_action.JoinChat;
 import ru.homyakin.seeker.telegram.command.chat.chat_action.LeftChat;
@@ -59,21 +57,20 @@ public class CommandParser {
     }
 
     private Optional<Command> parsePrivateMessage(Message message) {
-        final Command command = switch (message.getText()) {
-            case CommandText.CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
-            case CommandText.START -> new StartUser(message.getChatId());
+        return CommandType.getFromString(message.getText())
+            .map(commandType -> switch (commandType) {
+            case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
+            case START -> new StartUser(message.getChatId());
             default -> null;
-        };
-        return Optional.ofNullable(command);
+        });
     }
 
     private Optional<Command> parseGroupMessage(Message message) {
-        final var text = message.getText().split("@")[0];
-        final Command command = switch (text) {
-            case CommandText.CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
-            default -> null;
-        };
-        return Optional.ofNullable(command);
+        return CommandType.getFromString(message.getText().split("@")[0].split(" ")[0])
+            .map(commandType -> switch (commandType) {
+                case CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
+                default -> null;
+            });
     }
 
     private Optional<Command> parseCallback(CallbackQuery callback) {
@@ -87,39 +84,39 @@ public class CommandParser {
     }
 
     private Optional<Command> parsePrivateCallback(CallbackQuery callback) {
-        final var text = callback.getData().split(CommandText.CALLBACK_DELIMITER)[0];
-        final Command command = switch (text) {
-            case CommandText.SELECT_LANGUAGE -> new UserSelectLanguage(
-                callback.getId(),
-                callback.getFrom().getId(),
-                callback.getMessage().getMessageId(),
-                callback.getData()
-            );
-            default -> null;
-        };
-        return Optional.ofNullable(command);
+        final var text = callback.getData().split(CommandType.CALLBACK_DELIMITER)[0];
+        return CommandType.getFromString(text)
+            .map(commandType -> switch (commandType) {
+                case SELECT_LANGUAGE -> new UserSelectLanguage(
+                    callback.getId(),
+                    callback.getFrom().getId(),
+                    callback.getMessage().getMessageId(),
+                    callback.getData()
+                );
+                default -> null;
+            });
     }
 
     private Optional<Command> parseGroupCallback(CallbackQuery callback) {
-        final var text = callback.getData().split(CommandText.CALLBACK_DELIMITER)[0];
-        final Command command = switch (text) {
-            case CommandText.SELECT_LANGUAGE -> new GroupSelectLanguage(
-                callback.getId(),
-                callback.getMessage().getChatId(),
-                callback.getMessage().getMessageId(),
-                callback.getFrom().getId(),
-                callback.getData()
-            );
-            case CommandText.JOIN_EVENT -> new JoinEvent(
-                callback.getId(),
-                callback.getMessage().getChatId(),
-                callback.getMessage().getMessageId(),
-                callback.getFrom().getId(),
-                callback.getData()
-            );
-            default -> null;
-        };
-        return Optional.ofNullable(command);
+        final var text = callback.getData().split(CommandType.CALLBACK_DELIMITER)[0];
+        return CommandType.getFromString(text)
+            .map(commandType -> switch (commandType) {
+                case SELECT_LANGUAGE -> new GroupSelectLanguage(
+                    callback.getId(),
+                    callback.getMessage().getChatId(),
+                    callback.getMessage().getMessageId(),
+                    callback.getFrom().getId(),
+                    callback.getData()
+                );
+                case JOIN_EVENT -> new JoinEvent(
+                    callback.getId(),
+                    callback.getMessage().getChatId(),
+                    callback.getMessage().getMessageId(),
+                    callback.getFrom().getId(),
+                    callback.getData()
+                );
+                default -> null;
+            });
     }
 
 }

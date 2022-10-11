@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.telegram.command.chat.language;
 
-import ru.homyakin.seeker.telegram.command.CommandText;
+import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.telegram.command.Command;
 
 public record GroupSelectLanguage(
@@ -11,6 +11,6 @@ public record GroupSelectLanguage(
     String data
 ) implements Command {
     public Integer getLanguageId() {
-        return Integer.valueOf(data.split(CommandText.CALLBACK_DELIMITER)[1]);
+        return Integer.valueOf(data.split(CommandType.CALLBACK_DELIMITER)[1]);
     }
 }
