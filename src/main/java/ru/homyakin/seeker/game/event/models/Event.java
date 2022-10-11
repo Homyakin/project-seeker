@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.models;
+package ru.homyakin.seeker.game.event.models;
 
 import java.time.Duration;
 import java.time.Period;

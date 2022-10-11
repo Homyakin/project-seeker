@@ -1,11 +1,11 @@
-package ru.homyakin.seeker.event.service;
+package ru.homyakin.seeker.game.event.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.database.ChatEventDao;
+import ru.homyakin.seeker.game.event.models.ChatEvent;
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.chat.Chat;
-import ru.homyakin.seeker.event.database.ChatEventDao;
-import ru.homyakin.seeker.event.models.ChatEvent;
-import ru.homyakin.seeker.event.models.LaunchedEvent;
 
 @Service
 public class ChatEventService {

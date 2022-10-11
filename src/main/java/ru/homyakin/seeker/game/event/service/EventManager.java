@@ -1,13 +1,13 @@
-package ru.homyakin.seeker.event.service;
+package ru.homyakin.seeker.game.event.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.chat.Chat;
 import ru.homyakin.seeker.telegram.chat.ChatService;
-import ru.homyakin.seeker.event.config.EventConfig;
-import ru.homyakin.seeker.event.models.Event;
-import ru.homyakin.seeker.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.config.EventConfig;
+import ru.homyakin.seeker.game.event.models.Event;
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.Keyboards;

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.personage;
+package ru.homyakin.seeker.game.personage;
 
 public record Personage(
     long id,

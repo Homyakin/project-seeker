@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.database;
+package ru.homyakin.seeker.game.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.event.models.ChatEvent;
+import ru.homyakin.seeker.game.event.models.ChatEvent;
 
 @Component
 public class ChatEventDao {

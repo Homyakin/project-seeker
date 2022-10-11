@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.models;
+package ru.homyakin.seeker.game.event.models;
 
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;

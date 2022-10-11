@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.personage;
+package ru.homyakin.seeker.game.personage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.database;
+package ru.homyakin.seeker.game.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.event.models.Event;
-import ru.homyakin.seeker.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.models.Event;
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component

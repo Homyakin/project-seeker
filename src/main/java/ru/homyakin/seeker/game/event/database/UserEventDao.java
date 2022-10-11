@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.database;
+package ru.homyakin.seeker.game.event.database;
 
 import java.util.HashMap;
 import javax.sql.DataSource;

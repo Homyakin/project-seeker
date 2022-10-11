@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.event.service;
+package ru.homyakin.seeker.game.event.service;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
