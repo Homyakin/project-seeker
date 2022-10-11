@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.user;
+package ru.homyakin.seeker.telegram.user.model;
 
 import ru.homyakin.seeker.locale.Language;
 //TODO перенести юзера и чат в телегу

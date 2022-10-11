@@ -13,12 +13,13 @@ import ru.homyakin.seeker.infrastructure.models.Success;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.infrastructure.models.errors.EitherError;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.user.errors.EventError;
-import ru.homyakin.seeker.telegram.user.errors.ExpiredEvent;
-import ru.homyakin.seeker.telegram.user.errors.UserInOtherEvent;
-import ru.homyakin.seeker.telegram.user.errors.UserInThisEvent;
+import ru.homyakin.seeker.telegram.user.model.error.EventError;
+import ru.homyakin.seeker.telegram.user.model.error.ExpiredEvent;
+import ru.homyakin.seeker.telegram.user.model.error.UserInOtherEvent;
+import ru.homyakin.seeker.telegram.user.model.error.UserInThisEvent;
+import ru.homyakin.seeker.telegram.user.model.User;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.telegram.user.errors.EventNotExist;
+import ru.homyakin.seeker.telegram.user.model.error.EventNotExist;
 
 @Component
 public class UserService {

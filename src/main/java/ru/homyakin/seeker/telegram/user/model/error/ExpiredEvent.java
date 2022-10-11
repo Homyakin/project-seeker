@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.user.errors;
+package ru.homyakin.seeker.telegram.user.model.error;
 
 import ru.homyakin.seeker.event.models.Event;
 

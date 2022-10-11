@@ -4,6 +4,7 @@ import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.telegram.user.model.User;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
