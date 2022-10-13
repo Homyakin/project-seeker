@@ -1,7 +1,8 @@
-package ru.homyakin.seeker.telegram.chat;
+package ru.homyakin.seeker.telegram.chat.model;
 
 import java.time.LocalDateTime;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.chat.database.ChatDao;
 
 // TODO добавить дату добавления
 public record Chat(

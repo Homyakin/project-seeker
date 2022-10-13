@@ -7,4 +7,5 @@
     <include file="changes/2022-09-10_01_add-personage-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2022-09-10_02_add-tg-user-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2022-09-13_01_add-event-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2022-10-13_01_add-chat-to-tg-user-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.chat;
+package ru.homyakin.seeker.telegram.chat.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,9 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.chat.model.Chat;
 
 @Component
-class ChatDao {
+public class ChatDao {
     private static final String GET_CHAT_BY_ID = "SELECT * FROM chat WHERE id = :id";
     private static final String GET_CHAT_WITH_LESS_NEXT_EVENT_DATE = "SELECT * FROM chat WHERE next_event_date  < :next_event_date";
     private static final String SAVE_CHAT = """

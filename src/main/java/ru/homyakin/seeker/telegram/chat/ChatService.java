@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.chat.database.ChatDao;
+import ru.homyakin.seeker.telegram.chat.model.Chat;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service

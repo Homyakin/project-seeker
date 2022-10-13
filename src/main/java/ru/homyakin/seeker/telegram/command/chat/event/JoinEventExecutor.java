@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.chat.event;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.telegram.chat.model.ChatUser;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.chat.ChatService;
 import ru.homyakin.seeker.locale.Localization;
@@ -33,8 +34,14 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
 
     @Override
     public void execute(JoinEvent command) {
+        // TODO возможно надо объединить эти три пункта в один, чтобы не забывать
         final var chat = chatService.getOrCreate(command.chatId());
         final var user = userService.getOrCreate(command.userId(), false);
+        ChatUser.getByKey(chat.id(), user.id())
+            .ifPresentOrElse(
+                ChatUser::activate,
+                () -> new ChatUser(chat.id(), user.id(), true).save()
+            );
         final var result = personageService.addEvent(user.personageId(), command.getLaunchedEventId());
 
         final String notificationText;
