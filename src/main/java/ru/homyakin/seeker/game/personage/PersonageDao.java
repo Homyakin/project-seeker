@@ -16,6 +16,11 @@ public class PersonageDao {
     private static final String GET_BY_ID = """
         SELECT * FROM personage WHERE id = :id
         """;
+    private static final String UPDATE = """
+        UPDATE personage
+        SET level = :level and current_exp = :current_exp
+        WHERE id = :id
+        """;
     private static final PersonageRowMapper PERSONAGE_ROW_MAPPER = new PersonageRowMapper();
     private final SimpleJdbcInsert jdbcInsert;
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -40,6 +45,18 @@ public class PersonageDao {
         return jdbcInsert.executeAndReturnKey(
             params
         ).longValue();
+    }
+
+    public void update(Personage personage) {
+        final var params = new HashMap<String, Object>() {{
+            put("id", personage.id());
+            put("level", personage.level());
+            put("current_exp", personage.currentExp());
+        }};
+        jdbcTemplate.update(
+            UPDATE,
+            params
+        );
     }
 
     public Optional<Personage> getById(Long id) {

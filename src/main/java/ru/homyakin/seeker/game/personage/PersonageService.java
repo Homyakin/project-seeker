@@ -15,4 +15,8 @@ public class PersonageService {
         return personageDao.getById(id)
             .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }
+
+    public Personage addExperience(Personage personage, long exp) {
+        return personage.addExperience(exp, personageDao);
+    }
 }

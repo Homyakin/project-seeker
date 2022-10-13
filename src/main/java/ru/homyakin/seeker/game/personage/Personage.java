@@ -5,4 +5,13 @@ public record Personage(
     int level,
     long currentExp
 ) {
+    public Personage addExperience(long exp, PersonageDao personageDao) {
+        final var personage = new Personage(
+            id,
+            level,
+            currentExp + exp
+        );
+        personageDao.update(personage);
+        return personage;
+    }
 }
