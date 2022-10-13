@@ -11,10 +11,6 @@ public record Chat(
     Language language,
     LocalDateTime nextEventDate
 ) {
-    public boolean isSameLanguage(Language language) {
-        return this.language == language;
-    }
-
     public Chat activate(ChatDao chatDao) {
         return changeActive(true, chatDao);
     }
@@ -35,7 +31,7 @@ public record Chat(
     }
 
     public Chat changeLanguage(Language newLanguage, ChatDao chatDao) {
-        if (!isSameLanguage(newLanguage)) {
+        if (language != newLanguage) {
             final var chat = new Chat(
                 id,
                 isActive,
