@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserEventDao {
     private static final String SAVE_USER_EVENT = """
-        insert into user_event (user_id, launched_event_id)
-        values (:user_id, :launched_event_id);
+        insert into personage_event (personage_id, launched_event_id)
+        values (:personage_id, :launched_event_id);
         """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -18,9 +18,9 @@ public class UserEventDao {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public void save(Long userId, Long launchedEventId) {
+    public void save(Long personageId, Long launchedEventId) {
         final var params = new HashMap<String, Object>() {{
-            put("user_id", userId);
+            put("personage_id", personageId);
             put("launched_event_id", launchedEventId);
         }};
 

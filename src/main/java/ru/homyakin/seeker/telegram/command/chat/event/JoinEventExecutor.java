@@ -1,30 +1,33 @@
 package ru.homyakin.seeker.telegram.command.chat.event;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.chat.ChatService;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.user.model.error.EventNotExist;
-import ru.homyakin.seeker.telegram.user.model.error.ExpiredEvent;
-import ru.homyakin.seeker.telegram.user.model.error.UserInOtherEvent;
-import ru.homyakin.seeker.telegram.user.model.error.UserInThisEvent;
+import ru.homyakin.seeker.game.personage.model.error.EventNotExist;
+import ru.homyakin.seeker.game.personage.model.error.ExpiredEvent;
+import ru.homyakin.seeker.game.personage.model.error.PersonageInOtherEvent;
+import ru.homyakin.seeker.game.personage.model.error.PersonageInThisEvent;
 
 @Component
 public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
     private final ChatService chatService;
     private final UserService userService;
+    private final PersonageService personageService;
     private final TelegramSender telegramSender;
 
     public JoinEventExecutor(
         ChatService chatService,
         UserService userService,
-        TelegramSender telegramSender
+        PersonageService personageService, TelegramSender telegramSender
     ) {
         this.chatService = chatService;
         this.userService = userService;
+        this.personageService = personageService;
         this.telegramSender = telegramSender;
     }
 
@@ -32,16 +35,16 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
     public void execute(JoinEvent command) {
         final var chat = chatService.getOrCreate(command.chatId());
         final var user = userService.getOrCreate(command.userId(), false);
-        final var result = userService.addEvent(user, command.getLaunchedEventId());
+        final var result = personageService.addEvent(user.personageId(), command.getLaunchedEventId());
 
         final String notificationText;
         if (result.isRight()) {
             notificationText = Localization.get(chat.language()).successJoinEvent();
         } else {
             final var error = result.getLeft();
-            if (error instanceof UserInOtherEvent) {
+            if (error instanceof PersonageInOtherEvent) {
                 notificationText = Localization.get(chat.language()).userAlreadyInOtherEvent();
-            } else if (error instanceof UserInThisEvent) {
+            } else if (error instanceof PersonageInThisEvent) {
                 notificationText = Localization.get(chat.language()).userAlreadyInThisEvent();
             } else if (error instanceof EventNotExist) {
                 notificationText = Localization.get(chat.language()).internalError();

@@ -95,8 +95,8 @@
         />
 
         <!--Связь пользователя с событиями в чатах-->
-        <createTable tableName="user_event">
-            <column name="user_id" type="BIGINT">
+        <createTable tableName="personage_event">
+            <column name="personage_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="launched_event_id" type="BIGINT">
@@ -105,23 +105,23 @@
         </createTable>
 
         <addUniqueConstraint
-                columnNames="user_id, launched_event_id"
-                constraintName="user_chat_pk"
-                tableName="user_event"
+                columnNames="personage_id, launched_event_id"
+                constraintName="personage_chat_pk"
+                tableName="personage_event"
         />
 
         <addForeignKeyConstraint
-                baseColumnNames="user_id"
-                baseTableName="user_event"
-                constraintName="fk_user_event_tg_user"
+                baseColumnNames="personage_id"
+                baseTableName="personage_event"
+                constraintName="fk_personage_event_personage"
                 referencedColumnNames="id"
-                referencedTableName="tg_user"
+                referencedTableName="personage"
         />
 
         <addForeignKeyConstraint
                 baseColumnNames="launched_event_id"
-                baseTableName="user_event"
-                constraintName="fk_user_event_launched_event"
+                baseTableName="personage_event"
+                constraintName="fk_personage_event_launched_event"
                 referencedColumnNames="id"
                 referencedTableName="launched_event"
         />

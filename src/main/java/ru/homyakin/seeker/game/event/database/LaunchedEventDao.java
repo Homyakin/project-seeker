@@ -21,10 +21,10 @@ public class LaunchedEventDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = """
         SELECT * FROM launched_event WHERE id = :id
         """;
-    private static final String GET_ACTIVE_EVENTS_BY_USER_ID = """
-        SELECT * FROM user_event ue
-         LEFT JOIN launched_event le on ue.launched_event_id = le.id
-         WHERE ue.user_id = :user_id
+    private static final String GET_ACTIVE_EVENTS_BY_PERSONAGE_ID = """
+        SELECT * FROM personage_event pe
+         LEFT JOIN launched_event le on pe.launched_event_id = le.id
+         WHERE pe.personage_id = :personage_id
          AND le.is_active = true
         """;
     private static final String GET_ACTIVE_EVENTS_WITH_LESS_END_DATE = """
@@ -75,10 +75,10 @@ public class LaunchedEventDao {
         return result.stream().findFirst();
     }
 
-    public Optional<LaunchedEvent> getActiveByUserId(Long userId) {
-        final var params = Collections.singletonMap("user_id", userId);
+    public Optional<LaunchedEvent> getActiveByPersonageId(Long personageId) {
+        final var params = Collections.singletonMap("personage_id", personageId);
         final var result = jdbcTemplate.query(
-            GET_ACTIVE_EVENTS_BY_USER_ID,
+            GET_ACTIVE_EVENTS_BY_PERSONAGE_ID,
             params,
             LAUNCHED_EVENT_ROW_MAPPER
         );

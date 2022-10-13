@@ -1,4 +1,6 @@
-package ru.homyakin.seeker.game.personage;
+package ru.homyakin.seeker.game.personage.model;
+
+import ru.homyakin.seeker.game.personage.PersonageDao;
 
 public record Personage(
     long id,

@@ -45,12 +45,12 @@ public class LaunchedEventService {
         launchedEventDao.updateIsActive(launchedEvent.id(), isActive);
     }
 
-    public Optional<LaunchedEvent> getActiveEventByUserId(Long userId) {
-        return launchedEventDao.getActiveByUserId(userId);
+    public Optional<LaunchedEvent> getActiveEventByPersonageId(Long personageId) {
+        return launchedEventDao.getActiveByPersonageId(personageId);
     }
 
-    public void addUserToLaunchedEvent(Long userId, Long launchedEventId) {
-        userEventDao.save(userId, launchedEventId);
+    public void addPersonageToLaunchedEvent(Long personageId, Long launchedEventId) {
+        userEventDao.save(personageId, launchedEventId);
     }
 
     public List<LaunchedEvent> getExpiredActiveEvents() {

@@ -1,8 +1,8 @@
-package ru.homyakin.seeker.telegram.user.model.error;
+package ru.homyakin.seeker.game.personage.model.error;
 
 import ru.homyakin.seeker.game.event.models.Event;
 
 public record ExpiredEvent(
     Event event
-) implements EventError {
+) implements PersonageEventError {
 }

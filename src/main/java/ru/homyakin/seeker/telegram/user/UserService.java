@@ -7,40 +7,26 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.event.service.EventService;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
-import ru.homyakin.seeker.infrastructure.models.Success;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.infrastructure.models.errors.EitherError;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.user.model.error.EventError;
-import ru.homyakin.seeker.telegram.user.model.error.ExpiredEvent;
-import ru.homyakin.seeker.telegram.user.model.error.UserInOtherEvent;
-import ru.homyakin.seeker.telegram.user.model.error.UserInThisEvent;
 import ru.homyakin.seeker.telegram.user.model.User;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.telegram.user.model.error.EventNotExist;
 
 @Component
 public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final TelegramSender telegramSender;
     private final UserDao userDao;
-    private final LaunchedEventService launchedEventService;
-    private final EventService eventService;
     private final PersonageService personageService;
 
     public UserService(
         TelegramSender telegramSender,
         UserDao userDao,
-        LaunchedEventService launchedEventService,
-        EventService eventService,
         PersonageService personageService
     ) {
         this.telegramSender = telegramSender;
         this.userDao = userDao;
-        this.launchedEventService = launchedEventService;
-        this.eventService = eventService;
         this.personageService = personageService;
     }
 
@@ -64,31 +50,6 @@ public class UserService {
 
     public User changeLanguage(User user, Language language) {
         return user.changeLanguage(language, userDao);
-    }
-
-    public Either<EventError, Success> addEvent(User user, Long launchedEventId) {
-        final var requestedEvent = launchedEventService.getById(launchedEventId);
-        if (requestedEvent.isEmpty()) {
-            logger.error("Requested event " + launchedEventId + " doesn't present");
-            return Either.left(new EventNotExist());
-        } else if (!requestedEvent.get().isActive()) {
-            return Either.left(eventService.getEventById(requestedEvent.get().eventId())
-                .<EventError>map(ExpiredEvent::new)
-                .orElseGet(EventNotExist::new)
-            );
-        }
-
-        final var activeEvent = launchedEventService.getActiveEventByUserId(user.id());
-        if (activeEvent.isEmpty()) {
-            launchedEventService.addUserToLaunchedEvent(user.id(), launchedEventId);
-            return Either.right(new Success());
-        }
-
-        if (activeEvent.get().id() == launchedEventId) {
-            return Either.left(new UserInThisEvent());
-        } else {
-            return Either.left(new UserInOtherEvent());
-        }
     }
 
     private User createUser(Long userId, boolean isPrivateMessage) {
