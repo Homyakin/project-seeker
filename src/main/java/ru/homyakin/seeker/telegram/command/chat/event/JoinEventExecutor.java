@@ -30,7 +30,6 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
 
     @Override
     public void execute(JoinEvent command) {
-        // TODO возможно надо объединить эти три пункта в один, чтобы не забывать
         final var chatUserPair = chatUserService.getAndActivateOrCreate(
             command.chatId(),
             command.userId()
