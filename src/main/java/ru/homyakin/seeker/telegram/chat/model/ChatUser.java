@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.chat.model;
 
-import java.util.Optional;
 import ru.homyakin.seeker.telegram.chat.database.ChatUserDao;
 
 //TODO добавить обработку выхода из чата
@@ -9,25 +8,15 @@ public record ChatUser(
     long userId,
     boolean isActive
 ) {
-    private static ChatUserDao chatUserDao;
-
-    public static Optional<ChatUser> getByKey(long chatId, long userId) {
-        return chatUserDao.getByChatIdAndUserId(chatId, userId);
+    public ChatUser activate(ChatUserDao chatUserDao) {
+        return changeActive(true, chatUserDao);
     }
 
-    public void save() {
-        chatUserDao.save(this);
+    public ChatUser deactivate(ChatUserDao chatUserDao) {
+        return changeActive(false, chatUserDao);
     }
 
-    public ChatUser activate() {
-        return changeActive(true);
-    }
-
-    public ChatUser deactivate() {
-        return changeActive(false);
-    }
-
-    private ChatUser changeActive(boolean newActive) {
+    private ChatUser changeActive(boolean newActive, ChatUserDao chatUserDao) {
         if (isActive != newActive) {
             final var chatUser = new ChatUser(
                 chatId,
@@ -38,13 +27,5 @@ public record ChatUser(
             return chatUser;
         }
         return this;
-    }
-
-    public static void setChatUserDao(ChatUserDao newChatUserDao) {
-        if (chatUserDao == null) {
-            chatUserDao = newChatUserDao;
-        } else {
-            throw new IllegalStateException("Chat user dao is already set");
-        }
     }
 }

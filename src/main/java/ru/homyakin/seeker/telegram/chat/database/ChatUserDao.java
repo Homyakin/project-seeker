@@ -31,7 +31,6 @@ public class ChatUserDao {
 
     public ChatUserDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        ChatUser.setChatUserDao(this);
     }
 
     public void save(ChatUser chatUser) {

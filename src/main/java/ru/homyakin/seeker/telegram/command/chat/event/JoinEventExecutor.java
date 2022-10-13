@@ -2,13 +2,11 @@ package ru.homyakin.seeker.telegram.command.chat.event;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.telegram.chat.model.ChatUser;
+import ru.homyakin.seeker.telegram.chat.ChatUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.chat.ChatService;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.game.personage.model.error.EventNotExist;
 import ru.homyakin.seeker.game.personage.model.error.ExpiredEvent;
 import ru.homyakin.seeker.game.personage.model.error.PersonageInOtherEvent;
@@ -16,18 +14,16 @@ import ru.homyakin.seeker.game.personage.model.error.PersonageInThisEvent;
 
 @Component
 public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
-    private final ChatService chatService;
-    private final UserService userService;
+    private final ChatUserService chatUserService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
 
     public JoinEventExecutor(
-        ChatService chatService,
-        UserService userService,
-        PersonageService personageService, TelegramSender telegramSender
+        ChatUserService chatUserService,
+        PersonageService personageService,
+        TelegramSender telegramSender
     ) {
-        this.chatService = chatService;
-        this.userService = userService;
+        this.chatUserService = chatUserService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
     }
@@ -35,13 +31,12 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
     @Override
     public void execute(JoinEvent command) {
         // TODO возможно надо объединить эти три пункта в один, чтобы не забывать
-        final var chat = chatService.getOrCreate(command.chatId());
-        final var user = userService.getOrCreate(command.userId(), false);
-        ChatUser.getByKey(chat.id(), user.id())
-            .ifPresentOrElse(
-                ChatUser::activate,
-                () -> new ChatUser(chat.id(), user.id(), true).save()
-            );
+        final var chatUserPair = chatUserService.getAndActivateOrCreate(
+            command.chatId(),
+            command.userId()
+        );
+        final var chat = chatUserPair.first();
+        final var user = chatUserPair.second();
         final var result = personageService.addEvent(user.personageId(), command.getLaunchedEventId());
 
         final String notificationText;
