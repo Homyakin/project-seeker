@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.infrastructure.models.errors;
+package ru.homyakin.seeker.utils.models.errors;
 
 public sealed interface EitherError permits TelegramError {
 }

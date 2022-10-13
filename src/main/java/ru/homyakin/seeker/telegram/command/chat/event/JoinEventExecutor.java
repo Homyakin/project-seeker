@@ -7,10 +7,10 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.game.personage.model.error.EventNotExist;
-import ru.homyakin.seeker.game.personage.model.error.ExpiredEvent;
-import ru.homyakin.seeker.game.personage.model.error.PersonageInOtherEvent;
-import ru.homyakin.seeker.game.personage.model.error.PersonageInThisEvent;
+import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
+import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageInOtherEvent;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageInThisEvent;
 
 @Component
 public class JoinEventExecutor extends CommandExecutor<JoinEvent> {

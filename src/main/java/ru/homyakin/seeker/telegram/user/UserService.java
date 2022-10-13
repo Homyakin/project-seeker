@@ -8,9 +8,9 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministr
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.infrastructure.models.errors.EitherError;
+import ru.homyakin.seeker.utils.models.errors.EitherError;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.user.model.User;
+import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.chat.model;
+package ru.homyakin.seeker.telegram.chat.models;
 
 import java.time.LocalDateTime;
 import ru.homyakin.seeker.locale.Language;

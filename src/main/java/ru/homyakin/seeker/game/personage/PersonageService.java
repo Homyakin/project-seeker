@@ -6,13 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
-import ru.homyakin.seeker.game.personage.model.Personage;
-import ru.homyakin.seeker.infrastructure.models.Success;
-import ru.homyakin.seeker.game.personage.model.error.PersonageEventError;
-import ru.homyakin.seeker.game.personage.model.error.EventNotExist;
-import ru.homyakin.seeker.game.personage.model.error.ExpiredEvent;
-import ru.homyakin.seeker.game.personage.model.error.PersonageInOtherEvent;
-import ru.homyakin.seeker.game.personage.model.error.PersonageInThisEvent;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.utils.models.Success;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
+import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageInOtherEvent;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageInThisEvent;
 
 @Service
 public class PersonageService {

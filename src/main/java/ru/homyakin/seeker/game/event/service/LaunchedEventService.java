@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.database.UserEventDao;
-import ru.homyakin.seeker.telegram.chat.model.Chat;
+import ru.homyakin.seeker.telegram.chat.models.Chat;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
 import ru.homyakin.seeker.game.event.models.ChatEvent;

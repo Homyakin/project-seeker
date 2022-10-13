@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.user.model;
+package ru.homyakin.seeker.telegram.user.models;
 
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.user.UserDao;

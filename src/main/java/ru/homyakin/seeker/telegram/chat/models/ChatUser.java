@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.chat.model;
+package ru.homyakin.seeker.telegram.chat.models;
 
 import ru.homyakin.seeker.telegram.chat.database.ChatUserDao;
 

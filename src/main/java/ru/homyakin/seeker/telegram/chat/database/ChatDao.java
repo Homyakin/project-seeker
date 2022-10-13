@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.chat.model.Chat;
+import ru.homyakin.seeker.telegram.chat.models.Chat;
 
 @Component
 public class ChatDao {

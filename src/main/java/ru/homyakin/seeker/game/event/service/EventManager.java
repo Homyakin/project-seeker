@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.telegram.chat.model.Chat;
+import ru.homyakin.seeker.telegram.chat.models.Chat;
 import ru.homyakin.seeker.telegram.chat.ChatService;
 import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.Event;

@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.telegram.chat.model.ChatUser;
+import ru.homyakin.seeker.telegram.chat.models.ChatUser;
 
 @Component
 public class ChatUserDao {

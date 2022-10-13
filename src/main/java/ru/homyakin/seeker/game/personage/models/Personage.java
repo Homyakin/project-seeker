@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.personage.model;
+package ru.homyakin.seeker.game.personage.models;
 
 import ru.homyakin.seeker.game.personage.PersonageDao;
 

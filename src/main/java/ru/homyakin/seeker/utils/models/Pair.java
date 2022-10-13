@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.infrastructure.models;
+package ru.homyakin.seeker.utils.models;
 
 public record Pair<T, U>(
     T first,

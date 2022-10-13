@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.database.ChatEventDao;
 import ru.homyakin.seeker.game.event.models.ChatEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.telegram.chat.model.Chat;
+import ru.homyakin.seeker.telegram.chat.models.Chat;
 
 @Service
 public class ChatEventService {

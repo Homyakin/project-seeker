@@ -1,12 +1,12 @@
 package ru.homyakin.seeker.telegram.chat;
 
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.infrastructure.models.Pair;
+import ru.homyakin.seeker.utils.models.Pair;
 import ru.homyakin.seeker.telegram.chat.database.ChatUserDao;
-import ru.homyakin.seeker.telegram.chat.model.Chat;
-import ru.homyakin.seeker.telegram.chat.model.ChatUser;
+import ru.homyakin.seeker.telegram.chat.models.Chat;
+import ru.homyakin.seeker.telegram.chat.models.ChatUser;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.user.model.User;
+import ru.homyakin.seeker.telegram.user.models.User;
 
 @Service
 public class ChatUserService {
