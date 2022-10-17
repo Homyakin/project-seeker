@@ -6,7 +6,7 @@
     <changeSet context="legacy" author="Homyakin" id="add-chat-to-tg-user-table">
         <createTable tableName="chat_to_tg_user">
             <column name="chat_id" type="BIGINT">
-                <constraints primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="tg_user_id" type="BIGINT">
                 <constraints nullable="false"/>
