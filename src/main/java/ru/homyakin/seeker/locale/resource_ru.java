@@ -48,7 +48,7 @@ public class resource_ru extends AbstractResource {
                 """
                 :bust_in_silhouette:Безымянный
                 :military_medal:Уровень: %d
-                :star2:Опыт: %d
+                :star2:Опыт: %d/%d
                 """
             },
         };
