@@ -44,4 +44,8 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String expiredEvent() {
         return getString(LocalizationKeys.EXPIRED_EVENT.name());
     }
+
+    public String profileTemplate() {
+        return getString(LocalizationKeys.PROFILE_TEMPLATE.name());
+    }
 }

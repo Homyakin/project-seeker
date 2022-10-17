@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.control.Either;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,10 @@ public class PersonageService {
         } else {
             return Either.left(new PersonageInOtherEvent());
         }
+    }
+
+    public Optional<Personage> getById(long personageId) {
+        return personageDao.getById(personageId);
     }
 
     public Personage addExperience(Personage personage, long exp) {

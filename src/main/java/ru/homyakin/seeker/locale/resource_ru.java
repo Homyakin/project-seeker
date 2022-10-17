@@ -43,6 +43,14 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.EXPIRED_EVENT.name(),
                 "Событие завершилось!"
             },
+            {
+                LocalizationKeys.PROFILE_TEMPLATE.name(),
+                """
+                :bust_in_silhouette:Безымянный
+                :military_medal:Уровень: %d
+                :star2:Опыт: %d
+                """
+            },
         };
 
     @Override

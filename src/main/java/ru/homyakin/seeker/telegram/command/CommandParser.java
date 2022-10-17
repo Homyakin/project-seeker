@@ -10,10 +10,12 @@ import ru.homyakin.seeker.telegram.command.chat.language.GroupChangeLanguage;
 import ru.homyakin.seeker.telegram.command.chat.chat_action.JoinChat;
 import ru.homyakin.seeker.telegram.command.chat.chat_action.LeftChat;
 import ru.homyakin.seeker.telegram.command.chat.language.GroupSelectLanguage;
+import ru.homyakin.seeker.telegram.command.chat.profile.GetProfileInChat;
 import ru.homyakin.seeker.telegram.command.user.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.chat.event.JoinEvent;
+import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 @Component
@@ -61,6 +63,7 @@ public class CommandParser {
             .map(commandType -> switch (commandType) {
             case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
             case START -> new StartUser(message.getChatId());
+            case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
             default -> null;
         });
     }
@@ -69,6 +72,10 @@ public class CommandParser {
         return CommandType.getFromString(message.getText().split("@")[0].split(" ")[0])
             .map(commandType -> switch (commandType) {
                 case CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
+                case GET_PROFILE -> new GetProfileInChat(
+                    message.getChatId(),
+                    message.getFrom().getId()
+                );
                 default -> null;
             });
     }

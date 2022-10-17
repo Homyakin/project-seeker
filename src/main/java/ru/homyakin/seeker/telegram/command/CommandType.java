@@ -8,6 +8,7 @@ public enum CommandType {
     SELECT_LANGUAGE("selectLanguage"),
     START("/start"),
     JOIN_EVENT("joinEvent"),
+    GET_PROFILE("/me")
     ;
 
     public static final String CALLBACK_DELIMITER = "~";
