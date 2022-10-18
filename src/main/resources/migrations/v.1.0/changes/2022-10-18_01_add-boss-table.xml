@@ -1,0 +1,33 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-boss-table">
+        <createTable tableName="boss">
+            <column name="event_id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="boss_pkey"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="event_id"
+                baseTableName="boss"
+                constraintName="fk_boss_event"
+                referencedColumnNames="id"
+                referencedTableName="event"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="personage_id"
+                baseTableName="boss"
+                constraintName="fk_boss_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+
+    </changeSet>
+</databaseChangeLog>

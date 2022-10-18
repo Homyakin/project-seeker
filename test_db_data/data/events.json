@@ -1,17 +1,24 @@
 [
   {
     "id": 1,
-    "duration": "PT31.23S",
+    "duration": "PT1M30S",
+    "boss": {
+      "personage": {
+        "id": -1,
+        "level": 2,
+        "current_exp": 0
+      }
+    },
     "locale": [
       {
         "lang": "ru",
-        "name": "Тестовое событие",
-        "description": "Создалось тестовое событие, бегите голубцы"
+        "name": "Соломенное чучело",
+        "description": "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
       },
       {
         "lang": "en",
-        "name": "Test event",
-        "description": "Test event on english appeared"
+        "name": "Straw man",
+        "description": "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
       }
     ]
   }

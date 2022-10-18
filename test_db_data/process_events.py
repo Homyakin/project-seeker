@@ -14,14 +14,42 @@ def process_file():
 
 def process_event(event: Dict):
     print(f'Processing event with id {event["id"]}')
-    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration'])
+    validation.validate_event(event)
+
+    if 'boss' in event:
+        event_type = 1
+        process_type = process_boss
+        type_object = event['boss']
+    else:
+        raise Exception('Unknown event type')
+
+    event['type'] = event_type
+
+    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type'])
+    process_type(type_object, event['id'])
 
     if 'locale' in event:
         process_locale(event['locale'], event["id"])
     else:
-        error_text = f'Event with id {event["id"]} must contain locale'
-        print(error_text)
-        raise Exception(error_text)
+        raise Exception(f'Event with id {event["id"]} must contain locale')
+
+
+def process_boss(boss: Dict, event_id: int):
+    personage = boss['personage']
+    put_entity_to_database.put(
+        personage,
+        table='personage',
+        pk_columns=['id'],
+        simple_columns=['level', 'current_exp']
+    )
+    boss['event_id'] = event_id
+    boss['personage_id'] = personage['id']
+    put_entity_to_database.put(
+        boss,
+        table='boss',
+        pk_columns=['event_id'],
+        simple_columns=['personage_id']
+    )
 
 
 def process_locale(locales: Dict, event_id: int):

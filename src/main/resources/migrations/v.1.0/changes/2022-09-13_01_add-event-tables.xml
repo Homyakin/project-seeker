@@ -9,6 +9,9 @@
             <column name="id" type="INTEGER">
                 <constraints primaryKey="true" primaryKeyName="event_pkey"/>
             </column>
+            <column name="type" type="TINYINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="duration" type="INTERVAL">
                 <constraints nullable="false"/>
             </column>
