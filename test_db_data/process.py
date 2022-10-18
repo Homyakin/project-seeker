@@ -1,9 +1,9 @@
 import threading
 
-import process_file
+import process_events
 
 threads = [
-    threading.Thread(target=process_file.process, args=['test_db_data/data/events.json'])
+    threading.Thread(target=process_events.process_file)
 ]
 
 for i in threads:

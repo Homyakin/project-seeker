@@ -1,43 +1,18 @@
-{
-  "table": "event",
-  "pk_columns": [
-    "id"
-  ],
-  "simple_columns": [
-    "duration"
-  ],
-  "nested_data": {
-    "locale": {
-      "table": "event_locale",
-      "pk_columns": [
-        "event_id",
-        "lang"
-      ],
-      "simple_columns": [
-        "name",
-        "description"
-      ],
-      "parent_mapping": {
-        "id": "event_id"
+[
+  {
+    "id": 1,
+    "duration": "PT31.23S",
+    "locale": [
+      {
+        "lang": "ru",
+        "name": "Тестовое событие",
+        "description": "Создалось тестовое событие, бегите голубцы"
+      },
+      {
+        "lang": "en",
+        "name": "Test event",
+        "description": "Test event on english appeared"
       }
-    }
-  },
-  "data": [
-    {
-      "id": 1,
-      "duration": "PT31.23S",
-      "locale": [
-        {
-          "lang": "ru",
-          "name": "Тестовое событие",
-          "description": "Создалось тестовое событие, бегите голубцы"
-        },
-        {
-          "lang": "en",
-          "name": "Test event",
-          "description": "Test event on english appeared"
-        }
-      ]
-    }
-  ]
-}
+    ]
+  }
+]
