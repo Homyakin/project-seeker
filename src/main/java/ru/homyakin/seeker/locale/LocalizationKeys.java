@@ -13,5 +13,7 @@ public enum LocalizationKeys {
     EXPIRED_EVENT,
     PROFILE_TEMPLATE,
     START_BOSS_EVENT,
+    SUCCESS_BOSS,
+    FAILURE_BOSS,
     ;
 }

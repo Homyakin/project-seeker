@@ -55,6 +55,14 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.START_BOSS_EVENT.name(),
                 "Boss detected"
             },
+            {
+                LocalizationKeys.SUCCESS_BOSS.name(),
+                "Boss was defeated."
+            },
+            {
+                LocalizationKeys.FAILURE_BOSS.name(),
+                "Boss was stronger than the seekers."
+            },
         };
 
     @Override

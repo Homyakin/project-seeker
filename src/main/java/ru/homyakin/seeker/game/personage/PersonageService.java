@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.control.Either;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +62,14 @@ public class PersonageService {
 
     public Optional<Personage> getById(long personageId) {
         return personageDao.getById(personageId);
+    }
+
+    public Optional<Personage> getByBossEvent(long eventId) {
+        return personageDao.getByBossEvent(eventId);
+    }
+
+    public List<Personage> getByLaunchedEvent(long launchedEventId) {
+        return personageDao.getByLaunchedEvent(launchedEventId);
     }
 
     public Personage addExperience(Personage personage, long exp) {

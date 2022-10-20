@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +17,17 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 public class PersonageDao {
     private static final String GET_BY_ID = """
         SELECT * FROM personage WHERE id = :id
+        """;
+    private static final String GET_BY_BOSS_EVENT = """
+        SELECT p.* FROM boss b
+        LEFT JOIN personage p on p.id = b.personage_id
+        WHERE b.event_id = :event_id
+        """;
+
+    private static final String GET_BY_LAUNCHED_EVENT = """
+        SELECT p.* FROM personage_event le
+        LEFT JOIN personage p on p.id = le.personage_id
+        WHERE le.launched_event_id = :launched_event_id
         """;
     private static final String UPDATE = """
         UPDATE personage
@@ -68,6 +80,25 @@ public class PersonageDao {
             PERSONAGE_ROW_MAPPER
         );
         return result.stream().findFirst();
+    }
+
+    public Optional<Personage> getByBossEvent(Long eventId) {
+        final var params = Collections.singletonMap("event_id", eventId);
+        final var result = jdbcTemplate.query(
+            GET_BY_BOSS_EVENT,
+            params,
+            PERSONAGE_ROW_MAPPER
+        );
+        return result.stream().findFirst();
+    }
+
+    public List<Personage> getByLaunchedEvent(Long launchedEventId) {
+        final var params = Collections.singletonMap("launched_event_id", launchedEventId);
+        return jdbcTemplate.query(
+            GET_BY_LAUNCHED_EVENT,
+            params,
+            PERSONAGE_ROW_MAPPER
+        );
     }
 
     private static class PersonageRowMapper implements RowMapper<Personage> {

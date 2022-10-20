@@ -31,9 +31,25 @@ public record Event(
         );
     }
 
-    public String toEndMessage(Language language) {
-        return toStartMessage(language) + "\n\n" + Localization.get(language).expiredEvent();
+    public String toEndStartMessage(Language language, EventResult result) {
+        return toStartMessage(language) + "\n\n" + endMessage(language, result);
     }
+
+    public String endMessage(Language language, EventResult result) {
+        final var postfix = switch (type) {
+            case BOSS -> bossEndMessage(language, result);
+        };
+        return Localization.get(language).expiredEvent() + " " + postfix;
+    }
+
+    private String bossEndMessage(Language language, EventResult result) {
+        if (result instanceof EventResult.Success) {
+            return Localization.get(language).successBoss();
+        } else if (result instanceof EventResult.Failure) {
+            return Localization.get(language).failureBoss();
+        }
+        return "";
+    };
 
     private EventLocale getLocaleByLanguageOrDefault(Language language) {
         var result = locales.stream().filter(locale -> locale.language() == language).findFirst();

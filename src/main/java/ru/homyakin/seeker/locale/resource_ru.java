@@ -55,6 +55,14 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.START_BOSS_EVENT.name(),
                 "Обнаружен босс"
             },
+            {
+                LocalizationKeys.SUCCESS_BOSS.name(),
+                "Босс был побеждён."
+            },
+            {
+                LocalizationKeys.FAILURE_BOSS.name(),
+                "Босс оказался сильнее искателей."
+            },
         };
 
     @Override

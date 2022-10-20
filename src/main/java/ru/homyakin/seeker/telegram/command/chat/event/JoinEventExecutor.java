@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.chat.event;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.telegram.chat.ChatUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -55,7 +56,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     command.chatId(),
                     command.messageId(),
-                    expiredEvent.event().toEndMessage(chat.language())
+                    expiredEvent.event().toEndStartMessage(chat.language(), new EventResult.Unknown())
                 ));
             } else {
                 // TODO когда будет паттерн-матчинг для switch - переделать

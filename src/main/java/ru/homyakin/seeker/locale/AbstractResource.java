@@ -52,4 +52,12 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String startBossEvent() {
         return getString(LocalizationKeys.START_BOSS_EVENT.name());
     }
+
+    public String successBoss() {
+        return getString(LocalizationKeys.SUCCESS_BOSS.name());
+    }
+
+    public String failureBoss() {
+        return getString(LocalizationKeys.FAILURE_BOSS.name());
+    }
 }

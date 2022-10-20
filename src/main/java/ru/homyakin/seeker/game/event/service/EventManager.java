@@ -23,19 +23,22 @@ public class EventManager {
     private final EventService eventService;
     private final TelegramSender telegramSender;
     private final LaunchedEventService launchedEventService;
+    private final EventProcessing eventProcessing;
 
     public EventManager(
         EventConfig eventConfig,
         ChatService chatService,
         EventService eventService,
         TelegramSender telegramSender,
-        LaunchedEventService launchedEventService
+        LaunchedEventService launchedEventService,
+        EventProcessing eventProcessing
     ) {
         this.eventConfig = eventConfig;
         this.chatService = chatService;
         this.eventService = eventService;
         this.telegramSender = telegramSender;
         this.launchedEventService = launchedEventService;
+        this.eventProcessing = eventProcessing;
     }
 
     public void launchEventsInChats() {
@@ -57,6 +60,7 @@ public class EventManager {
 
     private void stopLaunchedEvent(LaunchedEvent launchedEvent) {
         logger.debug("Stopping event " + launchedEvent.id());
+        final var result = eventProcessing.processEvent(launchedEvent);
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getChatEvents(launchedEvent)
             .forEach(chatEvent -> {
@@ -66,11 +70,11 @@ public class EventManager {
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     chatEvent.chatId(),
                     chatEvent.messageId(),
-                    event.toEndMessage(chat.language())
+                    event.toEndStartMessage(chat.language(), result)
                 ));
                 telegramSender.send(TelegramMethods.createSendMessage(
                     chatEvent.chatId(),
-                    Localization.get(chat.language()).expiredEvent(),
+                    event.endMessage(chat.language(), result),
                     chatEvent.messageId()
                 ));
             });

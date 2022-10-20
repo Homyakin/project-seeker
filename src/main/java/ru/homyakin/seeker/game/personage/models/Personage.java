@@ -11,10 +11,15 @@ public record Personage(
     long currentExp
 ) {
     public Personage addExperience(long exp, PersonageDao personageDao) {
+        final var newExp = currentExp + exp;
+        var newLvl = level;
+        if (newExp >= ExperienceUtils.getTotalExpToNextLevel(level)) {
+            newLvl += 1;
+        }
         final var personage = new Personage(
             id,
-            level,
-            currentExp + exp
+            newLvl,
+            newExp
         );
         personageDao.update(personage);
         return personage;
