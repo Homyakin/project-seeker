@@ -24,7 +24,7 @@ public class ChatDao {
         """;
     private static final String UPDATE = """
         update chat
-        set is_active = :is_active and lang = :lang and next_event_date = :next_event_date
+        set is_active = :is_active, lang = :lang, next_event_date = :next_event_date
         where id = :id;
         """;
 
@@ -38,7 +38,6 @@ public class ChatDao {
 
     public void save(Chat chat) {
         final var params = new HashMap<String, Object>() {{
-
             put("id", chat.id());
             put("is_active", chat.isActive());
             put("lang", chat.language().id());

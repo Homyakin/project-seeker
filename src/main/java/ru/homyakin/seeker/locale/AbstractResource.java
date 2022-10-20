@@ -48,4 +48,8 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String profileTemplate() {
         return getString(LocalizationKeys.PROFILE_TEMPLATE.name());
     }
+
+    public String startBossEvent() {
+        return getString(LocalizationKeys.START_BOSS_EVENT.name());
+    }
 }

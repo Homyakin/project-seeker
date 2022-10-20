@@ -5,6 +5,7 @@ import java.time.Period;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Localization;
 
 public record Event(
     int id,
@@ -13,9 +14,28 @@ public record Event(
     @NotNull
     Duration duration, // для часов-минут-секунд
     @NotNull
+    EventType type,
+    @NotNull
     List<EventLocale> locales
 ) {
-    public EventLocale getLocaleByLanguageOrDefault(Language language) {
+    public String toStartMessage(Language language) {
+        final var locale = getLocaleByLanguageOrDefault(language);
+        final var prefixMessage = switch (type) {
+            case BOSS -> Localization.get(locale.language()).startBossEvent();
+        };
+
+        return "<b>%s: \"%s\"!</b>%n%n%s".formatted(
+            prefixMessage,
+            locale.name(),
+            locale.description()
+        );
+    }
+
+    public String toEndMessage(Language language) {
+        return toStartMessage(language) + "\n\n" + Localization.get(language).expiredEvent();
+    }
+
+    private EventLocale getLocaleByLanguageOrDefault(Language language) {
         var result = locales.stream().filter(locale -> locale.language() == language).findFirst();
         if (result.isPresent()) {
             return result.get();

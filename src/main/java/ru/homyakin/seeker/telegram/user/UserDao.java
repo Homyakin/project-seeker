@@ -25,7 +25,7 @@ public class UserDao {
         """;
     private static final String UPDATE = """
         update tg_user
-        set is_active_private_messages = :is_active_private_messages and lang = :lang
+        set is_active_private_messages = :is_active_private_messages, lang = :lang
         where id = :id
         """;
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();

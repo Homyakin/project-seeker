@@ -60,14 +60,13 @@ public class EventManager {
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getChatEvents(launchedEvent)
             .forEach(chatEvent -> {
-                //TODO редактировать исходное сообщение
                 final var chat = chatService.getOrCreate(chatEvent.chatId());
                 final var event = eventService.getEventById(launchedEvent.eventId())
                     .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     chatEvent.chatId(),
                     chatEvent.messageId(),
-                    event.getLocaleByLanguageOrDefault(chat.language()).toEndMessage()
+                    event.toEndMessage(chat.language())
                 ));
                 telegramSender.send(TelegramMethods.createSendMessage(
                     chatEvent.chatId(),
@@ -83,7 +82,7 @@ public class EventManager {
         var result = telegramSender.send(
             TelegramMethods.createSendMessage(
                 chat.id(),
-                event.getLocaleByLanguageOrDefault(chat.language()).toStartMessage(),
+                event.toStartMessage(chat.language()),
                 Keyboards.joinEventKeyboard(chat.language(), launchedEvent.id())
             )
         );

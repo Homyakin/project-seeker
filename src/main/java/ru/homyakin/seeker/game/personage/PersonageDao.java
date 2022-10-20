@@ -19,7 +19,7 @@ public class PersonageDao {
         """;
     private static final String UPDATE = """
         UPDATE personage
-        SET level = :level and current_exp = :current_exp
+        SET level = :level, current_exp = :current_exp
         WHERE id = :id
         """;
     private static final PersonageRowMapper PERSONAGE_ROW_MAPPER = new PersonageRowMapper();

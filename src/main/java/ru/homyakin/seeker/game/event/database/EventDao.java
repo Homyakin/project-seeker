@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventLocale;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.locale.Language;
 import org.postgresql.util.PGInterval;
 
@@ -41,12 +42,7 @@ public class EventDao {
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("No events in database")); // TODO either
         final var locales = getEventLocales(eventWithoutLocale.id());
-        return new Event(
-            eventWithoutLocale.id(),
-            eventWithoutLocale.period(),
-            eventWithoutLocale.duration(),
-            locales
-        );
+        return eventWithoutLocale.toEvent(locales);
     }
 
     public Optional<Event> getById(Integer eventId) {
@@ -63,12 +59,7 @@ public class EventDao {
             return Optional.empty();
         }
         final var locales = getEventLocales(eventWithoutLocale.get().id());
-        return Optional.of(new Event(
-            eventWithoutLocale.get().id(),
-            eventWithoutLocale.get().period(),
-            eventWithoutLocale.get().duration(),
-            locales
-        ));
+        return Optional.of(eventWithoutLocale.get().toEvent(locales));
     }
 
     private List<EventLocale> getEventLocales(int eventId) {
@@ -92,7 +83,8 @@ public class EventDao {
             return new EventWithoutLocale(
                 rs.getInt("id"),
                 period,
-                duration
+                duration,
+                EventType.get(rs.getInt("type"))
             );
         }
     }
@@ -111,7 +103,17 @@ public class EventDao {
     private record EventWithoutLocale(
         Integer id,
         Period period,
-        Duration duration
+        Duration duration,
+        EventType type
     ) {
+        public Event toEvent(List<EventLocale> locales) {
+            return new Event(
+                id,
+                period,
+                duration,
+                type,
+                locales
+            );
+        }
     }
 }

@@ -51,6 +51,10 @@ public class resource_ru extends AbstractResource {
                 :star2:Опыт: %d/%d
                 """
             },
+            {
+                LocalizationKeys.START_BOSS_EVENT.name(),
+                "Обнаружен босс"
+            },
         };
 
     @Override

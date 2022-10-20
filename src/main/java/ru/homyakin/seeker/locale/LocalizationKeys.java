@@ -12,5 +12,6 @@ public enum LocalizationKeys {
     USER_ALREADY_IN_OTHER_EVENT,
     EXPIRED_EVENT,
     PROFILE_TEMPLATE,
+    START_BOSS_EVENT,
     ;
 }
