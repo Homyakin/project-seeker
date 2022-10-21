@@ -7,6 +7,8 @@ import ru.homyakin.seeker.locale.Localization;
 
 public record Personage(
     long id,
+
+    String name,
     int level,
     long currentExp
 ) {
@@ -18,6 +20,7 @@ public record Personage(
         }
         final var personage = new Personage(
             id,
+            name,
             newLvl,
             newExp
         );
@@ -26,13 +29,13 @@ public record Personage(
     }
 
     public String toTopText() {
-        return ":military_medal:%d name: %d".formatted(level, currentExp);
+        return ":military_medal:%d %s: %d".formatted(level, name, currentExp);
     }
 
     public String toProfile(Language language) {
         return Localization
             .get(language)
             .profileTemplate()
-            .formatted(level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level));
+            .formatted(name, level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level));
     }
 }

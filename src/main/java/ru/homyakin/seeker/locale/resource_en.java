@@ -46,7 +46,7 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.PROFILE_TEMPLATE.name(),
                 """
-                :bust_in_silhouette:Безымянный
+                :bust_in_silhouette:%s
                 :military_medal:Уровень: %d
                 :star2:Опыт: %d/%d
                 """

@@ -8,6 +8,9 @@
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="personage_pkey"/>
             </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
             <column name="level" type="TINYINT">
                 <constraints nullable="false"/>
             </column>

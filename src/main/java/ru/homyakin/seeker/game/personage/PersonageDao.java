@@ -65,6 +65,7 @@ public class PersonageDao {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("personage")
             .usingColumns(
+                "name",
                 "level",
                 "current_exp"
             );
@@ -73,8 +74,9 @@ public class PersonageDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public long save(int level, long currentExp) {
+    public long save(String name, int level, long currentExp) {
         final var params = new HashMap<String, Object>() {{
+            put("name", name);
             put("level", level);
             put("current_exp", currentExp);
         }};
@@ -155,6 +157,7 @@ public class PersonageDao {
         public Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new Personage(
                 rs.getLong("id"),
+                rs.getString("name"),
                 rs.getInt("level"),
                 rs.getLong("current_exp")
             );
