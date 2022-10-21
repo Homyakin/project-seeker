@@ -75,4 +75,12 @@ public class PersonageService {
     public Personage addExperience(Personage personage, long exp) {
         return personage.addExperience(exp, personageDao);
     }
+
+    public List<Personage> getTopByExpInChat(long chatId, int count) {
+        return personageDao.getTopByExpInChat(chatId, count);
+    }
+
+    public Optional<Long> getPersonagePositionInTopByExpInChat(long id, long chatId) {
+        return personageDao.getPersonagePositionInTopByExpInChat(id, chatId);
+    }
 }

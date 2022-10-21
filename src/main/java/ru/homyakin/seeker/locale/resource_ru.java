@@ -63,6 +63,11 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.FAILURE_BOSS.name(),
                 "Босс оказался сильнее искателей."
             },
+            //TODO вынести иконки отдельно
+            {
+                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
+                ":star2:Топ персонажей в чате по опыту:%n%s"
+            },
         };
 
     @Override

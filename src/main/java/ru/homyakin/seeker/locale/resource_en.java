@@ -63,6 +63,10 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.FAILURE_BOSS.name(),
                 "Boss was stronger than the seekers."
             },
+            {
+                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
+                ":star2:Top chat personages by experience:%n%s"
+            },
         };
 
     @Override

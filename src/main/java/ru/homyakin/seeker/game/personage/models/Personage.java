@@ -25,6 +25,10 @@ public record Personage(
         return personage;
     }
 
+    public String toTopText() {
+        return ":military_medal:%d name: %d".formatted(level, currentExp);
+    }
+
     public String toProfile(Language language) {
         return Localization
             .get(language)
