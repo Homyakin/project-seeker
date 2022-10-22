@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  project-seeker-bot:
+    build: ./
+    network_mode: host
+    depends_on:
+      - project-seeker-db
+  project-seeker-db:
+    build: database/
+    ports:
+    - 5432:5432
+
+

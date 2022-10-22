@@ -5,6 +5,7 @@
     "boss": {
       "personage": {
         "id": -1,
+        "name": "Соломенное чучело",
         "level": 2,
         "current_exp": 0
       }

@@ -40,7 +40,7 @@ def process_boss(boss: Dict, event_id: int):
         personage,
         table='personage',
         pk_columns=['id'],
-        simple_columns=['level', 'current_exp']
+        simple_columns=['name', 'level', 'current_exp']
     )
     boss['event_id'] = event_id
     boss['personage_id'] = personage['id']

@@ -6,4 +6,4 @@ ENV POSTGRES_DB=seeker
 
 ENV TZ=Europe/Moscow
 
-EXPOSE 27017
+EXPOSE 5432
