@@ -55,7 +55,7 @@ public class resource_ru extends AbstractResource {
                 """.formatted(
                     TextConstants.PROFILE_ICON,
                     "%s",
-                    TextConstants.PROFILE_ICON,
+                    TextConstants.LEVEL_ICON,
                     "%d",
                     TextConstants.EXP_ICON,
                     "%d/%d"
@@ -91,14 +91,30 @@ public class resource_ru extends AbstractResource {
                 Только для чата:
                 %s - показать топ игроков по опыту в чате
                 
+                Только для лички:
+                %s - сменить имя
+                
                 Исходный код игры <a href="%s">здесь</a>.
                 """.formatted(
                     CommandType.CHANGE_LANGUAGE.getText(),
                     CommandType.GET_PROFILE.getText(),
                     CommandType.HELP.getText(),
                     CommandType.TOP.getText(),
+                    CommandType.CHANGE_NAME.getText(),
                     TextConstants.SOURCE_LINK
                 )
+            },
+            {
+                LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name(),
+                "Введите имя через пробел после команды: \"/name Имя\""
+            },
+            {
+                LocalizationKeys.NAME_TOO_LONG.name(),
+                "Имя не должно превышать %d символов"
+            },
+            {
+                LocalizationKeys.SUCCESS_NAME_CHANGE.name(),
+                "Имя успешно изменено!"
             },
         };
 

@@ -11,6 +11,7 @@ public enum CommandType {
     GET_PROFILE("/me"),
     TOP("/top"),
     HELP("/help"),
+    CHANGE_NAME("/name"),
     ;
 
     public static final String CALLBACK_DELIMITER = "~";

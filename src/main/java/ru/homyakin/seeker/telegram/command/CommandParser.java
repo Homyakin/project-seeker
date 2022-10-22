@@ -17,6 +17,7 @@ import ru.homyakin.seeker.telegram.command.user.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.chat.event.JoinEvent;
+import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
@@ -61,12 +62,13 @@ public class CommandParser {
     }
 
     private Optional<Command> parsePrivateMessage(Message message) {
-        return CommandType.getFromString(message.getText())
+        return CommandType.getFromString(message.getText().split(" ")[0])
             .map(commandType -> switch (commandType) {
             case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
             case START -> new StartUser(message.getChatId());
             case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
             case HELP -> new Help(message.getChatId(), true);
+            case CHANGE_NAME -> new ChangeName(message.getChatId(), message.getText());
             default -> null;
         });
     }

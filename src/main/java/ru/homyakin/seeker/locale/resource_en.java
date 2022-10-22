@@ -55,7 +55,7 @@ public class resource_en extends AbstractResource {
                 """.formatted(
                     TextConstants.PROFILE_ICON,
                     "%s",
-                    TextConstants.PROFILE_ICON,
+                    TextConstants.LEVEL_ICON,
                     "%d",
                     TextConstants.EXP_ICON,
                     "%d/%d"
@@ -88,8 +88,11 @@ public class resource_en extends AbstractResource {
                 %s - show profile;
                 %s - this message
                 
-                Только для чата:
+                Only for chat:
                 %s - show top by experience in chat
+                
+                Only for pm:
+                %s - change name
                 
                 The source code of the game is <a href="%s">here</a>
                 """.formatted(
@@ -97,8 +100,21 @@ public class resource_en extends AbstractResource {
                     CommandType.GET_PROFILE.getText(),
                     CommandType.HELP.getText(),
                     CommandType.TOP.getText(),
+                    CommandType.CHANGE_NAME.getText(),
                     TextConstants.SOURCE_LINK
                 )
+            },
+            {
+                LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name(),
+                "Enter the name separated by a space after the command: \"/name Name\""
+            },
+            {
+                LocalizationKeys.NAME_TOO_LONG.name(),
+                "The name must not exceed %d characters"
+            },
+            {
+                LocalizationKeys.SUCCESS_NAME_CHANGE.name(),
+                "Name has been successfully changed!"
             },
         };
 

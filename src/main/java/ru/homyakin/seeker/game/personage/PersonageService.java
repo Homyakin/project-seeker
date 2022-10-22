@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
@@ -83,5 +84,9 @@ public class PersonageService {
 
     public Optional<Long> getPersonagePositionInTopByExpInChat(long id, long chatId) {
         return personageDao.getPersonagePositionInTopByExpInChat(id, chatId);
+    }
+
+    public Either<TooLongName, Personage> changeName(Personage personage, String name) {
+        return personage.changeName(name, personageDao);
     }
 }

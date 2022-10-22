@@ -17,5 +17,8 @@ public enum LocalizationKeys {
     FAILURE_BOSS,
     TOP_PERSONAGES_BY_EXP_IN_CHAT,
     HELP,
+    CHANGE_NAME_WITHOUT_NAME,
+    NAME_TOO_LONG,
+    SUCCESS_NAME_CHANGE,
     ;
 }

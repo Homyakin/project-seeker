@@ -68,4 +68,16 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String help() {
         return getString(LocalizationKeys.HELP.name());
     }
+
+    public String changeNameWithoutName() {
+        return getString(LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name());
+    }
+
+    public String nameTooLong() {
+        return getString(LocalizationKeys.NAME_TOO_LONG.name());
+    }
+
+    public String successNameChange() {
+        return getString(LocalizationKeys.SUCCESS_NAME_CHANGE.name());
+    }
 }

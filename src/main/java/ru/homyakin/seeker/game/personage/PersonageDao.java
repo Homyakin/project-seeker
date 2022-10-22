@@ -54,7 +54,7 @@ public class PersonageDao {
         """;
     private static final String UPDATE = """
         UPDATE personage
-        SET level = :level, current_exp = :current_exp
+        SET level = :level, current_exp = :current_exp, name = :name
         WHERE id = :id
         """;
     private static final PersonageRowMapper PERSONAGE_ROW_MAPPER = new PersonageRowMapper();
@@ -90,6 +90,7 @@ public class PersonageDao {
             put("id", personage.id());
             put("level", personage.level());
             put("current_exp", personage.currentExp());
+            put("name", personage.name());
         }};
         jdbcTemplate.update(
             UPDATE,
