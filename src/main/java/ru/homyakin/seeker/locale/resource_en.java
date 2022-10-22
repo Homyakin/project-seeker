@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale;
 
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.telegram.command.CommandType;
 
 public class resource_en extends AbstractResource {
     private static final Object[][] contents =
@@ -75,6 +76,29 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
                 TextConstants.EXP_ICON + "Top chat personages by experience:%n%s"
+            },
+            {
+                LocalizationKeys.HELP.name(),
+                """
+                Social RPG in Telegram!
+                Just add to the chat and join events.
+                
+                Available commands (pm and chant):
+                %s - change language;
+                %s - show profile;
+                %s - this message
+                
+                Только для чата:
+                %s - show top by experience in chat
+                
+                The source code of the game is <a href="%s">here</a>
+                """.formatted(
+                    CommandType.CHANGE_LANGUAGE.getText(),
+                    CommandType.GET_PROFILE.getText(),
+                    CommandType.HELP.getText(),
+                    CommandType.TOP.getText(),
+                    TextConstants.SOURCE_LINK
+                )
             },
         };
 

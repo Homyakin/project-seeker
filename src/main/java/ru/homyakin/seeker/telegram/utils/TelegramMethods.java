@@ -30,6 +30,7 @@ public class TelegramMethods {
             .replyMarkup(keyboard)
             .parseMode(ParseMode.HTML)
             .replyToMessageId(replyMessageId)
+            .disableWebPagePreview(true)
             .build();
     }
 
@@ -62,6 +63,7 @@ public class TelegramMethods {
             .text(EmojiParser.parseToUnicode(text))
             .parseMode(ParseMode.HTML)
             .replyMarkup(keyboard)
+            .disableWebPagePreview(true)
             .build();
     }
 

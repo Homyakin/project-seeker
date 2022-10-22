@@ -16,5 +16,6 @@ public enum LocalizationKeys {
     SUCCESS_BOSS,
     FAILURE_BOSS,
     TOP_PERSONAGES_BY_EXP_IN_CHAT,
+    HELP,
     ;
 }

@@ -64,4 +64,8 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String topPersonagesByExpInChat() {
         return getString(LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name());
     }
+
+    public String help() {
+        return getString(LocalizationKeys.HELP.name());
+    }
 }

@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale;
 
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.telegram.command.CommandType;
 
 public class resource_ru extends AbstractResource {
     private static final Object[][] contents =
@@ -75,6 +76,29 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
                 TextConstants.EXP_ICON + "Топ персонажей в чате по опыту:%n%s"
+            },
+            {
+                LocalizationKeys.HELP.name(),
+                """
+                Социальная RPG в Telegram!
+                Просто добавь в чат и участвуй в событиях.
+                
+                Доступные команды (в личке и в чате):
+                %s - сменить язык;
+                %s - показать профиль;
+                %s - данное сообщение
+                
+                Только для чата:
+                %s - показать топ игроков по опыту в чате
+                
+                Исходный код игры <a href="%s">здесь</a>.
+                """.formatted(
+                    CommandType.CHANGE_LANGUAGE.getText(),
+                    CommandType.GET_PROFILE.getText(),
+                    CommandType.HELP.getText(),
+                    CommandType.TOP.getText(),
+                    TextConstants.SOURCE_LINK
+                )
             },
         };
 

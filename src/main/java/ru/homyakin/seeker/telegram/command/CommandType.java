@@ -10,6 +10,7 @@ public enum CommandType {
     JOIN_EVENT("joinEvent"),
     GET_PROFILE("/me"),
     TOP("/top"),
+    HELP("/help"),
     ;
 
     public static final String CALLBACK_DELIMITER = "~";

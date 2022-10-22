@@ -12,6 +12,7 @@ import ru.homyakin.seeker.telegram.command.chat.chat_action.LeftChat;
 import ru.homyakin.seeker.telegram.command.chat.language.GroupSelectLanguage;
 import ru.homyakin.seeker.telegram.command.chat.profile.GetProfileInChat;
 import ru.homyakin.seeker.telegram.command.chat.top.Top;
+import ru.homyakin.seeker.telegram.command.common.Help;
 import ru.homyakin.seeker.telegram.command.user.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
@@ -65,6 +66,7 @@ public class CommandParser {
             case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
             case START -> new StartUser(message.getChatId());
             case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
+            case HELP -> new Help(message.getChatId(), true);
             default -> null;
         });
     }
@@ -78,6 +80,7 @@ public class CommandParser {
                     message.getFrom().getId()
                 );
                 case TOP -> new Top(message.getChatId(), message.getFrom().getId());
+                case HELP -> new Help(message.getChatId(), false);
                 default -> null;
             });
     }
