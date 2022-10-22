@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.locale;
 
+import ru.homyakin.seeker.infrastructure.TextConstants;
+
 public class resource_ru extends AbstractResource {
     private static final Object[][] contents =
         {
@@ -46,10 +48,17 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.PROFILE_TEMPLATE.name(),
                 """
-                :bust_in_silhouette:%s
-                :military_medal:Уровень: %d
-                :star2:Опыт: %d/%d
-                """
+                %s%s
+                %sУровень: %s
+                %sОпыт: %s
+                """.formatted(
+                    TextConstants.PROFILE_ICON,
+                    "%s",
+                    TextConstants.PROFILE_ICON,
+                    "%d",
+                    TextConstants.EXP_ICON,
+                    "%d/%d"
+                )
             },
             {
                 LocalizationKeys.START_BOSS_EVENT.name(),
@@ -63,10 +72,9 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.FAILURE_BOSS.name(),
                 "Босс оказался сильнее искателей."
             },
-            //TODO вынести иконки отдельно
             {
                 LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
-                ":star2:Топ персонажей в чате по опыту:%n%s"
+                TextConstants.EXP_ICON + "Топ персонажей в чате по опыту:%n%s"
             },
         };
 

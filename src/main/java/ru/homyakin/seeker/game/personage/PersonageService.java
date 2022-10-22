@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
@@ -30,7 +31,7 @@ public class PersonageService {
     }
 
     public Personage createPersonage() {
-        final var id = personageDao.save("Безымянный", 1, 0);
+        final var id = personageDao.save(TextConstants.DEFAULT_NAME, 1, 0);
         return personageDao.getById(id)
             .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }
