@@ -82,6 +82,7 @@ public class resource_en extends AbstractResource {
                 """
                 Social RPG in Telegram!
                 Just add to the chat and join events.
+                Official news channel - %s.
                 
                 Available commands (pm and chant):
                 %s - change language;
@@ -96,6 +97,7 @@ public class resource_en extends AbstractResource {
                 
                 The source code of the game is <a href="%s">here</a>
                 """.formatted(
+                    TextConstants.TELEGRAM_CHANNEL_USERNAME,
                     CommandType.CHANGE_LANGUAGE.getText(),
                     CommandType.GET_PROFILE.getText(),
                     CommandType.HELP.getText(),

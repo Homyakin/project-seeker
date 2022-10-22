@@ -82,20 +82,22 @@ public class resource_ru extends AbstractResource {
                 """
                 Социальная RPG в Telegram!
                 Просто добавь в чат и участвуй в событиях.
+                Официальный канал с новостями - %s.
                 
                 Доступные команды (в личке и в чате):
                 %s - сменить язык;
                 %s - показать профиль;
-                %s - данное сообщение
+                %s - данное сообщение;
                 
                 Только для чата:
-                %s - показать топ игроков по опыту в чате
+                %s - показать топ игроков по опыту в чате;
                 
                 Только для лички:
-                %s - сменить имя
+                %s - сменить имя;
                 
                 Исходный код игры <a href="%s">здесь</a>.
                 """.formatted(
+                    TextConstants.TELEGRAM_CHANNEL_USERNAME,
                     CommandType.CHANGE_LANGUAGE.getText(),
                     CommandType.GET_PROFILE.getText(),
                     CommandType.HELP.getText(),
