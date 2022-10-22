@@ -49,7 +49,7 @@ public record Event(
             return Localization.get(language).failureBoss();
         }
         return "";
-    };
+    }
 
     private EventLocale getLocaleByLanguageOrDefault(Language language) {
         var result = locales.stream().filter(locale -> locale.language() == language).findFirst();

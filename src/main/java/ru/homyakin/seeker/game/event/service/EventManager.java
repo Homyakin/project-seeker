@@ -8,7 +8,6 @@ import ru.homyakin.seeker.telegram.chat.ChatService;
 import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.Keyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;

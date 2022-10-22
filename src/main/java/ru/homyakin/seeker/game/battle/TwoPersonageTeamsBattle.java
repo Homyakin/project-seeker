@@ -16,7 +16,7 @@ public class TwoPersonageTeamsBattle {
 
         if (firstSumLevel > secondSumLevel) {
             return new Result.FirstTeamWin();
-        } else if (firstSumLevel < secondSumLevel ) {
+        } else if (firstSumLevel < secondSumLevel) {
             return new Result.SecondTeamWin();
         } else {
             return new Result.Draw();

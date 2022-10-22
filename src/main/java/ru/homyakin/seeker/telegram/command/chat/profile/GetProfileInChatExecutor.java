@@ -2,11 +2,6 @@ package ru.homyakin.seeker.telegram.command.chat.profile;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
-import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageInOtherEvent;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageInThisEvent;
-import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.chat.ChatUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -40,7 +35,6 @@ public class GetProfileInChatExecutor extends CommandExecutor<GetProfileInChat> 
             .getById(user.personageId())
             .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
             ;
-
 
         telegramSender.send(
             TelegramMethods.createSendMessage(command.chatId(), personage.toProfile(chat.language()))

@@ -3,7 +3,6 @@ package ru.homyakin.seeker.telegram.command.user.profile;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.chat.ChatUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
