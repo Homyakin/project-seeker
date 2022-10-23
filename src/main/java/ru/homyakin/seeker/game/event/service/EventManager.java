@@ -69,7 +69,7 @@ public class EventManager {
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     chatEvent.chatId(),
                     chatEvent.messageId(),
-                    event.toEndStartMessage(chat.language(), result)
+                    event.toStartMessage(chat.language())
                 ));
                 telegramSender.send(TelegramMethods.createSendMessage(
                     chatEvent.chatId(),

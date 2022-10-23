@@ -31,10 +31,6 @@ public record Event(
         );
     }
 
-    public String toEndStartMessage(Language language, EventResult result) {
-        return toStartMessage(language) + "\n\n" + endMessage(language, result);
-    }
-
     public String endMessage(Language language, EventResult result) {
         final var postfix = switch (type) {
             case BOSS -> bossEndMessage(language, result);
