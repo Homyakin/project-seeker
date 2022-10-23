@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "duration": "PT5M30S",
+    "duration": "PT10M",
     "boss": {
       "personage": {
         "id": -1,
@@ -20,6 +20,30 @@
         "lang": "en",
         "name": "Straw man",
         "description": "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "duration": "PT20M",
+    "boss": {
+      "personage": {
+        "id": -2,
+        "name": "Волк",
+        "level": 4,
+        "current_exp": 0
+      }
+    },
+    "locale": [
+      {
+        "lang": "ru",
+        "name": "Мудрый волк",
+        "description": "С недавних пор охотники, вернувшиеся из леса, ведут себя странно. Постоянно бормочат себе под нос, что сила в силе и почему-то очень бояться цирка. Расправьтесь с причиной этого безумства!"
+      },
+      {
+        "lang": "en",
+        "name": "Wise wolf",
+        "description": "Recently, hunters who have returned from the forest have been behaving strangely. Constantly muttering to himself that strength is in strength and for some reason very afraid of the circus. Deal with the cause of this madness!"
       }
     ]
   }
