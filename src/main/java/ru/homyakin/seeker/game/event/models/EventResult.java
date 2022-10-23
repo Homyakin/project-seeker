@@ -6,7 +6,4 @@ public abstract sealed class EventResult {
 
     public static final class Failure extends EventResult {
     }
-
-    public static final class Unknown extends EventResult {
-    }
 }
