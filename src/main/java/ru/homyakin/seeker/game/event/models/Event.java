@@ -19,6 +19,7 @@ public record Event(
     List<EventLocale> locales
 ) {
     public String toStartMessage(Language language) {
+        // TODO добавить дату окончания события примерно
         final var locale = getLocaleByLanguageOrDefault(language);
         final var prefixMessage = switch (type) {
             case BOSS -> Localization.get(locale.language()).startBossEvent();
