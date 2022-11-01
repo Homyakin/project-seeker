@@ -13,4 +13,8 @@ public class RandomUtils {
     public static long getInInterval(long start, long end) {
         return random.nextLong(start, end + 1);
     }
+
+    public static int getInInterval(int start, int end) {
+        return random.nextInt(start, end + 1);
+    }
 }

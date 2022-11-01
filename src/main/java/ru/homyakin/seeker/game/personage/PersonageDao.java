@@ -67,18 +67,30 @@ public class PersonageDao {
             .usingColumns(
                 "name",
                 "level",
-                "current_exp"
+                "current_exp",
+                "attack",
+                "defense",
+                "health",
+                "strength",
+                "agility",
+                "wisdom"
             );
         jdbcInsert.setGeneratedKeyName("id");
 
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public long save(String name, int level, long currentExp) {
+    public long save(Personage personage) {
         final var params = new HashMap<String, Object>() {{
-            put("name", name);
-            put("level", level);
-            put("current_exp", currentExp);
+            put("name", personage.name());
+            put("level", personage.level());
+            put("current_exp", personage.currentExp());
+            put("attack", personage.attack());
+            put("defense", personage.defense());
+            put("health", personage.health());
+            put("strength", personage.strength());
+            put("agility", personage.agility());
+            put("wisdom", personage.wisdom());
         }};
         return jdbcInsert.executeAndReturnKey(
             params
@@ -160,7 +172,13 @@ public class PersonageDao {
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getInt("level"),
-                rs.getLong("current_exp")
+                rs.getLong("current_exp"),
+                rs.getInt("health"),
+                rs.getInt("attack"),
+                rs.getInt("defense"),
+                rs.getInt("strength"),
+                rs.getInt("agility"),
+                rs.getInt("wisdom")
             );
         }
     }

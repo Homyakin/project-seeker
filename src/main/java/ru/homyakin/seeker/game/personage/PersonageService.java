@@ -32,7 +32,7 @@ public class PersonageService {
     }
 
     public Personage createPersonage() {
-        final var id = personageDao.save(TextConstants.DEFAULT_NAME, 1, 0);
+        final var id = personageDao.save(Personage.createDefault());
         return personageDao.getById(id)
             .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }

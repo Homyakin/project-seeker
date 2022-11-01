@@ -17,6 +17,24 @@
             <column name="current_exp" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="health" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attack" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="defense" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strength" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="agility" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wisdom" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

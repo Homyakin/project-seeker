@@ -1,13 +1,19 @@
 [
   {
     "id": 1,
-    "duration": "PT10M",
+    "duration": "PT1M",
     "boss": {
       "personage": {
         "id": -1,
         "name": "Соломенное чучело",
         "level": 2,
-        "current_exp": 0
+        "current_exp": 0,
+        "attack": 5,
+        "defense": 10,
+        "health": 200,
+        "strength": 1,
+        "agility": 0,
+        "wisdom": 0
       }
     },
     "locale": [
@@ -25,13 +31,19 @@
   },
   {
     "id": 2,
-    "duration": "PT20M",
+    "duration": "PT1M",
     "boss": {
       "personage": {
         "id": -2,
         "name": "Волк",
         "level": 4,
-        "current_exp": 0
+        "current_exp": 0,
+        "attack": 10,
+        "defense": 5,
+        "health": 150,
+        "strength": 2,
+        "agility": 2,
+        "wisdom": 0
       }
     },
     "locale": [
