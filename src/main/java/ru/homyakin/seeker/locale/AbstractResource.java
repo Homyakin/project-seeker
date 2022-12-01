@@ -25,8 +25,8 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.INTERNAL_ERROR.name());
     }
 
-    public String joinEvent() {
-        return getString(LocalizationKeys.JOIN_EVENT.name());
+    public String joinBossEvent() {
+        return getString(LocalizationKeys.JOIN_BOSS_EVENT.name());
     }
 
     public String successJoinEvent() {

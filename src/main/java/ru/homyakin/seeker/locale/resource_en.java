@@ -27,8 +27,8 @@ public class resource_en extends AbstractResource {
                 "Unexpected error, try again later"
             },
             {
-                LocalizationKeys.JOIN_EVENT.name(),
-                "Join"
+                LocalizationKeys.JOIN_BOSS_EVENT.name(),
+                "Join raid" + TextConstants.RAID_ICON
             },
             {
                 LocalizationKeys.SUCCESS_JOIN_EVENT.name(),

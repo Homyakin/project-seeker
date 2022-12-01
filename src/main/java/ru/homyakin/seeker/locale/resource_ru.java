@@ -27,8 +27,8 @@ public class resource_ru extends AbstractResource {
                 "Произошла ошибка, попробуйте позже"
             },
             {
-                LocalizationKeys.JOIN_EVENT.name(),
-                "Присоединиться"
+                LocalizationKeys.JOIN_BOSS_EVENT.name(),
+                "Присоединиться к рейду" + TextConstants.RAID_ICON
             },
             {
                 LocalizationKeys.SUCCESS_JOIN_EVENT.name(),

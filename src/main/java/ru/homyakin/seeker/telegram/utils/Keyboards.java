@@ -27,12 +27,12 @@ public class Keyboards {
         return builder.build();
     }
 
-    public static InlineKeyboardMarkup joinEventKeyboard(Language language, long chatEventId) {
+    public static InlineKeyboardMarkup joinBossEventKeyboard(Language language, long chatEventId) {
         return InlineKeyboardBuilder
             .builder()
             .addRow()
             .addButton(
-                Localization.get(language).joinEvent(),
+                Localization.get(language).joinBossEvent(),
                 "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), CommandType.CALLBACK_DELIMITER, chatEventId)
             )
             .build();

@@ -86,7 +86,8 @@ public class EventManager {
             TelegramMethods.createSendMessage(
                 chat.id(),
                 event.toStartMessage(chat.language()),
-                Keyboards.joinEventKeyboard(chat.language(), launchedEvent.id())
+                //TODO выбирать клавиатуру в зависимости от типа события
+                Keyboards.joinBossEventKeyboard(chat.language(), launchedEvent.id())
             )
         );
         if (result.isLeft()) {
