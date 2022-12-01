@@ -31,6 +31,18 @@ public class resource_en extends AbstractResource {
                 "Join raid" + TextConstants.RAID_ICON
             },
             {
+                LocalizationKeys.BOSS_BATTLE_STARTS.name(),
+                "The battle will begin in"
+            },
+            {
+                LocalizationKeys.HOURS_SHORT.name(),
+                "h"
+            },
+            {
+                LocalizationKeys.MINUTES_SHORT.name(),
+                "m"
+            },
+            {
                 LocalizationKeys.SUCCESS_JOIN_EVENT.name(),
                 "You have successfully joined the event!"
             },

@@ -85,7 +85,7 @@ public class EventManager {
         var result = telegramSender.send(
             TelegramMethods.createSendMessage(
                 chat.id(),
-                event.toStartMessage(chat.language()),
+                event.toStartMessage(chat.language(), launchedEvent.endDate()),
                 //TODO выбирать клавиатуру в зависимости от типа события
                 Keyboards.joinBossEventKeyboard(chat.language(), launchedEvent.id())
             )

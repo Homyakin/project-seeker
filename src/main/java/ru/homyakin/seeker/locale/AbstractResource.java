@@ -29,6 +29,18 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.JOIN_BOSS_EVENT.name());
     }
 
+    public String bossBattleStarts() {
+        return getString(LocalizationKeys.BOSS_BATTLE_STARTS.name());
+    }
+
+    public String hoursShort() {
+        return getString(LocalizationKeys.HOURS_SHORT.name());
+    }
+
+    public String minutesShort() {
+        return getString(LocalizationKeys.MINUTES_SHORT.name());
+    }
+
     public String successJoinEvent() {
         return getString(LocalizationKeys.SUCCESS_JOIN_EVENT.name());
     }

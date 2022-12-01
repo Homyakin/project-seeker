@@ -30,6 +30,19 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.JOIN_BOSS_EVENT.name(),
                 "Присоединиться к рейду" + TextConstants.RAID_ICON
             },
+
+            {
+                LocalizationKeys.BOSS_BATTLE_STARTS.name(),
+                "Битва начнётся через"
+            },
+            {
+                LocalizationKeys.HOURS_SHORT.name(),
+                "ч."
+            },
+            {
+                LocalizationKeys.MINUTES_SHORT.name(),
+                "мин."
+            },
             {
                 LocalizationKeys.SUCCESS_JOIN_EVENT.name(),
                 "Вы успешно присоединились к событию!"
