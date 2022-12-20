@@ -74,7 +74,7 @@
         </createIndex>
 
         <!--События отправленные в чаты-->
-        <createTable tableName="chat_event">
+        <createTable tableName="chat_to_launched_event">
             <column name="launched_event_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -88,20 +88,20 @@
 
         <addUniqueConstraint
                 columnNames="launched_event_id, chat_id"
-                constraintName="chat_event_pk"
-                tableName="chat_event"
+                constraintName="chat_to_launched_event_pk"
+                tableName="chat_to_launched_event"
         />
 
         <addForeignKeyConstraint
                 baseColumnNames="chat_id"
-                baseTableName="chat_event"
-                constraintName="fk_chat_event_chat"
+                baseTableName="chat_to_launched_event"
+                constraintName="fk_chat_to_launched_event_chat"
                 referencedColumnNames="id"
                 referencedTableName="chat"
         />
 
         <!--Связь пользователя с событиями в чатах-->
-        <createTable tableName="personage_event">
+        <createTable tableName="personage_to_event">
             <column name="personage_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -113,21 +113,21 @@
         <addUniqueConstraint
                 columnNames="personage_id, launched_event_id"
                 constraintName="personage_chat_pk"
-                tableName="personage_event"
+                tableName="personage_to_event"
         />
 
         <addForeignKeyConstraint
                 baseColumnNames="personage_id"
-                baseTableName="personage_event"
-                constraintName="fk_personage_event_personage"
+                baseTableName="personage_to_event"
+                constraintName="fk_personage_to_event_personage"
                 referencedColumnNames="id"
                 referencedTableName="personage"
         />
 
         <addForeignKeyConstraint
                 baseColumnNames="launched_event_id"
-                baseTableName="personage_event"
-                constraintName="fk_personage_event_launched_event"
+                baseTableName="personage_to_event"
+                constraintName="fk_personage_to_event_launched_event"
                 referencedColumnNames="id"
                 referencedTableName="launched_event"
         />

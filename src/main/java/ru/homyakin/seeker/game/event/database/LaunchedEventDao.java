@@ -22,7 +22,7 @@ public class LaunchedEventDao {
         SELECT * FROM launched_event WHERE id = :id
         """;
     private static final String GET_ACTIVE_EVENTS_BY_PERSONAGE_ID = """
-        SELECT * FROM personage_event pe
+        SELECT * FROM personage_to_event pe
          LEFT JOIN launched_event le on pe.launched_event_id = le.id
          WHERE pe.personage_id = :personage_id
          AND le.is_active = true

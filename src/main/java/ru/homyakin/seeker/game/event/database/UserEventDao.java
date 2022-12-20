@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserEventDao {
     private static final String SAVE_USER_EVENT = """
-        insert into personage_event (personage_id, launched_event_id)
+        insert into personage_to_event (personage_id, launched_event_id)
         values (:personage_id, :launched_event_id);
         """;
 

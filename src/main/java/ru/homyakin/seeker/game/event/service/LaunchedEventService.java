@@ -7,7 +7,7 @@ import ru.homyakin.seeker.game.event.database.UserEventDao;
 import ru.homyakin.seeker.telegram.chat.models.Chat;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
-import ru.homyakin.seeker.game.event.models.ChatEvent;
+import ru.homyakin.seeker.game.event.models.ChatLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -37,7 +37,7 @@ public class LaunchedEventService {
         return launchedEventDao.getById(launchedEventId);
     }
 
-    public ChatEvent addChatMessage(LaunchedEvent launchedEvent, Chat chat, Integer messageId) {
+    public ChatLaunchedEvent addChatMessage(LaunchedEvent launchedEvent, Chat chat, Integer messageId) {
         return chatEventService.createChatEvent(launchedEvent, chat, messageId);
     }
 
@@ -57,7 +57,7 @@ public class LaunchedEventService {
         return launchedEventDao.getActiveEventsWithLessEndDate(TimeUtils.moscowTime());
     }
 
-    public List<ChatEvent> getChatEvents(LaunchedEvent launchedEvent) {
+    public List<ChatLaunchedEvent> getChatEvents(LaunchedEvent launchedEvent) {
         return chatEventService.getByLaunchedEventId(launchedEvent.id());
     }
 }

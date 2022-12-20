@@ -25,7 +25,7 @@ public class PersonageDao {
         """;
 
     private static final String GET_BY_LAUNCHED_EVENT = """
-        SELECT p.* FROM personage_event le
+        SELECT p.* FROM personage_to_event le
         LEFT JOIN personage p on p.id = le.personage_id
         WHERE le.launched_event_id = :launched_event_id
         """;
