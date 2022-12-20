@@ -14,7 +14,8 @@
         "health": 200,
         "strength": 1,
         "agility": 0,
-        "wisdom": 0
+        "wisdom": 0,
+        "last_health_check": "2022-12-20 23:37:38.808089"
       }
     },
     "locale": [
@@ -45,7 +46,8 @@
         "health": 150,
         "strength": 2,
         "agility": 2,
-        "wisdom": 0
+        "wisdom": 0,
+        "last_health_check": "2022-12-20 23:37:38.808089"
       }
     },
     "locale": [

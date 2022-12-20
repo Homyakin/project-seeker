@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.personage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class PersonageDao {
@@ -57,6 +59,13 @@ public class PersonageDao {
         SET level = :level, current_exp = :current_exp, name = :name
         WHERE id = :id
         """;
+
+    private static final String UPDATE_HEALTH = """
+        UPDATE personage
+        SET health = :health, last_health_check = :last_health_check
+        WHERE id = :id
+        """;
+
     private static final PersonageRowMapper PERSONAGE_ROW_MAPPER = new PersonageRowMapper();
     private final SimpleJdbcInsert jdbcInsert;
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -73,7 +82,8 @@ public class PersonageDao {
                 "health",
                 "strength",
                 "agility",
-                "wisdom"
+                "wisdom",
+                "last_health_check"
             );
         jdbcInsert.setGeneratedKeyName("id");
 
@@ -91,6 +101,7 @@ public class PersonageDao {
             put("strength", personage.strength());
             put("agility", personage.agility());
             put("wisdom", personage.wisdom());
+            put("last_health_check", personage.lastHealthCheck());
         }};
         return jdbcInsert.executeAndReturnKey(
             params
@@ -106,6 +117,18 @@ public class PersonageDao {
         }};
         jdbcTemplate.update(
             UPDATE,
+            params
+        );
+    }
+
+    public void updateHealth(long id, int health, LocalDateTime lastHealthCheck) {
+        final var params = new HashMap<String, Object>() {{
+            put("id", id);
+            put("health", health);
+            put("last_health_check", lastHealthCheck);
+        }};
+        jdbcTemplate.update(
+            UPDATE_HEALTH,
             params
         );
     }
@@ -178,7 +201,8 @@ public class PersonageDao {
                 rs.getInt("defense"),
                 rs.getInt("strength"),
                 rs.getInt("agility"),
-                rs.getInt("wisdom")
+                rs.getInt("wisdom"),
+                rs.getTimestamp("last_health_check").toLocalDateTime()
             );
         }
     }

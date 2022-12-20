@@ -37,9 +37,14 @@ public class BossProcessing {
             List.of(bossPersonage.toBattlePersonage()),
             personages
         );
+
+        //TODO объединить с получением опыта
+        for (final var personage: personages) {
+            personageService.changeHealth(personage.id(), personage.health());
+        }
+
         // TODO система получения опыта
         // personages.sort(Comparator.comparingInt(BattlePersonage::damageDealtAndTaken));
-
         if (result instanceof TwoPersonageTeamsBattle.Result.FirstTeamWin) {
             return new EventResult.Failure();
         } else {

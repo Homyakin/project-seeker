@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
@@ -63,7 +64,8 @@ public class PersonageService {
     }
 
     public Optional<Personage> getById(long personageId) {
-        return personageDao.getById(personageId);
+        return personageDao.getById(personageId)
+            .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao));
     }
 
     public Optional<Personage> getByBossEvent(long eventId) {
@@ -71,7 +73,9 @@ public class PersonageService {
     }
 
     public List<Personage> getByLaunchedEvent(long launchedEventId) {
-        return personageDao.getByLaunchedEvent(launchedEventId);
+        return personageDao.getByLaunchedEvent(launchedEventId).stream()
+            .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao))
+            .toList();
     }
 
     public Personage addExperience(Personage personage, long exp) {
@@ -88,5 +92,9 @@ public class PersonageService {
 
     public Either<TooLongName, Personage> changeName(Personage personage, String name) {
         return personage.changeName(name, personageDao);
+    }
+
+    public void changeHealth(long id, int health) {
+        personageDao.updateHealth(id, health, TimeUtils.moscowTime());
     }
 }

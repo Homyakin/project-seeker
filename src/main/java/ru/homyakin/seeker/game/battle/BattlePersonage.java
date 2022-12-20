@@ -47,6 +47,10 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
         return damageDealt + damageBlocked;
     }
 
+    public int health() {
+        return health;
+    }
+
     public boolean isDead() {
         return health <= 0;
     }

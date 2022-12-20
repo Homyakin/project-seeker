@@ -35,6 +35,9 @@
             <column name="wisdom" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
+            <column name="last_health_check" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

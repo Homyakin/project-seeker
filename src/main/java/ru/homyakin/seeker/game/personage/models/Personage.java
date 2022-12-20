@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.experience.ExperienceUtils;
 import ru.homyakin.seeker.game.personage.PersonageDao;
@@ -8,6 +10,7 @@ import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
     long id,
@@ -20,7 +23,8 @@ public record Personage(
     int defense,
     int strength,
     int agility,
-    int wisdom
+    int wisdom,
+    LocalDateTime lastHealthCheck
 ) {
     public Personage addExperience(long exp, PersonageDao personageDao) {
         final var newExp = currentExp + exp;
@@ -53,6 +57,29 @@ public record Personage(
             .formatted(name, level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level)) + shortStats();
     }
 
+    public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {
+        final var maximumHealth = maxHealth();
+        final var checkTime = TimeUtils.moscowTime();
+        final int newHealth;
+        if (health < maximumHealth) {
+            final var minutesPass = Duration.between(lastHealthCheck, checkTime).toMinutes();
+            final double increaseHealth = ((double) maximumHealth) / 100 * minutesPass;
+            if (health + increaseHealth >= maximumHealth) {
+                newHealth = maximumHealth;
+            } else {
+                if (increaseHealth < 1) {
+                    newHealth = health + 1;
+                } else {
+                    newHealth = health + (int) increaseHealth;
+                }
+            }
+        } else {
+            newHealth = health;
+        }
+        personageDao.updateHealth(id, newHealth, checkTime);
+        return copyWithHealthAndLastHealthCheck(newHealth, checkTime);
+    }
+
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id,
@@ -78,7 +105,8 @@ public record Personage(
             5,
             1,
             1,
-            1
+            1,
+            TimeUtils.moscowTime()
         );
     }
 
@@ -114,7 +142,8 @@ public record Personage(
             defense,
             strength,
             agility,
-            wisdom
+            wisdom,
+            lastHealthCheck
         );
     }
 
@@ -129,7 +158,24 @@ public record Personage(
             defense,
             strength,
             agility,
-            wisdom
+            wisdom,
+            lastHealthCheck
+        );
+    }
+
+    private Personage copyWithHealthAndLastHealthCheck(int health, LocalDateTime lastHealthCheck) {
+        return new Personage(
+            id,
+            name,
+            level,
+            currentExp,
+            health,
+            attack,
+            defense,
+            strength,
+            agility,
+            wisdom,
+            lastHealthCheck
         );
     }
 }
