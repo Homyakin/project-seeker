@@ -15,6 +15,9 @@
             <column name="duration" type="INTERVAL">
                 <constraints nullable="false"/>
             </column>
+            <column name="is_enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <!--Локализация событий-->

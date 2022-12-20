@@ -25,7 +25,7 @@ def process_event(event: Dict):
 
     event['type'] = event_type
 
-    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type'])
+    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type', 'is_enabled'])
     process_type(type_object, event['id'])
 
     if 'locale' in event:

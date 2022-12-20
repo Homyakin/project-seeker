@@ -21,7 +21,7 @@ import org.postgresql.util.PGInterval;
 @Component
 public class EventDao {
     // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
-    private static final String GET_RANDOM_EVENT = "SELECT * FROM event ORDER BY random() LIMIT 1";
+    private static final String GET_RANDOM_EVENT = "SELECT * FROM event WHERE is_enabled = true ORDER BY random() LIMIT 1";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String GET_EVENT_LOCALES = "SELECT * FROM event_locale WHERE event_id = :event_id";
     private static final EventRowMapper EVENT_ROW_MAPPER = new EventRowMapper();
