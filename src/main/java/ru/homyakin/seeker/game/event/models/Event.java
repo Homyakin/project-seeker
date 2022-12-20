@@ -65,13 +65,13 @@ public record Event(
         final var diff = Duration.between(now, endDate);
         var hours = "";
         if (diff.toHours() > 0) {
-            hours = diff.toHours() + Localization.get(language).hoursShort();
+            hours = diff.toHours() + " " +Localization.get(language).hoursShort();
         }
         var minutes = "";
         if (diff.toMinutesPart() > 0) {
-            minutes = diff.toMinutesPart() + Localization.get(language).minutesShort();
+            minutes = diff.toMinutesPart() + " " + Localization.get(language).minutesShort();
         } else if (diff.toHours() == 0) {
-            minutes = "1" + Localization.get(language).minutesShort();
+            minutes = "1 " + Localization.get(language).minutesShort();
         }
         final var prefix = switch (type) {
             case BOSS -> Localization.get(language).bossBattleStarts();
