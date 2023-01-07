@@ -24,7 +24,7 @@ public class UserSelectLanguageExecutor extends CommandExecutor<UserSelectLangua
 
     @Override
     public void execute(UserSelectLanguage command) {
-        final var user = userService.getOrCreate(command.userId(), true);
+        final var user = userService.getOrCreateFromPrivate(command.userId());
         final var language = Language.getOrDefault(command.getLanguageId());
         final var updatedUser = userService.changeLanguage(user, language);
         telegramSender.send(

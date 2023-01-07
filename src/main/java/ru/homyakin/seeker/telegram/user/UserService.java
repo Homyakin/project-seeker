@@ -36,16 +36,17 @@ public class UserService {
             .mapLeft(it -> (EitherError) it); // Без этого преобразования не может сопоставить типы
     }
 
-    public User getOrCreate(Long userId, boolean isPrivateMessage) {
+    public User getOrCreateFromChat(Long userId) {
         return userDao
             .getById(userId)
-            .map(user -> {
-                if (isPrivateMessage) {
-                    return user.activatePrivateMessages(userDao);
-                }
-                return user;
-            })
-            .orElseGet(() -> createUser(userId, isPrivateMessage));
+            .orElseGet(() -> createUser(userId, false));
+    }
+
+    public User getOrCreateFromPrivate(Long userId) {
+        return userDao
+            .getById(userId)
+            .map(user -> user.activatePrivateMessages(userDao))
+            .orElseGet(() -> createUser(userId, true));
     }
 
     public User changeLanguage(User user, Language language) {

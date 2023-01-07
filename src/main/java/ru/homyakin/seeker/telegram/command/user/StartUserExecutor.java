@@ -19,7 +19,7 @@ public class StartUserExecutor extends CommandExecutor<StartUser> {
 
     @Override
     public void execute(StartUser command) {
-        final var chat = userService.getOrCreate(command.userId(), true);
+        final var chat = userService.getOrCreateFromPrivate(command.userId());
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 chat.id(),

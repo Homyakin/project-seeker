@@ -25,7 +25,7 @@ public class HelpExecutor extends CommandExecutor<Help> {
     public void execute(Help command) {
         final Language language;
         if (command.isPrivate()) {
-            language = userService.getOrCreate(command.chatId(), true).language();
+            language = userService.getOrCreateFromPrivate(command.chatId()).language();
         } else {
             language = chatService.getOrCreate(command.chatId()).language();
         }

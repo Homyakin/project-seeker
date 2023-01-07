@@ -22,7 +22,7 @@ public class ChatUserService {
 
     public Pair<Chat, User> getAndActivateOrCreate(long chatId, long userId) {
         final var chat = chatService.getOrCreate(chatId);
-        final var user = userService.getOrCreate(userId, false);
+        final var user = userService.getOrCreateFromChat(userId);
         chatUserDao.getByChatIdAndUserId(chatId, userId)
             .ifPresentOrElse(
                 chatUser -> chatUser.activate(chatUserDao),

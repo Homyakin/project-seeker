@@ -28,7 +28,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
 
     @Override
     public void execute(ChangeName command) {
-        final var user = userService.getOrCreate(command.userId(), false);
+        final var user = userService.getOrCreateFromPrivate(command.userId());
         final var newName = command.data().replaceAll(CommandType.CHANGE_NAME.getText(), "").trim();
         if (newName.isBlank()) {
             telegramSender.send(

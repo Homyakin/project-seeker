@@ -25,7 +25,7 @@ public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPri
 
     @Override
     public void execute(GetProfileInPrivate command) {
-        final var user = userService.getOrCreate(command.userId(), true);
+        final var user = userService.getOrCreateFromPrivate(command.userId());
         final var personage = personageService
             .getById(user.personageId())
             .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
