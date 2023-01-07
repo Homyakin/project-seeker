@@ -10,7 +10,6 @@ import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
-import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
@@ -82,12 +81,12 @@ public class PersonageService {
         return personage.addExperience(exp, personageDao);
     }
 
-    public List<Personage> getTopByExpInChat(long chatId, int count) {
-        return personageDao.getTopByExpInChat(chatId, count);
+    public List<Personage> getTopByExpInGroup(long groupId, int count) {
+        return personageDao.getTopByExpInGroup(groupId, count);
     }
 
-    public Optional<Long> getPersonagePositionInTopByExpInChat(long id, long chatId) {
-        return personageDao.getPersonagePositionInTopByExpInChat(id, chatId);
+    public Optional<Long> getPersonagePositionInTopByExpInGroup(long id, long groupId) {
+        return personageDao.getPersonagePositionInTopByExpInGroup(id, groupId);
     }
 
     public Either<TooLongName, Personage> changeName(Personage personage, String name) {

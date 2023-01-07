@@ -6,17 +6,17 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.homyakin.seeker.telegram.command.chat.language.GroupChangeLanguage;
-import ru.homyakin.seeker.telegram.command.chat.chat_action.JoinChat;
-import ru.homyakin.seeker.telegram.command.chat.chat_action.LeftChat;
-import ru.homyakin.seeker.telegram.command.chat.language.GroupSelectLanguage;
-import ru.homyakin.seeker.telegram.command.chat.profile.GetProfileInChat;
-import ru.homyakin.seeker.telegram.command.chat.top.Top;
+import ru.homyakin.seeker.telegram.command.group.language.GroupChangeLanguage;
+import ru.homyakin.seeker.telegram.command.group.action.JoinGroup;
+import ru.homyakin.seeker.telegram.command.group.action.LeftGroup;
+import ru.homyakin.seeker.telegram.command.group.language.GroupSelectLanguage;
+import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
+import ru.homyakin.seeker.telegram.command.group.top.Top;
 import ru.homyakin.seeker.telegram.command.common.Help;
 import ru.homyakin.seeker.telegram.command.user.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
-import ru.homyakin.seeker.telegram.command.chat.event.JoinEvent;
+import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
@@ -41,8 +41,8 @@ public class CommandParser {
     private Optional<Command> parseMyChatMember(ChatMemberUpdated chatMember) {
         return Optional.ofNullable(
             switch (chatMember.getNewChatMember().getStatus()) {
-                case "left" -> new LeftChat(chatMember.getChat().getId());
-                case "member" -> new JoinChat(chatMember.getChat().getId());
+                case "left" -> new LeftGroup(chatMember.getChat().getId());
+                case "member" -> new JoinGroup(chatMember.getChat().getId());
                 default -> null;
             }
         );
@@ -77,7 +77,7 @@ public class CommandParser {
         return CommandType.getFromString(message.getText().split("@")[0].split(" ")[0])
             .map(commandType -> switch (commandType) {
                 case CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
-                case GET_PROFILE -> new GetProfileInChat(
+                case GET_PROFILE -> new GetProfileInGroup(
                     message.getChatId(),
                     message.getFrom().getId()
                 );

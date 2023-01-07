@@ -82,14 +82,14 @@ public class resource_en extends AbstractResource {
                 "Boss was stronger than the seekers."
             },
             {
-                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
-                TextConstants.EXP_ICON + "Top chat personages by experience:%n%s"
+                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name(),
+                TextConstants.EXP_ICON + "Top group personages by experience:%n%s"
             },
             {
                 LocalizationKeys.HELP.name(),
                 """
                 Social RPG in Telegram!
-                Just add to the chat and join events.
+                Just add to the group and join events.
                 Official news channel - %s.
                 
                 Available commands (pm and chant):
@@ -97,8 +97,8 @@ public class resource_en extends AbstractResource {
                 %s - show profile;
                 %s - this message
                 
-                Only for chat:
-                %s - show top by experience in chat
+                Only for group:
+                %s - show top by experience in group
                 
                 Only for pm:
                 %s - change name

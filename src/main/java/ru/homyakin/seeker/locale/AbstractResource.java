@@ -69,8 +69,8 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.FAILURE_BOSS.name());
     }
 
-    public String topPersonagesByExpInChat() {
-        return getString(LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name());
+    public String topPersonagesByExpInGroup() {
+        return getString(LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name());
     }
 
     public String help() {

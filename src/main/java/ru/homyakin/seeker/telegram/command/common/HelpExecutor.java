@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.chat.ChatService;
+import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -12,12 +12,12 @@ import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 @Component
 public class HelpExecutor extends CommandExecutor<Help> {
     private final UserService userService;
-    private final ChatService chatService;
+    private final GroupService groupService;
     private final TelegramSender telegramSender;
 
-    public HelpExecutor(UserService userService, ChatService chatService, TelegramSender telegramSender) {
+    public HelpExecutor(UserService userService, GroupService groupService, TelegramSender telegramSender) {
         this.userService = userService;
-        this.chatService = chatService;
+        this.groupService = groupService;
         this.telegramSender = telegramSender;
     }
 
@@ -27,7 +27,7 @@ public class HelpExecutor extends CommandExecutor<Help> {
         if (command.isPrivate()) {
             language = userService.getOrCreateFromPrivate(command.chatId()).language();
         } else {
-            language = chatService.getOrCreate(command.chatId()).language();
+            language = groupService.getOrCreate(command.chatId()).language();
         }
         telegramSender.send(TelegramMethods.createSendMessage(command.chatId(), Localization.get(language).help()));
     }

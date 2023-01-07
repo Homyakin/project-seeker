@@ -13,7 +13,7 @@ public class EventScheduler {
 
     @Scheduled(fixedRateString = "PT1M")
     public void scheduledEventsLaunch() {
-        eventManager.launchEventsInChats();
+        eventManager.launchEventsInGroups();
     }
 
     @Scheduled(fixedRateString = "PT1M")

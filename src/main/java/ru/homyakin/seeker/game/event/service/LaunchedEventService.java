@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.database.UserEventDao;
-import ru.homyakin.seeker.telegram.chat.models.Chat;
+import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
-import ru.homyakin.seeker.game.event.models.ChatLaunchedEvent;
+import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -16,16 +16,16 @@ public class LaunchedEventService {
     private final LaunchedEventDao launchedEventDao;
     private final UserEventDao userEventDao;
 
-    private final ChatEventService chatEventService;
+    private final GroupEventService groupEventService;
 
     public LaunchedEventService(
         LaunchedEventDao launchedEventDao,
         UserEventDao userEventDao,
-        ChatEventService chatEventService
+        GroupEventService groupEventService
     ) {
         this.launchedEventDao = launchedEventDao;
         this.userEventDao = userEventDao;
-        this.chatEventService = chatEventService;
+        this.groupEventService = groupEventService;
     }
 
     public LaunchedEvent createLaunchedEvent(Event event) {
@@ -37,8 +37,8 @@ public class LaunchedEventService {
         return launchedEventDao.getById(launchedEventId);
     }
 
-    public ChatLaunchedEvent addChatMessage(LaunchedEvent launchedEvent, Chat chat, Integer messageId) {
-        return chatEventService.createChatEvent(launchedEvent, chat, messageId);
+    public GroupLaunchedEvent addGroupMessage(LaunchedEvent launchedEvent, Group group, Integer messageId) {
+        return groupEventService.createGroupEvent(launchedEvent, group, messageId);
     }
 
     public void updateActive(LaunchedEvent launchedEvent, boolean isActive) {
@@ -57,7 +57,7 @@ public class LaunchedEventService {
         return launchedEventDao.getActiveEventsWithLessEndDate(TimeUtils.moscowTime());
     }
 
-    public List<ChatLaunchedEvent> getChatEvents(LaunchedEvent launchedEvent) {
-        return chatEventService.getByLaunchedEventId(launchedEvent.id());
+    public List<GroupLaunchedEvent> getGroupEvents(LaunchedEvent launchedEvent) {
+        return groupEventService.getByLaunchedEventId(launchedEvent.id());
     }
 }

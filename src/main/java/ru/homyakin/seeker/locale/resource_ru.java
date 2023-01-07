@@ -83,7 +83,7 @@ public class resource_ru extends AbstractResource {
                 "Босс оказался сильнее искателей."
             },
             {
-                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_CHAT.name(),
+                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name(),
                 TextConstants.EXP_ICON + "Топ персонажей в чате по опыту:%n%s"
             },
             {

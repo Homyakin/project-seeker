@@ -13,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class PersonageDao {
@@ -32,22 +31,22 @@ public class PersonageDao {
         WHERE le.launched_event_id = :launched_event_id
         """;
 
-    private static final String GET_TOP_BY_EXP_IN_CHAT = """
-        SELECT p.* FROM chat_to_tg_user cttu
-        LEFT JOIN tg_user tu on tu.id = cttu.tg_user_id
+    private static final String GET_TOP_BY_EXP_IN_GROUP = """
+        SELECT p.* FROM group_to_user gtu
+        LEFT JOIN tg_user tu on tu.id = gtu.user_id
         LEFT JOIN personage p on p.id = tu.personage_id
-        WHERE cttu.chat_id = :chat_id
+        WHERE gtu.group_id = :group_id
         ORDER BY p.current_exp DESC
         LIMIT :count
         """;
 
-    private static final String GET_PERSONAGE_POSITION_IN_TOP_BY_EXP_IN_CHAT = """
+    private static final String GET_PERSONAGE_POSITION_IN_TOP_BY_EXP_IN_GROUP = """
         WITH numbered_personage as (
         SELECT row_number() over (ORDER BY p.current_exp DESC) as number, p.id
-        FROM chat_to_tg_user cttu
-        LEFT JOIN tg_user tu on tu.id = cttu.tg_user_id
+        FROM group_to_user gtu
+        LEFT JOIN tg_user tu on tu.id = gtu.user_id
         LEFT JOIN personage p on p.id = tu.personage_id
-        WHERE cttu.chat_id = :chat_id
+        WHERE gtu.group_id = :group_id
         ORDER BY p.current_exp DESC
         )
         SELECT number
@@ -162,25 +161,25 @@ public class PersonageDao {
         );
     }
 
-    public List<Personage> getTopByExpInChat(long chatId, int count) {
+    public List<Personage> getTopByExpInGroup(long groupId, int count) {
         final var params = new HashMap<String, Object>() {{
             put("count", count);
-            put("chat_id", chatId);
+            put("group_id", groupId);
         }};
         return jdbcTemplate.query(
-            GET_TOP_BY_EXP_IN_CHAT,
+            GET_TOP_BY_EXP_IN_GROUP,
             params,
             PERSONAGE_ROW_MAPPER
         );
     }
 
-    public Optional<Long> getPersonagePositionInTopByExpInChat(long id, long chatId) {
+    public Optional<Long> getPersonagePositionInTopByExpInGroup(long id, long groupId) {
         final var params = new HashMap<String, Object>() {{
             put("id", id);
-            put("chat_id", chatId);
+            put("group_id", groupId);
         }};
         final var result = jdbcTemplate.query(
-            GET_PERSONAGE_POSITION_IN_TOP_BY_EXP_IN_CHAT,
+            GET_PERSONAGE_POSITION_IN_TOP_BY_EXP_IN_GROUP,
             params,
             (rs, rowNum) -> rs.getLong("number")
         );

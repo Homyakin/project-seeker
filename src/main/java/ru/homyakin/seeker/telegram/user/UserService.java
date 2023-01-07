@@ -30,13 +30,13 @@ public class UserService {
         this.personageService = personageService;
     }
 
-    public Either<EitherError, Boolean> isUserAdminInChat(Long chatId, Long userId) {
-        return telegramSender.send(TelegramMethods.createGetChatMember(chatId, userId))
+    public Either<EitherError, Boolean> isUserAdminInGroup(Long groupId, Long userId) {
+        return telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId))
             .map(it -> it instanceof ChatMemberAdministrator || it instanceof ChatMemberOwner)
             .mapLeft(it -> (EitherError) it); // Без этого преобразования не может сопоставить типы
     }
 
-    public User getOrCreateFromChat(Long userId) {
+    public User getOrCreateFromGroup(Long userId) {
         return userDao
             .getById(userId)
             .orElseGet(() -> createUser(userId, false));

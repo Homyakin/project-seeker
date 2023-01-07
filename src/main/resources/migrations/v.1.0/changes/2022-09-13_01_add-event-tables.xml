@@ -74,11 +74,11 @@
         </createIndex>
 
         <!--События отправленные в чаты-->
-        <createTable tableName="chat_to_launched_event">
+        <createTable tableName="group_to_launched_event">
             <column name="launched_event_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="chat_id" type="BIGINT">
+            <column name="group_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="message_id" type="INTEGER">
@@ -87,17 +87,17 @@
         </createTable>
 
         <addUniqueConstraint
-                columnNames="launched_event_id, chat_id"
-                constraintName="chat_to_launched_event_pk"
-                tableName="chat_to_launched_event"
+                columnNames="launched_event_id, group_id"
+                constraintName="group_to_launched_event_pk"
+                tableName="group_to_launched_event"
         />
 
         <addForeignKeyConstraint
-                baseColumnNames="chat_id"
-                baseTableName="chat_to_launched_event"
-                constraintName="fk_chat_to_launched_event_chat"
+                baseColumnNames="group_id"
+                baseTableName="group_to_launched_event"
+                constraintName="fk_group_to_launched_event_group"
                 referencedColumnNames="id"
-                referencedTableName="chat"
+                referencedTableName="tg_group"
         />
 
         <!--Связь пользователя с событиями в чатах-->
@@ -112,7 +112,7 @@
 
         <addUniqueConstraint
                 columnNames="personage_id, launched_event_id"
-                constraintName="personage_chat_pk"
+                constraintName="personage_to_event_pk"
                 tableName="personage_to_event"
         />
 
