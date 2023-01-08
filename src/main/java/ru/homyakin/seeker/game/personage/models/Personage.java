@@ -24,7 +24,7 @@ public record Personage(
     int strength,
     int agility,
     int wisdom,
-    LocalDateTime lastHealthCheck
+    LocalDateTime lastHealthChange
 ) {
     public Personage addExperience(long exp, PersonageDao personageDao) {
         final var newExp = currentExp + exp;
@@ -62,7 +62,7 @@ public record Personage(
         final var checkTime = TimeUtils.moscowTime();
         final int newHealth;
         if (health < maximumHealth) {
-            final var minutesPass = Duration.between(lastHealthCheck, checkTime).toMinutes();
+            final var minutesPass = Duration.between(lastHealthChange, checkTime).toMinutes();
             final double increaseHealth = ((double) maximumHealth) / 100 * minutesPass;
             if (health + increaseHealth >= maximumHealth) {
                 newHealth = maximumHealth;
@@ -73,11 +73,10 @@ public record Personage(
                     newHealth = health + (int) increaseHealth;
                 }
             }
-        } else {
-            newHealth = health;
+            personageDao.updateHealth(id, newHealth, checkTime);
+            return copyWithHealthAndLastHealthChange(newHealth, checkTime);
         }
-        personageDao.updateHealth(id, newHealth, checkTime);
-        return copyWithHealthAndLastHealthCheck(newHealth, checkTime);
+        return this;
     }
 
     public BattlePersonage toBattlePersonage() {
@@ -143,7 +142,7 @@ public record Personage(
             strength,
             agility,
             wisdom,
-            lastHealthCheck
+            lastHealthChange
         );
     }
 
@@ -159,11 +158,11 @@ public record Personage(
             strength,
             agility,
             wisdom,
-            lastHealthCheck
+            lastHealthChange
         );
     }
 
-    private Personage copyWithHealthAndLastHealthCheck(int health, LocalDateTime lastHealthCheck) {
+    private Personage copyWithHealthAndLastHealthChange(int health, LocalDateTime lastHealthChange) {
         return new Personage(
             id,
             name,
@@ -175,7 +174,7 @@ public record Personage(
             strength,
             agility,
             wisdom,
-            lastHealthCheck
+            lastHealthChange
         );
     }
 }

@@ -61,7 +61,7 @@ public class PersonageDao {
 
     private static final String UPDATE_HEALTH = """
         UPDATE personage
-        SET health = :health, last_health_check = :last_health_check
+        SET health = :health, last_health_change = :last_health_change
         WHERE id = :id
         """;
 
@@ -82,7 +82,7 @@ public class PersonageDao {
                 "strength",
                 "agility",
                 "wisdom",
-                "last_health_check"
+                "last_health_change"
             );
         jdbcInsert.setGeneratedKeyName("id");
 
@@ -100,7 +100,7 @@ public class PersonageDao {
             put("strength", personage.strength());
             put("agility", personage.agility());
             put("wisdom", personage.wisdom());
-            put("last_health_check", personage.lastHealthCheck());
+            put("last_health_change", personage.lastHealthChange());
         }};
         return jdbcInsert.executeAndReturnKey(
             params
@@ -120,11 +120,11 @@ public class PersonageDao {
         );
     }
 
-    public void updateHealth(long id, int health, LocalDateTime lastHealthCheck) {
+    public void updateHealth(long id, int health, LocalDateTime lastHealthChange) {
         final var params = new HashMap<String, Object>() {{
             put("id", id);
             put("health", health);
-            put("last_health_check", lastHealthCheck);
+            put("last_health_change", lastHealthChange);
         }};
         jdbcTemplate.update(
             UPDATE_HEALTH,
@@ -201,7 +201,7 @@ public class PersonageDao {
                 rs.getInt("strength"),
                 rs.getInt("agility"),
                 rs.getInt("wisdom"),
-                rs.getTimestamp("last_health_check").toLocalDateTime()
+                rs.getTimestamp("last_health_change").toLocalDateTime()
             );
         }
     }
