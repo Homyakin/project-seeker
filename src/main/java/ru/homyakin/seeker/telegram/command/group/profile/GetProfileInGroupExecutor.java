@@ -37,7 +37,7 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
             ;
 
         telegramSender.send(
-            TelegramMethods.createSendMessage(command.groupId(), personage.toProfile(group.language()))
+            TelegramMethods.createSendMessage(command.groupId(), personage.shortProfile(group.language()))
         );
     }
 

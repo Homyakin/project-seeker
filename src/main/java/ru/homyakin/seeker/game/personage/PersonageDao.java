@@ -55,7 +55,8 @@ public class PersonageDao {
         """;
     private static final String UPDATE = """
         UPDATE personage
-        SET level = :level, current_exp = :current_exp, name = :name
+        SET level = :level, current_exp = :current_exp, name = :name,
+        strength = :strength, agility = :agility, wisdom = :wisdom
         WHERE id = :id
         """;
 
@@ -113,6 +114,9 @@ public class PersonageDao {
             put("level", personage.level());
             put("current_exp", personage.currentExp());
             put("name", personage.name());
+            put("strength", personage.strength());
+            put("agility", personage.agility());
+            put("wisdom", personage.wisdom());
         }};
         jdbcTemplate.update(
             UPDATE,

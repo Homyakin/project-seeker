@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
@@ -79,6 +81,18 @@ public class PersonageService {
 
     public Personage addExperience(Personage personage, long exp) {
         return personage.addExperience(exp, personageDao);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {
+        return personage.incrementStrength(personageDao);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementAgility(Personage personage) {
+        return personage.incrementAgility(personageDao);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementWisdom(Personage personage) {
+        return personage.incrementWisdom(personageDao);
     }
 
     public List<Personage> getTopByExpInGroup(long groupId, int count) {

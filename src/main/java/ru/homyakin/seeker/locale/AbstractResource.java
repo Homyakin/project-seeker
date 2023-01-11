@@ -88,4 +88,20 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String successNameChange() {
         return getString(LocalizationKeys.SUCCESS_NAME_CHANGE.name());
     }
+
+    public String profileLevelUp() {
+        return getString(LocalizationKeys.PROFILE_LEVEL_UP.name());
+    }
+
+    public String notEnoughLevelingPoints() {
+        return getString(LocalizationKeys.NOT_ENOUGH_LEVELING_POINTS.name());
+    }
+
+    public String chooseLevelUpCharacteristic() {
+        return getString(LocalizationKeys.CHOOSE_LEVEL_UP_CHARACTERISTIC.name());
+    }
+
+    public String successLevelUp() {
+        return getString(LocalizationKeys.SUCCESS_LEVEL_UP.name());
+    }
 }

@@ -127,6 +127,22 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.SUCCESS_NAME_CHANGE.name(),
                 "Имя успешно изменено!"
             },
+            {
+                LocalizationKeys.PROFILE_LEVEL_UP.name(),
+                "Есть неизрасходованные очки прокачки! Жми /level_up"
+            },
+            {
+                LocalizationKeys.NOT_ENOUGH_LEVELING_POINTS.name(),
+                "Недостаточно очков прокачки. Подкачайся и приходи позже."
+            },
+            {
+                LocalizationKeys.CHOOSE_LEVEL_UP_CHARACTERISTIC.name(),
+                "Выберите характеристику для прокачки:"
+            },
+            {
+                LocalizationKeys.SUCCESS_LEVEL_UP.name(),
+                "Прокачка завершена:white_check_mark:"
+            },
         };
 
     @Override

@@ -5,7 +5,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.utils.Keyboards;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.telegram.user.UserService;
 
@@ -32,7 +32,7 @@ public class UserSelectLanguageExecutor extends CommandExecutor<UserSelectLangua
                 command.userId(),
                 command.messageId(),
                 Localization.get(updatedUser.language()).chooseLanguage(),
-                Keyboards.languageKeyboard(updatedUser.language())
+                InlineKeyboards.languageKeyboard(updatedUser.language())
             )
         );
     }

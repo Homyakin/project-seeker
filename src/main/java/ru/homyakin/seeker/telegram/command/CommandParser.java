@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.command;
 
+import com.vdurmont.emoji.EmojiParser;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -13,6 +14,9 @@ import ru.homyakin.seeker.telegram.command.group.language.GroupSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.group.top.Top;
 import ru.homyakin.seeker.telegram.command.common.Help;
+import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;
+import ru.homyakin.seeker.telegram.command.user.level.CharacteristicUp;
+import ru.homyakin.seeker.telegram.command.user.level.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
@@ -62,15 +66,21 @@ public class CommandParser {
     }
 
     private Optional<Command> parsePrivateMessage(Message message) {
-        return CommandType.getFromString(message.getText().split(" ")[0])
+        return CommandType.getFromString(
+                EmojiParser.parseToAliases(message.getText().split(" ")[0])
+            )
             .map(commandType -> switch (commandType) {
-            case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
-            case START -> new StartUser(message.getChatId());
-            case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
-            case HELP -> new Help(message.getChatId(), true);
-            case CHANGE_NAME -> new ChangeName(message.getChatId(), message.getText());
-            default -> null;
-        });
+                case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
+                case START -> new StartUser(message.getChatId());
+                case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
+                case HELP -> new Help(message.getChatId(), true);
+                case CHANGE_NAME -> new ChangeName(message.getChatId(), message.getText());
+                case LEVEL_UP -> new LevelUp(message.getChatId());
+                case UP_STRENGTH -> new CharacteristicUp(message.getChatId(), CharacteristicType.STRENGTH);
+                case UP_AGILITY -> new CharacteristicUp(message.getChatId(), CharacteristicType.AGILITY);
+                case UP_WISDOM -> new CharacteristicUp(message.getChatId(), CharacteristicType.WISDOM);
+                default -> null;
+            });
     }
 
     private Optional<Command> parseGroupMessage(Message message) {

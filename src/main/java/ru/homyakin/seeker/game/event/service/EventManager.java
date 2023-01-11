@@ -9,7 +9,7 @@ import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.utils.Keyboards;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -87,7 +87,7 @@ public class EventManager {
                 group.id(),
                 event.toStartMessage(group.language(), launchedEvent.endDate()),
                 //TODO выбирать клавиатуру в зависимости от типа события
-                Keyboards.joinBossEventKeyboard(group.language(), launchedEvent.id())
+                InlineKeyboards.joinBossEventKeyboard(group.language(), launchedEvent.id())
             )
         );
         if (result.isLeft()) {

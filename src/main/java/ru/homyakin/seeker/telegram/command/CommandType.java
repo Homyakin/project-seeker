@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command;
 
 import java.util.Arrays;
 import java.util.Optional;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 
 public enum CommandType {
     CHANGE_LANGUAGE("/language"),
@@ -12,6 +13,10 @@ public enum CommandType {
     TOP("/top"),
     HELP("/help"),
     CHANGE_NAME("/name"),
+    LEVEL_UP("/level_up"),
+    UP_STRENGTH("+1" + TextConstants.STRENGTH_ICON),
+    UP_AGILITY("+1" + TextConstants.AGILITY_ICON),
+    UP_WISDOM("+1" + TextConstants.WISDOM_ICON),
     ;
 
     public static final String CALLBACK_DELIMITER = "~";

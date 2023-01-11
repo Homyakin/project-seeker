@@ -31,7 +31,7 @@ public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPri
             .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
             ;
         telegramSender.send(
-            TelegramMethods.createSendMessage(command.userId(), personage.toProfile(user.language()))
+            TelegramMethods.createSendMessage(command.userId(), personage.fullProfile(user.language()))
         );
     }
 

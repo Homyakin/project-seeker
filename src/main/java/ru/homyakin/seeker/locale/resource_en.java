@@ -126,6 +126,22 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.SUCCESS_NAME_CHANGE.name(),
                 "Name has been successfully changed!"
             },
+            {
+                LocalizationKeys.PROFILE_LEVEL_UP.name(),
+                "There are unspent leveling points! Press /level_up"
+            },
+            {
+                LocalizationKeys.NOT_ENOUGH_LEVELING_POINTS.name(),
+                "Not enough leveling points. Get leveled up and come back later."
+            },
+            {
+                LocalizationKeys.CHOOSE_LEVEL_UP_CHARACTERISTIC.name(),
+                "Choose characteristic to level up:white_check_mark:"
+            },
+            {
+                LocalizationKeys.SUCCESS_LEVEL_UP.name(),
+                "Success level up:white_check_mark:"
+            },
         };
 
     @Override

@@ -5,7 +5,7 @@ import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
 
-public class Keyboards {
+public class InlineKeyboards {
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
         final var languages = Language.values();
         final var builder = InlineKeyboardBuilder.builder();

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.experience.ExperienceUtils;
 import ru.homyakin.seeker.game.personage.PersonageDao;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -50,14 +51,24 @@ public record Personage(
         return TextConstants.LEVEL_ICON + "%d %s: %d".formatted(level, name, currentExp);
     }
 
-    public String toProfile(Language language) {
+    public String shortProfile(Language language) {
         return Localization
             .get(language)
             .profileTemplate()
             .formatted(name, level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level)) + shortStats();
     }
 
+    public String fullProfile(Language language) {
+        final var profile = Localization
+            .get(language)
+            .profileTemplate()
+            .formatted(name, level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level)) + shortStats();
+
+        return hasUnspentLevelingPoints() ? Localization.get(language).profileLevelUp() + "\n\n" + profile : profile;
+    }
+
     public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {
+        //TODO баг, реген на каждый вызов сейчас, минмум 1
         final var maximumHealth = maxHealth();
         final var checkTime = TimeUtils.moscowTime();
         final int newHealth;
@@ -78,6 +89,41 @@ public record Personage(
         }
         return this;
     }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementStrength(PersonageDao personageDao) {
+        if (!hasUnspentLevelingPoints()) {
+            return Either.left(new NotEnoughLevelingPoints());
+        }
+        final var personage = copyWithCharacteristics(strength + 1, agility, wisdom);
+        personageDao.update(personage);
+        return Either.right(personage);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementAgility(PersonageDao personageDao) {
+        if (!hasUnspentLevelingPoints()) {
+            return Either.left(new NotEnoughLevelingPoints());
+        }
+        final var personage = copyWithCharacteristics(strength, agility + 1, wisdom);
+        personageDao.update(personage);
+        return Either.right(personage);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementWisdom(PersonageDao personageDao) {
+        if (!hasUnspentLevelingPoints()) {
+            return Either.left(new NotEnoughLevelingPoints());
+        }
+        final var personage = copyWithCharacteristics(strength, agility, wisdom + 1);
+        personageDao.update(personage);
+        return Either.right(personage);
+    }
+
+    public boolean hasUnspentLevelingPoints() {
+        return levelingPointsSpentOnStrength()
+            + levelingPointsSpentOnAgility()
+            + levelingPointsSpentOnWisdom()
+            < maxLevelingPoints();
+    }
+
 
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
@@ -110,6 +156,22 @@ public record Personage(
     }
 
     public static final int MAX_NAME_LENGTH = 100;
+
+    private int maxLevelingPoints() {
+        return level - 1;
+    }
+
+    private int levelingPointsSpentOnStrength() {
+        return strength - 1;
+    }
+
+    private int levelingPointsSpentOnAgility() {
+        return agility - 1;
+    }
+
+    private int levelingPointsSpentOnWisdom() {
+        return wisdom - 1;
+    }
 
     private int maxHealth() {
         return 50 + 50 * level;
@@ -163,6 +225,22 @@ public record Personage(
     }
 
     private Personage copyWithHealthAndLastHealthChange(int health, LocalDateTime lastHealthChange) {
+        return new Personage(
+            id,
+            name,
+            level,
+            currentExp,
+            health,
+            attack,
+            defense,
+            strength,
+            agility,
+            wisdom,
+            lastHealthChange
+        );
+    }
+
+    private Personage copyWithCharacteristics(int strength, int agility, int wisdom) {
         return new Personage(
             id,
             name,
