@@ -68,24 +68,18 @@ public record Personage(
     }
 
     public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {
-        //TODO баг, реген на каждый вызов сейчас, минмум 1
         final var maximumHealth = maxHealth();
         final var checkTime = TimeUtils.moscowTime();
-        final int newHealth;
         if (health < maximumHealth) {
             final var minutesPass = Duration.between(lastHealthChange, checkTime).toMinutes();
             final double increaseHealth = ((double) maximumHealth) / 100 * minutesPass;
             if (health + increaseHealth >= maximumHealth) {
-                newHealth = maximumHealth;
-            } else {
-                if (increaseHealth < 1) {
-                    newHealth = health + 1;
-                } else {
-                    newHealth = health + (int) increaseHealth;
-                }
+                personageDao.updateHealth(id, maximumHealth, checkTime);
+                return copyWithHealthAndLastHealthChange(maximumHealth, checkTime);
+            } else if ((int) increaseHealth > 0) {
+                personageDao.updateHealth(id, health + (int) increaseHealth, checkTime);
+                return copyWithHealthAndLastHealthChange(health + (int) increaseHealth, checkTime);
             }
-            personageDao.updateHealth(id, newHealth, checkTime);
-            return copyWithHealthAndLastHealthChange(newHealth, checkTime);
         }
         return this;
     }
