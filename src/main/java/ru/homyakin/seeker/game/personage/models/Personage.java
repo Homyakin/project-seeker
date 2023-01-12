@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
@@ -69,17 +70,17 @@ public record Personage(
 
     public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {
         final var maximumHealth = maxHealth();
-        final var checkTime = TimeUtils.moscowTime();
-        if (health < maximumHealth) {
-            final var minutesPass = Duration.between(lastHealthChange, checkTime).toMinutes();
-            final double increaseHealth = ((double) maximumHealth) / 100 * minutesPass;
-            if (health + increaseHealth >= maximumHealth) {
-                personageDao.updateHealth(id, maximumHealth, checkTime);
-                return copyWithHealthAndLastHealthChange(maximumHealth, checkTime);
-            } else if ((int) increaseHealth > 0) {
-                personageDao.updateHealth(id, health + (int) increaseHealth, checkTime);
-                return copyWithHealthAndLastHealthChange(health + (int) increaseHealth, checkTime);
-            }
+        if (health >= maximumHealth) {
+            return this;
+        }
+        final var minutesPass = Duration.between(lastHealthChange, TimeUtils.moscowTime()).toMinutes();
+        final var increaseHealth = MathUtils.doubleToIntWithMinMaxValues(
+            ((double) maximumHealth) / 100 * minutesPass
+        );
+        if (increaseHealth > 0) {
+            final int newHealth = Math.min(health + increaseHealth, maximumHealth);
+            personageDao.updateHealth(id, newHealth, lastHealthChange.plusMinutes(minutesPass));
+            return copyWithHealthAndLastHealthChange(newHealth, lastHealthChange.plusMinutes(minutesPass));
         }
         return this;
     }
