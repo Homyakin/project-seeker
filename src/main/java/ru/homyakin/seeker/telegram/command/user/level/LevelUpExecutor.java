@@ -42,7 +42,8 @@ public class LevelUpExecutor extends CommandExecutor<LevelUp> {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    Localization.get(user.language()).notEnoughLevelingPoints()
+                    Localization.get(user.language()).notEnoughLevelingPoints(),
+                    ReplyKeyboards.mainKeyboard(user.language())
                 )
             );
         }

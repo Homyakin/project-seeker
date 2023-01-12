@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
@@ -31,7 +32,11 @@ public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPri
             .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
             ;
         telegramSender.send(
-            TelegramMethods.createSendMessage(command.userId(), personage.fullProfile(user.language()))
+            TelegramMethods.createSendMessage(
+                command.userId(),
+                personage.fullProfile(user.language()),
+                ReplyKeyboards.mainKeyboard(user.language())
+            )
         );
     }
 

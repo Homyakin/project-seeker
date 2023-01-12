@@ -11,6 +11,7 @@ public class TextConstants {
     public static final String ATTACK_ICON = ":crossed_swords:";
     public static final String DEFENSE_ICON = ":shield:";
     public static final String HEALTH_ICON = ":heart:";
+    public static final String LANGUAGE_ICON = ":globe_with_meridians:";
     public static final String RAID_ICON = ":dagger_knife:";
     public static final String DEFAULT_NAME = "Безымянный";
     public static final String SOURCE_LINK = "https://github.com/Homyakin/project-seeker";

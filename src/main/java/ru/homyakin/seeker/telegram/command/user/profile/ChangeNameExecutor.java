@@ -8,6 +8,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
@@ -44,13 +45,17 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(),
-                    Localization.get(user.language()).successNameChange())
+                    Localization.get(user.language()).successNameChange(),
+                    ReplyKeyboards.mainKeyboard(user.language())
+                )
             );
         } else {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(),
-                    Localization.get(user.language()).nameTooLong().formatted(Personage.MAX_NAME_LENGTH))
+                    Localization.get(user.language()).nameTooLong().formatted(Personage.MAX_NAME_LENGTH),
+                    ReplyKeyboards.mainKeyboard(user.language())
+                )
             );
         }
     }

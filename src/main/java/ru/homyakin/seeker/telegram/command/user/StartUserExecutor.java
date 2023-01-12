@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.telegram.user.UserService;
 
@@ -23,7 +24,8 @@ public class StartUserExecutor extends CommandExecutor<StartUser> {
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 user.id(),
-                Localization.get(user.language()).welcomeUser()
+                Localization.get(user.language()).welcomeUser(),
+                ReplyKeyboards.mainKeyboard(user.language())
             )
         );
     }

@@ -143,6 +143,14 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.SUCCESS_LEVEL_UP.name(),
                 "Прокачка завершена:white_check_mark:"
             },
+            {
+                LocalizationKeys.PROFILE_BUTTON.name(),
+                TextConstants.PROFILE_ICON + "Профиль"
+            },
+            {
+                LocalizationKeys.LANGUAGE_BUTTON.name(),
+                TextConstants.LANGUAGE_ICON + "Язык"
+            },
         };
 
     @Override

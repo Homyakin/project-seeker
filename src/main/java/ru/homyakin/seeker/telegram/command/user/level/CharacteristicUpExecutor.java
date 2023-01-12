@@ -6,6 +6,7 @@ import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
@@ -37,14 +38,16 @@ public class CharacteristicUpExecutor extends CommandExecutor<CharacteristicUp> 
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    Localization.get(user.language()).successLevelUp()
+                    Localization.get(user.language()).successLevelUp(),
+                    ReplyKeyboards.mainKeyboard(user.language()) //TODO если остались очки, то клавиатура лвл апа
                 )
             )
         ).peekLeft(error ->
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    Localization.get(user.language()).notEnoughLevelingPoints()
+                    Localization.get(user.language()).notEnoughLevelingPoints(),
+                    ReplyKeyboards.mainKeyboard(user.language())
                 )
             )
         );

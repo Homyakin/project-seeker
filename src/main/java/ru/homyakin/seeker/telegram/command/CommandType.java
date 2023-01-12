@@ -1,8 +1,13 @@
 package ru.homyakin.seeker.telegram.command;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.locale.AbstractResource;
+import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Localization;
 
 public enum CommandType {
     CHANGE_LANGUAGE("/language"),
@@ -21,6 +26,16 @@ public enum CommandType {
 
     public static final String CALLBACK_DELIMITER = "~";
 
+    private static final AbstractResource RuLocalization = Localization.get(Language.RU);
+    private static final AbstractResource EnLocalization = Localization.get(Language.EN);
+    // TODO переделать все команды на мапу
+    private static final Map<String, CommandType> textToType = new HashMap<>() {{
+        put(RuLocalization.profileButton(), CommandType.GET_PROFILE);
+        put(EnLocalization.profileButton(), CommandType.GET_PROFILE);
+        put(RuLocalization.languageButton(), CommandType.CHANGE_LANGUAGE);
+        put(EnLocalization.languageButton(), CommandType.CHANGE_LANGUAGE);
+    }};
+
     private final String text;
 
     CommandType(String text) {
@@ -32,6 +47,12 @@ public enum CommandType {
     }
 
     public static Optional<CommandType> getFromString(String text) {
-        return Arrays.stream(values()).filter(commandText -> commandText.text.equals(text)).findFirst();
+        if (textToType.containsKey(text)) {
+            return Optional.of(textToType.get(text));
+        }
+        return Arrays.stream(values())
+            .filter(commandText -> commandText.text.equals(text))
+            .findFirst()
+            ;
     }
 }

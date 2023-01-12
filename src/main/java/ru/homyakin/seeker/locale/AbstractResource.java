@@ -104,4 +104,12 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String successLevelUp() {
         return getString(LocalizationKeys.SUCCESS_LEVEL_UP.name());
     }
+
+    public String profileButton() {
+        return getString(LocalizationKeys.PROFILE_BUTTON.name());
+    }
+
+    public String languageButton() {
+        return getString(LocalizationKeys.LANGUAGE_BUTTON.name());
+    }
 }
