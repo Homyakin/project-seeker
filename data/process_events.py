@@ -5,8 +5,8 @@ import put_entity_to_database
 import validation
 
 
-def process_file():
-    with open('test_db_data/data/events.json', encoding='utf-8') as json_file:
+def process_file(env: str):
+    with open(f'data/{env}/events.json', encoding='utf-8') as json_file:
         events = json.load(json_file)
         for event in events:
             process_event(event)
@@ -40,7 +40,7 @@ def process_boss(boss: Dict, event_id: int):
         personage,
         table='personage',
         pk_columns=['id'],
-        simple_columns=['name', 'level', 'current_exp', 'attack', 'defense', 'health', 'strength', 'agility', 'wisdom', 'last_health_check']
+        simple_columns=['name', 'level', 'current_exp', 'attack', 'defense', 'health', 'strength', 'agility', 'wisdom', 'last_health_change']
     )
     boss['event_id'] = event_id
     boss['personage_id'] = personage['id']
