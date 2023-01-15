@@ -56,13 +56,8 @@ public class PersonageDao {
     private static final String UPDATE = """
         UPDATE personage
         SET level = :level, current_exp = :current_exp, name = :name,
-        strength = :strength, agility = :agility, wisdom = :wisdom
-        WHERE id = :id
-        """;
-
-    private static final String UPDATE_HEALTH = """
-        UPDATE personage
-        SET health = :health, last_health_change = :last_health_change
+        strength = :strength, agility = :agility, wisdom = :wisdom,
+        health = :health, last_health_change = :last_health_change
         WHERE id = :id
         """;
 
@@ -117,21 +112,11 @@ public class PersonageDao {
             put("strength", personage.strength());
             put("agility", personage.agility());
             put("wisdom", personage.wisdom());
+            put("health", personage.health());
+            put("last_health_change", personage.lastHealthChange());
         }};
         jdbcTemplate.update(
             UPDATE,
-            params
-        );
-    }
-
-    public void updateHealth(long id, int health, LocalDateTime lastHealthChange) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", id);
-            put("health", health);
-            put("last_health_change", lastHealthChange);
-        }};
-        jdbcTemplate.update(
-            UPDATE_HEALTH,
             params
         );
     }

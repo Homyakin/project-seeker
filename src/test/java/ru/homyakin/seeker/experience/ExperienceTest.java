@@ -25,10 +25,4 @@ public class ExperienceTest {
     public void neededExpToLevel50() {
         Assertions.assertEquals(477313L, ExperienceUtils.getTotalExpToNextLevel(49));
     }
-
-    @Test
-    public void t() {
-        Long l = Long.MAX_VALUE;
-        System.out.println();
-    }
 }

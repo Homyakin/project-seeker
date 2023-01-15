@@ -1,12 +1,15 @@
 package ru.homyakin.seeker.game.battle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage implements Comparable<BattlePersonage> {
+    private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
     private int health;
-    private int damageDealt = 0;
-    private int damageBlocked = 0;
+    private long damageDealt = 0L;
+    private long damageBlocked = 0L;
     private final Characteristics characteristics;
 
     public BattlePersonage(
@@ -35,15 +38,15 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
         return id;
     }
 
-    public int damageBlocked() {
+    public long damageBlocked() {
         return damageBlocked;
     }
 
-    public int damageDealt() {
+    public long damageDealt() {
         return damageDealt;
     }
 
-    public int damageDealtAndTaken() {
+    public long damageDealtAndTaken() {
         return damageDealt + damageBlocked;
     }
 
@@ -71,6 +74,7 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
         damageBlocked += attack;
         final var agilityDiff = characteristics.agility() - enemy.characteristics.agility();
         if (isDodge(agilityDiff)) {
+            logger.debug("Personage {} dodged from {}", id, enemy.id);
             return 0;
         }
         final var defenseBonus = 1 + (Math.max(agilityDiff, 0)) * agilityDefenseMultiplier / 100;
@@ -83,6 +87,7 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
             dealtDamage = finalDamage;
             health -= finalDamage;
         }
+        logger.debug("Personage {} attacked {} by {} damage", enemy.id, id, dealtDamage);
         return dealtDamage;
     }
 

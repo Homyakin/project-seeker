@@ -28,13 +28,18 @@ public record Personage(
     int wisdom,
     LocalDateTime lastHealthChange
 ) {
-    public Personage addExperience(long exp, PersonageDao personageDao) {
+    public Personage addExperienceAndChangeHealth(
+        long exp,
+        int health,
+        LocalDateTime lastHealthChange,
+        PersonageDao personageDao
+    ) {
         final var newExp = currentExp + exp;
-        var newLvl = level;
-        if (newExp >= ExperienceUtils.getTotalExpToNextLevel(level)) {
-            newLvl += 1;
+        var newLevel = ExperienceUtils.getCurrentLevelForExp(newExp);
+        var personage = copyWithLevelAndExp(newLevel, newExp);
+        if (personage.health() != health) {
+            personage = personage.copyWithHealthAndLastHealthChange(health, lastHealthChange);
         }
-        final var personage = copyWithLevelAndExp(newLvl, newExp);
         personageDao.update(personage);
         return personage;
     }
@@ -79,8 +84,9 @@ public record Personage(
         );
         if (increaseHealth > 0) {
             final int newHealth = Math.min(health + increaseHealth, maximumHealth);
-            personageDao.updateHealth(id, newHealth, lastHealthChange.plusMinutes(minutesPass));
-            return copyWithHealthAndLastHealthChange(newHealth, lastHealthChange.plusMinutes(minutesPass));
+            final var personage = copyWithHealthAndLastHealthChange(newHealth, lastHealthChange.plusMinutes(minutesPass));
+            personageDao.update(personage);
+            return personage;
         }
         return this;
     }

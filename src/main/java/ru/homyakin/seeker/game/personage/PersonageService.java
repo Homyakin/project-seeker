@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.control.Either;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -8,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
-import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
@@ -79,8 +79,13 @@ public class PersonageService {
             .toList();
     }
 
-    public Personage addExperience(Personage personage, long exp) {
-        return personage.addExperience(exp, personageDao);
+    public Personage addExperienceAndChangeHealth(
+        Personage personage,
+        long exp,
+        int health,
+        LocalDateTime lastHealthChange
+    ) {
+        return personage.addExperienceAndChangeHealth(exp, health, lastHealthChange, personageDao);
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {
@@ -105,9 +110,5 @@ public class PersonageService {
 
     public Either<TooLongName, Personage> changeName(Personage personage, String name) {
         return personage.changeName(name, personageDao);
-    }
-
-    public void changeHealth(long id, int health) {
-        personageDao.updateHealth(id, health, TimeUtils.moscowTime());
     }
 }

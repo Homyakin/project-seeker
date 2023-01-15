@@ -11,12 +11,14 @@ public class EventScheduler {
         this.eventManager = eventManager;
     }
 
-    @Scheduled(fixedRateString = "PT1M")
+    // Если шедулер запускается моментально, то приложение не успевает инициализировать локализацию
+    // пока забагфикшено кроном, но это выглядит плохим решением
+    @Scheduled(cron = "0 * * * * *")
     public void scheduledEventsLaunch() {
         eventManager.launchEventsInGroups();
     }
 
-    @Scheduled(fixedRateString = "PT1M")
+    @Scheduled(cron = "0 * * * * *")
     public void scheduledStopEvents() {
         eventManager.stopEvents();
     }
