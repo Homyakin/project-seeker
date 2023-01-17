@@ -151,6 +151,53 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.LANGUAGE_BUTTON.name(),
                 TextConstants.LANGUAGE_ICON + "Язык"
             },
+            {
+                LocalizationKeys.DUEL_MUST_BE_REPLY.name(),
+                "Дуэль должна быть ответом на сообщение другого пользователя"
+            },
+            {
+                LocalizationKeys.DUEL_REPLY_MUST_BE_TO_USER.name(),
+                "Вашим противником должен быть пользователь"
+            },
+            {
+                LocalizationKeys.DUEL_WITH_YOURSELF.name(),
+                "Нельзя устроить дуэль с самим собой!"
+            },
+            {
+                LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name(),
+                "Вы уже начали другую дуэль! Дождитесь ей окончания."
+            },
+            {
+                LocalizationKeys.INIT_DUEL.name(),
+                "Искатель " + TextConstants.LEVEL_ICON + "%d %s вызывает на дуэль " +
+                    "искателя " + TextConstants.LEVEL_ICON + "%d %s.\n\n" +
+                    "Каким будет его ответ?"
+            },
+            {
+                LocalizationKeys.NOT_DUEL_ACCEPTING_PERSONAGE.name(),
+                "Это не вас вызвали на дуэль!"
+            },
+            {
+                LocalizationKeys.EXPIRED_DUEL.name(),
+                "Вызов на дуэль остался проигнорированным"
+            },
+            {
+                LocalizationKeys.DECLINED_DUEL.name(),
+                "Принимающая сторона отклонила вызов!"
+            },
+            {
+                LocalizationKeys.FINISHED_DUEL.name(),
+                "Искатель " + TextConstants.LEVEL_ICON + "%d %s одержал верх над " +
+                    TextConstants.LEVEL_ICON + "%d %s"
+            },
+            {
+                LocalizationKeys.ACCEPT_DUEL_BUTTON.name(),
+                "Принять вызов" + TextConstants.DUEL_ACCEPT_ICON
+            },
+            {
+                LocalizationKeys.DECLINE_DUEL_BUTTON.name(),
+                "Отказаться :open_hands:" //TODO в иконки
+            },
         };
 
     @Override

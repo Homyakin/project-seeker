@@ -12,7 +12,6 @@ import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
-import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
@@ -67,6 +66,11 @@ public class PersonageService {
     public Optional<Personage> getById(long personageId) {
         return personageDao.getById(personageId)
             .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao));
+    }
+
+    public Personage getByIdForce(long personageId) {
+        return getById(personageId)
+            .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
     }
 
     public Optional<Personage> getByBossEvent(long eventId) {

@@ -17,11 +17,11 @@ public class ExperienceUtils {
         long neededExpTotal = 0L;
         long neededExpToNextLevel = 0L;
         int level;
-        for (level = 1; exp > neededExpTotal; ++level) {
+        for (level = 1; exp >= neededExpTotal; ++level) {
             neededExpToNextLevel += diffBetweenNeededExp(level);
             neededExpTotal += neededExpToNextLevel;
         }
-        return level;
+        return level - 1;
     }
 
 

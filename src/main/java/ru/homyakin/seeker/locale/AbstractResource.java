@@ -112,4 +112,48 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String languageButton() {
         return getString(LocalizationKeys.LANGUAGE_BUTTON.name());
     }
+
+    public String duelMustBeReply() {
+        return getString(LocalizationKeys.DUEL_MUST_BE_REPLY.name());
+    }
+
+    public String duelReplyMustBeToUser() {
+        return getString(LocalizationKeys.DUEL_REPLY_MUST_BE_TO_USER.name());
+    }
+
+    public String duelWithYourself() {
+        return getString(LocalizationKeys.DUEL_WITH_YOURSELF.name());
+    }
+
+    public String personageAlreadyStartDuel() {
+        return getString(LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name());
+    }
+
+    public String initDuel() {
+        return getString(LocalizationKeys.INIT_DUEL.name());
+    }
+
+    public String notDuelAcceptingPersonage() {
+        return getString(LocalizationKeys.NOT_DUEL_ACCEPTING_PERSONAGE.name());
+    }
+
+    public String expiredDuel() {
+        return getString(LocalizationKeys.EXPIRED_DUEL.name());
+    }
+
+    public String declinedDuel() {
+        return getString(LocalizationKeys.DECLINED_DUEL.name());
+    }
+
+    public String finishedDuel() {
+        return getString(LocalizationKeys.FINISHED_DUEL.name());
+    }
+
+    public String acceptDuelButton() {
+        return getString(LocalizationKeys.ACCEPT_DUEL_BUTTON.name());
+    }
+
+    public String declineDuelButton() {
+        return getString(LocalizationKeys.DECLINE_DUEL_BUTTON.name());
+    }
 }

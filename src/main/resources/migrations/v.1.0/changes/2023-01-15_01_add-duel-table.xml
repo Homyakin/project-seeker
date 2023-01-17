@@ -1,0 +1,70 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-boss-table">
+        <createTable tableName="duel">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" primaryKeyName="duel_pkey"/>
+            </column>
+            <column name="initiating_personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accepting_personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message_id" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="expiring_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="TINYINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="winner_personage_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="initiating_personage_id"
+                baseTableName="duel"
+                constraintName="fk_initiating_duel_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="accepting_personage_id"
+                baseTableName="duel"
+                constraintName="fk_accepting_duel_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="winner_personage_id"
+                baseTableName="duel"
+                constraintName="fk_winner_duel_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="group_id"
+                baseTableName="duel"
+                constraintName="fk_duel_group"
+                referencedColumnNames="id"
+                referencedTableName="tg_group"
+        />
+
+        <createIndex tableName="duel" indexName="idx_duel_initiating_personage_id">
+            <column name="initiating_personage_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

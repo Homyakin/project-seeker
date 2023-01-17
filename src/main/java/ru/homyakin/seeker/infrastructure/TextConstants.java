@@ -13,6 +13,7 @@ public class TextConstants {
     public static final String HEALTH_ICON = ":heart:";
     public static final String LANGUAGE_ICON = ":globe_with_meridians:";
     public static final String RAID_ICON = ":dagger_knife:";
+    public static final String DUEL_ACCEPT_ICON = ":dagger_knife:";
     public static final String DEFAULT_NAME = "Безымянный";
     public static final String SOURCE_LINK = "https://github.com/Homyakin/project-seeker";
     public static final String TELEGRAM_CHANNEL_USERNAME = "@project_seeker_news";

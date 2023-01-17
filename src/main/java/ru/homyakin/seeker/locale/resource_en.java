@@ -150,6 +150,53 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.LANGUAGE_BUTTON.name(),
                 TextConstants.LANGUAGE_ICON + "Language"
             },
+            {
+                LocalizationKeys.DUEL_MUST_BE_REPLY.name(),
+                "The duel should be a reply to another user's message"
+            },
+            {
+                LocalizationKeys.DUEL_REPLY_MUST_BE_TO_USER.name(),
+                "Your opponent must be a user"
+            },
+            {
+                LocalizationKeys.DUEL_WITH_YOURSELF.name(),
+                "You can't have a duel with yourself!"
+            },
+            {
+                LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name(),
+                "You have already started another duel! Wait for it to finish."
+            },
+            {
+                LocalizationKeys.INIT_DUEL.name(),
+                "The seeker " + TextConstants.LEVEL_ICON + "%d %s challenges the seeker " +
+                    TextConstants.LEVEL_ICON + "%d %s to a duel.\n\n" +
+                    "What will be his answer?"
+            },
+            {
+                LocalizationKeys.NOT_DUEL_ACCEPTING_PERSONAGE.name(),
+                "It wasn't you who was challenged to a duel!"
+            },
+            {
+                LocalizationKeys.EXPIRED_DUEL.name(),
+                "The challenge to the duel was ignored"
+            },
+            {
+                LocalizationKeys.DECLINED_DUEL.name(),
+                "The accepting party rejected the call!"
+            },
+            {
+                LocalizationKeys.FINISHED_DUEL.name(),
+                "The seeker " + TextConstants.LEVEL_ICON + "%d %s got the better of " +
+                    TextConstants.LEVEL_ICON + "%d %s"
+            },
+            {
+                LocalizationKeys.ACCEPT_DUEL_BUTTON.name(),
+                "Take the challenge" + TextConstants.DUEL_ACCEPT_ICON
+            },
+            {
+                LocalizationKeys.DECLINE_DUEL_BUTTON.name(),
+                "Decline :open_hands:" //TODO в иконки
+            },
         };
 
     @Override

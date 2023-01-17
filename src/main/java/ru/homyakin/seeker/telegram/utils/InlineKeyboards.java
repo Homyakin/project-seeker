@@ -37,4 +37,19 @@ public class InlineKeyboards {
             )
             .build();
     }
+
+    public static InlineKeyboardMarkup duelKeyboard(Language language, long duelId) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                Localization.get(language).acceptDuelButton(),
+                "%s%s%d".formatted(CommandType.ACCEPT_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
+            )
+            .addButton(
+                Localization.get(language).declineDuelButton(),
+                "%s%s%d".formatted(CommandType.DECLINE_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
+            )
+            .build();
+    }
 }

@@ -7,6 +7,9 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
+import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
+import ru.homyakin.seeker.telegram.command.group.duel.StartDuel;
 import ru.homyakin.seeker.telegram.command.group.language.GroupChangeLanguage;
 import ru.homyakin.seeker.telegram.command.group.action.JoinGroup;
 import ru.homyakin.seeker.telegram.command.group.action.LeftGroup;
@@ -93,6 +96,13 @@ public class CommandParser {
                 );
                 case TOP -> new Top(message.getChatId(), message.getFrom().getId());
                 case HELP -> new Help(message.getChatId(), false);
+                case START_DUEL -> new StartDuel(
+                    message.getChatId(),
+                    message.getFrom().getId(),
+                    Optional.ofNullable(message.getReplyToMessage()).map(
+                        it -> new StartDuel.ReplyInfo(it.getMessageId(), it.getFrom().getId(), it.getFrom().getIsBot())
+                    )
+                );
                 default -> null;
             });
     }
@@ -137,6 +147,20 @@ public class CommandParser {
                     callback.getMessage().getChatId(),
                     callback.getMessage().getMessageId(),
                     callback.getFrom().getId(),
+                    callback.getData()
+                );
+                case DECLINE_DUEL -> new DeclineDuel(
+                    callback.getId(),
+                    callback.getMessage().getChatId(),
+                    callback.getFrom().getId(),
+                    callback.getMessage().getMessageId(),
+                    callback.getData()
+                );
+                case ACCEPT_DUEL -> new AcceptDuel(
+                    callback.getId(),
+                    callback.getMessage().getChatId(),
+                    callback.getFrom().getId(),
+                    callback.getMessage().getMessageId(),
                     callback.getData()
                 );
                 default -> null;

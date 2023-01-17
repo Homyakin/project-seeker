@@ -22,6 +22,9 @@ public enum CommandType {
     UP_STRENGTH("+1" + TextConstants.STRENGTH_ICON),
     UP_AGILITY("+1" + TextConstants.AGILITY_ICON),
     UP_WISDOM("+1" + TextConstants.WISDOM_ICON),
+    START_DUEL("/duel"),
+    ACCEPT_DUEL("acceptDuel"),
+    DECLINE_DUEL("declineDuel"),
     ;
 
     public static final String CALLBACK_DELIMITER = "~";
