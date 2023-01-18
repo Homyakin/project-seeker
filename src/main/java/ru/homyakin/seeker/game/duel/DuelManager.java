@@ -38,7 +38,7 @@ public class DuelManager {
                             TelegramMethods.createEditMessageText(
                                 group.id(),
                                 duel.messageId().get(),
-                                Localization.get(group.language()).declinedDuel()
+                                Localization.get(group.language()).expiredDuel()
                             )
                         );
                     } else {
