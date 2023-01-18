@@ -65,7 +65,7 @@ public record Event(
         final var diff = Duration.between(now, endDate);
         var hours = "";
         if (diff.toHours() > 0) {
-            hours = diff.toHours() + " " +Localization.get(language).hoursShort();
+            hours = diff.toHours() + " " + Localization.get(language).hoursShort();
         }
         var minutes = "";
         if (diff.toMinutesPart() > 0) {

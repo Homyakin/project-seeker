@@ -16,7 +16,6 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
     long id,
-
     String name,
     int level,
     long currentExp,
@@ -124,7 +123,6 @@ public record Personage(
             + levelingPointsSpentOnWisdom()
             < maxLevelingPoints();
     }
-
 
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(

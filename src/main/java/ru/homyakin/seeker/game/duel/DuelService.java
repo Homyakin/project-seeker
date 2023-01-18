@@ -13,7 +13,6 @@ public class DuelService {
     private final DuelDao duelDao;
     private final Duration duelLifeTime;
 
-
     public DuelService(DuelDao duelDao, DuelConfig duelConfig) {
         this.duelDao = duelDao;
         this.duelLifeTime = duelConfig.lifeTime();

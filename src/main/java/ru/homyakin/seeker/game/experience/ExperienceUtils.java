@@ -24,7 +24,6 @@ public class ExperienceUtils {
         return level - 1;
     }
 
-
     private static long diffBetweenNeededExp(int currentLevel) {
         return (long) (10 * Math.pow(1.15d, currentLevel - 1));
     }

@@ -17,7 +17,8 @@ public class GroupLaunchedEventDao {
         insert into group_to_launched_event (launched_event_id, group_id, message_id)
         values (:launched_event_id, :group_id, :message_id);
         """;
-    private static final String GET_GROUP_LAUNCHED_EVENT_BY_ID = "SELECT * FROM group_to_launched_event WHERE launched_event_id = :launched_event_id";
+    private static final String GET_GROUP_LAUNCHED_EVENT_BY_ID =
+        "SELECT * FROM group_to_launched_event WHERE launched_event_id = :launched_event_id";
     private static final GroupEventRowMapper GROUP_LAUNCHED_EVENT_ROW_MAPPER = new GroupEventRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -48,7 +49,6 @@ public class GroupLaunchedEventDao {
     }
 
     private static class GroupEventRowMapper implements RowMapper<GroupLaunchedEvent> {
-
         @Override
         public GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new GroupLaunchedEvent(

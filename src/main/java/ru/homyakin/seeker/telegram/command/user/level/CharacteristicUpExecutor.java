@@ -29,12 +29,14 @@ public class CharacteristicUpExecutor extends CommandExecutor<CharacteristicUp> 
     public void execute(CharacteristicUp command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
         final var personage = personageService.getById(user.personageId())
-                .orElseThrow(() -> new IllegalStateException("Personage must be present at user"));
-        (switch (command.characteristicType()) {
-            case STRENGTH -> personageService.incrementStrength(personage);
-            case AGILITY -> personageService.incrementAgility(personage);
-            case WISDOM -> personageService.incrementWisdom(personage);
-        }).peek(it ->
+            .orElseThrow(() -> new IllegalStateException("Personage must be present at user"));
+        (
+            switch (command.characteristicType()) {
+                case STRENGTH -> personageService.incrementStrength(personage);
+                case AGILITY -> personageService.incrementAgility(personage);
+                case WISDOM -> personageService.incrementWisdom(personage);
+            }
+        ).peek(it ->
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),

@@ -14,7 +14,6 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -75,7 +74,8 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
 
         long exp1 = battlePersonage1.damageDealt() / 100;
         long exp2 = battlePersonage2.damageDealt() / 100;
-        final Personage winner, looser;
+        final Personage winner;
+        final Personage looser;
         if (battleResult instanceof TwoPersonageTeamsBattle.Result.FirstTeamWin) {
             exp1 = (long) (exp1 * WINNER_EXP_MULTIPLIER);
             winner = personage1;

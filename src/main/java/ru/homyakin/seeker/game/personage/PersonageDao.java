@@ -2,7 +2,6 @@ package ru.homyakin.seeker.game.personage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

@@ -112,6 +112,7 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
     private double minAttack() {
         return characteristics.attack() * minAttackPercent;
     }
+
     // TODO вынести в базу
     private static final int minHitChance = 30;
     private static final int maxHitChance = 30;
@@ -123,14 +124,14 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
     private static final double agilityHitChanceMultiplier = 0.5;
     private static final double wisdomCritMultiplier = 1.5;
     private static final double wisdomCritChanceMultiplier = 0.5;
-}
 
-record Characteristics(
-    int maxHealth,
-    int attack,
-    int defense,
-    int strength,
-    int agility,
-    int wisdom
-) {
+    record Characteristics(
+        int maxHealth,
+        int attack,
+        int defense,
+        int strength,
+        int agility,
+        int wisdom
+    ) {
+    }
 }
