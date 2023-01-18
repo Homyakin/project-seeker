@@ -48,9 +48,9 @@ public class TwoPersonageTeamsBattle {
 
     private BattlePersonage attackPersonage(Map<Long, BattlePersonage> alivePersonages, Queue<Long> attackQueue) {
         assert !attackQueue.isEmpty();
-        long personageId;
+        Long personageId;
         do {
-            personageId = attackQueue.peek();
+            personageId = attackQueue.poll();
         } while (!alivePersonages.containsKey(personageId));
         return alivePersonages.get(personageId);
     }
