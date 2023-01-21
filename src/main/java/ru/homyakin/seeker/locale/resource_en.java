@@ -99,6 +99,7 @@ public class resource_en extends AbstractResource {
                 
                 Only for group:
                 %s - show top by experience in group
+                %s - challenge another seeker to a duel. Must be a response to another user message
                 
                 Only for pm:
                 %s - change name
@@ -110,6 +111,7 @@ public class resource_en extends AbstractResource {
                     CommandType.GET_PROFILE.getText(),
                     CommandType.HELP.getText(),
                     CommandType.TOP.getText(),
+                    CommandType.START_DUEL.getText(),
                     CommandType.CHANGE_NAME.getText(),
                     TextConstants.SOURCE_LINK
                 )

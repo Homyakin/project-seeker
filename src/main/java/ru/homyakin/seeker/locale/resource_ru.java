@@ -100,6 +100,7 @@ public class resource_ru extends AbstractResource {
                 
                 Только для чата:
                 %s - показать топ игроков по опыту в чате;
+                %s - вызвать другого искателя на дуэль. Должно быть ответом на другое сообщение пользователя;
                 
                 Только для лички:
                 %s - сменить имя;
@@ -111,6 +112,7 @@ public class resource_ru extends AbstractResource {
                     CommandType.GET_PROFILE.getText(),
                     CommandType.HELP.getText(),
                     CommandType.TOP.getText(),
+                    CommandType.START_DUEL.getText(),
                     CommandType.CHANGE_NAME.getText(),
                     TextConstants.SOURCE_LINK
                 )
