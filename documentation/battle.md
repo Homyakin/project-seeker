@@ -13,51 +13,45 @@
 ## Бой
 
 ### Попадание игрока1 по игроку2
-Шанс попадания игрока 1 по игроку 2 равен 50 процентам плюс разность между ловкостями игроков.
-Но не менее 10% и не более 90% <br>
 
 `agility1` - ловкость игрока1 <br>
 `agility2` - ловкость игрока2 <br>
 
-`chance = 50 + (agility1 - agility2)`
+`chance = 50 + (agility1 - agility2) * 0.5`
 
-`hitChance = chance < 10 ? 10 : chance > 90 ? 90 : chance`
+`шанс_попадания = chance < 30 ? 30 : chance > 90 ? 90 : chance`
 
 ### Шанс критического урона
-Шанс критического урона игрока 1 по игроку 2 равен 50 процентам плюс разность между мудростями игроков.
-Но не менее 10% и не более 90% <br>
 `wisdom1` - мудрость игрока1 <br>
 `wisdom2` - мудрость игрока2 <br>
 
-`chance = 50 + (wisdom1 - wisdom2)`
+`chance = 50 + (wisdom1 - wisdom2) * 0.5`
 
-`critChance = chance < 10 ? 10 : chance > 90 ? 90 : chance`
+`шанс_крита = chance < 10 ? 10 : chance > 90 ? 90 : chance`
 
 ### Один ход боя
 
 ```
 rand = random(1, 100)
 
-если rand > hitChance:
+если rand > шанс_попадания:
     закончить ход (промах)
     
+бонус_урона = 1 + макс(сила - сила(противника), 0) * 2 / 100
+    
 rand = random(1, 100)
-crit = false
-если rand <= critChance:
-    crit = true
-critMulti = 1,5 + (wisdom - wisdom(противника)) / 100
-critMulti = critMulti < 1,5 ? 1,5 : critMulti
+если rand <= шанс_крита:
+    множитель_крита = 1 + макс(мудрость - мудрость(противника), 0) * 1,5 / 100
+иначе
+    множитель_крита = 1
+    
+атака_с_бонусом = атака * бонус_урона * множитель_крита
 
-rand = random_double(-10 + strength, 10 + strength)
-baseAtk = atk*(1 + rand/100)
-damage = crit ? baseAtk : baseAtk * critMulti
+бонсус_защиты = 1 + макс(ловкость(противника) - ловкость, 0) * 1,7 / 100
 
-rand = random_double(-10 + strength(противник), 10 + strength(противник))
-finalDef(противник) = def(противник)*(1 + rand/100)
+итоговый_урон = макс(атака_с_бонусом - бонсус_защиты, атака * 0,5)
 
-finalDamage = damange - finalDef(противник) < damage*0,1 ? damage*0,1 : damange - finalDef(противник)
-
-hp(противник) -= finalDamage
+hp(противник) -= итоговый_урон
 
 если hp(противник) < 0:
     поражение противник

@@ -115,7 +115,7 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
 
     // TODO вынести в базу
     private static final int minHitChance = 30;
-    private static final int maxHitChance = 30;
+    private static final int maxHitChance = 90;
     private static final int minCritChance = 10;
     private static final int maxCritChance = 90;
     private static final double minAttackPercent = 0.5;
