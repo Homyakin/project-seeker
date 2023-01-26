@@ -198,7 +198,7 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.FINISHED_DUEL.name(),
                 """
                     Искатель ${level_icon}${winner_personage_level} ${winner_personage_name} одержал верх над \
-                    ${level_icon}$looser_personage_level} ${looser_personage_name}
+                    ${level_icon}${looser_personage_level} ${looser_personage_name}
                     """
             },
             {

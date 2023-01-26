@@ -198,7 +198,7 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.FINISHED_DUEL.name(),
                 """
                     The seeker ${level_icon}${winner_personage_level} ${winner_personage_name} got the better of \
-                    ${level_icon}$looser_personage_level} ${looser_personage_name}
+                    ${level_icon}${looser_personage_level} ${looser_personage_name}
                     """
             },
             {
