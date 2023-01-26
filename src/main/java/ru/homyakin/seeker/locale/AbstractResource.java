@@ -184,7 +184,10 @@ public abstract class AbstractResource extends ListResourceBundle {
             put("looser_personage_level", looserPersonage.level());
             put("looser_personage_name", looserPersonage.name());
         }};
-        return getString(LocalizationKeys.FINISHED_DUEL.name());
+        return StringNamedTemplate.format(
+            getString(LocalizationKeys.FINISHED_DUEL.name()),
+            params
+        );
     }
 
     public String acceptDuelButton() {
