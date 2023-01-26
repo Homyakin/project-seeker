@@ -1,6 +1,12 @@
 package ru.homyakin.seeker.locale;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.ListResourceBundle;
+import ru.homyakin.seeker.game.experience.ExperienceUtils;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public abstract class AbstractResource extends ListResourceBundle {
     public static final String BASE_NAME = "ru.homyakin.seeker.locale.resource";
@@ -57,8 +63,20 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.EXPIRED_EVENT.name());
     }
 
-    public String profileTemplate() {
-        return getString(LocalizationKeys.PROFILE_TEMPLATE.name());
+    public String profile(Personage personage) {
+        final var params = new HashMap<String, Object>() {{
+            put("profile_icon", TextConstants.PROFILE_ICON);
+            put("level_icon", TextConstants.LEVEL_ICON);
+            put("exp_icon", TextConstants.EXP_ICON);
+            put("personage_name", personage.name());
+            put("personage_level", personage.level());
+            put("personage_exp", personage.currentExp());
+            put("next_level_exp", ExperienceUtils.getTotalExpToNextLevel(personage.level()));
+        }};
+        return StringNamedTemplate.format(
+            getString(LocalizationKeys.PROFILE_TEMPLATE.name()),
+            params
+        );
     }
 
     public String successBoss() {
@@ -81,8 +99,11 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name());
     }
 
-    public String nameTooLong() {
-        return getString(LocalizationKeys.NAME_TOO_LONG.name());
+    public String nameTooLong(int maxNameLength) {
+        return StringNamedTemplate.format(
+            getString(LocalizationKeys.NAME_TOO_LONG.name()),
+            Collections.singletonMap("max_name_length", maxNameLength)
+        );
     }
 
     public String successNameChange() {
@@ -129,8 +150,18 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name());
     }
 
-    public String initDuel() {
-        return getString(LocalizationKeys.INIT_DUEL.name());
+    public String initDuel(Personage initiatorPersonage, Personage acceptingPersonage) {
+        final var params = new HashMap<String, Object>() {{
+            put("level_icon", TextConstants.LEVEL_ICON);
+            put("initiator_personage_level", initiatorPersonage.level());
+            put("initiator_personage_name", initiatorPersonage.name());
+            put("accepting_personage_level", acceptingPersonage.level());
+            put("accepting_personage_name", acceptingPersonage.name());
+        }};
+        return StringNamedTemplate.format(
+            getString(LocalizationKeys.INIT_DUEL.name()),
+            params
+        );
     }
 
     public String notDuelAcceptingPersonage() {
@@ -145,7 +176,14 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.DECLINED_DUEL.name());
     }
 
-    public String finishedDuel() {
+    public String finishedDuel(Personage winnerPersonage, Personage looserPersonage) {
+        final var params = new HashMap<String, Object>() {{
+            put("level_icon", TextConstants.LEVEL_ICON);
+            put("winner_personage_level", winnerPersonage.level());
+            put("winner_personage_name", winnerPersonage.name());
+            put("looser_personage_level", looserPersonage.level());
+            put("looser_personage_name", looserPersonage.name());
+        }};
         return getString(LocalizationKeys.FINISHED_DUEL.name());
     }
 

@@ -53,7 +53,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(),
-                    Localization.get(user.language()).nameTooLong().formatted(Personage.MAX_NAME_LENGTH),
+                    Localization.get(user.language()).nameTooLong(Personage.MAX_NAME_LENGTH),
                     ReplyKeyboards.mainKeyboard(user.language())
                 )
             );

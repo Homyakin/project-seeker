@@ -66,12 +66,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var telegramResult = telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                Localization.get(group.language()).initDuel().formatted(
-                    initiatorPersonage.level(),
-                    initiatorPersonage.name(),
-                    acceptingPersonage.level(),
-                    acceptingPersonage.name()
-                ),
+                Localization.get(group.language()).initDuel(initiatorPersonage, acceptingPersonage),
                 replyInfo.messageId(),
                 InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id())
             )

@@ -105,12 +105,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             TelegramMethods.createEditMessageText(
                 group.id(),
                 command.messageId(),
-                Localization.get(group.language()).finishedDuel().formatted(
-                    winner.level(),
-                    winner.name(),
-                    looser.level(),
-                    looser.name()
-                )
+                Localization.get(group.language()).finishedDuel(winner, looser)
             )
         );
     }

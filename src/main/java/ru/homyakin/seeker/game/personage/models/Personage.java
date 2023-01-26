@@ -59,15 +59,13 @@ public record Personage(
     public String shortProfile(Language language) {
         return Localization
             .get(language)
-            .profileTemplate()
-            .formatted(name, level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level)) + shortStats();
+            .profile(this) + shortStats();
     }
 
     public String fullProfile(Language language) {
         final var profile = Localization
             .get(language)
-            .profileTemplate()
-            .formatted(name, level, currentExp, ExperienceUtils.getTotalExpToNextLevel(level)) + shortStats();
+            .profile(this) + shortStats();
 
         return hasUnspentLevelingPoints() ? Localization.get(language).profileLevelUp() + "\n\n" + profile : profile;
     }

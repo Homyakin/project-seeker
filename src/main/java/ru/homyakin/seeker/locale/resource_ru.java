@@ -1,7 +1,10 @@
 package ru.homyakin.seeker.locale;
 
+import java.util.Collections;
+import java.util.HashMap;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class resource_ru extends AbstractResource {
     private static final Object[][] contents =
@@ -62,17 +65,10 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.PROFILE_TEMPLATE.name(),
                 """
-                %s%s
-                %sУровень: %s
-                %sОпыт: %s
-                """.formatted(
-                    TextConstants.PROFILE_ICON,
-                    "%s",
-                    TextConstants.LEVEL_ICON,
-                    "%d",
-                    TextConstants.EXP_ICON,
-                    "%d/%d"
-                )
+                ${profile_icon}${personage_name}
+                ${level_icon}Уровень: ${personage_level}
+                ${exp_icon}Опыт: ${personage_exp}/${next_level_exp}
+                """
             },
             {
                 LocalizationKeys.SUCCESS_BOSS.name(),
@@ -84,46 +80,51 @@ public class resource_ru extends AbstractResource {
             },
             {
                 LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name(),
-                TextConstants.EXP_ICON + "Топ персонажей в чате по опыту:%n%s"
+                TextConstants.EXP_ICON + "Топ персонажей в чате по опыту:"
             },
             {
                 LocalizationKeys.HELP.name(),
-                """
-                Социальная RPG в Telegram!
-                Просто добавь в чат и участвуй в событиях.
-                Официальный канал с новостями - %s.
-                
-                Доступные команды (в личке и в чате):
-                %s - сменить язык;
-                %s - показать профиль;
-                %s - данное сообщение;
-                
-                Только для чата:
-                %s - показать топ игроков по опыту в чате;
-                %s - вызвать другого искателя на дуэль. Должно быть ответом на сообщение другого пользователя;
-                
-                Только для лички:
-                %s - сменить имя;
-                
-                Исходный код игры <a href="%s">здесь</a>.
-                """.formatted(
-                    TextConstants.TELEGRAM_CHANNEL_USERNAME,
-                    CommandType.CHANGE_LANGUAGE.getText(),
-                    CommandType.GET_PROFILE.getText(),
-                    CommandType.HELP.getText(),
-                    CommandType.TOP.getText(),
-                    CommandType.START_DUEL.getText(),
-                    CommandType.CHANGE_NAME.getText(),
-                    TextConstants.SOURCE_LINK
+                StringNamedTemplate.format("""
+                        Социальная RPG в Telegram!
+                        Просто добавь в чат и участвуй в событиях.
+                        Официальный канал с новостями - ${news_channel_username}.
+                                        
+                        Доступные команды (в личке и в чате):
+                        ${language_command} - сменить язык;
+                        ${profile_command} - показать профиль;
+                        ${help_command} - данное сообщение;
+                                        
+                        Только для чата:
+                        ${top_command} - показать топ игроков по опыту в чате;
+                        ${duel_command} - вызвать другого искателя на дуэль. Должно быть ответом на сообщение другого пользователя;
+                                        
+                        Только для лички:
+                        ${name_command} - сменить имя;
+                                        
+                        Исходный код игры <a href="${github_link}">здесь</a>.
+                        """,
+                    new HashMap<>() {{
+                        put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+                        put("language_command", CommandType.CHANGE_LANGUAGE.getText());
+                        put("profile_command", CommandType.GET_PROFILE.getText());
+                        put("help_command", CommandType.HELP.getText());
+                        put("top_command", CommandType.TOP.getText());
+                        put("duel_command", CommandType.START_DUEL.getText());
+                        put("name_command", CommandType.CHANGE_NAME.getText());
+                        put("github_link", TextConstants.SOURCE_LINK);
+                    }}
                 )
             },
             {
                 LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name(),
-                "Введите имя через пробел после команды: \"/name Имя\""
+                StringNamedTemplate.format(
+                    "Введите имя через пробел после команды: \"${name_command} Имя\"",
+                    Collections.singletonMap("name_command", CommandType.CHANGE_NAME.getText())
+                )
             },
             {
                 LocalizationKeys.NAME_TOO_LONG.name(),
-                "Имя не должно превышать %d символов"
+                "Имя не должно превышать ${max_name_length} символов"
             },
             {
                 LocalizationKeys.SUCCESS_NAME_CHANGE.name(),
@@ -131,7 +132,10 @@ public class resource_ru extends AbstractResource {
             },
             {
                 LocalizationKeys.PROFILE_LEVEL_UP.name(),
-                "Есть неизрасходованные очки прокачки! Жми /level_up"
+                StringNamedTemplate.format(
+                    "Есть неизрасходованные очки прокачки! Жми ${level_up_command}",
+                    Collections.singletonMap("level_up_command", CommandType.LEVEL_UP.getText())
+                )
             },
             {
                 LocalizationKeys.NOT_ENOUGH_LEVELING_POINTS.name(),
@@ -171,9 +175,12 @@ public class resource_ru extends AbstractResource {
             },
             {
                 LocalizationKeys.INIT_DUEL.name(),
-                "Искатель " + TextConstants.LEVEL_ICON + "%d %s вызывает на дуэль " +
-                    "искателя " + TextConstants.LEVEL_ICON + "%d %s.\n\n" +
-                    "Каким будет его ответ?"
+                """
+                    Искатель ${level_icon}${initiator_personage_level} ${initiator_personage_name} вызывает на дуэль \
+                    искателя  ${level_icon}${accepting_personage_level} ${accepting_personage_name}.
+                    
+                    Каким будет его ответ?
+                    """
             },
             {
                 LocalizationKeys.NOT_DUEL_ACCEPTING_PERSONAGE.name(),
@@ -189,8 +196,10 @@ public class resource_ru extends AbstractResource {
             },
             {
                 LocalizationKeys.FINISHED_DUEL.name(),
-                "Искатель " + TextConstants.LEVEL_ICON + "%d %s одержал верх над " +
-                    TextConstants.LEVEL_ICON + "%d %s"
+                """
+                    Искатель ${level_icon}${winner_personage_level} ${winner_personage_name} одержал верх над \
+                    ${level_icon}$looser_personage_level} ${looser_personage_name}
+                    """
             },
             {
                 LocalizationKeys.ACCEPT_DUEL_BUTTON.name(),

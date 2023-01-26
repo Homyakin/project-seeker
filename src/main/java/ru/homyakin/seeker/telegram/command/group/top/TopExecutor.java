@@ -49,7 +49,7 @@ public class TopExecutor extends CommandExecutor<Top> {
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                Localization.get(group.language()).topPersonagesByExpInGroup().formatted(topText)
+                Localization.get(group.language()).topPersonagesByExpInGroup() + "\n" + topText
             )
         );
     }

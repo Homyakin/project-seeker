@@ -1,7 +1,10 @@
 package ru.homyakin.seeker.locale;
 
+import java.util.Collections;
+import java.util.HashMap;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class resource_en extends AbstractResource {
     private static final Object[][] contents =
@@ -61,17 +64,10 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.PROFILE_TEMPLATE.name(),
                 """
-                %s%s
-                %sLevel: %s
-                %sExperience: %s
-                """.formatted(
-                    TextConstants.PROFILE_ICON,
-                    "%s",
-                    TextConstants.LEVEL_ICON,
-                    "%d",
-                    TextConstants.EXP_ICON,
-                    "%d/%d"
-                )
+                ${profile_icon}${personage_name}
+                ${level_icon}Level: ${personage_level}
+                ${exp_icon}Experience: ${personage_exp}/${next_level_exp}
+                """
             },
             {
                 LocalizationKeys.SUCCESS_BOSS.name(),
@@ -83,46 +79,52 @@ public class resource_en extends AbstractResource {
             },
             {
                 LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name(),
-                TextConstants.EXP_ICON + "Top group personages by experience:%n%s"
+                TextConstants.EXP_ICON + "Top group personages by experience:"
             },
             {
                 LocalizationKeys.HELP.name(),
-                """
-                Social RPG in Telegram!
-                Just add to the group and join events.
-                Official news channel - %s.
-                
-                Available commands (pm and chant):
-                %s - change language;
-                %s - show profile;
-                %s - this message
-                
-                Only for group:
-                %s - show top by experience in group
-                %s - challenge another seeker to a duel. Must be a response to another user message
-                
-                Only for pm:
-                %s - change name
-                
-                The source code of the game is <a href="%s">here</a>
-                """.formatted(
-                    TextConstants.TELEGRAM_CHANNEL_USERNAME,
-                    CommandType.CHANGE_LANGUAGE.getText(),
-                    CommandType.GET_PROFILE.getText(),
-                    CommandType.HELP.getText(),
-                    CommandType.TOP.getText(),
-                    CommandType.START_DUEL.getText(),
-                    CommandType.CHANGE_NAME.getText(),
-                    TextConstants.SOURCE_LINK
+                StringNamedTemplate.format("""
+                        Social RPG in Telegram!
+                        Just add to the group and join events.
+                        Official news channel - ${news_channel_username}.
+                                        
+                        Available commands (pm and chant):
+                        ${language_command} - change language;
+                        ${profile_command} - show profile;
+                        ${help_command} - this message
+                                        
+                        Only for group:
+                        ${top_command} - show top by experience in group
+                        ${duel_command} - challenge another seeker to a duel. Must be a response to another user message
+                                        
+                        Only for pm:
+                        ${name_command} - change name
+                                        
+                        The source code of the game is <a href="${github_link}">here</a>
+                        """,
+                    new HashMap<>() {{
+                        put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+                        put("language_command", CommandType.CHANGE_LANGUAGE.getText());
+                        put("profile_command", CommandType.GET_PROFILE.getText());
+                        put("help_command", CommandType.HELP.getText());
+                        put("top_command", CommandType.TOP.getText());
+                        put("duel_command", CommandType.START_DUEL.getText());
+                        put("name_command", CommandType.CHANGE_NAME.getText());
+                        put("github_link", TextConstants.SOURCE_LINK);
+                    }}
                 )
             },
             {
                 LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name(),
-                "Enter the name separated by a space after the command: \"/name Name\""
+                StringNamedTemplate.format(
+                    "Enter the name separated by a space after the command: \"${name_command} Name\"",
+                    Collections.singletonMap("name_command", CommandType.CHANGE_NAME.getText())
+                )
+
             },
             {
                 LocalizationKeys.NAME_TOO_LONG.name(),
-                "The name must not exceed %d characters"
+                "The name must not exceed ${max_name_length} characters"
             },
             {
                 LocalizationKeys.SUCCESS_NAME_CHANGE.name(),
@@ -130,7 +132,10 @@ public class resource_en extends AbstractResource {
             },
             {
                 LocalizationKeys.PROFILE_LEVEL_UP.name(),
-                "There are unspent leveling points! Press /level_up"
+                StringNamedTemplate.format(
+                    "There are unspent leveling points! Press ${level_up_command}",
+                    Collections.singletonMap("level_up_command", CommandType.LEVEL_UP.getText())
+                )
             },
             {
                 LocalizationKeys.NOT_ENOUGH_LEVELING_POINTS.name(),
@@ -170,9 +175,12 @@ public class resource_en extends AbstractResource {
             },
             {
                 LocalizationKeys.INIT_DUEL.name(),
-                "The seeker " + TextConstants.LEVEL_ICON + "%d %s challenges the seeker " +
-                    TextConstants.LEVEL_ICON + "%d %s to a duel.\n\n" +
-                    "What will be his answer?"
+                """
+                    The seeker ${level_icon}${initiator_personage_level} ${initiator_personage_name} challenges \
+                    the seeker  ${level_icon}${accepting_personage_level} ${accepting_personage_name}.
+                    
+                    What will be his answer?
+                    """,
             },
             {
                 LocalizationKeys.NOT_DUEL_ACCEPTING_PERSONAGE.name(),
@@ -188,8 +196,10 @@ public class resource_en extends AbstractResource {
             },
             {
                 LocalizationKeys.FINISHED_DUEL.name(),
-                "The seeker " + TextConstants.LEVEL_ICON + "%d %s got the better of " +
-                    TextConstants.LEVEL_ICON + "%d %s"
+                """
+                    The seeker ${level_icon}${winner_personage_level} ${winner_personage_name} got the better of \
+                    ${level_icon}$looser_personage_level} ${looser_personage_name}
+                    """
             },
             {
                 LocalizationKeys.ACCEPT_DUEL_BUTTON.name(),
