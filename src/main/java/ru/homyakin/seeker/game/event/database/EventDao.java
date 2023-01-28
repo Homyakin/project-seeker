@@ -94,7 +94,7 @@ public class EventDao {
         public EventLocale mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new EventLocale(
                 Language.getOrDefault(rs.getInt("lang")),
-                rs.getString("name"),
+                rs.getString("intro"),
                 rs.getString("description")
             );
         }

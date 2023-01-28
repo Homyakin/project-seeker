@@ -60,5 +60,5 @@ def process_locale(locales: Dict, event_id: int):
             locale,
             table='event_locale',
             pk_columns=['event_id', 'lang'],
-            simple_columns=['name', 'description']
+            simple_columns=['intro', 'description']
         )

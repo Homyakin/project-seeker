@@ -21,12 +21,12 @@
     "locale": [
       {
         "lang": "ru",
-        "name": "Появилось соломенное чучело!",
+        "intro": "Появилось соломенное чучело!",
         "description": "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
       },
       {
         "lang": "en",
-        "name": "A straw scarecrow appeared!",
+        "intro": "A straw scarecrow appeared!",
         "description": "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
       }
     ]
@@ -53,12 +53,12 @@
     "locale": [
       {
         "lang": "ru",
-        "name": "Мудрый волк снова мудрит",
+        "intro": "Мудрый волк снова мудрит",
         "description": "С недавних пор охотники, вернувшиеся из леса, ведут себя странно. Постоянно бормочат себе под нос, что сила в силе и почему-то очень бояться цирка. Расправьтесь с причиной этого безумства!"
       },
       {
         "lang": "en",
-        "name": "Wise wolf is wise again",
+        "intro": "Wise wolf is wise again",
         "description": "Recently, hunters who have returned from the forest have been behaving strangely. Constantly muttering to himself that strength is in strength and for some reason very afraid of the circus. Deal with the cause of this madness!"
       }
     ]

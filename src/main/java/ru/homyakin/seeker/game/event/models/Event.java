@@ -25,7 +25,7 @@ public record Event(
         final var locale = getLocaleByLanguageOrDefault(language);
 
         return "<b>%s</b>%n%n%s".formatted(
-            locale.name(),
+            locale.intro(),
             locale.description()
         );
     }
@@ -44,7 +44,7 @@ public record Event(
                                 
                 %s
                 """.formatted(
-                locale.name(),
+                locale.intro(),
                 locale.description(),
                 endDateText.get()
             );

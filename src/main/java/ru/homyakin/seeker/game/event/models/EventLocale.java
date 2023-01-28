@@ -5,12 +5,12 @@ import ru.homyakin.seeker.locale.Localization;
 
 public record EventLocale(
     Language language,
-    String name,
+    String intro,
     String description
 ) {
     public String toStartMessage() {
         return "<b>%s</b>%n%n%s".formatted(
-            name,
+            intro,
             description
         );
     }

@@ -28,7 +28,7 @@
             <column name="lang" type="TINYINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="VARCHAR(100)">
+            <column name="intro" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="VARCHAR(1000)">
