@@ -10,10 +10,10 @@
 
     <properties>
         <java.version>18</java.version>
-        <spring.version>2.7.2</spring.version>
+        <spring.version>3.0.2</spring.version>
         <liquibase.version>4.15.0</liquibase.version>
         <postgres.version>42.4.1</postgres.version>
-        <telegram.version>6.1.0</telegram.version>
+        <telegram.version>6.4.0</telegram.version>
         <vavr.version>0.10.4</vavr.version>
         <emoji.version>5.1.1</emoji.version>
 
@@ -34,6 +34,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
