@@ -184,8 +184,10 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.INIT_DUEL.name(),
                 """
-                    Искатель ${level_icon}${initiating_personage_level} ${initiating_personage_name} вызывает на дуэль \
-                    искателя  ${level_icon}${accepting_personage_level} ${accepting_personage_name}.
+                    Искатель <b>${level_icon}${initiating_personage_level} ${initiating_personage_name} \
+                    ${initiating_personage_health}${health_icon}</b> вызывает на дуэль \
+                    искателя <b>${level_icon}${accepting_personage_level} ${accepting_personage_name} \
+                    ${accepting_personage_health}${health_icon}</b>.
                     
                     Каким будет его ответ?
                     """
@@ -205,8 +207,8 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.FINISHED_DUEL.name(),
                 """
-                    Искатель ${level_icon}${winner_personage_level} ${winner_personage_name} одержал верх над \
-                    ${level_icon}${looser_personage_level} ${looser_personage_name}
+                    Искатель <b>${level_icon}${winner_personage_level} ${winner_personage_name}</b> одержал верх над \
+                    <b>${level_icon}${looser_personage_level} ${looser_personage_name}</b>
                     """
             },
             {

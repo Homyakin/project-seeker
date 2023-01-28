@@ -184,8 +184,10 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.INIT_DUEL.name(),
                 """
-                    The seeker ${level_icon}${initiating_personage_level} ${initiating_personage_name} challenges \
-                    the seeker  ${level_icon}${accepting_personage_level} ${accepting_personage_name}.
+                    The seeker <b>${level_icon}${initiating_personage_level} ${initiating_personage_name} \
+                    ${initiating_personage_health}${health_icon}</b> challenges \
+                    the seeker <b>${level_icon}${accepting_personage_level} ${accepting_personage_name} \
+                    ${accepting_personage_health}${health_icon}</b>.
                     
                     What will be his answer?
                     """,
@@ -205,8 +207,8 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.FINISHED_DUEL.name(),
                 """
-                    The seeker ${level_icon}${winner_personage_level} ${winner_personage_name} got the better of \
-                    ${level_icon}${looser_personage_level} ${looser_personage_name}
+                    The seeker <b>${level_icon}${winner_personage_level} ${winner_personage_name}</b> got the better of \
+                    <b>${level_icon}${looser_personage_level} ${looser_personage_name}</b>
                     """
             },
             {

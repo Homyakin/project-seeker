@@ -161,10 +161,13 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String initDuel(Personage initiatingPersonage, Personage acceptingPersonage) {
         final var params = new HashMap<String, Object>() {{
             put("level_icon", TextConstants.LEVEL_ICON);
+            put("health_icon", TextConstants.HEALTH_ICON);
             put("initiating_personage_level", initiatingPersonage.level());
             put("initiating_personage_name", initiatingPersonage.name());
+            put("initiating_personage_health", initiatingPersonage.health());
             put("accepting_personage_level", acceptingPersonage.level());
             put("accepting_personage_name", acceptingPersonage.name());
+            put("accepting_personage_health", acceptingPersonage.health());
         }};
         return StringNamedTemplate.format(
             getString(LocalizationKeys.INIT_DUEL.name()),
