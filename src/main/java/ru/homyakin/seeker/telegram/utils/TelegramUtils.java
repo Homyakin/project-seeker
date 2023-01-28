@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.utils;
 
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -26,6 +27,10 @@ public class TelegramUtils {
         return isGroupMessage(message)
             && message.hasText()
             && isBotCommand(message.getText(), botUsername);
+    }
+
+    public static boolean isGroupChat(Chat chat) {
+        return chat.isGroupChat() || chat.isSuperGroupChat();
     }
 
     private static boolean isBotCommand(String text, String botUsername) {

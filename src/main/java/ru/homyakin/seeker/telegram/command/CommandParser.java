@@ -46,13 +46,18 @@ public class CommandParser {
     }
 
     private Optional<Command> parseMyChatMember(ChatMemberUpdated chatMember) {
-        return Optional.ofNullable(
-            switch (chatMember.getNewChatMember().getStatus()) {
-                case "left" -> new LeftGroup(chatMember.getChat().getId());
-                case "member" -> new JoinGroup(chatMember.getChat().getId());
-                default -> null;
-            }
-        );
+        if (TelegramUtils.isGroupChat(chatMember.getChat())) {
+            return Optional.ofNullable(
+                switch (chatMember.getNewChatMember().getStatus()) {
+                    case "left" -> new LeftGroup(chatMember.getChat().getId());
+                    case "member" -> new JoinGroup(chatMember.getChat().getId());
+                    default -> null;
+                }
+            );
+        } else {
+            //TODO обработка сообщений из лички
+            return Optional.empty();
+        }
     }
 
     private Optional<Command> parseMessage(Message message) { //TODO разделить на group и private
