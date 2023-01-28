@@ -122,6 +122,10 @@ public record Personage(
             < maxLevelingPoints();
     }
 
+    public boolean hasHealthLessThanPercent(double minimumHealthPercent) {
+        return health < maxHealth() * minimumHealthPercent;
+    }
+
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id,

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.DuelService;
+import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -56,10 +57,22 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var initiatorPersonage = personageService.getByIdForce(user.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
 
-        final var duelResult = duelService.createDuel(initiatorPersonage.id(), acceptingPersonage.id(), group.id());
+        final var duelResult = duelService.createDuel(initiatorPersonage, acceptingPersonage, group.id());
         if (duelResult.isLeft()) {
+            final var error = duelResult.getLeft();
+            // TODO поменять на красивый switch, когда выйдет из превью
+            final String message;
+            if (error instanceof CreateDuelError.PersonageAlreadyHasDuel) {
+                message = Localization.get(group.language()).personageAlreadyStartDuel();
+            } else if (error instanceof CreateDuelError.InitiatingPersonageHasLowHealth) {
+                message = Localization.get(group.language()).duelWithInitiatorLowHealth();
+            } else if (error instanceof CreateDuelError.AcceptingPersonageHasLowHealth) {
+                message = Localization.get(group.language()).duelWithAcceptorLowHealth();
+            } else {
+                throw new IllegalStateException("Unknown duel error: " + error.toString());
+            }
             telegramSender.send(
-                TelegramMethods.createSendMessage(group.id(), Localization.get(group.language()).personageAlreadyStartDuel())
+                TelegramMethods.createSendMessage(group.id(), message)
             );
             return;
         }

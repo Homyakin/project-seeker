@@ -146,6 +146,14 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.DUEL_WITH_YOURSELF.name());
     }
 
+    public String duelWithInitiatorLowHealth() {
+        return getString(LocalizationKeys.DUEL_WITH_INITIATOR_LOW_HEALTH.name());
+    }
+
+    public String duelWithAcceptorLowHealth() {
+        return getString(LocalizationKeys.DUEL_WITH_ACCEPTOR_LOW_HEALTH.name());
+    }
+
     public String personageAlreadyStartDuel() {
         return getString(LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name());
     }

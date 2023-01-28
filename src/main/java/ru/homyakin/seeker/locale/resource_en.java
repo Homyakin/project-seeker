@@ -170,6 +170,14 @@ public class resource_en extends AbstractResource {
                 "You can't have a duel with yourself!"
             },
             {
+                LocalizationKeys.DUEL_WITH_INITIATOR_LOW_HEALTH.name(),
+                "You're barely moving! Go recover first, and then come fight!"
+            },
+            {
+                LocalizationKeys.DUEL_WITH_ACCEPTOR_LOW_HEALTH.name(),
+                "Your opponent is dying, and you want to fight him?! Show respect to the wounded!"
+            },
+            {
                 LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name(),
                 "You have already started another duel! Wait for it to finish."
             },

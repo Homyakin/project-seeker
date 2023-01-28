@@ -4,8 +4,9 @@ import io.vavr.control.Either;
 import java.time.Duration;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
-import ru.homyakin.seeker.game.duel.models.PersonageAlreadyHasDuel;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -18,16 +19,22 @@ public class DuelService {
         this.duelLifeTime = duelConfig.lifeTime();
     }
 
-    public Either<PersonageAlreadyHasDuel, Duel> createDuel(
-        long initiatingPersonageId,
-        long acceptingPersonageId,
+    public Either<CreateDuelError, Duel> createDuel(
+        Personage initiatingPersonage,
+        Personage acceptingPersonage,
         long groupId
     ) {
-        if (duelDao.getWaitingDuelByInitiatingPersonage(initiatingPersonageId).isPresent()) {
-            return Either.left(new PersonageAlreadyHasDuel());
+        if (duelDao.getWaitingDuelByInitiatingPersonage(initiatingPersonage.id()).isPresent()) {
+            return Either.left(new CreateDuelError.PersonageAlreadyHasDuel());
+        }
+        if (initiatingPersonage.hasHealthLessThanPercent(PERSONAGE_MINIMUM_HP_PERCENT)) {
+            return Either.left(new CreateDuelError.InitiatingPersonageHasLowHealth());
+        }
+        if (acceptingPersonage.hasHealthLessThanPercent(PERSONAGE_MINIMUM_HP_PERCENT)) {
+            return Either.left(new CreateDuelError.AcceptingPersonageHasLowHealth());
         }
 
-        final var id = duelDao.create(initiatingPersonageId, acceptingPersonageId, groupId, duelLifeTime);
+        final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), groupId, duelLifeTime);
         return Either.right(getByIdForce(id));
     }
 
@@ -63,4 +70,6 @@ public class DuelService {
         //TODO проверка на то, что статус был не финишд
         duelDao.addWinnerIdToDuel(duelId, personageId);
     }
+
+    private static final double PERSONAGE_MINIMUM_HP_PERCENT = 0.1;
 }

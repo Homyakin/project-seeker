@@ -170,6 +170,14 @@ public class resource_ru extends AbstractResource {
                 "Нельзя устроить дуэль с самим собой!"
             },
             {
+                LocalizationKeys.DUEL_WITH_INITIATOR_LOW_HEALTH.name(),
+                "Ты еле двигаешься! Иди восстановись для начала, а потом приходи драться!"
+            },
+            {
+                LocalizationKeys.DUEL_WITH_ACCEPTOR_LOW_HEALTH.name(),
+                "Твой соперник при смерти, а ты хочешь с ним сражаться?! Прояви уважение к раненым!"
+            },
+            {
                 LocalizationKeys.PERSONAGE_ALREADY_START_DUEL.name(),
                 "Вы уже начали другую дуэль! Дождитесь ей окончания."
             },
