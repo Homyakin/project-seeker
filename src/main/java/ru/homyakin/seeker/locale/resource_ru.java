@@ -184,7 +184,7 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.INIT_DUEL.name(),
                 """
-                    Искатель ${level_icon}${initiator_personage_level} ${initiator_personage_name} вызывает на дуэль \
+                    Искатель ${level_icon}${initiating_personage_level} ${initiating_personage_name} вызывает на дуэль \
                     искателя  ${level_icon}${accepting_personage_level} ${accepting_personage_name}.
                     
                     Каким будет его ответ?

@@ -184,7 +184,7 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.INIT_DUEL.name(),
                 """
-                    The seeker ${level_icon}${initiator_personage_level} ${initiator_personage_name} challenges \
+                    The seeker ${level_icon}${initiating_personage_level} ${initiating_personage_name} challenges \
                     the seeker  ${level_icon}${accepting_personage_level} ${accepting_personage_name}.
                     
                     What will be his answer?

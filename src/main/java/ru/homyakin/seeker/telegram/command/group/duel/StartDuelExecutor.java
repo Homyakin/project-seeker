@@ -54,10 +54,10 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var replyInfo = result.get();
         final var acceptingUser = userService.getOrCreateFromGroup(replyInfo.userId());
 
-        final var initiatorPersonage = personageService.getByIdForce(user.personageId());
+        final var initiatingPersonage = personageService.getByIdForce(user.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
 
-        final var duelResult = duelService.createDuel(initiatorPersonage, acceptingPersonage, group.id());
+        final var duelResult = duelService.createDuel(initiatingPersonage, acceptingPersonage, group.id());
         if (duelResult.isLeft()) {
             final var error = duelResult.getLeft();
             // TODO поменять на красивый switch, когда выйдет из превью
@@ -79,7 +79,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var telegramResult = telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                Localization.get(group.language()).initDuel(initiatorPersonage, acceptingPersonage),
+                Localization.get(group.language()).initDuel(initiatingPersonage, acceptingPersonage),
                 replyInfo.messageId(),
                 InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id())
             )
