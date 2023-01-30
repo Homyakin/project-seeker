@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.profile;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -50,10 +50,22 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
                 )
             );
         } else {
+            final var error = result.getLeft();
+            //TODO switch
+            final String message;
+            if (error instanceof NameError.InvalidLength invalidLength) {
+                message = Localization.get(user.language()).personageNameInvalidLength(
+                    invalidLength.minLength(), invalidLength.maxLength()
+                );
+            } else if (error instanceof NameError.NotAllowedSymbols) {
+                message = Localization.get(user.language()).personageNameInvalidSymbols();
+            } else {
+                throw new IllegalStateException("Unknown error: " + error.toString());
+            }
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(),
-                    Localization.get(user.language()).nameTooLong(Personage.MAX_NAME_LENGTH),
+                    message,
                     ReplyKeyboards.mainKeyboard(user.language())
                 )
             );

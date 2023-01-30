@@ -123,8 +123,12 @@ public class resource_ru extends AbstractResource {
                 )
             },
             {
-                LocalizationKeys.NAME_TOO_LONG.name(),
-                "Имя не должно превышать ${max_name_length} символов"
+                LocalizationKeys.PERSONAGE_NAME_INVALID_LENGTH.name(),
+                "Имя должно быть в пределах от ${min_name_length} до ${max_name_length} символов"
+            },
+            {
+                LocalizationKeys.PERSONAGE_NAME_INVALID_SYMBOLS.name(),
+                "Имя может содержать только кириллицу, латиницу, цифры, символы _-.#№: и пробел"
             },
             {
                 LocalizationKeys.SUCCESS_NAME_CHANGE.name(),

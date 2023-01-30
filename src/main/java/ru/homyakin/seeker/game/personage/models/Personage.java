@@ -3,11 +3,12 @@ package ru.homyakin.seeker.game.personage.models;
 import io.vavr.control.Either;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.experience.ExperienceUtils;
 import ru.homyakin.seeker.game.personage.PersonageDao;
+import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
-import ru.homyakin.seeker.game.personage.models.errors.TooLongName;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localization;
@@ -43,9 +44,12 @@ public record Personage(
         return personage;
     }
 
-    public Either<TooLongName, Personage> changeName(String name, PersonageDao personageDao) {
-        if (name.length() > MAX_NAME_LENGTH) {
-            return Either.left(new TooLongName());
+    public Either<NameError, Personage> changeName(String name, PersonageDao personageDao) {
+        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
+            return Either.left(new NameError.InvalidLength(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
+        }
+        if (!NAME_PATTERN.matcher(name).matches()) {
+            return Either.left(new NameError.NotAllowedSymbols());
         }
         final var personage = copyWithName(name);
         personageDao.update(personage);
@@ -156,7 +160,13 @@ public record Personage(
         );
     }
 
-    public static final int MAX_NAME_LENGTH = 100;
+    private static final int MIN_NAME_LENGTH = 3;
+    private static final int MAX_NAME_LENGTH = 25;
+    private static final String CYRILLIC = "а-яА-ЯёЁ";
+    private static final String ENGLISH = "a-zA-Z";
+    private static final String NUMBERS = "0-9";
+    private static final String SPECIAL = "_\\-\\.#№: ";
+    private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
 
     private int maxLevelingPoints() {
         return level - 1;

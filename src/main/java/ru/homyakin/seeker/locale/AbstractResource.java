@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.locale;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.ListResourceBundle;
 import ru.homyakin.seeker.game.experience.ExperienceUtils;
@@ -99,11 +98,19 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.CHANGE_NAME_WITHOUT_NAME.name());
     }
 
-    public String nameTooLong(int maxNameLength) {
+    public String personageNameInvalidLength(int minNameLength, int maxNameLength) {
+        final var params = new HashMap<String, Object>() {{
+            put("max_name_length", maxNameLength);
+            put("min_name_length", minNameLength);
+        }};
         return StringNamedTemplate.format(
-            getString(LocalizationKeys.NAME_TOO_LONG.name()),
-            Collections.singletonMap("max_name_length", maxNameLength)
+            getString(LocalizationKeys.PERSONAGE_NAME_INVALID_LENGTH.name()),
+            params
         );
+    }
+
+    public String personageNameInvalidSymbols() {
+        return getString(LocalizationKeys.PERSONAGE_NAME_INVALID_SYMBOLS.name());
     }
 
     public String successNameChange() {
