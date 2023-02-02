@@ -16,15 +16,15 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Component
 public class UserDao {
     private static final String SAVE_USER = """
-        insert into tg_user (id, is_active_private_messages, lang, init_date, personage_id)
+        insert into usertg (id, is_active_private_messages, lang, init_date, personage_id)
         values (:id, :is_active_private_messages, :lang, :init_date, :personage_id);
         """;
     private static final String GET_USER_BY_ID = """
-        SELECT * FROM tg_user
+        SELECT * FROM usertg
         WHERE id = :id
         """;
     private static final String UPDATE = """
-        update tg_user
+        update usertg
         set is_active_private_messages = :is_active_private_messages, lang = :lang
         where id = :id
         """;

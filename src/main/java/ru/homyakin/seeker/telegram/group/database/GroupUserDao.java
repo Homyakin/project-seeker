@@ -13,17 +13,17 @@ import ru.homyakin.seeker.telegram.group.models.GroupUser;
 @Component
 public class GroupUserDao {
     private static final String GET_GROUP_USER_BY_KEY = """
-        SELECT * FROM group_to_user
-        WHERE group_id = :group_id and user_id = :user_id
+        SELECT * FROM grouptg_to_usertg
+        WHERE grouptg_id = :grouptg_id and usertg_id = :usertg_id
         """;
     private static final String SAVE_GROUP_USER = """
-        insert into group_to_user (group_id, user_id, is_active)
-        values (:group_id, :user_id, :is_active)
+        insert into grouptg_to_usertg (grouptg_id, usertg_id, is_active)
+        values (:grouptg_id, :usertg_id, :is_active)
         """;
     private static final String UPDATE = """
-        update group_to_user
+        update grouptg_to_usertg
         set is_active = :is_active
-        where group_id = :group_id and user_id = :user_id
+        where grouptg_id = :grouptg_id and usertg_id = :usertg_id
         """;
     private static final GroupUserRowMapper GROUP_USER_ROW_MAPPER = new GroupUserRowMapper();
 
@@ -35,8 +35,8 @@ public class GroupUserDao {
 
     public void save(GroupUser groupUser) {
         final var params = new HashMap<String, Object>() {{
-            put("group_id", groupUser.groupId());
-            put("user_id", groupUser.userId());
+            put("grouptg_id", groupUser.groupId());
+            put("usertg_id", groupUser.userId());
             put("is_active", groupUser.isActive());
         }};
         jdbcTemplate.update(
@@ -47,8 +47,8 @@ public class GroupUserDao {
 
     public Optional<GroupUser> getByGroupIdAndUserId(long groupId, long userId) {
         final var params = new HashMap<String, Object>() {{
-            put("group_id", groupId);
-            put("user_id", userId);
+            put("grouptg_id", groupId);
+            put("usertg_id", userId);
         }};
         final var result = jdbcTemplate.query(
             GET_GROUP_USER_BY_KEY,
@@ -60,8 +60,8 @@ public class GroupUserDao {
 
     public void update(GroupUser groupUser) {
         final var params = new HashMap<String, Object>() {{
-            put("group_id", groupUser.groupId());
-            put("user_id", groupUser.userId());
+            put("grouptg_id", groupUser.groupId());
+            put("usertg_id", groupUser.userId());
             put("is_active", groupUser.isActive());
         }};
         jdbcTemplate.update(
@@ -75,8 +75,8 @@ public class GroupUserDao {
         @Override
         public GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new GroupUser(
-                rs.getLong("group_id"),
-                rs.getLong("user_id"),
+                rs.getLong("grouptg_id"),
+                rs.getLong("usertg_id"),
                 rs.getBoolean("is_active")
             );
         }

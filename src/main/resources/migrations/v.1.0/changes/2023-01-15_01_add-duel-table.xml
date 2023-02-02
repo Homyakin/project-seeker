@@ -14,7 +14,8 @@
             <column name="accepting_personage_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="group_id" type="BIGINT">
+            <!--TODO вынести grouptg в отдельную таблицу-->
+            <column name="grouptg_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="message_id" type="INTEGER">
@@ -56,11 +57,11 @@
         />
 
         <addForeignKeyConstraint
-                baseColumnNames="group_id"
+                baseColumnNames="grouptg_id"
                 baseTableName="duel"
-                constraintName="fk_duel_group"
+                constraintName="fk_duel_grouptg"
                 referencedColumnNames="id"
-                referencedTableName="tg_group"
+                referencedTableName="grouptg"
         />
 
         <createIndex tableName="duel" indexName="idx_duel_initiating_personage_id">

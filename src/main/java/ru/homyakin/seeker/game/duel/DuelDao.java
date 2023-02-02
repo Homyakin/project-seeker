@@ -19,10 +19,6 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class DuelDao {
-    private static final String SAVE = """
-        insert into duel (id, initiating_personage_id, accepting_personage_id, group_id, expiring_date, status)
-        values (:id, :initiating_personage_id, :accepting_personage_id, :group_id, :expiring_date, :status)
-        """;
     private static final String GET_WAITING_BY_INITIATING_PERSONAGE = """
         SELECT * FROM duel WHERE status = :status and initiating_personage_id = :initiating_personage_id
         """;
@@ -63,7 +59,7 @@ public class DuelDao {
             .usingColumns(
                 "initiating_personage_id",
                 "accepting_personage_id",
-                "group_id",
+                "grouptg_id",
                 "expiring_date",
                 "status"
             )
@@ -80,7 +76,7 @@ public class DuelDao {
         final var params = new HashMap<String, Object>() {{
             put("initiating_personage_id", initiatingPersonageId);
             put("accepting_personage_id", acceptingPersonageId);
-            put("group_id", groupId);
+            put("grouptg_id", groupId);
             put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
             put("status", DuelStatus.WAITING.id());
         }};
@@ -160,7 +156,7 @@ public class DuelDao {
                 rs.getLong("id"),
                 rs.getLong("initiating_personage_id"),
                 rs.getLong("accepting_personage_id"),
-                rs.getLong("group_id"),
+                rs.getLong("grouptg_id"),
                 rs.getTimestamp("expiring_date").toLocalDateTime(),
                 DuelStatus.getById(rs.getInt("status")),
                 Optional.ofNullable(DatabaseUtils.getNullableInt(rs, "message_id"))

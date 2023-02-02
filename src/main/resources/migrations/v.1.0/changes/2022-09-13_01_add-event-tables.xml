@@ -74,11 +74,11 @@
         </createIndex>
 
         <!--События отправленные в чаты-->
-        <createTable tableName="group_to_launched_event">
+        <createTable tableName="grouptg_to_launched_event">
             <column name="launched_event_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="group_id" type="BIGINT">
+            <column name="grouptg_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="message_id" type="INTEGER">
@@ -87,17 +87,17 @@
         </createTable>
 
         <addUniqueConstraint
-                columnNames="launched_event_id, group_id"
-                constraintName="group_to_launched_event_pk"
-                tableName="group_to_launched_event"
+                columnNames="launched_event_id, grouptg_id"
+                constraintName="grouptg_to_launched_event_pk"
+                tableName="grouptg_to_launched_event"
         />
 
         <addForeignKeyConstraint
-                baseColumnNames="group_id"
-                baseTableName="group_to_launched_event"
-                constraintName="fk_group_to_launched_event_group"
+                baseColumnNames="grouptg_id"
+                baseTableName="grouptg_to_launched_event"
+                constraintName="fk_grouptg_to_launched_event_group"
                 referencedColumnNames="id"
-                referencedTableName="tg_group"
+                referencedTableName="grouptg"
         />
 
         <!--Связь пользователя с событиями в чатах-->

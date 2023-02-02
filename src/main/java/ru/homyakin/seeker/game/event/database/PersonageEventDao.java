@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserEventDao {
+public class PersonageEventDao {
     private static final String SAVE_USER_EVENT = """
         insert into personage_to_event (personage_id, launched_event_id)
         values (:personage_id, :launched_event_id);
@@ -14,7 +14,7 @@ public class UserEventDao {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public UserEventDao(DataSource dataSource) {
+    public PersonageEventDao(DataSource dataSource) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 

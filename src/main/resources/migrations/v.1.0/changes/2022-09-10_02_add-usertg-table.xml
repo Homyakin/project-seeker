@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <changeSet context="legacy" author="Homyakin" id="add-tg-user-table">
-        <createTable tableName="tg_user">
+        <createTable tableName="usertg">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="user_pkey"/>
             </column>
@@ -24,8 +24,8 @@
 
         <addForeignKeyConstraint
                 baseColumnNames="personage_id"
-                baseTableName="tg_user"
-                constraintName="fk_tg_user_personage"
+                baseTableName="usertg"
+                constraintName="fk_usertg_personage"
                 referencedColumnNames="id"
                 referencedTableName="personage"
         />

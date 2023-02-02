@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.database.UserEventDao;
+import ru.homyakin.seeker.game.event.database.PersonageEventDao;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
@@ -14,17 +14,17 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Service
 public class LaunchedEventService {
     private final LaunchedEventDao launchedEventDao;
-    private final UserEventDao userEventDao;
+    private final PersonageEventDao personageEventDao;
 
     private final GroupEventService groupEventService;
 
     public LaunchedEventService(
         LaunchedEventDao launchedEventDao,
-        UserEventDao userEventDao,
+        PersonageEventDao personageEventDao,
         GroupEventService groupEventService
     ) {
         this.launchedEventDao = launchedEventDao;
-        this.userEventDao = userEventDao;
+        this.personageEventDao = personageEventDao;
         this.groupEventService = groupEventService;
     }
 
@@ -50,7 +50,7 @@ public class LaunchedEventService {
     }
 
     public void addPersonageToLaunchedEvent(Long personageId, Long launchedEventId) {
-        userEventDao.save(personageId, launchedEventId);
+        personageEventDao.save(personageId, launchedEventId);
     }
 
     public List<LaunchedEvent> getExpiredActiveEvents() {

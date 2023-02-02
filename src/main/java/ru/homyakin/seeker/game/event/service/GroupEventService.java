@@ -2,17 +2,17 @@ package ru.homyakin.seeker.game.event.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.database.GroupLaunchedEventDao;
+import ru.homyakin.seeker.game.event.database.GroupTgLaunchedEventDao;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.group.models.Group;
 
 @Service
 public class GroupEventService {
-    private final GroupLaunchedEventDao groupLaunchedEventDao;
+    private final GroupTgLaunchedEventDao groupTgLaunchedEventDao;
 
-    public GroupEventService(GroupLaunchedEventDao groupLaunchedEventDao) {
-        this.groupLaunchedEventDao = groupLaunchedEventDao;
+    public GroupEventService(GroupTgLaunchedEventDao groupTgLaunchedEventDao) {
+        this.groupTgLaunchedEventDao = groupTgLaunchedEventDao;
     }
 
     public GroupLaunchedEvent createGroupEvent(LaunchedEvent launchedEvent, Group group, Integer messageId) {
@@ -21,11 +21,11 @@ public class GroupEventService {
             group.id(),
             messageId
         );
-        groupLaunchedEventDao.save(groupEvent);
+        groupTgLaunchedEventDao.save(groupEvent);
         return groupEvent;
     }
 
     public List<GroupLaunchedEvent> getByLaunchedEventId(Long launchedEventId) {
-        return groupLaunchedEventDao.getByLaunchedEventId(launchedEventId);
+        return groupTgLaunchedEventDao.getByLaunchedEventId(launchedEventId);
     }
 }

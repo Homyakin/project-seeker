@@ -16,16 +16,16 @@ import ru.homyakin.seeker.telegram.group.models.Group;
 
 @Component
 public class GroupDao {
-    private static final String GET_GROUP_BY_ID = "SELECT * FROM tg_group WHERE id = :id";
+    private static final String GET_GROUP_BY_ID = "SELECT * FROM grouptg WHERE id = :id";
     private static final String GET_GROUP_WITH_LESS_NEXT_EVENT_DATE = """
-        SELECT * FROM tg_group WHERE next_event_date  < :next_event_date and is_active = true
+        SELECT * FROM grouptg WHERE next_event_date  < :next_event_date and is_active = true
         """;
     private static final String SAVE_GROUP = """
-        insert into tg_group (id, is_active, lang, init_date, next_event_date)
+        insert into grouptg (id, is_active, lang, init_date, next_event_date)
         values (:id, :is_active, :lang, :init_date, :next_event_date)
         """;
     private static final String UPDATE = """
-        update tg_group
+        update grouptg
         set is_active = :is_active, lang = :lang, next_event_date = :next_event_date
         where id = :id;
         """;

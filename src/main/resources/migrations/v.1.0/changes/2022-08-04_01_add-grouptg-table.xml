@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <changeSet context="legacy" author="Homyakin" id="add-group-table">
-        <createTable tableName="tg_group">
+        <createTable tableName="grouptg">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" primaryKeyName="group_pkey"/>
             </column>
