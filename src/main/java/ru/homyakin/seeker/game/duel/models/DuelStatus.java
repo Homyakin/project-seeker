@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.duel;
+package ru.homyakin.seeker.game.duel.models;
 
 import java.util.Arrays;
 import java.util.HashMap;

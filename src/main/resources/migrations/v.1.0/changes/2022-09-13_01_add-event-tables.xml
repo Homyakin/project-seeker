@@ -25,7 +25,7 @@
             <column name="event_id" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
-            <column name="lang" type="TINYINT">
+            <column name="language_id" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
             <column name="intro" type="VARCHAR(100)">
@@ -37,7 +37,7 @@
         </createTable>
 
         <addUniqueConstraint
-                columnNames="event_id, lang"
+                columnNames="event_id, language_id"
                 constraintName="event_locale_pk"
                 tableName="event_locale"
         />

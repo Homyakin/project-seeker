@@ -14,13 +14,14 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.models.Duel;
+import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class DuelDao {
     private static final String GET_WAITING_BY_INITIATING_PERSONAGE = """
-        SELECT * FROM duel WHERE status = :status and initiating_personage_id = :initiating_personage_id
+        SELECT * FROM duel WHERE status_id = :status_id and initiating_personage_id = :initiating_personage_id
         """;
     private static final String GET_BY_ID = """
         SELECT * FROM duel WHERE id = :id
@@ -40,12 +41,12 @@ public class DuelDao {
 
     private static final String GET_WAITING_DUELS_WITH_LESS_EXPIRE_DATE = """
         SELECT * FROM duel
-        WHERE status = :status AND expiring_date <= :expiring_date;
+        WHERE status_id = :status_id AND expiring_date <= :expiring_date;
         """;
 
-    private static final String UPDATE_STATUS = """
+    private static final String UPDATE_status_id = """
         UPDATE duel
-        SET status = :status
+        SET status_id = :status_id
         WHERE id = :id
         """;
 
@@ -61,7 +62,7 @@ public class DuelDao {
                 "accepting_personage_id",
                 "grouptg_id",
                 "expiring_date",
-                "status"
+                "status_id"
             )
             .usingGeneratedKeyColumns("id");
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -78,7 +79,7 @@ public class DuelDao {
             put("accepting_personage_id", acceptingPersonageId);
             put("grouptg_id", groupId);
             put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
-            put("status", DuelStatus.WAITING.id());
+            put("status_id", DuelStatus.WAITING.id());
         }};
         return jdbcInsert.executeAndReturnKey(params).longValue();
     }
@@ -94,7 +95,7 @@ public class DuelDao {
     public Optional<Duel> getWaitingDuelByInitiatingPersonage(long initiatingPersonageId) {
         final var params = new HashMap<String, Object>() {{
             put("initiating_personage_id", initiatingPersonageId);
-            put("status", DuelStatus.WAITING.id());
+            put("status_id", DuelStatus.WAITING.id());
         }};
         return jdbcTemplate.query(
             GET_WAITING_BY_INITIATING_PERSONAGE,
@@ -105,7 +106,7 @@ public class DuelDao {
 
     public List<Duel> getWaitingDuelsWithLessExpireDate(LocalDateTime expiringDate) {
         final var params = new HashMap<String, Object>() {{
-            put("status", DuelStatus.WAITING.id());
+            put("status_id", DuelStatus.WAITING.id());
             put("expiring_date", expiringDate);
         }};
         return jdbcTemplate.query(
@@ -140,10 +141,10 @@ public class DuelDao {
     public void updateStatus(long duelId, DuelStatus status) {
         final var params = new HashMap<String, Object>() {{
             put("id", duelId);
-            put("status", status.id());
+            put("status_id", status.id());
         }};
         jdbcTemplate.update(
-            UPDATE_STATUS,
+            UPDATE_status_id,
             params
         );
     }
@@ -158,7 +159,7 @@ public class DuelDao {
                 rs.getLong("accepting_personage_id"),
                 rs.getLong("grouptg_id"),
                 rs.getTimestamp("expiring_date").toLocalDateTime(),
-                DuelStatus.getById(rs.getInt("status")),
+                DuelStatus.getById(rs.getInt("status_id")),
                 Optional.ofNullable(DatabaseUtils.getNullableInt(rs, "message_id"))
             );
         }

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.duel.DuelService;
-import ru.homyakin.seeker.game.duel.DuelStatus;
+import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Localization;

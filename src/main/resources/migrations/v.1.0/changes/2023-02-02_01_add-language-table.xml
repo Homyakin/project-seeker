@@ -1,0 +1,48 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-language-table">
+        <createTable tableName="language">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="language_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="language">
+            <column name="id" value="1"/>
+            <column name="name" value="Русский"/>
+        </insert>
+        <insert tableName="language">
+            <column name="id" value="2"/>
+            <column name="name" value="Английский"/>
+        </insert>
+
+        <!--Добавляем ключи на созданные таблицы-->
+        <addForeignKeyConstraint
+                baseColumnNames="language_id"
+                baseTableName="grouptg"
+                constraintName="fk_grouptg_language"
+                referencedColumnNames="id"
+                referencedTableName="language"
+        />
+        <addForeignKeyConstraint
+                baseColumnNames="language_id"
+                baseTableName="usertg"
+                constraintName="fk_usertg_language"
+                referencedColumnNames="id"
+                referencedTableName="language"
+        />
+        <addForeignKeyConstraint
+                baseColumnNames="language_id"
+                baseTableName="event_locale"
+                constraintName="fk_event_locale_language"
+                referencedColumnNames="id"
+                referencedTableName="language"
+        />
+    </changeSet>
+</databaseChangeLog>

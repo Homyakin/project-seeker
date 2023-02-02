@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="add-boss-table">
+    <changeSet context="legacy" author="Homyakin" id="add-boss-tables">
         <createTable tableName="duel">
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" primaryKeyName="duel_pkey"/>
@@ -24,7 +24,7 @@
             <column name="expiring_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="TINYINT">
+            <column name="status_id" type="TINYINT">
                 <constraints nullable="false"/>
             </column>
             <column name="winner_personage_id" type="BIGINT">
@@ -67,5 +67,39 @@
         <createIndex tableName="duel" indexName="idx_duel_initiating_personage_id">
             <column name="initiating_personage_id"/>
         </createIndex>
+
+        <createTable tableName="duel_status">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="duel_status_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="duel_status">
+            <column name="id" value="0"/>
+            <column name="name" value="Ожидание"/>
+        </insert>
+        <insert tableName="duel_status">
+            <column name="id" value="1"/>
+            <column name="name" value="Отклонено"/>
+        </insert>
+        <insert tableName="duel_status">
+            <column name="id" value="2"/>
+            <column name="name" value="Просрочено"/>
+        </insert>
+        <insert tableName="duel_status">
+            <column name="id" value="3"/>
+            <column name="name" value="Завершено"/>
+        </insert>
+
+        <addForeignKeyConstraint
+                baseColumnNames="status_id"
+                baseTableName="duel"
+                constraintName="fk_duel_duel_status"
+                referencedColumnNames="id"
+                referencedTableName="duel_status"
+        />
     </changeSet>
 </databaseChangeLog>

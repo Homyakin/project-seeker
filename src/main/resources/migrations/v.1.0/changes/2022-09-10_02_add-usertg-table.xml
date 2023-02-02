@@ -3,15 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="add-tg-user-table">
+    <changeSet context="legacy" author="Homyakin" id="add-usertg-table">
         <createTable tableName="usertg">
             <column name="id" type="BIGINT">
-                <constraints primaryKey="true" primaryKeyName="user_pkey"/>
+                <constraints primaryKey="true" primaryKeyName="usertg_pkey"/>
             </column>
             <column name="is_active_private_messages" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="lang" type="TINYINT">
+            <column name="language_id" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
             <column name="init_date" type="DATETIME">

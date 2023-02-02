@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
+import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.TimeUtils;
 

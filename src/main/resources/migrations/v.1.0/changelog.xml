@@ -9,5 +9,6 @@
     <include file="changes/2022-09-13_01_add-event-tables.xml" relativeToChangelogFile="true"/>
     <include file="changes/2022-10-13_01_add-grouptg-to-usertg-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2022-10-18_01_add-boss-table.xml" relativeToChangelogFile="true"/>
-    <include file="changes/2023-01-15_01_add-duel-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-01-15_01_add-duel-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-02-02_01_add-language-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

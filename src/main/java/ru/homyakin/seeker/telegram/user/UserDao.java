@@ -16,8 +16,8 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Component
 public class UserDao {
     private static final String SAVE_USER = """
-        insert into usertg (id, is_active_private_messages, lang, init_date, personage_id)
-        values (:id, :is_active_private_messages, :lang, :init_date, :personage_id);
+        insert into usertg (id, is_active_private_messages, language_id, init_date, personage_id)
+        values (:id, :is_active_private_messages, :language_id, :init_date, :personage_id);
         """;
     private static final String GET_USER_BY_ID = """
         SELECT * FROM usertg
@@ -25,7 +25,7 @@ public class UserDao {
         """;
     private static final String UPDATE = """
         update usertg
-        set is_active_private_messages = :is_active_private_messages, lang = :lang
+        set is_active_private_messages = :is_active_private_messages, language_id = :language_id
         where id = :id
         """;
     private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
@@ -40,7 +40,7 @@ public class UserDao {
         final var params = new HashMap<String, Object>() {{
             put("id", user.id());
             put("is_active_private_messages", user.isActivePrivateMessages());
-            put("lang", user.language().id());
+            put("language_id", user.language().id());
             put("init_date", TimeUtils.moscowTime());
             put("personage_id", user.personageId());
         }};
@@ -63,7 +63,7 @@ public class UserDao {
     public void update(User user) {
         final var params = new HashMap<String, Object>() {{
             put("id", user.id());
-            put("lang", user.language().id());
+            put("language_id", user.language().id());
             put("is_active_private_messages", user.isActivePrivateMessages());
         }};
         jdbcTemplate.update(
@@ -79,7 +79,7 @@ public class UserDao {
             return new User(
                 rs.getLong("id"),
                 rs.getBoolean("is_active_private_messages"),
-                Language.getOrDefault(rs.getInt("lang")),
+                Language.getOrDefault(rs.getInt("language_id")),
                 rs.getLong("personage_id")
             );
         }

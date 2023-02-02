@@ -3,15 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="add-group-table">
+    <changeSet context="legacy" author="Homyakin" id="add-grouptg-table">
         <createTable tableName="grouptg">
             <column name="id" type="BIGINT">
-                <constraints primaryKey="true" primaryKeyName="group_pkey"/>
+                <constraints primaryKey="true" primaryKeyName="grouptg_pkey"/>
             </column>
             <column name="is_active" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
-            <column name="lang" type="TINYINT">
+            <column name="language_id" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
             <column name="init_date" type="DATETIME">

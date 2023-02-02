@@ -21,12 +21,12 @@ public class GroupDao {
         SELECT * FROM grouptg WHERE next_event_date  < :next_event_date and is_active = true
         """;
     private static final String SAVE_GROUP = """
-        insert into grouptg (id, is_active, lang, init_date, next_event_date)
-        values (:id, :is_active, :lang, :init_date, :next_event_date)
+        insert into grouptg (id, is_active, language_id, init_date, next_event_date)
+        values (:id, :is_active, :language_id, :init_date, :next_event_date)
         """;
     private static final String UPDATE = """
         update grouptg
-        set is_active = :is_active, lang = :lang, next_event_date = :next_event_date
+        set is_active = :is_active, language_id = :language_id, next_event_date = :next_event_date
         where id = :id;
         """;
 
@@ -42,7 +42,7 @@ public class GroupDao {
         final var params = new HashMap<String, Object>() {{
             put("id", group.id());
             put("is_active", group.isActive());
-            put("lang", group.language().id());
+            put("language_id", group.language().id());
             put("init_date", group.nextEventDate());
             put("next_event_date", group.nextEventDate());
         }};
@@ -75,7 +75,7 @@ public class GroupDao {
         final var params = new HashMap<String, Object>() {{
             put("id", group.id());
             put("is_active", group.isActive());
-            put("lang", group.language().id());
+            put("language_id", group.language().id());
             put("next_event_date", group.nextEventDate());
         }};
         jdbcTemplate.update(
@@ -91,7 +91,7 @@ public class GroupDao {
             return new Group(
                 rs.getLong("id"),
                 rs.getBoolean("is_active"),
-                Language.getOrDefault(rs.getInt("lang")),
+                Language.getOrDefault(rs.getInt("language_id")),
                 rs.getTimestamp("next_event_date").toLocalDateTime()
             );
         }
