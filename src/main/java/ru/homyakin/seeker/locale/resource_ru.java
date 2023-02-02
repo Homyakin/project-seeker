@@ -66,8 +66,6 @@ public class resource_ru extends AbstractResource {
                 LocalizationKeys.PROFILE_TEMPLATE.name(),
                 """
                 ${profile_icon}${personage_name}
-                ${level_icon}Уровень: ${personage_level}
-                ${exp_icon}Опыт: ${personage_exp}/${next_level_exp}
                 """
             },
             {
@@ -77,10 +75,6 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.FAILURE_BOSS.name(),
                 "Босс оказался сильнее искателей."
-            },
-            {
-                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name(),
-                TextConstants.EXP_ICON + "Топ персонажей в чате по опыту:"
             },
             {
                 LocalizationKeys.HELP.name(),
@@ -95,7 +89,6 @@ public class resource_ru extends AbstractResource {
                         ${help_command} - данное сообщение;
                                         
                         Только для чата:
-                        ${top_command} - показать топ игроков по опыту в чате;
                         ${duel_command} - вызвать другого искателя на дуэль. Должно быть ответом на сообщение другого пользователя;
                                         
                         Только для лички:
@@ -108,7 +101,6 @@ public class resource_ru extends AbstractResource {
                         put("language_command", CommandType.CHANGE_LANGUAGE.getText());
                         put("profile_command", CommandType.GET_PROFILE.getText());
                         put("help_command", CommandType.HELP.getText());
-                        put("top_command", CommandType.TOP.getText());
                         put("duel_command", CommandType.START_DUEL.getText());
                         put("name_command", CommandType.CHANGE_NAME.getText());
                         put("github_link", TextConstants.SOURCE_LINK);
@@ -188,9 +180,9 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.INIT_DUEL.name(),
                 """
-                    Искатель <b>${level_icon}${initiating_personage_level} ${initiating_personage_name} \
+                    Искатель <b>${level_icon}${initiating_personage_name} \
                     ${initiating_personage_health}${health_icon}</b> вызывает на дуэль \
-                    искателя <b>${level_icon}${accepting_personage_level} ${accepting_personage_name} \
+                    искателя <b>${level_icon}${accepting_personage_name} \
                     ${accepting_personage_health}${health_icon}</b>.
                     
                     Каким будет его ответ?
@@ -211,8 +203,8 @@ public class resource_ru extends AbstractResource {
             {
                 LocalizationKeys.FINISHED_DUEL.name(),
                 """
-                    Искатель <b>${level_icon}${winner_personage_level} ${winner_personage_name}</b> одержал верх над \
-                    <b>${level_icon}${looser_personage_level} ${looser_personage_name}</b>
+                    Искатель <b>${level_icon}${winner_personage_name}</b> одержал верх над \
+                    <b>${level_icon}${looser_personage_name}</b>
                     """
             },
             {
@@ -221,7 +213,7 @@ public class resource_ru extends AbstractResource {
             },
             {
                 LocalizationKeys.DECLINE_DUEL_BUTTON.name(),
-                "Отказаться :open_hands:" //TODO в иконки
+                "Отказаться :open_hands:"
             },
         };
 

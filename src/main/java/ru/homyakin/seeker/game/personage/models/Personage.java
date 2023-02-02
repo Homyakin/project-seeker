@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.experience.ExperienceUtils;
 import ru.homyakin.seeker.game.personage.PersonageDao;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
@@ -18,8 +17,6 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public record Personage(
     long id,
     String name,
-    int level,
-    long currentExp,
     int health,
     int attack,
     int defense,
@@ -28,20 +25,17 @@ public record Personage(
     int wisdom,
     LocalDateTime lastHealthChange
 ) {
-    public Personage addExperienceAndChangeHealth(
-        long exp,
+    public Personage changeHealth(
         int health,
         LocalDateTime lastHealthChange,
         PersonageDao personageDao
     ) {
-        final var newExp = currentExp + exp;
-        var newLevel = ExperienceUtils.getCurrentLevelForExp(newExp);
-        var personage = copyWithLevelAndExp(newLevel, newExp);
-        if (personage.health() != health) {
-            personage = personage.copyWithHealthAndLastHealthChange(health, lastHealthChange);
+        if (this.health != health) {
+            final var personage = copyWithHealthAndLastHealthChange(health, lastHealthChange);
+            personageDao.update(personage);
+            return personage;
         }
-        personageDao.update(personage);
-        return personage;
+        return this;
     }
 
     public Either<NameError, Personage> changeName(String name, PersonageDao personageDao) {
@@ -54,10 +48,6 @@ public record Personage(
         final var personage = copyWithName(name);
         personageDao.update(personage);
         return Either.right(personage);
-    }
-
-    public String toTopText() {
-        return TextConstants.LEVEL_ICON + "%d %s: %d".formatted(level, name, currentExp);
     }
 
     public String shortProfile(Language language) {
@@ -148,14 +138,12 @@ public record Personage(
         return new Personage(
             0L,
             TextConstants.DEFAULT_NAME,
-            1,
-            0,
-            100,
+            maxHealth(),
             10,
             5,
-            1,
-            1,
-            1,
+            5,
+            5,
+            5,
             TimeUtils.moscowTime()
         );
     }
@@ -169,7 +157,7 @@ public record Personage(
     private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
 
     private int maxLevelingPoints() {
-        return level - 1;
+        return 12;
     }
 
     private int levelingPointsSpentOnStrength() {
@@ -184,8 +172,8 @@ public record Personage(
         return wisdom - 1;
     }
 
-    private int maxHealth() {
-        return 50 + 50 * level;
+    private static int maxHealth() {
+        return 500;
     }
 
     private String shortStats() {
@@ -203,28 +191,10 @@ public record Personage(
             );
     }
 
-    private Personage copyWithLevelAndExp(int newLevel, long newExp) {
-        return new Personage(
-            id,
-            name,
-            newLevel,
-            newExp,
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom,
-            lastHealthChange
-        );
-    }
-
     private Personage copyWithName(String name) {
         return new Personage(
             id,
             name,
-            level,
-            currentExp,
             health,
             attack,
             defense,
@@ -239,8 +209,6 @@ public record Personage(
         return new Personage(
             id,
             name,
-            level,
-            currentExp,
             health,
             attack,
             defense,
@@ -255,8 +223,6 @@ public record Personage(
         return new Personage(
             id,
             name,
-            level,
-            currentExp,
             health,
             attack,
             defense,

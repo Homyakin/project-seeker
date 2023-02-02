@@ -83,13 +83,12 @@ public class PersonageService {
             .toList();
     }
 
-    public Personage addExperienceAndChangeHealth(
+    public Personage changeHealth(
         Personage personage,
-        long exp,
         int health,
         LocalDateTime lastHealthChange
     ) {
-        return personage.addExperienceAndChangeHealth(exp, health, lastHealthChange, personageDao);
+        return personage.changeHealth(health, lastHealthChange, personageDao);
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {
@@ -102,14 +101,6 @@ public class PersonageService {
 
     public Either<NotEnoughLevelingPoints, Personage> incrementWisdom(Personage personage) {
         return personage.incrementWisdom(personageDao);
-    }
-
-    public List<Personage> getTopByExpInGroup(long groupId, int count) {
-        return personageDao.getTopByExpInGroup(groupId, count);
-    }
-
-    public Optional<Long> getPersonagePositionInTopByExpInGroup(long id, long groupId) {
-        return personageDao.getPersonagePositionInTopByExpInGroup(id, groupId);
     }
 
     public Either<NameError, Personage> changeName(Personage personage, String name) {

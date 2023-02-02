@@ -15,7 +15,6 @@ public enum CommandType {
     START("/start"),
     JOIN_EVENT("joinEvent"),
     GET_PROFILE("/me"),
-    TOP("/top"),
     HELP("/help"),
     CHANGE_NAME("/name"),
     LEVEL_UP("/level_up"),

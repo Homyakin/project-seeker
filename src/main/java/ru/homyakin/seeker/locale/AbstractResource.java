@@ -2,7 +2,6 @@ package ru.homyakin.seeker.locale;
 
 import java.util.HashMap;
 import java.util.ListResourceBundle;
-import ru.homyakin.seeker.game.experience.ExperienceUtils;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -68,9 +67,6 @@ public abstract class AbstractResource extends ListResourceBundle {
             put("level_icon", TextConstants.LEVEL_ICON);
             put("exp_icon", TextConstants.EXP_ICON);
             put("personage_name", personage.name());
-            put("personage_level", personage.level());
-            put("personage_exp", personage.currentExp());
-            put("next_level_exp", ExperienceUtils.getTotalExpToNextLevel(personage.level()));
         }};
         return StringNamedTemplate.format(
             getString(LocalizationKeys.PROFILE_TEMPLATE.name()),
@@ -169,10 +165,8 @@ public abstract class AbstractResource extends ListResourceBundle {
         final var params = new HashMap<String, Object>() {{
             put("level_icon", TextConstants.LEVEL_ICON);
             put("health_icon", TextConstants.HEALTH_ICON);
-            put("initiating_personage_level", initiatingPersonage.level());
             put("initiating_personage_name", initiatingPersonage.name());
             put("initiating_personage_health", initiatingPersonage.health());
-            put("accepting_personage_level", acceptingPersonage.level());
             put("accepting_personage_name", acceptingPersonage.name());
             put("accepting_personage_health", acceptingPersonage.health());
         }};
@@ -197,9 +191,7 @@ public abstract class AbstractResource extends ListResourceBundle {
     public String finishedDuel(Personage winnerPersonage, Personage looserPersonage) {
         final var params = new HashMap<String, Object>() {{
             put("level_icon", TextConstants.LEVEL_ICON);
-            put("winner_personage_level", winnerPersonage.level());
             put("winner_personage_name", winnerPersonage.name());
-            put("looser_personage_level", looserPersonage.level());
             put("looser_personage_name", looserPersonage.name());
         }};
         return StringNamedTemplate.format(

@@ -15,7 +15,6 @@ import ru.homyakin.seeker.telegram.command.group.action.JoinGroup;
 import ru.homyakin.seeker.telegram.command.group.action.LeftGroup;
 import ru.homyakin.seeker.telegram.command.group.language.GroupSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
-import ru.homyakin.seeker.telegram.command.group.top.Top;
 import ru.homyakin.seeker.telegram.command.common.Help;
 import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;
 import ru.homyakin.seeker.telegram.command.user.level.CharacteristicUp;
@@ -99,7 +98,6 @@ public class CommandParser {
                     message.getChatId(),
                     message.getFrom().getId()
                 );
-                case TOP -> new Top(message.getChatId(), message.getFrom().getId());
                 case HELP -> new Help(message.getChatId(), false);
                 case START_DUEL -> new StartDuel(
                     message.getChatId(),

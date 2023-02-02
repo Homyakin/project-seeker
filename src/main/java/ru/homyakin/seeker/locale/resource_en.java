@@ -65,8 +65,6 @@ public class resource_en extends AbstractResource {
                 LocalizationKeys.PROFILE_TEMPLATE.name(),
                 """
                 ${profile_icon}${personage_name}
-                ${level_icon}Level: ${personage_level}
-                ${exp_icon}Experience: ${personage_exp}/${next_level_exp}
                 """
             },
             {
@@ -76,10 +74,6 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.FAILURE_BOSS.name(),
                 "Boss was stronger than the seekers."
-            },
-            {
-                LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name(),
-                TextConstants.EXP_ICON + "Top group personages by experience:"
             },
             {
                 LocalizationKeys.HELP.name(),
@@ -94,7 +88,6 @@ public class resource_en extends AbstractResource {
                         ${help_command} - this message
                                         
                         Only for group:
-                        ${top_command} - show top by experience in group
                         ${duel_command} - challenge another seeker to a duel. Must be a response to another user message
                                         
                         Only for pm:
@@ -107,7 +100,6 @@ public class resource_en extends AbstractResource {
                         put("language_command", CommandType.CHANGE_LANGUAGE.getText());
                         put("profile_command", CommandType.GET_PROFILE.getText());
                         put("help_command", CommandType.HELP.getText());
-                        put("top_command", CommandType.TOP.getText());
                         put("duel_command", CommandType.START_DUEL.getText());
                         put("name_command", CommandType.CHANGE_NAME.getText());
                         put("github_link", TextConstants.SOURCE_LINK);
@@ -188,9 +180,9 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.INIT_DUEL.name(),
                 """
-                    The seeker <b>${level_icon}${initiating_personage_level} ${initiating_personage_name} \
+                    The seeker <b>${level_icon}${initiating_personage_name} \
                     ${initiating_personage_health}${health_icon}</b> challenges \
-                    the seeker <b>${level_icon}${accepting_personage_level} ${accepting_personage_name} \
+                    the seeker <b>${level_icon}${accepting_personage_name} \
                     ${accepting_personage_health}${health_icon}</b>.
                     
                     What will be his answer?
@@ -211,8 +203,8 @@ public class resource_en extends AbstractResource {
             {
                 LocalizationKeys.FINISHED_DUEL.name(),
                 """
-                    The seeker <b>${level_icon}${winner_personage_level} ${winner_personage_name}</b> got the better of \
-                    <b>${level_icon}${looser_personage_level} ${looser_personage_name}</b>
+                    The seeker <b>${level_icon}${winner_personage_name}</b> got the better of \
+                    <b>${level_icon}${looser_personage_name}</b>
                     """
             },
             {

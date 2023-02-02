@@ -53,9 +53,8 @@ public class BossProcessing {
                 logger.error("Personage with id {} is missing in battle map", participant.id());
                 continue;
             }
-            personageService.addExperienceAndChangeHealth(
+            personageService.changeHealth(
                 participant,
-                calculateExperience(personage, doesParticipantsWin),
                 personage.health(),
                 endTime
             );
@@ -67,18 +66,4 @@ public class BossProcessing {
             return new EventResult.Failure();
         }
     }
-
-    private long calculateExperience(BattlePersonage personage, boolean isWin) {
-        double exp = (double) personage.damageDealtAndTaken() / 20;
-        logger.debug("Planning exp for personage {} is {}", personage.id(), exp);
-        if (isWin) {
-            exp = Math.max(2, exp * WIN_MULTIPLIER);
-        } else {
-            exp = Math.max(1, exp * LOSE_MULTIPLIER);
-        }
-        return (long) exp;
-    }
-
-    private static final double WIN_MULTIPLIER = 2;
-    private static final double LOSE_MULTIPLIER = 1;
 }

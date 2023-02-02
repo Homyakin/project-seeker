@@ -72,31 +72,25 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             Collections.singletonList(battlePersonage2)
         );
 
-        long exp1 = battlePersonage1.damageDealt() / 100;
-        long exp2 = battlePersonage2.damageDealt() / 100;
         final Personage winner;
         final Personage looser;
         if (battleResult instanceof TwoPersonageTeamsBattle.Result.FirstTeamWin) {
-            exp1 = (long) (exp1 * WINNER_EXP_MULTIPLIER);
             winner = personage1;
             looser = personage2;
         } else {
-            exp2 = (long) (exp2 * WINNER_EXP_MULTIPLIER);
             winner = personage2;
             looser = personage1;
         }
 
         duelService.addWinner(duel.id(), winner.id());
         final var duelEndTime = TimeUtils.moscowTime();
-        personageService.addExperienceAndChangeHealth(
+        personageService.changeHealth(
             personage1,
-            exp1,
             battlePersonage1.health(),
             duelEndTime
         );
-        personageService.addExperienceAndChangeHealth(
+        personageService.changeHealth(
             personage2,
-            exp2,
             battlePersonage2.health(),
             duelEndTime
         );
@@ -109,6 +103,4 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             )
         );
     }
-
-    private static final double WINNER_EXP_MULTIPLIER = 1.2;
 }
