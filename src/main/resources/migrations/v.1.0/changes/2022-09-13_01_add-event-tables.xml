@@ -9,7 +9,7 @@
             <column name="id" type="INTEGER">
                 <constraints primaryKey="true" primaryKeyName="event_pkey"/>
             </column>
-            <column name="type" type="TINYINT">
+            <column name="type_id" type="TINYINT">
                 <constraints nullable="false"/>
             </column>
             <column name="duration" type="INTERVAL">
@@ -130,6 +130,28 @@
                 constraintName="fk_personage_to_event_launched_event"
                 referencedColumnNames="id"
                 referencedTableName="launched_event"
+        />
+
+        <createTable tableName="event_type">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="event_type_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="event_type">
+            <column name="id" value="1"/>
+            <column name="name" value="Босс"/>
+        </insert>
+
+        <addForeignKeyConstraint
+                baseColumnNames="type_id"
+                baseTableName="event"
+                constraintName="fk_event_event_type"
+                referencedColumnNames="id"
+                referencedTableName="event_type"
         />
 
     </changeSet>
