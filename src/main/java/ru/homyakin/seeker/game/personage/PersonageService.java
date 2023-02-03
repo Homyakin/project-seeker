@@ -73,8 +73,8 @@ public class PersonageService {
             .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
     }
 
-    public Optional<Personage> getByBossEvent(long eventId) {
-        return personageDao.getByBossEvent(eventId);
+    public Optional<Personage> getByRaidEvent(long eventId) {
+        return personageDao.getByRaidEvent(eventId);
     }
 
     public List<Personage> getByLaunchedEvent(long launchedEventId) {

@@ -30,12 +30,12 @@ public class resource_ru extends AbstractResource {
                 "Произошла ошибка, попробуйте позже"
             },
             {
-                LocalizationKeys.JOIN_BOSS_EVENT.name(),
+                LocalizationKeys.JOIN_RAID_EVENT.name(),
                 "Присоединиться к рейду" + TextConstants.RAID_ICON
             },
 
             {
-                LocalizationKeys.BOSS_BATTLE_STARTS.name(),
+                LocalizationKeys.RAID_STARTS_PREFIX.name(),
                 "Битва начнётся через"
             },
             {
@@ -69,12 +69,12 @@ public class resource_ru extends AbstractResource {
                 """
             },
             {
-                LocalizationKeys.SUCCESS_BOSS.name(),
-                "Босс был побеждён."
+                LocalizationKeys.SUCCESS_RAID.name(),
+                "Рейд был успешен."
             },
             {
-                LocalizationKeys.FAILURE_BOSS.name(),
-                "Босс оказался сильнее искателей."
+                LocalizationKeys.FAILURE_RAID.name(),
+                "Искатели провалили рейд."
             },
             {
                 LocalizationKeys.HELP.name(),

@@ -15,12 +15,12 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
-public class BossProcessing {
-    private static final Logger logger = LoggerFactory.getLogger(BossProcessing.class);
+public class RaidProcessing {
+    private static final Logger logger = LoggerFactory.getLogger(RaidProcessing.class);
     private final PersonageService personageService;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
 
-    public BossProcessing(
+    public RaidProcessing(
         PersonageService personageService,
         TwoPersonageTeamsBattle twoPersonageTeamsBattle
     ) {
@@ -29,8 +29,8 @@ public class BossProcessing {
     }
 
     public EventResult process(Event event, List<Personage> participants) {
-        final var bossPersonage = personageService.getByBossEvent(event.id())
-            .orElseThrow(() -> new IllegalStateException("Boss event must contain personage " + event.id()));
+        final var raidPersonage = personageService.getByRaidEvent(event.id())
+            .orElseThrow(() -> new IllegalStateException("Raid event must contain personage " + event.id()));
 
         final var personages = new ArrayList<BattlePersonage>(participants.size());
         final var idToPersonages = new HashMap<Long, BattlePersonage>();
@@ -41,7 +41,7 @@ public class BossProcessing {
         }
 
         final var result = twoPersonageTeamsBattle.battle(
-            List.of(bossPersonage.toBattlePersonage()),
+            List.of(raidPersonage.toBattlePersonage()),
             personages
         );
 

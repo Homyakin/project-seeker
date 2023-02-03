@@ -9,12 +9,12 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 public class EventProcessing {
     private final EventService eventService;
     private final PersonageService personageService;
-    private final BossProcessing bossProcessing;
+    private final RaidProcessing raidProcessing;
 
-    public EventProcessing(EventService eventService, PersonageService personageService, BossProcessing bossProcessing) {
+    public EventProcessing(EventService eventService, PersonageService personageService, RaidProcessing raidProcessing) {
         this.eventService = eventService;
         this.personageService = personageService;
-        this.bossProcessing = bossProcessing;
+        this.raidProcessing = raidProcessing;
     }
 
     public EventResult processEvent(LaunchedEvent launchedEvent) {
@@ -23,7 +23,7 @@ public class EventProcessing {
         final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
 
         return switch (event.type()) {
-            case BOSS -> bossProcessing.process(event, participants);
+            case RAID -> raidProcessing.process(event, participants);
         };
     }
 }

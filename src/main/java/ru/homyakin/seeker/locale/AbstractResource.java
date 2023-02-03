@@ -29,12 +29,12 @@ public abstract class AbstractResource extends ListResourceBundle {
         return getString(LocalizationKeys.INTERNAL_ERROR.name());
     }
 
-    public String joinBossEvent() {
-        return getString(LocalizationKeys.JOIN_BOSS_EVENT.name());
+    public String joinRaidEvent() {
+        return getString(LocalizationKeys.JOIN_RAID_EVENT.name());
     }
 
-    public String bossBattleStarts() {
-        return getString(LocalizationKeys.BOSS_BATTLE_STARTS.name());
+    public String raidStartsPrefix() {
+        return getString(LocalizationKeys.RAID_STARTS_PREFIX.name());
     }
 
     public String hoursShort() {
@@ -74,17 +74,14 @@ public abstract class AbstractResource extends ListResourceBundle {
         );
     }
 
-    public String successBoss() {
-        return getString(LocalizationKeys.SUCCESS_BOSS.name());
+    public String successRaid() {
+        return getString(LocalizationKeys.SUCCESS_RAID.name());
     }
 
-    public String failureBoss() {
-        return getString(LocalizationKeys.FAILURE_BOSS.name());
+    public String failureRaid() {
+        return getString(LocalizationKeys.FAILURE_RAID.name());
     }
 
-    public String topPersonagesByExpInGroup() {
-        return getString(LocalizationKeys.TOP_PERSONAGES_BY_EXP_IN_GROUP.name());
-    }
 
     public String help() {
         return getString(LocalizationKeys.HELP.name());

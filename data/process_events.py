@@ -16,16 +16,16 @@ def process_event(event: Dict):
     print(f'Processing event with id {event["id"]}')
     validation.validate_event(event)
 
-    if 'boss' in event:
+    if 'raid' in event:
         event_type = 1
-        process_type = process_boss
-        type_object = event['boss']
+        process_type = process_raid
+        type_object = event['raid']
     else:
         raise Exception('Unknown event type')
 
-    event['type'] = event_type
+    event['type_id'] = event_type
 
-    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type', 'is_enabled'])
+    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type_id', 'is_enabled'])
     process_type(type_object, event['id'])
 
     if 'locale' in event:
@@ -34,19 +34,19 @@ def process_event(event: Dict):
         raise Exception(f'Event with id {event["id"]} must contain locale')
 
 
-def process_boss(boss: Dict, event_id: int):
-    personage = boss['personage']
+def process_raid(raid: Dict, event_id: int):
+    personage = raid['personage']
     put_entity_to_database.put(
         personage,
         table='personage',
         pk_columns=['id'],
-        simple_columns=['name', 'level', 'current_exp', 'attack', 'defense', 'health', 'strength', 'agility', 'wisdom', 'last_health_change']
+        simple_columns=['name', 'attack', 'defense', 'health', 'strength', 'agility', 'wisdom', 'last_health_change']
     )
-    boss['event_id'] = event_id
-    boss['personage_id'] = personage['id']
+    raid['event_id'] = event_id
+    raid['personage_id'] = personage['id']
     put_entity_to_database.put(
-        boss,
-        table='boss',
+        raid,
+        table='raid',
         pk_columns=['event_id'],
         simple_columns=['personage_id']
     )
@@ -59,6 +59,6 @@ def process_locale(locales: Dict, event_id: int):
         put_entity_to_database.put(
             locale,
             table='event_locale',
-            pk_columns=['event_id', 'lang'],
+            pk_columns=['event_id', 'language_id'],
             simple_columns=['intro', 'description']
         )

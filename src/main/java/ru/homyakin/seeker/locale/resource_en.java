@@ -30,11 +30,11 @@ public class resource_en extends AbstractResource {
                 "Unexpected error, try again later"
             },
             {
-                LocalizationKeys.JOIN_BOSS_EVENT.name(),
+                LocalizationKeys.JOIN_RAID_EVENT.name(),
                 "Join raid" + TextConstants.RAID_ICON
             },
             {
-                LocalizationKeys.BOSS_BATTLE_STARTS.name(),
+                LocalizationKeys.RAID_STARTS_PREFIX.name(),
                 "The battle will begin in"
             },
             {
@@ -68,12 +68,12 @@ public class resource_en extends AbstractResource {
                 """
             },
             {
-                LocalizationKeys.SUCCESS_BOSS.name(),
-                "Boss was defeated."
+                LocalizationKeys.SUCCESS_RAID.name(),
+                "Raid was successful."
             },
             {
-                LocalizationKeys.FAILURE_BOSS.name(),
-                "Boss was stronger than the seekers."
+                LocalizationKeys.FAILURE_RAID.name(),
+                "The seekers failed the raid."
             },
             {
                 LocalizationKeys.HELP.name(),

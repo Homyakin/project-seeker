@@ -3,12 +3,10 @@
     "id": 1,
     "duration": "PT1M",
     "is_enabled": true,
-    "boss": {
+    "raid": {
       "personage": {
         "id": -1,
         "name": "Соломенное чучело",
-        "level": 2,
-        "current_exp": 0,
         "attack": 5,
         "defense": 10,
         "health": 200,
@@ -20,12 +18,12 @@
     },
     "locale": [
       {
-        "lang": "ru",
+        "language_id": "ru",
         "intro": "Появилось соломенное чучело!",
         "description": "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
       },
       {
-        "lang": "en",
+        "language_id": "en",
         "intro": "A straw scarecrow appeared!",
         "description": "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
       }
@@ -35,12 +33,10 @@
     "id": 2,
     "duration": "PT1M",
     "is_enabled": false,
-    "boss": {
+    "raid": {
       "personage": {
         "id": -2,
         "name": "Волк",
-        "level": 4,
-        "current_exp": 0,
         "attack": 10,
         "defense": 5,
         "health": 150,
@@ -52,12 +48,12 @@
     },
     "locale": [
       {
-        "lang": "ru",
+        "language_id": "ru",
         "intro": "Мудрый волк снова мудрит",
         "description": "С недавних пор охотники, вернувшиеся из леса, ведут себя странно. Постоянно бормочат себе под нос, что сила в силе и почему-то очень бояться цирка. Расправьтесь с причиной этого безумства!"
       },
       {
-        "lang": "en",
+        "language_id": "en",
         "intro": "Wise wolf is wise again",
         "description": "Recently, hunters who have returned from the forest have been behaving strangely. Constantly muttering to himself that strength is in strength and for some reason very afraid of the circus. Deal with the cause of this madness!"
       }

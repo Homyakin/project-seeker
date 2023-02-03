@@ -39,8 +39,8 @@ def put(data: Dict, table: str, pk_columns: List[str], simple_columns: List[str]
     conn = psycopg2.connect(dbname='seeker', user='dev',
                             password='dev', host='localhost')
     cursor = conn.cursor()
-    if 'lang' in data:
-        data['lang'] = langs[data['lang']]
+    if 'language_id' in data:
+        data['language_id'] = langs[data['language_id']]
     if is_entity_present(table, data, pk_columns):
         if len(simple_columns) > 0:
             update_entity(table, data, simple_columns, pk_columns)

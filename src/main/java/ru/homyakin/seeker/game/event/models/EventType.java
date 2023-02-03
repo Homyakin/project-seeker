@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public enum EventType {
-    BOSS(1),
+    RAID(1),
     ;
 
     private final int id;

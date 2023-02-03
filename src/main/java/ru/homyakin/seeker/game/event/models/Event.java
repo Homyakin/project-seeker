@@ -52,7 +52,7 @@ public record Event(
 
     public String endMessage(Language language, EventResult result) {
         final var postfix = switch (type) {
-            case BOSS -> bossEndMessage(language, result);
+            case RAID -> raidEndMessage(language, result);
         };
         return Localization.get(language).expiredEvent() + " " + postfix;
     }
@@ -74,16 +74,16 @@ public record Event(
             minutes = "1 " + Localization.get(language).minutesShort();
         }
         final var prefix = switch (type) {
-            case BOSS -> Localization.get(language).bossBattleStarts();
+            case RAID -> Localization.get(language).raidStartsPrefix();
         };
         return Optional.of(prefix + hours + " " + minutes);
     }
 
-    private String bossEndMessage(Language language, EventResult result) {
+    private String raidEndMessage(Language language, EventResult result) {
         if (result instanceof EventResult.Success) {
-            return Localization.get(language).successBoss();
+            return Localization.get(language).successRaid();
         } else if (result instanceof EventResult.Failure) {
-            return Localization.get(language).failureBoss();
+            return Localization.get(language).failureRaid();
         }
         return "";
     }

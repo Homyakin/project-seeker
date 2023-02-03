@@ -87,7 +87,7 @@ public class EventManager {
                 group.id(),
                 event.toStartMessage(group.language(), launchedEvent.endDate()),
                 //TODO выбирать клавиатуру в зависимости от типа события
-                InlineKeyboards.joinBossEventKeyboard(group.language(), launchedEvent.id())
+                InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id())
             )
         );
         if (result.isLeft()) {
