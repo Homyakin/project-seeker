@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.RaidProcessing;
 import ru.homyakin.seeker.game.personage.PersonageService;
 
 @Service

@@ -35,20 +35,12 @@ def process_event(event: Dict):
 
 
 def process_raid(raid: Dict, event_id: int):
-    personage = raid['personage']
-    put_entity_to_database.put(
-        personage,
-        table='personage',
-        pk_columns=['id'],
-        simple_columns=['name', 'attack', 'defense', 'health', 'strength', 'agility', 'wisdom', 'last_health_change']
-    )
     raid['event_id'] = event_id
-    raid['personage_id'] = personage['id']
     put_entity_to_database.put(
         raid,
         table='raid',
         pk_columns=['event_id'],
-        simple_columns=['personage_id']
+        simple_columns=['template_id', 'name']
     )
 
 

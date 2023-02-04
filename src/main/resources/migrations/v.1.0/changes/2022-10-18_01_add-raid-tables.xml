@@ -1,0 +1,46 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-raid-tables">
+        <createTable tableName="raid_template">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="raid_template_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="raid_template">
+            <column name="id" value="1"/>
+            <column name="name" value="Стандартный одиночный босс"/>
+        </insert>
+
+        <createTable tableName="raid">
+            <column name="event_id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="raid_pkey"/>
+            </column>
+            <column name="template_id" type="INTEGER">
+                <constraints
+                        nullable="false"
+                        referencedTableName="raid_template"
+                        referencedColumnNames="id"
+                        foreignKeyName="fk_raid_raid_template"
+                />
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="event_id"
+                baseTableName="raid"
+                constraintName="fk_raid_event"
+                referencedColumnNames="id"
+                referencedTableName="event"
+        />
+    </changeSet>
+</databaseChangeLog>

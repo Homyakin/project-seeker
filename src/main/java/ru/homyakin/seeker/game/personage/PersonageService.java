@@ -73,10 +73,6 @@ public class PersonageService {
             .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
     }
 
-    public Optional<Personage> getByRaidEvent(long eventId) {
-        return personageDao.getByRaidEvent(eventId);
-    }
-
     public List<Personage> getByLaunchedEvent(long launchedEventId) {
         return personageDao.getByLaunchedEvent(launchedEventId).stream()
             .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao))

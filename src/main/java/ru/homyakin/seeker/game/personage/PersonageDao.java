@@ -18,11 +18,6 @@ public class PersonageDao {
     private static final String GET_BY_ID = """
         SELECT * FROM personage WHERE id = :id
         """;
-    private static final String GET_BY_RAID_EVENT = """
-        SELECT p.* FROM raid r
-        LEFT JOIN personage p on p.id = r.personage_id
-        WHERE r.event_id = :event_id
-        """;
 
     private static final String GET_BY_LAUNCHED_EVENT = """
         SELECT p.* FROM personage_to_event le
@@ -95,16 +90,6 @@ public class PersonageDao {
         final var params = Collections.singletonMap("id", id);
         final var result = jdbcTemplate.query(
             GET_BY_ID,
-            params,
-            PERSONAGE_ROW_MAPPER
-        );
-        return result.stream().findFirst();
-    }
-
-    public Optional<Personage> getByRaidEvent(Long eventId) {
-        final var params = Collections.singletonMap("event_id", eventId);
-        final var result = jdbcTemplate.query(
-            GET_BY_RAID_EVENT,
             params,
             PERSONAGE_ROW_MAPPER
         );

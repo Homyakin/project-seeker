@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.service;
+package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,19 +19,21 @@ public class RaidProcessing {
     private static final Logger logger = LoggerFactory.getLogger(RaidProcessing.class);
     private final PersonageService personageService;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
+    private final RaidDao raidDao;
 
     public RaidProcessing(
         PersonageService personageService,
-        TwoPersonageTeamsBattle twoPersonageTeamsBattle
+        TwoPersonageTeamsBattle twoPersonageTeamsBattle,
+        RaidDao raidDao
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
+        this.raidDao = raidDao;
     }
 
     public EventResult process(Event event, List<Personage> participants) {
-        final var raidPersonage = personageService.getByRaidEvent(event.id())
-            .orElseThrow(() -> new IllegalStateException("Raid event must contain personage " + event.id()));
-
+        final var raid = raidDao.getByEventId(event.id())
+            .orElseThrow(() -> new IllegalStateException("Raid must be present"));
         final var personages = new ArrayList<BattlePersonage>(participants.size());
         final var idToPersonages = new HashMap<Long, BattlePersonage>();
         for (final var participant: participants) {
@@ -41,7 +43,7 @@ public class RaidProcessing {
         }
 
         final var result = twoPersonageTeamsBattle.battle(
-            List.of(raidPersonage.toBattlePersonage()),
+            raid.template().generate(),
             personages
         );
 

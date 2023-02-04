@@ -84,7 +84,7 @@ public class EventDao {
                 rs.getInt("id"),
                 period,
                 duration,
-                EventType.get(rs.getInt("type"))
+                EventType.get(rs.getInt("type_id"))
             );
         }
     }

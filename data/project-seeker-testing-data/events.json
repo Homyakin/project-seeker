@@ -4,17 +4,8 @@
     "duration": "PT1M",
     "is_enabled": true,
     "raid": {
-      "personage": {
-        "id": -1,
-        "name": "Соломенное чучело",
-        "attack": 5,
-        "defense": 10,
-        "health": 200,
-        "strength": 1,
-        "agility": 0,
-        "wisdom": 0,
-        "last_health_change": "2022-12-20 23:37:38.808089"
-      }
+      "template_id": 1,
+      "name": "Соломенное чучело"
     },
     "locale": [
       {
@@ -34,17 +25,8 @@
     "duration": "PT1M",
     "is_enabled": false,
     "raid": {
-      "personage": {
-        "id": -2,
-        "name": "Волк",
-        "attack": 10,
-        "defense": 5,
-        "health": 150,
-        "strength": 2,
-        "agility": 2,
-        "wisdom": 0,
-        "last_health_change": "2022-12-20 23:37:38.808089"
-      }
+      "template_id": 1,
+      "name": "Мудрый волк"
     },
     "locale": [
       {
