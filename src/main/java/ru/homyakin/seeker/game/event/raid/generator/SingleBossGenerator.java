@@ -5,7 +5,7 @@ import java.util.List;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class SingleBossGenerator implements RaidBattleGenerator{
+public class SingleBossGenerator implements RaidBattleGenerator {
     @Override
     public List<BattlePersonage> generate() {
         final var boss = new BattlePersonage(

@@ -1,0 +1,74 @@
+welcomeGroup = "Greetings, Seekers."
+welcomeUser = "Greetings, Seeker."
+chooseLanguage = "Choose language:"
+onlyAdminLanguage = "This action is available only for administrators"
+internalError = "Unexpected error, try again later"
+help = """\
+Social RPG in Telegram!
+Just add to the group and join events.
+Official news channel - ${news_channel_username}.
+
+Available commands (pm and chant):
+${language_command} - change language;
+${profile_command} - show profile;
+${help_command} - this message
+
+Only for group:
+${duel_command} - challenge another seeker to a duel. Must be a response to another user message
+
+Only for pm:
+${name_command} - change name
+
+The source code of the game is <a href="${github_link}">here</a>"""
+
+# рейд
+joinRaidEvent = "Join raid:dagger_knife:"
+raidStartsPrefix = "The battle will begin in"
+hoursShort = "h"
+minutesShort = "m"
+successJoinEvent = "You have successfully joined the event!"
+userAlreadyInThisEvent = "You are already participating in this event!"
+userAlreadyInOtherEvent = "You are already participating in another event!"
+expiredEvent = "This event is over!"
+profileTemplate = "${profile_icon}${personage_name}"
+successRaid = "Raid was successful."
+failureRaid = "The seekers failed the raid."
+
+# смена имени
+changeNameWithoutName = "Enter the name separated by a space after the command: \"${name_command} Name\""
+personageNameInvalidLength = "The name must be between ${min_name_length} and ${max_name_length} symbols"
+personageNameInvalidSymbols = "The name can only contain cyrillic, latin, numbers characters _-.#№: and a space"
+successNameChange = "Name has been successfully changed!"
+
+# прокачка
+profileLevelUp = "There are unspent leveling points! Press ${level_up_command}"
+notEnoughLevelingPoints = "Not enough leveling points. Get leveled up and come back later."
+chooseLevelUpCharacteristic = "Choose characteristic to level up:white_check_mark:"
+successLevelUp = "Success level up:white_check_mark:"
+
+# меню
+profileButton = ":bust_in_silhouette:Profile"
+languageButton = ":globe_with_meridians:Language"
+
+# дуэли
+duelMustBeReply = "The duel should be a reply to another user's message"
+duelReplyMustBeToUser = "Your opponent must be a user"
+duelWithYourself = "You can't have a duel with yourself!"
+duelWithInitiatorLowHealth = "You're barely moving! Go recover first, and then come fight!"
+duelWithAcceptorLowHealth = "Your opponent is dying, and you want to fight him?! Show respect to the wounded!"
+personageAlreadyStartDuel = "You have already started another duel! Wait for it to finish."
+initDuel = """\
+The seeker <b>${level_icon}${initiating_personage_name} \
+${initiating_personage_health}${health_icon}</b> challenges \
+the seeker <b>${level_icon}${accepting_personage_name} \
+${accepting_personage_health}${health_icon}</b>.
+
+What will be his answer?"""
+notDuelAcceptingPersonage = "It wasn't you who was challenged to a duel!"
+expiredDuel = "The challenge to the duel was ignored"
+declinedDuel = "The accepting party rejected the call!"
+finishedDuel = """\
+The seeker <b>${level_icon}${winner_personage_name}</b> got the better of \
+<b>${level_icon}${looser_personage_name}</b>"""
+acceptDuelButton = "Take the challenge:dagger_knife:"
+declineDuelButton = "Decline:open_hands:"

@@ -1,0 +1,74 @@
+welcomeGroup = "Приветствую вас, Искатели."
+welcomeUser = "Приветствую тебя, Искатель."
+chooseLanguage = "Выберите язык:"
+onlyAdminLanguage = "Данное действие доступно только администраторам"
+internalError = "Произошла ошибка, попробуйте позже"
+help = """\
+Социальная RPG в Telegram!
+Просто добавь в чат и участвуй в событиях.
+Официальный канал с новостями - ${news_channel_username}.
+
+Доступные команды (в личке и в чате):
+${language_command} - сменить язык;
+${profile_command} - показать профиль;
+${help_command} - данное сообщение;
+
+Только для чата:
+${duel_command} - вызвать другого искателя на дуэль. Должно быть ответом на сообщение другого пользователя;
+
+Только для лички:
+${name_command} - сменить имя;
+
+Исходный код игры <a href="${github_link}">здесь</a>."""
+
+# рейд
+joinRaidEvent = "Присоединиться к рейду:dagger_knife:"
+raidStartsPrefix = "Битва начнётся через"
+hoursShort = "ч."
+minutesShort = "мин."
+successJoinEvent = "Вы успешно присоединились к событию!"
+userAlreadyInThisEvent = "Вы уже участвуете в данном событии!"
+userAlreadyInOtherEvent = "Вы уже участвуете в другом событии!"
+expiredEvent = "Событие завершилось!"
+profileTemplate = "${profile_icon}${personage_name}"
+successRaid = "Рейд был успешен."
+failureRaid = "Искатели провалили рейд."
+
+# смена имени
+changeNameWithoutName="Введите имя через пробел после команды: \"${name_command} Имя\""
+personageNameInvalidLength = "Имя должно быть в пределах от ${min_name_length} до ${max_name_length} символов"
+personageNameInvalidSymbols = "Имя может содержать только кириллицу, латиницу, цифры, символы _-.#№: и пробел"
+successNameChange = "Имя успешно изменено!"
+
+# прокачка
+profileLevelUp = "Есть неизрасходованные очки прокачки! Жми ${level_up_command}"
+notEnoughLevelingPoints = "Недостаточно очков прокачки. Подкачайся и приходи позже."
+chooseLevelUpCharacteristic = "Выберите характеристику для прокачки:"
+successLevelUp = "Прокачка завершена:white_check_mark:"
+
+# меню
+profileButton = ":bust_in_silhouette:Профиль"
+languageButton = ":globe_with_meridians:Язык"
+
+# дуэли
+duelMustBeReply = "Дуэль должна быть ответом на сообщение другого пользователя"
+duelReplyMustBeToUser = "Вашим противником должен быть пользователь"
+duelWithYourself = "Нельзя устроить дуэль с самим собой!"
+duelWithInitiatorLowHealth = "Ты еле двигаешься! Иди восстановись для начала, а потом приходи драться!"
+duelWithAcceptorLowHealth = "Твой соперник при смерти, а ты хочешь с ним сражаться?! Прояви уважение к раненым!"
+personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
+initDuel = """\
+Искатель <b>${level_icon}${initiating_personage_name} \
+${initiating_personage_health}${health_icon}</b> вызывает на дуэль \
+искателя <b>${level_icon}${accepting_personage_name} \
+${accepting_personage_health}${health_icon}</b>.
+
+Каким будет его ответ?"""
+notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
+expiredDuel = "Вызов на дуэль остался проигнорированным"
+declinedDuel = "Принимающая сторона отклонила вызов!"
+finishedDuel = """\
+Искатель <b>${level_icon}${winner_personage_name}</b> одержал верх над \
+<b>${level_icon}${looser_personage_name}</b>"""
+acceptDuelButton = "Принять вызов:dagger_knife:"
+declineDuelButton = "Отказаться :open_hands:"

@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import ru.homyakin.seeker.locale.LocalizationInitializer;
 import ru.homyakin.seeker.telegram.TelegramUpdateReceiver;
 
 @SpringBootApplication
@@ -22,6 +23,8 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        LocalizationInitializer.initLocale();
+
         final var telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         telegramBotsApi.registerBot(telegramUpdateReceiver);
     }

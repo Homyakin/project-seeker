@@ -53,13 +53,13 @@ public record Personage(
     public String shortProfile(Language language) {
         return Localization
             .get(language)
-            .profile(this) + shortStats();
+            .profile(this) + "\n" + shortStats();
     }
 
     public String fullProfile(Language language) {
         final var profile = Localization
             .get(language)
-            .profile(this) + shortStats();
+            .profile(this) + "\n" + shortStats();
 
         return hasUnspentLevelingPoints() ? Localization.get(language).profileLevelUp() + "\n\n" + profile : profile;
     }

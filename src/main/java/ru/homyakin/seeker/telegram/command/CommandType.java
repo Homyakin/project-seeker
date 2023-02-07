@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.locale.AbstractResource;
-import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.CommonResource;
 
 public enum CommandType {
     CHANGE_LANGUAGE("/language"),
@@ -28,15 +26,8 @@ public enum CommandType {
 
     public static final String CALLBACK_DELIMITER = "~";
 
-    private static final AbstractResource RuLocalization = Localization.get(Language.RU);
-    private static final AbstractResource EnLocalization = Localization.get(Language.EN);
     // TODO переделать все команды на мапу
-    private static final Map<String, CommandType> textToType = new HashMap<>() {{
-        put(RuLocalization.profileButton(), CommandType.GET_PROFILE);
-        put(EnLocalization.profileButton(), CommandType.GET_PROFILE);
-        put(RuLocalization.languageButton(), CommandType.CHANGE_LANGUAGE);
-        put(EnLocalization.languageButton(), CommandType.CHANGE_LANGUAGE);
-    }};
+    private static final Map<String, CommandType> textToType = new HashMap<>();
 
     private final String text;
 
@@ -56,5 +47,10 @@ public enum CommandType {
             .filter(commandText -> commandText.text.equals(text))
             .findFirst()
             ;
+    }
+
+    public static void fillLocaleMap(CommonResource resource) {
+        textToType.put(resource.profileButton(), CommandType.GET_PROFILE);
+        textToType.put(resource.languageButton(), CommandType.CHANGE_LANGUAGE);
     }
 }

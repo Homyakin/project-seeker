@@ -3,6 +3,7 @@
 target/
 **/venv/
 __pycache__/
-**/project-seeker-prod-data/
+**.DS_Store
 
+**/project-seeker-prod-data/
 src/main/resources/application-dev.properties
