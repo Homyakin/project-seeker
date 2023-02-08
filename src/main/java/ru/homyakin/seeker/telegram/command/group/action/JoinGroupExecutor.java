@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.telegram.command.group.action;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
@@ -23,7 +23,7 @@ class JoinGroupExecutor extends CommandExecutor<JoinGroup> {
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                Localization.get(group.language()).welcomeGroup()
+                CommonLocalization.get(group.language()).welcomeGroup()
             )
         );
     }

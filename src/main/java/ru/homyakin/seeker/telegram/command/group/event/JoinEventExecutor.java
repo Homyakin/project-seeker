@@ -2,9 +2,10 @@ package ru.homyakin.seeker.telegram.command.group.event;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
+import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
@@ -40,17 +41,17 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
 
         final String notificationText;
         if (result.isRight()) {
-            notificationText = Localization.get(group.language()).successJoinEvent();
+            notificationText = RaidLocalization.get(group.language()).successJoinEvent();
         } else {
             final var error = result.getLeft();
             if (error instanceof PersonageInOtherEvent) {
-                notificationText = Localization.get(group.language()).userAlreadyInOtherEvent();
+                notificationText = RaidLocalization.get(group.language()).userAlreadyInOtherEvent();
             } else if (error instanceof PersonageInThisEvent) {
-                notificationText = Localization.get(group.language()).userAlreadyInThisEvent();
+                notificationText = RaidLocalization.get(group.language()).userAlreadyInThisEvent();
             } else if (error instanceof EventNotExist) {
-                notificationText = Localization.get(group.language()).internalError();
+                notificationText = CommonLocalization.get(group.language()).internalError();
             } else if (error instanceof ExpiredEvent expiredEvent) {
-                notificationText = Localization.get(group.language()).expiredEvent();
+                notificationText = RaidLocalization.get(group.language()).expiredEvent();
                 //TODO может вынести в евент менеджер
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     command.groupId(),

@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.common;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -29,6 +29,6 @@ public class HelpExecutor extends CommandExecutor<Help> {
         } else {
             language = groupService.getOrCreate(command.chatId()).language();
         }
-        telegramSender.send(TelegramMethods.createSendMessage(command.chatId(), Localization.get(language).help()));
+        telegramSender.send(TelegramMethods.createSendMessage(command.chatId(), CommonLocalization.get(language).help()));
     }
 }

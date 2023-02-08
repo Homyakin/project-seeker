@@ -1,0 +1,15 @@
+[menu]
+profileButton = ":bust_in_silhouette:Profile"
+languageButton = ":globe_with_meridians:Language"
+
+[changeName]
+changeNameWithoutName = "Enter the name separated by a space after the command: \"${name_command} Name\""
+personageNameInvalidLength = "The name must be between ${min_name_length} and ${max_name_length} symbols"
+personageNameInvalidSymbols = "The name can only contain cyrillic, latin, numbers characters _-.#№: and a space"
+successNameChange = "Name has been successfully changed!"
+
+[leveling]
+profileLevelUp = "There are unspent leveling points! Press ${level_up_command}"
+notEnoughLevelingPoints = "Not enough leveling points. Get leveled up and come back later."
+chooseLevelUpCharacteristic = "Choose characteristic to level up:white_check_mark:"
+successLevelUp = "Success level up:white_check_mark:"

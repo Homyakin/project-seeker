@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.DuelService;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -38,7 +38,7 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
-                    Localization.get(group.language()).notDuelAcceptingPersonage()
+                    DuelLocalization.get(group.language()).notDuelAcceptingPersonage()
                 )
             );
             return;
@@ -49,7 +49,7 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
             TelegramMethods.createEditMessageText(
                 group.id(),
                 command.messageId(),
-                Localization.get(group.language()).declinedDuel()
+                DuelLocalization.get(group.language()).declinedDuel()
             )
         );
     }

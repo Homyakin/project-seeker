@@ -21,7 +21,7 @@
 
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>suppression.xml</checkstyle.suppressions.location>
-        <tomlj.version>1.1.0</tomlj.version>
+        <jackson.version>2.14.2</jackson.version>
     </properties>
 
     <dependencies>
@@ -72,9 +72,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.tomlj</groupId>
-            <artifactId>tomlj</artifactId>
-            <version>${tomlj.version}</version>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-toml</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>

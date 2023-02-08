@@ -1,9 +1,10 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
+import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.Localization;
 
 public class InlineKeyboards {
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
@@ -32,7 +33,7 @@ public class InlineKeyboards {
             .builder()
             .addRow()
             .addButton(
-                Localization.get(language).joinRaidEvent(),
+                RaidLocalization.get(language).joinRaidEvent(),
                 "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), CommandType.CALLBACK_DELIMITER, chatEventId)
             )
             .build();
@@ -43,11 +44,11 @@ public class InlineKeyboards {
             .builder()
             .addRow()
             .addButton(
-                Localization.get(language).declineDuelButton(),
+                DuelLocalization.get(language).declineDuelButton(),
                 "%s%s%d".formatted(CommandType.DECLINE_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
             )
             .addButton(
-                Localization.get(language).acceptDuelButton(),
+                DuelLocalization.get(language).acceptDuelButton(),
                 "%s%s%d".formatted(CommandType.ACCEPT_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
             )
             .build();

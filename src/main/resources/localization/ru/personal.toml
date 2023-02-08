@@ -1,0 +1,15 @@
+[menu]
+profileButton = ":bust_in_silhouette:Профиль"
+languageButton = ":globe_with_meridians:Язык"
+
+[changeName]
+changeNameWithoutName="Введите имя через пробел после команды: \"${name_command} Имя\""
+personageNameInvalidLength = "Имя должно быть в пределах от ${min_name_length} до ${max_name_length} символов"
+personageNameInvalidSymbols = "Имя может содержать только кириллицу, латиницу, цифры, символы _-.#№: и пробел"
+successNameChange = "Имя успешно изменено!"
+
+[leveling]
+profileLevelUp = "Есть неизрасходованные очки прокачки! Жми ${level_up_command}"
+notEnoughLevelingPoints = "Недостаточно очков прокачки. Подкачайся и приходи позже."
+chooseLevelUpCharacteristic = "Выберите характеристику для прокачки:"
+successLevelUp = "Прокачка завершена:white_check_mark:"

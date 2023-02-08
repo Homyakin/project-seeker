@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.locale.CommonResource;
+import ru.homyakin.seeker.locale.personal.MenuResource;
 
 public enum CommandType {
     CHANGE_LANGUAGE("/language"),
@@ -49,7 +49,7 @@ public enum CommandType {
             ;
     }
 
-    public static void fillLocaleMap(CommonResource resource) {
+    public static void fillLocaleMap(MenuResource resource) {
         textToType.put(resource.profileButton(), CommandType.GET_PROFILE);
         textToType.put(resource.languageButton(), CommandType.CHANGE_LANGUAGE);
     }

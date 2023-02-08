@@ -9,7 +9,7 @@ import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -50,7 +50,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
-                    Localization.get(group.language()).notDuelAcceptingPersonage()
+                    DuelLocalization.get(group.language()).notDuelAcceptingPersonage()
                 )
             );
             return;
@@ -99,7 +99,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             TelegramMethods.createEditMessageText(
                 group.id(),
                 command.messageId(),
-                Localization.get(group.language()).finishedDuel(winner, looser)
+                DuelLocalization.get(group.language()).finishedDuel(winner, looser)
             )
         );
     }

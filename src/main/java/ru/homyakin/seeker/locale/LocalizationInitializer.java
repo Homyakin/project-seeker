@@ -1,29 +1,64 @@
 package ru.homyakin.seeker.locale;
 
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.toml.TomlMapper;
+import java.nio.file.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tomlj.Toml;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
+import ru.homyakin.seeker.locale.common.CommonResource;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
+import ru.homyakin.seeker.locale.duel.DuelResource;
+import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
+import ru.homyakin.seeker.locale.personal.LevelingLocalization;
+import ru.homyakin.seeker.locale.personal.MenuLocalization;
+import ru.homyakin.seeker.locale.personal.PersonalResource;
+import ru.homyakin.seeker.locale.raid.RaidLocalization;
+import ru.homyakin.seeker.locale.raid.RaidResource;
 import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 public class LocalizationInitializer {
     private static final String LOCALIZATION_PATH = "localization/";
+
+    private static final String COMMON_PATH = "/common.toml";
+    private static final String DUEL_PATH = "/duel.toml";
+    private static final String PERSONAL_PATH = "/personal.toml";
+    private static final String RAID_PATH = "/raid.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
-    public static void initLocale() throws IOException {
+    public static void initLocale() {
         logger.info("Filling localization");
-        final var commonRuMap = Toml.parse(ResourceUtils.getResourcePath(LOCALIZATION_PATH + "ru/common.toml")).toMap();
-        final var resourceRu = new CommonResource(commonRuMap);
+        final var mapper = TomlMapper.builder().build();
+        final var languages = Language.values();
 
-        final var commonEnMap = Toml.parse(ResourceUtils.getResourcePath(LOCALIZATION_PATH + "en/common.toml")).toMap();
-        final var resourceEn = new CommonResource(commonEnMap);
+        for (final var language : languages) {
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + COMMON_PATH)
+                .ifPresent(it -> CommonLocalization.add(language, extractClass(mapper, it, CommonResource.class)));
 
-        Localization.add(Language.RU, resourceRu);
-        Localization.add(Language.EN, resourceEn);
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + DUEL_PATH)
+                .ifPresent(it -> DuelLocalization.add(language, extractClass(mapper, it, DuelResource.class)));
 
-        CommandType.fillLocaleMap(resourceRu);
-        CommandType.fillLocaleMap(resourceEn);
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + PERSONAL_PATH)
+                .ifPresent(it -> {
+                    final var resource = extractClass(mapper, it, PersonalResource.class);
+                    ChangeNameLocalization.add(language, resource.changeName());
+                    LevelingLocalization.add(language, resource.leveling());
+                    MenuLocalization.add(language, resource.menu());
+                    CommandType.fillLocaleMap(resource.menu());
+                });
+
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + RAID_PATH)
+                .ifPresent(it -> RaidLocalization.add(language, extractClass(mapper, it, RaidResource.class)));
+        }
         logger.info("Localization loaded");
+    }
+
+    private static <T> T extractClass(ObjectMapper mapper, Path path, Class<T> clazz) {
+        try {
+            return mapper.readValue(path.toFile(), clazz);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't parse locale " + path.toString(), e);
+        }
     }
 }

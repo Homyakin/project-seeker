@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -38,7 +38,7 @@ public class DuelManager {
                             TelegramMethods.createEditMessageText(
                                 group.id(),
                                 duel.messageId().get(),
-                                Localization.get(group.language()).expiredDuel()
+                                DuelLocalization.get(group.language()).expiredDuel()
                             )
                         );
                     } else {

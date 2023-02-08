@@ -1,0 +1,21 @@
+duelMustBeReply = "Дуэль должна быть ответом на сообщение другого пользователя"
+duelReplyMustBeToUser = "Вашим противником должен быть пользователь"
+duelWithYourself = "Нельзя устроить дуэль с самим собой!"
+duelWithInitiatorLowHealth = "Ты еле двигаешься! Иди восстановись для начала, а потом приходи драться!"
+duelWithAcceptorLowHealth = "Твой соперник при смерти, а ты хочешь с ним сражаться?! Прояви уважение к раненым!"
+personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
+initDuel = """\
+Искатель <b>${level_icon}${initiating_personage_name} \
+${initiating_personage_health}${health_icon}</b> вызывает на дуэль \
+искателя <b>${level_icon}${accepting_personage_name} \
+${accepting_personage_health}${health_icon}</b>.
+
+Каким будет его ответ?"""
+notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
+expiredDuel = "Вызов на дуэль остался проигнорированным"
+declinedDuel = "Принимающая сторона отклонила вызов!"
+finishedDuel = """\
+Искатель <b>${level_icon}${winner_personage_name}</b> одержал верх над \
+<b>${level_icon}${looser_personage_name}</b>"""
+acceptDuelButton = "Принять вызов:dagger_knife:"
+declineDuelButton = "Отказаться :open_hands:"

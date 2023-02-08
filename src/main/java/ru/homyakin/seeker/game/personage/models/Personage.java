@@ -10,7 +10,8 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
+import ru.homyakin.seeker.locale.personal.LevelingLocalization;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -51,17 +52,17 @@ public record Personage(
     }
 
     public String shortProfile(Language language) {
-        return Localization
+        return CommonLocalization
             .get(language)
             .profile(this) + "\n" + shortStats();
     }
 
     public String fullProfile(Language language) {
-        final var profile = Localization
+        final var profile = CommonLocalization
             .get(language)
             .profile(this) + "\n" + shortStats();
 
-        return hasUnspentLevelingPoints() ? Localization.get(language).profileLevelUp() + "\n\n" + profile : profile;
+        return hasUnspentLevelingPoints() ? LevelingLocalization.get(language).profileLevelUp() + "\n\n" + profile : profile;
     }
 
     public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {

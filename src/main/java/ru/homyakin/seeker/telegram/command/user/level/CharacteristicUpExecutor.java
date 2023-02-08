@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.level;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.personal.LevelingLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -40,7 +40,7 @@ public class CharacteristicUpExecutor extends CommandExecutor<CharacteristicUp> 
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    Localization.get(user.language()).successLevelUp(),
+                    LevelingLocalization.get(user.language()).successLevelUp(),
                     ReplyKeyboards.mainKeyboard(user.language()) //TODO если остались очки, то клавиатура лвл апа
                 )
             )
@@ -48,7 +48,7 @@ public class CharacteristicUpExecutor extends CommandExecutor<CharacteristicUp> 
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    Localization.get(user.language()).notEnoughLevelingPoints(),
+                    LevelingLocalization.get(user.language()).notEnoughLevelingPoints(),
                     ReplyKeyboards.mainKeyboard(user.language())
                 )
             )

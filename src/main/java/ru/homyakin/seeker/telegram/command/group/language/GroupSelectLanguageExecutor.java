@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.telegram.command.group.language;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.locale.Localization;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
@@ -31,7 +31,7 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
             TelegramMethods.createEditMessageText(
                 command.groupId(),
                 command.messageId(),
-                Localization.get(updatedGroup.language()).chooseLanguage(),
+                CommonLocalization.get(updatedGroup.language()).chooseLanguage(),
                 InlineKeyboards.languageKeyboard(updatedGroup.language())
             )
         );

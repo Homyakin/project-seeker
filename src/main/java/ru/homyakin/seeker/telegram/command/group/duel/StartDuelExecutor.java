@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -63,11 +63,11 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             // TODO поменять на красивый switch, когда выйдет из превью
             final String message;
             if (error instanceof CreateDuelError.PersonageAlreadyHasDuel) {
-                message = Localization.get(group.language()).personageAlreadyStartDuel();
+                message = DuelLocalization.get(group.language()).personageAlreadyStartDuel();
             } else if (error instanceof CreateDuelError.InitiatingPersonageHasLowHealth) {
-                message = Localization.get(group.language()).duelWithInitiatorLowHealth();
+                message = DuelLocalization.get(group.language()).duelWithInitiatorLowHealth();
             } else if (error instanceof CreateDuelError.AcceptingPersonageHasLowHealth) {
-                message = Localization.get(group.language()).duelWithAcceptorLowHealth();
+                message = DuelLocalization.get(group.language()).duelWithAcceptorLowHealth();
             } else {
                 throw new IllegalStateException("Unknown duel error: " + error.toString());
             }
@@ -79,7 +79,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var telegramResult = telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                Localization.get(group.language()).initDuel(initiatingPersonage, acceptingPersonage),
+                DuelLocalization.get(group.language()).initDuel(initiatingPersonage, acceptingPersonage),
                 replyInfo.messageId(),
                 InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id())
             )
@@ -94,20 +94,20 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
     private Either<Failure, StartDuel.ReplyInfo> validateCommandAndSendErrorIfNeed(StartDuel command, Group group) {
         if (command.replyInfo().isEmpty()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), Localization.get(group.language()).duelMustBeReply())
+                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.get(group.language()).duelMustBeReply())
             );
             return Either.left(new Failure());
         }
         final var replyInfo = command.replyInfo().get();
         if (replyInfo.userId() == command.userId()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), Localization.get(group.language()).duelWithYourself())
+                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.get(group.language()).duelWithYourself())
             );
             return Either.left(new Failure());
         }
         if (replyInfo.isBot()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), Localization.get(group.language()).duelReplyMustBeToUser())
+                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.get(group.language()).duelReplyMustBeToUser())
             );
             return Either.left(new Failure());
         }

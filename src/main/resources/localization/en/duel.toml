@@ -1,0 +1,21 @@
+duelMustBeReply = "The duel should be a reply to another user's message"
+duelReplyMustBeToUser = "Your opponent must be a user"
+duelWithYourself = "You can't have a duel with yourself!"
+duelWithInitiatorLowHealth = "You're barely moving! Go recover first, and then come fight!"
+duelWithAcceptorLowHealth = "Your opponent is dying, and you want to fight him?! Show respect to the wounded!"
+personageAlreadyStartDuel = "You have already started another duel! Wait for it to finish."
+initDuel = """\
+The seeker <b>${level_icon}${initiating_personage_name} \
+${initiating_personage_health}${health_icon}</b> challenges \
+the seeker <b>${level_icon}${accepting_personage_name} \
+${accepting_personage_health}${health_icon}</b>.
+
+What will be his answer?"""
+notDuelAcceptingPersonage = "It wasn't you who was challenged to a duel!"
+expiredDuel = "The challenge to the duel was ignored"
+declinedDuel = "The accepting party rejected the call!"
+finishedDuel = """\
+The seeker <b>${level_icon}${winner_personage_name}</b> got the better of \
+<b>${level_icon}${looser_personage_name}</b>"""
+acceptDuelButton = "Take the challenge:dagger_knife:"
+declineDuelButton = "Decline:open_hands:"

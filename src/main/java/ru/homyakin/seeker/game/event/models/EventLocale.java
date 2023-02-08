@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.event.models;
 
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.raid.RaidLocalization;
 
 public record EventLocale(
     Language language,
@@ -16,6 +16,6 @@ public record EventLocale(
     }
 
     public String toEndMessage() {
-        return toStartMessage() + "\n\n" + Localization.get(language).expiredEvent();
+        return toStartMessage() + "\n\n" + RaidLocalization.get(language).expiredEvent();
     }
 }

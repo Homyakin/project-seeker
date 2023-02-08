@@ -3,7 +3,7 @@ package ru.homyakin.seeker.telegram.command.user.profile;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
-import ru.homyakin.seeker.locale.Localization;
+import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.command.CommandType;
@@ -34,7 +34,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
         if (newName.isBlank()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
-                    command.userId(), Localization.get(user.language()).changeNameWithoutName()
+                    command.userId(), ChangeNameLocalization.get(user.language()).changeNameWithoutName()
                 )
             );
             return;
@@ -45,7 +45,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(),
-                    Localization.get(user.language()).successNameChange(),
+                    ChangeNameLocalization.get(user.language()).successNameChange(),
                     ReplyKeyboards.mainKeyboard(user.language())
                 )
             );
@@ -54,11 +54,11 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             //TODO switch
             final String message;
             if (error instanceof NameError.InvalidLength invalidLength) {
-                message = Localization.get(user.language()).personageNameInvalidLength(
+                message = ChangeNameLocalization.get(user.language()).personageNameInvalidLength(
                     invalidLength.minLength(), invalidLength.maxLength()
                 );
             } else if (error instanceof NameError.NotAllowedSymbols) {
-                message = Localization.get(user.language()).personageNameInvalidSymbols();
+                message = ChangeNameLocalization.get(user.language()).personageNameInvalidSymbols();
             } else {
                 throw new IllegalStateException("Unknown error: " + error.toString());
             }
