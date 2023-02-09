@@ -1,5 +1,9 @@
 # Project Seeker - социальная RPG в Telegram
 
+## Локализация / Localization
+
+[Как добавить новую локализацию (How to add new localization)](documentation/localization/README.md)
+
 ## Оформление коммитов
 
 ### Префиксы
