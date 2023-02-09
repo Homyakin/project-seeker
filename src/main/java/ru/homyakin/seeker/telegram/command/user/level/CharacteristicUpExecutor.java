@@ -40,7 +40,7 @@ public class CharacteristicUpExecutor extends CommandExecutor<CharacteristicUp> 
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    LevelingLocalization.get(user.language()).successLevelUp(),
+                    LevelingLocalization.successLevelUp(user.language()),
                     ReplyKeyboards.mainKeyboard(user.language()) //TODO если остались очки, то клавиатура лвл апа
                 )
             )
@@ -48,7 +48,7 @@ public class CharacteristicUpExecutor extends CommandExecutor<CharacteristicUp> 
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    LevelingLocalization.get(user.language()).notEnoughLevelingPoints(),
+                    LevelingLocalization.notEnoughLevelingPoints(user.language()),
                     ReplyKeyboards.mainKeyboard(user.language())
                 )
             )

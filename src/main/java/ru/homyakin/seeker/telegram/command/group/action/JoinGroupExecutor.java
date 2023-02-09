@@ -23,7 +23,7 @@ class JoinGroupExecutor extends CommandExecutor<JoinGroup> {
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                CommonLocalization.get(group.language()).welcomeGroup()
+                CommonLocalization.welcomeGroup(group.language())
             )
         );
     }

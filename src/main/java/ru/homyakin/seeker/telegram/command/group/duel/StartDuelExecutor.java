@@ -63,11 +63,11 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             // TODO поменять на красивый switch, когда выйдет из превью
             final String message;
             if (error instanceof CreateDuelError.PersonageAlreadyHasDuel) {
-                message = DuelLocalization.get(group.language()).personageAlreadyStartDuel();
+                message = DuelLocalization.personageAlreadyStartDuel(group.language());
             } else if (error instanceof CreateDuelError.InitiatingPersonageHasLowHealth) {
-                message = DuelLocalization.get(group.language()).duelWithInitiatorLowHealth();
+                message = DuelLocalization.duelWithInitiatorLowHealth(group.language());
             } else if (error instanceof CreateDuelError.AcceptingPersonageHasLowHealth) {
-                message = DuelLocalization.get(group.language()).duelWithAcceptorLowHealth();
+                message = DuelLocalization.duelWithAcceptorLowHealth(group.language());
             } else {
                 throw new IllegalStateException("Unknown duel error: " + error.toString());
             }
@@ -79,7 +79,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var telegramResult = telegramSender.send(
             TelegramMethods.createSendMessage(
                 group.id(),
-                DuelLocalization.get(group.language()).initDuel(initiatingPersonage, acceptingPersonage),
+                DuelLocalization.initDuel(group.language(), initiatingPersonage, acceptingPersonage),
                 replyInfo.messageId(),
                 InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id())
             )
@@ -94,20 +94,20 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
     private Either<Failure, StartDuel.ReplyInfo> validateCommandAndSendErrorIfNeed(StartDuel command, Group group) {
         if (command.replyInfo().isEmpty()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.get(group.language()).duelMustBeReply())
+                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelMustBeReply(group.language()))
             );
             return Either.left(new Failure());
         }
         final var replyInfo = command.replyInfo().get();
         if (replyInfo.userId() == command.userId()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.get(group.language()).duelWithYourself())
+                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelWithYourself(group.language()))
             );
             return Either.left(new Failure());
         }
         if (replyInfo.isBot()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.get(group.language()).duelReplyMustBeToUser())
+                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelReplyMustBeToUser(group.language()))
             );
             return Either.left(new Failure());
         }

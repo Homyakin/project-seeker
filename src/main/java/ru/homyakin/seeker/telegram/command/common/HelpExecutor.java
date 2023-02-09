@@ -29,6 +29,6 @@ public class HelpExecutor extends CommandExecutor<Help> {
         } else {
             language = groupService.getOrCreate(command.chatId()).language();
         }
-        telegramSender.send(TelegramMethods.createSendMessage(command.chatId(), CommonLocalization.get(language).help()));
+        telegramSender.send(TelegramMethods.createSendMessage(command.chatId(), CommonLocalization.help(language)));
     }
 }

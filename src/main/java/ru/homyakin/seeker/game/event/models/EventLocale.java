@@ -16,6 +16,6 @@ public record EventLocale(
     }
 
     public String toEndMessage() {
-        return toStartMessage() + "\n\n" + RaidLocalization.get(language).expiredEvent();
+        return toStartMessage() + "\n\n" + RaidLocalization.expiredEvent(language);
     }
 }

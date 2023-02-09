@@ -27,7 +27,7 @@ public class UserChangeLanguageExecutor extends CommandExecutor<UserChangeLangua
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 command.userId(),
-                CommonLocalization.get(user.language()).chooseLanguage(),
+                CommonLocalization.chooseLanguage(user.language()),
                 InlineKeyboards.languageKeyboard(user.language())
             )
         );

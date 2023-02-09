@@ -31,7 +31,7 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
             TelegramMethods.createEditMessageText(
                 command.groupId(),
                 command.messageId(),
-                CommonLocalization.get(updatedGroup.language()).chooseLanguage(),
+                CommonLocalization.chooseLanguage(updatedGroup.language()),
                 InlineKeyboards.languageKeyboard(updatedGroup.language())
             )
         );

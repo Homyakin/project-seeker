@@ -31,7 +31,7 @@ public class UserSelectLanguageExecutor extends CommandExecutor<UserSelectLangua
             TelegramMethods.createEditMessageText(
                 command.userId(),
                 command.messageId(),
-                CommonLocalization.get(updatedUser.language()).chooseLanguage(),
+                CommonLocalization.chooseLanguage(user.language()),
                 InlineKeyboards.languageKeyboard(updatedUser.language())
             )
         );

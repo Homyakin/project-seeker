@@ -27,7 +27,7 @@ public class GroupChangeLanguageExecutor extends CommandExecutor<GroupChangeLang
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 command.groupId(),
-                CommonLocalization.get(group.language()).chooseLanguage(),
+                CommonLocalization.chooseLanguage(group.language()),
                 InlineKeyboards.languageKeyboard(group.language())
             )
         );

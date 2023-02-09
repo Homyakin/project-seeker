@@ -34,7 +34,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
         if (newName.isBlank()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
-                    command.userId(), ChangeNameLocalization.get(user.language()).changeNameWithoutName()
+                    command.userId(), ChangeNameLocalization.changeNameWithoutName(user.language())
                 )
             );
             return;
@@ -45,7 +45,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(),
-                    ChangeNameLocalization.get(user.language()).successNameChange(),
+                    ChangeNameLocalization.successNameChange(user.language()),
                     ReplyKeyboards.mainKeyboard(user.language())
                 )
             );
@@ -54,11 +54,11 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             //TODO switch
             final String message;
             if (error instanceof NameError.InvalidLength invalidLength) {
-                message = ChangeNameLocalization.get(user.language()).personageNameInvalidLength(
-                    invalidLength.minLength(), invalidLength.maxLength()
+                message = ChangeNameLocalization.personageNameInvalidLength(
+                    user.language(), invalidLength.minLength(), invalidLength.maxLength()
                 );
             } else if (error instanceof NameError.NotAllowedSymbols) {
-                message = ChangeNameLocalization.get(user.language()).personageNameInvalidSymbols();
+                message = ChangeNameLocalization.personageNameInvalidSymbols(user.language());
             } else {
                 throw new IllegalStateException("Unknown error: " + error.toString());
             }

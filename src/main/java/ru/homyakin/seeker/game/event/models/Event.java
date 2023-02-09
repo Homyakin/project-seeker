@@ -54,7 +54,7 @@ public record Event(
         final var postfix = switch (type) {
             case RAID -> raidEndMessage(language, result);
         };
-        return RaidLocalization.get(language).expiredEvent() + " " + postfix;
+        return RaidLocalization.expiredEvent(language) + " " + postfix;
     }
 
     private Optional<String> endDateText(Language language, LocalDateTime endDate) {
@@ -65,25 +65,25 @@ public record Event(
         final var diff = Duration.between(now, endDate);
         var hours = "";
         if (diff.toHours() > 0) {
-            hours = diff.toHours() + " " + RaidLocalization.get(language).hoursShort();
+            hours = diff.toHours() + " " + RaidLocalization.hoursShort(language);
         }
         var minutes = "";
         if (diff.toMinutesPart() > 0) {
-            minutes = diff.toMinutesPart() + " " + RaidLocalization.get(language).minutesShort();
+            minutes = diff.toMinutesPart() + " " + RaidLocalization.minutesShort(language);
         } else if (diff.toHours() == 0) {
-            minutes = "1 " + RaidLocalization.get(language).minutesShort();
+            minutes = "1 " + RaidLocalization.minutesShort(language);
         }
         final var prefix = switch (type) {
-            case RAID -> RaidLocalization.get(language).raidStartsPrefix();
+            case RAID -> RaidLocalization.raidStartsPrefix(language);
         };
         return Optional.of(prefix + hours + " " + minutes);
     }
 
     private String raidEndMessage(Language language, EventResult result) {
         if (result instanceof EventResult.Success) {
-            return RaidLocalization.get(language).successRaid();
+            return RaidLocalization.successRaid(language);
         } else if (result instanceof EventResult.Failure) {
-            return RaidLocalization.get(language).failureRaid();
+            return RaidLocalization.failureRaid(language);
         }
         return "";
     }

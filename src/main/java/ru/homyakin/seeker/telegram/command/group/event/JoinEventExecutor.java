@@ -41,17 +41,17 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
 
         final String notificationText;
         if (result.isRight()) {
-            notificationText = RaidLocalization.get(group.language()).successJoinEvent();
+            notificationText = RaidLocalization.successJoinEvent(group.language());
         } else {
             final var error = result.getLeft();
             if (error instanceof PersonageInOtherEvent) {
-                notificationText = RaidLocalization.get(group.language()).userAlreadyInOtherEvent();
+                notificationText = RaidLocalization.userAlreadyInOtherEvent(group.language());
             } else if (error instanceof PersonageInThisEvent) {
-                notificationText = RaidLocalization.get(group.language()).userAlreadyInThisEvent();
+                notificationText = RaidLocalization.userAlreadyInThisEvent(group.language());
             } else if (error instanceof EventNotExist) {
-                notificationText = CommonLocalization.get(group.language()).internalError();
+                notificationText = CommonLocalization.internalError(group.language());
             } else if (error instanceof ExpiredEvent expiredEvent) {
-                notificationText = RaidLocalization.get(group.language()).expiredEvent();
+                notificationText = RaidLocalization.expiredEvent(group.language());
                 //TODO может вынести в евент менеджер
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     command.groupId(),

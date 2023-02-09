@@ -53,16 +53,14 @@ public record Personage(
 
     public String shortProfile(Language language) {
         return CommonLocalization
-            .get(language)
-            .profile(this) + "\n" + shortStats();
+            .profileTemplate(language, this) + "\n" + shortStats();
     }
 
     public String fullProfile(Language language) {
         final var profile = CommonLocalization
-            .get(language)
-            .profile(this) + "\n" + shortStats();
+            .profileTemplate(language, this) + "\n" + shortStats();
 
-        return hasUnspentLevelingPoints() ? LevelingLocalization.get(language).profileLevelUp() + "\n\n" + profile : profile;
+        return hasUnspentLevelingPoints() ? LevelingLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
     }
 
     public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {

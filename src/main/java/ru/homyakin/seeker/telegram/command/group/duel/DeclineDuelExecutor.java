@@ -38,7 +38,7 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
-                    DuelLocalization.get(group.language()).notDuelAcceptingPersonage()
+                    DuelLocalization.notDuelAcceptingPersonage(group.language())
                 )
             );
             return;
@@ -49,7 +49,7 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
             TelegramMethods.createEditMessageText(
                 group.id(),
                 command.messageId(),
-                DuelLocalization.get(group.language()).declinedDuel()
+                DuelLocalization.declinedDuel(group.language())
             )
         );
     }

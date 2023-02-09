@@ -8,6 +8,9 @@ public class StringNamedTemplate {
 
     // https://gist.github.com/Homyakin/812028a0ed7aef18af2fbd62fbeac0c1
     public static String format(String template, Map<String, Object> parameters) {
+        if (template == null) {
+            return null;
+        }
         StringBuilder result = new StringBuilder();
 
         int startIndex = 0;

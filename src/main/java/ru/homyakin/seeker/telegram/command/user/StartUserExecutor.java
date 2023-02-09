@@ -24,7 +24,7 @@ public class StartUserExecutor extends CommandExecutor<StartUser> {
         telegramSender.send(
             TelegramMethods.createSendMessage(
                 user.id(),
-                CommonLocalization.get(user.language()).welcomeUser(),
+                CommonLocalization.welcomeUser(user.language()),
                 ReplyKeyboards.mainKeyboard(user.language())
             )
         );

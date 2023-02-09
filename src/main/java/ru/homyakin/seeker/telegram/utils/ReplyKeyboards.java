@@ -23,11 +23,11 @@ public class ReplyKeyboards {
         return ReplyKeyboardBuilder.builder()
             .addRow()
             .addButton(KeyboardButton.builder().text(
-                EmojiParser.parseToUnicode(MenuLocalization.get(language).profileButton())
+                EmojiParser.parseToUnicode(MenuLocalization.profileButton(language))
             ).build())
             .addRow()
             .addButton(KeyboardButton.builder().text(
-                EmojiParser.parseToUnicode(MenuLocalization.get(language).languageButton())
+                EmojiParser.parseToUnicode(MenuLocalization.languageButton(language))
             ).build())
             .build();
     }

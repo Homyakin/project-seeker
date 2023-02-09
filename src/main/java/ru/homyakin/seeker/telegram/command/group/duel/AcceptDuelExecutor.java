@@ -50,7 +50,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
-                    DuelLocalization.get(group.language()).notDuelAcceptingPersonage()
+                    DuelLocalization.notDuelAcceptingPersonage(group.language())
                 )
             );
             return;
@@ -99,7 +99,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             TelegramMethods.createEditMessageText(
                 group.id(),
                 command.messageId(),
-                DuelLocalization.get(group.language()).finishedDuel(winner, looser)
+                DuelLocalization.finishedDuel(group.language(), winner, looser)
             )
         );
     }

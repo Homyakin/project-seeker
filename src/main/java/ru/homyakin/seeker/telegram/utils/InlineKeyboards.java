@@ -33,7 +33,7 @@ public class InlineKeyboards {
             .builder()
             .addRow()
             .addButton(
-                RaidLocalization.get(language).joinRaidEvent(),
+                RaidLocalization.joinRaidEvent(language),
                 "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), CommandType.CALLBACK_DELIMITER, chatEventId)
             )
             .build();
@@ -44,11 +44,11 @@ public class InlineKeyboards {
             .builder()
             .addRow()
             .addButton(
-                DuelLocalization.get(language).declineDuelButton(),
+                DuelLocalization.declineDuelButton(language),
                 "%s%s%d".formatted(CommandType.DECLINE_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
             )
             .addButton(
-                DuelLocalization.get(language).acceptDuelButton(),
+                DuelLocalization.acceptDuelButton(language),
                 "%s%s%d".formatted(CommandType.ACCEPT_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
             )
             .build();
