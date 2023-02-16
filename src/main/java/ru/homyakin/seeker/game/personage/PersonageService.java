@@ -87,6 +87,13 @@ public class PersonageService {
         return personage.changeHealth(health, lastHealthChange, personageDao);
     }
 
+    public Personage addMoney(Personage personage, int value) {
+        final var updatedPersonage = personage.addMoney(value);
+        logger.info(updatedPersonage.toString());
+        personageDao.update(updatedPersonage);
+        return updatedPersonage;
+    }
+
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {
         return personage.incrementStrength(personageDao);
     }

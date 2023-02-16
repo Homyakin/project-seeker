@@ -29,7 +29,7 @@ public class PersonageDao {
     private static final String UPDATE = """
         UPDATE personage
         SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
-        health = :health, last_health_change = :last_health_change
+        health = :health, last_health_change = :last_health_change, money = :money
         WHERE id = :id
         """;
 
@@ -82,6 +82,7 @@ public class PersonageDao {
             put("wisdom", personage.wisdom());
             put("health", personage.health());
             put("last_health_change", personage.lastHealthChange());
+            put("money", personage.money().value());
         }};
         jdbcTemplate.update(
             UPDATE,

@@ -48,6 +48,7 @@ public class RaidProcessing {
         );
 
         boolean doesParticipantsWin = result instanceof TwoPersonageTeamsBattle.Result.SecondTeamWin;
+        int baseReward = doesParticipantsWin ? 10 : 2; // TODO баланс
         final var endTime = TimeUtils.moscowTime();
         for (final var participant: participants) {
             final var personage = idToPersonages.get(participant.id());
@@ -55,10 +56,9 @@ public class RaidProcessing {
                 logger.error("Personage with id {} is missing in battle map", participant.id());
                 continue;
             }
-            personageService.changeHealth(
+            personageService.addMoney(
                 participant,
-                personage.health(),
-                endTime
+                (int) (baseReward + Math.sqrt((double) personage.damageDealtAndTaken() / 10))
             );
         }
 

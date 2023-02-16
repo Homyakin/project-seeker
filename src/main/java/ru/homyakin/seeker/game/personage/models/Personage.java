@@ -40,6 +40,21 @@ public record Personage(
         return this;
     }
 
+    public Personage addMoney(int value) {
+        return new Personage(
+            id,
+            name,
+            money.add(value),
+            health,
+            attack,
+            defense,
+            strength,
+            agility,
+            wisdom,
+            lastHealthChange
+        );
+    }
+
     public Either<NameError, Personage> changeName(String name, PersonageDao personageDao) {
         if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
             return Either.left(new NameError.InvalidLength(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
