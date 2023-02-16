@@ -18,6 +18,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public record Personage(
     long id,
     String name,
+    Money money,
     int health,
     int attack,
     int defense,
@@ -137,6 +138,7 @@ public record Personage(
         return new Personage(
             0L,
             TextConstants.DEFAULT_NAME,
+            Money.zero(),
             maxHealth(),
             10,
             5,
@@ -194,6 +196,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            money,
             health,
             attack,
             defense,
@@ -208,6 +211,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            money,
             health,
             attack,
             defense,
@@ -222,6 +226,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            money,
             health,
             attack,
             defense,

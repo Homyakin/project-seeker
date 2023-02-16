@@ -20,4 +20,6 @@ ${duel_command} - вызвать другого искателя на дуэль
 ${name_command} - сменить имя;
 
 Исходный код игры <a href="${github_link}">здесь</a>."""
-profileTemplate = "${profile_icon}${personage_name}"
+profileTemplate = """\
+${profile_icon}${personage_name}
+${money_icon}Золото: ${personage_money}"""

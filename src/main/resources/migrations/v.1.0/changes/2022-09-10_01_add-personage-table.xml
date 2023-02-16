@@ -11,6 +11,9 @@
             <column name="name" type="VARCHAR(25)">
                 <constraints nullable="false"/>
             </column>
+            <column name="money" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
             <column name="health" type="INTEGER">
                 <constraints nullable="false"/>
             </column>

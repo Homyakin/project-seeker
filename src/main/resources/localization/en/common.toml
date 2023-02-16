@@ -20,4 +20,6 @@ Only for pm:
 ${name_command} - change name
 
 The source code of the game is <a href="${github_link}">here</a>"""
-profileTemplate = "${profile_icon}${personage_name}"
+profileTemplate = """\
+${profile_icon}${personage_name}
+${money_icon}Gold: ${personage_money}"""

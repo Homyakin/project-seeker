@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.personage.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 
 @Component
@@ -41,6 +42,7 @@ public class PersonageDao {
             .withTableName("personage")
             .usingColumns(
                 "name",
+                "money",
                 "attack",
                 "defense",
                 "health",
@@ -57,6 +59,7 @@ public class PersonageDao {
     public long save(Personage personage) {
         final var params = new HashMap<String, Object>() {{
             put("name", personage.name());
+            put("money", personage.money().value());
             put("attack", personage.attack());
             put("defense", personage.defense());
             put("health", personage.health());
@@ -112,6 +115,7 @@ public class PersonageDao {
             return new Personage(
                 rs.getLong("id"),
                 rs.getString("name"),
+                new Money(rs.getInt("money")),
                 rs.getInt("health"),
                 rs.getInt("attack"),
                 rs.getInt("defense"),
