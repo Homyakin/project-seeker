@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.DuelService;
-import ru.homyakin.seeker.game.duel.models.CreateDuelError;
+import ru.homyakin.seeker.game.duel.models.DuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -62,12 +62,12 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             final var error = duelResult.getLeft();
             // TODO поменять на красивый switch, когда выйдет из превью
             final String message;
-            if (error instanceof CreateDuelError.PersonageAlreadyHasDuel) {
+            if (error instanceof DuelError.PersonageAlreadyHasDuel) {
                 message = DuelLocalization.personageAlreadyStartDuel(group.language());
-            } else if (error instanceof CreateDuelError.InitiatingPersonageHasLowHealth) {
-                message = DuelLocalization.duelWithInitiatorLowHealth(group.language());
-            } else if (error instanceof CreateDuelError.AcceptingPersonageHasLowHealth) {
-                message = DuelLocalization.duelWithAcceptorLowHealth(group.language());
+            } else if (error instanceof DuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney) {
+                message = DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
+            } else if (error instanceof DuelError.AcceptingPersonageNotEnoughMoney notEnoughMoney) {
+                message = DuelLocalization.duelWithAcceptorNotEnoughMoney(group.language(), notEnoughMoney.money());
             } else {
                 throw new IllegalStateException("Unknown duel error: " + error.toString());
             }

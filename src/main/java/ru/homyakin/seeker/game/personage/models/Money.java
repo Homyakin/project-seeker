@@ -21,4 +21,8 @@ public record Money(
         }
         return new Money(this.value + increase);
     }
+
+    public boolean lessThan(Money other) {
+        return this.value < other.value;
+    }
 }

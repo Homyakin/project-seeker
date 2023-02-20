@@ -2,6 +2,7 @@ package ru.homyakin.seeker.locale.duel;
 
 import java.util.HashMap;
 import java.util.Map;
+import ru.homyakin.seeker.game.personage.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -27,14 +28,32 @@ public class DuelLocalization {
         return CommonUtils.ifNullThan(map.get(language).duelWithYourself(), map.get(Language.DEFAULT).duelWithYourself());
     }
 
-    public static String duelWithInitiatorLowHealth(Language language) {
-        return CommonUtils.ifNullThan(
-            map.get(language).duelWithInitiatorLowHealth(), map.get(Language.DEFAULT).duelWithInitiatorLowHealth()
+    public static String duelWithInitiatorNotEnoughMoney(Language language, Money money) {
+        final var params = new HashMap<String, Object>() {{
+            put("money_icon", TextConstants.MONEY_ICON);
+            put("money_count", money.value());
+        }};
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(
+                map.get(language).duelWithInitiatorNotEnoughMoney(),
+                map.get(Language.DEFAULT).duelWithInitiatorNotEnoughMoney()
+            ),
+            params
         );
     }
 
-    public static String duelWithAcceptorLowHealth(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).duelWithAcceptorLowHealth(), map.get(Language.DEFAULT).duelWithAcceptorLowHealth());
+    public static String duelWithAcceptorNotEnoughMoney(Language language, Money money) {
+        final var params = new HashMap<String, Object>() {{
+            put("money_icon", TextConstants.MONEY_ICON);
+            put("money_count", money.value());
+        }};
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(
+                map.get(language).duelWithAcceptorNotEnoughMoney(),
+                map.get(Language.DEFAULT).duelWithAcceptorNotEnoughMoney()
+            ),
+            params
+        );
     }
 
     public static String personageAlreadyStartDuel(Language language) {
@@ -66,6 +85,17 @@ public class DuelLocalization {
 
     public static String declinedDuel(Language language) {
         return CommonUtils.ifNullThan(map.get(language).declinedDuel(), map.get(Language.DEFAULT).declinedDuel());
+    }
+
+    public static String notEnoughMoneyAtAccepting(Language language, Money money) {
+        final var params = new HashMap<String, Object>() {{
+            put("money_icon", TextConstants.MONEY_ICON);
+            put("money_count", money.value());
+        }};
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).notEnoughMoneyAtAccepting(), map.get(Language.DEFAULT).notEnoughMoneyAtAccepting()),
+            params
+        );
     }
 
     public static String finishedDuel(Language language, Personage winnerPersonage, Personage looserPersonage) {

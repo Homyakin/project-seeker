@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.control.Either;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.personage.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
@@ -79,19 +79,15 @@ public class PersonageService {
             .toList();
     }
 
-    public Personage changeHealth(
-        Personage personage,
-        int health,
-        LocalDateTime lastHealthChange
-    ) {
-        return personage.changeHealth(health, lastHealthChange, personageDao);
-    }
-
-    public Personage addMoney(Personage personage, int value) {
+    public Personage addMoney(Personage personage, int value) { //TODO money вместо int
         final var updatedPersonage = personage.addMoney(value);
         logger.info(updatedPersonage.toString());
         personageDao.update(updatedPersonage);
         return updatedPersonage;
+    }
+
+    public Personage takeMoney(Personage personage, Money money) {
+        return addMoney(personage, -money.value());
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {

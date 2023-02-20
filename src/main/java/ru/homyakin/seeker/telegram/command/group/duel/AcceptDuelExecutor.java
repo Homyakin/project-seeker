@@ -14,7 +14,6 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
@@ -61,8 +60,18 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             return;
         }
 
-        duelService.finishDuel(duel.id());
+        final var result = duelService.finishDuel(duel.id());
+        if (result.isLeft()) {
+            telegramSender.send(
+                TelegramMethods.createAnswerCallbackQuery(
+                    command.callbackId(),
+                    DuelLocalization.notEnoughMoneyAtAccepting(group.language(), result.getLeft().money())
+                )
+            );
+            return;
+        }
 
+        // TODO вынести в отдельный поток и сервис
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
         final var battlePersonage1 = personage1.toBattlePersonage();
@@ -83,17 +92,6 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         }
 
         duelService.addWinner(duel.id(), winner.id());
-        final var duelEndTime = TimeUtils.moscowTime();
-        personageService.changeHealth(
-            personage1,
-            battlePersonage1.health(),
-            duelEndTime
-        );
-        personageService.changeHealth(
-            personage2,
-            battlePersonage2.health(),
-            duelEndTime
-        );
 
         telegramSender.send(
             TelegramMethods.createEditMessageText(
