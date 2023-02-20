@@ -23,13 +23,13 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        LocalizationInitializer.initLocale();
-
         final var telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         telegramBotsApi.registerBot(telegramUpdateReceiver);
     }
 
     public static void main(String[] args) {
+        LocalizationInitializer.initLocale();
+
         SpringApplication.run(Application.class, args);
     }
 }
