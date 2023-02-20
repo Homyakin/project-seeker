@@ -2,10 +2,8 @@ package ru.homyakin.seeker.infrastructure;
 
 public class TextConstants {
     // TODO иконки в отдельный класс
-    public static final String PROFILE_ICON = ":bust_in_silhouette:";
+    public static final String PERSONAGE_ICON = ":beginner:";
     public static final String MONEY_ICON = ":moneybag:";
-    public static final String LEVEL_ICON = ":military_medal:";
-    public static final String EXP_ICON = ":star2:";
     public static final String STRENGTH_ICON = ":fist:";
     public static final String AGILITY_ICON = ":athletic_shoe:";
     public static final String WISDOM_ICON = ":brain:";

@@ -62,12 +62,9 @@ public class DuelLocalization {
 
     public static String initDuel(Language language, Personage initiatingPersonage, Personage acceptingPersonage) {
         final var params = new HashMap<String, Object>() {{
-            put("level_icon", TextConstants.LEVEL_ICON);
-            put("health_icon", TextConstants.HEALTH_ICON);
+            put("personage_icon", TextConstants.PERSONAGE_ICON);
             put("initiating_personage_name", initiatingPersonage.name());
-            put("initiating_personage_health", initiatingPersonage.health());
             put("accepting_personage_name", acceptingPersonage.name());
-            put("accepting_personage_health", acceptingPersonage.health());
         }};
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).initDuel(), map.get(Language.DEFAULT).initDuel()),
@@ -100,7 +97,7 @@ public class DuelLocalization {
 
     public static String finishedDuel(Language language, Personage winnerPersonage, Personage looserPersonage) {
         final var params = new HashMap<String, Object>() {{
-            put("level_icon", TextConstants.LEVEL_ICON);
+            put("personage_icon", TextConstants.PERSONAGE_ICON);
             put("winner_personage_name", winnerPersonage.name());
             put("looser_personage_name", looserPersonage.name());
         }};

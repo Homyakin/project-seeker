@@ -8,10 +8,8 @@ duelWithAcceptorNotEnoughMoney = """\
 Пусть сначала немного потрудится"""
 personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
 initDuel = """\
-Искатель <b>${level_icon}${initiating_personage_name} \
-${initiating_personage_health}${health_icon}</b> вызывает на дуэль \
-искателя <b>${level_icon}${accepting_personage_name} \
-${accepting_personage_health}${health_icon}</b>.
+Искатель <b>${personage_icon}${initiating_personage_name}</b> вызывает на дуэль \
+искателя <b>${personage_icon}${accepting_personage_name}</b>.
 
 Каким будет его ответ?"""
 notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
@@ -19,7 +17,7 @@ expiredDuel = "Вызов на дуэль остался проигнориро�
 declinedDuel = "Принимающая сторона отклонила вызов!"
 notEnoughMoneyAtAccepting = "Ты где-то умудрился потратить все деньги! Заработай для начала ${money_icon}${money_count}"
 finishedDuel = """\
-Искатель <b>${level_icon}${winner_personage_name}</b> одержал верх над \
-<b>${level_icon}${looser_personage_name}</b>"""
+Искатель <b>${personage_icon}${winner_personage_name}</b> одержал верх над \
+<b>${personage_icon}${looser_personage_name}</b>"""
 acceptDuelButton = "Принять вызов:dagger_knife:"
 declineDuelButton = "Отказаться :open_hands:"
