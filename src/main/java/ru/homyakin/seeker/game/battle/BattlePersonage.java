@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class BattlePersonage implements Comparable<BattlePersonage> {
+public class BattlePersonage {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
     private int health;
@@ -38,14 +38,6 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
         return id;
     }
 
-    public long damageBlocked() {
-        return damageBlocked;
-    }
-
-    public long damageDealt() {
-        return damageDealt;
-    }
-
     public long damageDealtAndTaken() {
         return damageDealt + damageBlocked;
     }
@@ -58,54 +50,46 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
         return health <= 0;
     }
 
-    @Override
-    public int compareTo(BattlePersonage o) {
-        return 0;
-    }
-
     public void dealDamageToPersonage(BattlePersonage enemy) {
-        final var critBonus = critBonus(characteristics.wisdom() - enemy.characteristics.wisdom());
-        final var attackBonus = 1 + (Math.max(characteristics.strength() - enemy.characteristics.strength(), 0)) * strengthMultiplier / 100;
-        final var attackWithBonus = characteristics.attack() * attackBonus * critBonus;
-        damageDealt += enemy.takeDamageAndReturnDealtDamage(attackWithBonus, this);
+        double attack = this.characteristics.attack + this.characteristics.strength * strengthMultiplier
+            - enemy.characteristics.defense * defenseMultiplier;
+        attack = Math.max(minAttack(), attack);
+        attack *= critBonus(enemy.characteristics.agility);
+        damageDealt += enemy.takeDamageAndReturnDealtDamage((int) attack, this);
     }
 
-    private int takeDamageAndReturnDealtDamage(double attack, BattlePersonage enemy) {
+    private int takeDamageAndReturnDealtDamage(int attack, BattlePersonage enemy) {
         damageBlocked += attack;
-        final var agilityDiff = characteristics.agility() - enemy.characteristics.agility();
-        if (isDodge(agilityDiff)) {
-            logger.debug("Personage {} dodged from {}", id, enemy.id);
+        if (isDodge()) {
+            logger.debug("Personage {} missed {}", enemy.id, id);
             return 0;
         }
-        final var defenseBonus = 1 + (Math.max(agilityDiff, 0)) * agilityDefenseMultiplier / 100;
-        final var finalDamage = (int) Math.max(attack - defenseBonus, enemy.minAttack());
         final int dealtDamage;
-        if (health < finalDamage) {
+        if (health < attack) {
             dealtDamage = health;
             health = 0;
         } else {
-            dealtDamage = finalDamage;
-            health -= finalDamage;
+            dealtDamage = attack;
+            health -= attack;
         }
         logger.debug("Personage {} attacked {} by {} damage", enemy.id, id, dealtDamage);
         return dealtDamage;
     }
 
-    private boolean isDodge(int agilityDiff) {
-        var hitChance = 50 + agilityDiff * agilityHitChanceMultiplier;
-        hitChance = Math.max(minHitChance, Math.min(hitChance, maxHitChance));
-        final var chance = RandomUtils.getInInterval(1, 100);
-        return chance <= hitChance;
+    private boolean isDodge() {
+        var dodgeChance = baseDodgeChance + this.characteristics.agility * agilityDodgeChanceMultiplier;
+        dodgeChance = Math.min(maxDodgeChance, dodgeChance);
+        return RandomUtils.getInInterval(1, 100) <= dodgeChance;
     }
 
-    private double critBonus(int wisdomDiff) {
-        var critChance = 50 + wisdomDiff * wisdomCritChanceMultiplier;
-        critChance = Math.max(minCritChance, Math.min(critChance, maxCritChance));
-        final var chance = RandomUtils.getInInterval(1, 100);
-        if (chance <= critChance) {
-            return 1 + (Math.max(wisdomDiff, 0)) * wisdomCritMultiplier / 100;
+    private double critBonus(int enemyAgility) {
+        final var wisdom = this.characteristics.wisdom;
+        var critChance = baseCritChance + wisdom * wisdomCritChanceMultiplier;
+        critChance = Math.min(maxCritChance, critChance);
+        if (RandomUtils.getInInterval(1, 100) <= critChance) {
+            return baseCritMulti + (Math.max(wisdom - enemyAgility * agilityCritMultiMultiplier, 0)) * wisdomCritMultiplier;
         } else {
-            return 1;
+            return baseCritMulti;
         }
     }
 
@@ -114,16 +98,18 @@ public class BattlePersonage implements Comparable<BattlePersonage> {
     }
 
     // TODO вынести в базу
-    private static final int minHitChance = 30;
-    private static final int maxHitChance = 90;
-    private static final int minCritChance = 10;
+    private static final int maxDodgeChance = 90;
+    private static final int baseDodgeChance = 10;
+    private static final double baseCritMulti = 2;
+    private static final int baseCritChance = 10;
     private static final int maxCritChance = 90;
-    private static final double minAttackPercent = 0.5;
-    private static final double strengthMultiplier = 2;
-    private static final double agilityDefenseMultiplier = 1.7;
-    private static final double agilityHitChanceMultiplier = 0.5;
-    private static final double wisdomCritMultiplier = 1.5;
-    private static final double wisdomCritChanceMultiplier = 0.5;
+    private static final double minAttackPercent = 0.1;
+    private static final double strengthMultiplier = 1.1;
+    private static final double defenseMultiplier = 0.7;
+    private static final double agilityDodgeChanceMultiplier = 1.6;
+    private static final double agilityCritMultiMultiplier = 0.4;
+    private static final double wisdomCritMultiplier = 0.04;
+    private static final double wisdomCritChanceMultiplier = 2;
 
     record Characteristics(
         int maxHealth,
