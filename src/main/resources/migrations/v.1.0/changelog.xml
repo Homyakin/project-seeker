@@ -11,4 +11,5 @@
     <include file="changes/2022-10-18_01_add-raid-tables.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-01-15_01_add-duel-tables.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-02-02_01_add-language-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-02-23_01_add-tavern-menu-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

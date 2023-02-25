@@ -12,9 +12,12 @@ import ru.homyakin.seeker.locale.duel.DuelResource;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.LevelingLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
+import ru.homyakin.seeker.locale.personal.MenuResource;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
+import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
+import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
 import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
@@ -25,6 +28,7 @@ public class LocalizationInitializer {
     private static final String DUEL_PATH = "/duel.toml";
     private static final String PERSONAL_PATH = "/personal.toml";
     private static final String RAID_PATH = "/raid.toml";
+    private static final String TAVERN_MENU_PATH = "/tavern_menu.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -50,6 +54,9 @@ public class LocalizationInitializer {
 
             ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + RAID_PATH)
                 .ifPresent(it -> RaidLocalization.add(language, extractClass(mapper, it, RaidResource.class)));
+
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + TAVERN_MENU_PATH)
+                .ifPresent(it -> TavernMenuLocalization.add(language, extractClass(mapper, it, TavernMenuResource.class)));
         }
         logger.info("Localization loaded");
     }

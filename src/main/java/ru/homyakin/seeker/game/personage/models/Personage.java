@@ -97,6 +97,10 @@ public record Personage(
         return this;
     }
 
+    public String iconWithName() {
+        return TextConstants.PERSONAGE_ICON + name;
+    }
+
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(PersonageDao personageDao) {
         if (!hasUnspentLevelingPoints()) {
             return Either.left(new NotEnoughLevelingPoints());

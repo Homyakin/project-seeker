@@ -1,0 +1,11 @@
+menuHeader = "Сегодня в меню:"
+drinks = "Напитки"
+mainDishes = "Основные блюда"
+itemNotInMenu = "Такой позиции нет в меню!"
+notEnoughMoneyDrink = [
+    "Тебе не хватает ${money_icon}${not_enough_money_value}, иди поработай, потом приходи пить!",
+    "Данный напиток тебе явно не по карману! Он стоит ${money_icon}${item_cost}"
+]
+notEnoughMoneyMainDish = [
+    "Кто не работает, тот не ест! Заработай ещё ${money_icon}${not_enough_money_value}"
+]

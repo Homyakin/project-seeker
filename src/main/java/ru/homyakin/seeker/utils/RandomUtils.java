@@ -17,4 +17,8 @@ public class RandomUtils {
     public static int getInInterval(int start, int end) {
         return random.nextInt(start, end + 1);
     }
+
+    public static <T> T getRandomElement(T[] array) {
+        return array[random.nextInt(0, array.length)];
+    }
 }

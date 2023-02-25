@@ -2,7 +2,7 @@
   {
     "id": 1,
     "duration": "PT1M",
-    "is_enabled": true,
+    "is_enabled": false,
     "raid": {
       "template_id": 1,
       "name": "Соломенное чучело"

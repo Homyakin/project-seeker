@@ -12,6 +12,8 @@ import ru.homyakin.seeker.game.personage.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
+import ru.homyakin.seeker.game.personage.models.errors.OrderError;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
@@ -88,6 +90,20 @@ public class PersonageService {
 
     public Personage takeMoney(Personage personage, Money money) {
         return addMoney(personage, -money.value());
+    }
+
+    public Personage takeMoney(Personage personage, int moneyValue) {
+        return addMoney(personage, -moneyValue);
+    }
+
+    public Either<OrderError, Personage> orderMenuItem(Personage personage, MenuItem menuItem) {
+        if (!menuItem.isAvailable()) {
+            return Either.left(new OrderError.NotAvailableItem());
+        }
+        if (personage.money().lessThan(menuItem.price())) {
+            return Either.left(new OrderError.NotEnoughMoney(menuItem.price(), personage.money().value()));
+        }
+        return Either.right(takeMoney(personage, menuItem.price()));
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {

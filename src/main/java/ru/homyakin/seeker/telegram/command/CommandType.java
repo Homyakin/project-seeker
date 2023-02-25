@@ -22,6 +22,8 @@ public enum CommandType {
     START_DUEL("/duel"),
     ACCEPT_DUEL("acceptDuel"),
     DECLINE_DUEL("declineDuel"),
+    TAVERN_MENU("/menu"),
+    ORDER("/order"),
     ;
 
     public static final String CALLBACK_DELIMITER = "~";
@@ -43,10 +45,17 @@ public enum CommandType {
         if (textToType.containsKey(text)) {
             return Optional.of(textToType.get(text));
         }
-        return Arrays.stream(values())
+        final var result = Arrays.stream(values())
             .filter(commandText -> commandText.text.equals(text))
-            .findFirst()
-            ;
+            .findFirst();
+        if (result.isPresent()) {
+            return result;
+        }
+        //TODO подумать как лучше сделать
+        if (text.startsWith(ORDER.text)) {
+            return Optional.of(ORDER);
+        }
+        return Optional.empty();
     }
 
     public static void fillLocaleMap(MenuResource resource) {
