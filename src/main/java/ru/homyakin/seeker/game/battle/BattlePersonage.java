@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.battle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage {
@@ -10,28 +11,15 @@ public class BattlePersonage {
     private int health;
     private long damageDealt = 0L;
     private long damageBlocked = 0L;
-    private final Characteristics characteristics;
+    private final BattleCharacteristics characteristics;
 
     public BattlePersonage(
         long id,
-        int health,
-        int maxHealth,
-        int attack,
-        int defense,
-        int strength,
-        int agility,
-        int wisdom
+        Characteristics characteristics
     ) {
         this.id = id;
-        this.health = health;
-        characteristics = new Characteristics(
-            maxHealth,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom
-        );
+        this.health = characteristics.health();
+        this.characteristics = BattleCharacteristics.from(characteristics);
     }
 
     public long id() {
@@ -111,13 +99,21 @@ public class BattlePersonage {
     private static final double wisdomCritMultiplier = 0.04;
     private static final double wisdomCritChanceMultiplier = 2;
 
-    record Characteristics(
-        int maxHealth,
+    record BattleCharacteristics(
         int attack,
         int defense,
         int strength,
         int agility,
         int wisdom
     ) {
+        public static BattleCharacteristics from(Characteristics characteristics) {
+            return new BattleCharacteristics(
+                characteristics.attack(),
+                characteristics.defense(),
+                characteristics.strength(),
+                characteristics.agility(),
+                characteristics.wisdom()
+            );
+        }
     }
 }

@@ -107,15 +107,15 @@ public class PersonageService {
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {
-        return personage.incrementStrength(personageDao);
+        return personage.incrementStrength().peek(personageDao::update);
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementAgility(Personage personage) {
-        return personage.incrementAgility(personageDao);
+        return personage.incrementAgility().peek(personageDao::update);
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementWisdom(Personage personage) {
-        return personage.incrementWisdom(personageDao);
+        return personage.incrementWisdom().peek(personageDao::update);
     }
 
     public Either<NameError, Personage> changeName(Personage personage, String name) {

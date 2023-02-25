@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 
@@ -60,12 +61,12 @@ public class PersonageDao {
         final var params = new HashMap<String, Object>() {{
             put("name", personage.name());
             put("money", personage.money().value());
-            put("attack", personage.attack());
-            put("defense", personage.defense());
-            put("health", personage.health());
-            put("strength", personage.strength());
-            put("agility", personage.agility());
-            put("wisdom", personage.wisdom());
+            put("attack", personage.characteristics().attack());
+            put("defense", personage.characteristics().defense());
+            put("health", personage.characteristics().health());
+            put("strength", personage.characteristics().strength());
+            put("agility", personage.characteristics().agility());
+            put("wisdom", personage.characteristics().wisdom());
             put("last_health_change", personage.lastHealthChange());
         }};
         return jdbcInsert.executeAndReturnKey(
@@ -77,10 +78,10 @@ public class PersonageDao {
         final var params = new HashMap<String, Object>() {{
             put("id", personage.id());
             put("name", personage.name());
-            put("strength", personage.strength());
-            put("agility", personage.agility());
-            put("wisdom", personage.wisdom());
-            put("health", personage.health());
+            put("strength", personage.characteristics().strength());
+            put("agility", personage.characteristics().agility());
+            put("wisdom", personage.characteristics().wisdom());
+            put("health", personage.characteristics().health());
             put("last_health_change", personage.lastHealthChange());
             put("money", personage.money().value());
         }};
@@ -117,12 +118,14 @@ public class PersonageDao {
                 rs.getLong("id"),
                 rs.getString("name"),
                 new Money(rs.getInt("money")),
-                rs.getInt("health"),
-                rs.getInt("attack"),
-                rs.getInt("defense"),
-                rs.getInt("strength"),
-                rs.getInt("agility"),
-                rs.getInt("wisdom"),
+                new Characteristics(
+                    rs.getInt("health"),
+                    rs.getInt("attack"),
+                    rs.getInt("defense"),
+                    rs.getInt("strength"),
+                    rs.getInt("agility"),
+                    rs.getInt("wisdom")
+                ),
                 rs.getTimestamp("last_health_change").toLocalDateTime()
             );
         }

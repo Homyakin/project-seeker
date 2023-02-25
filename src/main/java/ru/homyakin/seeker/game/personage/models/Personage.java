@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
@@ -12,45 +11,21 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.LevelingLocalization;
-import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
     long id,
     String name,
     Money money,
-    int health,
-    int attack,
-    int defense,
-    int strength,
-    int agility,
-    int wisdom,
+    Characteristics characteristics,
     LocalDateTime lastHealthChange
 ) {
-    public Personage changeHealth(
-        int health,
-        LocalDateTime lastHealthChange,
-        PersonageDao personageDao
-    ) {
-        if (this.health != health) {
-            final var personage = copyWithHealthAndLastHealthChange(health, lastHealthChange);
-            personageDao.update(personage);
-            return personage;
-        }
-        return this;
-    }
-
     public Personage addMoney(int value) {
         return new Personage(
             id,
             name,
             money.add(value),
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom,
+            characteristics,
             lastHealthChange
         );
     }
@@ -69,19 +44,33 @@ public record Personage(
 
     public String shortProfile(Language language) {
         return CommonLocalization
-            .profileTemplate(language, this) + "\n" + shortStats();
+            .profileTemplate(language, this) + "\n" + characteristics.shortStats();
     }
 
     public String fullProfile(Language language) {
         final var profile = CommonLocalization
-            .profileTemplate(language, this) + "\n" + shortStats();
+            .profileTemplate(language, this) + "\n" + characteristics.shortStats();
 
-        return hasUnspentLevelingPoints() ? LevelingLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
+        return characteristics.hasUnspentLevelingPoints() ? LevelingLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementStrength() {
+        return characteristics.incrementStrength().map(this::copyWithCharacteristics);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementAgility() {
+        return characteristics.incrementAgility().map(this::copyWithCharacteristics);
+    }
+
+    public Either<NotEnoughLevelingPoints, Personage> incrementWisdom() {
+        return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
     public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {
+        //TODO механика бодрости будет основа на этом, поэтому пока закомменчено
+        /*
         final var maximumHealth = maxHealth();
-        if (health >= maximumHealth) {
+        if (characteristics.health() >= maximumHealth) {
             return this;
         }
         final var minutesPass = Duration.between(lastHealthChange, TimeUtils.moscowTime()).toMinutes();
@@ -89,11 +78,12 @@ public record Personage(
             ((double) maximumHealth) / 100 * minutesPass
         );
         if (increaseHealth > 0) {
-            final int newHealth = Math.min(health + increaseHealth, maximumHealth);
+            final int newHealth = Math.min(characteristics.health() + increaseHealth, maximumHealth);
             final var personage = copyWithHealthAndLastHealthChange(newHealth, lastHealthChange.plusMinutes(minutesPass));
             personageDao.update(personage);
             return personage;
         }
+         */
         return this;
     }
 
@@ -101,54 +91,10 @@ public record Personage(
         return TextConstants.PERSONAGE_ICON + name;
     }
 
-    public Either<NotEnoughLevelingPoints, Personage> incrementStrength(PersonageDao personageDao) {
-        if (!hasUnspentLevelingPoints()) {
-            return Either.left(new NotEnoughLevelingPoints());
-        }
-        final var personage = copyWithCharacteristics(strength + 1, agility, wisdom);
-        personageDao.update(personage);
-        return Either.right(personage);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementAgility(PersonageDao personageDao) {
-        if (!hasUnspentLevelingPoints()) {
-            return Either.left(new NotEnoughLevelingPoints());
-        }
-        final var personage = copyWithCharacteristics(strength, agility + 1, wisdom);
-        personageDao.update(personage);
-        return Either.right(personage);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementWisdom(PersonageDao personageDao) {
-        if (!hasUnspentLevelingPoints()) {
-            return Either.left(new NotEnoughLevelingPoints());
-        }
-        final var personage = copyWithCharacteristics(strength, agility, wisdom + 1);
-        personageDao.update(personage);
-        return Either.right(personage);
-    }
-
-    public boolean hasUnspentLevelingPoints() {
-        return levelingPointsSpentOnStrength()
-            + levelingPointsSpentOnAgility()
-            + levelingPointsSpentOnWisdom()
-            < maxLevelingPoints();
-    }
-
-    public boolean hasHealthLessThanPercent(double minimumHealthPercent) {
-        return health < maxHealth() * minimumHealthPercent;
-    }
-
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id,
-            health,
-            maxHealth(),
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom
+            characteristics
         );
     }
 
@@ -158,12 +104,7 @@ public record Personage(
             0L,
             TextConstants.DEFAULT_NAME,
             Money.zero(),
-            maxHealth(),
-            10,
-            5,
-            5,
-            5,
-            5,
+            Characteristics.createDefault(),
             TimeUtils.moscowTime()
         );
     }
@@ -176,39 +117,8 @@ public record Personage(
     private static final String SPECIAL = "_\\-\\.#№: ";
     private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
 
-    private int maxLevelingPoints() {
-        return 12;
-    }
-
-    private int levelingPointsSpentOnStrength() {
-        return strength - 1;
-    }
-
-    private int levelingPointsSpentOnAgility() {
-        return agility - 1;
-    }
-
-    private int levelingPointsSpentOnWisdom() {
-        return wisdom - 1;
-    }
-
     private static int maxHealth() {
         return 500;
-    }
-
-    private String shortStats() {
-        return
-            """
-            %s%d%s%d%s%d
-            %s%d%s%d%s%d
-            """.formatted(
-                TextConstants.HEALTH_ICON, health,
-                TextConstants.ATTACK_ICON, attack,
-                TextConstants.DEFENSE_ICON, defense,
-                TextConstants.STRENGTH_ICON, strength,
-                TextConstants.AGILITY_ICON, agility,
-                TextConstants.WISDOM_ICON, wisdom
-            );
     }
 
     private Personage copyWithName(String name) {
@@ -216,42 +126,17 @@ public record Personage(
             id,
             name,
             money,
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom,
+            characteristics,
             lastHealthChange
         );
     }
 
-    private Personage copyWithHealthAndLastHealthChange(int health, LocalDateTime lastHealthChange) {
+    private Personage copyWithCharacteristics(Characteristics characteristics) {
         return new Personage(
             id,
             name,
             money,
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom,
-            lastHealthChange
-        );
-    }
-
-    private Personage copyWithCharacteristics(int strength, int agility, int wisdom) {
-        return new Personage(
-            id,
-            name,
-            money,
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom,
+            characteristics,
             lastHealthChange
         );
     }
