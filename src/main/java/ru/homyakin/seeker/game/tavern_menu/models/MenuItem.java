@@ -6,7 +6,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 

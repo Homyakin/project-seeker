@@ -17,7 +17,7 @@ import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
-import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 public class LocalizationInitializer {

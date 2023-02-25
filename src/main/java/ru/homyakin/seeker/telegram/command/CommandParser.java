@@ -18,6 +18,7 @@ import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.common.Help;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;

@@ -3,7 +3,7 @@ package ru.homyakin.seeker.telegram.utils;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
-import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
 
 public class InlineKeyboards {

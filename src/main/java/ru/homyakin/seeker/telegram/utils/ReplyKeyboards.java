@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
-import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public class ReplyKeyboards {
     public static ReplyKeyboardMarkup levelUpKeyboard() {

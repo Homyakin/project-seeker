@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public record AcceptDuel(
     String callbackId,

@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.telegram.command.user.language;
 
-import ru.homyakin.seeker.telegram.command.CommandType;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.Command;
 
 public record UserSelectLanguage(
