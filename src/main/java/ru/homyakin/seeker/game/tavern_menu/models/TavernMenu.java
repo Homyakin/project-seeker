@@ -9,6 +9,7 @@ public record TavernMenu(
     Map<Category, List<MenuItem>> categoryToItems
 ) {
     private static final List<Category> CATEGORY_ORDER = List.of(Category.DRINK, Category.MAIN_DISH);
+
     public String tavernMenuText(Language language) {
         final var text = new StringBuilder(TavernMenuLocalization.menuHeader(language));
         for (final var category: CATEGORY_ORDER) {

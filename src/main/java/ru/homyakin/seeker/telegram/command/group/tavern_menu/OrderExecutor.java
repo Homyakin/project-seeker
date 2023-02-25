@@ -10,7 +10,6 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
 public class OrderExecutor extends CommandExecutor<Order> {

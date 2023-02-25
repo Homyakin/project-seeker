@@ -12,7 +12,6 @@ import ru.homyakin.seeker.locale.duel.DuelResource;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.LevelingLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
-import ru.homyakin.seeker.locale.personal.MenuResource;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
