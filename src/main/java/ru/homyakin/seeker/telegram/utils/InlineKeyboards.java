@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -22,7 +23,7 @@ public class InlineKeyboards {
             }
             builder.addButton(
                 text,
-                "%s%s%d".formatted(CommandType.SELECT_LANGUAGE.getText(), CommandType.CALLBACK_DELIMITER, languages[i].id())
+                "%s%s%d".formatted(CommandType.SELECT_LANGUAGE.getText(), TextConstants.CALLBACK_DELIMITER, languages[i].id())
             );
         }
         return builder.build();
@@ -34,7 +35,7 @@ public class InlineKeyboards {
             .addRow()
             .addButton(
                 RaidLocalization.joinRaidEvent(language),
-                "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), CommandType.CALLBACK_DELIMITER, chatEventId)
+                "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), TextConstants.CALLBACK_DELIMITER, chatEventId)
             )
             .build();
     }
@@ -45,11 +46,11 @@ public class InlineKeyboards {
             .addRow()
             .addButton(
                 DuelLocalization.declineDuelButton(language),
-                "%s%s%d".formatted(CommandType.DECLINE_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
+                "%s%s%d".formatted(CommandType.DECLINE_DUEL.getText(), TextConstants.CALLBACK_DELIMITER, duelId)
             )
             .addButton(
                 DuelLocalization.acceptDuelButton(language),
-                "%s%s%d".formatted(CommandType.ACCEPT_DUEL.getText(), CommandType.CALLBACK_DELIMITER, duelId)
+                "%s%s%d".formatted(CommandType.ACCEPT_DUEL.getText(), TextConstants.CALLBACK_DELIMITER, duelId)
             )
             .build();
     }

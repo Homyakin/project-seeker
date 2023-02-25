@@ -28,8 +28,6 @@ public enum CommandType {
     BACK(null, CheckType.SKIP),
     ;
 
-    public static final String CALLBACK_DELIMITER = "~";
-
     private static final Map<String, CommandType> textToType = new HashMap<>();
 
     private final String text;

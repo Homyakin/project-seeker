@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public record AcceptDuel(
     String callbackId,
@@ -11,6 +11,6 @@ public record AcceptDuel(
     String data
 ) implements Command {
     public Long duelId() {
-        return Long.valueOf(data.split(CommandType.CALLBACK_DELIMITER)[1]);
+        return Long.valueOf(data.split(TextConstants.CALLBACK_DELIMITER)[1]);
     }
 }

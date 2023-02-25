@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.StartDuel;
@@ -130,7 +131,7 @@ public class CommandParser {
     }
 
     private Optional<Command> parsePrivateCallback(CallbackQuery callback) {
-        final var text = callback.getData().split(CommandType.CALLBACK_DELIMITER)[0];
+        final var text = callback.getData().split(TextConstants.CALLBACK_DELIMITER)[0];
         return CommandType.getFromString(text)
             .map(commandType -> switch (commandType) {
                 case SELECT_LANGUAGE -> new UserSelectLanguage(
@@ -144,7 +145,7 @@ public class CommandParser {
     }
 
     private Optional<Command> parseGroupCallback(CallbackQuery callback) {
-        final var text = callback.getData().split(CommandType.CALLBACK_DELIMITER)[0];
+        final var text = callback.getData().split(TextConstants.CALLBACK_DELIMITER)[0];
         return CommandType.getFromString(text)
             .map(commandType -> switch (commandType) {
                 case SELECT_LANGUAGE -> new GroupSelectLanguage(
