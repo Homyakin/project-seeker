@@ -1,6 +1,8 @@
 [menu]
 profileButton = ":bust_in_silhouette:Профиль"
 languageButton = ":globe_with_meridians:Язык"
+receptionDeskButton = ":writing:Стойка регистрации"
+backButton = ":arrow_left:Назад"
 
 [changeName]
 changeNameWithoutName="Введите имя через пробел после команды: \"${name_command} Имя\""

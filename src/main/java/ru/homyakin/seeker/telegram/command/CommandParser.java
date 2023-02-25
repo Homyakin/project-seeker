@@ -18,10 +18,12 @@ import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.common.Help;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
+import ru.homyakin.seeker.telegram.command.user.navigation.Back;
+import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;
 import ru.homyakin.seeker.telegram.command.user.level.CharacteristicUp;
 import ru.homyakin.seeker.telegram.command.user.level.LevelUp;
-import ru.homyakin.seeker.telegram.command.user.StartUser;
+import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
@@ -76,7 +78,7 @@ public class CommandParser {
 
     private Optional<Command> parsePrivateMessage(Message message) {
         return CommandType.getFromString(
-                EmojiParser.parseToAliases(message.getText().split(" ")[0])
+                EmojiParser.parseToAliases(message.getText())
             )
             .map(commandType -> switch (commandType) {
                 case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
@@ -88,6 +90,8 @@ public class CommandParser {
                 case UP_STRENGTH -> new CharacteristicUp(message.getChatId(), CharacteristicType.STRENGTH);
                 case UP_AGILITY -> new CharacteristicUp(message.getChatId(), CharacteristicType.AGILITY);
                 case UP_WISDOM -> new CharacteristicUp(message.getChatId(), CharacteristicType.WISDOM);
+                case RECEPTION_DESK -> new ReceptionDesk(message.getChatId());
+                case BACK -> new Back(message.getChatId());
                 default -> null;
             });
     }

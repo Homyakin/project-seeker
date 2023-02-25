@@ -24,6 +24,8 @@ public enum CommandType {
     DECLINE_DUEL("declineDuel"),
     TAVERN_MENU("/menu"),
     ORDER("/order"),
+    RECEPTION_DESK(""),
+    BACK(""),
     ;
 
     public static final String CALLBACK_DELIMITER = "~";
@@ -55,11 +57,16 @@ public enum CommandType {
         if (text.startsWith(ORDER.text)) {
             return Optional.of(ORDER);
         }
+        if (text.startsWith(CHANGE_NAME.text)) {
+            return Optional.of(ORDER);
+        }
         return Optional.empty();
     }
 
     public static void fillLocaleMap(MenuResource resource) {
         textToType.put(resource.profileButton(), CommandType.GET_PROFILE);
         textToType.put(resource.languageButton(), CommandType.CHANGE_LANGUAGE);
+        textToType.put(resource.receptionDeskButton(), CommandType.RECEPTION_DESK);
+        textToType.put(resource.backButton(), CommandType.BACK);
     }
 }

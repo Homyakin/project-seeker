@@ -11,9 +11,9 @@ public class ReplyKeyboards {
     public static ReplyKeyboardMarkup levelUpKeyboard() {
         final var keyboard = ReplyKeyboardBuilder.builder()
             .addRow()
-            .addButton(KeyboardButton.builder().text(EmojiParser.parseToUnicode(CommandType.UP_STRENGTH.getText())).build())
-            .addButton(KeyboardButton.builder().text(EmojiParser.parseToUnicode(CommandType.UP_AGILITY.getText())).build())
-            .addButton(KeyboardButton.builder().text(EmojiParser.parseToUnicode(CommandType.UP_WISDOM.getText())).build())
+            .addButton(button(CommandType.UP_STRENGTH.getText()))
+            .addButton(button(CommandType.UP_AGILITY.getText()))
+            .addButton(button(CommandType.UP_WISDOM.getText()))
             .build();
         keyboard.setOneTimeKeyboard(true);
         return keyboard;
@@ -22,13 +22,22 @@ public class ReplyKeyboards {
     public static ReplyKeyboardMarkup mainKeyboard(Language language) {
         return ReplyKeyboardBuilder.builder()
             .addRow()
-            .addButton(KeyboardButton.builder().text(
-                EmojiParser.parseToUnicode(MenuLocalization.profileButton(language))
-            ).build())
+            .addButton(button(MenuLocalization.profileButton(language)))
             .addRow()
-            .addButton(KeyboardButton.builder().text(
-                EmojiParser.parseToUnicode(MenuLocalization.languageButton(language))
-            ).build())
+            .addButton(button(MenuLocalization.receptionDeskButton(language)))
             .build();
+    }
+
+    public static ReplyKeyboardMarkup receptionDeskKeyboard(Language language) {
+        return ReplyKeyboardBuilder.builder()
+            .addRow()
+            .addButton(button(MenuLocalization.languageButton(language)))
+            .addRow()
+            .addButton(button(MenuLocalization.backButton(language)))
+            .build();
+    }
+
+    private static KeyboardButton button(String text) {
+        return KeyboardButton.builder().text(EmojiParser.parseToUnicode(text)).build();
     }
 }

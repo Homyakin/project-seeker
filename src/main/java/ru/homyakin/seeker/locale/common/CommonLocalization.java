@@ -7,6 +7,7 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
+import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class CommonLocalization {
@@ -61,6 +62,16 @@ public class CommonLocalization {
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),
             params
+        );
+    }
+
+    public static String receptionDesk(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).receptionDesk(), map.get(Language.DEFAULT).receptionDesk());
+    }
+
+    public static String mainMenu(Language language) {
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).mainMenu(), map.get(Language.DEFAULT).mainMenu())
         );
     }
 }

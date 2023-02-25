@@ -19,4 +19,12 @@ public class MenuLocalization {
     public static String languageButton(Language language) {
         return CommonUtils.ifNullThan(map.get(language).languageButton(), map.get(Language.DEFAULT).languageButton());
     }
+
+    public static String receptionDeskButton(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).receptionDeskButton(), map.get(Language.DEFAULT).receptionDeskButton());
+    }
+
+    public static String backButton(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).backButton(), map.get(Language.DEFAULT).backButton());
+    }
 }

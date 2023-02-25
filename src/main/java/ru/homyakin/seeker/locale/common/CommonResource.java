@@ -7,6 +7,8 @@ public record CommonResource(
     String onlyAdminLanguage,
     String internalError,
     String help,
-    String profileTemplate
+    String profileTemplate,
+    String receptionDesk,
+    String[] mainMenu
 ) {
 }

@@ -1,5 +1,4 @@
 welcomeGroup = "Приветствую вас, Искатели."
-welcomeUser = "Приветствую тебя, Искатель."
 chooseLanguage = "Выберите язык:"
 onlyAdminLanguage = "Данное действие доступно только администраторам"
 internalError = "Произошла ошибка, попробуйте позже"
@@ -23,3 +22,11 @@ ${name_command} - сменить имя;
 profileTemplate = """\
 ${personage_icon}${personage_name}
 ${money_icon}Золото: ${personage_money}"""
+
+# текста для лички
+# TODO перенести куда-нибудь
+welcomeUser = "Добро пожаловать в таверну, Искатель!"
+receptionDesk = "Здравствуйте! Чем могу помочь?"
+mainMenu = [
+    "Располагайся по-удобнее, не торопись"
+]
