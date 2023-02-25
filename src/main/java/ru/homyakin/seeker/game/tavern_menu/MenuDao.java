@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import java.util.List;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
@@ -86,7 +87,7 @@ public class MenuDao {
         public MenuItem toMenuItem(List<MenuItemLocale> locales) {
             return new MenuItem(
                 id,
-                price,
+                new Money(price),
                 isAvailable,
                 category,
                 locales

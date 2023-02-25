@@ -2,6 +2,7 @@ package ru.homyakin.seeker.locale.tavern_menu;
 
 import java.util.HashMap;
 import java.util.Map;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -31,7 +32,7 @@ public class TavernMenuLocalization {
         return CommonUtils.ifNullThan(map.get(language).mainDishes(), map.get(Language.DEFAULT).mainDishes());
     }
 
-    public static String notEnoughMoneyDrink(Language language, int itemCost, int personageMoneyValue) {
+    public static String notEnoughMoneyDrink(Language language, Money itemCost, Money personageMoneyValue) {
         return notEnoughMoney(
             CommonUtils.ifNullThan(map.get(language).notEnoughMoneyDrink(), map.get(Language.DEFAULT).notEnoughMoneyDrink()),
             itemCost,
@@ -39,7 +40,7 @@ public class TavernMenuLocalization {
         );
     }
 
-    public static String notEnoughMoneyMainDish(Language language, int itemCost, int personageMoneyValue) {
+    public static String notEnoughMoneyMainDish(Language language, Money itemCost, Money personageMoneyValue) {
         return notEnoughMoney(
             CommonUtils.ifNullThan(map.get(language).notEnoughMoneyMainDish(), map.get(Language.DEFAULT).notEnoughMoneyMainDish()),
             itemCost,
@@ -47,11 +48,11 @@ public class TavernMenuLocalization {
         );
     }
 
-    private static String notEnoughMoney(String[] array, int itemCost, int personageMoneyValue) {
+    private static String notEnoughMoney(String[] array, Money itemCost, Money personageMoneyValue) {
         final var params = new HashMap<String, Object>() {{
             put("money_icon", TextConstants.MONEY_ICON);
-            put("not_enough_money_value", itemCost - personageMoneyValue);
-            put("item_cost", itemCost);
+            put("not_enough_money_value", itemCost.value() - personageMoneyValue.value());
+            put("item_cost", itemCost.value());
         }};
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(array),

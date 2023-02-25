@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
-import ru.homyakin.seeker.game.personage.models.Money;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
@@ -81,19 +81,15 @@ public class PersonageService {
             .toList();
     }
 
-    public Personage addMoney(Personage personage, int value) { //TODO money вместо int
-        final var updatedPersonage = personage.addMoney(value);
+    public Personage addMoney(Personage personage, Money money) {
+        final var updatedPersonage = personage.addMoney(money);
         logger.info(updatedPersonage.toString());
         personageDao.update(updatedPersonage);
         return updatedPersonage;
     }
 
     public Personage takeMoney(Personage personage, Money money) {
-        return addMoney(personage, -money.value());
-    }
-
-    public Personage takeMoney(Personage personage, int moneyValue) {
-        return addMoney(personage, -moneyValue);
+        return addMoney(personage, money.negative());
     }
 
     public Either<OrderError, Personage> orderMenuItem(Personage personage, MenuItem menuItem) {
@@ -101,7 +97,7 @@ public class PersonageService {
             return Either.left(new OrderError.NotAvailableItem());
         }
         if (personage.money().lessThan(menuItem.price())) {
-            return Either.left(new OrderError.NotEnoughMoney(menuItem.price(), personage.money().value()));
+            return Either.left(new OrderError.NotEnoughMoney(menuItem.price(), personage.money()));
         }
         return Either.right(takeMoney(personage, menuItem.price()));
     }

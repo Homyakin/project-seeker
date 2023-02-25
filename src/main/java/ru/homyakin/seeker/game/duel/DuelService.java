@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.duel.models.DuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.personage.models.Money;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
@@ -90,7 +90,7 @@ public class DuelService {
 
     private void returnMoneyToInitiator(long duelId) {
         final var initiatingPersonage = personageService.getByIdForce(getByIdForce(duelId).initiatingPersonageId());
-        personageService.addMoney(initiatingPersonage, DUEL_PRICE.value());
+        personageService.addMoney(initiatingPersonage, DUEL_PRICE);
     }
 
     private static final Money DUEL_PRICE = new Money(3);

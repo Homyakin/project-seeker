@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.personage.models;
+package ru.homyakin.seeker.game.models;
 
 public record Money(
     int value
@@ -7,7 +7,8 @@ public record Money(
         return new Money(0);
     }
 
-    public Money add(int increase) {
+    public Money add(Money money) {
+        int increase = money.value;
         if (increase > 0) {
             if (Integer.MAX_VALUE - increase < value) {
                 return new Money(Integer.MAX_VALUE);
@@ -26,7 +27,7 @@ public record Money(
         return this.value < other.value;
     }
 
-    public boolean lessThan(int other) {
-        return this.value < other;
+    public Money negative() {
+        return new Money(-value);
     }
 }

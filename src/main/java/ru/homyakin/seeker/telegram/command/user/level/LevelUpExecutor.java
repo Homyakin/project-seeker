@@ -30,7 +30,7 @@ public class LevelUpExecutor extends CommandExecutor<LevelUp> {
         final var user = userService.getOrCreateFromPrivate(command.userId());
         final var personage = personageService.getById(user.personageId())
                 .orElseThrow(() -> new IllegalStateException("Personage must be present at user"));
-        if (personage.hasUnspentLevelingPoints()) {
+        if (personage.characteristics().hasUnspentLevelingPoints()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),

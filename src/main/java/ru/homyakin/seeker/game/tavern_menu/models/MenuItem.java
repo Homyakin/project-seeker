@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.tavern_menu.models;
 
 import java.util.Collections;
 import java.util.List;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -11,7 +12,7 @@ import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public record MenuItem(
     int id,
-    int price,
+    Money price,
     boolean isAvailable,
     Category category,
     List<MenuItemLocale> locales

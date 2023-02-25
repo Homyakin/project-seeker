@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.duel.models;
 
-import ru.homyakin.seeker.game.personage.models.Money;
+import ru.homyakin.seeker.game.models.Money;
 
 public abstract sealed class DuelError {
     public static final class PersonageAlreadyHasDuel extends DuelError {

@@ -4,6 +4,7 @@ import io.vavr.control.Either;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageDao;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
@@ -20,11 +21,11 @@ public record Personage(
     Characteristics characteristics,
     LocalDateTime lastHealthChange
 ) {
-    public Personage addMoney(int value) {
+    public Personage addMoney(Money money) {
         return new Personage(
             id,
             name,
-            money.add(value),
+            this.money.add(money),
             characteristics,
             lastHealthChange
         );

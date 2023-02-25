@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -58,7 +59,7 @@ public class RaidProcessing {
             }
             personageService.addMoney(
                 participant,
-                (int) (baseReward + Math.sqrt((double) personage.damageDealtAndTaken() / 10))
+                new Money((int) (baseReward + Math.sqrt((double) personage.damageDealtAndTaken() / 10)))
             );
         }
 
