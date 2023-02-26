@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.OrderError;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.utils.models.Success;
@@ -116,5 +117,9 @@ public class PersonageService {
 
     public Either<NameError, Personage> changeName(Personage personage, String name) {
         return personage.changeName(name, personageDao);
+    }
+
+    public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {
+        return personage.resetStats().peek(personageDao::update);
     }
 }

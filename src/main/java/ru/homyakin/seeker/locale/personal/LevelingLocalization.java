@@ -3,6 +3,8 @@ package ru.homyakin.seeker.locale.personal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -34,5 +36,20 @@ public class LevelingLocalization {
 
     public static String successLevelUp(Language language) {
         return CommonUtils.ifNullThan(map.get(language).successLevelUp(), map.get(Language.DEFAULT).successLevelUp());
+    }
+
+    public static String successResetStats(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).successResetStats(), map.get(Language.DEFAULT).successResetStats());
+    }
+
+    public static String notEnoughMoney(Language language, Money money) {
+        final var params = Map.<String, Object>of(
+            "money_icon", TextConstants.MONEY_ICON,
+            "money_count", money.value()
+        );
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).notEnoughMoney(), map.get(Language.DEFAULT).notEnoughMoney()),
+            params
+        );
     }
 }

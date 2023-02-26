@@ -4,6 +4,8 @@ public record LevelingResource(
     String profileLevelUp,
     String notEnoughLevelingPoints,
     String chooseLevelUpCharacteristic,
-    String successLevelUp
+    String successLevelUp,
+    String successResetStats,
+    String notEnoughMoney
 ) {
 }

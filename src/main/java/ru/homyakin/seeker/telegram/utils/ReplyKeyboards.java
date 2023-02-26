@@ -9,14 +9,12 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public class ReplyKeyboards {
     public static ReplyKeyboardMarkup levelUpKeyboard() {
-        final var keyboard = ReplyKeyboardBuilder.builder()
+        return ReplyKeyboardBuilder.builder()
             .addRow()
             .addButton(button(CommandType.UP_STRENGTH.getText()))
             .addButton(button(CommandType.UP_AGILITY.getText()))
             .addButton(button(CommandType.UP_WISDOM.getText()))
             .build();
-        keyboard.setOneTimeKeyboard(true);
-        return keyboard;
     }
 
     public static ReplyKeyboardMarkup mainKeyboard(Language language) {
@@ -31,6 +29,7 @@ public class ReplyKeyboards {
     public static ReplyKeyboardMarkup receptionDeskKeyboard(Language language) {
         return ReplyKeyboardBuilder.builder()
             .addRow()
+            .addButton(button(MenuLocalization.resetStatsButton(language)))
             .addButton(button(MenuLocalization.languageButton(language)))
             .addRow()
             .addButton(button(MenuLocalization.backButton(language)))

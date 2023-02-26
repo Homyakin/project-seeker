@@ -31,6 +31,7 @@ import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
+import ru.homyakin.seeker.telegram.command.user.stats.ResetStats;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 @Component
@@ -94,6 +95,7 @@ public class CommandParser {
                 case UP_WISDOM -> new CharacteristicUp(message.getChatId(), CharacteristicType.WISDOM);
                 case RECEPTION_DESK -> new ReceptionDesk(message.getChatId());
                 case BACK -> new Back(message.getChatId());
+                case RESET_STATS -> new ResetStats(message.getChatId());
                 default -> null;
             });
     }

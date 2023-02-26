@@ -17,6 +17,10 @@ public record Characteristics(
         return new Characteristics(500, 50, 20, 5, 5, 5);
     }
 
+    public Characteristics reset() {
+        return new Characteristics(health, attack, defense, 1, 1, 1);
+    }
+
     public String shortStats() {
         return
             """

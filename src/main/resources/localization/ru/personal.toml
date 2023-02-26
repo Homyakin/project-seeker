@@ -3,6 +3,7 @@ profileButton = ":bust_in_silhouette:Профиль"
 languageButton = ":globe_with_meridians:Язык"
 receptionDeskButton = ":writing:Стойка регистрации"
 backButton = ":arrow_left:Назад"
+resetStatsButton = ":arrows_counterclockwise:Сброс характеристик"
 
 [changeName]
 changeNameWithoutName="Введите имя через пробел после команды: \"${name_command} Имя\""
@@ -15,3 +16,5 @@ profileLevelUp = "Есть неизрасходованные очки прок�
 notEnoughLevelingPoints = "Недостаточно очков прокачки. Подкачайся и приходи позже."
 chooseLevelUpCharacteristic = "Выберите характеристику для прокачки:"
 successLevelUp = "Прокачка завершена:white_check_mark:"
+successResetStats = "Успешный сброс характеристик! Выбери что прокачать:"
+notEnoughMoney = "Недостаточно денег для сброса. Нужно ${money_icon}${money_count}"

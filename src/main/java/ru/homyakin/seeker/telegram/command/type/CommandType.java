@@ -26,6 +26,7 @@ public enum CommandType {
     ORDER("/order", CheckType.STARTS_WITH),
     RECEPTION_DESK(null, CheckType.SKIP),
     BACK(null, CheckType.SKIP),
+    RESET_STATS(null, CheckType.SKIP),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -56,6 +57,7 @@ public enum CommandType {
         textToType.put(resource.languageButton(), CommandType.CHANGE_LANGUAGE);
         textToType.put(resource.receptionDeskButton(), CommandType.RECEPTION_DESK);
         textToType.put(resource.backButton(), CommandType.BACK);
+        textToType.put(resource.resetStatsButton(), CommandType.RESET_STATS);
     }
 
     private boolean check(String text) {

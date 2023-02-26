@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageDao;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -92,6 +93,15 @@ public record Personage(
         return TextConstants.PERSONAGE_ICON + name;
     }
 
+    public Either<NotEnoughMoney, Personage> resetStats() {
+        if (money.lessThan(RESET_STATS_COST)) {
+            return Either.left(new NotEnoughMoney(RESET_STATS_COST));
+        }
+        return Either.right(
+            copyWithCharacteristics(characteristics.reset())
+        );
+    }
+
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id,
@@ -117,10 +127,7 @@ public record Personage(
     private static final String NUMBERS = "0-9";
     private static final String SPECIAL = "_\\-\\.#№: ";
     private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
-
-    private static int maxHealth() {
-        return 500;
-    }
+    private static final Money RESET_STATS_COST = new Money(50);
 
     private Personage copyWithName(String name) {
         return new Personage(
