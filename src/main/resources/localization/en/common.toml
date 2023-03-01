@@ -1,4 +1,7 @@
-welcomeGroup = "Greetings, Seekers."
+welcomeGroup = """\
+Welcome to the tavern of the city of Krezar, Seekers! \
+Sit down at the table, order a drink, make yourself at home
+"""
 welcomeUser = "Greetings, Seeker."
 chooseLanguage = "Choose language:"
 onlyAdminLanguage = "This action is available only for administrators"
