@@ -2,7 +2,6 @@ welcomeGroup = """\
 Welcome to the tavern of the city of Krezar, Seekers! \
 Sit down at the table, order a drink, make yourself at home
 """
-welcomeUser = "Greetings, Seeker."
 chooseLanguage = "Choose language:"
 onlyAdminLanguage = "This action is available only for administrators"
 internalError = "Unexpected error, try again later"
@@ -26,3 +25,11 @@ The source code of the game is <a href="${github_link}">here</a>"""
 profileTemplate = """\
 ${personage_icon}${personage_name}
 ${money_icon}Gold: ${personage_money}"""
+
+# текста для лички
+# TODO перенести куда-нибудь
+welcomeUser = "Welcome to the tavern, Seeker!"
+receptionDesk = "Hello! How can I help you?"
+mainMenu = [
+    "Make yourself comfortable, take your time"
+]

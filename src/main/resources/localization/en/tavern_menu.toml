@@ -1,0 +1,11 @@
+menuHeader = "Today's menu:"
+drinks = "Drinks"
+mainDishes = "Main dishes"
+itemNotInMenu = "There is no such position in the menu!"
+notEnoughMoneyDrink = [
+    "You're missing ${money_icon}${not_enough_money_value}, go work, then come drink!",
+    "You obviously can't afford this drink! It costs ${money_icon}${item_cost}"
+]
+notEnoughMoneyMainDish = [
+    "Who doesn't work doesn't eat! Earn more ${money_icon}${not_enough_money_value}"
+]
