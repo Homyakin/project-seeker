@@ -1,11 +1,32 @@
 menuHeader = "Сегодня в меню:"
+Soup with a cat = "Суп с котом"
+Shchi on Shchi = "Щи по Щам"
+Troll Boogers = "Козявки тролля"
+Moldy cream soup = "Плесневелый крем-суп"
+fried potatoes = "Жаренная картошечка"
+Beer plate Суп с котом = "Пивная тарелка"
+Bouncy cheeses = "Прыгучие сыры"
 drinks = "Напитки"
+Beer = "Пиво"
+Elven Wine = "Эльфийское вино"
+Swamp water = "Болотная вода"
+Black Vanilla = "Черная ваниль"
+Mysterious drink = "Загадочный напиток"
 mainDishes = "Основные блюда"
+Chowder from fly agarics = "Похлебка из мухоморов"
+Bull's head = "Бычья голова"
+Fish Eyes = "Рыбьи глаза"
 itemNotInMenu = "Такой позиции нет в меню!"
 notEnoughMoneyDrink = [
     "Тебе не хватает ${money_icon}${not_enough_money_value}, иди поработай, потом приходи пить!",
-    "Данный напиток тебе явно не по карману! Он стоит ${money_icon}${item_cost}"
+    "Данный напиток тебе явно не по карману! Он стоит ${money_icon}${item_cost}", 
+"Нет денег - нет бухла! Не хватает ${money_icon}${item_cost}", 
+"Так не пойдет! Бухло стоит ${money_icon}${item_cost}, а у тебя за душой ни гроша!",
+"Не могу дать тебе бесплатную выпивку, но могу дать работу, жди заказа на монстра!"
 ]
 notEnoughMoneyMainDish = [
-    "Кто не работает, тот не ест! Заработай ещё ${money_icon}${not_enough_money_value}"
+    "Кто не работает, тот не ест! Заработай ещё ${money_icon}${not_enough_money_value}",
+"С вас ${money_icon}${not_enough_money_value}! Что? Не хватает? Тогда пока!",
+"Будут деньги ${money_icon}${not_enough_money_value} - будет пища!",
+"Мы бы кормили всех бесплатно, но налоги. А у вас нет ${money_icon}${not_enough_money_value}."
 ]
