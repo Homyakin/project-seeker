@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -77,8 +78,8 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         final var battlePersonage1 = personage1.toBattlePersonage();
         final var battlePersonage2 = personage2.toBattlePersonage();
         final var battleResult = twoPersonageTeamsBattle.battle(
-            Collections.singletonList(battlePersonage1),
-            Collections.singletonList(battlePersonage2)
+            new ArrayList<>(List.of(battlePersonage1)),
+            new ArrayList<>(List.of(battlePersonage2))
         );
 
         final Personage winner;

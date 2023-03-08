@@ -44,7 +44,7 @@ public class RaidProcessing {
         }
 
         final var result = twoPersonageTeamsBattle.battle(
-            raid.template().generate(),
+            new ArrayList<>(raid.template().generate(personages.size())),
             personages
         );
 

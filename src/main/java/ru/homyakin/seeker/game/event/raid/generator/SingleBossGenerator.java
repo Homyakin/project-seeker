@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.List;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 public class SingleBossGenerator implements RaidBattleGenerator {
     @Override
-    public List<BattlePersonage> generate() {
+    public List<BattlePersonage> generate(int personagesCount) {
+        final var characteristics = Characteristics.createDefault();
         final var boss = new BattlePersonage(
-            0,
+            -1,
             new Characteristics(
-                RandomUtils.getInInterval(1000, 3000),
-                RandomUtils.getInInterval(20, 100),
-                RandomUtils.getInInterval(20, 100),
-                RandomUtils.getInInterval(10, 20),
-                RandomUtils.getInInterval(10, 20),
-                RandomUtils.getInInterval(10, 20)
+                (int) (characteristics.health() * personagesCount),
+                (int) (characteristics.attack() * Math.pow(personagesCount, 0.01)),
+                (int) (characteristics.defense() * Math.pow(personagesCount, 0.01)),
+                characteristics.strength(),
+                characteristics.agility(),
+                characteristics.wisdom()
             )
         );
         return Collections.singletonList(boss);

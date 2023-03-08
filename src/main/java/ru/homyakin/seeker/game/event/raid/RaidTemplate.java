@@ -30,9 +30,7 @@ public enum RaidTemplate {
             .orElseThrow(() -> new IllegalStateException("Unexpected raid template id: " + id));
     }
 
-    public List<BattlePersonage> generate() {
-        return switch (this) {
-            case SINGLE_BOSS -> generator.generate();
-        };
+    public List<BattlePersonage> generate(int personagesCount) {
+        return generator.generate(personagesCount);
     }
 }

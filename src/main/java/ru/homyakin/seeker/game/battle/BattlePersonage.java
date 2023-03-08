@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class BattlePersonage {
+public class BattlePersonage implements Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
     private int health;
@@ -105,7 +105,7 @@ public class BattlePersonage {
         int strength,
         int agility,
         int wisdom
-    ) {
+    ) implements Cloneable {
         public static BattleCharacteristics from(Characteristics characteristics) {
             return new BattleCharacteristics(
                 characteristics.attack(),
@@ -115,5 +115,35 @@ public class BattlePersonage {
                 characteristics.wisdom()
             );
         }
+
+        @Override
+        public BattleCharacteristics clone() {
+            try {
+                return (BattleCharacteristics) super.clone();
+            } catch (CloneNotSupportedException e) {
+                //Не может быть в record
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    @SuppressWarnings("super")
+    public BattlePersonage clone() {
+        return new BattlePersonage(
+            id,
+            health,
+            characteristics.clone()
+        );
+    }
+
+    private BattlePersonage(
+        long id,
+        int health,
+        BattleCharacteristics battleCharacteristics
+    ) {
+        this.id = id;
+        this.health = health;
+        this.characteristics = battleCharacteristics;
     }
 }

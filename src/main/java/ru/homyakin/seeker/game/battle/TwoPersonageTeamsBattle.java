@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.game.battle;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
@@ -12,7 +12,7 @@ import ru.homyakin.seeker.utils.RandomUtils;
 @Component
 public class TwoPersonageTeamsBattle {
 
-    public Result battle(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+    public Result battle(ArrayList<BattlePersonage> firstTeam, ArrayList<BattlePersonage> secondTeam) {
         Collections.shuffle(firstTeam);
         Collections.shuffle(secondTeam);
 

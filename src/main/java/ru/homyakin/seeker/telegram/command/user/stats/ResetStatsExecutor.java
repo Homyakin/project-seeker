@@ -2,11 +2,9 @@ package ru.homyakin.seeker.telegram.command.user.stats;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.LevelingLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
