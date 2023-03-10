@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.game.event.config.EventConfig;
@@ -23,6 +25,7 @@ public class EventManager {
     private final TelegramSender telegramSender;
     private final LaunchedEventService launchedEventService;
     private final EventProcessing eventProcessing;
+    private final GroupStatsService groupStatsService;
 
     public EventManager(
         EventConfig eventConfig,
@@ -30,14 +33,15 @@ public class EventManager {
         EventService eventService,
         TelegramSender telegramSender,
         LaunchedEventService launchedEventService,
-        EventProcessing eventProcessing
-    ) {
+        EventProcessing eventProcessing,
+        GroupStatsService groupStatsService) {
         this.eventConfig = eventConfig;
         this.groupService = groupService;
         this.eventService = eventService;
         this.telegramSender = telegramSender;
         this.launchedEventService = launchedEventService;
         this.eventProcessing = eventProcessing;
+        this.groupStatsService = groupStatsService;
     }
 
     public void launchEventsInGroups() {
@@ -63,6 +67,9 @@ public class EventManager {
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getGroupEvents(launchedEvent)
             .forEach(groupEvent -> {
+                if (result instanceof EventResult.Success) {
+                    groupStatsService.increaseRaidsComplete(groupEvent.groupId(), 1);
+                }
                 final var group = groupService.getOrCreate(groupEvent.groupId());
                 final var event = eventService.getEventById(launchedEvent.eventId())
                     .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));

@@ -8,6 +8,7 @@ import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
@@ -17,23 +18,27 @@ public class OrderExecutor extends CommandExecutor<Order> {
     private final PersonageService personageService;
     private final MenuService menuService;
     private final TelegramSender telegramSender;
+    private final GroupStatsService groupStatsService;
 
     public OrderExecutor(
         GroupUserService groupUserService,
         PersonageService personageService,
         MenuService menuService,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        GroupStatsService groupStatsService
     ) {
         this.groupUserService = groupUserService;
         this.personageService = personageService;
         this.menuService = menuService;
         this.telegramSender = telegramSender;
+        this.groupStatsService = groupStatsService;
     }
 
     @Override
     public void execute(Order command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
+        //TODO ошибка если не число
         final var itemId = Integer.valueOf(command.text().replace(CommandType.ORDER.getText(), ""));
         final var menuItemResult = menuService.getAvailableMenuItem(itemId);
         if (menuItemResult.isEmpty()) {
@@ -66,6 +71,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
                 TelegramMethods.createSendMessage(group.id(), message)
             );
         } else {
+            groupStatsService.increaseTavernMoneySpent(group.id(), menuItem.price().value());
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     group.id(),

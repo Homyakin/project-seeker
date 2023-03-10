@@ -17,6 +17,7 @@ import ru.homyakin.seeker.telegram.command.group.action.LeftGroup;
 import ru.homyakin.seeker.telegram.command.group.language.GroupSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.common.Help;
+import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -118,6 +119,7 @@ public class CommandParser {
                 );
                 case TAVERN_MENU -> new GetTavernMenu(message.getChatId());
                 case ORDER -> new Order(message.getChatId(), message.getFrom().getId(), message.getText().split("@")[0]);
+                case GROUP_STATS -> new GetGroupStats(message.getChatId());
                 default -> null;
             });
     }

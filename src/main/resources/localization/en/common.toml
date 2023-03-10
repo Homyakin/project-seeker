@@ -26,6 +26,16 @@ profileTemplate = """\
 ${personage_icon}${personage_name}
 ${money_icon}Gold: ${personage_money}"""
 
+#текста для группы
+groupStats = """\
+📊<b>Group statistics:</b>
+
+🗡Successful raids: ${raids_count}
+🤺Completed duels: ${duels_count}
+
+🍻Spent at the tavern: ${money_icon}${tavern_money_spent}
+"""
+
 # текста для лички
 # TODO перенести куда-нибудь
 welcomeUser = "Welcome to the tavern, Seeker!"

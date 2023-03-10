@@ -40,7 +40,8 @@ public class BotInitializer {
         new BotCommand(CommandType.CHANGE_LANGUAGE.getText(), "Change language in group"),
         new BotCommand(CommandType.TAVERN_MENU.getText(), "Get tavern menu"),
         new BotCommand(CommandType.START_DUEL.getText(), "Start duel with another player. Must be reply"),
-        new BotCommand(CommandType.GET_PROFILE.getText(), "Get profile")
+        new BotCommand(CommandType.GET_PROFILE.getText(), "Get profile"),
+        new BotCommand(CommandType.GROUP_STATS.getText(), "Get group statistic")
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(

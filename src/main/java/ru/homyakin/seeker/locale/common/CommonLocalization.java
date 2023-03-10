@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.group.models.GroupStats;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -72,6 +73,18 @@ public class CommonLocalization {
     public static String mainMenu(Language language) {
         return RandomUtils.getRandomElement(
             CommonUtils.ifNullThan(map.get(language).mainMenu(), map.get(Language.DEFAULT).mainMenu())
+        );
+    }
+
+    public static String groupStats(Language language, GroupStats groupStats) {
+        final var params = new HashMap<String, Object>();
+        params.put("raids_count", groupStats.raidsComplete());
+        params.put("duels_count", groupStats.duelsComplete());
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("tavern_money_spent", groupStats.tavernMoneySpent());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
+            params
         );
     }
 }

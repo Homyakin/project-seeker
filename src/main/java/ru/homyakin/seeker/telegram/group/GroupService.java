@@ -12,9 +12,11 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Service
 public class GroupService {
     private final GroupDao groupDao;
+    private final GroupStatsService groupStatsService;
 
-    public GroupService(GroupDao groupDao) {
+    public GroupService(GroupDao groupDao, GroupStatsService groupStatsService) {
         this.groupDao = groupDao;
+        this.groupStatsService = groupStatsService;
     }
 
     public Group getOrCreate(long groupId) {
@@ -39,13 +41,14 @@ public class GroupService {
         group.updateNextEventDate(nextEventDate, groupDao);
     }
 
-    private Optional<Group> getGroup(Long group) {
+    private Optional<Group> getGroup(long group) {
         return groupDao.getById(group);
     }
 
-    private Group createGroup(Long groupId) {
+    private Group createGroup(long groupId) {
         final var group = new Group(groupId, true, Language.DEFAULT, TimeUtils.moscowTime());
         groupDao.save(group);
+        groupStatsService.create(groupId);
         return group;
     }
     

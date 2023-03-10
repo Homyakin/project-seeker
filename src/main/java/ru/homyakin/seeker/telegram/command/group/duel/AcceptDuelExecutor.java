@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
+import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
@@ -24,19 +25,22 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
+    private final GroupStatsService groupStatsService;
 
     public AcceptDuelExecutor(
         GroupUserService groupUserService,
         DuelService duelService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        TwoPersonageTeamsBattle twoPersonageTeamsBattle
+        TwoPersonageTeamsBattle twoPersonageTeamsBattle,
+        GroupStatsService groupStatsService
     ) {
         this.groupUserService = groupUserService;
         this.duelService = duelService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
+        this.groupStatsService = groupStatsService;
     }
 
     @Override
@@ -72,6 +76,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             return;
         }
 
+        groupStatsService.increaseDuelsComplete(command.groupId(), 1);
         // TODO вынести в отдельный поток и сервис
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());

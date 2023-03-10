@@ -84,7 +84,6 @@ public class PersonageService {
 
     public Personage addMoney(Personage personage, Money money) {
         final var updatedPersonage = personage.addMoney(money);
-        logger.info(updatedPersonage.toString());
         personageDao.update(updatedPersonage);
         return updatedPersonage;
     }

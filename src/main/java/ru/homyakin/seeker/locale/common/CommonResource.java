@@ -9,6 +9,7 @@ public record CommonResource(
     String help,
     String profileTemplate,
     String receptionDesk,
-    String[] mainMenu
+    String[] mainMenu,
+    String groupStats
 ) {
 }

@@ -24,9 +24,10 @@ public enum CommandType {
     DECLINE_DUEL("declineDuel", CheckType.EQUALS),
     TAVERN_MENU("/menu", CheckType.EQUALS),
     ORDER("/order", CheckType.STARTS_WITH),
-    RECEPTION_DESK(null, CheckType.SKIP),
-    BACK(null, CheckType.SKIP),
-    RESET_STATS(null, CheckType.SKIP),
+    RECEPTION_DESK(null, CheckType.MAP),
+    BACK(null, CheckType.MAP),
+    RESET_STATS(null, CheckType.MAP),
+    GROUP_STATS("/stats", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -48,7 +49,7 @@ public enum CommandType {
             return Optional.of(textToType.get(text));
         }
         return Arrays.stream(values())
-            .filter(commandText -> commandText.check(text))
+            .filter(type -> type.check(text))
             .findFirst();
     }
 
@@ -63,8 +64,8 @@ public enum CommandType {
     private boolean check(String text) {
         return switch (this.checkType) {
             case EQUALS -> this.text.equals(text);
-            case STARTS_WITH -> this.text.startsWith(text);
-            case SKIP -> false;
+            case STARTS_WITH -> text.startsWith(this.text);
+            case MAP -> false;
         };
     }
 }
