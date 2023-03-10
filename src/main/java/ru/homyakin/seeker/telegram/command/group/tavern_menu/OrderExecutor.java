@@ -38,8 +38,15 @@ public class OrderExecutor extends CommandExecutor<Order> {
     public void execute(Order command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
-        //TODO ошибка если не число
-        final var itemId = Integer.valueOf(command.text().replace(CommandType.ORDER.getText(), ""));
+        final int itemId;
+        try {
+            itemId = Integer.parseInt(command.text().replace(CommandType.ORDER.getText(), ""));
+        } catch (NumberFormatException e) {
+            telegramSender.send(
+                TelegramMethods.createSendMessage(group.id(), TavernMenuLocalization.itemNotInMenu(group.language()))
+            );
+            return;
+        }
         final var menuItemResult = menuService.getAvailableMenuItem(itemId);
         if (menuItemResult.isEmpty()) {
             telegramSender.send(
