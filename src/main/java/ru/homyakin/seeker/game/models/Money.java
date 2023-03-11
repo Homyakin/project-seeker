@@ -2,7 +2,7 @@ package ru.homyakin.seeker.game.models;
 
 public record Money(
     int value
-) {
+) implements Comparable<Money> {
     public static Money zero() {
         return new Money(0);
     }
@@ -29,5 +29,10 @@ public record Money(
 
     public Money negative() {
         return new Money(-value);
+    }
+
+    @Override
+    public int compareTo(Money other) {
+        return Integer.compare(value, other.value);
     }
 }

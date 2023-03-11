@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.tavern_menu.models;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import ru.homyakin.seeker.locale.Language;
@@ -17,7 +18,8 @@ public record TavernMenu(
                 continue;
             }
             text.append("\n\n").append(category.getText(language)).append(":");
-            for (final var menuItem: categoryToItems.get(category)) {
+            final var itemsSortedByPrice = categoryToItems.get(category).stream().sorted(Comparator.comparing(MenuItem::price)).toList();
+            for (final var menuItem: itemsSortedByPrice) {
                 text.append("\n").append(menuItem.menuPositionText(language));
             }
         }
