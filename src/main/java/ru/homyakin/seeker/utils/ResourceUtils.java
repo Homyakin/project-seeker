@@ -1,11 +1,16 @@
 package ru.homyakin.seeker.utils;
 
-import java.nio.file.Path;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
+import org.springframework.core.io.ClassPathResource;
 
 public class ResourceUtils {
-    public static Optional<Path> getResourcePath(String path) {
-       return Optional.ofNullable(ResourceUtils.class.getClassLoader().getResource(path))
-            .map(it -> Path.of(it.getFile()));
+    public static Optional<InputStream> getResourcePath(String path) {
+        try {
+            return Optional.of(new ClassPathResource(path).getInputStream());
+        } catch (IOException e) {
+            return Optional.empty();
+        }
     }
 }

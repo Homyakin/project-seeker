@@ -2,7 +2,8 @@ package ru.homyakin.seeker.locale;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
-import java.nio.file.Path;
+import java.io.File;
+import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -21,13 +22,13 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 public class LocalizationInitializer {
-    private static final String LOCALIZATION_PATH = "localization/";
+    private static final String LOCALIZATION_PATH = "localization" + File.separator;
 
-    private static final String COMMON_PATH = "/common.toml";
-    private static final String DUEL_PATH = "/duel.toml";
-    private static final String PERSONAL_PATH = "/personal.toml";
-    private static final String RAID_PATH = "/raid.toml";
-    private static final String TAVERN_MENU_PATH = "/tavern_menu.toml";
+    private static final String COMMON_PATH = File.separator + "common.toml";
+    private static final String DUEL_PATH = File.separator + "duel.toml";
+    private static final String PERSONAL_PATH = File.separator + "personal.toml";
+    private static final String RAID_PATH = File.separator + "raid.toml";
+    private static final String TAVERN_MENU_PATH = File.separator + "tavern_menu.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -60,11 +61,11 @@ public class LocalizationInitializer {
         logger.info("Localization loaded");
     }
 
-    private static <T> T extractClass(ObjectMapper mapper, Path path, Class<T> clazz) {
+    private static <T> T extractClass(ObjectMapper mapper, InputStream stream, Class<T> clazz) {
         try {
-            return mapper.readValue(path.toFile(), clazz);
+            return mapper.readValue(stream, clazz);
         } catch (Exception e) {
-            throw new RuntimeException("Can't parse locale " + path.toString(), e);
+            throw new RuntimeException("Can't parse locale for " + clazz.getSimpleName(), e);
         }
     }
 }
