@@ -8,7 +8,6 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
