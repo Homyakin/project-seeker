@@ -19,7 +19,7 @@ public record MenuItem(
 ) {
     public String menuPositionText(Language language) {
         final var locale = getLocaleByLanguageOrDefault(language);
-        return  "<b>" + locale.name() + "</b> " + TextConstants.MONEY_ICON + price.toString() + " "
+        return  "<b>" + locale.name() + "</b> " + TextConstants.MONEY_ICON + price.value() + " "
             + CommandType.ORDER.getText() + id;
     }
 
