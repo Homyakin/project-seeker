@@ -8,8 +8,8 @@ public record RaidResource(
     String successJoinEvent,
     String userAlreadyInThisEvent,
     String userAlreadyInOtherEvent,
-    String expiredEvent,
-    String successRaid,
-    String failureRaid
+    String expiredRaid,
+    String[] successRaid,
+    String[] failureRaid
 ) {
 }

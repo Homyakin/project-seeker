@@ -51,10 +51,9 @@ public record Event(
     }
 
     public String endMessage(Language language, EventResult result) {
-        final var postfix = switch (type) {
+        return switch (type) {
             case RAID -> raidEndMessage(language, result);
         };
-        return RaidLocalization.expiredEvent(language) + " " + postfix;
     }
 
     private Optional<String> endDateText(Language language, LocalDateTime endDate) {

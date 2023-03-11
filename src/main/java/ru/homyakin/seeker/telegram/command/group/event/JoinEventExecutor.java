@@ -51,7 +51,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
             } else if (error instanceof EventNotExist) {
                 notificationText = CommonLocalization.internalError(group.language());
             } else if (error instanceof ExpiredEvent expiredEvent) {
-                notificationText = RaidLocalization.expiredEvent(group.language());
+                notificationText = RaidLocalization.expiredRaid(group.language());
                 //TODO может вынести в евент менеджер
                 telegramSender.send(TelegramMethods.createEditMessageText(
                     command.groupId(),

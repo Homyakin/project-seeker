@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 public class RaidLocalization {
     private static final Map<Language, RaidResource> map = new HashMap<>();
@@ -40,15 +41,19 @@ public class RaidLocalization {
         return CommonUtils.ifNullThan(map.get(language).userAlreadyInOtherEvent(), map.get(Language.DEFAULT).userAlreadyInOtherEvent());
     }
 
-    public static String expiredEvent(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).expiredEvent(), map.get(Language.DEFAULT).expiredEvent());
+    public static String expiredRaid(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).expiredRaid(), map.get(Language.DEFAULT).expiredRaid());
     }
 
     public static String successRaid(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).successRaid(), map.get(Language.DEFAULT).successRaid());
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).successRaid(), map.get(Language.DEFAULT).successRaid())
+        );
     }
 
     public static String failureRaid(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).failureRaid(), map.get(Language.DEFAULT).failureRaid());
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).failureRaid(), map.get(Language.DEFAULT).failureRaid())
+        );
     }
 }

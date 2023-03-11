@@ -5,6 +5,10 @@ minutesShort = "m"
 successJoinEvent = "You have successfully joined the event!"
 userAlreadyInThisEvent = "You are already participating in this event!"
 userAlreadyInOtherEvent = "You are already participating in another event!"
-expiredEvent = "This event is over!"
-successRaid = "Raid was successful."
-failureRaid = "The seekers failed the raid."
+expiredRaid = "This event is over!"
+successRaid = [
+    "Raid was successful."
+]
+failureRaid = [
+    "The seekers failed the raid."
+]
