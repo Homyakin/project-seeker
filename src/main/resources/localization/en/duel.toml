@@ -1,23 +1,37 @@
 duelMustBeReply = "The duel should be a reply to another user's message"
 duelReplyMustBeToUser = "Your opponent must be a user"
 duelWithYourself = "You can't have a duel with yourself!"
-duelWithInitiatorNotEnoughMoney = """\
+duelWithInitiatorNotEnoughMoney = [
+    """\
 Whoa! To use the arena, you need at least ${money_icon}${money_count}. Go work for a start"""
-duelWithAcceptorNotEnoughMoney = """\
+]
+duelWithAcceptorNotEnoughMoney = [
+    """\
 Your opponent can't afford the luxury of an arena for ${money_icon}${money_count}. \
 Let him work a little bit first"""
+]
 personageAlreadyStartDuel = "You have already started another duel! Wait for it to finish."
-initDuel = """\
+initDuel = [
+    """\
 The seeker <b>${personage_icon}${initiating_personage_name}</b> challenges \
 the seeker <b>${personage_icon}${accepting_personage_name}</b>.
 
 What will be his answer?"""
+]
 notDuelAcceptingPersonage = "It wasn't you who was challenged to a duel!"
-expiredDuel = "The challenge to the duel was ignored"
-declinedDuel = "The accepting party rejected the call!"
-notEnoughMoneyAtAccepting = "You've managed to spend all the money somewhere! Earn for a start ${money_icon}${money_count}"
-finishedDuel = """\
+expiredDuel = [
+    "The challenge to the duel was ignored"
+]
+declinedDuel = [
+    "The accepting party rejected the call!"
+]
+notEnoughMoneyAtAccepting = [
+    "You've managed to spend all the money somewhere! Earn for a start ${money_icon}${money_count}"
+]
+finishedDuel = [
+    """\
 The seeker <b>${personage_icon}${winner_personage_name}</b> got the better of \
 <b>${personage_icon}${looser_personage_name}</b>"""
+]
 acceptDuelButton = "Take the challenge:dagger_knife:"
 declineDuelButton = "Decline:open_hands:"

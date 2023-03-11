@@ -1,23 +1,58 @@
 duelMustBeReply = "Дуэль должна быть ответом на сообщение другого пользователя"
 duelReplyMustBeToUser = "Вашим противником должен быть пользователь"
 duelWithYourself = "Нельзя устроить дуэль с самим собой!"
-duelWithInitiatorNotEnoughMoney = """\
-Воу! Чтобы воспользоваться ареной тебе нужно хотя бы ${money_icon}${money_count}. Иди поработай для начала"""
-duelWithAcceptorNotEnoughMoney = """\
+duelWithInitiatorNotEnoughMoney = [
+    "Воу! Чтобы воспользоваться ареной тебе нужно хотя бы ${money_icon}${money_count}. Иди поработай для начала",
+    "Вход в арену стоит ${money_icon}${money_count}, иди работать!",
+    "Бой - привелегия богатых, а не бедных. Накопи ${money_icon}${money_count} и возвращайся.",
+    "Кажется, этот бой тебе не по карману! Необходимо ${money_icon}${money_count}."
+]
+duelWithAcceptorNotEnoughMoney = [
+    """\
 Твой соперник не может себе позволить роскошь в виде арены за ${money_icon}${money_count}. \
-Пусть сначала немного потрудится"""
+Пусть сначала немного потрудится""",
+    "Твоему сопернику не по карману бой в ${money_icon}${money_count} монет.",
+    "Приходи, когда у противника будет ${money_icon}${money_count} в кармане.",
+    "Не сажай опонента в долговую яму, у него нет ${money_icon}${money_count}!"
+]
 personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
-initDuel = """\
+initDuel = [
+    """\
 Искатель <b>${personage_icon}${initiating_personage_name}</b> вызывает на дуэль \
 искателя <b>${personage_icon}${accepting_personage_name}</b>.
 
-Каким будет его ответ?"""
+Каким будет его ответ?""",
+    """\
+От <b>${personage_icon}${initiating_personage_name}</b> прилетела перчатка в лицо \
+<b>${personage_icon}${accepting_personage_name}</b>!""",
+    "Возми себя в руки, <b>${personage_icon}${accepting_personage_name}</b>, и прими вызов от <b>${personage_icon}${initiating_personage_name}</b>!",
+    "<b>${personage_icon}${initiating_personage_name}</b> явно намеревается дать по щам <b>${personage_icon}${accepting_personage_name}</b>!"
+]
 notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
-expiredDuel = "Вызов на дуэль остался проигнорированным"
-declinedDuel = "Принимающая сторона отклонила вызов!"
-notEnoughMoneyAtAccepting = "Ты где-то умудрился потратить все деньги! Заработай для начала ${money_icon}${money_count}"
-finishedDuel = """\
+expiredDuel = [
+    "Вызов на дуэль остался проигнорированным",
+    "<b>${personage_icon}${accepting_personage_name}</b>: Хочу иду на дуэль, хочу не иду, мне вообще пофиг!",
+    "<b>${personage_icon}${accepting_personage_name}</b> не может выйти на дуэль. Позовите позднее.",
+    "<b>${personage_icon}${accepting_personage_name}</b> наказала мама. Пока полы не будут помыты - дуэли не будет!"
+]
+declinedDuel = [
+    "Принимающая сторона отклонила вызов!",
+    "Ха! <b>${personage_icon}${accepting_personage_name}</b>, ищи дурака для дуэли в другом месте!"
+]
+notEnoughMoneyAtAccepting = [
+    "Ты где-то умудрился потратить все деньги! Заработай для начала ${money_icon}${money_count}",
+    "Тебе не хватает деньжат на это бой, накопи ${money_icon}${money_count}.",
+    "Осталось бы у тебя ${money_icon}${money_count} и воевать можно было бы!",
+    "Работай усерднее! Мордобой стоит ${money_icon}${money_count}!"
+]
+finishedDuel = [
+    """\
 Искатель <b>${personage_icon}${winner_personage_name}</b> одержал верх над \
-<b>${personage_icon}${looser_personage_name}</b>"""
+<b>${personage_icon}${looser_personage_name}</b>""",
+    "<b>${personage_icon}${looser_personage_name}</b> размазали тонким слоем по брущатке!",
+    "Бой окончен! <b>${personage_icon}${winner_personage_name}</b> явно сильнее <b>${personage_icon}${looser_personage_name}</b>!",
+    "Во время дуэли <b>${personage_icon}${winner_personage_name}</b> легким движением руки отправляет спать <b>${personage_icon}${looser_personage_name}</b>!",
+    "В следующий раз <b>${personage_icon}${looser_personage_name}</b> подумает дважды, прежде чем драться с <b>${personage_icon}${winner_personage_name}</b>."
+]
 acceptDuelButton = "Принять вызов:dagger_knife:"
 declineDuelButton = "Отказаться :open_hands:"

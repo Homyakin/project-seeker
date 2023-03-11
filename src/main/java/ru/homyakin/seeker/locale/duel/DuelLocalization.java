@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
+import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class DuelLocalization {
@@ -34,9 +35,11 @@ public class DuelLocalization {
             put("money_count", money.value());
         }};
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(
-                map.get(language).duelWithInitiatorNotEnoughMoney(),
-                map.get(Language.DEFAULT).duelWithInitiatorNotEnoughMoney()
+            RandomUtils.getRandomElement(
+                CommonUtils.ifNullThan(
+                    map.get(language).duelWithInitiatorNotEnoughMoney(),
+                    map.get(Language.DEFAULT).duelWithInitiatorNotEnoughMoney()
+                )
             ),
             params
         );
@@ -48,9 +51,11 @@ public class DuelLocalization {
             put("money_count", money.value());
         }};
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(
-                map.get(language).duelWithAcceptorNotEnoughMoney(),
-                map.get(Language.DEFAULT).duelWithAcceptorNotEnoughMoney()
+            RandomUtils.getRandomElement(
+                CommonUtils.ifNullThan(
+                    map.get(language).duelWithAcceptorNotEnoughMoney(),
+                    map.get(Language.DEFAULT).duelWithAcceptorNotEnoughMoney()
+                )
             ),
             params
         );
@@ -67,7 +72,7 @@ public class DuelLocalization {
             put("accepting_personage_name", acceptingPersonage.name());
         }};
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).initDuel(), map.get(Language.DEFAULT).initDuel()),
+            RandomUtils.getRandomElement(CommonUtils.ifNullThan(map.get(language).initDuel(), map.get(Language.DEFAULT).initDuel())),
             params
         );
     }
@@ -76,12 +81,25 @@ public class DuelLocalization {
         return CommonUtils.ifNullThan(map.get(language).notDuelAcceptingPersonage(), map.get(Language.DEFAULT).notDuelAcceptingPersonage());
     }
 
-    public static String expiredDuel(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).expiredDuel(), map.get(Language.DEFAULT).expiredDuel());
+    public static String expiredDuel(Language language, Personage acceptingPersonage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
+        params.put("accepting_personage_name", acceptingPersonage.name());
+        return StringNamedTemplate.format(
+            RandomUtils.getRandomElement(CommonUtils.ifNullThan(map.get(language).expiredDuel(), map.get(Language.DEFAULT).expiredDuel())),
+            params
+        );
     }
 
-    public static String declinedDuel(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).declinedDuel(), map.get(Language.DEFAULT).declinedDuel());
+    public static String declinedDuel(Language language, Personage initiatingPersonage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
+        params.put("initiating_personage_name", initiatingPersonage.name());
+        return StringNamedTemplate.format(
+            RandomUtils.getRandomElement(
+                CommonUtils.ifNullThan(map.get(language).declinedDuel(), map.get(Language.DEFAULT).declinedDuel())),
+            params
+        );
     }
 
     public static String notEnoughMoneyAtAccepting(Language language, Money money) {
@@ -90,7 +108,9 @@ public class DuelLocalization {
             put("money_count", money.value());
         }};
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).notEnoughMoneyAtAccepting(), map.get(Language.DEFAULT).notEnoughMoneyAtAccepting()),
+            RandomUtils.getRandomElement(
+                CommonUtils.ifNullThan(map.get(language).notEnoughMoneyAtAccepting(), map.get(Language.DEFAULT).notEnoughMoneyAtAccepting())
+            ),
             params
         );
     }
@@ -102,7 +122,9 @@ public class DuelLocalization {
             put("looser_personage_name", looserPersonage.name());
         }};
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).finishedDuel(), map.get(Language.DEFAULT).finishedDuel()),
+            RandomUtils.getRandomElement(
+                CommonUtils.ifNullThan(map.get(language).finishedDuel(), map.get(Language.DEFAULT).finishedDuel())
+            ),
             params
         );
     }

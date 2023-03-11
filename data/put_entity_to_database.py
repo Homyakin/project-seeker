@@ -13,7 +13,6 @@ def is_entity_present(table: str, data: Dict, pk_columns: List[str]) -> bool:
     pk_template = ' and '.join([f'{column}=%s' for column in pk_columns])
     fields = [str(data[column]) for column in pk_columns]
     sql = f'SELECT * FROM {table} WHERE {pk_template}'
-    print(sql)
     cursor.execute(sql, fields)
     result = len(cursor.fetchall())
     cursor.close()
