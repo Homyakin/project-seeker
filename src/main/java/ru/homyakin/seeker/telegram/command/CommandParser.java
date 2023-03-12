@@ -118,7 +118,12 @@ public class CommandParser {
                     )
                 );
                 case TAVERN_MENU -> new GetTavernMenu(message.getChatId());
-                case ORDER -> new Order(message.getChatId(), message.getFrom().getId(), message.getText().split("@")[0]);
+                case ORDER -> new Order(
+                    message.getChatId(),
+                    message.getFrom().getId(),
+                    message.getMessageId(),
+                    message.getText().split("@")[0]
+                );
                 case GROUP_STATS -> new GetGroupStats(message.getChatId());
                 default -> null;
             });

@@ -43,14 +43,22 @@ public class OrderExecutor extends CommandExecutor<Order> {
             itemId = Integer.parseInt(command.text().replace(CommandType.ORDER.getText(), ""));
         } catch (NumberFormatException e) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(group.id(), TavernMenuLocalization.itemNotInMenu(group.language()))
+                TelegramMethods.createSendMessage(
+                    group.id(),
+                    TavernMenuLocalization.itemNotInMenu(group.language()),
+                    command.messageId()
+                )
             );
             return;
         }
         final var menuItemResult = menuService.getAvailableMenuItem(itemId);
         if (menuItemResult.isEmpty()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(group.id(), TavernMenuLocalization.itemNotInMenu(group.language()))
+                TelegramMethods.createSendMessage(
+                    group.id(),
+                    TavernMenuLocalization.itemNotInMenu(group.language()),
+                    command.messageId()
+                )
             );
             return;
         }
@@ -75,14 +83,15 @@ public class OrderExecutor extends CommandExecutor<Order> {
                 throw new IllegalStateException("Unknown error " + error.toString());
             }
             telegramSender.send(
-                TelegramMethods.createSendMessage(group.id(), message)
+                TelegramMethods.createSendMessage(group.id(), message, command.messageId())
             );
         } else {
             groupStatsService.increaseTavernMoneySpent(group.id(), menuItem.price().value());
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     group.id(),
-                    menuItem.orderText(group.language(), personage)
+                    menuItem.orderText(group.language(), personage),
+                    command.messageId()
                 )
             );
         }
