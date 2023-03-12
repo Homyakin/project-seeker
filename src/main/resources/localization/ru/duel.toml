@@ -7,14 +7,6 @@ duelWithInitiatorNotEnoughMoney = [
     "Бой - привелегия богатых, а не бедных. Накопи ${money_icon}${money_count} и возвращайся.",
     "Кажется, этот бой тебе не по карману! Необходимо ${money_icon}${money_count}."
 ]
-duelWithAcceptorNotEnoughMoney = [
-    """\
-Твой соперник не может себе позволить роскошь в виде арены за ${money_icon}${money_count}. \
-Пусть сначала немного потрудится""",
-    "Твоему сопернику не по карману бой в ${money_icon}${money_count} монет.",
-    "Приходи, когда у противника будет ${money_icon}${money_count} в кармане.",
-    "Не сажай опонента в долговую яму, у него нет ${money_icon}${money_count}!"
-]
 personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
 initDuel = [
     """\
@@ -38,12 +30,6 @@ expiredDuel = [
 declinedDuel = [
     "Принимающая сторона отклонила вызов!",
     "Ха! <b>${personage_icon}${accepting_personage_name}</b>, ищи дурака для дуэли в другом месте!"
-]
-notEnoughMoneyAtAccepting = [
-    "Ты где-то умудрился потратить все деньги! Заработай для начала ${money_icon}${money_count}",
-    "Тебе не хватает деньжат на это бой, накопи ${money_icon}${money_count}.",
-    "Осталось бы у тебя ${money_icon}${money_count} и воевать можно было бы!",
-    "Работай усерднее! Мордобой стоит ${money_icon}${money_count}!"
 ]
 finishedDuel = [
     """\

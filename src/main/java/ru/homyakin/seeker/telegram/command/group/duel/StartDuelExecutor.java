@@ -66,8 +66,6 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
                 message = DuelLocalization.personageAlreadyStartDuel(group.language());
             } else if (error instanceof DuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney) {
                 message = DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
-            } else if (error instanceof DuelError.AcceptingPersonageNotEnoughMoney notEnoughMoney) {
-                message = DuelLocalization.duelWithAcceptorNotEnoughMoney(group.language(), notEnoughMoney.money());
             } else {
                 throw new IllegalStateException("Unknown duel error: " + error.toString());
             }

@@ -66,15 +66,6 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         }
 
         final var result = duelService.finishDuel(duel.id());
-        if (result.isLeft()) {
-            telegramSender.send(
-                TelegramMethods.createAnswerCallbackQuery(
-                    command.callbackId(),
-                    DuelLocalization.notEnoughMoneyAtAccepting(group.language(), result.getLeft().money())
-                )
-            );
-            return;
-        }
 
         groupStatsService.increaseDuelsComplete(command.groupId(), 1);
         // TODO вынести в отдельный поток и сервис

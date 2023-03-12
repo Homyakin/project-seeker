@@ -17,17 +17,5 @@ public abstract sealed class DuelError {
             return money;
         }
     }
-
-    public static final class AcceptingPersonageNotEnoughMoney extends DuelError {
-        private final Money money;
-
-        public AcceptingPersonageNotEnoughMoney(Money money) {
-            this.money = money;
-        }
-
-        public Money money() {
-            return money;
-        }
-    }
 }
 

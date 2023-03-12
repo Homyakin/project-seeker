@@ -37,9 +37,6 @@ public class DuelService {
         if (initiatingPersonage.money().lessThan(DUEL_PRICE)) {
             return Either.left(new DuelError.InitiatingPersonageNotEnoughMoney(DUEL_PRICE));
         }
-        if (acceptingPersonage.money().lessThan(DUEL_PRICE)) {
-            return Either.left(new DuelError.AcceptingPersonageNotEnoughMoney(DUEL_PRICE));
-        }
 
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
 
@@ -72,15 +69,10 @@ public class DuelService {
         duelDao.updateStatus(duelId, DuelStatus.DECLINED);
     }
 
-    public Either<DuelError.AcceptingPersonageNotEnoughMoney, Success> finishDuel(long duelId) {
+    public Success finishDuel(long duelId) {
         //TODO проверка на то, что статус был не финишд
-        final var acceptingPersonage = personageService.getByIdForce(getByIdForce(duelId).acceptingPersonageId());
-        if (acceptingPersonage.money().lessThan(DUEL_PRICE)) {
-            return Either.left(new DuelError.AcceptingPersonageNotEnoughMoney(DUEL_PRICE));
-        }
-        personageService.takeMoney(acceptingPersonage, DUEL_PRICE);
         duelDao.updateStatus(duelId, DuelStatus.FINISHED);
-        return Either.right(new Success());
+        return new Success();
     }
 
     public void addWinner(long duelId, long personageId) {

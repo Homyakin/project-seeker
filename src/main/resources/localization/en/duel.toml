@@ -5,11 +5,6 @@ duelWithInitiatorNotEnoughMoney = [
     """\
 Whoa! To use the arena, you need at least ${money_icon}${money_count}. Go work for a start"""
 ]
-duelWithAcceptorNotEnoughMoney = [
-    """\
-Your opponent can't afford the luxury of an arena for ${money_icon}${money_count}. \
-Let him work a little bit first"""
-]
 personageAlreadyStartDuel = "You have already started another duel! Wait for it to finish."
 initDuel = [
     """\
@@ -24,9 +19,6 @@ expiredDuel = [
 ]
 declinedDuel = [
     "The accepting party rejected the call!"
-]
-notEnoughMoneyAtAccepting = [
-    "You've managed to spend all the money somewhere! Earn for a start ${money_icon}${money_count}"
 ]
 finishedDuel = [
     """\
