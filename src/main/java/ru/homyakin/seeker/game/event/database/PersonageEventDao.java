@@ -19,10 +19,9 @@ public class PersonageEventDao {
     }
 
     public void save(Long personageId, Long launchedEventId) {
-        final var params = new HashMap<String, Object>() {{
-            put("personage_id", personageId);
-            put("launched_event_id", launchedEventId);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("personage_id", personageId);
+        params.put("launched_event_id", launchedEventId);
 
         jdbcTemplate.update(
             SAVE_USER_EVENT,

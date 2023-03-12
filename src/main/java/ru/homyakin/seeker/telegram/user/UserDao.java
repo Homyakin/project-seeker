@@ -37,13 +37,13 @@ public class UserDao {
     }
 
     public void save(User user) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", user.id());
-            put("is_active_private_messages", user.isActivePrivateMessages());
-            put("language_id", user.language().id());
-            put("init_date", TimeUtils.moscowTime());
-            put("personage_id", user.personageId());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", user.id());
+        params.put("is_active_private_messages", user.isActivePrivateMessages());
+        params.put("language_id", user.language().id());
+        params.put("init_date", TimeUtils.moscowTime());
+        params.put("personage_id", user.personageId());
+
         jdbcTemplate.update(
             SAVE_USER,
             params
@@ -61,11 +61,10 @@ public class UserDao {
     }
 
     public void update(User user) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", user.id());
-            put("language_id", user.language().id());
-            put("is_active_private_messages", user.isActivePrivateMessages());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", user.id());
+        params.put("language_id", user.language().id());
+        params.put("is_active_private_messages", user.isActivePrivateMessages());
         jdbcTemplate.update(
             UPDATE,
             params

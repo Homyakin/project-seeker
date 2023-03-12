@@ -58,33 +58,32 @@ public class PersonageDao {
     }
 
     public long save(Personage personage) {
-        final var params = new HashMap<String, Object>() {{
-            put("name", personage.name());
-            put("money", personage.money().value());
-            put("attack", personage.characteristics().attack());
-            put("defense", personage.characteristics().defense());
-            put("health", personage.characteristics().health());
-            put("strength", personage.characteristics().strength());
-            put("agility", personage.characteristics().agility());
-            put("wisdom", personage.characteristics().wisdom());
-            put("last_health_change", personage.lastHealthChange());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("name", personage.name());
+        params.put("money", personage.money().value());
+        params.put("attack", personage.characteristics().attack());
+        params.put("defense", personage.characteristics().defense());
+        params.put("health", personage.characteristics().health());
+        params.put("strength", personage.characteristics().strength());
+        params.put("agility", personage.characteristics().agility());
+        params.put("wisdom", personage.characteristics().wisdom());
+        params.put("last_health_change", personage.lastHealthChange());
+
         return jdbcInsert.executeAndReturnKey(
             params
         ).longValue();
     }
 
     public void update(Personage personage) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", personage.id());
-            put("name", personage.name());
-            put("strength", personage.characteristics().strength());
-            put("agility", personage.characteristics().agility());
-            put("wisdom", personage.characteristics().wisdom());
-            put("health", personage.characteristics().health());
-            put("last_health_change", personage.lastHealthChange());
-            put("money", personage.money().value());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", personage.id());
+        params.put("name", personage.name());
+        params.put("strength", personage.characteristics().strength());
+        params.put("agility", personage.characteristics().agility());
+        params.put("wisdom", personage.characteristics().wisdom());
+        params.put("health", personage.characteristics().health());
+        params.put("last_health_change", personage.lastHealthChange());
+        params.put("money", personage.money().value());
         jdbcTemplate.update(
             UPDATE,
             params

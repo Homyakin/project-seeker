@@ -54,12 +54,11 @@ public class LaunchedEventDao {
 
     public long save(Event event) {
         final var startDate = TimeUtils.moscowTime();
-        final var params = new HashMap<String, Object>() {{
-            put("event_id", event.id());
-            put("start_date", startDate);
-            put("end_date", startDate.plus(event.duration()).plus(event.period()));
-            put("is_active", true);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("event_id", event.id());
+        params.put("start_date", startDate);
+        params.put("end_date", startDate.plus(event.duration()).plus(event.period()));
+        params.put("is_active", true);
         return jdbcInsert.executeAndReturnKey(
             params
         ).longValue();
@@ -95,10 +94,9 @@ public class LaunchedEventDao {
     }
 
     public void updateIsActive(Long launchedEventId, boolean isActive) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", launchedEventId);
-            put("is_active", isActive);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", launchedEventId);
+        params.put("is_active", isActive);
         jdbcTemplate.update(
             UPDATE_ACTIVE,
             params

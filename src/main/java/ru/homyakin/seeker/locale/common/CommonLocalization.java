@@ -39,27 +39,26 @@ public class CommonLocalization {
     }
 
     public static String help(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+        params.put("language_command", CommandType.CHANGE_LANGUAGE.getText());
+        params.put("profile_command", CommandType.GET_PROFILE.getText());
+        params.put("help_command", CommandType.HELP.getText());
+        params.put("duel_command", CommandType.START_DUEL.getText());
+        params.put("name_command", CommandType.CHANGE_NAME.getText());
+        params.put("github_link", TextConstants.SOURCE_LINK);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).help(), map.get(Language.DEFAULT).help()),
-            new HashMap<>() {{
-                put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
-                put("language_command", CommandType.CHANGE_LANGUAGE.getText());
-                put("profile_command", CommandType.GET_PROFILE.getText());
-                put("help_command", CommandType.HELP.getText());
-                put("duel_command", CommandType.START_DUEL.getText());
-                put("name_command", CommandType.CHANGE_NAME.getText());
-                put("github_link", TextConstants.SOURCE_LINK);
-            }}
+            params
         );
     }
 
     public static String profileTemplate(Language language, Personage personage) {
-        final var params = new HashMap<String, Object>() {{
-            put("personage_icon", TextConstants.PERSONAGE_ICON);
-            put("money_icon", TextConstants.MONEY_ICON);
-            put("personage_name", personage.name());
-            put("personage_money", personage.money().value());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("personage_name", personage.name());
+        params.put("personage_money", personage.money().value());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),
             params

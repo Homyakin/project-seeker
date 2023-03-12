@@ -23,10 +23,9 @@ public class ChangeNameLocalization {
     }
 
     public static String personageNameInvalidLength(Language language, int minNameLength, int maxNameLength) {
-        final var params = new HashMap<String, Object>() {{
-            put("max_name_length", maxNameLength);
-            put("min_name_length", minNameLength);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("max_name_length", maxNameLength);
+        params.put("min_name_length", minNameLength);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).personageNameInvalidLength(), map.get(Language.DEFAULT).personageNameInvalidLength()),
             params

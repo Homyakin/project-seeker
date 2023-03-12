@@ -49,11 +49,10 @@ public class TavernMenuLocalization {
     }
 
     private static String notEnoughMoney(String[] array, Money itemCost, Money personageMoneyValue) {
-        final var params = new HashMap<String, Object>() {{
-            put("money_icon", TextConstants.MONEY_ICON);
-            put("not_enough_money_value", itemCost.value() - personageMoneyValue.value());
-            put("item_cost", itemCost.value());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("not_enough_money_value", itemCost.value() - personageMoneyValue.value());
+        params.put("item_cost", itemCost.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(array),
             params

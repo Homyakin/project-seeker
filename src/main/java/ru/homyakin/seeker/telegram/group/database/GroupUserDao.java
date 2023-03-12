@@ -34,11 +34,10 @@ public class GroupUserDao {
     }
 
     public void save(GroupUser groupUser) {
-        final var params = new HashMap<String, Object>() {{
-            put("grouptg_id", groupUser.groupId());
-            put("usertg_id", groupUser.userId());
-            put("is_active", groupUser.isActive());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("grouptg_id", groupUser.groupId());
+        params.put("usertg_id", groupUser.userId());
+        params.put("is_active", groupUser.isActive());
         jdbcTemplate.update(
             SAVE_GROUP_USER,
             params
@@ -46,10 +45,9 @@ public class GroupUserDao {
     }
 
     public Optional<GroupUser> getByGroupIdAndUserId(long groupId, long userId) {
-        final var params = new HashMap<String, Object>() {{
-            put("grouptg_id", groupId);
-            put("usertg_id", userId);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("grouptg_id", groupId);
+        params.put("usertg_id", userId);
         final var result = jdbcTemplate.query(
             GET_GROUP_USER_BY_KEY,
             params,
@@ -59,11 +57,10 @@ public class GroupUserDao {
     }
 
     public void update(GroupUser groupUser) {
-        final var params = new HashMap<String, Object>() {{
-            put("grouptg_id", groupUser.groupId());
-            put("usertg_id", groupUser.userId());
-            put("is_active", groupUser.isActive());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("grouptg_id", groupUser.groupId());
+        params.put("usertg_id", groupUser.userId());
+        params.put("is_active", groupUser.isActive());
         jdbcTemplate.update(
             UPDATE,
             params

@@ -27,11 +27,10 @@ public class GroupTgLaunchedEventDao {
     }
 
     public void save(GroupLaunchedEvent groupLaunchedEvent) {
-        final var params = new HashMap<String, Object>() {{
-            put("launched_event_id", groupLaunchedEvent.launchedEventId());
-            put("grouptg_id", groupLaunchedEvent.groupId());
-            put("message_id", groupLaunchedEvent.messageId());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("launched_event_id", groupLaunchedEvent.launchedEventId());
+        params.put("grouptg_id", groupLaunchedEvent.groupId());
+        params.put("message_id", groupLaunchedEvent.messageId());
 
         jdbcTemplate.update(
             SAVE_GROUP_LAUNCHED_EVENT,

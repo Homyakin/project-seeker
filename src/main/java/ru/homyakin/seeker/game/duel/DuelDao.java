@@ -74,13 +74,12 @@ public class DuelDao {
         long groupId,
         Duration lifeTime
     ) {
-        final var params = new HashMap<String, Object>() {{
-            put("initiating_personage_id", initiatingPersonageId);
-            put("accepting_personage_id", acceptingPersonageId);
-            put("grouptg_id", groupId);
-            put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
-            put("status_id", DuelStatus.WAITING.id());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("initiating_personage_id", initiatingPersonageId);
+        params.put("accepting_personage_id", acceptingPersonageId);
+        params.put("grouptg_id", groupId);
+        params.put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
+        params.put("status_id", DuelStatus.WAITING.id());
         return jdbcInsert.executeAndReturnKey(params).longValue();
     }
 
@@ -93,10 +92,9 @@ public class DuelDao {
     }
 
     public Optional<Duel> getWaitingDuelByInitiatingPersonage(long initiatingPersonageId) {
-        final var params = new HashMap<String, Object>() {{
-            put("initiating_personage_id", initiatingPersonageId);
-            put("status_id", DuelStatus.WAITING.id());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("initiating_personage_id", initiatingPersonageId);
+        params.put("status_id", DuelStatus.WAITING.id());
         return jdbcTemplate.query(
             GET_WAITING_BY_INITIATING_PERSONAGE,
             params,
@@ -105,10 +103,9 @@ public class DuelDao {
     }
 
     public List<Duel> getWaitingDuelsWithLessExpireDate(LocalDateTime expiringDate) {
-        final var params = new HashMap<String, Object>() {{
-            put("status_id", DuelStatus.WAITING.id());
-            put("expiring_date", expiringDate);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("status_id", DuelStatus.WAITING.id());
+        params.put("expiring_date", expiringDate);
         return jdbcTemplate.query(
             GET_WAITING_DUELS_WITH_LESS_EXPIRE_DATE,
             params,
@@ -117,10 +114,9 @@ public class DuelDao {
     }
 
     public void addMessageIdToDuel(long duelId, int messageId) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", duelId);
-            put("message_id", messageId);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", duelId);
+        params.put("message_id", messageId);
         jdbcTemplate.update(
             ADD_MESSAGE_ID,
             params
@@ -128,10 +124,9 @@ public class DuelDao {
     }
 
     public void addWinnerIdToDuel(long duelId, long personageId) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", duelId);
-            put("winner_personage_id", personageId);
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", duelId);
+        params.put("winner_personage_id", personageId);
         jdbcTemplate.update(
             ADD_WINNER_ID,
             params
@@ -139,10 +134,9 @@ public class DuelDao {
     }
 
     public void updateStatus(long duelId, DuelStatus status) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", duelId);
-            put("status_id", status.id());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", duelId);
+        params.put("status_id", status.id());
         jdbcTemplate.update(
             UPDATE_status_id,
             params

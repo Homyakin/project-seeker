@@ -30,10 +30,9 @@ public class DuelLocalization {
     }
 
     public static String duelWithInitiatorNotEnoughMoney(Language language, Money money) {
-        final var params = new HashMap<String, Object>() {{
-            put("money_icon", TextConstants.MONEY_ICON);
-            put("money_count", money.value());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_count", money.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(
@@ -50,11 +49,10 @@ public class DuelLocalization {
     }
 
     public static String initDuel(Language language, Personage initiatingPersonage, Personage acceptingPersonage) {
-        final var params = new HashMap<String, Object>() {{
-            put("personage_icon", TextConstants.PERSONAGE_ICON);
-            put("initiating_personage_name", initiatingPersonage.name());
-            put("accepting_personage_name", acceptingPersonage.name());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
+        params.put("initiating_personage_name", initiatingPersonage.name());
+        params.put("accepting_personage_name", acceptingPersonage.name());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(CommonUtils.ifNullThan(map.get(language).initDuel(), map.get(Language.DEFAULT).initDuel())),
             params
@@ -87,11 +85,10 @@ public class DuelLocalization {
     }
 
     public static String finishedDuel(Language language, Personage winnerPersonage, Personage looserPersonage) {
-        final var params = new HashMap<String, Object>() {{
-            put("personage_icon", TextConstants.PERSONAGE_ICON);
-            put("winner_personage_name", winnerPersonage.name());
-            put("looser_personage_name", looserPersonage.name());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
+        params.put("winner_personage_name", winnerPersonage.name());
+        params.put("looser_personage_name", looserPersonage.name());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(map.get(language).finishedDuel(), map.get(Language.DEFAULT).finishedDuel())

@@ -39,13 +39,12 @@ public class GroupDao {
     }
 
     public void save(Group group) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", group.id());
-            put("is_active", group.isActive());
-            put("language_id", group.language().id());
-            put("init_date", group.nextEventDate());
-            put("next_event_date", group.nextEventDate());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", group.id());
+        params.put("is_active", group.isActive());
+        params.put("language_id", group.language().id());
+        params.put("init_date", group.nextEventDate());
+        params.put("next_event_date", group.nextEventDate());
         jdbcTemplate.update(
             SAVE_GROUP,
             params
@@ -72,12 +71,11 @@ public class GroupDao {
     }
 
     public void update(Group group) {
-        final var params = new HashMap<String, Object>() {{
-            put("id", group.id());
-            put("is_active", group.isActive());
-            put("language_id", group.language().id());
-            put("next_event_date", group.nextEventDate());
-        }};
+        final var params = new HashMap<String, Object>();
+        params.put("id", group.id());
+        params.put("is_active", group.isActive());
+        params.put("language_id", group.language().id());
+        params.put("next_event_date", group.nextEventDate());
         jdbcTemplate.update(
             UPDATE,
             params
