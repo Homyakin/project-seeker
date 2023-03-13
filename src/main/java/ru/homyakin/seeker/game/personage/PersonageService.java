@@ -119,6 +119,9 @@ public class PersonageService {
     }
 
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {
-        return personage.resetStats().peek(personageDao::update);
+        return personage
+            .resetStats()
+            .peek(personageDao::update)
+            .peek(it -> takeMoney(personage, Personage.RESET_STATS_COST));
     }
 }

@@ -127,7 +127,7 @@ public record Personage(
     private static final String NUMBERS = "0-9";
     private static final String SPECIAL = "_\\-\\.#№: ";
     private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
-    private static final Money RESET_STATS_COST = new Money(50);
+    public static final Money RESET_STATS_COST = new Money(50);
 
     private Personage copyWithName(String name) {
         return new Personage(
