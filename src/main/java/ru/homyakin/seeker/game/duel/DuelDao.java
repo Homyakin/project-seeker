@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
@@ -50,7 +49,6 @@ public class DuelDao {
         WHERE id = :id
         """;
 
-    private static final DuelRowMapper ROW_MAPPER = new DuelRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
@@ -87,7 +85,7 @@ public class DuelDao {
         return jdbcTemplate.query(
             GET_BY_ID,
             Collections.singletonMap("id", id),
-            ROW_MAPPER
+            this::mapRow
         ).stream().findFirst();
     }
 
@@ -98,7 +96,7 @@ public class DuelDao {
         return jdbcTemplate.query(
             GET_WAITING_BY_INITIATING_PERSONAGE,
             params,
-            ROW_MAPPER
+            this::mapRow
         ).stream().findFirst();
     }
 
@@ -109,7 +107,7 @@ public class DuelDao {
         return jdbcTemplate.query(
             GET_WAITING_DUELS_WITH_LESS_EXPIRE_DATE,
             params,
-            ROW_MAPPER
+            this::mapRow
         );
     }
 
@@ -143,19 +141,15 @@ public class DuelDao {
         );
     }
 
-    private static class DuelRowMapper implements RowMapper<Duel> {
-
-        @Override
-        public Duel mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Duel(
-                rs.getLong("id"),
-                rs.getLong("initiating_personage_id"),
-                rs.getLong("accepting_personage_id"),
-                rs.getLong("grouptg_id"),
-                rs.getTimestamp("expiring_date").toLocalDateTime(),
-                DuelStatus.getById(rs.getInt("status_id")),
-                Optional.ofNullable(DatabaseUtils.getNullableInt(rs, "message_id"))
-            );
-        }
+    private Duel mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new Duel(
+            rs.getLong("id"),
+            rs.getLong("initiating_personage_id"),
+            rs.getLong("accepting_personage_id"),
+            rs.getLong("grouptg_id"),
+            rs.getTimestamp("expiring_date").toLocalDateTime(),
+            DuelStatus.getById(rs.getInt("status_id")),
+            Optional.ofNullable(DatabaseUtils.getNullableInt(rs, "message_id"))
+        );
     }
 }

@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
@@ -28,7 +27,6 @@ public class UserDao {
         set is_active_private_messages = :is_active_private_messages, language_id = :language_id
         where id = :id
         """;
-    private static final UserRowMapper USER_ROW_MAPPER = new UserRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -55,7 +53,7 @@ public class UserDao {
         final var result = jdbcTemplate.query(
             GET_USER_BY_ID,
             params,
-            USER_ROW_MAPPER
+            this::mapRow
         );
         return result.stream().findFirst();
     }
@@ -71,16 +69,12 @@ public class UserDao {
         );
     }
 
-    private static class UserRowMapper implements RowMapper<User> {
-
-        @Override
-        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new User(
-                rs.getLong("id"),
-                rs.getBoolean("is_active_private_messages"),
-                Language.getOrDefault(rs.getInt("language_id")),
-                rs.getLong("personage_id")
-            );
-        }
+    private User mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new User(
+            rs.getLong("id"),
+            rs.getBoolean("is_active_private_messages"),
+            Language.getOrDefault(rs.getInt("language_id")),
+            rs.getLong("personage_id")
+        );
     }
 }

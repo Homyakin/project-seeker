@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
@@ -25,7 +24,6 @@ public class GroupUserDao {
         set is_active = :is_active
         where grouptg_id = :grouptg_id and usertg_id = :usertg_id
         """;
-    private static final GroupUserRowMapper GROUP_USER_ROW_MAPPER = new GroupUserRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -51,7 +49,7 @@ public class GroupUserDao {
         final var result = jdbcTemplate.query(
             GET_GROUP_USER_BY_KEY,
             params,
-            GROUP_USER_ROW_MAPPER
+            this::mapRow
         );
         return result.stream().findFirst();
     }
@@ -67,15 +65,11 @@ public class GroupUserDao {
         );
     }
 
-    private static class GroupUserRowMapper implements RowMapper<GroupUser> {
-
-        @Override
-        public GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new GroupUser(
-                rs.getLong("grouptg_id"),
-                rs.getLong("usertg_id"),
-                rs.getBoolean("is_active")
-            );
-        }
+    private GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new GroupUser(
+            rs.getLong("grouptg_id"),
+            rs.getLong("usertg_id"),
+            rs.getBoolean("is_active")
+        );
     }
 }

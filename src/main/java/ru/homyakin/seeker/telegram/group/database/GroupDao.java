@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
@@ -29,8 +28,6 @@ public class GroupDao {
         set is_active = :is_active, language_id = :language_id, next_event_date = :next_event_date
         where id = :id;
         """;
-
-    private static final GroupRowMapper GROUP_ROW_MAPPER = new GroupRowMapper();
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -56,7 +53,7 @@ public class GroupDao {
         final var result = jdbcTemplate.query(
             GET_GROUP_BY_ID,
             params,
-            GROUP_ROW_MAPPER
+            this::mapRow
         );
         return result.stream().findFirst();
     }
@@ -66,7 +63,7 @@ public class GroupDao {
         return jdbcTemplate.query(
             GET_GROUP_WITH_LESS_NEXT_EVENT_DATE,
             params,
-            GROUP_ROW_MAPPER
+            this::mapRow
         );
     }
 
@@ -82,16 +79,12 @@ public class GroupDao {
         );
     }
 
-    private static class GroupRowMapper implements RowMapper<Group> {
-
-        @Override
-        public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Group(
-                rs.getLong("id"),
-                rs.getBoolean("is_active"),
-                Language.getOrDefault(rs.getInt("language_id")),
-                rs.getTimestamp("next_event_date").toLocalDateTime()
-            );
-        }
+    private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new Group(
+            rs.getLong("id"),
+            rs.getBoolean("is_active"),
+            Language.getOrDefault(rs.getInt("language_id")),
+            rs.getTimestamp("next_event_date").toLocalDateTime()
+        );
     }
 }

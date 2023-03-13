@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
@@ -34,7 +33,6 @@ public class PersonageDao {
         WHERE id = :id
         """;
 
-    private static final PersonageRowMapper PERSONAGE_ROW_MAPPER = new PersonageRowMapper();
     private final SimpleJdbcInsert jdbcInsert;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -95,7 +93,7 @@ public class PersonageDao {
         final var result = jdbcTemplate.query(
             GET_BY_ID,
             params,
-            PERSONAGE_ROW_MAPPER
+            this::mapRow
         );
         return result.stream().findFirst();
     }
@@ -105,28 +103,24 @@ public class PersonageDao {
         return jdbcTemplate.query(
             GET_BY_LAUNCHED_EVENT,
             params,
-            PERSONAGE_ROW_MAPPER
+            this::mapRow
         );
     }
 
-    private static class PersonageRowMapper implements RowMapper<Personage> {
-
-        @Override
-        public Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Personage(
-                rs.getLong("id"),
-                rs.getString("name"),
-                new Money(rs.getInt("money")),
-                new Characteristics(
-                    rs.getInt("health"),
-                    rs.getInt("attack"),
-                    rs.getInt("defense"),
-                    rs.getInt("strength"),
-                    rs.getInt("agility"),
-                    rs.getInt("wisdom")
-                ),
-                rs.getTimestamp("last_health_change").toLocalDateTime()
-            );
-        }
+    private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new Personage(
+            rs.getLong("id"),
+            rs.getString("name"),
+            new Money(rs.getInt("money")),
+            new Characteristics(
+                rs.getInt("health"),
+                rs.getInt("attack"),
+                rs.getInt("defense"),
+                rs.getInt("strength"),
+                rs.getInt("agility"),
+                rs.getInt("wisdom")
+            ),
+            rs.getTimestamp("last_health_change").toLocalDateTime()
+        );
     }
 }

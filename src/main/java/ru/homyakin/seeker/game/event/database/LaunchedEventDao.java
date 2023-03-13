@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,6 @@ public class LaunchedEventDao {
         set is_active = :is_active
         where id = :id;
         """;
-    private static final LaunchedEventRowMapper LAUNCHED_EVENT_ROW_MAPPER = new LaunchedEventRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
@@ -69,7 +67,7 @@ public class LaunchedEventDao {
         final var result = jdbcTemplate.query(
             GET_LAUNCHED_EVENT_BY_ID,
             params,
-            LAUNCHED_EVENT_ROW_MAPPER
+            this::mapRow
         );
         return result.stream().findFirst();
     }
@@ -79,7 +77,7 @@ public class LaunchedEventDao {
         final var result = jdbcTemplate.query(
             GET_ACTIVE_EVENTS_BY_PERSONAGE_ID,
             params,
-            LAUNCHED_EVENT_ROW_MAPPER
+            this::mapRow
         );
         return result.stream().findFirst();
     }
@@ -89,7 +87,7 @@ public class LaunchedEventDao {
         return jdbcTemplate.query(
             GET_ACTIVE_EVENTS_WITH_LESS_END_DATE,
             params,
-            LAUNCHED_EVENT_ROW_MAPPER
+            this::mapRow
         );
     }
 
@@ -103,17 +101,13 @@ public class LaunchedEventDao {
         );
     }
 
-    private static class LaunchedEventRowMapper implements RowMapper<LaunchedEvent> {
-
-        @Override
-        public LaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new LaunchedEvent(
-                rs.getLong("id"),
-                rs.getInt("event_id"),
-                rs.getTimestamp("start_date").toLocalDateTime(),
-                rs.getTimestamp("end_date").toLocalDateTime(),
-                rs.getBoolean("is_active")
-            );
-        }
+    private LaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new LaunchedEvent(
+            rs.getLong("id"),
+            rs.getInt("event_id"),
+            rs.getTimestamp("start_date").toLocalDateTime(),
+            rs.getTimestamp("end_date").toLocalDateTime(),
+            rs.getBoolean("is_active")
+        );
     }
 }

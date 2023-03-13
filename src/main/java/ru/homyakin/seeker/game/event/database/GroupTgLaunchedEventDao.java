@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
@@ -19,7 +18,6 @@ public class GroupTgLaunchedEventDao {
         """;
     private static final String GET_GROUP_LAUNCHED_EVENT_BY_ID =
         "SELECT * FROM grouptg_to_launched_event WHERE launched_event_id = :launched_event_id";
-    private static final GroupEventRowMapper GROUP_LAUNCHED_EVENT_ROW_MAPPER = new GroupEventRowMapper();
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public GroupTgLaunchedEventDao(DataSource dataSource) {
@@ -43,18 +41,15 @@ public class GroupTgLaunchedEventDao {
         return jdbcTemplate.query(
             GET_GROUP_LAUNCHED_EVENT_BY_ID,
             params,
-            GROUP_LAUNCHED_EVENT_ROW_MAPPER
+            this::mapRow
         );
     }
 
-    private static class GroupEventRowMapper implements RowMapper<GroupLaunchedEvent> {
-        @Override
-        public GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new GroupLaunchedEvent(
-                rs.getLong("launched_event_id"),
-                rs.getLong("grouptg_id"),
-                rs.getInt("message_id")
-            );
-        }
+    private GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new GroupLaunchedEvent(
+            rs.getLong("launched_event_id"),
+            rs.getLong("grouptg_id"),
+            rs.getInt("message_id")
+        );
     }
 }
