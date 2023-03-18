@@ -21,8 +21,16 @@ public class DuelLocalization {
         return CommonUtils.ifNullThan(map.get(language).duelMustBeReply(), map.get(Language.DEFAULT).duelMustBeReply());
     }
 
-    public static String duelReplyMustBeToUser(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).duelReplyMustBeToUser(), map.get(Language.DEFAULT).duelReplyMustBeToUser());
+    public static String duelWithDifferentBot(Language language) {
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).duelWithDifferentBot(), map.get(Language.DEFAULT).duelWithDifferentBot())
+        );
+    }
+
+    public static String duelWithThisBot(Language language) {
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).duelWithThisBot(), map.get(Language.DEFAULT).duelWithThisBot())
+        );
     }
 
     public static String duelWithYourself(Language language) {

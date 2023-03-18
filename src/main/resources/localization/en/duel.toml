@@ -1,5 +1,10 @@
 duelMustBeReply = "The duel should be a reply to another user's message"
-duelReplyMustBeToUser = "Your opponent must be a user"
+duelWithDifferentBot = [
+    "Choose someone more lively as your opponent!"
+]
+duelWithThisBot = [
+    "I do not advise you to start a fight with the staff! Otherwise, there may be a special foam from the waiter in your beer"
+]
 duelWithYourself = "You can't have a duel with yourself!"
 duelWithInitiatorNotEnoughMoney = [
     """\

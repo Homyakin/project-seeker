@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import ru.homyakin.seeker.telegram.models.MessageOwner;
 
 @Configuration
 @ConfigurationProperties(prefix = "homyakin.seeker.telegram")
@@ -29,6 +30,7 @@ class TelegramBotConfig {
     }
 
     public void setUsername(String username) {
+        MessageOwner.setBotUsername(username);
         this.username = username;
     }
 }

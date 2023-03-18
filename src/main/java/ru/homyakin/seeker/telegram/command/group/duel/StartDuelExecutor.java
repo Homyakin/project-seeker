@@ -12,6 +12,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.models.ReplyInfo;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -89,7 +90,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         duelService.addMessageIdToDuel(duelResult.get().id(), telegramResult.get().getMessageId());
     }
 
-    private Either<Failure, StartDuel.ReplyInfo> validateCommandAndSendErrorIfNeed(StartDuel command, Group group) {
+    private Either<Failure, ReplyInfo> validateCommandAndSendErrorIfNeed(StartDuel command, Group group) {
         if (command.replyInfo().isEmpty()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelMustBeReply(group.language()))
@@ -103,13 +104,21 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             );
             return Either.left(new Failure());
         }
-        if (replyInfo.isBot()) {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelReplyMustBeToUser(group.language()))
-            );
-            return Either.left(new Failure());
-        }
-        return Either.right(replyInfo);
+        return switch (replyInfo.messageOwner()) {
+            case USER -> Either.right(replyInfo);
+            case DIFFERENT_BOT -> {
+                telegramSender.send(
+                    TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelWithDifferentBot(group.language()))
+                );
+                yield Either.left(new Failure());
+            }
+            case THIS_BOT -> {
+                telegramSender.send(
+                    TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelWithThisBot(group.language()))
+                );
+                yield Either.left(new Failure());
+            }
+        };
     }
 
 }

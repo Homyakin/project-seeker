@@ -33,6 +33,8 @@ import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.stats.ResetStats;
+import ru.homyakin.seeker.telegram.models.MessageOwner;
+import ru.homyakin.seeker.telegram.models.ReplyInfo;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 @Component
@@ -114,7 +116,7 @@ public class CommandParser {
                     message.getChatId(),
                     message.getFrom().getId(),
                     Optional.ofNullable(message.getReplyToMessage()).map(
-                        it -> new StartDuel.ReplyInfo(it.getMessageId(), it.getFrom().getId(), it.getFrom().getIsBot())
+                        it -> new ReplyInfo(it.getMessageId(), it.getFrom().getId(), MessageOwner.from(it))
                     )
                 );
                 case TAVERN_MENU -> new GetTavernMenu(message.getChatId());
