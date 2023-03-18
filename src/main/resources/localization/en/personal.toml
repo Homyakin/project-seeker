@@ -3,18 +3,24 @@ profileButton = ":bust_in_silhouette:Profile"
 languageButton = ":globe_with_meridians:Language"
 receptionDeskButton = ":writing:Reception Desk"
 backButton = ":arrow_left:Back"
-resetStatsButton = ":arrows_counterclockwise:Reset stats"
+resetStatsButton = ":book:Book of Obvilion"
 
 [changeName]
 changeNameWithoutName = "Enter the name separated by a space after the command: \"${name_command} Name\""
-personageNameInvalidLength = "The name must be between ${min_name_length} and ${max_name_length} symbols"
-personageNameInvalidSymbols = "The name can only contain cyrillic, latin, numbers characters _-.#№: and a space"
+personageNameInvalidLength = """\
+Sorry, but in the magic circle there is a restriction on the characters in the name. \
+From ${min_name_length} to ${max_name_length} characters"""
+personageNameInvalidSymbols = """
+Unfortunately, in the magic circle to save the name, you can only use: \
+cyrillic, latin, numbers characters _-.#№: and a space"""
 successNameChange = "Name has been successfully changed!"
 
 [leveling]
-profileLevelUp = "There are unspent leveling points! Press ${level_up_command}"
-notEnoughLevelingPoints = "Not enough leveling points. Get leveled up and come back later."
-chooseLevelUpCharacteristic = "Choose characteristic to level up:white_check_mark:"
+profileLevelUp = "You can improve your skills! Click ${level_up_command}"
+notEnoughLevelingPoints = "You've reached your limit! If you want to change your fighting style, use the book of oblivion."
+chooseLevelUpCharacteristic = "Choose what you want to learn next:"
 successLevelUp = "Success level up:white_check_mark:"
-successResetStats = "Successful reset of stats! Choose what to level up:"
-notEnoughMoney = "Not enough money to reset. You need ${money_icon}${money_count}"
+successResetStats = """\
+After reading the book, consciousness becomes clouded... You're forgetting your old skills. \
+All paths are open to you again:"""
+notEnoughMoney = "You can't afford the Book of Oblivion. You need ${money_icon}${money_count}"
