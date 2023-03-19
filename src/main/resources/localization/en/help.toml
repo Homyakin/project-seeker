@@ -1,0 +1,46 @@
+main = """\
+Welcome to the tavern of Krezar!
+
+Here you can relax, have a drink or prove that someone is wrong by challenging him to a duel. \
+You can also earn some gold in raids.
+
+Do not hesitate to ask for help, we will be happy to help you."""
+
+raids = """\
+In order to participate in raids, you need to add a bot to your group.
+
+After that, at certain intervals, ads will appear in the tavern, \
+for participation in which you can earn money. If the raid is successful, then the reward will increase.
+
+And remember! The more seekers there are, the more chances to win!"""
+
+duels = """\
+If it seems to you that someone is wrong in the tavern, then there is a special arena behind the tavern for a showdown!
+Just reply to the abuser's message with ${duel_command}.
+
+However, know that the arena is not a free pleasure! Someone has to wash her blood off afterwards and remove the knocked-out teeth."""
+
+menu = """\
+As in any self-respecting tavern, you can have a drink and a delicious meal here.
+
+Get acquainted with the list of available positions via ${menu_command} and order what you liked!"""
+
+personage = """\
+By going to ${bot_username}, you can use the registration desk.
+
+There you can change your name with the help of a magic circle.
+Or you can pay for access to the book of oblivion to forget your fighting skills and learn new ones."""
+
+info = """\
+Project news can be found on this channel: ${news_channel_username}.
+
+The source code of the game is <a href="${source_code_link}"> here</a>.
+You can also use this link to find how to help translate content into other languages."""
+
+
+raidsButton = "🗡Raids"
+duelsButton = "🤺Duels"
+menuButton = "🍻Tavern"
+personageButton = "🔰Seeker"
+infoButton = "💬Info"
+

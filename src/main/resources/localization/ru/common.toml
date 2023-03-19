@@ -5,23 +5,6 @@ welcomeGroup = """\
 chooseLanguage = "Выберите язык:"
 onlyAdminLanguage = "Данное действие доступно только администраторам"
 internalError = "Произошла ошибка, попробуйте позже"
-help = """\
-Социальная RPG в Telegram!
-Просто добавь в чат и участвуй в событиях.
-Официальный канал с новостями - ${news_channel_username}.
-
-Доступные команды (в личке и в чате):
-${language_command} - сменить язык;
-${profile_command} - показать профиль;
-${help_command} - данное сообщение;
-
-Только для чата:
-${duel_command} - вызвать другого искателя на дуэль. Должно быть ответом на сообщение другого пользователя;
-
-Только для лички:
-${name_command} - сменить имя;
-
-Исходный код игры <a href="${github_link}">здесь</a>."""
 profileTemplate = """\
 ${personage_icon}${personage_name}
 ${money_icon}Золото: ${personage_money}"""

@@ -5,23 +5,6 @@ Sit down at the table, order a drink, make yourself at home
 chooseLanguage = "Choose language:"
 onlyAdminLanguage = "This action is available only for administrators"
 internalError = "Unexpected error, try again later"
-help = """\
-Social RPG in Telegram!
-Just add to the group and join events.
-Official news channel - ${news_channel_username}.
-
-Available commands (pm and chant):
-${language_command} - change language;
-${profile_command} - show profile;
-${help_command} - this message
-
-Only for group:
-${duel_command} - challenge another seeker to a duel. Must be a response to another user message
-
-Only for pm:
-${name_command} - change name
-
-The source code of the game is <a href="${github_link}">here</a>"""
 profileTemplate = """\
 ${personage_icon}${personage_name}
 ${money_icon}Gold: ${personage_money}"""

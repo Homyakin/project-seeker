@@ -36,7 +36,7 @@ public class BotInitializer {
     }
 
     private static final List<BotCommand> GROUP_COMMANDS = List.of(
-        new BotCommand(CommandType.HELP.getText(), "Get help"),
+        new BotCommand(CommandType.SHOW_HELP.getText(), "Get help"),
         new BotCommand(CommandType.CHANGE_LANGUAGE.getText(), "Change language in group"),
         new BotCommand(CommandType.TAVERN_MENU.getText(), "Get tavern menu"),
         new BotCommand(CommandType.START_DUEL.getText(), "Start duel with another player. Must be reply"),
@@ -45,7 +45,7 @@ public class BotInitializer {
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(
-        new BotCommand(CommandType.HELP.getText(), "Get help"),
+        new BotCommand(CommandType.SHOW_HELP.getText(), "Get help"),
         new BotCommand(CommandType.CHANGE_NAME.getText(), "Change name")
     );
 }

@@ -38,21 +38,6 @@ public class CommonLocalization {
         return CommonUtils.ifNullThan(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
     }
 
-    public static String help(Language language) {
-        final var params = new HashMap<String, Object>();
-        params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
-        params.put("language_command", CommandType.CHANGE_LANGUAGE.getText());
-        params.put("profile_command", CommandType.GET_PROFILE.getText());
-        params.put("help_command", CommandType.HELP.getText());
-        params.put("duel_command", CommandType.START_DUEL.getText());
-        params.put("name_command", CommandType.CHANGE_NAME.getText());
-        params.put("github_link", TextConstants.SOURCE_LINK);
-        return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).help(), map.get(Language.DEFAULT).help()),
-            params
-        );
-    }
-
     public static String profileTemplate(Language language, Personage personage) {
         final var params = new HashMap<String, Object>();
         params.put("personage_icon", TextConstants.PERSONAGE_ICON);

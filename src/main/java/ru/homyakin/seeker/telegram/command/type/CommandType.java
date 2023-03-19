@@ -8,12 +8,14 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.personal.MenuResource;
 
 public enum CommandType {
+    // TODO разделить личку, группы, коллбэки (или не надо, но хотя бы подумать)
     CHANGE_LANGUAGE("/language", CheckType.EQUALS),
     SELECT_LANGUAGE("selectLanguage", CheckType.EQUALS),
     START("/start", CheckType.EQUALS),
     JOIN_EVENT("joinEvent", CheckType.EQUALS),
     GET_PROFILE("/me", CheckType.EQUALS),
-    HELP("/help", CheckType.EQUALS),
+    SHOW_HELP("/help", CheckType.EQUALS),
+    SELECT_HELP("help", CheckType.EQUALS),
     CHANGE_NAME("/name", CheckType.STARTS_WITH),
     LEVEL_UP("/level_up", CheckType.EQUALS),
     UP_STRENGTH("+1" + TextConstants.STRENGTH_ICON, CheckType.EQUALS),

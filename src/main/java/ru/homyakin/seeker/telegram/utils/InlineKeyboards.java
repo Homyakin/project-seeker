@@ -3,7 +3,9 @@ package ru.homyakin.seeker.telegram.utils;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
+import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
+import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
 
@@ -23,7 +25,7 @@ public class InlineKeyboards {
             }
             builder.addButton(
                 text,
-                "%s%s%d".formatted(CommandType.SELECT_LANGUAGE.getText(), TextConstants.CALLBACK_DELIMITER, languages[i].id())
+                CommandType.SELECT_LANGUAGE.getText() + TextConstants.CALLBACK_DELIMITER + languages[i].id()
             );
         }
         return builder.build();
@@ -35,23 +37,37 @@ public class InlineKeyboards {
             .addRow()
             .addButton(
                 RaidLocalization.joinRaidEvent(language),
-                "%s%s%d".formatted(CommandType.JOIN_EVENT.getText(), TextConstants.CALLBACK_DELIMITER, chatEventId)
+                CommandType.JOIN_EVENT.getText() + TextConstants.CALLBACK_DELIMITER + chatEventId
             )
             .build();
     }
 
     public static InlineKeyboardMarkup duelKeyboard(Language language, long duelId) {
+        final var callbackPostfix = TextConstants.CALLBACK_DELIMITER + duelId;
         return InlineKeyboardBuilder
             .builder()
             .addRow()
             .addButton(
-                DuelLocalization.declineDuelButton(language),
-                "%s%s%d".formatted(CommandType.DECLINE_DUEL.getText(), TextConstants.CALLBACK_DELIMITER, duelId)
+                DuelLocalization.declineDuelButton(language), CommandType.DECLINE_DUEL.getText() + callbackPostfix
             )
             .addButton(
-                DuelLocalization.acceptDuelButton(language),
-                "%s%s%d".formatted(CommandType.ACCEPT_DUEL.getText(), TextConstants.CALLBACK_DELIMITER, duelId)
+                DuelLocalization.acceptDuelButton(language), CommandType.ACCEPT_DUEL.getText() + callbackPostfix
             )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup helpKeyboard(Language language) {
+        final var callbackPrefix = CommandType.SELECT_HELP.getText() + TextConstants.CALLBACK_DELIMITER;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(HelpLocalization.raidsButton(language), callbackPrefix + HelpSection.RAIDS.name())
+            .addButton(HelpLocalization.duelsButton(language), callbackPrefix + HelpSection.DUELS.name())
+            .addRow()
+            .addButton(HelpLocalization.menuButton(language), callbackPrefix + HelpSection.MENU.name())
+            .addButton(HelpLocalization.personageButton(language), callbackPrefix + HelpSection.PERSONAGE.name())
+            .addRow()
+            .addButton(HelpLocalization.infoButton(language), callbackPrefix + HelpSection.INFO.name())
             .build();
     }
 }

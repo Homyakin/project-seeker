@@ -6,7 +6,6 @@ public record CommonResource(
     String chooseLanguage,
     String onlyAdminLanguage,
     String internalError,
-    String help,
     String profileTemplate,
     String receptionDesk,
     String[] mainMenu,

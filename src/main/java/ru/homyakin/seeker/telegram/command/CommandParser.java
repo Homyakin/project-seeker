@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.StartDuel;
@@ -16,7 +17,7 @@ import ru.homyakin.seeker.telegram.command.group.action.JoinGroup;
 import ru.homyakin.seeker.telegram.command.group.action.LeftGroup;
 import ru.homyakin.seeker.telegram.command.group.language.GroupSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
-import ru.homyakin.seeker.telegram.command.common.Help;
+import ru.homyakin.seeker.telegram.command.common.help.ShowHelp;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
@@ -90,7 +91,7 @@ public class CommandParser {
                 case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
                 case START -> new StartUser(message.getChatId());
                 case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
-                case HELP -> new Help(message.getChatId(), true);
+                case SHOW_HELP -> new ShowHelp(message.getChatId(), true);
                 case CHANGE_NAME -> new ChangeName(message.getChatId(), message.getText());
                 case LEVEL_UP -> new LevelUp(message.getChatId());
                 case UP_STRENGTH -> new CharacteristicUp(message.getChatId(), CharacteristicType.STRENGTH);
@@ -111,7 +112,7 @@ public class CommandParser {
                     message.getChatId(),
                     message.getFrom().getId()
                 );
-                case HELP -> new Help(message.getChatId(), false);
+                case SHOW_HELP -> new ShowHelp(message.getChatId(), false);
                 case START_DUEL -> new StartDuel(
                     message.getChatId(),
                     message.getFrom().getId(),
@@ -151,6 +152,12 @@ public class CommandParser {
                     callback.getMessage().getMessageId(),
                     callback.getData()
                 );
+                case SELECT_HELP -> new SelectHelp(
+                    callback.getMessage().getChatId(),
+                    callback.getMessage().getMessageId(),
+                    true,
+                    callback.getData()
+                );
                 default -> null;
             });
     }
@@ -185,6 +192,12 @@ public class CommandParser {
                     callback.getMessage().getChatId(),
                     callback.getFrom().getId(),
                     callback.getMessage().getMessageId(),
+                    callback.getData()
+                );
+                case SELECT_HELP -> new SelectHelp(
+                    callback.getMessage().getChatId(),
+                    callback.getMessage().getMessageId(),
+                    false,
                     callback.getData()
                 );
                 default -> null;
