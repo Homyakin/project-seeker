@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.command.user.characteristics;
 
-import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Characteristics;

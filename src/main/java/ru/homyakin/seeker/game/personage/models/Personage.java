@@ -53,7 +53,8 @@ public record Personage(
         final var profile = CommonLocalization
             .profileTemplate(language, this) + "\n" + characteristics.shortStats();
 
-        return characteristics.hasUnspentLevelingPoints() ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
+        return characteristics.hasUnspentLevelingPoints()
+            ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength() {

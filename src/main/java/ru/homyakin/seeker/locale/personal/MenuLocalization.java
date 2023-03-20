@@ -29,6 +29,9 @@ public class MenuLocalization {
     }
 
     public static String resetStatsButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).resetCharacteristicsButton(), map.get(Language.DEFAULT).resetCharacteristicsButton());
+        return CommonUtils.ifNullThan(
+            map.get(language).resetCharacteristicsButton(),
+            map.get(Language.DEFAULT).resetCharacteristicsButton()
+        );
     }
 }
