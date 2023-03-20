@@ -97,8 +97,10 @@ public record Personage(
         if (money.lessThan(RESET_STATS_COST)) {
             return Either.left(new NotEnoughMoney(RESET_STATS_COST));
         }
+
         return Either.right(
-            copyWithCharacteristics(characteristics.reset())
+            addMoney(RESET_STATS_COST.negative())
+                .copyWithCharacteristics(characteristics.reset())
         );
     }
 
