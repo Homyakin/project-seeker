@@ -12,7 +12,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.personal.LevelingLocalization;
+import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
@@ -53,7 +53,7 @@ public record Personage(
         final var profile = CommonLocalization
             .profileTemplate(language, this) + "\n" + characteristics.shortStats();
 
-        return characteristics.hasUnspentLevelingPoints() ? LevelingLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
+        return characteristics.hasUnspentLevelingPoints() ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength() {

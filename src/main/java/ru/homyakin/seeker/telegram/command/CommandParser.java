@@ -22,18 +22,19 @@ import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
+import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
+import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
-import ru.homyakin.seeker.telegram.command.user.level.CharacteristicType;
-import ru.homyakin.seeker.telegram.command.user.level.CharacteristicUp;
-import ru.homyakin.seeker.telegram.command.user.level.LevelUp;
+import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
-import ru.homyakin.seeker.telegram.command.user.stats.ResetStats;
+import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
 import ru.homyakin.seeker.telegram.models.MessageOwner;
 import ru.homyakin.seeker.telegram.models.ReplyInfo;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
@@ -94,12 +95,9 @@ public class CommandParser {
                 case SHOW_HELP -> new ShowHelp(message.getChatId(), true);
                 case CHANGE_NAME -> new ChangeName(message.getChatId(), message.getText());
                 case LEVEL_UP -> new LevelUp(message.getChatId());
-                case UP_STRENGTH -> new CharacteristicUp(message.getChatId(), CharacteristicType.STRENGTH);
-                case UP_AGILITY -> new CharacteristicUp(message.getChatId(), CharacteristicType.AGILITY);
-                case UP_WISDOM -> new CharacteristicUp(message.getChatId(), CharacteristicType.WISDOM);
                 case RECEPTION_DESK -> new ReceptionDesk(message.getChatId());
                 case BACK -> new Back(message.getChatId());
-                case RESET_STATS -> new ResetStats(message.getChatId());
+                case RESET_CHARACTERISTICS -> new ResetCharacteristics(message.getChatId());
                 default -> null;
             });
     }
@@ -156,6 +154,19 @@ public class CommandParser {
                     callback.getMessage().getChatId(),
                     callback.getMessage().getMessageId(),
                     true,
+                    callback.getData()
+                );
+                case CONFIRM_RESET_CHARACTERISTICS -> new ConfirmResetCharacteristics(
+                    callback.getFrom().getId(),
+                    callback.getMessage().getMessageId()
+                );
+                case CANCEL_RESET_CHARACTERISTICS -> new CancelResetCharacteristics(
+                    callback.getFrom().getId(),
+                    callback.getMessage().getMessageId()
+                );
+                case INCREASE_CHARACTERISTIC -> new IncreaseCharacteristic(
+                    callback.getFrom().getId(),
+                    callback.getMessage().getMessageId(),
                     callback.getData()
                 );
                 default -> null;

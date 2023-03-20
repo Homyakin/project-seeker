@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.personal.MenuResource;
 
 public enum CommandType {
@@ -18,9 +17,6 @@ public enum CommandType {
     SELECT_HELP("help", CheckType.EQUALS),
     CHANGE_NAME("/name", CheckType.STARTS_WITH),
     LEVEL_UP("/level_up", CheckType.EQUALS),
-    UP_STRENGTH("+1" + TextConstants.STRENGTH_ICON, CheckType.EQUALS),
-    UP_AGILITY("+1" + TextConstants.AGILITY_ICON, CheckType.EQUALS),
-    UP_WISDOM("+1" + TextConstants.WISDOM_ICON, CheckType.EQUALS),
     START_DUEL("/duel", CheckType.EQUALS),
     ACCEPT_DUEL("acceptDuel", CheckType.EQUALS),
     DECLINE_DUEL("declineDuel", CheckType.EQUALS),
@@ -28,7 +24,10 @@ public enum CommandType {
     ORDER("/order", CheckType.STARTS_WITH),
     RECEPTION_DESK(null, CheckType.MAP),
     BACK(null, CheckType.MAP),
-    RESET_STATS(null, CheckType.MAP),
+    RESET_CHARACTERISTICS(null, CheckType.MAP),
+    CONFIRM_RESET_CHARACTERISTICS("confirmReset", CheckType.EQUALS),
+    CANCEL_RESET_CHARACTERISTICS("cancelReset", CheckType.EQUALS),
+    INCREASE_CHARACTERISTIC("increaseCharacteristic", CheckType.EQUALS),
     GROUP_STATS("/stats", CheckType.EQUALS),
     ;
 
@@ -60,7 +59,7 @@ public enum CommandType {
         textToType.put(resource.languageButton(), CommandType.CHANGE_LANGUAGE);
         textToType.put(resource.receptionDeskButton(), CommandType.RECEPTION_DESK);
         textToType.put(resource.backButton(), CommandType.BACK);
-        textToType.put(resource.resetStatsButton(), CommandType.RESET_STATS);
+        textToType.put(resource.resetCharacteristicsButton(), CommandType.RESET_CHARACTERISTICS);
     }
 
     private boolean check(String text) {

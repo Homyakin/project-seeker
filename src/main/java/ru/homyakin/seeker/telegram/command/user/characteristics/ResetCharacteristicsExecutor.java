@@ -1,21 +1,22 @@
-package ru.homyakin.seeker.telegram.command.user.level;
+package ru.homyakin.seeker.telegram.command.user.characteristics;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.locale.personal.LevelingLocalization;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
-public class LevelUpExecutor extends CommandExecutor<LevelUp> {
+public class ResetCharacteristicsExecutor extends CommandExecutor<ResetCharacteristics> {
     private final UserService userService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
 
-    public LevelUpExecutor(
+    public ResetCharacteristicsExecutor(
         UserService userService,
         PersonageService personageService,
         TelegramSender telegramSender
@@ -26,27 +27,24 @@ public class LevelUpExecutor extends CommandExecutor<LevelUp> {
     }
 
     @Override
-    public void execute(LevelUp command) {
+    public void execute(ResetCharacteristics command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        final var personage = personageService.getById(user.personageId())
-                .orElseThrow(() -> new IllegalStateException("Personage must be present at user"));
-        if (personage.characteristics().hasUnspentLevelingPoints()) {
+        final var personage = personageService.getByIdForce(user.personageId());
+        if (personage.money().lessThan(Personage.RESET_STATS_COST)) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    LevelingLocalization.chooseLevelUpCharacteristic(user.language()),
-                    ReplyKeyboards.levelUpKeyboard()
+                    CharacteristicLocalization.notEnoughMoney(user.language(), Personage.RESET_STATS_COST)
                 )
             );
         } else {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     user.id(),
-                    LevelingLocalization.notEnoughLevelingPoints(user.language()),
-                    ReplyKeyboards.mainKeyboard(user.language())
+                    CharacteristicLocalization.resetConfirmation(user.language(), Personage.RESET_STATS_COST),
+                    InlineKeyboards.resetCharacteristicsConfirmationKeyboard(user.language())
                 )
             );
         }
-
     }
 }

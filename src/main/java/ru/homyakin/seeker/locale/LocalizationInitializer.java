@@ -13,7 +13,7 @@ import ru.homyakin.seeker.locale.duel.DuelResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.help.HelpResource;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
-import ru.homyakin.seeker.locale.personal.LevelingLocalization;
+import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
@@ -50,7 +50,7 @@ public class LocalizationInitializer {
                 .ifPresent(it -> {
                     final var resource = extractClass(mapper, it, PersonalResource.class);
                     ChangeNameLocalization.add(language, resource.changeName());
-                    LevelingLocalization.add(language, resource.leveling());
+                    CharacteristicLocalization.add(language, resource.characteristics());
                     MenuLocalization.add(language, resource.menu());
                     CommandType.fillLocaleMap(resource.menu());
                 });

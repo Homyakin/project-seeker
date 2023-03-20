@@ -3,7 +3,7 @@ profileButton = ":bust_in_silhouette:Profile"
 languageButton = ":globe_with_meridians:Language"
 receptionDeskButton = ":writing:Reception Desk"
 backButton = ":arrow_left:Back"
-resetStatsButton = ":book:Book of Obvilion"
+resetCharacteristicsButton = ":book:Book of Obvilion"
 
 [changeName]
 changeNameWithoutName = "Enter the name separated by a space after the command: \"${name_command} Name\""
@@ -15,12 +15,22 @@ Unfortunately, in the magic circle to save the name, you can only use: \
 cyrillic, latin, numbers characters _-.#№: and a space"""
 successNameChange = "Name has been successfully changed!"
 
-[leveling]
+[characteristics]
+resetConfirmation = """\
+In order to read the book of oblivion, you must pay ${money_icon}${money_count}. \
+Are you sure you want to forget your old skills?"""
+successReset = """\
+After reading the book, consciousness becomes clouded... You're forgetting your old skills. All paths are open to you again."""
+canceledReset = "The book will stay here. Come when you decide"
+increasedCharacteristic = "You've improved the skill: ${increased_value}${increased_icon}."
+currentCharacteristics = """\
+Current characteristics: ${strength_value}${strength_icon}${agility_value}${agility_icon}${wisdom_value}${wisdom_icon}"""
+chooseCharacteristic = "Choose what you want to study:"
+notEnoughCharacteristicPoints = "You've reached your limit! If you want to change your fighting style, use the book of oblivion."
+notEnoughMoney = "You can't afford the Book of Oblivion! Need ${money_icon}${money_count}"
 profileLevelUp = "You can improve your skills! Click ${level_up_command}"
-notEnoughLevelingPoints = "You've reached your limit! If you want to change your fighting style, use the book of oblivion."
-chooseLevelUpCharacteristic = "Choose what you want to learn next:"
-successLevelUp = "Success level up:white_check_mark:"
-successResetStats = """\
-After reading the book, consciousness becomes clouded... You're forgetting your old skills. \
-All paths are open to you again:"""
-notEnoughMoney = "You can't afford the Book of Oblivion. You need ${money_icon}${money_count}"
+confirmButton = "📖Read"
+cancelButton = "❌Another time"
+strengthButton = "+1${strength_icon}"
+agilityButton = "+1${agility_icon}"
+wisdomButton = "+1${wisdom_icon}"

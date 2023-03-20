@@ -5,17 +5,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
-import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public class ReplyKeyboards {
-    public static ReplyKeyboardMarkup levelUpKeyboard() {
-        return ReplyKeyboardBuilder.builder()
-            .addRow()
-            .addButton(button(CommandType.UP_STRENGTH.getText()))
-            .addButton(button(CommandType.UP_AGILITY.getText()))
-            .addButton(button(CommandType.UP_WISDOM.getText()))
-            .build();
-    }
 
     public static ReplyKeyboardMarkup mainKeyboard(Language language) {
         return ReplyKeyboardBuilder.builder()
