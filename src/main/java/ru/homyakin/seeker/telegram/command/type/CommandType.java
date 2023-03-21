@@ -29,6 +29,7 @@ public enum CommandType {
     CANCEL_RESET_CHARACTERISTICS("cancelReset", CheckType.EQUALS),
     INCREASE_CHARACTERISTIC("increaseCharacteristic", CheckType.EQUALS),
     GROUP_STATS("/stats", CheckType.EQUALS),
+    SPIN("/spin", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

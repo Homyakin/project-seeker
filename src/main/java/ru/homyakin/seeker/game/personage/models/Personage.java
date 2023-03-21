@@ -90,8 +90,12 @@ public record Personage(
         return this;
     }
 
+    public String icon() {
+        return TextConstants.PERSONAGE_ICON;
+    }
+
     public String iconWithName() {
-        return TextConstants.PERSONAGE_ICON + name;
+        return icon() + name;
     }
 
     public Either<NotEnoughMoney, Personage> resetStats() {

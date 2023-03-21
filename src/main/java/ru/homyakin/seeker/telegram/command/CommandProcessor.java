@@ -32,10 +32,9 @@ public final class CommandProcessor {
     public void process(Command command) {
         logger.info("Executing " + command.toString());
         Optional.ofNullable(executorMap.get(command.getClass()))
-            .ifPresent(
-                commandExecutor -> {
-                    commandExecutor.execute(command);
-                }
-            ); //TODO unknown command
+            .ifPresentOrElse(
+                commandExecutor -> commandExecutor.execute(command),
+                () -> logger.error("No executor for command " + command.getClass())
+            );
     }
 }

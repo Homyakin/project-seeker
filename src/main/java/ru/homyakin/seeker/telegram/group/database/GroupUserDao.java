@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.group.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -52,6 +53,32 @@ public class GroupUserDao {
             this::mapRow
         );
         return result.stream().findFirst();
+
+    }
+
+    public int countUsersInGroup(long groupId) {
+        final var sql = """
+                    SELECT count(*) as count FROM grouptg_to_usertg
+                    WHERE grouptg_id = :grouptg_id and is_active = true""";
+        final var param = Collections.singletonMap("grouptg_id", groupId);
+        return jdbcTemplate.query(
+            sql,
+            param,
+            (rs, rowNum) -> rs.getInt("count")
+        ).get(0);
+    }
+
+    public Optional<GroupUser> getRandomUserByGroup(long groupId) {
+        final var sql = """
+                    SELECT * FROM grouptg_to_usertg
+                    WHERE grouptg_id = :grouptg_id and is_active = true
+                    ORDER BY random() LIMIT 1""";
+        final var param = Collections.singletonMap("grouptg_id", groupId);
+        return jdbcTemplate.query(
+            sql,
+            param,
+            this::mapRow
+        ).stream().findFirst();
     }
 
     public void update(GroupUser groupUser) {

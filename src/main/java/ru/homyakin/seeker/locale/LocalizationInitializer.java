@@ -18,6 +18,8 @@ import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
+import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
+import ru.homyakin.seeker.locale.spin.EverydaySpinResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -32,6 +34,7 @@ public class LocalizationInitializer {
     private static final String RAID_PATH = File.separator + "raid.toml";
     private static final String TAVERN_MENU_PATH = File.separator + "tavern_menu.toml";
     private static final String HELP_PATH = File.separator + "help.toml";
+    private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -63,6 +66,9 @@ public class LocalizationInitializer {
 
             ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + HELP_PATH)
                 .ifPresent(it -> HelpLocalization.add(language, extractClass(mapper, it, HelpResource.class)));
+
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + EVERYDAY_SPIN_PATH)
+                .ifPresent(it -> EverydaySpinLocalization.add(language, extractClass(mapper, it, EverydaySpinResource.class)));
         }
         logger.info("Localization loaded");
     }

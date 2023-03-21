@@ -1,0 +1,5 @@
+notEnoughUsers = "Недостаточно пользователей, надо ${required_users}"
+alreadyChosen = "Сегодня работяга дня уже выбран, это ${personage_icon_with_name}"
+chosenUser = [
+    "Сегодня кто-то там дня ${personage_icon_with_name} поздравляем"
+]

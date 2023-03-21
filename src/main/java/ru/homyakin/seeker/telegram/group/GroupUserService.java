@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.group;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.utils.models.Pair;
@@ -29,5 +30,13 @@ public class GroupUserService {
                 () -> groupUserDao.save(new GroupUser(groupId, userId, true))
             );
         return new Pair<>(group, user);
+    }
+
+    public Optional<GroupUser> getRandomUserFromGroup(long groupId) {
+        return groupUserDao.getRandomUserByGroup(groupId);
+    }
+
+    public int countUsersInGroup(long groupId) {
+        return groupUserDao.countUsersInGroup(groupId);
     }
 }
