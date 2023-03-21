@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.characteristics;
 
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -31,17 +31,24 @@ public class IncreaseCharacteristicExecutor extends CommandExecutor<IncreaseChar
 
     @Override
     public void execute(IncreaseCharacteristic command) {
-        final var type = CharacteristicType.findForce(command.characteristicType());
         final var user = userService.getOrCreateFromPrivate(command.userId());
 
         final var personage = personageService.getByIdForce(user.personageId());
         (
-            switch (type) {
+            switch (command.characteristicType()) {
                 case STRENGTH -> personageService.incrementStrength(personage);
                 case AGILITY -> personageService.incrementAgility(personage);
                 case WISDOM -> personageService.incrementWisdom(personage);
             }
-        ).peek(it -> telegramSender.send(successEditMessage(command, user.language(), it.characteristics(), type))
+        ).peek(it ->
+            telegramSender.send(
+                TelegramMethods.createEditMessageText(
+                    command.userId(),
+                    command.messageId(),
+                    successText(user.language(), it.characteristics(), command.characteristicType()),
+                    keyboardByCharacteristics(user.language(), it.characteristics())
+                )
+            )
         ).peekLeft(error ->
             telegramSender.send(
                 TelegramMethods.createEditMessageText(
@@ -50,22 +57,6 @@ public class IncreaseCharacteristicExecutor extends CommandExecutor<IncreaseChar
                     CharacteristicLocalization.notEnoughCharacteristicPoints(user.language())
                 )
             )
-        );
-    }
-
-    private EditMessageText successEditMessage(
-        IncreaseCharacteristic command,
-        Language language,
-        Characteristics characteristics,
-        CharacteristicType increasedType
-    ) {
-        return TelegramMethods.createEditMessageText(
-            command.userId(),
-            command.messageId(),
-            successText(language, characteristics, increasedType),
-            characteristics.hasUnspentLevelingPoints()
-                ? InlineKeyboards.chooseCharacteristicsKeyboard(language)
-                : null
         );
     }
 
@@ -81,5 +72,14 @@ public class IncreaseCharacteristicExecutor extends CommandExecutor<IncreaseChar
             string += "\n\n" + CharacteristicLocalization.chooseCharacteristic(language);
         }
         return string;
+    }
+
+    private InlineKeyboardMarkup keyboardByCharacteristics(
+        Language language,
+        Characteristics characteristics
+    ) {
+        return characteristics.hasUnspentLevelingPoints()
+            ? InlineKeyboards.chooseCharacteristicsKeyboard(language)
+            : null;
     }
 }

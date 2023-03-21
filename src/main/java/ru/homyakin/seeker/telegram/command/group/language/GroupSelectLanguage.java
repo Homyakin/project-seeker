@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.telegram.command.group.language;
 
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.Command;
 
 public record GroupSelectLanguage(
@@ -8,9 +10,15 @@ public record GroupSelectLanguage(
     Long groupId,
     Integer messageId,
     Long userId,
-    String data
+    Language language
 ) implements Command {
-    public Integer getLanguageId() {
-        return Integer.valueOf(data.split(TextConstants.CALLBACK_DELIMITER)[1]);
+    public static GroupSelectLanguage from(CallbackQuery callback) {
+        return new GroupSelectLanguage(
+            callback.getId(),
+            callback.getMessage().getChatId(),
+            callback.getMessage().getMessageId(),
+            callback.getFrom().getId(),
+            Language.getOrDefault(Integer.parseInt(callback.getData().split(TextConstants.CALLBACK_DELIMITER)[1]))
+        );
     }
 }

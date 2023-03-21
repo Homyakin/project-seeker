@@ -37,7 +37,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
         );
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
-        final var result = personageService.addEvent(user.personageId(), command.getLaunchedEventId());
+        final var result = personageService.addEvent(user.personageId(), command.launchedEventId());
 
         final String notificationText;
         if (result.isRight()) {

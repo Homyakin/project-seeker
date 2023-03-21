@@ -6,7 +6,6 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -30,8 +29,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
     @Override
     public void execute(ChangeName command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        final var newName = command.data().replaceAll(CommandType.CHANGE_NAME.getText(), "").trim();
-        if (newName.isBlank()) {
+        if (command.name().isBlank()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     command.userId(), ChangeNameLocalization.changeNameWithoutName(user.language())
@@ -40,7 +38,7 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             return;
         }
         final var personage = personageService.getById(user.personageId()).orElseThrow();
-        final var result = personageService.changeName(personage, newName);
+        final var result = personageService.changeName(personage, command.name());
         if (result.isRight()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(

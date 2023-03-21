@@ -35,8 +35,6 @@ import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
-import ru.homyakin.seeker.telegram.models.MessageOwner;
-import ru.homyakin.seeker.telegram.models.ReplyInfo;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 @Component
@@ -89,15 +87,15 @@ public class CommandParser {
                 EmojiParser.parseToAliases(message.getText())
             )
             .map(commandType -> switch (commandType) {
-                case CHANGE_LANGUAGE -> new UserChangeLanguage(message.getChatId());
-                case START -> new StartUser(message.getChatId());
-                case GET_PROFILE -> new GetProfileInPrivate(message.getChatId());
-                case SHOW_HELP -> new ShowHelp(message.getChatId(), true);
-                case CHANGE_NAME -> new ChangeName(message.getChatId(), message.getText());
-                case LEVEL_UP -> new LevelUp(message.getChatId());
-                case RECEPTION_DESK -> new ReceptionDesk(message.getChatId());
-                case BACK -> new Back(message.getChatId());
-                case RESET_CHARACTERISTICS -> new ResetCharacteristics(message.getChatId());
+                case CHANGE_LANGUAGE -> UserChangeLanguage.from(message);
+                case START -> StartUser.from(message);
+                case GET_PROFILE -> GetProfileInPrivate.from(message);
+                case SHOW_HELP -> ShowHelp.from(message);
+                case CHANGE_NAME -> ChangeName.from(message);
+                case LEVEL_UP -> LevelUp.from(message);
+                case RECEPTION_DESK -> ReceptionDesk.from(message);
+                case BACK -> Back.from(message);
+                case RESET_CHARACTERISTICS -> ResetCharacteristics.from(message);
                 default -> null;
             });
     }
@@ -105,27 +103,13 @@ public class CommandParser {
     private Optional<Command> parseGroupMessage(Message message) {
         return CommandType.getFromString(message.getText().split("@")[0].split(" ")[0])
             .map(commandType -> switch (commandType) {
-                case CHANGE_LANGUAGE -> new GroupChangeLanguage(message.getChatId());
-                case GET_PROFILE -> new GetProfileInGroup(
-                    message.getChatId(),
-                    message.getFrom().getId()
-                );
-                case SHOW_HELP -> new ShowHelp(message.getChatId(), false);
-                case START_DUEL -> new StartDuel(
-                    message.getChatId(),
-                    message.getFrom().getId(),
-                    Optional.ofNullable(message.getReplyToMessage()).map(
-                        it -> new ReplyInfo(it.getMessageId(), it.getFrom().getId(), MessageOwner.from(it))
-                    )
-                );
-                case TAVERN_MENU -> new GetTavernMenu(message.getChatId());
-                case ORDER -> new Order(
-                    message.getChatId(),
-                    message.getFrom().getId(),
-                    message.getMessageId(),
-                    message.getText().split("@")[0]
-                );
-                case GROUP_STATS -> new GetGroupStats(message.getChatId());
+                case CHANGE_LANGUAGE -> GroupChangeLanguage.from(message);
+                case GET_PROFILE -> GetProfileInGroup.from(message);
+                case SHOW_HELP -> ShowHelp.from(message);
+                case START_DUEL -> StartDuel.from(message);
+                case TAVERN_MENU -> GetTavernMenu.from(message);
+                case ORDER -> Order.from(message);
+                case GROUP_STATS -> GetGroupStats.from(message);
                 default -> null;
             });
     }
@@ -144,31 +128,11 @@ public class CommandParser {
         final var text = callback.getData().split(TextConstants.CALLBACK_DELIMITER)[0];
         return CommandType.getFromString(text)
             .map(commandType -> switch (commandType) {
-                case SELECT_LANGUAGE -> new UserSelectLanguage(
-                    callback.getId(),
-                    callback.getFrom().getId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getData()
-                );
-                case SELECT_HELP -> new SelectHelp(
-                    callback.getMessage().getChatId(),
-                    callback.getMessage().getMessageId(),
-                    true,
-                    callback.getData()
-                );
-                case CONFIRM_RESET_CHARACTERISTICS -> new ConfirmResetCharacteristics(
-                    callback.getFrom().getId(),
-                    callback.getMessage().getMessageId()
-                );
-                case CANCEL_RESET_CHARACTERISTICS -> new CancelResetCharacteristics(
-                    callback.getFrom().getId(),
-                    callback.getMessage().getMessageId()
-                );
-                case INCREASE_CHARACTERISTIC -> new IncreaseCharacteristic(
-                    callback.getFrom().getId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getData()
-                );
+                case SELECT_LANGUAGE -> UserSelectLanguage.from(callback);
+                case SELECT_HELP -> SelectHelp.from(callback);
+                case CONFIRM_RESET_CHARACTERISTICS -> ConfirmResetCharacteristics.from(callback);
+                case CANCEL_RESET_CHARACTERISTICS -> CancelResetCharacteristics.from(callback);
+                case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
                 default -> null;
             });
     }
@@ -177,40 +141,11 @@ public class CommandParser {
         final var text = callback.getData().split(TextConstants.CALLBACK_DELIMITER)[0];
         return CommandType.getFromString(text)
             .map(commandType -> switch (commandType) {
-                case SELECT_LANGUAGE -> new GroupSelectLanguage(
-                    callback.getId(),
-                    callback.getMessage().getChatId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getFrom().getId(),
-                    callback.getData()
-                );
-                case JOIN_EVENT -> new JoinEvent(
-                    callback.getId(),
-                    callback.getMessage().getChatId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getFrom().getId(),
-                    callback.getData()
-                );
-                case DECLINE_DUEL -> new DeclineDuel(
-                    callback.getId(),
-                    callback.getMessage().getChatId(),
-                    callback.getFrom().getId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getData()
-                );
-                case ACCEPT_DUEL -> new AcceptDuel(
-                    callback.getId(),
-                    callback.getMessage().getChatId(),
-                    callback.getFrom().getId(),
-                    callback.getMessage().getMessageId(),
-                    callback.getData()
-                );
-                case SELECT_HELP -> new SelectHelp(
-                    callback.getMessage().getChatId(),
-                    callback.getMessage().getMessageId(),
-                    false,
-                    callback.getData()
-                );
+                case SELECT_LANGUAGE -> GroupSelectLanguage.from(callback);
+                case JOIN_EVENT -> JoinEvent.from(callback);
+                case DECLINE_DUEL -> DeclineDuel.from(callback);
+                case ACCEPT_DUEL -> AcceptDuel.from(callback);
+                case SELECT_HELP -> SelectHelp.from(callback);
                 default -> null;
             });
     }

@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.Command;
 
@@ -8,9 +9,15 @@ public record DeclineDuel(
     long groupId,
     long userId,
     int messageId,
-    String data
+    long duelId
 ) implements Command {
-    public Long duelId() {
-        return Long.valueOf(data.split(TextConstants.CALLBACK_DELIMITER)[1]);
+    public static DeclineDuel from(CallbackQuery callback) {
+        return new DeclineDuel(
+            callback.getId(),
+            callback.getMessage().getChatId(),
+            callback.getFrom().getId(),
+            callback.getMessage().getMessageId(),
+            Long.parseLong(callback.getData().split(TextConstants.CALLBACK_DELIMITER)[1])
+        );
     }
 }

@@ -7,7 +7,6 @@ import ru.homyakin.seeker.game.tavern_menu.MenuService;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -38,10 +37,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
     public void execute(Order command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
-        final int itemId;
-        try {
-            itemId = Integer.parseInt(command.text().replace(CommandType.ORDER.getText(), ""));
-        } catch (NumberFormatException e) {
+        if (command.itemId().isEmpty()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
                     group.id(),
@@ -51,7 +47,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
             );
             return;
         }
-        final var menuItemResult = menuService.getAvailableMenuItem(itemId);
+        final var menuItemResult = menuService.getAvailableMenuItem(command.itemId().get());
         if (menuItemResult.isEmpty()) {
             telegramSender.send(
                 TelegramMethods.createSendMessage(
