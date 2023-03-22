@@ -6,7 +6,7 @@
     <changeSet context="legacy" author="Homyakin" id="add-everyday-spin-tg-table">
         <createTable tableName="everyday_spin_tg">
             <column name="grouptg_id" type="BIGINT">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="usertg_id" type="BIGINT">
                 <constraints nullable="false"/>

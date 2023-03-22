@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
-import ru.homyakin.seeker.telegram.command.group.Spin;
+import ru.homyakin.seeker.telegram.command.group.spin.Spin;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.StartDuel;
@@ -19,6 +19,7 @@ import ru.homyakin.seeker.telegram.command.group.action.LeftGroup;
 import ru.homyakin.seeker.telegram.command.group.language.GroupSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.common.help.ShowHelp;
+import ru.homyakin.seeker.telegram.command.group.spin.SpinTop;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
@@ -112,6 +113,7 @@ public class CommandParser {
                 case ORDER -> Order.from(message);
                 case GROUP_STATS -> GetGroupStats.from(message);
                 case SPIN -> Spin.from(message);
+                case SPIN_TOP -> SpinTop.from(message);
                 default -> null;
             });
     }

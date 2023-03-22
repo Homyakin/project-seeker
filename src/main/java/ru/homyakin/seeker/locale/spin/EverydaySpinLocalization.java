@@ -38,4 +38,12 @@ public class EverydaySpinLocalization {
             Collections.singletonMap("personage_icon_with_name", personage.iconWithName())
         );
     }
+
+    public static String noChosenUsers(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).noChosenUsers(), map.get(Language.DEFAULT).noChosenUsers());
+    }
+
+    public static String topChosenUsers(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).topChosenUsers(), map.get(Language.DEFAULT).topChosenUsers());
+    }
 }

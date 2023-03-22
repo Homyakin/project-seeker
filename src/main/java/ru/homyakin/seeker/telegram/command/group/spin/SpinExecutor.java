@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.command.group;
+package ru.homyakin.seeker.telegram.command.group.spin;
 
 import com.vdurmont.emoji.EmojiParser;
 import java.util.Collections;

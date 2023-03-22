@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.group;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.group.database.EverydaySpinDao;
+import ru.homyakin.seeker.telegram.group.models.SpinCount;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -40,5 +41,9 @@ public class EverydaySpinService {
         }
         everydaySpinDao.save(groupId, user.get().userId(), date);
         return Either.right(user.get().userId());
+    }
+
+    public SpinCount getSpinCountForGroup(long groupId) {
+        return new SpinCount(everydaySpinDao.findPersonageCountByGrouptgId(groupId));
     }
 }

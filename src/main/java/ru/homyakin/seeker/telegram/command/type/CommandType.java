@@ -30,6 +30,7 @@ public enum CommandType {
     INCREASE_CHARACTERISTIC("increaseCharacteristic", CheckType.EQUALS),
     GROUP_STATS("/stats", CheckType.EQUALS),
     SPIN("/spin", CheckType.EQUALS),
+    SPIN_TOP("/spintop", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

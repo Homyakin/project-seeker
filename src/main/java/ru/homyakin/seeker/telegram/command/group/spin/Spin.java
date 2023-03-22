@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.command.group;
+package ru.homyakin.seeker.telegram.command.group.spin;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
