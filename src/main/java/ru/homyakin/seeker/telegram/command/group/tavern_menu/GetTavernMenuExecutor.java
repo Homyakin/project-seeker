@@ -5,7 +5,7 @@ import ru.homyakin.seeker.game.tavern_menu.MenuService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class GetTavernMenuExecutor extends CommandExecutor<GetTavernMenu> {
@@ -28,7 +28,7 @@ public class GetTavernMenuExecutor extends CommandExecutor<GetTavernMenu> {
         final var group = groupService.getOrCreate(command.groupId());
         final var menu = menuService.getAvailableMenu();
         telegramSender.send(
-            TelegramMethods.createSendMessage(group.id(), menu.tavernMenuText(group.language()))
+            SendMessageBuilder.builder().chatId(group.id()).text(menu.tavernMenuText(group.language())).build()
         );
     }
 

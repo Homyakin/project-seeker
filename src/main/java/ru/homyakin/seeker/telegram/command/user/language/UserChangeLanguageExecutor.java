@@ -5,7 +5,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.telegram.user.UserService;
 
 @Component
@@ -24,12 +24,11 @@ public class UserChangeLanguageExecutor extends CommandExecutor<UserChangeLangua
     @Override
     public void execute(UserChangeLanguage command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        telegramSender.send(
-            TelegramMethods.createSendMessage(
-                command.userId(),
-                CommonLocalization.chooseLanguage(user.language()),
-                InlineKeyboards.languageKeyboard(user.language())
-            )
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(command.userId())
+            .text(CommonLocalization.chooseLanguage(user.language()))
+            .keyboard(InlineKeyboards.languageKeyboard(user.language()))
+            .build()
         );
     }
 }

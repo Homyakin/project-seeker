@@ -8,7 +8,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
@@ -31,21 +31,18 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
         final var user = userService.getOrCreateFromPrivate(command.userId());
         if (command.name().isBlank()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    command.userId(), ChangeNameLocalization.changeNameWithoutName(user.language())
-                )
+                SendMessageBuilder.builder().chatId(user.id()).text(ChangeNameLocalization.changeNameWithoutName(user.language())).build()
             );
             return;
         }
         final var personage = personageService.getById(user.personageId()).orElseThrow();
         final var result = personageService.changeName(personage, command.name());
         if (result.isRight()) {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    command.userId(),
-                    ChangeNameLocalization.successNameChange(user.language()),
-                    ReplyKeyboards.mainKeyboard(user.language())
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(ChangeNameLocalization.successNameChange(user.language()))
+                .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+                .build()
             );
         } else {
             final var error = result.getLeft();
@@ -60,12 +57,11 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             } else {
                 throw new IllegalStateException("Unknown error: " + error.toString());
             }
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    command.userId(),
-                    message,
-                    ReplyKeyboards.mainKeyboard(user.language())
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(message)
+                .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+                .build()
             );
         }
     }

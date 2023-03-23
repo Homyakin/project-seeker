@@ -6,7 +6,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class GroupChangeLanguageExecutor extends CommandExecutor<GroupChangeLanguage> {
@@ -24,12 +24,11 @@ public class GroupChangeLanguageExecutor extends CommandExecutor<GroupChangeLang
     @Override
     public void execute(GroupChangeLanguage command) {
         final var group = groupService.getOrCreate(command.groupId());
-        telegramSender.send(
-            TelegramMethods.createSendMessage(
-                command.groupId(),
-                CommonLocalization.chooseLanguage(group.language()),
-                InlineKeyboards.languageKeyboard(group.language())
-            )
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(command.groupId())
+            .text(CommonLocalization.chooseLanguage(group.language()))
+            .keyboard(InlineKeyboards.languageKeyboard(group.language()))
+            .build()
         );
     }
 }

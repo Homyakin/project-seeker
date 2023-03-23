@@ -5,7 +5,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.telegram.user.UserService;
 
 @Component
@@ -21,12 +21,11 @@ public class StartUserExecutor extends CommandExecutor<StartUser> {
     @Override
     public void execute(StartUser command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        telegramSender.send(
-            TelegramMethods.createSendMessage(
-                user.id(),
-                CommonLocalization.welcomeUser(user.language()),
-                ReplyKeyboards.mainKeyboard(user.language())
-            )
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(user.id())
+            .text(CommonLocalization.welcomeUser(user.language()))
+            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .build()
         );
     }
 }

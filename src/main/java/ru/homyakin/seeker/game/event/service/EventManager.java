@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -78,11 +79,12 @@ public class EventManager {
                     groupEvent.messageId(),
                     event.toStartMessage(group.language())
                 ));
-                telegramSender.send(TelegramMethods.createSendMessage(
-                    groupEvent.groupId(),
-                    event.endMessage(group.language(), result),
-                    groupEvent.messageId()
-                ));
+                telegramSender.send(SendMessageBuilder.builder()
+                    .chatId(groupEvent.groupId())
+                    .text(event.endMessage(group.language(), result))
+                    .replyMessageId(groupEvent.messageId())
+                    .build()
+                );
             });
 
     }
@@ -90,12 +92,11 @@ public class EventManager {
     private void launchEventInGroup(Group group, Event event) {
         final var launchedEvent = launchedEventService.createLaunchedEvent(event);
         var result = telegramSender.send(
-            TelegramMethods.createSendMessage(
-                group.id(),
-                event.toStartMessage(group.language(), launchedEvent.endDate()),
-                //TODO выбирать клавиатуру в зависимости от типа события
-                InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id())
-            )
+            SendMessageBuilder.builder()
+                .chatId(group.id())
+                .text(event.toStartMessage(group.language(), launchedEvent.endDate()))
+                .keyboard(InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id()))
+                .build()
         );
         if (result.isLeft()) {
             launchedEventService.updateActive(launchedEvent, false);

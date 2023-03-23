@@ -5,7 +5,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup> {
@@ -37,7 +37,7 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
             ;
 
         telegramSender.send(
-            TelegramMethods.createSendMessage(command.groupId(), personage.shortProfile(group.language()))
+            SendMessageBuilder.builder().chatId(command.groupId()).text(personage.shortProfile(group.language())).build()
         );
     }
 

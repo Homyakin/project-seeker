@@ -6,7 +6,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class ReceptionDeskExecutor extends CommandExecutor<ReceptionDesk> {
@@ -21,12 +21,11 @@ public class ReceptionDeskExecutor extends CommandExecutor<ReceptionDesk> {
     @Override
     public void execute(ReceptionDesk command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        telegramSender.send(
-            TelegramMethods.createSendMessage(
-                user.id(),
-                CommonLocalization.receptionDesk(user.language()),
-                ReplyKeyboards.receptionDeskKeyboard(user.language())
-            )
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(user.id())
+            .text(CommonLocalization.receptionDesk(user.language()))
+            .keyboard(ReplyKeyboards.receptionDeskKeyboard(user.language()))
+            .build()
         );
     }
 }

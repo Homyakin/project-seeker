@@ -4,35 +4,10 @@ import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 
 public class TelegramMethods {
-    public static SendMessage createSendMessage(Long chatId, String text) {
-        return createSendMessage(chatId, text, null, null);
-    }
-
-    public static SendMessage createSendMessage(Long chatId, String text, ReplyKeyboard keyboard) {
-        return createSendMessage(chatId, text, null, keyboard);
-    }
-
-    public static SendMessage createSendMessage(Long chatId, String text, Integer replyMessageId) {
-        return createSendMessage(chatId, text, replyMessageId, null);
-    }
-
-    public static SendMessage createSendMessage(Long chatId, String text, Integer replyMessageId, ReplyKeyboard keyboard) {
-        return SendMessage
-            .builder()
-            .chatId(chatId)
-            .text(EmojiParser.parseToUnicode(text))
-            .replyMarkup(keyboard)
-            .parseMode(ParseMode.HTML)
-            .replyToMessageId(replyMessageId)
-            .disableWebPagePreview(true)
-            .build();
-    }
 
     public static AnswerCallbackQuery createAnswerCallbackQuery(String callbackId, String text) {
         return AnswerCallbackQuery

@@ -6,7 +6,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPrivate> {
@@ -27,16 +27,12 @@ public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPri
     @Override
     public void execute(GetProfileInPrivate command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        final var personage = personageService
-            .getById(user.personageId())
-            .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
-            ;
-        telegramSender.send(
-            TelegramMethods.createSendMessage(
-                command.userId(),
-                personage.fullProfile(user.language()),
-                ReplyKeyboards.mainKeyboard(user.language())
-            )
+        final var personage = personageService.getByIdForce(user.personageId());
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(user.id())
+            .text(personage.fullProfile(user.language()))
+            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .build()
         );
     }
 

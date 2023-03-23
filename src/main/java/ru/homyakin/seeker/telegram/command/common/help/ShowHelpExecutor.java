@@ -8,7 +8,7 @@ import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
@@ -30,12 +30,11 @@ public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
         } else {
             language = groupService.getOrCreate(command.chatId()).language();
         }
-        telegramSender.send(
-            TelegramMethods.createSendMessage(
-                command.chatId(),
-                HelpLocalization.main(language),
-                InlineKeyboards.helpKeyboard(language)
-            )
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(command.chatId())
+            .text(HelpLocalization.main(language))
+            .keyboard(InlineKeyboards.helpKeyboard(language))
+            .build()
         );
     }
 }

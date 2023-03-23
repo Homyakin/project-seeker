@@ -8,7 +8,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class ResetCharacteristicsExecutor extends CommandExecutor<ResetCharacteristics> {
@@ -31,19 +31,17 @@ public class ResetCharacteristicsExecutor extends CommandExecutor<ResetCharacter
         final var user = userService.getOrCreateFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
         if (personage.money().lessThan(Personage.RESET_STATS_COST)) {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    user.id(),
-                    CharacteristicLocalization.notEnoughMoney(user.language(), Personage.RESET_STATS_COST)
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(CharacteristicLocalization.notEnoughMoney(user.language(), Personage.RESET_STATS_COST))
+                .build()
             );
         } else {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    user.id(),
-                    CharacteristicLocalization.resetConfirmation(user.language(), Personage.RESET_STATS_COST),
-                    InlineKeyboards.resetCharacteristicsConfirmationKeyboard(user.language())
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(CharacteristicLocalization.resetConfirmation(user.language(), Personage.RESET_STATS_COST))
+                .keyboard(InlineKeyboards.resetCharacteristicsConfirmationKeyboard(user.language()))
+                .build()
             );
         }
     }

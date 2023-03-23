@@ -8,7 +8,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class LevelUpExecutor extends CommandExecutor<LevelUp> {
@@ -29,23 +29,20 @@ public class LevelUpExecutor extends CommandExecutor<LevelUp> {
     @Override
     public void execute(LevelUp command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
-        final var personage = personageService.getById(user.personageId())
-                .orElseThrow(() -> new IllegalStateException("Personage must be present at user"));
+        final var personage = personageService.getByIdForce(user.personageId());
         if (personage.characteristics().hasUnspentLevelingPoints()) {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    user.id(),
-                    CharacteristicLocalization.chooseCharacteristic(user.language()),
-                    InlineKeyboards.chooseCharacteristicsKeyboard(user.language())
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(CharacteristicLocalization.chooseCharacteristic(user.language()))
+                .keyboard(InlineKeyboards.chooseCharacteristicsKeyboard(user.language()))
+                .build()
             );
         } else {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    user.id(),
-                    CharacteristicLocalization.notEnoughCharacteristicPoints(user.language()),
-                    ReplyKeyboards.mainKeyboard(user.language())
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(CharacteristicLocalization.notEnoughCharacteristicPoints(user.language()))
+                .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+                .build()
             );
         }
 

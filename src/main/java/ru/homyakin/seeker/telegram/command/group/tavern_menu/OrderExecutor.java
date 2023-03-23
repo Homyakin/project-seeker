@@ -9,7 +9,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class OrderExecutor extends CommandExecutor<Order> {
@@ -38,23 +38,21 @@ public class OrderExecutor extends CommandExecutor<Order> {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
         if (command.itemId().isEmpty()) {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    group.id(),
-                    TavernMenuLocalization.itemNotInMenu(group.language()),
-                    command.messageId()
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(group.id())
+                .text(TavernMenuLocalization.itemNotInMenu(group.language()))
+                .replyMessageId(command.messageId())
+                .build()
             );
             return;
         }
         final var menuItemResult = menuService.getAvailableMenuItem(command.itemId().get());
         if (menuItemResult.isEmpty()) {
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    group.id(),
-                    TavernMenuLocalization.itemNotInMenu(group.language()),
-                    command.messageId()
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(group.id())
+                .text(TavernMenuLocalization.itemNotInMenu(group.language()))
+                .replyMessageId(command.messageId())
+                .build()
             );
             return;
         }
@@ -79,16 +77,15 @@ public class OrderExecutor extends CommandExecutor<Order> {
                 throw new IllegalStateException("Unknown error " + error.toString());
             }
             telegramSender.send(
-                TelegramMethods.createSendMessage(group.id(), message, command.messageId())
+                SendMessageBuilder.builder().chatId(group.id()).text(message).replyMessageId(command.messageId()).build()
             );
         } else {
             groupStatsService.increaseTavernMoneySpent(group.id(), menuItem.price().value());
-            telegramSender.send(
-                TelegramMethods.createSendMessage(
-                    group.id(),
-                    menuItem.orderText(group.language(), personage),
-                    command.messageId()
-                )
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(group.id())
+                .text(menuItem.orderText(group.language(), personage))
+                .replyMessageId(command.messageId())
+                .build()
             );
         }
     }

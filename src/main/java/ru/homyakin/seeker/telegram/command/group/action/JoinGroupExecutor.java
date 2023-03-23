@@ -5,7 +5,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 class JoinGroupExecutor extends CommandExecutor<JoinGroup> {
@@ -21,10 +21,7 @@ class JoinGroupExecutor extends CommandExecutor<JoinGroup> {
     public void execute(JoinGroup command) {
         final var group = groupService.getOrCreate(command.groupId());
         telegramSender.send(
-            TelegramMethods.createSendMessage(
-                group.id(),
-                CommonLocalization.welcomeGroup(group.language())
-            )
+            SendMessageBuilder.builder().chatId(group.id()).text(CommonLocalization.welcomeGroup(group.language())).build()
         );
     }
 }

@@ -15,7 +15,7 @@ import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.models.ReplyInfo;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.models.Failure;
 
 @Component
@@ -71,17 +71,16 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
                 throw new IllegalStateException("Unknown duel error: " + error.toString());
             }
             telegramSender.send(
-                TelegramMethods.createSendMessage(group.id(), message)
+                SendMessageBuilder.builder().chatId(group.id()).text(message).build()
             );
             return;
         }
-        final var telegramResult = telegramSender.send(
-            TelegramMethods.createSendMessage(
-                group.id(),
-                DuelLocalization.initDuel(group.language(), initiatingPersonage, acceptingPersonage),
-                replyInfo.messageId(),
-                InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id())
-            )
+        final var telegramResult = telegramSender.send(SendMessageBuilder.builder()
+            .chatId(group.id())
+            .text(DuelLocalization.initDuel(group.language(), initiatingPersonage, acceptingPersonage))
+            .replyMessageId(replyInfo.messageId())
+            .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()))
+            .build()
         );
         if (telegramResult.isLeft()) {
             logger.error("Can't send duel to group");
@@ -93,28 +92,32 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
     private Either<Failure, ReplyInfo> validateCommandAndSendErrorIfNeed(StartDuel command, Group group) {
         if (command.replyInfo().isEmpty()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelMustBeReply(group.language()))
+                SendMessageBuilder.builder().chatId(command.groupId()).text(DuelLocalization.duelMustBeReply(group.language())).build()
             );
             return Either.left(new Failure());
         }
         final var replyInfo = command.replyInfo().get();
         if (replyInfo.userId() == command.userId()) {
             telegramSender.send(
-                TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelWithYourself(group.language()))
+                SendMessageBuilder.builder().chatId(command.groupId()).text(DuelLocalization.duelWithYourself(group.language())).build()
             );
             return Either.left(new Failure());
         }
         return switch (replyInfo.messageOwner()) {
             case USER -> Either.right(replyInfo);
             case DIFFERENT_BOT -> {
-                telegramSender.send(
-                    TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelWithDifferentBot(group.language()))
+                telegramSender.send(SendMessageBuilder.builder()
+                    .chatId(command.groupId())
+                    .text(DuelLocalization.duelWithDifferentBot(group.language()))
+                    .build()
                 );
                 yield Either.left(new Failure());
             }
             case THIS_BOT -> {
-                telegramSender.send(
-                    TelegramMethods.createSendMessage(command.groupId(), DuelLocalization.duelWithThisBot(group.language()))
+                telegramSender.send(SendMessageBuilder.builder()
+                    .chatId(command.groupId())
+                    .text(DuelLocalization.duelWithThisBot(group.language()))
+                    .build()
                 );
                 yield Either.left(new Failure());
             }
