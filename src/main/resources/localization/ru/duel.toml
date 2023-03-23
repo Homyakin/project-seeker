@@ -23,7 +23,10 @@ initDuel = [
 От ${initiating_personage_icon_with_name} прилетела перчатка в лицо \
 ${accepting_personage_icon_with_name}!""",
     "Возми себя в руки, ${accepting_personage_icon_with_name}, и прими вызов от ${initiating_personage_icon_with_name}!",
-    "${initiating_personage_icon_with_name} явно намеревается дать по щам ${accepting_personage_icon_with_name}!"
+    "${initiating_personage_icon_with_name} явно намеревается дать по щам ${accepting_personage_icon_with_name}!",
+    """\
+Гоп стоп! ${accepting_personage_icon_with_name} стопанули за углом таверны! ${initiating_personage_icon_with_name} \
+- серьезная персона и не собирается церемониться на дуэли! """,
 ]
 notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
 expiredDuel = [
@@ -43,7 +46,8 @@ ${looser_personage_icon_with_name}""",
     "${looser_personage_icon_with_name} размазали тонким слоем по брущатке!",
     "Бой окончен! ${winner_personage_icon_with_name} явно сильнее ${looser_personage_icon_with_name}!",
     "Во время дуэли ${winner_personage_icon_with_name} легким движением руки отправляет спать ${looser_personage_icon_with_name}!",
-    "В следующий раз ${looser_personage_icon_with_name} подумает дважды, прежде чем драться с ${winner_personage_icon_with_name}."
+    "В следующий раз ${looser_personage_icon_with_name} подумает дважды, прежде чем драться с ${winner_personage_icon_with_name}.",
+    "Чики-брики и ${winner_personage_icon_with_name} в дамках!",
 ]
 acceptDuelButton = "Принять вызов🗡"
 declineDuelButton = "Отказаться👐"
