@@ -1,7 +1,9 @@
 package ru.homyakin.seeker.utils;
 
+import java.util.Optional;
+
 public class StringUtils {
-    public static int findLastOrNeededEntrance(String text, String entrance, int position) {
+    public static Optional<Integer> findLastOrNeededEntrance(String text, String entrance, int position) {
         int tempIndex = -1;
         int returnIndex = -1;
         for (int i = 0; i < position; i++) {
@@ -11,6 +13,9 @@ public class StringUtils {
             }
             returnIndex = tempIndex;
         }
-        return returnIndex;
+        if (returnIndex == -1) {
+            return Optional.empty();
+        }
+        return Optional.of(returnIndex);
     }
 }

@@ -15,6 +15,8 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
@@ -27,6 +29,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
     private final TelegramSender telegramSender;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
     private final GroupStatsService groupStatsService;
+    private final UserService userService;
 
     public AcceptDuelExecutor(
         GroupUserService groupUserService,
@@ -34,7 +37,8 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         PersonageService personageService,
         TelegramSender telegramSender,
         TwoPersonageTeamsBattle twoPersonageTeamsBattle,
-        GroupStatsService groupStatsService
+        GroupStatsService groupStatsService,
+        UserService userService
     ) {
         this.groupUserService = groupUserService;
         this.duelService = duelService;
@@ -42,16 +46,17 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         this.telegramSender = telegramSender;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
         this.groupStatsService = groupStatsService;
+        this.userService = userService;
     }
 
     @Override
     public void execute(AcceptDuel command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var duel = duelService.getByIdForce(command.duelId());
-        final var user = groupUser.second();
+        final var acceptingUser = groupUser.second();
         final var group = groupUser.first();
 
-        if (duel.acceptingPersonageId() != user.personageId()) {
+        if (duel.acceptingPersonageId() != acceptingUser.personageId()) {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
@@ -68,6 +73,8 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
 
         final var result = duelService.finishDuel(duel.id());
 
+        final var initiatingUser = userService.getByPersonageIdForce(duel.initiatingPersonageId());
+
         groupStatsService.increaseDuelsComplete(command.groupId(), 1);
         // TODO вынести в отдельный поток и сервис
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
@@ -81,21 +88,28 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
 
         final Personage winner;
         final Personage looser;
+        final User winnerUser;
+        final User looserUser;
         if (battleResult instanceof TwoPersonageTeamsBattle.Result.FirstTeamWin) {
             winner = personage1;
             looser = personage2;
+            winnerUser = initiatingUser;
+            looserUser = acceptingUser;
         } else {
             winner = personage2;
             looser = personage1;
+            winnerUser = acceptingUser;
+            looserUser = initiatingUser;
         }
 
         duelService.addWinner(duel.id(), winner.id());
-
-        telegramSender.send(EditMessageTextBuilder.builder()
+        final var endDuel = DuelLocalization.finishedDuel(group.language(), winner, looser);
+        final var builder = EditMessageTextBuilder.builder()
             .chatId(group.id())
             .messageId(command.messageId())
-            .text(DuelLocalization.finishedDuel(group.language(), winner, looser))
-            .build()
-        );
+            .text(endDuel.text());
+        endDuel.winnerPosition().ifPresent(it -> builder.mentionPersonage(winner, winnerUser.id(), it));
+        endDuel.looserPosition().ifPresent(it -> builder.mentionPersonage(looser, looserUser.id(), it));
+        telegramSender.send(builder.build());
     }
 }

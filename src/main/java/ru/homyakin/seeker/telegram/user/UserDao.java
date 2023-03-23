@@ -22,6 +22,7 @@ public class UserDao {
         SELECT * FROM usertg
         WHERE id = :id
         """;
+    private static final String GET_BY_PERSONAGE_ID = "SELECT * FROM usertg WHERE personage_id = :personage_id";
     private static final String UPDATE = """
         update usertg
         set is_active_private_messages = :is_active_private_messages, language_id = :language_id
@@ -53,6 +54,15 @@ public class UserDao {
         final var result = jdbcTemplate.query(
             GET_USER_BY_ID,
             params,
+            this::mapRow
+        );
+        return result.stream().findFirst();
+    }
+
+    public Optional<User> getByPersonageId(long personageId) {
+        final var result = jdbcTemplate.query(
+            GET_BY_PERSONAGE_ID,
+            Collections.singletonMap("personage_id", personageId),
             this::mapRow
         );
         return result.stream().findFirst();

@@ -75,13 +75,15 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             );
             return;
         }
-        final var telegramResult = telegramSender.send(SendMessageBuilder.builder()
+        final var initDuel = DuelLocalization.initDuel(group.language(), initiatingPersonage, acceptingPersonage);
+        final var builder = SendMessageBuilder.builder()
             .chatId(group.id())
-            .text(DuelLocalization.initDuel(group.language(), initiatingPersonage, acceptingPersonage))
+            .text(initDuel.text())
             .replyMessageId(replyInfo.messageId())
-            .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()))
-            .build()
-        );
+            .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()));
+        initDuel.initiatorPosition().ifPresent(it -> builder.mentionPersonage(initiatingPersonage, user.id(), it));
+        initDuel.acceptorPosition().ifPresent(it -> builder.mentionPersonage(acceptingPersonage, acceptingUser.id(), it));
+        final var telegramResult = telegramSender.send(builder.build());
         if (telegramResult.isLeft()) {
             logger.error("Can't send duel to group");
             return;

@@ -15,35 +15,35 @@ duelWithInitiatorNotEnoughMoney = [
 personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
 initDuel = [
     """\
-Искатель <b>${initiating_personage_icon_with_name}</b> вызывает на дуэль \
-искателя <b>${accepting_personage_icon_with_name}</b>.
+Искатель ${initiating_personage_icon_with_name} вызывает на дуэль \
+искателя ${accepting_personage_icon_with_name}.
 
 Каким будет его ответ?""",
     """\
-От <b>${initiating_personage_icon_with_name}</b> прилетела перчатка в лицо \
-<b>${accepting_personage_icon_with_name}</b>!""",
-    "Возми себя в руки, <b>${accepting_personage_icon_with_name}</b>, и прими вызов от <b>${initiating_personage_icon_with_name}</b>!",
-    "<b>${initiating_personage_icon_with_name}</b> явно намеревается дать по щам <b>${accepting_personage_icon_with_name}</b>!"
+От ${initiating_personage_icon_with_name} прилетела перчатка в лицо \
+${accepting_personage_icon_with_name}!""",
+    "Возми себя в руки, ${accepting_personage_icon_with_name}, и прими вызов от ${initiating_personage_icon_with_name}!",
+    "${initiating_personage_icon_with_name} явно намеревается дать по щам ${accepting_personage_icon_with_name}!"
 ]
 notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
 expiredDuel = [
     "Вызов на дуэль остался проигнорированным",
-    "<b>${accepting_personage_icon_with_name}</b>: Хочу иду на дуэль, хочу не иду, мне вообще пофиг!",
-    "<b>${accepting_personage_icon_with_name}</b> не может выйти на дуэль. Позовите позднее.",
-    "<b>${accepting_personage_icon_with_name}</b> наказала мама. Пока полы не будут помыты - дуэли не будет!"
+    "${accepting_personage_icon_with_name}: Хочу иду на дуэль, хочу не иду, мне вообще пофиг!",
+    "${accepting_personage_icon_with_name} не может выйти на дуэль. Позовите позднее.",
+    "${accepting_personage_icon_with_name} наказала мама. Пока полы не будут помыты - дуэли не будет!",
 ]
 declinedDuel = [
     "Принимающая сторона отклонила вызов!",
-    "Ха! <b>${initiating_personage_icon_with_name}</b>, ищи дурака для дуэли в другом месте!"
+    "Ха! ${initiating_personage_icon_with_name}, ищи дурака для дуэли в другом месте!"
 ]
 finishedDuel = [
     """\
-Искатель <b>${winner_personage_icon_with_name}</b> одержал верх над \
-<b>${looser_personage_icon_with_name}</b>""",
-    "<b>${looser_personage_icon_with_name}</b> размазали тонким слоем по брущатке!",
-    "Бой окончен! <b>${winner_personage_icon_with_name}</b> явно сильнее <b>${looser_personage_icon_with_name}</b>!",
-    "Во время дуэли <b>${winner_personage_icon_with_name}</b> легким движением руки отправляет спать <b>${looser_personage_icon_with_name}</b>!",
-    "В следующий раз <b>${looser_personage_icon_with_name}</b> подумает дважды, прежде чем драться с <b>${winner_personage_icon_with_name}</b>."
+Искатель ${winner_personage_icon_with_name} одержал верх над \
+${looser_personage_icon_with_name}""",
+    "${looser_personage_icon_with_name} размазали тонким слоем по брущатке!",
+    "Бой окончен! ${winner_personage_icon_with_name} явно сильнее ${looser_personage_icon_with_name}!",
+    "Во время дуэли ${winner_personage_icon_with_name} легким движением руки отправляет спать ${looser_personage_icon_with_name}!",
+    "В следующий раз ${looser_personage_icon_with_name} подумает дважды, прежде чем драться с ${winner_personage_icon_with_name}."
 ]
-acceptDuelButton = "Принять вызов:dagger_knife:"
-declineDuelButton = "Отказаться :open_hands:"
+acceptDuelButton = "Принять вызов🗡"
+declineDuelButton = "Отказаться👐"

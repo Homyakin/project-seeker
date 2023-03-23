@@ -53,6 +53,11 @@ public class UserService {
         return user.changeLanguage(language, userDao);
     }
 
+    public User getByPersonageIdForce(long personageId) {
+        return userDao.getByPersonageId(personageId)
+            .orElseThrow(() -> new IllegalStateException("User must be present at personage " + personageId));
+    }
+
     private User createUser(Long userId, boolean isPrivateMessage) {
         final var personage = personageService.createPersonage();
         final var user = new User(

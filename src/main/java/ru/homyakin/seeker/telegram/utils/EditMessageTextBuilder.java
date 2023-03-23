@@ -50,7 +50,8 @@ public class EditMessageTextBuilder {
         if (this.text == null) {
             throw new IllegalStateException("Text must be present for mention");
         }
-        this.entities.add(MessageEntityUtils.mentionPersonageInText(this.text, personage, userId, position));
+        MessageEntityUtils.mentionPersonageInText(this.text, personage, userId, position)
+            .ifPresent(this.entities::add);
         this.builder.parseMode(null);
         return this;
     }
