@@ -6,7 +6,7 @@ chooseLanguage = "Выберите язык:"
 onlyAdminLanguage = "Данное действие доступно только администраторам"
 internalError = "Произошла ошибка, попробуйте позже"
 profileTemplate = """\
-${personage_icon}${personage_name}
+${personage_icon_with_name}
 ${money_icon}Золото: ${personage_money}"""
 
 # текста для группы

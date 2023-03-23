@@ -39,9 +39,8 @@ public class CommonLocalization {
 
     public static String profileTemplate(Language language, Personage personage) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
         params.put("money_icon", TextConstants.MONEY_ICON);
-        params.put("personage_name", personage.name());
+        params.put("personage_icon_with_name", personage.iconWithName());
         params.put("personage_money", personage.money().value());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),

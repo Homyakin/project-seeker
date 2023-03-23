@@ -58,9 +58,8 @@ public class DuelLocalization {
 
     public static String initDuel(Language language, Personage initiatingPersonage, Personage acceptingPersonage) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
-        params.put("initiating_personage_name", initiatingPersonage.name());
-        params.put("accepting_personage_name", acceptingPersonage.name());
+        params.put("initiating_personage_icon_with_name", initiatingPersonage.iconWithName());
+        params.put("accepting_personage_icon_with_name", acceptingPersonage.iconWithName());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(CommonUtils.ifNullThan(map.get(language).initDuel(), map.get(Language.DEFAULT).initDuel())),
             params
@@ -73,8 +72,7 @@ public class DuelLocalization {
 
     public static String expiredDuel(Language language, Personage acceptingPersonage) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
-        params.put("accepting_personage_name", acceptingPersonage.name());
+        params.put("accepting_personage_icon_with_name", acceptingPersonage.iconWithName());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(CommonUtils.ifNullThan(map.get(language).expiredDuel(), map.get(Language.DEFAULT).expiredDuel())),
             params
@@ -83,8 +81,7 @@ public class DuelLocalization {
 
     public static String declinedDuel(Language language, Personage initiatingPersonage) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
-        params.put("initiating_personage_name", initiatingPersonage.name());
+        params.put("initiating_personage_icon_with_name", initiatingPersonage.iconWithName());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(map.get(language).declinedDuel(), map.get(Language.DEFAULT).declinedDuel())),
@@ -94,9 +91,8 @@ public class DuelLocalization {
 
     public static String finishedDuel(Language language, Personage winnerPersonage, Personage looserPersonage) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon", TextConstants.PERSONAGE_ICON);
-        params.put("winner_personage_name", winnerPersonage.name());
-        params.put("looser_personage_name", looserPersonage.name());
+        params.put("winner_personage_icon_with_name", winnerPersonage.iconWithName());
+        params.put("looser_personage_icon_with_name", looserPersonage.iconWithName());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(map.get(language).finishedDuel(), map.get(Language.DEFAULT).finishedDuel())
