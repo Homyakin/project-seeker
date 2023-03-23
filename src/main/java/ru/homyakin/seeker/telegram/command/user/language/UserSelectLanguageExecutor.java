@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.telegram.user.UserService;
 
 @Component
@@ -24,13 +24,12 @@ public class UserSelectLanguageExecutor extends CommandExecutor<UserSelectLangua
     @Override
     public void execute(UserSelectLanguage command) {
         final var user = userService.changeLanguage(userService.getOrCreateFromPrivate(command.userId()), command.language());
-        telegramSender.send(
-            TelegramMethods.createEditMessageText(
-                command.userId(),
-                command.messageId(),
-                CommonLocalization.chooseLanguage(user.language()),
-                InlineKeyboards.languageKeyboard(user.language())
-            )
+        telegramSender.send(EditMessageTextBuilder.builder()
+            .chatId(user.id())
+            .messageId(command.messageId())
+            .text(CommonLocalization.chooseLanguage(user.language()))
+            .keyboard(InlineKeyboards.languageKeyboard(user.language()))
+            .build()
         );
     }
 

@@ -11,9 +11,9 @@ import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -74,11 +74,12 @@ public class EventManager {
                 final var group = groupService.getOrCreate(groupEvent.groupId());
                 final var event = eventService.getEventById(launchedEvent.eventId())
                     .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
-                telegramSender.send(TelegramMethods.createEditMessageText(
-                    groupEvent.groupId(),
-                    groupEvent.messageId(),
-                    event.toStartMessage(group.language())
-                ));
+                telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(groupEvent.groupId())
+                    .messageId(groupEvent.messageId())
+                    .text(event.toStartMessage(group.language()))
+                    .build()
+                );
                 telegramSender.send(SendMessageBuilder.builder()
                     .chatId(groupEvent.groupId())
                     .text(event.endMessage(group.language(), result))

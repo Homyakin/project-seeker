@@ -15,6 +15,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
@@ -90,12 +91,11 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
 
         duelService.addWinner(duel.id(), winner.id());
 
-        telegramSender.send(
-            TelegramMethods.createEditMessageText(
-                group.id(),
-                command.messageId(),
-                DuelLocalization.finishedDuel(group.language(), winner, looser)
-            )
+        telegramSender.send(EditMessageTextBuilder.builder()
+            .chatId(group.id())
+            .messageId(command.messageId())
+            .text(DuelLocalization.finishedDuel(group.language(), winner, looser))
+            .build()
         );
     }
 }

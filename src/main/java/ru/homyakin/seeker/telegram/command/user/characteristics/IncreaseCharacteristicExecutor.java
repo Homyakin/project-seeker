@@ -10,8 +10,8 @@ import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
 public class IncreaseCharacteristicExecutor extends CommandExecutor<IncreaseCharacteristic> {
@@ -41,21 +41,19 @@ public class IncreaseCharacteristicExecutor extends CommandExecutor<IncreaseChar
                 case WISDOM -> personageService.incrementWisdom(personage);
             }
         ).peek(it ->
-            telegramSender.send(
-                TelegramMethods.createEditMessageText(
-                    command.userId(),
-                    command.messageId(),
-                    successText(user.language(), it.characteristics(), command.characteristicType()),
-                    keyboardByCharacteristics(user.language(), it.characteristics())
-                )
+            telegramSender.send(EditMessageTextBuilder.builder()
+                .chatId(command.userId())
+                .messageId(command.messageId())
+                .text(successText(user.language(), it.characteristics(), command.characteristicType()))
+                .keyboard(keyboardByCharacteristics(user.language(), it.characteristics()))
+                .build()
             )
         ).peekLeft(error ->
-            telegramSender.send(
-                TelegramMethods.createEditMessageText(
-                    command.userId(),
-                    command.messageId(),
-                    CharacteristicLocalization.notEnoughCharacteristicPoints(user.language())
-                )
+            telegramSender.send(EditMessageTextBuilder.builder()
+                .chatId(command.userId())
+                .messageId(command.messageId())
+                .text(CharacteristicLocalization.notEnoughCharacteristicPoints(user.language()))
+                .build()
             )
         );
     }

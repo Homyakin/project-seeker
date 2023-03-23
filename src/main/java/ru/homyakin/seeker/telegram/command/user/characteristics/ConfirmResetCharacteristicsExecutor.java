@@ -8,8 +8,8 @@ import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
 public class ConfirmResetCharacteristicsExecutor extends CommandExecutor<ConfirmResetCharacteristics> {
@@ -34,22 +34,20 @@ public class ConfirmResetCharacteristicsExecutor extends CommandExecutor<Confirm
                 personageService.getByIdForce(user.personageId())
             )
             .peek(
-                personage -> telegramSender.send(
-                    TelegramMethods.createEditMessageText(
-                        command.userId(),
-                        command.messageId(),
-                        successResetText(user.language(), personage.characteristics()),
-                        InlineKeyboards.chooseCharacteristicsKeyboard(user.language())
-                    )
+                personage -> telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(command.userId())
+                    .messageId(command.messageId())
+                    .text(successResetText(user.language(), personage.characteristics()))
+                    .keyboard(InlineKeyboards.chooseCharacteristicsKeyboard(user.language()))
+                    .build()
                 )
             )
             .peekLeft(
-                error -> telegramSender.send(
-                    TelegramMethods.createEditMessageText(
-                        command.userId(),
-                        command.messageId(),
-                        CharacteristicLocalization.notEnoughMoney(user.language(), error.neededMoney())
-                    )
+                error -> telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(command.userId())
+                    .messageId(command.messageId())
+                    .text(CharacteristicLocalization.notEnoughMoney(user.language(), error.neededMoney()))
+                    .build()
                 )
             )
         ;

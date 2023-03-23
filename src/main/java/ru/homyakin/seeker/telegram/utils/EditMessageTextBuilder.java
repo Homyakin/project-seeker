@@ -4,49 +4,49 @@ import com.vdurmont.emoji.EmojiParser;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.personage.models.Personage;
 
-public class SendMessageBuilder {
-    private final SendMessage.SendMessageBuilder builder = SendMessage.builder();
+public class EditMessageTextBuilder {
+    private final EditMessageText.EditMessageTextBuilder builder = EditMessageText.builder();
     private final List<MessageEntity> entities = new ArrayList<>();
     private String text = null;
 
-    private SendMessageBuilder() {
+    private EditMessageTextBuilder() {
     }
 
-    public static SendMessageBuilder builder() {
-        final var instance = new SendMessageBuilder();
+    public static EditMessageTextBuilder builder() {
+        final var instance = new EditMessageTextBuilder();
         instance.builder
             .parseMode(ParseMode.HTML)
             .disableWebPagePreview(true);
         return instance;
     }
 
-    public SendMessageBuilder text(String text) {
+    public EditMessageTextBuilder text(String text) {
         this.text = EmojiParser.parseToUnicode(text);
         this.builder.text(this.text);
         return this;
     }
 
-    public SendMessageBuilder keyboard(ReplyKeyboard keyboard) {
+    public EditMessageTextBuilder keyboard(InlineKeyboardMarkup keyboard) {
         this.builder.replyMarkup(keyboard);
         return this;
     }
 
-    public SendMessageBuilder replyMessageId(int replyMessageId) {
-        this.builder.replyToMessageId(replyMessageId);
-        return this;
-    }
-
-    public SendMessageBuilder chatId(long chatId) {
+    public EditMessageTextBuilder chatId(long chatId) {
         this.builder.chatId(chatId);
         return this;
     }
 
-    public SendMessageBuilder mentionPersonage(Personage personage, long userId, int position) {
+    public EditMessageTextBuilder messageId(int messageId) {
+        this.builder.messageId(messageId);
+        return this;
+    }
+
+    public EditMessageTextBuilder mentionPersonage(Personage personage, long userId, int position) {
         if (this.text == null) {
             throw new IllegalStateException("Text must be present for mention");
         }
@@ -55,7 +55,7 @@ public class SendMessageBuilder {
         return this;
     }
 
-    public SendMessage build() {
+    public EditMessageText build() {
         builder.entities(entities);
         return this.builder.build();
     }

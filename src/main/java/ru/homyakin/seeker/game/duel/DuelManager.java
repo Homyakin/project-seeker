@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 
 @Component
 public class DuelManager {
@@ -39,12 +39,11 @@ public class DuelManager {
                     if (duel.messageId().isPresent()) {
                         final var group = groupService.getOrCreate(duel.groupId());
                         final var acceptor = personageService.getByIdForce(duel.acceptingPersonageId());
-                        telegramSender.send(
-                            TelegramMethods.createEditMessageText(
-                                group.id(),
-                                duel.messageId().get(),
-                                DuelLocalization.expiredDuel(group.language(), acceptor)
-                            )
+                        telegramSender.send(EditMessageTextBuilder.builder()
+                            .chatId(group.id())
+                            .messageId(duel.messageId().get())
+                            .text(DuelLocalization.expiredDuel(group.language(), acceptor))
+                            .build()
                         );
                     } else {
                         logger.warn("No message for duel " + duel.id());

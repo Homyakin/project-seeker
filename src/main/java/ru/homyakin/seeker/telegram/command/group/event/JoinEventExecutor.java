@@ -7,6 +7,7 @@ import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
 import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
@@ -53,11 +54,12 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
             } else if (error instanceof ExpiredEvent expiredEvent) {
                 notificationText = RaidLocalization.expiredRaid(group.language());
                 //TODO может вынести в евент менеджер
-                telegramSender.send(TelegramMethods.createEditMessageText(
-                    command.groupId(),
-                    command.messageId(),
-                    expiredEvent.event().toStartMessage(group.language())
-                ));
+                telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(command.groupId())
+                    .messageId(command.messageId())
+                    .text(expiredEvent.event().toStartMessage(group.language()))
+                    .build()
+                );
             } else {
                 // TODO когда будет паттерн-матчинг для switch - переделать
                 notificationText = "ERROR!!!";

@@ -7,8 +7,8 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
 public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
@@ -40,13 +40,12 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
             case INFO -> HelpLocalization.info(language);
         };
 
-        telegramSender.send(
-            TelegramMethods.createEditMessageText(
-                command.chatId(),
-                command.messageId(),
-                editText,
-                InlineKeyboards.helpKeyboard(language)
-            )
+        telegramSender.send(EditMessageTextBuilder.builder()
+            .chatId(command.chatId())
+            .messageId(command.messageId())
+            .text(editText)
+            .keyboard(InlineKeyboards.helpKeyboard(language))
+            .build()
         );
     }
 }
