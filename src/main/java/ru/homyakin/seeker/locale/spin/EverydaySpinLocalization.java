@@ -3,7 +3,9 @@ package ru.homyakin.seeker.locale.spin;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -32,12 +34,16 @@ public class EverydaySpinLocalization {
         );
     }
 
-    public static String chosenUser(Language language, Personage personage) {
+    public static String chosenUser(Language language, Personage personage, Money money) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon_with_name", personage.iconWithName());
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_count", money.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(map.get(language).chosenUser(), map.get(Language.DEFAULT).chosenUser())
             ),
-            Collections.singletonMap("personage_icon_with_name", personage.iconWithName())
+            params
         );
     }
 
