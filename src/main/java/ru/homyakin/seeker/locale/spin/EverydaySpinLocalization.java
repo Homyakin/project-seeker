@@ -25,7 +25,9 @@ public class EverydaySpinLocalization {
 
     public static String alreadyChosen(Language language, Personage personage) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen()),
+            RandomUtils.getRandomElement(
+                CommonUtils.ifNullThan(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
+            ),
             Collections.singletonMap("personage_icon_with_name", personage.iconWithName())
         );
     }

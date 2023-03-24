@@ -41,7 +41,9 @@ public class BotInitializer {
         new BotCommand(CommandType.TAVERN_MENU.getText(), "Get tavern menu"),
         new BotCommand(CommandType.START_DUEL.getText(), "Start duel with another player. Must be reply"),
         new BotCommand(CommandType.GET_PROFILE.getText(), "Get profile"),
-        new BotCommand(CommandType.GROUP_STATS.getText(), "Get group statistic")
+        new BotCommand(CommandType.GROUP_STATS.getText(), "Get group statistic"),
+        new BotCommand(CommandType.SPIN.getText(), "Get worker of the day"),
+        new BotCommand(CommandType.SPIN_TOP.getText(), "Get workers top")
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(
