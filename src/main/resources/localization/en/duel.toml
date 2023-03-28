@@ -13,8 +13,8 @@ Whoa! To use the arena, you need at least ${money_icon}${money_count}. Go work f
 personageAlreadyStartDuel = "You have already started another duel! Wait for it to finish."
 initDuel = [
     """\
-The seeker ${initiating_personage_icon_with_name} challenges \
-the seeker ${accepting_personage_icon_with_name}.
+The seeker ${mention_initiator_icon_with_name} challenges \
+the seeker ${mention_acceptor_icon_with_name}.
 
 What will be his answer?"""
 ]
@@ -27,8 +27,8 @@ declinedDuel = [
 ]
 finishedDuel = [
     """\
-The seeker ${winner_personage_icon_with_name} got the better of \
-${looser_personage_icon_with_name}"""
+The seeker ${mention_winner_icon_with_name} got the better of \
+${mention_looser_icon_with_name}"""
 ]
 acceptDuelButton = "Take the challenge🗡"
 declineDuelButton = "Decline👐"
