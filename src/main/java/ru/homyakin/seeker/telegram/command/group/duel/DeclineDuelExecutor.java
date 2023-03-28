@@ -9,6 +9,7 @@ import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -54,13 +55,12 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
         }
 
         duelService.declineDuel(duel.id());
-        final var initiator = personageService.getByIdForce(duel.initiatingPersonageId());
+        final var initiatingPersonage = personageService.getByIdForce(duel.initiatingPersonageId());
         final var initiatingUser = userService.getByPersonageIdForce(duel.initiatingPersonageId());
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(group.id())
             .messageId(command.messageId())
-            .text(DuelLocalization.declinedDuel(group.language(), initiator))
-            .mentionPersonage(initiator, initiatingUser.id(), 1)
+            .text(DuelLocalization.declinedDuel(group.language(), TgPersonageMention.of(initiatingPersonage, initiatingUser.id())))
             .build()
         );
     }

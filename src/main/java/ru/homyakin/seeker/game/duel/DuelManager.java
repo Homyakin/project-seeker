@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 
@@ -47,8 +48,7 @@ public class DuelManager {
                         telegramSender.send(EditMessageTextBuilder.builder()
                             .chatId(group.id())
                             .messageId(duel.messageId().get())
-                            .text(DuelLocalization.expiredDuel(group.language(), acceptor))
-                            .mentionPersonage(acceptor, user.id(), 1)
+                            .text(DuelLocalization.expiredDuel(group.language(), TgPersonageMention.of(acceptor, user.id())))
                             .build()
                         );
                     } else {

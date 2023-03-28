@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.game.personage.models.Personage;
 
 public class EditMessageTextBuilder {
     private final EditMessageText.EditMessageTextBuilder builder = EditMessageText.builder();
@@ -43,16 +42,6 @@ public class EditMessageTextBuilder {
 
     public EditMessageTextBuilder messageId(int messageId) {
         this.builder.messageId(messageId);
-        return this;
-    }
-
-    public EditMessageTextBuilder mentionPersonage(Personage personage, long userId, int position) {
-        if (this.text == null) {
-            throw new IllegalStateException("Text must be present for mention");
-        }
-        MessageEntityUtils.mentionPersonageInText(this.text, personage, userId, position)
-            .ifPresent(this.entities::add);
-        this.builder.parseMode(null);
         return this;
     }
 

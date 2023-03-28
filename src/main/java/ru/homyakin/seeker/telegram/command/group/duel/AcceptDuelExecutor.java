@@ -15,6 +15,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
@@ -103,13 +104,18 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         }
 
         duelService.addWinner(duel.id(), winner.id());
-        final var endDuel = DuelLocalization.finishedDuel(group.language(), winner, looser);
-        final var builder = EditMessageTextBuilder.builder()
-            .chatId(group.id())
-            .messageId(command.messageId())
-            .text(endDuel.text());
-        endDuel.winnerPosition().ifPresent(it -> builder.mentionPersonage(winner, winnerUser.id(), it));
-        endDuel.looserPosition().ifPresent(it -> builder.mentionPersonage(looser, looserUser.id(), it));
-        telegramSender.send(builder.build());
+        telegramSender.send(
+            EditMessageTextBuilder.builder()
+                .chatId(group.id())
+                .messageId(command.messageId())
+                .text(
+                    DuelLocalization.finishedDuel(
+                        group.language(),
+                        TgPersonageMention.of(winner, winnerUser.id()),
+                        TgPersonageMention.of(looser, looserUser.id())
+                    )
+                )
+                .build()
+        );
     }
 }

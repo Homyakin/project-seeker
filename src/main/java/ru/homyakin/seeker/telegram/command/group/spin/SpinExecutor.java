@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.command.group.spin;
 
-import com.vdurmont.emoji.EmojiParser;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -10,6 +9,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.EverydaySpinService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
+import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -48,8 +48,9 @@ public class SpinExecutor extends CommandExecutor<Spin> {
                 personageService.addMoney(personage, reward);
                 telegramSender.send(SendMessageBuilder.builder()
                     .chatId(command.groupId())
-                    .text(EmojiParser.parseToUnicode(EverydaySpinLocalization.chosenUser(group.language(), personage, reward)))
-                    .mentionPersonage(personage, user.id(), 1)
+                    .text(
+                        EverydaySpinLocalization.chosenUser(group.language(), TgPersonageMention.of(personage, user.id()), reward)
+                    )
                     .build()
                 );
             })
@@ -66,8 +67,11 @@ public class SpinExecutor extends CommandExecutor<Spin> {
                         );
                         telegramSender.send(SendMessageBuilder.builder()
                             .chatId(command.groupId())
-                            .text(EmojiParser.parseToUnicode(EverydaySpinLocalization.alreadyChosen(group.language(), personage)))
-                            .mentionPersonage(personage, alreadyChosen.userId(), 1)
+                            .text(
+                                EverydaySpinLocalization.alreadyChosen(
+                                    group.language(), TgPersonageMention.of(personage, alreadyChosen.userId())
+                                )
+                            )
                             .build()
                         );
                     }

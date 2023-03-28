@@ -13,6 +13,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.models.ReplyInfo;
+import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
@@ -47,7 +48,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             command.groupId(), command.userId()
         );
         final var group = groupUserPair.first();
-        final var user = groupUserPair.second();
+        final var initiatingUser = groupUserPair.second();
         final var result = validateCommandAndSendErrorIfNeed(command, group);
         if (result.isLeft()) {
             return;
@@ -55,7 +56,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var replyInfo = result.get();
         final var acceptingUser = userService.getOrCreateFromGroup(replyInfo.userId());
 
-        final var initiatingPersonage = personageService.getByIdForce(user.personageId());
+        final var initiatingPersonage = personageService.getByIdForce(initiatingUser.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
 
         final var duelResult = duelService.createDuel(initiatingPersonage, acceptingPersonage, group.id());
@@ -75,15 +76,20 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             );
             return;
         }
-        final var initDuel = DuelLocalization.initDuel(group.language(), initiatingPersonage, acceptingPersonage);
-        final var builder = SendMessageBuilder.builder()
-            .chatId(group.id())
-            .text(initDuel.text())
-            .replyMessageId(replyInfo.messageId())
-            .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()));
-        initDuel.initiatorPosition().ifPresent(it -> builder.mentionPersonage(initiatingPersonage, user.id(), it));
-        initDuel.acceptorPosition().ifPresent(it -> builder.mentionPersonage(acceptingPersonage, acceptingUser.id(), it));
-        final var telegramResult = telegramSender.send(builder.build());
+        final var telegramResult = telegramSender.send(
+            SendMessageBuilder.builder()
+                .chatId(group.id())
+                .text(
+                    DuelLocalization.initDuel(
+                        group.language(),
+                        TgPersonageMention.of(initiatingPersonage, initiatingUser.id()),
+                        TgPersonageMention.of(acceptingPersonage, acceptingUser.id())
+                    )
+                )
+                .replyMessageId(replyInfo.messageId())
+                .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()))
+                .build()
+        );
         if (telegramResult.isLeft()) {
             logger.error("Can't send duel to group");
             return;
