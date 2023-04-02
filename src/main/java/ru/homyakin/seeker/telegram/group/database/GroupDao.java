@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.Group;
 
 @Component
@@ -25,7 +26,8 @@ public class GroupDao {
         """;
     private static final String UPDATE = """
         update grouptg
-        set is_active = :is_active, language_id = :language_id, next_event_date = :next_event_date
+        set is_active = :is_active, language_id = :language_id, next_event_date = :next_event_date,
+        start_active_hour = :start_active_hour, end_active_hour = :end_active_hour, active_time_zone = :active_time_zone
         where id = :id;
         """;
 
@@ -73,6 +75,9 @@ public class GroupDao {
         params.put("is_active", group.isActive());
         params.put("language_id", group.language().id());
         params.put("next_event_date", group.nextEventDate());
+        params.put("start_active_hour", group.activeTime().startHour());
+        params.put("end_active_hour", group.activeTime().endHour());
+        params.put("active_time_zone", group.activeTime().timeZone());
         jdbcTemplate.update(
             UPDATE,
             params
@@ -84,7 +89,12 @@ public class GroupDao {
             rs.getLong("id"),
             rs.getBoolean("is_active"),
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getTimestamp("next_event_date").toLocalDateTime()
+            rs.getTimestamp("next_event_date").toLocalDateTime(),
+            new ActiveTime(
+                rs.getInt("start_active_hour"),
+                rs.getInt("end_active_hour"),
+                rs.getInt("active_time_zone")
+            )
         );
     }
 }

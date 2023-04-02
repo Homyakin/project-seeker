@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
+import ru.homyakin.seeker.telegram.command.group.settings.GetActiveTime;
+import ru.homyakin.seeker.telegram.command.group.settings.SetActiveTime;
 import ru.homyakin.seeker.telegram.command.group.spin.Spin;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
@@ -114,6 +116,8 @@ public class CommandParser {
                 case GROUP_STATS -> GetGroupStats.from(message);
                 case SPIN -> Spin.from(message);
                 case SPIN_TOP -> SpinTop.from(message);
+                case SET_ACTIVE_TIME -> SetActiveTime.from(message);
+                case GET_ACTIVE_TIME -> GetActiveTime.from(message);
                 default -> null;
             });
     }

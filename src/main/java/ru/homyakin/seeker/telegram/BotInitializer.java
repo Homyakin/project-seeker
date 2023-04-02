@@ -43,7 +43,9 @@ public class BotInitializer {
         new BotCommand(CommandType.GET_PROFILE.getText(), "Get profile"),
         new BotCommand(CommandType.GROUP_STATS.getText(), "Get group statistic"),
         new BotCommand(CommandType.SPIN.getText(), "Get worker of the day"),
-        new BotCommand(CommandType.SPIN_TOP.getText(), "Get workers top")
+        new BotCommand(CommandType.SPIN_TOP.getText(), "Get workers top"),
+        new BotCommand(CommandType.SET_ACTIVE_TIME.getText(), "Set active time for events"),
+        new BotCommand(CommandType.GET_ACTIVE_TIME.getText(), "Get active time for events")
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(

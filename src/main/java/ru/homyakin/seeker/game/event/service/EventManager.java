@@ -49,6 +49,8 @@ public class EventManager {
         //TODO Здесь может возникнуть какая-нибудь многопоточная гонка, потом можно добавить локи на чаты
         groupService
             .getGetGroupsWithLessNextEventDate(TimeUtils.moscowTime())
+            .stream()
+            .filter(it -> it.activeTime().isActiveNow())
             .forEach(group -> {
                 logger.debug("Creating event for group " + group.id());
                 final var event = eventService.getRandomEvent();

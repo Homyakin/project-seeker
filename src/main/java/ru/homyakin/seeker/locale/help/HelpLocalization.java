@@ -22,7 +22,12 @@ public class HelpLocalization {
     }
 
     public static String raids(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).raids(), map.get(Language.DEFAULT).raids());
+        final var params = new HashMap<String, Object>();
+        params.put("set_active_time_command", CommandType.SET_ACTIVE_TIME.getText());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).raids(), map.get(Language.DEFAULT).raids()),
+            params
+        );
     }
 
     public static String duels(Language language) {

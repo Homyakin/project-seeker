@@ -1,13 +1,17 @@
 package ru.homyakin.seeker.telegram.group;
 
+import io.vavr.control.Either;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.database.GroupDao;
+import ru.homyakin.seeker.telegram.group.models.ActiveTime;
+import ru.homyakin.seeker.telegram.group.models.ActiveTimeError;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.utils.TimeUtils;
+import ru.homyakin.seeker.utils.models.Success;
 
 @Service
 public class GroupService {
@@ -41,15 +45,21 @@ public class GroupService {
         group.updateNextEventDate(nextEventDate, groupDao);
     }
 
+    public Either<ActiveTimeError, Success> updateActiveTime(Group group, int startHour, int endHour, int timeZone) {
+        return ActiveTime.from(startHour, endHour, timeZone)
+            .map(group::withActiveTime)
+            .peek(groupDao::update)
+            .map(it -> new Success());
+    }
+
     private Optional<Group> getGroup(long group) {
         return groupDao.getById(group);
     }
 
     private Group createGroup(long groupId) {
-        final var group = new Group(groupId, true, Language.DEFAULT, TimeUtils.moscowTime());
+        final var group = new Group(groupId, true, Language.DEFAULT, TimeUtils.moscowTime(), ActiveTime.createDefault());
         groupDao.save(group);
         groupStatsService.create(groupId);
         return group;
     }
-    
 }

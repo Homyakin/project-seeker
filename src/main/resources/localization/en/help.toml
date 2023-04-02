@@ -12,7 +12,10 @@ In order to participate in raids, you need to add a bot to your group.
 After that, at certain intervals, ads will appear in the tavern, \
 for participation in which you can earn money. If the raid is successful, then the reward will increase.
 
-And remember! The more seekers there are, the more chances to win!"""
+And remember! The more seekers there are, the more chances to win!
+
+If you do not want your group to be sent ads during sleep, you can inform the guild of your availability hours \
+using ${set_active_time_command} [start_time] [end_time] [time_zone]. Например: <code>${set_active_time_command} 6 24 +3</code>"""
 
 duels = """\
 If it seems to you that someone is wrong in the tavern, then there is a special arena behind the tavern for a showdown!

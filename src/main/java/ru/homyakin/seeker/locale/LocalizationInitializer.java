@@ -10,6 +10,8 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.common.CommonResource;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.duel.DuelResource;
+import ru.homyakin.seeker.locale.group_settings.ActiveTimeLocalization;
+import ru.homyakin.seeker.locale.group_settings.GroupSettingsResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.help.HelpResource;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
@@ -35,6 +37,7 @@ public class LocalizationInitializer {
     private static final String TAVERN_MENU_PATH = File.separator + "tavern_menu.toml";
     private static final String HELP_PATH = File.separator + "help.toml";
     private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
+    private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -69,6 +72,12 @@ public class LocalizationInitializer {
 
             ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + EVERYDAY_SPIN_PATH)
                 .ifPresent(it -> EverydaySpinLocalization.add(language, extractClass(mapper, it, EverydaySpinResource.class)));
+
+            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + GROUP_SETTINGS_PATH)
+                .ifPresent(it -> {
+                    final var resource = extractClass(mapper, it, GroupSettingsResource.class);
+                    ActiveTimeLocalization.add(language, resource.activeTime());
+                });
         }
         logger.info("Localization loaded");
     }

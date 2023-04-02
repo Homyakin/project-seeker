@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.database.GroupDao;
 
-// TODO добавить дату добавления
 public record Group(
     long id,
     boolean isActive,
     Language language,
-    LocalDateTime nextEventDate
+    LocalDateTime nextEventDate,
+    ActiveTime activeTime
 ) {
     public Group activate(GroupDao groupDao) {
         return changeActive(true, groupDao);
@@ -24,7 +24,8 @@ public record Group(
             id,
             isActive,
             language,
-            newNextEventDate
+            newNextEventDate,
+            activeTime
         );
         groupDao.update(group);
         return group;
@@ -36,12 +37,23 @@ public record Group(
                 id,
                 isActive,
                 newLanguage,
-                nextEventDate
+                nextEventDate,
+                activeTime
             );
             groupDao.update(group);
             return group;
         }
         return this;
+    }
+
+    public Group withActiveTime(ActiveTime activeTime) {
+        return new Group(
+            id,
+            isActive,
+            language,
+            nextEventDate,
+            activeTime
+        );
     }
 
     private Group changeActive(boolean newActive, GroupDao groupDao) {
@@ -50,7 +62,8 @@ public record Group(
                 id,
                 newActive,
                 language,
-                nextEventDate
+                nextEventDate,
+                activeTime
             );
             groupDao.update(group);
             return group;

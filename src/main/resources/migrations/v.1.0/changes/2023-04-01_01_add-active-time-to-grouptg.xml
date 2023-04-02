@@ -1,0 +1,29 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-active-time-to-grouptg">
+        <addColumn tableName="grouptg">
+            <column name="start_active_hour" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_active_hour" type="INTEGER" defaultValue="24">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_time_zone" type="INTEGER" defaultValue="3">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <!--checkConstraint не работает, нужна PRO лицензия https://docs.liquibase.com/change-types/add-check-constraint.html?Highlight=checkconstraint-->
+        <sql>
+            ALTER TABLE grouptg
+            ADD CONSTRAINT grouptg_start_active_hour_check CHECK (start_active_hour &gt;= 0 AND start_active_hour &lt;= 24);
+            ALTER TABLE grouptg
+            ADD CONSTRAINT grouptg_end_active_hour_check CHECK (end_active_hour &gt;= 0 AND end_active_hour &lt;= 24);
+            ALTER TABLE grouptg
+            ADD CONSTRAINT grouptg_active_time_zone_check CHECK (active_time_zone &gt;= -12 AND active_time_zone &lt;= 14);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
