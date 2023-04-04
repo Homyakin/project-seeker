@@ -1,4 +1,7 @@
 package ru.homyakin.seeker.utils.models.errors;
 
-public record TelegramError() implements EitherError {
+public sealed interface TelegramError {
+    record InternalError(String message) implements TelegramError {}
+
+    enum UserNotFound implements TelegramError { INSTANCE }
 }

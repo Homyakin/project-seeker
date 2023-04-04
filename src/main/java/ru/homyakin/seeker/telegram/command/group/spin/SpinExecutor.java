@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.command.group.spin;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -73,6 +74,14 @@ public class SpinExecutor extends CommandExecutor<Spin> {
                                 )
                             )
                             .build()
+                        );
+                    } else if (error instanceof SpinError.InternalError internalError) {
+                        telegramSender.send(
+                            SendMessageBuilder
+                                .builder()
+                                .chatId(command.groupId())
+                                .text(CommonLocalization.internalError(group.language()))
+                                .build()
                         );
                     }
                 }

@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.group;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.group.database.EverydaySpinDao;
+import ru.homyakin.seeker.telegram.group.models.GroupUser;
 import ru.homyakin.seeker.telegram.group.models.SpinCount;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -35,12 +36,21 @@ public class EverydaySpinService {
             return Either.left(new SpinError.NotEnoughUsers(minimumUsers));
         }
 
-        final var user = groupUserService.getRandomUserFromGroup(groupId);
-        if (user.isEmpty()) {
-            return Either.left(new SpinError.NotEnoughUsers(minimumUsers));
-        }
-        everydaySpinDao.save(groupId, user.get().userId(), date);
-        return Either.right(user.get().userId());
+        GroupUser groupUser = null;
+        do {
+            final var randomGroupUser = groupUserService.getRandomUserFromGroup(groupId);
+            if (randomGroupUser.isEmpty()) {
+                return Either.left(new SpinError.NotEnoughUsers(minimumUsers));
+            }
+            final var result = groupUserService.isUserStillInGroup(randomGroupUser.get());
+            if (result.isRight() && result.get()) {
+                groupUser = randomGroupUser.get();
+            } else if (result.isLeft()) {
+                return Either.left(SpinError.InternalError.INSTANCE);
+            }
+        } while (groupUser == null);
+        everydaySpinDao.save(groupId, groupUser.userId(), date);
+        return Either.right(groupUser.userId());
     }
 
     public SpinCount getSpinCountForGroup(long groupId) {

@@ -49,7 +49,23 @@ public class GroupUserService {
         return groupUserDao.getRandomUserByGroup(groupId);
     }
 
+    public Either<TelegramError.InternalError, Boolean> isUserStillInGroup(GroupUser groupUser) {
+        final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupUser.groupId(), groupUser.userId()));
+        if (result.isLeft()) {
+            if (result.getLeft() instanceof TelegramError.UserNotFound) {
+                deactivateGroupUser(groupUser);
+                return Either.right(false);
+            }
+            return Either.left((TelegramError.InternalError) result.getLeft());
+        }
+        return Either.right(true);
+    }
+
     public int countUsersInGroup(long groupId) {
         return groupUserDao.countUsersInGroup(groupId);
+    }
+
+    private GroupUser deactivateGroupUser(GroupUser groupUser) {
+        return groupUser.deactivate(groupUserDao);
     }
 }

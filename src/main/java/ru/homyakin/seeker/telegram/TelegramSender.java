@@ -31,7 +31,7 @@ public class TelegramSender extends DefaultAbsSender {
             logger.error(
                 "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e
             );
-            return Either.left(new TelegramError());
+            return Either.left(new TelegramError.InternalError(e.getMessage()));
         }
     }
 
@@ -39,10 +39,14 @@ public class TelegramSender extends DefaultAbsSender {
         try {
             return Either.right(execute(getChatMember));
         } catch (Exception e) {
-            logger.error(
-                "Unable get chat %s member %d".formatted(getChatMember.getChatId(), getChatMember.getUserId()), e
-            );
-            return Either.left(new TelegramError());
+            if (e.getMessage().contains("[400] Bad Request: user not found")) {
+                return Either.left(TelegramError.UserNotFound.INSTANCE);
+            } else {
+                logger.error(
+                    "Unable get chat %s member %d".formatted(getChatMember.getChatId(), getChatMember.getUserId()), e
+                );
+                return Either.left(new TelegramError.InternalError(e.getMessage()));
+            }
         }
     }
 
