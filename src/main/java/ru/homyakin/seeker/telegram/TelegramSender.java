@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
-import ru.homyakin.seeker.utils.models.errors.TelegramError;
+import ru.homyakin.seeker.telegram.models.TelegramError;
 
 @Component
 public class TelegramSender extends DefaultAbsSender {

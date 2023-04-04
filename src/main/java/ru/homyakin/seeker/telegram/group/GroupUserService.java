@@ -13,7 +13,7 @@ import ru.homyakin.seeker.telegram.group.database.GroupUserDao;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
-import ru.homyakin.seeker.utils.models.errors.TelegramError;
+import ru.homyakin.seeker.telegram.models.TelegramError;
 
 @Service
 public class GroupUserService {
