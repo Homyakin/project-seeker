@@ -7,3 +7,10 @@ __pycache__/
 
 **/project-seeker-prod-data/
 src/main/resources/application-dev.properties
+
+# Eclipse
+.checkstyle
+.classpath
+.project
+.settings/
+bin/
