@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
@@ -90,6 +91,21 @@ public class InlineKeyboards {
             .addButton(CharacteristicLocalization.strengthButton(language), callbackPrefix + CharacteristicType.STRENGTH.name())
             .addButton(CharacteristicLocalization.agilityButton(language), callbackPrefix + CharacteristicType.AGILITY.name())
             .addButton(CharacteristicLocalization.wisdomButton(language), callbackPrefix + CharacteristicType.WISDOM.name())
+            .build();
+    }
+
+    public static InlineKeyboardMarkup consumeMenuItemOrderKeyboard(
+        Language language,
+        long orderId,
+        MenuItem menuItem
+    ) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                menuItem.category().consumeButtonText(language),
+                CommandType.CONSUME_MENU_ITEM_ORDER.getText() + TextConstants.CALLBACK_DELIMITER + orderId
+            )
             .build();
     }
 }

@@ -17,7 +17,7 @@ import ru.homyakin.seeker.locale.Language;
 @Component
 public class MenuDao {
     private static final String GET_AVAILABLE_MENU = "SELECT * FROM menu_item WHERE is_available = true";
-    private static final String GET_AVAILABLE_MENU_ITEM = "SELECT * FROM menu_item WHERE id = :id and is_available = true";
+    private static final String GET_MENU_ITEM = "SELECT * FROM menu_item WHERE id = :id";
 
     private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
 
@@ -34,9 +34,9 @@ public class MenuDao {
             .toList();
     }
 
-    public Optional<MenuItem> getAvailableMenuItem(int id) {
+    public Optional<MenuItem> getMenuItem(int id) {
         final var param = Collections.singletonMap("id", id);
-        return jdbcTemplate.query(GET_AVAILABLE_MENU_ITEM, param, this::mapMenuItem)
+        return jdbcTemplate.query(GET_MENU_ITEM, param, this::mapMenuItem)
             .stream()
             .findFirst()
             .map(it -> it.toMenuItem(getMenuItemLocales(id)));
@@ -64,7 +64,7 @@ public class MenuDao {
         return new MenuItemLocale(
             Language.getOrDefault(rs.getInt("language_id")),
             rs.getString("name"),
-            (String[]) rs.getArray("order_template").getArray()
+            (String[]) rs.getArray("consume_template").getArray()
         );
     }
 

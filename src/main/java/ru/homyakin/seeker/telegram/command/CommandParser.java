@@ -23,6 +23,7 @@ import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.common.help.ShowHelp;
 import ru.homyakin.seeker.telegram.command.group.spin.SpinTop;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
+import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -154,6 +155,7 @@ public class CommandParser {
                 case DECLINE_DUEL -> DeclineDuel.from(callback);
                 case ACCEPT_DUEL -> AcceptDuel.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);
+                case CONSUME_MENU_ITEM_ORDER -> ConsumeOrder.from(callback);
                 default -> null;
             });
     }

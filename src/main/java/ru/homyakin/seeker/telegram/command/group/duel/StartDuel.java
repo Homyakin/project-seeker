@@ -3,7 +3,6 @@ package ru.homyakin.seeker.telegram.command.group.duel;
 import java.util.Optional;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.models.MessageOwner;
 import ru.homyakin.seeker.telegram.models.ReplyInfo;
 
 public record StartDuel(
@@ -15,9 +14,7 @@ public record StartDuel(
         return new StartDuel(
             message.getChatId(),
             message.getFrom().getId(),
-            Optional.ofNullable(message.getReplyToMessage()).map(
-                it -> new ReplyInfo(it.getMessageId(), it.getFrom().getId(), MessageOwner.from(it))
-            )
+            ReplyInfo.from(message)
         );
     }
 }

@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.group;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.telegram.group.database.GroupStatsDao;
 import ru.homyakin.seeker.telegram.group.models.GroupStats;
 
@@ -29,7 +30,7 @@ public class GroupStatsService {
         groupStatsDao.increaseDuelsComplete(groupId, amount);
     }
 
-    public void increaseTavernMoneySpent(long groupId, long amount) {
-        groupStatsDao.increaseTavernMoneySpent(groupId, amount);
+    public void increaseTavernMoneySpent(long groupId, Money money) {
+        groupStatsDao.increaseTavernMoneySpent(groupId, money.value());
     }
 }

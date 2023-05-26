@@ -109,6 +109,14 @@ public record Personage(
         );
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Personage other) {
+           return this.id == other.id;
+        }
+        return false;
+    }
+
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id,

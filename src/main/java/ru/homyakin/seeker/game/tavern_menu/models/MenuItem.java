@@ -18,15 +18,18 @@ public record MenuItem(
     List<MenuItemLocale> locales
 ) {
     public String menuPositionText(Language language) {
-        final var locale = getLocaleByLanguageOrDefault(language);
-        return  "<b>" + locale.name() + "</b> " + TextConstants.MONEY_ICON + price.value() + " "
+        return  "<b>" + name(language) + "</b> " + TextConstants.MONEY_ICON + price.value() + " "
             + CommandType.ORDER.getText() + id;
     }
 
-    public String orderText(Language language, Personage personage) {
+    public String name(Language language) {
+        return getLocaleByLanguageOrDefault(language).name();
+    }
+
+    public String consumeText(Language language, Personage personage) {
         final var locale = getLocaleByLanguageOrDefault(language);
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(locale.orderTemplate()),
+            RandomUtils.getRandomElement(locale.consumeTemplate()),
             Collections.singletonMap("personage_icon_with_name", personage.iconWithName())
         );
     }

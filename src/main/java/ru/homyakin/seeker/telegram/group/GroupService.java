@@ -49,7 +49,7 @@ public class GroupService {
         return ActiveTime.from(startHour, endHour, timeZone)
             .map(group::withActiveTime)
             .peek(groupDao::update)
-            .map(it -> new Success());
+            .map(it -> Success.INSTANCE);
     }
 
     private Optional<Group> getGroup(long group) {

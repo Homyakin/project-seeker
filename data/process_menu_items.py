@@ -31,5 +31,5 @@ def process_locale(locales: Dict, menu_item_id: int):
             locale,
             table='menu_item_locale',
             pk_columns=['menu_item_id', 'language_id'],
-            simple_columns=['name', 'order_template']
+            simple_columns=['name', 'consume_template']
         )

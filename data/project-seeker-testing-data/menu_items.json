@@ -8,14 +8,14 @@
       {
         "language_id": "ru",
         "name": "Вода",
-        "order_template": [
+        "consume_template": [
           "Свежая водичка специально для <b>${personage_icon_with_name}</b>"
         ]
       },
       {
         "language_id": "en",
         "name": "Water",
-        "order_template": [
+        "consume_template": [
           "Fresh water specially for <b>${personage_icon_with_name}</b>"
         ]
       }
@@ -30,7 +30,7 @@
       {
         "language_id": "ru",
         "name": "Вода в стекле",
-        "order_template": [
+        "consume_template": [
           "У <b>${personage_icon_with_name}</b> много денег, раз он может позволить себе воду в стекле",
           "Похоже сегодня у <b>${personage_icon_with_name}</b> праздник! Прохладная вода в стекле уже на столе"
         ]
@@ -38,7 +38,7 @@
       {
         "language_id": "en",
         "name": "Water in glass",
-        "order_template": [
+        "consume_template": [
           "<b>${personage_icon_with_name}</b> has a lot of money, since he can afford water in the glass",
           "It looks like <b>${personage_icon_with_name}</b> is having a holiday today! Cool water in the glass is already on the table"
         ]
@@ -54,14 +54,14 @@
       {
         "language_id": "ru",
         "name": "Суп с котом",
-        "order_template": [
+        "consume_template": [
           "Суп с котом для <b>${personage_icon_with_name}</b>! Мяукал ещё 15 минут назад"
         ]
       },
       {
         "language_id": "en",
         "name": "Cat soup",
-        "order_template": [
+        "consume_template": [
           "Cat soup for <b>${personage_icon_with_name}</b>! Meowed 15 minutes ago"
         ]
       }

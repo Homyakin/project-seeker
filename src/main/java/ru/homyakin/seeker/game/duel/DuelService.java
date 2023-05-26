@@ -72,7 +72,7 @@ public class DuelService {
     public Success finishDuel(long duelId) {
         //TODO проверка на то, что статус был не финишд
         duelDao.updateStatus(duelId, DuelStatus.FINISHED);
-        return new Success();
+        return Success.INSTANCE;
     }
 
     public void addWinner(long duelId, long personageId) {

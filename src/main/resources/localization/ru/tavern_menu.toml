@@ -9,3 +9,22 @@ notEnoughMoneyDrink = [
 notEnoughMoneyMainDish = [
     "Кто не работает, тот не ест! Заработай ещё ${money_icon}${not_enough_money_value}"
 ]
+orderGiftToDifferentBot = [
+    "Заказ для другого бота ПЕРЕДЕЛАТЬ"
+]
+orderGiftToThisBot = [
+    "Заказ для этого бота ПЕРЕДЕЛАТЬ"
+]
+order = [
+    "${item_name} для ${mention_acceptor_icon_with_name}!"
+]
+orderGift = [
+    "Заказ! ${item_name} от ${mention_giver_icon_with_name} для ${mention_acceptor_icon_with_name}"
+]
+expiredOrder = [
+    "Заказ так долго стоял без дела, что его съел голодный официант. Денег он, к сожалению, не оставил."
+]
+consumeDrinkButton = "🍺Выпить"
+consumeMainDishButton = "🍽Съесть"
+consumeAlreadyInFinalStatus = "Заказ куда-то испарился... Возможно его утащил бабайка"
+wrongConsumer = "Это не твой заказ!"

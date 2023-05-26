@@ -6,6 +6,15 @@ public record TavernMenuResource(
     String mainDishes,
     String itemNotInMenu,
     String[] notEnoughMoneyDrink,
-    String[] notEnoughMoneyMainDish
+    String[] notEnoughMoneyMainDish,
+    String[] orderGiftToDifferentBot,
+    String[] orderGiftToThisBot,
+    String[] order,
+    String[] orderGift,
+    String consumeDrinkButton,
+    String consumeMainDishButton,
+    String consumeAlreadyInFinalStatus,
+    String wrongConsumer,
+    String[] expiredOrder
 ) {
 }

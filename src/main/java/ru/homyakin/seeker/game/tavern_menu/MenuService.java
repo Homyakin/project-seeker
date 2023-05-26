@@ -32,7 +32,12 @@ public class MenuService {
     }
 
     public Optional<MenuItem> getAvailableMenuItem(int id) {
-        return menuDao.getAvailableMenuItem(id);
+        return menuDao.getMenuItem(id)
+            .filter(MenuItem::isAvailable);
+    }
+
+    public Optional<MenuItem> getMenuItem(int id) {
+        return menuDao.getMenuItem(id);
     }
 }
 

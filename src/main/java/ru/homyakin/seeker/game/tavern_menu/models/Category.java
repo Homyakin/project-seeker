@@ -18,10 +18,17 @@ public enum Category {
         return id;
     }
 
-    public String getText(Language language) {
+    public String menuText(Language language) {
         return switch (this) {
             case DRINK -> TavernMenuLocalization.drinks(language);
             case MAIN_DISH -> TavernMenuLocalization.mainDishes(language);
+        };
+    }
+
+    public String consumeButtonText(Language language) {
+        return switch (this) {
+            case DRINK -> TavernMenuLocalization.consumeDrinkButton(language);
+            case MAIN_DISH -> TavernMenuLocalization.consumeMainDishButton(language);
         };
     }
 

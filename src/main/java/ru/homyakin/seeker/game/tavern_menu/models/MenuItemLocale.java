@@ -5,6 +5,6 @@ import ru.homyakin.seeker.locale.Language;
 public record MenuItemLocale(
     Language language,
     String name,
-    String[] orderTemplate
+    String[] consumeTemplate
 ) {
 }

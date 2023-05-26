@@ -1,0 +1,124 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-menu-item-order-tables">
+        <createTable tableName="menu_item_order_status">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="menu_item_order_status">
+            <column name="id" value="1"/>
+            <column name="name" value="Создан"/>
+        </insert>
+        <insert tableName="menu_item_order_status">
+            <column name="id" value="2"/>
+            <column name="name" value="Просрочен"/>
+        </insert>
+        <insert tableName="menu_item_order_status">
+            <column name="id" value="3"/>
+            <column name="name" value="Техническая отмена"/>
+        </insert>
+        <insert tableName="menu_item_order_status">
+            <column name="id" value="4"/>
+            <column name="name" value="Принят"/>
+        </insert>
+
+        <createTable tableName="menu_item_order">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="menu_item_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ordering_personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="accepting_personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expire_date_time" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order"
+                baseColumnNames="menu_item_id"
+                referencedTableName="menu_item"
+                referencedColumnNames="id"
+                constraintName="fk_menu_item_order_menu_item"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order"
+                baseColumnNames="ordering_personage_id"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+                constraintName="fk_menu_item_order_ordering_personage"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order"
+                baseColumnNames="accepting_personage_id"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+                constraintName="fk_menu_item_order_accepting_personage"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order"
+                baseColumnNames="status_id"
+                referencedTableName="menu_item_order_status"
+                referencedColumnNames="id"
+                constraintName="fk_menu_item_order_menu_item_order_status"
+        />
+
+        <createTable tableName="menu_item_order_tg">
+            <column name="menu_item_order_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="grouptg_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order_tg"
+                baseColumnNames="menu_item_order_id"
+                referencedTableName="menu_item_order"
+                referencedColumnNames="id"
+                constraintName="fk_menu_item_order_tg_menu_item_order"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order_tg"
+                baseColumnNames="grouptg_id"
+                referencedTableName="grouptg"
+                referencedColumnNames="id"
+                constraintName="fk_menu_item_order_tg_grouptg"
+        />
+
+        <createIndex indexName="idx_menu_item_order_search_expire" tableName="menu_item_order">
+            <column name="expire_date_time"/>
+        </createIndex>
+
+        <renameColumn
+                tableName="menu_item_locale"
+                oldColumnName="order_template"
+                newColumnName="consume_template"
+        />
+    </changeSet>
+</databaseChangeLog>

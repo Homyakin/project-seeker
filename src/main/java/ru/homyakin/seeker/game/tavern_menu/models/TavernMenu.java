@@ -17,7 +17,7 @@ public record TavernMenu(
             if (!categoryToItems.containsKey(category)) {
                 continue;
             }
-            text.append("\n\n").append(category.getText(language)).append(":");
+            text.append("\n\n").append(category.menuText(language)).append(":");
             final var itemsSortedByPrice = categoryToItems.get(category).stream().sorted(Comparator.comparing(MenuItem::price)).toList();
             for (final var menuItem: itemsSortedByPrice) {
                 text.append("\n").append(menuItem.menuPositionText(language));

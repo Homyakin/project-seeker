@@ -7,7 +7,7 @@ public abstract class CommandExecutor<T extends Command> {
     public abstract void execute(T command);
 
     @SuppressWarnings("unchecked")
-    public Class<T> getCommandType() {
+    public final Class<T> getCommandType() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }
