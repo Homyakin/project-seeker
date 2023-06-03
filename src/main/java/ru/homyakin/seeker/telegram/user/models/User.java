@@ -3,12 +3,14 @@ package ru.homyakin.seeker.telegram.user.models;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.user.UserDao;
 
-//TODO перенести юзера и чат в телегу
+import java.util.Optional;
+
 public record User(
     long id,
     boolean isActivePrivateMessages,
     Language language,
-    long personageId
+    long personageId,
+    Optional<String> username
 ) {
     public boolean isSameLanguage(Language newLanguage) {
         return language == newLanguage;
@@ -20,7 +22,8 @@ public record User(
                 id,
                 isActivePrivateMessages,
                 newLanguage,
-                personageId
+                personageId,
+                username
             );
             userDao.update(user);
             return user;
@@ -34,7 +37,8 @@ public record User(
                 id,
                 true,
                 language,
-                personageId
+                personageId,
+                username
             );
             userDao.update(user);
             return user;

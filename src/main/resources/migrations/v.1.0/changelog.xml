@@ -16,4 +16,5 @@
     <include file="changes/2023-03-21_01_add-everyday-spin-tg-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-04-01_01_add-active-time-to-grouptg.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-04-07_01_add-menu-time-order-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-06-02_01_add-username-to-usertg.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

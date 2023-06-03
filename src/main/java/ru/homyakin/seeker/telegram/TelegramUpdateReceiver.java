@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.generics.BotOptions;
 import org.telegram.telegrambots.meta.generics.LongPollingBot;
 import ru.homyakin.seeker.telegram.command.CommandParser;
 import ru.homyakin.seeker.telegram.command.CommandProcessor;
+import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 /*
@@ -24,24 +25,32 @@ public class TelegramUpdateReceiver implements LongPollingBot {
     private final DefaultBotOptions botOptions;
     private final CommandParser commandParser;
     private final CommandProcessor commandProcessor;
+    private final UserService userService;
 
     public TelegramUpdateReceiver(
         TelegramBotConfig config,
         DefaultBotOptions botOptions,
         CommandParser commandParser,
-        CommandProcessor commandProcessor
+        CommandProcessor commandProcessor,
+        UserService userService
     ) {
         this.config = config;
         this.botOptions = botOptions;
         this.commandParser = commandParser;
         this.commandProcessor = commandProcessor;
+        this.userService = userService;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         logger.debug("New update: " + update.toString());
-        if (TelegramUtils.needToProcessUpdate(update, getBotUsername())) {
-            commandParser.parse(update).ifPresent(commandProcessor::process);
+        try {
+            userService.updateUserInfoFromUpdate(update);
+            if (TelegramUtils.needToProcessUpdate(update, getBotUsername())) {
+                commandParser.parse(update).ifPresent(commandProcessor::process);
+            }
+        } catch (Exception e) {
+            logger.error("Unknown error during update processing", e);
         }
     }
 
