@@ -4,14 +4,14 @@ import java.util.Optional;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.models.ReplyInfo;
+import ru.homyakin.seeker.telegram.models.MentionInfo;
 
 public record Order(
     long groupId,
     long userId,
     int messageId,
     Optional<Integer> itemId,
-    Optional<ReplyInfo> replyInfo
+    Optional<MentionInfo> mentionInfo
 ) implements Command {
     public static Order from(Message message) {
         return new Order(
@@ -19,7 +19,7 @@ public record Order(
             message.getFrom().getId(),
             message.getMessageId(),
             OrderUtils.getMenuItemId(message.getText()),
-            ReplyInfo.from(message)
+            MentionInfo.from(message)
         );
     }
 }

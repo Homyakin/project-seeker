@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.user.models.User;
 
 import java.util.Optional;
@@ -30,6 +31,17 @@ public class UserService {
             .orElseGet(() -> createUser(userId, false));
     }
 
+    public Optional<User> tryGetOrCreateByMention(MentionInfo mentionInfo, long groupId) {
+        if (mentionInfo instanceof MentionInfo.Id id) {
+            return Optional.of(getOrCreateFromGroup(id.userId()));
+        } else if (mentionInfo instanceof MentionInfo.Username username) {
+            return userDao.getByUsernameInGroup(username.username(), groupId);
+        } else {
+            //TODO красивый свитч
+            throw new IllegalStateException();
+        }
+    }
+
     public User getOrCreateFromPrivate(Long userId) {
         return userDao
             .getById(userId)
@@ -47,11 +59,11 @@ public class UserService {
     }
 
     public void updateUserInfoFromUpdate(Update update) {
-        if (update.getMessage() != null) {
+        if (update.hasMessage()) {
             updateUserInfoFromUser(update.getMessage().getFrom());
-        } else if (update.getCallbackQuery() != null) {
+        } else if (update.hasCallbackQuery()) {
             updateUserInfoFromUser(update.getCallbackQuery().getFrom());
-        } else if (update.getChatMember() != null) {
+        } else if (update.hasChatMember()) {
             if (update.getChatMember().getNewChatMember() != null) {
                 updateUserInfoFromUser(update.getChatMember().getNewChatMember().getUser());
             }

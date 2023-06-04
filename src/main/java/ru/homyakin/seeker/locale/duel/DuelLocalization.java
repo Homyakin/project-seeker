@@ -1,11 +1,13 @@
 package ru.homyakin.seeker.locale.duel;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -17,8 +19,12 @@ public class DuelLocalization {
         map.put(language, resource);
     }
 
-    public static String duelMustBeReply(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).duelMustBeReply(), map.get(Language.DEFAULT).duelMustBeReply());
+    public static String duelMustContainsMention(Language language) {
+        final Map<String, Object> param = Collections.singletonMap("duel_command", CommandType.START_DUEL.getText());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).duelMustContainsMention(), map.get(Language.DEFAULT).duelMustContainsMention()),
+            param
+        );
     }
 
     public static String duelWithDifferentBot(Language language) {
@@ -109,5 +115,11 @@ public class DuelLocalization {
 
     public static String declineDuelButton(Language language) {
         return CommonUtils.ifNullThan(map.get(language).declineDuelButton(), map.get(Language.DEFAULT).declineDuelButton());
+    }
+
+    public static String duelWithUnknownUser(Language language) {
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).duelWithUnknownUser(), map.get(Language.DEFAULT).duelWithUnknownUser())
+        );
     }
 }

@@ -55,7 +55,7 @@ public class UserDao {
         return result.stream().findFirst();
     }
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> getByUsernameInGroup(String username, long groupId) {
         final var params = new MapSqlParameterSource()
             .addValue("username", username);
         return jdbcTemplate.query(GET_BY_USERNAME, params, this::mapRow).stream().findFirst();
@@ -103,6 +103,11 @@ public class UserDao {
         set is_active_private_messages = :is_active_private_messages, language_id = :language_id
         where id = :id
         """;
-    private static final String GET_BY_USERNAME = "SELECT * FROM usertg WHERE username = :username";
+    private static final String GET_BY_USERNAME = """
+        SELECT u.* FROM usertg u
+        LEFT JOIN grouptg_to_usertg gtu on u.id = gtu.usertg_id
+        WHERE u.username = :username
+        AND gtu.is_active = true
+        """;
     private static final String UPDATE_USERNAME = "UPDATE usertg SET username = :username WHERE id = :id";
 }

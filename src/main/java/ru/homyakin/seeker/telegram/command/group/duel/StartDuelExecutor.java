@@ -7,17 +7,16 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.DuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
-import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.telegram.models.ReplyInfo;
+import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
-import ru.homyakin.seeker.utils.models.Failure;
 
 @Component
 public class StartDuelExecutor extends CommandExecutor<StartDuel> {
@@ -49,13 +48,36 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         );
         final var group = groupUserPair.first();
         final var initiatingUser = groupUserPair.second();
-        final var result = validateCommandAndSendErrorIfNeed(command, group);
-        if (result.isLeft()) {
+        final var validationResult = validateCommand(command, group.language());
+        if (validationResult.isLeft()) {
+            telegramSender.send(
+                SendMessageBuilder.builder().chatId(command.groupId()).text(validationResult.getLeft()).build()
+            );
             return;
         }
-        final var replyInfo = result.get();
-        final var acceptingUser = userService.getOrCreateFromGroup(replyInfo.userId());
 
+        final var userResult = userService.tryGetOrCreateByMention(validationResult.get(), group.id());
+        if (userResult.isEmpty()) {
+            logger.warn("Unknown mention group={}, mention={}", group.id(), validationResult.get());
+            telegramSender.send(
+                SendMessageBuilder
+                    .builder()
+                    .chatId(command.groupId())
+                    .text(DuelLocalization.duelWithUnknownUser(group.language()))
+                    .build()
+            );
+            return;
+        } else if (userResult.get().id() == initiatingUser.id()) {
+            telegramSender.send(
+                SendMessageBuilder
+                    .builder()
+                    .chatId(command.groupId())
+                    .text(DuelLocalization.duelWithYourself(group.language()))
+                    .build()
+            );
+            return;
+        }
+        final var acceptingUser = userResult.get();
         final var initiatingPersonage = personageService.getByIdForce(initiatingUser.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
 
@@ -86,7 +108,6 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
                         TgPersonageMention.of(acceptingPersonage, acceptingUser.id())
                     )
                 )
-                .replyMessageId(replyInfo.messageId())
                 .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()))
                 .build()
         );
@@ -97,38 +118,14 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         duelService.addMessageIdToDuel(duelResult.get().id(), telegramResult.get().getMessageId());
     }
 
-    private Either<Failure, ReplyInfo> validateCommandAndSendErrorIfNeed(StartDuel command, Group group) {
-        if (command.replyInfo().isEmpty()) {
-            telegramSender.send(
-                SendMessageBuilder.builder().chatId(command.groupId()).text(DuelLocalization.duelMustBeReply(group.language())).build()
-            );
-            return Either.left(new Failure());
+    private Either<String, MentionInfo> validateCommand(StartDuel command, Language language) {
+        if (command.mentionInfo().isEmpty()) {
+            return Either.left(DuelLocalization.duelMustContainsMention(language));
         }
-        final var replyInfo = command.replyInfo().get();
-        if (replyInfo.userId() == command.userId()) {
-            telegramSender.send(
-                SendMessageBuilder.builder().chatId(command.groupId()).text(DuelLocalization.duelWithYourself(group.language())).build()
-            );
-            return Either.left(new Failure());
-        }
-        return switch (replyInfo.messageOwner()) {
-            case USER -> Either.right(replyInfo);
-            case DIFFERENT_BOT -> {
-                telegramSender.send(SendMessageBuilder.builder()
-                    .chatId(command.groupId())
-                    .text(DuelLocalization.duelWithDifferentBot(group.language()))
-                    .build()
-                );
-                yield Either.left(new Failure());
-            }
-            case THIS_BOT -> {
-                telegramSender.send(SendMessageBuilder.builder()
-                    .chatId(command.groupId())
-                    .text(DuelLocalization.duelWithThisBot(group.language()))
-                    .build()
-                );
-                yield Either.left(new Failure());
-            }
+        return switch (command.mentionInfo().get().userType()) {
+            case USER -> Either.right(command.mentionInfo().get());
+            case DIFFERENT_BOT -> Either.left(DuelLocalization.duelWithDifferentBot(language));
+            case THIS_BOT -> Either.left(DuelLocalization.duelWithThisBot(language));
         };
     }
 

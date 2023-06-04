@@ -121,4 +121,10 @@ public class TavernMenuLocalization {
             CommonUtils.ifNullThan(map.get(language).expiredOrder(), map.get(Language.DEFAULT).expiredOrder())
         );
     }
+
+    public static String orderToUnknownUser(Language language) {
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).orderToUnknownUser(), map.get(Language.DEFAULT).orderToUnknownUser())
+        );
+    }
 }

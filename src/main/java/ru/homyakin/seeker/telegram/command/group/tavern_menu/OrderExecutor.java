@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.telegram.command.group.tavern_menu;
 
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
@@ -9,7 +11,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.taver_menu.OrderTgService;
 import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.telegram.models.MessageOwner;
+import ru.homyakin.seeker.telegram.models.UserType;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
@@ -18,6 +20,7 @@ import ru.homyakin.seeker.utils.models.Success;
 
 @Component
 public class OrderExecutor extends CommandExecutor<Order> {
+    private static final Logger logger = LoggerFactory.getLogger(OrderExecutor.class);
     private final GroupUserService groupUserService;
     private final MenuService menuService;
     private final TelegramSender telegramSender;
@@ -64,14 +67,20 @@ public class OrderExecutor extends CommandExecutor<Order> {
         }
         final var menuItem = menuItemResult.get();
         final User acceptor;
-        if (command.replyInfo().isEmpty()) {
+        if (command.mentionInfo().isEmpty()) {
             acceptor = giver;
         } else {
-            final var replyInfo = command.replyInfo().get();
-            if (processReplyOwner(replyInfo.messageOwner(), group).isLeft()) {
+            final var mentionInfo = command.mentionInfo().get();
+            if (processUserType(mentionInfo.userType(), group).isLeft()) {
                 return;
             }
-            acceptor = userService.getOrCreateFromGroup(replyInfo.userId());
+            final var userResult = userService.tryGetOrCreateByMention(mentionInfo, group.id());
+            if (userResult.isEmpty()) {
+                //TODO ошибка
+                logger.warn("Unknown mention group={}, mention={}", group.id(), mentionInfo);
+                return;
+            }
+            acceptor = userResult.get();
         }
         orderTgService.orderMenuItem(group, giver, acceptor, menuItem)
             .peekLeft(
@@ -86,8 +95,8 @@ public class OrderExecutor extends CommandExecutor<Order> {
             );
     }
 
-    private Either<Failure, Success> processReplyOwner(MessageOwner messageOwner, Group group) {
-        return switch (messageOwner) {
+    private Either<Failure, Success> processUserType(UserType userType, Group group) {
+        return switch (userType) {
             case USER -> Either.right(Success.INSTANCE);
             case DIFFERENT_BOT -> {
                 telegramSender.send(SendMessageBuilder.builder()

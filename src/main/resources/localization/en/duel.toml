@@ -1,4 +1,4 @@
-duelMustBeReply = "The duel should be a reply to another user's message"
+duelMustContainsMention = "The duel should be a reply to another user's message"
 duelWithDifferentBot = [
     "Choose someone more lively as your opponent!"
 ]

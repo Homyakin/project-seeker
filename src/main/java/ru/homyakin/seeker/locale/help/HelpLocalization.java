@@ -39,10 +39,12 @@ public class HelpLocalization {
     }
 
     public static String menu(Language language) {
-        final Map<String, Object> param = Collections.singletonMap("menu_command", CommandType.TAVERN_MENU.getText());
+        final var params = new HashMap<String, Object>();
+        params.put("menu_command", CommandType.TAVERN_MENU.getText());
+        params.put("order_command", CommandType.ORDER.getText());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).menu(), map.get(Language.DEFAULT).menu()),
-            param
+            params
         );
     }
 

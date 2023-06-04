@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.locale.duel;
 
 public record DuelResource(
-    String duelMustBeReply,
+    String duelMustContainsMention,
     String[] duelWithDifferentBot,
     String[] duelWithThisBot,
     String duelWithYourself,
@@ -13,6 +13,7 @@ public record DuelResource(
     String[] declinedDuel,
     String[] finishedDuel,
     String acceptDuelButton,
-    String declineDuelButton
+    String declineDuelButton,
+    String[] duelWithUnknownUser
 ) {
 }

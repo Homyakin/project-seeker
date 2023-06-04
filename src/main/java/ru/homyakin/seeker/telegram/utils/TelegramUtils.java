@@ -33,7 +33,11 @@ public class TelegramUtils {
         return chat.isGroupChat() || chat.isSuperGroupChat();
     }
 
-    private static boolean isBotCommand(String text, String botUsername) {
-        return text.startsWith("/") && (!text.contains("@") || text.endsWith(botUsername));
+    public static boolean isBotCommand(String text, String botUsername) {
+        if (!text.startsWith("/")) {
+            return false;
+        }
+        final var command = text.split(" ")[0];
+        return (!command.contains("@") || command.split("@")[1].equalsIgnoreCase(botUsername));
     }
 }
