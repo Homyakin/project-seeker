@@ -52,7 +52,7 @@ public class EventManager {
             .stream()
             .filter(it -> it.activeTime().isActiveNow())
             .forEach(group -> {
-                logger.debug("Creating event for group " + group.id());
+                logger.info("Creating event for group " + group.id());
                 final var event = eventService.getRandomEvent();
                 launchEventInGroup(group, event);
             });
@@ -65,7 +65,7 @@ public class EventManager {
     }
 
     private void stopLaunchedEvent(LaunchedEvent launchedEvent) {
-        logger.debug("Stopping event " + launchedEvent.id());
+        logger.info("Stopping event " + launchedEvent.id());
         final var result = eventProcessing.processEvent(launchedEvent);
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getGroupEvents(launchedEvent)
