@@ -1,15 +1,12 @@
 package ru.homyakin.seeker.game.event.raid;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.TwoPersonageTeamsBattle;
+import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
+import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.Event;
-import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -32,41 +29,33 @@ public class RaidProcessing {
         this.raidDao = raidDao;
     }
 
-    public EventResult process(Event event, List<Personage> participants) {
+    public RaidResult process(Event event, List<Personage> participants) {
         final var raid = raidDao.getByEventId(event.id())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
-        final var personages = new ArrayList<BattlePersonage>(participants.size());
-        final var idToPersonages = new HashMap<Long, BattlePersonage>();
-        for (final var participant: participants) {
-            final var personage = participant.toBattlePersonage();
-            personages.add(personage);
-            idToPersonages.put(participant.id(), personage);
-        }
 
         final var result = twoPersonageTeamsBattle.battle(
-            new ArrayList<>(raid.template().generate(personages.size())),
-            personages
+            raid.template().generate(participants.size()),
+            participants
         );
 
-        boolean doesParticipantsWin = result instanceof TwoPersonageTeamsBattle.Result.SecondTeamWin;
+        boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
         int baseReward = doesParticipantsWin ? 10 : 2; // TODO баланс
         final var endTime = TimeUtils.moscowTime();
-        for (final var participant: participants) {
-            final var personage = idToPersonages.get(participant.id());
-            if (personage == null) {
-                logger.error("Personage with id {} is missing in battle map", participant.id());
-                continue;
-            }
+        for (final var personageResult: result.secondTeamResult().personageResults()) {
             personageService.addMoney(
-                participant,
-                new Money((int) (baseReward + Math.sqrt((double) personage.damageDealtAndTaken() / 10)))
+                personageResult.personage(),
+                new Money((int) (
+                    baseReward + Math.sqrt(
+                        (double) personageResult.battlePersonage().battleStats().damageDealtAndBlocked() / 10
+                    )
+                ))
             );
         }
 
-        if (doesParticipantsWin) {
-            return new EventResult.Success();
-        } else {
-            return new EventResult.Failure();
-        }
+        return new RaidResult(
+            doesParticipantsWin,
+            result.firstTeamResult().personageResults(),
+            result.secondTeamResult().personageResults()
+        );
     }
 }

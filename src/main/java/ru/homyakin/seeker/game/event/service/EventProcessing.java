@@ -1,9 +1,10 @@
 package ru.homyakin.seeker.game.event.service;
 
+import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidProcessing;
+import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.game.personage.PersonageService;
 
 @Service
@@ -18,13 +19,16 @@ public class EventProcessing {
         this.raidProcessing = raidProcessing;
     }
 
-    public EventResult processEvent(LaunchedEvent launchedEvent) {
+    public Optional<RaidResult> processEvent(LaunchedEvent launchedEvent) {
         final var event = eventService.getEventById(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Can't finish unknown event " + launchedEvent.eventId()));
         final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
 
+        if (participants.isEmpty()) {
+            return Optional.empty();
+        }
         return switch (event.type()) {
-            case RAID -> raidProcessing.process(event, participants);
+            case RAID -> Optional.of(raidProcessing.process(event, participants));
         };
     }
 }

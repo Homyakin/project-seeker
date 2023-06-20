@@ -9,6 +9,7 @@ public record CommonResource(
     String profileTemplate,
     String receptionDesk,
     String[] mainMenu,
-    String groupStats
+    String groupStats,
+    String personageBattleResult
 ) {
 }

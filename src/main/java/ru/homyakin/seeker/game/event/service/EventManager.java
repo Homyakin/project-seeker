@@ -3,7 +3,8 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.GroupService;
@@ -70,24 +71,33 @@ public class EventManager {
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getGroupEvents(launchedEvent)
             .forEach(groupEvent -> {
-                if (result instanceof EventResult.Success) {
+                if (result.map(RaidResult::isSuccess).orElse(false)) {
                     groupStatsService.increaseRaidsComplete(groupEvent.groupId(), 1);
                 }
                 final var group = groupService.getOrCreate(groupEvent.groupId());
                 final var event = eventService.getEventById(launchedEvent.eventId())
                     .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
-                telegramSender.send(EditMessageTextBuilder.builder()
-                    .chatId(groupEvent.groupId())
-                    .messageId(groupEvent.messageId())
-                    .text(event.toStartMessage(group.language()))
-                    .build()
-                );
-                telegramSender.send(SendMessageBuilder.builder()
-                    .chatId(groupEvent.groupId())
-                    .text(event.endMessage(group.language(), result))
-                    .replyMessageId(groupEvent.messageId())
-                    .build()
-                );
+                if (result.isEmpty()) {
+                    telegramSender.send(EditMessageTextBuilder.builder()
+                        .chatId(groupEvent.groupId())
+                        .messageId(groupEvent.messageId())
+                        .text(RaidLocalization.zeroParticipants(group.language()))
+                        .build()
+                    );
+                } else {
+                    telegramSender.send(EditMessageTextBuilder.builder()
+                        .chatId(groupEvent.groupId())
+                        .messageId(groupEvent.messageId())
+                        .text(event.toStartMessage(group.language()))
+                        .build()
+                    );
+                    telegramSender.send(SendMessageBuilder.builder()
+                        .chatId(groupEvent.groupId())
+                        .text(event.endMessage(group.language(), result.get()))
+                        .replyMessageId(groupEvent.messageId())
+                        .build()
+                    );
+                }
             });
 
     }

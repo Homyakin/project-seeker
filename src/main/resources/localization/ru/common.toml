@@ -18,7 +18,7 @@ groupStats = """\
 
 🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
 """
-
+personageBattleResult = "${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨"
 # текста для лички
 # TODO перенести куда-нибудь
 welcomeUser = "Добро пожаловать в таверну, Искатель!"

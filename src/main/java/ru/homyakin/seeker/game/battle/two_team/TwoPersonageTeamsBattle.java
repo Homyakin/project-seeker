@@ -1,18 +1,48 @@
-package ru.homyakin.seeker.game.battle;
+package ru.homyakin.seeker.game.battle.two_team;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.TeamResult;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
 public class TwoPersonageTeamsBattle {
 
-    public Result battle(ArrayList<BattlePersonage> firstTeam, ArrayList<BattlePersonage> secondTeam) {
+    public TwoTeamBattleResult battle(List<Personage> firstTeam, List<Personage> secondTeam) {
+        final var firstTeamResult = new ArrayList<PersonageResult>();
+        final var secondTeamResult = new ArrayList<PersonageResult>();
+        final var firstBattleTeam = firstTeam.stream().map(
+            it -> {
+                final var battlePersonage = it.toBattlePersonage();
+                firstTeamResult.add(new PersonageResult(it, battlePersonage));
+                return battlePersonage;
+            }
+        ).toList();
+        final var secondBattleTeam = secondTeam.stream().map(
+            it -> {
+                final var battlePersonage = it.toBattlePersonage();
+                secondTeamResult.add(new PersonageResult(it, battlePersonage));
+                return battlePersonage;
+            }
+        ).toList();
+
+        return new TwoTeamBattleResult(
+            process(firstBattleTeam, secondBattleTeam),
+            new TeamResult(firstTeamResult),
+            new TeamResult(secondTeamResult)
+        );
+    }
+
+    private TwoTeamBattleWinner process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
         Collections.shuffle(firstTeam);
         Collections.shuffle(secondTeam);
 
@@ -29,7 +59,7 @@ public class TwoPersonageTeamsBattle {
             final var activeAliveTeam = teamTurn == 1 ? firstAliveTeam : secondAliveTeam;
             final var activeTeamAttackQueue = teamTurn == 1 ? firstTeamAttackQueue : secondTeamAttackQueue;
             final var enemyAliveTeam = teamTurn == 1 ? secondAliveTeam : firstAliveTeam;
-            final var personage = attackPersonage(activeAliveTeam, activeTeamAttackQueue);
+            final var personage = attackingPersonage(activeAliveTeam, activeTeamAttackQueue);
             final var targetPersonage = randomAlivePersonage(enemyAliveTeam);
             personage.dealDamageToPersonage(targetPersonage);
             activeTeamAttackQueue.add(personage.id());
@@ -40,13 +70,13 @@ public class TwoPersonageTeamsBattle {
         }
 
         if (firstAliveTeam.isEmpty()) {
-            return new Result.SecondTeamWin();
+            return TwoTeamBattleWinner.SECOND_TEAM;
         } else  {
-            return new Result.FirstTeamWin();
+            return TwoTeamBattleWinner.FIRST_TEAM;
         }
     }
 
-    private BattlePersonage attackPersonage(Map<Long, BattlePersonage> alivePersonages, Queue<Long> attackQueue) {
+    private BattlePersonage attackingPersonage(Map<Long, BattlePersonage> alivePersonages, Queue<Long> attackQueue) {
         assert !attackQueue.isEmpty();
         Long personageId;
         do {
@@ -65,14 +95,5 @@ public class TwoPersonageTeamsBattle {
             ++i;
         }
         return alivePersonages.values().stream().findFirst().orElseThrow();
-    }
-
-    public abstract static sealed class Result {
-
-        public static final class FirstTeamWin extends Result {
-        }
-
-        public static final class SecondTeamWin extends Result {
-        }
     }
 }

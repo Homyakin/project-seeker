@@ -1,10 +1,16 @@
 package ru.homyakin.seeker.locale.raid;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
+import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class RaidLocalization {
     private static final Map<Language, RaidResource> map = new HashMap<>();
@@ -56,4 +62,37 @@ public class RaidLocalization {
             CommonUtils.ifNullThan(map.get(language).failureRaid(), map.get(Language.DEFAULT).failureRaid())
         );
     }
+
+    public static String zeroParticipants(Language language) {
+        return RandomUtils.getRandomElement(
+            CommonUtils.ifNullThan(map.get(language).zeroParticipants(), map.get(Language.DEFAULT).zeroParticipants())
+        );
+    }
+
+    public static String raidResult(Language language, RaidResult raidResult) {
+        final var sortedPersonages = new ArrayList<>(raidResult.personageResults());
+        sortedPersonages.sort(resultComparator);
+        final var topPersonages = new StringBuilder();
+        for (int i = 0; i < 5 && i < sortedPersonages.size(); ++i) {
+            topPersonages.append(i + 1).append(". ").append(sortedPersonages.get(i).statsText(language)).append("\n");
+        }
+        long totalEnemyHealth = 0;
+        long remainEnemyHealth = 0;
+        for (final var result: raidResult.raidNpcResults()) {
+            totalEnemyHealth += result.personage().characteristics().health();
+            remainEnemyHealth += result.battlePersonage().health();
+        }
+        final var params = new HashMap<String, Object>();
+        params.put("remain_enemy_health", remainEnemyHealth);
+        params.put("total_enemy_health", totalEnemyHealth);
+        params.put("top_personages_list", topPersonages.toString());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
+            params
+        );
+    }
+
+    private static final Comparator<PersonageResult> resultComparator = Comparator.<PersonageResult>comparingLong(
+        personageResult -> personageResult.battlePersonage().battleStats().damageDealtAndBlocked()
+    ).reversed();
 }

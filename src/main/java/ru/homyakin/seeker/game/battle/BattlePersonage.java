@@ -9,8 +9,7 @@ public class BattlePersonage implements Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
     private int health;
-    private long damageDealt = 0L;
-    private long damageBlocked = 0L;
+    private final BattleStats battleStats = new BattleStats();
     private final BattleCharacteristics characteristics;
 
     public BattlePersonage(
@@ -26,10 +25,6 @@ public class BattlePersonage implements Cloneable {
         return id;
     }
 
-    public long damageDealtAndTaken() {
-        return damageDealt + damageBlocked;
-    }
-
     public int health() {
         return health;
     }
@@ -38,20 +33,26 @@ public class BattlePersonage implements Cloneable {
         return health <= 0;
     }
 
+    public BattleStats battleStats() {
+        return battleStats;
+    }
+
     public void dealDamageToPersonage(BattlePersonage enemy) {
         double attack = this.characteristics.attack + this.characteristics.strength * strengthMultiplier
             - enemy.characteristics.defense * defenseMultiplier;
         attack = Math.max(minAttack(), attack);
         attack *= critBonus(enemy.characteristics.agility);
-        damageDealt += enemy.takeDamageAndReturnDealtDamage((int) attack, this);
+        battleStats.increaseDamageDealt(enemy.takeDamageAndReturnDealtDamage((int) attack, this));
     }
 
     private int takeDamageAndReturnDealtDamage(int attack, BattlePersonage enemy) {
-        damageBlocked += attack;
         if (isDodge()) {
+            battleStats.increaseDamageDodged(attack);
+            battleStats.incrementDodgesCount();
             logger.debug("Personage {} missed {}", enemy.id, id);
             return 0;
         }
+        battleStats.increaseDamageTaken(attack);
         final int dealtDamage;
         if (health < attack) {
             dealtDamage = health;

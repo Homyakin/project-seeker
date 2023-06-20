@@ -6,6 +6,7 @@ import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.constraints.NotNull;
+import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -50,9 +51,9 @@ public record Event(
             );
     }
 
-    public String endMessage(Language language, EventResult result) {
+    public String endMessage(Language language, RaidResult raidResult) {
         return switch (type) {
-            case RAID -> raidEndMessage(language, result);
+            case RAID -> raidEndMessage(language, raidResult);
         };
     }
 
@@ -78,13 +79,12 @@ public record Event(
         return Optional.of(prefix + hours + " " + minutes);
     }
 
-    private String raidEndMessage(Language language, EventResult result) {
-        if (result instanceof EventResult.Success) {
-            return RaidLocalization.successRaid(language);
-        } else if (result instanceof EventResult.Failure) {
-            return RaidLocalization.failureRaid(language);
+    private String raidEndMessage(Language language, RaidResult raidResult) {
+        if (raidResult.isSuccess()) {
+            return RaidLocalization.successRaid(language) + "\n\n" + RaidLocalization.raidResult(language, raidResult);
+        } else {
+            return RaidLocalization.failureRaid(language) + "\n\n" + RaidLocalization.raidResult(language, raidResult);
         }
-        return "";
     }
 
     private EventLocale getLocaleByLanguageOrDefault(Language language) {

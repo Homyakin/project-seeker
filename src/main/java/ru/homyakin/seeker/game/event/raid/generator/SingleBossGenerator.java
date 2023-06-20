@@ -2,23 +2,28 @@ package ru.homyakin.seeker.game.event.raid.generator;
 
 import java.util.Collections;
 import java.util.List;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 public class SingleBossGenerator implements RaidBattleGenerator {
     @Override
-    public List<BattlePersonage> generate(int personagesCount) {
+    public List<Personage> generate(int personagesCount) {
         final var characteristics = Characteristics.createDefault();
-        final var boss = new BattlePersonage(
+        final int health = characteristics.health() * personagesCount;
+        final var boss = new Personage(
             -1,
+            null,
+            null,
             new Characteristics(
-                (int) (characteristics.health() * personagesCount),
+                RandomUtils.getInInterval((int) (health * 0.9), (int) (health * 1.1)),
                 (int) (characteristics.attack() * Math.pow(personagesCount, 0.01)),
                 (int) (characteristics.defense() * Math.pow(personagesCount, 0.01)),
                 characteristics.strength(),
                 characteristics.agility(),
                 characteristics.wisdom()
-            )
+            ),
+            null
         );
         return Collections.singletonList(boss);
     }

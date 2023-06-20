@@ -2,6 +2,7 @@ package ru.homyakin.seeker.locale.common;
 
 import java.util.HashMap;
 import java.util.Map;
+import ru.homyakin.seeker.game.battle.PersonageResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -66,6 +67,18 @@ public class CommonLocalization {
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
+            params
+        );
+    }
+
+    public static String personageBattleResult(Language language, PersonageResult personageResult) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon_with_name", personageResult.personage().iconWithName());
+        params.put("damage_dealt", personageResult.battlePersonage().battleStats().damageDealt());
+        params.put("damage_taken", personageResult.battlePersonage().battleStats().damageTaken());
+        params.put("dodges_count", personageResult.battlePersonage().battleStats().dodgesCount());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).personageBattleResult(), map.get(Language.DEFAULT).personageBattleResult()),
             params
         );
     }

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.generator.RaidBattleGenerator;
 import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
+import ru.homyakin.seeker.game.personage.models.Personage;
 
 public enum RaidTemplate {
     SINGLE_BOSS(1, new SingleBossGenerator()),
@@ -30,7 +30,7 @@ public enum RaidTemplate {
             .orElseThrow(() -> new IllegalStateException("Unexpected raid template id: " + id));
     }
 
-    public List<BattlePersonage> generate(int personagesCount) {
+    public List<Personage> generate(int personagesCount) {
         return generator.generate(personagesCount);
     }
 }

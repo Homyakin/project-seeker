@@ -4,14 +4,16 @@ import io.vavr.control.Either;
 import java.time.Duration;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.duel.models.DuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
+import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.TimeUtils;
-import ru.homyakin.seeker.utils.models.Success;
 
 @Component
 public class DuelService {
@@ -19,10 +21,18 @@ public class DuelService {
     private final Duration duelLifeTime;
     private final PersonageService personageService;
 
-    public DuelService(DuelDao duelDao, DuelConfig duelConfig, PersonageService personageService) {
+    private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
+
+    public DuelService(
+        DuelDao duelDao,
+        DuelConfig duelConfig,
+        PersonageService personageService,
+        TwoPersonageTeamsBattle twoPersonageTeamsBattle
+    ) {
         this.duelDao = duelDao;
         this.duelLifeTime = duelConfig.lifeTime();
         this.personageService = personageService;
+        this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
     }
 
     //TODO прочитать про transactional
@@ -69,15 +79,31 @@ public class DuelService {
         duelDao.updateStatus(duelId, DuelStatus.DECLINED);
     }
 
-    public Success finishDuel(long duelId) {
+    public DuelResult finishDuel(Duel duel) {
         //TODO проверка на то, что статус был не финишд
-        duelDao.updateStatus(duelId, DuelStatus.FINISHED);
-        return Success.INSTANCE;
-    }
+        duelDao.updateStatus(duel.id(), DuelStatus.FINISHED);
+        final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
+        final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
+        final var battleResult = twoPersonageTeamsBattle.battle(
+            List.of(personage1),
+            List.of(personage2)
+        );
 
-    public void addWinner(long duelId, long personageId) {
-        //TODO проверка на то, что статус был не финишд
-        duelDao.addWinnerIdToDuel(duelId, personageId);
+        final PersonageResult winner;
+        final PersonageResult looser;
+        switch (battleResult.winner()) {
+            case FIRST_TEAM -> {
+                winner = battleResult.firstTeamResult().personageResults().get(0);
+                looser = battleResult.secondTeamResult().personageResults().get(0);
+            }
+            case SECOND_TEAM -> {
+                winner = battleResult.secondTeamResult().personageResults().get(0);
+                looser = battleResult.firstTeamResult().personageResults().get(0);
+            }
+            default -> throw new IllegalStateException("Unexpected status");
+        }
+        duelDao.addWinnerIdToDuel(duel.id(), winner.personage().id());
+        return new DuelResult(winner, looser);
     }
 
     private void returnMoneyToInitiator(long duelId) {
