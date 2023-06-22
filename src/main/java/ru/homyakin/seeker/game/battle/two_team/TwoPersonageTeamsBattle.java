@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.battle.two_team;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
