@@ -1,6 +1,9 @@
 package ru.homyakin.seeker.utils;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.random.RandomGenerator;
 
 public class RandomUtils {
@@ -20,5 +23,11 @@ public class RandomUtils {
 
     public static <T> T getRandomElement(T[] array) {
         return array[random.nextInt(0, array.length)];
+    }
+
+    public static <T> List<T> shuffle(List<T> list) {
+        final var modifiableList = new ArrayList<T>(list);
+        Collections.shuffle(modifiableList);
+        return modifiableList;
     }
 }

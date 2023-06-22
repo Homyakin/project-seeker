@@ -43,8 +43,8 @@ public class TwoPersonageTeamsBattle {
     }
 
     private TwoTeamBattleWinner process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
-        Collections.shuffle(firstTeam);
-        Collections.shuffle(secondTeam);
+        firstTeam = RandomUtils.shuffle(firstTeam);
+        secondTeam = RandomUtils.shuffle(secondTeam);
 
         final var firstAliveTeam = firstTeam.stream()
             .collect(Collectors.toMap(BattlePersonage::id, it -> it));
