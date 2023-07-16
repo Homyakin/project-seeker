@@ -9,7 +9,7 @@ import ru.homyakin.seeker.utils.RandomUtils;
 public class SingleBossGenerator implements RaidBattleGenerator {
     @Override
     public List<Personage> generate(int personagesCount) {
-        final var characteristics = Characteristics.createDefault();
+        final var characteristics = Characteristics.random();
         final int health = characteristics.health() * personagesCount;
         final var boss = new Personage(
             -1,

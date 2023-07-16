@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.personage.models;
 import io.vavr.control.Either;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
 
@@ -19,6 +20,21 @@ public record Characteristics(
 
     public Characteristics reset() {
         return new Characteristics(health, attack, defense, 1, 1, 1);
+    }
+
+    public static Characteristics random() {
+        int strength = 1;
+        int agility = 1;
+        int wisdom = 1;
+        while (strength + agility + wisdom < MAX_LEVELING_POINTS) {
+            final var random = RandomUtils.getInInterval(1, 3);
+            switch (random) {
+                case 1 -> ++strength;
+                case 2 -> ++agility;
+                default -> ++wisdom;
+            }
+        }
+        return new Characteristics(500, 50, 20, strength, agility, wisdom);
     }
 
     public String shortStats() {

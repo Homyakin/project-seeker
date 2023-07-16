@@ -38,67 +38,78 @@ public class BattlePersonage implements Cloneable {
     }
 
     public void dealDamageToPersonage(BattlePersonage enemy) {
-        double attack = this.characteristics.attack + this.characteristics.strength * strengthMultiplier
-            - enemy.characteristics.defense * defenseMultiplier;
-        attack = Math.max(minAttack(), attack);
-        attack *= critBonus(enemy.characteristics.agility);
-        battleStats.increaseDamageDealt(enemy.takeDamageAndReturnDealtDamage((int) attack, this));
-    }
-
-    private int takeDamageAndReturnDealtDamage(int attack, BattlePersonage enemy) {
-        if (isDodge()) {
-            battleStats.increaseDamageDodged(attack);
-            battleStats.incrementDodgesCount();
-            logger.debug("Personage {} missed {}", enemy.id, id);
-            return 0;
+        final var attack = (long) Math.max(
+            this.characteristics.attack
+                * this.characteristics.advantage(enemy.characteristics)
+                * this.attackBonus(enemy)
+                * this.critMultiplier(enemy)
+                - enemy.characteristics.defense,
+            this.characteristics.attack * minAttack
+        );
+        enemy.battleStats.increaseDamageTaken(attack);
+        if (enemy.dodge(this)) {
+            enemy.battleStats.incrementDodgesCount();
+            return;
         }
-        battleStats.increaseDamageTaken(attack);
-        final int dealtDamage;
-        if (health < attack) {
-            dealtDamage = health;
-            health = 0;
+        if (enemy.health() <= attack) {
+            this.battleStats.increaseDamageDealt(enemy.health());
+            enemy.health = 0;
         } else {
-            dealtDamage = attack;
-            health -= attack;
-        }
-        logger.debug("Personage {} attacked {} by {} damage", enemy.id, id, dealtDamage);
-        return dealtDamage;
-    }
-
-    private boolean isDodge() {
-        var dodgeChance = baseDodgeChance + this.characteristics.agility * agilityDodgeChanceMultiplier;
-        dodgeChance = Math.min(maxDodgeChance, dodgeChance);
-        return RandomUtils.getInInterval(1, 100) <= dodgeChance;
-    }
-
-    private double critBonus(int enemyAgility) {
-        final var wisdom = this.characteristics.wisdom;
-        var critChance = baseCritChance + wisdom * wisdomCritChanceMultiplier;
-        critChance = Math.min(maxCritChance, critChance);
-        if (RandomUtils.getInInterval(1, 100) <= critChance) {
-            return baseCritMulti + (Math.max(wisdom - enemyAgility * agilityCritMultiMultiplier, 0)) * wisdomCritMultiplier;
-        } else {
-            return baseCritMulti;
+            this.battleStats.increaseDamageDealt(attack);
+            enemy.health -= attack;
         }
     }
 
-    private double minAttack() {
-        return characteristics.attack() * minAttackPercent;
+    private boolean dodge(BattlePersonage enemy) {
+        final var diff = this.characteristics.agility - enemy.characteristics.agility;
+        final var offsetX = -14;
+        var chance = baseDodgeChance;
+        if (diff > offsetX) {
+            chance += Math.max(-1250.0 / (diff - offsetX) + 70, 0);
+        }
+        return RandomUtils.getInInterval(1, 100) <= chance;
+    }
+
+    private double critMultiplier(BattlePersonage enemy) {
+        final var diff = this.characteristics.wisdom - enemy.characteristics.wisdom;
+        if (!isCrit(diff)) {
+            return 1;
+        }
+        var multiplier = baseCritMultiplier;
+        final var offsetX = -6;
+        if (diff > offsetX) {
+            multiplier += Math.max(-9.0 / (diff - offsetX) + 1.5, 0);
+        }
+        return multiplier;
+    }
+
+    private boolean isCrit(int wisdomDiff) {
+        var chance = baseCritChance;
+        final var offsetX = -14;
+        if (wisdomDiff > offsetX) {
+            chance += Math.max(-1300.0 / (wisdomDiff - offsetX) + 70, 0);
+        }
+        return RandomUtils.getInInterval(1, 100) <= chance;
+    }
+
+    private double attackBonus(BattlePersonage enemy) {
+        var bonus = 0.0;
+        final var offsetX = -10;
+        final var diff = this.characteristics.strength - enemy.characteristics.strength;
+        if (diff > offsetX) {
+            bonus += Math.max(-1.0 / (diff - offsetX) + 0.1, 0);
+        }
+        final double randomAttack = RandomUtils.getInInterval(100 - attackDeviation, 100 + attackDeviation) / 100.0;
+        return randomAttack + bonus;
     }
 
     // TODO вынести в базу
-    private static final int maxDodgeChance = 90;
-    private static final int baseDodgeChance = 10;
-    private static final double baseCritMulti = 2;
-    private static final int baseCritChance = 10;
-    private static final int maxCritChance = 90;
-    private static final double minAttackPercent = 0.1;
-    private static final double strengthMultiplier = 1.1;
-    private static final double defenseMultiplier = 0.7;
-    private static final double agilityDodgeChanceMultiplier = 1.6;
-    private static final double agilityCritMultiMultiplier = 0.4;
-    private static final double wisdomCritMultiplier = 0.04;
-    private static final double wisdomCritChanceMultiplier = 2;
+    private static final double baseDodgeChance = 10;
+    private static final double advantageMultiplier = 2;
+    private static final double baseCritChance = 10;
+    private static final double baseCritMultiplier = 2;
+    private static final int attackDeviation = 10;
+    private static final double minAttack = 0.1;
 
     record BattleCharacteristics(
         int attack,
@@ -125,6 +136,20 @@ public class BattlePersonage implements Cloneable {
                 //Не может быть в record
                 throw new RuntimeException(e);
             }
+        }
+
+        private double advantage(BattleCharacteristics other) {
+            final var strength1 = Math.max(this.strength - other.agility / advantageMultiplier - other.wisdom, 1);
+            final var agility1 = Math.max(this.agility - other.wisdom / advantageMultiplier - other.strength, 1);
+            final var wisdom1 = Math.max(this.wisdom - other.strength / advantageMultiplier - other.agility, 1);
+            final var strength2 = Math.max(other.strength - this.agility / advantageMultiplier - this.wisdom, 1);
+            final var agility2 = Math.max(other.agility - this.wisdom / advantageMultiplier - this.strength, 1);
+            final var wisdom2 = Math.max(other.wisdom - this.strength / advantageMultiplier - this.agility, 1);
+            final var advantage = (strength1 + agility1 + wisdom1) - (strength2 + agility2 + wisdom2);
+            if (advantage <= 0) {
+                return 1;
+            }
+            return -8 / (advantage + 8) + 2;
         }
     }
 
