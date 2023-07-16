@@ -62,10 +62,10 @@ public class BattlePersonage implements Cloneable {
 
     private boolean dodge(BattlePersonage enemy) {
         final var diff = this.characteristics.agility - enemy.characteristics.agility;
-        final var offsetX = -14;
+        final var offsetX = -28;
         var chance = baseDodgeChance;
         if (diff > offsetX) {
-            chance += Math.max(-1250.0 / (diff - offsetX) + 70, 0);
+            chance += Math.max(-1960.0 / (diff - offsetX) + 70, 0);
         }
         return RandomUtils.getInInterval(1, 100) <= chance;
     }
@@ -85,19 +85,19 @@ public class BattlePersonage implements Cloneable {
 
     private boolean isCrit(int wisdomDiff) {
         var chance = baseCritChance;
-        final var offsetX = -14;
+        final var offsetX = -37.4;
         if (wisdomDiff > offsetX) {
-            chance += Math.max(-1300.0 / (wisdomDiff - offsetX) + 70, 0);
+            chance += Math.max(-2618.0 / (wisdomDiff - offsetX) + 70, 0);
         }
         return RandomUtils.getInInterval(1, 100) <= chance;
     }
 
     private double attackBonus(BattlePersonage enemy) {
         var bonus = 0.0;
-        final var offsetX = -10;
+        final var offsetX = -12;
         final var diff = this.characteristics.strength - enemy.characteristics.strength;
         if (diff > offsetX) {
-            bonus += Math.max(-1.0 / (diff - offsetX) + 0.1, 0);
+            bonus += Math.max(-1.44 / (diff - offsetX) + 0.12, 0);
         }
         final double randomAttack = RandomUtils.getInInterval(100 - attackDeviation, 100 + attackDeviation) / 100.0;
         return randomAttack + bonus;
@@ -109,7 +109,7 @@ public class BattlePersonage implements Cloneable {
     private static final double baseCritChance = 10;
     private static final double baseCritMultiplier = 2;
     private static final int attackDeviation = 10;
-    private static final double minAttack = 0.1;
+    private static final double minAttack = 0.3;
 
     record BattleCharacteristics(
         int attack,
