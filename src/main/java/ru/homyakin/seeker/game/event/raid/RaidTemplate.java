@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
 import ru.homyakin.seeker.game.event.raid.generator.RaidBattleGenerator;
 import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
 import ru.homyakin.seeker.game.personage.models.Personage;
 
 public enum RaidTemplate {
     SINGLE_BOSS(1, new SingleBossGenerator()),
+    RAID_TEMPLATE(2, new GroupGenerator()),
     ;
 
     private final int id;

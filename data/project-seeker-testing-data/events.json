@@ -25,7 +25,7 @@
     "duration": "PT1M",
     "is_enabled": false,
     "raid": {
-      "template_id": 1,
+      "template_id": 2,
       "name": "Мудрый волк"
     },
     "locale": [

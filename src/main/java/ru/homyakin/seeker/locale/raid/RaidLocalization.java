@@ -76,15 +76,21 @@ public class RaidLocalization {
         for (int i = 0; i < 5 && i < sortedPersonages.size(); ++i) {
             topPersonages.append(i + 1).append(". ").append(sortedPersonages.get(i).statsText(language)).append("\n");
         }
-        long totalEnemyHealth = 0;
-        long remainEnemyHealth = 0;
+        long totalEnemiesHealth = 0;
+        long remainEnemiesHealth = 0;
+        long remainingEnemies = 0;
         for (final var result: raidResult.raidNpcResults()) {
-            totalEnemyHealth += result.personage().characteristics().health();
-            remainEnemyHealth += result.battlePersonage().health();
+            totalEnemiesHealth += result.personage().characteristics().health();
+            remainEnemiesHealth += result.battlePersonage().health();
+            if (!result.battlePersonage().isDead()) {
+                ++remainingEnemies;
+            }
         }
         final var params = new HashMap<String, Object>();
-        params.put("remain_enemy_health", remainEnemyHealth);
-        params.put("total_enemy_health", totalEnemyHealth);
+        params.put("remain_enemies_health", remainEnemiesHealth);
+        params.put("total_enemies_health", totalEnemiesHealth);
+        params.put("remain_enemies_count", remainingEnemies);
+        params.put("total_enemies_count", raidResult.raidNpcResults().size());
         params.put("top_personages_list", topPersonages.toString());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),

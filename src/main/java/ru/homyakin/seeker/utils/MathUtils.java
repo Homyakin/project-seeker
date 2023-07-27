@@ -10,4 +10,8 @@ public class MathUtils {
             return (int) d;
         }
     }
+
+    public static double log(double base, double value) {
+        return Math.log(value) / Math.log(base);
+    }
 }

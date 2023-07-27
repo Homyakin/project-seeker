@@ -38,7 +38,7 @@ public class BattlePersonage implements Cloneable {
     }
 
     public void dealDamageToPersonage(BattlePersonage enemy) {
-        final var attack = (long) Math.max(
+        final var attack = (int) Math.max(
             this.characteristics.attack
                 * this.characteristics.advantage(enemy.characteristics)
                 * this.attackBonus(enemy)
@@ -46,11 +46,12 @@ public class BattlePersonage implements Cloneable {
                 - enemy.characteristics.defense,
             this.characteristics.attack * minAttack
         );
-        enemy.battleStats.increaseDamageTaken(attack);
         if (enemy.dodge(this)) {
             enemy.battleStats.incrementDodgesCount();
+            enemy.battleStats.increaseDamageDodged(attack);
             return;
         }
+        enemy.battleStats.increaseDamageTaken(attack);
         if (enemy.health() <= attack) {
             this.battleStats.increaseDamageDealt(enemy.health());
             enemy.health = 0;

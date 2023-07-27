@@ -20,7 +20,7 @@ zeroParticipants = [
     "Никто не принял заказ😢В этот раз денег никто не получит."
 ]
 raidResult = """\
-Здоровье противников: ${remain_enemy_health}/${total_enemy_health}❤️
+Противники: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
 
 Лучшие искатели:
 ${top_personages_list}"""
