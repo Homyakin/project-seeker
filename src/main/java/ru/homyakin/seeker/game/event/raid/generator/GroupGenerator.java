@@ -6,7 +6,6 @@ import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GroupGenerator implements RaidBattleGenerator {
