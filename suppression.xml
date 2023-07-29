@@ -5,8 +5,4 @@
         "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress checks="TypeName"
-              files="resource_en.java"/>
-    <suppress checks="TypeName"
-              files="resource_ru.java"/>
 </suppressions>

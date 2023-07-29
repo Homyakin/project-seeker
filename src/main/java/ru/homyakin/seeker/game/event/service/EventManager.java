@@ -36,7 +36,8 @@ public class EventManager {
         TelegramSender telegramSender,
         LaunchedEventService launchedEventService,
         EventProcessing eventProcessing,
-        GroupStatsService groupStatsService) {
+        GroupStatsService groupStatsService
+    ) {
         this.eventConfig = eventConfig;
         this.groupService = groupService;
         this.eventService = eventService;
