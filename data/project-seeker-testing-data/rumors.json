@@ -1,0 +1,16 @@
+[
+  {
+    "code": "test_rumor",
+    "is_available": true,
+    "locale": [
+      {
+        "language_id": "ru",
+        "text": "Это слух в таверне. Он должен быть интересным и актуальным"
+      },
+      {
+        "language_id": "en",
+        "text": "This is rumor on tavern, but on english"
+      }
+    ]
+  }
+]

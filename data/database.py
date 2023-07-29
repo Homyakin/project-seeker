@@ -49,3 +49,16 @@ def put(data: Dict, table: str, pk_columns: List[str], simple_columns: List[str]
             update_entity(table, data, simple_columns, pk_columns)
     else:
         insert_entity(table, data, simple_columns + pk_columns)
+
+
+def get_value(table: str, search_data: Dict, required_columns: List[str]) -> List:
+    cursor = conn.cursor()
+    search_template = ' and '.join([f"{column}='{value}'" for column, value in search_data.items()])
+    result_columns = ', '.join(required_columns)
+    sql = f'SELECT {result_columns} FROM {table} WHERE {search_template}'
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    if len(result) > 1:
+        print("WARN: getting value has more than 1 result")
+    cursor.close()
+    return result[0]

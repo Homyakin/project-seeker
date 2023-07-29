@@ -1,7 +1,7 @@
 import json
 from typing import Dict
 
-import put_entity_to_database
+import database
 import validation
 
 
@@ -25,7 +25,7 @@ def process_event(event: Dict):
 
     event['type_id'] = event_type
 
-    put_entity_to_database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type_id', 'is_enabled'])
+    database.put(event, table='event', pk_columns=['id'], simple_columns=['duration', 'type_id', 'is_enabled'])
     process_type(type_object, event['id'])
 
     if 'locale' in event:
@@ -36,7 +36,7 @@ def process_event(event: Dict):
 
 def process_raid(raid: Dict, event_id: int):
     raid['event_id'] = event_id
-    put_entity_to_database.put(
+    database.put(
         raid,
         table='raid',
         pk_columns=['event_id'],
@@ -48,7 +48,7 @@ def process_locale(locales: Dict, event_id: int):
     validation.validate_locales(locales)
     for locale in locales:
         locale['event_id'] = event_id
-        put_entity_to_database.put(
+        database.put(
             locale,
             table='event_locale',
             pk_columns=['event_id', 'language_id'],

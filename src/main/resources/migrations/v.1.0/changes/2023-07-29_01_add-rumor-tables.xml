@@ -1,0 +1,51 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-rumor-tables">
+        <createTable tableName="rumor">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_available" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="code"
+                constraintName="rumor_unique_code"
+                tableName="rumor"
+        />
+
+        <createTable tableName="rumor_locale">
+            <column name="rumor_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="rumor_id, language_id"
+                constraintName="rumor_locale_pk"
+                tableName="rumor_locale"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="rumor_locale"
+                baseColumnNames="rumor_id"
+                referencedTableName="rumor"
+                referencedColumnNames="id"
+                constraintName="fk_rumor_locale_rumor"
+        />
+    </changeSet>
+</databaseChangeLog>
