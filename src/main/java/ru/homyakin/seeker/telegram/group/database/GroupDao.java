@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class GroupDao {
@@ -26,9 +27,13 @@ public class GroupDao {
         """;
     private static final String UPDATE = """
         update grouptg
-        set is_active = :is_active, language_id = :language_id, next_event_date = :next_event_date,
-        start_active_hour = :start_active_hour, end_active_hour = :end_active_hour, active_time_zone = :active_time_zone
+        set is_active = :is_active, language_id = :language_id, start_active_hour = :start_active_hour, 
+        end_active_hour = :end_active_hour, active_time_zone = :active_time_zone
         where id = :id;
+        """;
+
+    private static final String UPDATE_NEXT_EVENT_DATE = """
+        UPDATE grouptg SET next_event_date = :next_event_date WHERE id = :id
         """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -38,12 +43,13 @@ public class GroupDao {
     }
 
     public void save(Group group) {
+        final var now = TimeUtils.moscowTime();
         final var params = new HashMap<String, Object>();
         params.put("id", group.id());
         params.put("is_active", group.isActive());
         params.put("language_id", group.language().id());
-        params.put("init_date", group.nextEventDate());
-        params.put("next_event_date", group.nextEventDate());
+        params.put("init_date", now);
+        params.put("next_event_date", now);
         jdbcTemplate.update(
             SAVE_GROUP,
             params
@@ -74,7 +80,6 @@ public class GroupDao {
         params.put("id", group.id());
         params.put("is_active", group.isActive());
         params.put("language_id", group.language().id());
-        params.put("next_event_date", group.nextEventDate());
         params.put("start_active_hour", group.activeTime().startHour());
         params.put("end_active_hour", group.activeTime().endHour());
         params.put("active_time_zone", group.activeTime().timeZone());
@@ -84,12 +89,21 @@ public class GroupDao {
         );
     }
 
+    public void updateNextEventDate(long groupId, LocalDateTime nextEventDate) {
+        final var params = new HashMap<String, Object>();
+        params.put("id", groupId);
+        params.put("next_event_date", nextEventDate);
+        jdbcTemplate.update(
+            UPDATE_NEXT_EVENT_DATE,
+            params
+        );
+    }
+
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Group(
             rs.getLong("id"),
             rs.getBoolean("is_active"),
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getTimestamp("next_event_date").toLocalDateTime(),
             new ActiveTime(
                 rs.getInt("start_active_hour"),
                 rs.getInt("end_active_hour"),

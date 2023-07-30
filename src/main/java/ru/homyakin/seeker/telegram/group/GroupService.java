@@ -10,7 +10,6 @@ import ru.homyakin.seeker.telegram.group.database.GroupDao;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.ActiveTimeError;
 import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 @Service
@@ -42,7 +41,7 @@ public class GroupService {
     }
 
     public void updateNextEventDate(Group group, LocalDateTime nextEventDate) {
-        group.updateNextEventDate(nextEventDate, groupDao);
+        groupDao.updateNextEventDate(group.id(), nextEventDate);
     }
 
     public Either<ActiveTimeError, Success> updateActiveTime(Group group, int startHour, int endHour, int timeZone) {
@@ -57,7 +56,7 @@ public class GroupService {
     }
 
     private Group createGroup(long groupId) {
-        final var group = new Group(groupId, true, Language.DEFAULT, TimeUtils.moscowTime(), ActiveTime.createDefault());
+        final var group = new Group(groupId, true, Language.DEFAULT, ActiveTime.createDefault());
         groupDao.save(group);
         groupStatsService.create(groupId);
         return group;
