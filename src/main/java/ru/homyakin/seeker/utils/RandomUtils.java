@@ -14,14 +14,14 @@ public class RandomUtils {
     }
 
     public static long getInInterval(long start, long end) {
-        if (start == end) {
+        if (start >= end) {
             return start;
         }
         return random.nextLong(start, end + 1);
     }
 
     public static int getInInterval(int start, int end) {
-        if (start == end) {
+        if (start >= end) {
             return start;
         }
         return random.nextInt(start, end + 1);
