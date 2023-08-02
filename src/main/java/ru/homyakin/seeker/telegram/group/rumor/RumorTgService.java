@@ -37,17 +37,20 @@ public class RumorTgService {
     @Scheduled(cron = "0 * * * * *")
     public void createNewRumors() {
         logger.debug("Creating new rumors");
-        groupService.getGetGroupsWithLessNextRumorDate(TimeUtils.moscowTime()).forEach(
-            group -> rumorService.getRandomAvailableRumor()
-                .ifPresentOrElse(
-                    rumor -> {
-                        logger.info("Launching rumor " + rumor.code() + " in group " + group.id());
-                        telegramSender.send(toMessage(rumor, group));
-                        groupService.updateNextRumorDate(group, nextRumorDate(group));
-                    },
-                    () -> logger.warn("No available rumors")
-                )
-        );
+        groupService.getGetGroupsWithLessNextRumorDate(TimeUtils.moscowTime())
+            .stream()
+            .filter(group -> group.isActive() && group.activeTime().isActiveNow())
+            .forEach(
+                group -> rumorService.getRandomAvailableRumor()
+                    .ifPresentOrElse(
+                        rumor -> {
+                            logger.info("Launching rumor " + rumor.code() + " in group " + group.id());
+                            telegramSender.send(toMessage(rumor, group));
+                            groupService.updateNextRumorDate(group, nextRumorDate(group));
+                        },
+                        () -> logger.warn("No available rumors")
+                    )
+            );
     }
 
     private LocalDateTime nextRumorDate(Group group) {
