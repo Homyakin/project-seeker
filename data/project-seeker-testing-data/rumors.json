@@ -9,7 +9,21 @@
       },
       {
         "language_id": "en",
-        "text": "This is rumor on tavern, but on english"
+        "text": "This is rumor on tavern, but in english"
+      }
+    ]
+  },
+  {
+    "code": "test_rumor_2",
+    "is_available": true,
+    "locale": [
+      {
+        "language_id": "ru",
+        "text": "Это второй слух. Не такой интересный как первый."
+      },
+      {
+        "language_id": "en",
+        "text": "This is second rumor on tavern, but in english"
       }
     ]
   }

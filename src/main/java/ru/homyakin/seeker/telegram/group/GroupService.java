@@ -40,8 +40,16 @@ public class GroupService {
         return groupDao.getGetGroupsWithLessNextEventDate(maxNextEventDate);
     }
 
+    public List<Group> getGetGroupsWithLessNextRumorDate(LocalDateTime maxNextRumorDate) {
+        return groupDao.getGetGroupsWithLessNextRumorDate(maxNextRumorDate);
+    }
+
     public void updateNextEventDate(Group group, LocalDateTime nextEventDate) {
         groupDao.updateNextEventDate(group.id(), nextEventDate);
+    }
+
+    public void updateNextRumorDate(Group group, LocalDateTime nextRumorDate) {
+        groupDao.updateNextRumorDate(group.id(), nextRumorDate);
     }
 
     public Either<ActiveTimeError, Success> updateActiveTime(Group group, int startHour, int endHour, int timeZone) {

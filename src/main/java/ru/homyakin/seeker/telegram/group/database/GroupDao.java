@@ -21,6 +21,9 @@ public class GroupDao {
     private static final String GET_GROUP_WITH_LESS_NEXT_EVENT_DATE = """
         SELECT * FROM grouptg WHERE next_event_date  < :next_event_date and is_active = true
         """;
+    private static final String GET_GROUP_WITH_LESS_NEXT_RUMOR_DATE = """
+        SELECT * FROM grouptg WHERE next_rumor_date < :next_rumor_date and is_active = true
+        """;
     private static final String SAVE_GROUP = """
         insert into grouptg (id, is_active, language_id, init_date, next_event_date)
         values (:id, :is_active, :language_id, :init_date, :next_event_date)
@@ -34,6 +37,10 @@ public class GroupDao {
 
     private static final String UPDATE_NEXT_EVENT_DATE = """
         UPDATE grouptg SET next_event_date = :next_event_date WHERE id = :id
+        """;
+
+    private static final String UPDATE_NEXT_RUMOR_DATE = """
+        UPDATE grouptg SET next_rumor_date = :next_rumor_date WHERE id = :id
         """;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -75,6 +82,15 @@ public class GroupDao {
         );
     }
 
+    public List<Group> getGetGroupsWithLessNextRumorDate(LocalDateTime maxNextRumorDate) {
+        final var params = Collections.singletonMap("next_rumor_date", maxNextRumorDate);
+        return jdbcTemplate.query(
+            GET_GROUP_WITH_LESS_NEXT_RUMOR_DATE,
+            params,
+            this::mapRow
+        );
+    }
+
     public void update(Group group) {
         final var params = new HashMap<String, Object>();
         params.put("id", group.id());
@@ -95,6 +111,16 @@ public class GroupDao {
         params.put("next_event_date", nextEventDate);
         jdbcTemplate.update(
             UPDATE_NEXT_EVENT_DATE,
+            params
+        );
+    }
+
+    public void updateNextRumorDate(long groupId, LocalDateTime nextRumorDate) {
+        final var params = new HashMap<String, Object>();
+        params.put("id", groupId);
+        params.put("next_rumor_date", nextRumorDate);
+        jdbcTemplate.update(
+            UPDATE_NEXT_RUMOR_DATE,
             params
         );
     }

@@ -1,11 +1,10 @@
-package ru.homyakin.seeker.game.tavern_menu.models;
+package ru.homyakin.seeker.game.rumor;
 
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleObject;
 
-public record MenuItemLocale(
+public record RumorLocale(
     Language language,
-    String name,
-    String[] consumeTemplate
+    String text
 ) implements LocaleObject {
 }

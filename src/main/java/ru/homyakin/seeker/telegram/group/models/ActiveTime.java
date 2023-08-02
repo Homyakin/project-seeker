@@ -32,15 +32,12 @@ public record ActiveTime(
     }
 
     public boolean isActiveNow() {
-        // Get the current time in the specified timezone
         final var zoneId = ZoneId.ofOffset("", ZoneOffset.ofHours(timeZone));
         final var currentTime = ZonedDateTime.now(zoneId).toLocalTime();
 
-        // Check if the current time is between the start and end hours
         final var startTime = LocalTime.of(startHour, 0);
         LocalTime endTime;
         if (endHour == 24) {
-            // If the end time is before the start time, it means the active time spans across two days
             endTime = LocalTime.of(23, 59, 59);
         } else {
             endTime = LocalTime.of(endHour, 0);
@@ -48,6 +45,10 @@ public record ActiveTime(
         return currentTime.isAfter(startTime) && currentTime.isBefore(endTime)
             || currentTime.equals(startTime)
             || currentTime.equals(endTime);
+    }
+
+    public boolean isHourInInterval(int hour) {
+        return hour >= startHour && hour <= endHour;
     }
 
     @Override

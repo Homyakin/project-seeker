@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotNull;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -88,14 +89,7 @@ public record Event(
     }
 
     private EventLocale getLocaleByLanguageOrDefault(Language language) {
-        var result = locales.stream().filter(locale -> locale.language() == language).findFirst();
-        if (result.isPresent()) {
-            return result.get();
-        }
-        result = locales.stream().filter(locale -> locale.language() == Language.DEFAULT).findFirst();
-        if (result.isPresent()) {
-            return result.get();
-        }
-        return locales.stream().findFirst().orElseThrow(() -> new IllegalStateException("No locales for event " + id));
+        return LocaleUtils.getLocaleByLanguageOrDefault(locales, language)
+            .orElseThrow(() -> new IllegalStateException("No locales for event " + id));
     }
 }
