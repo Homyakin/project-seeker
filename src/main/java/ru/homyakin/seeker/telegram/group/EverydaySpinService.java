@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.telegram.group;
 
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.group.database.EverydaySpinDao;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
@@ -11,6 +13,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 //TODO если появятся клиенты кроме телеги, надо подумать как это объединить
 @Service
 public class EverydaySpinService {
+    private static final Logger logger = LoggerFactory.getLogger(EverydaySpinService.class);
     private final GroupUserService groupUserService;
     private final EverydaySpinDao everydaySpinDao;
     private final int minimumUsers;
@@ -49,6 +52,7 @@ public class EverydaySpinService {
                 return Either.left(SpinError.InternalError.INSTANCE);
             }
         } while (groupUser == null);
+        logger.info("User {} was selected in spin", groupUser.userId());
         everydaySpinDao.save(groupId, groupUser.userId(), date);
         return Either.right(groupUser.userId());
     }

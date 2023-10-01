@@ -2,6 +2,9 @@ package ru.homyakin.seeker.telegram.group;
 
 import io.vavr.control.Either;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
@@ -17,6 +20,7 @@ import ru.homyakin.seeker.telegram.models.TelegramError;
 
 @Service
 public class GroupUserService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final GroupService groupService;
     private final UserService userService;
     private final GroupUserDao groupUserDao;
@@ -53,6 +57,7 @@ public class GroupUserService {
         final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupUser.groupId(), groupUser.userId()));
         if (result.isLeft()) {
             if (result.getLeft() instanceof TelegramError.UserNotFound) {
+                logger.warn("User {} is no longer in group {}", groupUser.userId(), groupUser.groupId());
                 deactivateGroupUser(groupUser);
                 return Either.right(false);
             }
