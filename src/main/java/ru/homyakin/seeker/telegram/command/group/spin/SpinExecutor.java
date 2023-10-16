@@ -9,6 +9,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.EverydaySpinService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -40,52 +41,41 @@ public class SpinExecutor extends CommandExecutor<Spin> {
     @Override
     public void execute(Spin command) {
         final var group = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId()).first();
-        everydaySpinService.chooseRandomUserId(command.groupId())
+        final var message = everydaySpinService
+            .chooseRandomUserId(command.groupId())
             .map(userService::getOrCreateFromGroup)
-            .peek(user -> {
-                //TODO вынести награду в сервис
-                final var personage = personageService.getByIdForce(user.personageId());
-                final var reward = new Money(RandomUtils.getInInterval(MINIMUM_REWARD.value(), MAXIMUM_REWARD.value()));
-                personageService.addMoney(personage, reward);
-                telegramSender.send(SendMessageBuilder.builder()
-                    .chatId(command.groupId())
-                    .text(
-                        EverydaySpinLocalization.chosenUser(group.language(), TgPersonageMention.of(personage, user.id()), reward)
-                    )
-                    .build()
-                );
-            })
-            .peekLeft(error -> {
-                    if (error instanceof SpinError.NotEnoughUsers notEnoughUsers) {
-                        telegramSender.send(SendMessageBuilder.builder()
-                            .chatId(command.groupId())
-                            .text(EverydaySpinLocalization.notEnoughUsers(group.language(), notEnoughUsers.requiredUsers()))
-                            .build()
-                        );
-                    } else if (error instanceof SpinError.AlreadyChosen alreadyChosen) {
-                        final var personage = personageService.getByIdForce(
-                            userService.getOrCreateFromGroup(alreadyChosen.userId()).personageId()
-                        );
-                        telegramSender.send(SendMessageBuilder.builder()
-                            .chatId(command.groupId())
-                            .text(
-                                EverydaySpinLocalization.alreadyChosen(
-                                    group.language(), TgPersonageMention.of(personage, alreadyChosen.userId())
-                                )
-                            )
-                            .build()
-                        );
-                    } else if (error instanceof SpinError.InternalError internalError) {
-                        telegramSender.send(
-                            SendMessageBuilder
-                                .builder()
-                                .chatId(command.groupId())
-                                .text(CommonLocalization.internalError(group.language()))
-                                .build()
-                        );
-                    }
+            .fold(
+                error -> mapSpinErrorToMessage(error, group),
+                user -> {
+                    //TODO вынести награду в сервис
+                    final var personage = personageService.getByIdForce(user.personageId());
+                    final var reward = new Money(RandomUtils.getInInterval(MINIMUM_REWARD.value(), MAXIMUM_REWARD.value()));
+                    personageService.addMoney(personage, reward);
+                    return EverydaySpinLocalization.chosenUser(group.language(), TgPersonageMention.of(personage, user.id()), reward);
                 }
             );
+
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(command.groupId())
+            .text(message)
+            .build()
+        );
+    }
+
+    private String mapSpinErrorToMessage(SpinError error, Group group) {
+        return switch (error) {
+            case SpinError.NotEnoughUsers notEnoughUsers ->
+                EverydaySpinLocalization.notEnoughUsers(group.language(), notEnoughUsers.requiredUsers());
+            case SpinError.AlreadyChosen alreadyChosen -> {
+                final var personage = personageService.getByIdForce(
+                    userService.getOrCreateFromGroup(alreadyChosen.userId()).personageId()
+                );
+                yield EverydaySpinLocalization.alreadyChosen(
+                    group.language(), TgPersonageMention.of(personage, alreadyChosen.userId())
+                );
+            }
+            case SpinError.InternalError ignored -> CommonLocalization.internalError(group.language());
+        };
     }
 
     private static final Money MINIMUM_REWARD = new Money(3);

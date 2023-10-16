@@ -8,6 +8,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.models.ActiveTimeError;
+import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -43,39 +44,45 @@ public class SetActiveTimeExecutor extends CommandExecutor<SetActiveTime> {
             );
             return;
         }
-        final var text = command.info()
-            .map(info -> groupService
-                .updateActiveTime(group, info.startHour(), info.endHour(), info.timeZone())
-                .map(it -> ActiveTimeLocalization.successChange(group.language()))
-                .getOrElseGet(
-                    error -> {
-                        if (error instanceof ActiveTimeError.IncorrectTimeZone incorrectTimeZone) {
-                            return ActiveTimeLocalization.incorrectTimeZone(
-                                group.language(),
-                                incorrectTimeZone.min(),
-                                incorrectTimeZone.max()
-                            );
-                        } else if (error instanceof ActiveTimeError.IncorrectHour) {
-                            return ActiveTimeLocalization.incorrectHour(group.language());
-                        } else if (error instanceof ActiveTimeError.StartMoreThanEnd) {
-                            return ActiveTimeLocalization.startMoreThanEnd(group.language());
-                        }
-                        //TODO новый switch
-                        throw new IllegalStateException();
-                    }
-                )
-            )
-            .getOrElseGet(error -> {
-                if (error instanceof ActiveTimeCommandError.IncorrectArgumentsNumber) {
-                    return ActiveTimeLocalization.incorrectArgumentsNumber(group.language());
-                } else if (error instanceof ActiveTimeCommandError.ArgumentsNotANumber) {
-                    return ActiveTimeLocalization.argumentsNotANumber(group.language());
-                }
-                throw new IllegalStateException();
-            });
+
+        final var text = command
+            .info()
+            .fold(
+                error -> mapActiveTimeCommandErrorToMessage(error, group),
+                info -> groupService
+                    .updateActiveTime(group, info.startHour(), info.endHour(), info.timeZone())
+                    .fold(
+                        error -> mapActiveTimeErrorToMessage(error, group),
+                        success -> ActiveTimeLocalization.successChange(group.language())
+                    )
+            );
 
         telegramSender.send(
             SendMessageBuilder.builder().text(text).chatId(group.id()).build()
         );
+    }
+
+    private String mapActiveTimeErrorToMessage(ActiveTimeError error, Group group) {
+        return switch (error) {
+            case ActiveTimeError.IncorrectTimeZone incorrectTimeZone ->
+                ActiveTimeLocalization.incorrectTimeZone(
+                    group.language(),
+                    incorrectTimeZone.min(),
+                    incorrectTimeZone.max()
+                );
+            case ActiveTimeError.IncorrectHour ignored ->
+                ActiveTimeLocalization.incorrectHour(group.language());
+            case ActiveTimeError.StartMoreThanEnd ignored ->
+                ActiveTimeLocalization.startMoreThanEnd(group.language());
+        };
+    }
+
+    private String mapActiveTimeCommandErrorToMessage(ActiveTimeCommandError error, Group group) {
+        return switch (error) {
+            case ActiveTimeCommandError.ArgumentsNotANumber ignored ->
+                ActiveTimeLocalization.argumentsNotANumber(group.language());
+            case ActiveTimeCommandError.IncorrectArgumentsNumber ignored ->
+                ActiveTimeLocalization.incorrectArgumentsNumber(group.language());
+        };
     }
 }

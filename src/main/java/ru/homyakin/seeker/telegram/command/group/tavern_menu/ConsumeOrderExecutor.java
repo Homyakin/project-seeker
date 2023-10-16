@@ -46,20 +46,20 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
             )
             .peekLeft(
                 error -> {
-                    // TODO карсивый switch
-                    if (error instanceof ConsumeError.AlreadyFinalStatus) {
-                        telegramSender.send(
-                            EditMessageTextBuilder
-                                .builder()
-                                .text(error.text(group.language()))
-                                .messageId(command.messageId())
-                                .chatId(command.groupId())
-                                .build()
-                        );
-                    } else if (error instanceof ConsumeError.WrongConsumer) {
-                        telegramSender.send(
-                            TelegramMethods.createAnswerCallbackQuery(command.callbackId(), error.text(group.language()))
-                        );
+                    switch (error) {
+                        case ConsumeError.AlreadyFinalStatus ignored ->
+                            telegramSender.send(
+                                EditMessageTextBuilder
+                                    .builder()
+                                    .text(error.text(group.language()))
+                                    .messageId(command.messageId())
+                                    .chatId(command.groupId())
+                                    .build()
+                            );
+                        case ConsumeError.WrongConsumer ignored ->
+                            telegramSender.send(
+                                TelegramMethods.createAnswerCallbackQuery(command.callbackId(), error.text(group.language()))
+                            );
                     }
                 }
             );

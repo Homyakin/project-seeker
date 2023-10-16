@@ -84,15 +84,12 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         final var duelResult = duelService.createDuel(initiatingPersonage, acceptingPersonage, group.id());
         if (duelResult.isLeft()) {
             final var error = duelResult.getLeft();
-            // TODO поменять на красивый switch, когда выйдет из превью
-            final String message;
-            if (error instanceof DuelError.PersonageAlreadyHasDuel) {
-                message = DuelLocalization.personageAlreadyStartDuel(group.language());
-            } else if (error instanceof DuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney) {
-                message = DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
-            } else {
-                throw new IllegalStateException("Unknown duel error: " + error.toString());
-            }
+            final var message = switch (error) {
+                case DuelError.PersonageAlreadyHasDuel ignored ->
+                    DuelLocalization.personageAlreadyStartDuel(group.language());
+                case DuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney ->
+                    DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
+            };
             telegramSender.send(
                 SendMessageBuilder.builder().chatId(group.id()).text(message).build()
             );

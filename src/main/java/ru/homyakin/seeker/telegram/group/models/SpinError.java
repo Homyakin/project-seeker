@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.telegram.group.models;
 
-public interface SpinError {
+public sealed interface SpinError {
     record NotEnoughUsers(int requiredUsers) implements SpinError {
     }
 

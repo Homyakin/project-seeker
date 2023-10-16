@@ -32,14 +32,10 @@ public class UserService {
     }
 
     public Optional<User> tryGetOrCreateByMention(MentionInfo mentionInfo, long groupId) {
-        if (mentionInfo instanceof MentionInfo.Id id) {
-            return Optional.of(getOrCreateFromGroup(id.userId()));
-        } else if (mentionInfo instanceof MentionInfo.Username username) {
-            return userDao.getByUsernameInGroup(username.username(), groupId);
-        } else {
-            //TODO красивый свитч
-            throw new IllegalStateException();
-        }
+        return switch (mentionInfo) {
+            case MentionInfo.Id id -> Optional.of(getOrCreateFromGroup(id.userId()));
+            case MentionInfo.Username username -> userDao.getByUsernameInGroup(username.username(), groupId);
+        };
     }
 
     public User getOrCreateFromPrivate(Long userId) {

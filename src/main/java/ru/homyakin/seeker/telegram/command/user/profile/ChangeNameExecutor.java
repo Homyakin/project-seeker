@@ -7,6 +7,7 @@ import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
@@ -36,33 +37,27 @@ public class ChangeNameExecutor extends CommandExecutor<ChangeName> {
             return;
         }
         final var personage = personageService.getById(user.personageId()).orElseThrow();
-        final var result = personageService.changeName(personage, command.name());
-        if (result.isRight()) {
-            telegramSender.send(SendMessageBuilder.builder()
-                .chatId(user.id())
-                .text(ChangeNameLocalization.successNameChange(user.language()))
-                .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
-                .build()
+        final var message = personageService
+            .changeName(personage, command.name())
+            .fold(
+                error -> mapNameErrorToMessage(error, user),
+                success -> ChangeNameLocalization.successNameChange(user.language())
             );
-        } else {
-            final var error = result.getLeft();
-            //TODO switch
-            final String message;
-            if (error instanceof NameError.InvalidLength invalidLength) {
-                message = ChangeNameLocalization.personageNameInvalidLength(
-                    user.language(), invalidLength.minLength(), invalidLength.maxLength()
-                );
-            } else if (error instanceof NameError.NotAllowedSymbols) {
-                message = ChangeNameLocalization.personageNameInvalidSymbols(user.language());
-            } else {
-                throw new IllegalStateException("Unknown error: " + error.toString());
-            }
-            telegramSender.send(SendMessageBuilder.builder()
-                .chatId(user.id())
-                .text(message)
-                .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
-                .build()
+        telegramSender.send(SendMessageBuilder.builder()
+            .chatId(user.id())
+            .text(message)
+            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .build()
+        );
+    }
+
+    private String mapNameErrorToMessage(NameError error, User user) {
+        return switch (error) {
+            case NameError.InvalidLength invalidLength -> ChangeNameLocalization.personageNameInvalidLength(
+                user.language(), invalidLength.minLength(), invalidLength.maxLength()
             );
-        }
+            case NameError.NotAllowedSymbols ignored ->
+                ChangeNameLocalization.personageNameInvalidSymbols(user.language());
+        };
     }
 }

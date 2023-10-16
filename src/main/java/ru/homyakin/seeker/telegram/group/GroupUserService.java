@@ -56,12 +56,14 @@ public class GroupUserService {
     public Either<TelegramError.InternalError, Boolean> isUserStillInGroup(GroupUser groupUser) {
         final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupUser.groupId(), groupUser.userId()));
         if (result.isLeft()) {
-            if (result.getLeft() instanceof TelegramError.UserNotFound) {
-                logger.warn("User {} is no longer in group {}", groupUser.userId(), groupUser.groupId());
-                deactivateGroupUser(groupUser);
-                return Either.right(false);
-            }
-            return Either.left((TelegramError.InternalError) result.getLeft());
+            return switch (result.getLeft()) {
+                case TelegramError.UserNotFound ignored -> {
+                    logger.warn("User {} is no longer in group {}", groupUser.userId(), groupUser.groupId());
+                    deactivateGroupUser(groupUser);
+                    yield Either.right(false);
+                }
+                case TelegramError.InternalError internalError -> Either.left(internalError);
+            };
         }
         return Either.right(true);
     }

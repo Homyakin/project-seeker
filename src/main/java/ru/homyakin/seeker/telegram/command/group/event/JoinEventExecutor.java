@@ -2,17 +2,19 @@ package ru.homyakin.seeker.telegram.command.group.event;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
+import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageInOtherEvent;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageInThisEvent;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
-import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
-import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageInOtherEvent;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageInThisEvent;
 
 @Component
 public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
@@ -40,19 +42,19 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
         final var user = groupUserPair.second();
         final var result = personageService.addEvent(user.personageId(), command.launchedEventId());
 
-        final String notificationText;
-        if (result.isRight()) {
-            notificationText = RaidLocalization.successJoinEvent(group.language());
-        } else {
-            final var error = result.getLeft();
-            if (error instanceof PersonageInOtherEvent) {
-                notificationText = RaidLocalization.userAlreadyInOtherEvent(group.language());
-            } else if (error instanceof PersonageInThisEvent) {
-                notificationText = RaidLocalization.userAlreadyInThisEvent(group.language());
-            } else if (error instanceof EventNotExist) {
-                notificationText = CommonLocalization.internalError(group.language());
-            } else if (error instanceof ExpiredEvent expiredEvent) {
-                notificationText = RaidLocalization.expiredRaid(group.language());
+        final var notificationText = result.fold(
+            error -> mapErrorToUserMessage(error, group, command),
+            success -> RaidLocalization.successJoinEvent(group.language())
+        );
+
+        telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), notificationText));
+    }
+
+    private String mapErrorToUserMessage(PersonageEventError error, Group group, JoinEvent command) {
+        return switch (error) {
+            case PersonageInOtherEvent ignored -> RaidLocalization.userAlreadyInOtherEvent(group.language());
+            case EventNotExist ignored -> CommonLocalization.internalError(group.language());
+            case ExpiredEvent expiredEvent -> {
                 //TODO может вынести в евент менеджер
                 telegramSender.send(EditMessageTextBuilder.builder()
                     .chatId(command.groupId())
@@ -60,14 +62,10 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                     .text(expiredEvent.event().toStartMessage(group.language()))
                     .build()
                 );
-            } else {
-                // TODO когда будет паттерн-матчинг для switch - переделать
-                notificationText = "ERROR!!!";
+                yield RaidLocalization.expiredRaid(group.language());
             }
-        }
-
-        telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), notificationText));
+            case PersonageInThisEvent ignored -> RaidLocalization.userAlreadyInThisEvent(group.language());
+        };
     }
-
 }
 
