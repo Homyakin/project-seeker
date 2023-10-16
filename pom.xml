@@ -10,18 +10,19 @@
 
     <properties>
         <java.version>18</java.version>
-        <spring.version>3.0.2</spring.version>
-        <liquibase.version>4.15.0</liquibase.version>
-        <postgres.version>42.4.1</postgres.version>
-        <telegram.version>6.4.0</telegram.version>
+        <spring.version>3.1.4</spring.version>
+        <liquibase.version>4.24.0</liquibase.version>
+        <postgres.version>42.6.0</postgres.version>
+        <telegram.version>6.8.0</telegram.version>
         <vavr.version>0.10.4</vavr.version>
         <emoji.version>5.1.1</emoji.version>
+        <jackson.version>2.15.2</jackson.version>
+        <jakarta.validation.version>3.0.2</jakarta.validation.version>
 
-        <junit.version>5.9.0</junit.version>
+        <junit.version>5.10.0</junit.version>
 
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>suppression.xml</checkstyle.suppressions.location>
-        <jackson.version>2.14.2</jackson.version>
     </properties>
 
     <dependencies>
@@ -29,6 +30,17 @@
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
             <version>${telegram.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                    <artifactId>jackson-module-jaxb-annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation.version}</version>
         </dependency>
 
         <dependency>
@@ -125,7 +137,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -135,12 +147,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.3.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>10.3.2</version>
+                        <version>10.12.4</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -150,7 +162,7 @@
                         <configuration>
                             <configLocation>${checkstyle.config.location}</configLocation>
                             <suppressionsLocation>${checkstyle.suppressions.location}</suppressionsLocation>
-                            <encoding>UTF-8</encoding>
+                            <inputEncoding>UTF-8</inputEncoding>
                             <logViolationsToConsole>true</logViolationsToConsole>
                             <failOnViolation>true</failOnViolation>
                         </configuration>
