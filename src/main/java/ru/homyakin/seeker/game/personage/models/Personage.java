@@ -33,15 +33,19 @@ public record Personage(
     }
 
     public Either<NameError, Personage> changeName(String name, PersonageDao personageDao) {
+        return validateName(name)
+            .map(this::copyWithName)
+            .peek(personageDao::update);
+    }
+
+    public Either<NameError, String> validateName(String name) {
         if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
             return Either.left(new NameError.InvalidLength(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
         }
         if (!NAME_PATTERN.matcher(name).matches()) {
             return Either.left(new NameError.NotAllowedSymbols());
         }
-        final var personage = copyWithName(name);
-        personageDao.update(personage);
-        return Either.right(personage);
+        return Either.right(name);
     }
 
     public String shortProfile(Language language) {

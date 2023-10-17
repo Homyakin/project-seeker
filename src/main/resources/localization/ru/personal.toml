@@ -4,15 +4,26 @@ languageButton = ":globe_with_meridians:Язык"
 receptionDeskButton = ":writing:Стойка регистрации"
 backButton = ":arrow_left:Назад"
 resetCharacteristicsButton = ":book:Книга забвения"
+changeNameButton = ":crystal_ball:Сменить имя"
 
 [changeName]
-changeNameWithoutName="Введите имя через пробел после команды: \"${name_command} Имя\""
+changeNameWithoutName="Имя не может быть пустым!"
+initChangeName = """
+Магический круг светится от потока магии. Необходимо написать имя, под которым тебя будут знать другие Искатели.
+Разрешённые символы: <code>кириллица, латиница, цифры, _-.#№ и пробел</code>
+"""
+cancelChangeName = "Магический круг затухает. В другой раз..."
+confirmName = "Твоё новое имя: <code>${name}</code>. Правильно?"
 personageNameInvalidLength = """\
 Прости, но в магическом круге есть ограничение на символы в имени. От ${min_name_length} до ${max_name_length} символов"""
 personageNameInvalidSymbols = """\
 К сожалению, в магическом круге для сохранения имени можно использовать только: \
-кириллицу, латиницу, цифры, символы _-.#№ и пробел"""
-successNameChange = "Имя успешно изменено!"
+<code>кириллицу, латиницу, цифры, символы _-.#№ и пробел</code>"""
+successNameChange = "Имя успешно изменено! Магический круг затухает."
+internalError = "Магический круг начинает мерцать и резко затухает. Похоже произошла ошибка, попробуйте позже."
+cancelButton = ":x:Отказаться"
+confirmButton = ":white_check_mark:Всё верно"
+repeatButton = ":arrows_counterclockwise:Ещё раз"
 
 [characteristics]
 resetConfirmation = """\

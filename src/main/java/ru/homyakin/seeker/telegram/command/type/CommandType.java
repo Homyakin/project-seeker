@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 import ru.homyakin.seeker.locale.personal.MenuResource;
+import ru.homyakin.seeker.utils.CommonUtils;
 
 public enum CommandType {
     // TODO разделить личку, группы, коллбэки (или не надо, но хотя бы подумать)
@@ -15,7 +17,7 @@ public enum CommandType {
     GET_PROFILE("/me", CheckType.EQUALS),
     SHOW_HELP("/help", CheckType.EQUALS),
     SELECT_HELP("help", CheckType.EQUALS),
-    CHANGE_NAME("/name", CheckType.STARTS_WITH),
+    INIT_CHANGE_NAME(null, CheckType.MAP),
     LEVEL_UP("/level_up", CheckType.EQUALS),
     START_DUEL("/duel", CheckType.EQUALS),
     ACCEPT_DUEL("acceptDuel", CheckType.EQUALS),
@@ -60,11 +62,12 @@ public enum CommandType {
     }
 
     public static void fillLocaleMap(MenuResource resource) {
-        textToType.put(resource.profileButton(), CommandType.GET_PROFILE);
-        textToType.put(resource.languageButton(), CommandType.CHANGE_LANGUAGE);
-        textToType.put(resource.receptionDeskButton(), CommandType.RECEPTION_DESK);
-        textToType.put(resource.backButton(), CommandType.BACK);
-        textToType.put(resource.resetCharacteristicsButton(), CommandType.RESET_CHARACTERISTICS);
+        CommonUtils.putIfKeyPresents(textToType, resource.profileButton(), CommandType.GET_PROFILE);
+        CommonUtils.putIfKeyPresents(textToType, resource.languageButton(), CommandType.CHANGE_LANGUAGE);
+        CommonUtils.putIfKeyPresents(textToType, resource.receptionDeskButton(), CommandType.RECEPTION_DESK);
+        CommonUtils.putIfKeyPresents(textToType, resource.backButton(), CommandType.BACK);
+        CommonUtils.putIfKeyPresents(textToType, resource.resetCharacteristicsButton(), CommandType.RESET_CHARACTERISTICS);
+        CommonUtils.putIfKeyPresents(textToType, resource.changeNameButton(), CommandType.INIT_CHANGE_NAME);
     }
 
     private boolean check(String text) {

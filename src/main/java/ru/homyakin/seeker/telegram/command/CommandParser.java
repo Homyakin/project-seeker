@@ -27,6 +27,7 @@ import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
@@ -37,13 +38,19 @@ import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
-import ru.homyakin.seeker.telegram.command.user.profile.ChangeName;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
+import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 @Component
 public class CommandParser {
+    private final UserStateService userStateService;
+
+    public CommandParser(UserStateService userStateService) {
+        this.userStateService = userStateService;
+    }
+
     public Optional<Command> parse(Update update) {
         final Optional<Command> command;
         if (update.hasMyChatMember()) {
@@ -88,6 +95,13 @@ public class CommandParser {
     }
 
     private Optional<Command> parsePrivateMessage(Message message) {
+        return userStateService
+            .getUserStateById(message.getFrom().getId())
+            .map(state -> state.nextCommand(message))
+            .or(() -> commandByPrivateMessage(message));
+    }
+
+    private Optional<Command> commandByPrivateMessage(Message message) {
         return CommandType.getFromString(
                 EmojiParser.parseToAliases(message.getText())
             )
@@ -96,11 +110,11 @@ public class CommandParser {
                 case START -> StartUser.from(message);
                 case GET_PROFILE -> GetProfileInPrivate.from(message);
                 case SHOW_HELP -> ShowHelp.from(message);
-                case CHANGE_NAME -> ChangeName.from(message);
                 case LEVEL_UP -> LevelUp.from(message);
                 case RECEPTION_DESK -> ReceptionDesk.from(message);
                 case BACK -> Back.from(message);
                 case RESET_CHARACTERISTICS -> ResetCharacteristics.from(message);
+                case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 default -> null;
             });
     }

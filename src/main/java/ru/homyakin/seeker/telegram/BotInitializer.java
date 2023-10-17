@@ -49,7 +49,6 @@ public class BotInitializer {
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(
-        new BotCommand(CommandType.SHOW_HELP.getText(), "Get help"),
-        new BotCommand(CommandType.CHANGE_NAME.getText(), "Change name")
+        new BotCommand(CommandType.SHOW_HELP.getText(), "Get help")
     );
 }

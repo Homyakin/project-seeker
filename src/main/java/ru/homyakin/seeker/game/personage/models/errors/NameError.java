@@ -1,24 +1,23 @@
 package ru.homyakin.seeker.game.personage.models.errors;
 
-public abstract sealed class NameError {
-    public static final class InvalidLength extends NameError {
-        private final int minLength;
-        private final int maxLength;
+import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 
-        public InvalidLength(int minLength, int maxLength) {
-            this.minLength = minLength;
-            this.maxLength = maxLength;
-        }
+public sealed interface NameError {
 
-        public int minLength() {
-            return minLength;
-        }
+    String toUserMessage(Language language);
 
-        public int maxLength() {
-            return maxLength;
+    record InvalidLength(int minLength, int maxLength) implements NameError {
+        @Override
+        public String toUserMessage(Language language) {
+            return ChangeNameLocalization.personageNameInvalidLength(language, minLength, maxLength);
         }
     }
 
-    public static final class NotAllowedSymbols extends NameError {
+    record NotAllowedSymbols() implements NameError {
+        @Override
+        public String toUserMessage(Language language) {
+            return ChangeNameLocalization.personageNameInvalidSymbols(language);
+        }
     }
 }

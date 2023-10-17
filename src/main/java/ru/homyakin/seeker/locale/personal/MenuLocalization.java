@@ -28,6 +28,10 @@ public class MenuLocalization {
         return CommonUtils.ifNullThan(map.get(language).backButton(), map.get(Language.DEFAULT).backButton());
     }
 
+    public static String changeNameButton(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).changeNameButton(), map.get(Language.DEFAULT).changeNameButton());
+    }
+
     public static String resetStatsButton(Language language) {
         return CommonUtils.ifNullThan(
             map.get(language).resetCharacteristicsButton(),

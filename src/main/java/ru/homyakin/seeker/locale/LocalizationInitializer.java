@@ -24,6 +24,7 @@ import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
 import ru.homyakin.seeker.locale.spin.EverydaySpinResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
+import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
@@ -59,6 +60,7 @@ public class LocalizationInitializer {
                     CharacteristicLocalization.add(language, resource.characteristics());
                     MenuLocalization.add(language, resource.menu());
                     CommandType.fillLocaleMap(resource.menu());
+                    ChangeNameCommandType.fillLocaleMap(resource.changeName());
                 });
 
             ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + RAID_PATH)

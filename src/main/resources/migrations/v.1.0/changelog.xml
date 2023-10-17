@@ -20,4 +20,5 @@
     <include file="changes/2023-07-28_01_add-group-raid-template.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-07-29_01_add-rumor-tables.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-07-30_01_add-rumor-date-grouptg.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-10-15_01_add-usertg-state.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
