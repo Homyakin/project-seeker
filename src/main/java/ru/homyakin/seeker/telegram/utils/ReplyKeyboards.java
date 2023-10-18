@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.utils;
 
-import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import ru.homyakin.seeker.locale.Language;
@@ -48,6 +47,6 @@ public class ReplyKeyboards {
     }
 
     private static KeyboardButton button(String text) {
-        return KeyboardButton.builder().text(EmojiParser.parseToUnicode(text)).build();
+        return KeyboardButton.builder().text(text).build();
     }
 }

@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.user.state;
 
-import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
@@ -12,7 +11,7 @@ public sealed interface ChangeNameState extends UserState {
         @Override
         public Command nextCommand(Message message) {
             return ChangeNameCommandType
-                .getFromString(EmojiParser.parseToAliases(message.getText()))
+                .getFromString(message.getText())
                 .map(command -> (Command) switch (command) {
                     case CANCEL -> CancelChangeName.from(message);
                     default -> null;
@@ -25,7 +24,7 @@ public sealed interface ChangeNameState extends UserState {
         @Override
         public Command nextCommand(Message message) {
             return ChangeNameCommandType
-                .getFromString(EmojiParser.parseToAliases(message.getText()))
+                .getFromString(message.getText())
                 .map(command -> switch (command) {
                     case CONFIRM -> ru.homyakin.seeker.telegram.command.user.change_name.ConfirmChangeName.from(message, name);
                     case REPEAT -> ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName.from(message);

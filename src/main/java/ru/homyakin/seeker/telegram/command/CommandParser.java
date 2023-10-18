@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.command;
 
-import com.vdurmont.emoji.EmojiParser;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -102,9 +101,7 @@ public class CommandParser {
     }
 
     private Optional<Command> commandByPrivateMessage(Message message) {
-        return CommandType.getFromString(
-                EmojiParser.parseToAliases(message.getText())
-            )
+        return CommandType.getFromString(message.getText())
             .map(commandType -> switch (commandType) {
                 case CHANGE_LANGUAGE -> UserChangeLanguage.from(message);
                 case START -> StartUser.from(message);

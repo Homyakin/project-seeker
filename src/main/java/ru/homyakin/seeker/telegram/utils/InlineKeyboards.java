@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.utils;
 
+import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
@@ -13,6 +14,8 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
 
 public class InlineKeyboards {
+    private static final String selectedLanguageIcon = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
+
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
         final var languages = Language.values();
         final var builder = InlineKeyboardBuilder.builder();
@@ -22,7 +25,7 @@ public class InlineKeyboards {
             }
             final String text;
             if (currentLanguage == languages[i]) {
-                text = ":white_check_mark:" + languages[i].value();
+                text = selectedLanguageIcon + languages[i].value();
             } else {
                 text = languages[i].value();
             }

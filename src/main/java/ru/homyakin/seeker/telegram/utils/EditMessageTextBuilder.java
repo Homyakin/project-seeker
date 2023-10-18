@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.utils;
 
-import com.vdurmont.emoji.EmojiParser;
 import java.util.ArrayList;
 import java.util.List;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -11,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 public class EditMessageTextBuilder {
     private final EditMessageText.EditMessageTextBuilder builder = EditMessageText.builder();
     private final List<MessageEntity> entities = new ArrayList<>();
-    private String text = null;
 
     private EditMessageTextBuilder() {
     }
@@ -25,8 +23,7 @@ public class EditMessageTextBuilder {
     }
 
     public EditMessageTextBuilder text(String text) {
-        this.text = EmojiParser.parseToUnicode(text);
-        this.builder.text(this.text);
+        this.builder.text(text);
         return this;
     }
 

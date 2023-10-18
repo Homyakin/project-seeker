@@ -1,10 +1,10 @@
 [menu]
-profileButton = ":bust_in_silhouette:Профиль"
-languageButton = ":globe_with_meridians:Язык"
-receptionDeskButton = ":writing:Стойка регистрации"
-backButton = ":arrow_left:Назад"
-resetCharacteristicsButton = ":book:Книга забвения"
-changeNameButton = ":crystal_ball:Сменить имя"
+profileButton = "👤Профиль"
+languageButton = "🌐Язык"
+receptionDeskButton = "✍️Стойка регистрации"
+backButton = "⬅️Назад"
+resetCharacteristicsButton = "📖Книга забвения"
+changeNameButton = "🔮Сменить имя"
 
 [changeName]
 changeNameWithoutName="Имя не может быть пустым!"
@@ -21,9 +21,9 @@ personageNameInvalidSymbols = """\
 <code>кириллицу, латиницу, цифры, символы _-.#№ и пробел</code>"""
 successNameChange = "Имя успешно изменено! Магический круг затухает."
 internalError = "Магический круг начинает мерцать и резко затухает. Похоже произошла ошибка, попробуйте позже."
-cancelButton = ":x:Отказаться"
-confirmButton = ":white_check_mark:Всё верно"
-repeatButton = ":arrows_counterclockwise:Ещё раз"
+cancelButton = "❌Отказаться"
+confirmButton = "✅Всё верно"
+repeatButton = "🔄Ещё раз"
 
 [characteristics]
 resetConfirmation = """\

@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.utils;
 
-import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -35,8 +34,8 @@ public class InlineKeyboardBuilder {
         row.add(
             InlineKeyboardButton
                 .builder()
-                .callbackData(EmojiParser.parseToUnicode(callbackData))
-                .text(EmojiParser.parseToUnicode(text))
+                .callbackData(callbackData)
+                .text(text)
                 .build()
         );
         return this;

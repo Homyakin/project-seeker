@@ -1,9 +1,9 @@
 [menu]
-profileButton = ":bust_in_silhouette:Profile"
-languageButton = ":globe_with_meridians:Language"
-receptionDeskButton = ":writing:Reception Desk"
-backButton = ":arrow_left:Back"
-resetCharacteristicsButton = ":book:Book of Obvilion"
+profileButton = "👤Profile"
+languageButton = "🌐Language"
+receptionDeskButton = "✍️Reception Desk"
+backButton = "⬅️Back"
+resetCharacteristicsButton = "📖Book of Obvilion"
 
 [changeName]
 changeNameWithoutName = "Enter the name separated by a space after the command: \"${name_command} Name\""
