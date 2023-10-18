@@ -39,6 +39,14 @@ public class PersonageService {
             .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }
 
+    public Either<NameError, Personage> createPersonage(String name) {
+        return Personage.validateName(name)
+            .map(Personage::createDefault)
+            .map(personageDao::save)
+            .map(id -> personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create")))
+            .peekLeft(error -> logger.warn("Can't create personage with name " + name));
+    }
+
     public Either<PersonageEventError, Success> addEvent(long personageId, Long launchedEventId) {
         final var requestedEvent = launchedEventService.getById(launchedEventId);
         if (requestedEvent.isEmpty()) {

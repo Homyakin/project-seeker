@@ -70,27 +70,36 @@ public class UserService {
         if (user.getIsBot()) {
             return;
         }
-        final var username = user.getUserName();
+        final var username = Optional.ofNullable(user.getUserName());
         final var savedUser = userDao
             .getById(user.getId())
             .orElseGet(() -> createUser(user.getId(), false, username));
-        if (savedUser.username().filter(it -> it.equals(username)).isEmpty()) {
-            userDao.updateUsername(savedUser.id(), username);
+        if (!savedUser.username().equals(username)) {
+            userDao.updateUsername(savedUser.id(), username.orElse(null));
         }
     }
 
     private User createUser(long userId, boolean isPrivateMessage) {
-        return createUser(userId, isPrivateMessage, null);
+        return createUser(userId, isPrivateMessage, Optional.empty());
     }
 
-    private User createUser(long userId, boolean isPrivateMessage, String username) {
-        final var personage = personageService.createPersonage();
+    private User createUser(long userId, boolean isPrivateMessage, Optional<String> username) {
+        final var personage = username
+            .map(
+                name -> personageService
+                    .createPersonage(name)
+                    .fold(
+                        error -> personageService.createPersonage(),
+                        success -> success
+                    )
+            )
+            .orElseGet(personageService::createPersonage);
         final var user = new User(
             userId,
             isPrivateMessage,
             Language.DEFAULT,
             personage.id(),
-            Optional.ofNullable(username)
+            username
         );
         userDao.save(user);
         return user;

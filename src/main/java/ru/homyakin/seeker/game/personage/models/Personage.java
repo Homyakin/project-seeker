@@ -38,7 +38,7 @@ public record Personage(
             .peek(personageDao::update);
     }
 
-    public Either<NameError, String> validateName(String name) {
+    public static Either<NameError, String> validateName(String name) {
         if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
             return Either.left(new NameError.InvalidLength(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
         }
@@ -129,10 +129,13 @@ public record Personage(
     }
 
     public static Personage createDefault() {
-        //TODO магические числа
+        return createDefault(TextConstants.DEFAULT_NAME);
+    }
+
+    public static Personage createDefault(String name) {
         return new Personage(
             0L,
-            TextConstants.DEFAULT_NAME,
+            name,
             Money.zero(),
             Characteristics.createDefault(),
             TimeUtils.moscowTime()
