@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.user.models.User;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -36,11 +37,10 @@ public class UserDao {
         );
     }
 
-    public Optional<User> getById(Long userId) {
-        final var params = Collections.singletonMap("id", userId);
+    public Optional<User> getById(UserId userId) {
         final var result = jdbcTemplate.query(
             GET_USER_BY_ID,
-            params,
+            Collections.singletonMap("id", userId.value()),
             this::mapRow
         );
         return result.stream().findFirst();
@@ -56,15 +56,16 @@ public class UserDao {
     }
 
     public Optional<User> getByUsernameInGroup(String username, long groupId) {
+        //TODO багфикс
         final var params = new MapSqlParameterSource()
             .addValue("username", username);
         return jdbcTemplate.query(GET_BY_USERNAME, params, this::mapRow).stream().findFirst();
     }
 
-    public void updateUsername(long userId, String newUsername) {
+    public void updateUsername(UserId userId, String newUsername) {
         final var params = new MapSqlParameterSource()
             .addValue("username", newUsername)
-            .addValue("id", userId);
+            .addValue("id", userId.value());
         jdbcTemplate.update(UPDATE_USERNAME, params);
     }
 
@@ -81,7 +82,7 @@ public class UserDao {
 
     private User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(
-            rs.getLong("id"),
+            new UserId(rs.getLong("id")),
             rs.getBoolean("is_active_private_messages"),
             Language.getOrDefault(rs.getInt("language_id")),
             rs.getLong("personage_id"),

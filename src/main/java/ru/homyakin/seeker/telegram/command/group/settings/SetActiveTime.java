@@ -5,10 +5,11 @@ import java.util.Arrays;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record SetActiveTime(
     long groupId,
-    long userId,
+    UserId userId,
     Either<ActiveTimeCommandError, Info> info
 ) implements Command {
     public static SetActiveTime from(Message message) {
@@ -18,7 +19,7 @@ public record SetActiveTime(
             .split(" ");
         return new SetActiveTime(
             message.getChatId(),
-            message.getFrom().getId(),
+            UserId.from(message.getFrom().getId()),
             Info.from(data)
         );
     }

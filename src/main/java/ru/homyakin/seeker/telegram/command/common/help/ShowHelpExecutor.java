@@ -7,6 +7,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
@@ -25,8 +26,9 @@ public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
     @Override
     public void execute(ShowHelp command) {
         final Language language;
+        //TODO подумать над айдишками
         if (command.isPrivate()) {
-            language = userService.getOrCreateFromPrivate(command.chatId()).language();
+            language = userService.getOrCreateFromPrivate(UserId.from(command.chatId())).language();
         } else {
             language = groupService.getOrCreate(command.chatId()).language();
         }

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Repository
 public class UserStateDao {
@@ -26,28 +27,28 @@ public class UserStateDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Optional<UserState> getUserStateById(long userId) {
+    public Optional<UserState> getUserStateById(UserId userId) {
         final var sql = "SELECT * FROM usertg_state WHERE usertg_id = :usertg_id";
         return jdbcTemplate
-            .query(sql, Collections.singletonMap("usertg_id", userId), this::mapRow)
+            .query(sql, Collections.singletonMap("usertg_id", userId.value()), this::mapRow)
             .stream()
             .findFirst();
     }
 
-    public void setUserState(long userId, UserState state) {
+    public void setUserState(UserId userId, UserState state) {
         final var sql = """
         INSERT INTO usertg_state (usertg_id, state) VALUES (:usertg_id, :state)
         ON CONFLICT (usertg_id) DO UPDATE SET state = :state
         """;
         final var params = new HashMap<String, Object>();
-        params.put("usertg_id", userId);
+        params.put("usertg_id", userId.value());
         params.put("state", mapUserStateToJson(state));
         jdbcTemplate.update(sql, params);
     }
 
-    public void clearUserState(long userId) {
+    public void clearUserState(UserId userId) {
         final var sql = "DELETE FROM usertg_state WHERE usertg_id = :usertg_id";
-        jdbcTemplate.update(sql, Collections.singletonMap("usertg_id", userId));
+        jdbcTemplate.update(sql, Collections.singletonMap("usertg_id", userId.value()));
     }
 
     private UserState mapRow(ResultSet rs, int rowNum) throws SQLException {

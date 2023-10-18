@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.user.models.User;
 
 import java.util.Optional;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Service
 public class UserStateService {
@@ -13,7 +14,7 @@ public class UserStateService {
         this.userStateDao = userStateDao;
     }
 
-    public Optional<UserState> getUserStateById(long userId) {
+    public Optional<UserState> getUserStateById(UserId userId) {
         return userStateDao.getUserStateById(userId);
     }
 

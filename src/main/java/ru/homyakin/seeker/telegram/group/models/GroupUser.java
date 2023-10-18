@@ -1,11 +1,12 @@
 package ru.homyakin.seeker.telegram.group.models;
 
 import ru.homyakin.seeker.telegram.group.database.GroupUserDao;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 //TODO добавить обработку выхода из чата
 public record GroupUser(
     long groupId,
-    long userId,
+    UserId userId,
     boolean isActive
 ) {
     public GroupUser activate(GroupUserDao groupUserDao) {

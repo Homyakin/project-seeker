@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public class EditMessageTextBuilder {
     private final EditMessageText.EditMessageTextBuilder builder = EditMessageText.builder();
@@ -35,6 +36,10 @@ public class EditMessageTextBuilder {
     public EditMessageTextBuilder chatId(long chatId) {
         this.builder.chatId(chatId);
         return this;
+    }
+
+    public EditMessageTextBuilder chatId(UserId userId) {
+        return chatId(userId.value());
     }
 
     public EditMessageTextBuilder messageId(int messageId) {

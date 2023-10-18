@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Component
 public class GroupUserDao {
@@ -43,10 +44,10 @@ public class GroupUserDao {
         );
     }
 
-    public Optional<GroupUser> getByGroupIdAndUserId(long groupId, long userId) {
+    public Optional<GroupUser> getByGroupIdAndUserId(long groupId, UserId userId) {
         final var params = new HashMap<String, Object>();
         params.put("grouptg_id", groupId);
-        params.put("usertg_id", userId);
+        params.put("usertg_id", userId.value());
         final var result = jdbcTemplate.query(
             GET_GROUP_USER_BY_KEY,
             params,
@@ -95,7 +96,7 @@ public class GroupUserDao {
     private GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupUser(
             rs.getLong("grouptg_id"),
-            rs.getLong("usertg_id"),
+            UserId.from(rs.getLong("usertg_id")),
             rs.getBoolean("is_active")
         );
     }

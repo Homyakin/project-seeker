@@ -3,11 +3,12 @@ package ru.homyakin.seeker.telegram.command.group.duel;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record DeclineDuel(
     String callbackId,
     long groupId,
-    long userId,
+    UserId userId,
     int messageId,
     long duelId
 ) implements Command {
@@ -15,7 +16,7 @@ public record DeclineDuel(
         return new DeclineDuel(
             callback.getId(),
             callback.getMessage().getChatId(),
-            callback.getFrom().getId(),
+            UserId.from(callback.getFrom().getId()),
             callback.getMessage().getMessageId(),
             Long.parseLong(callback.getData().split(TextConstants.CALLBACK_DELIMITER)[1])
         );

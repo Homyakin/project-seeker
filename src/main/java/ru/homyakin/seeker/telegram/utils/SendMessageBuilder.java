@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public class SendMessageBuilder {
     private final SendMessage.SendMessageBuilder builder = SendMessage.builder();
@@ -40,6 +41,10 @@ public class SendMessageBuilder {
     public SendMessageBuilder chatId(long chatId) {
         this.builder.chatId(chatId);
         return this;
+    }
+
+    public SendMessageBuilder chatId(UserId userId) {
+        return chatId(userId.value());
     }
 
     public SendMessage build() {

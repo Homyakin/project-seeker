@@ -2,11 +2,12 @@ package ru.homyakin.seeker.telegram.command.user.characteristics;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
-public record CancelResetCharacteristics(long userId, int messageId) implements Command {
+public record CancelResetCharacteristics(UserId userId, int messageId) implements Command {
     public static CancelResetCharacteristics from(CallbackQuery callback) {
         return new CancelResetCharacteristics(
-            callback.getFrom().getId(),
+            UserId.from(callback.getFrom().getId()),
             callback.getMessage().getMessageId()
         );
     }

@@ -6,7 +6,7 @@ import ru.homyakin.seeker.telegram.user.UserDao;
 import java.util.Optional;
 
 public record User(
-    long id,
+    UserId id,
     boolean isActivePrivateMessages,
     Language language,
     long personageId,

@@ -10,6 +10,7 @@ import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.user.models.User;
 
 import java.util.Optional;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Component
 public class UserService {
@@ -25,7 +26,7 @@ public class UserService {
         this.personageService = personageService;
     }
 
-    public User getOrCreateFromGroup(Long userId) {
+    public User getOrCreateFromGroup(UserId userId) {
         return userDao
             .getById(userId)
             .orElseGet(() -> createUser(userId, false));
@@ -38,7 +39,7 @@ public class UserService {
         };
     }
 
-    public User getOrCreateFromPrivate(Long userId) {
+    public User getOrCreateFromPrivate(UserId userId) {
         return userDao
             .getById(userId)
             .map(user -> user.activatePrivateMessages(userDao))
@@ -70,20 +71,21 @@ public class UserService {
         if (user.getIsBot()) {
             return;
         }
+        final var userId = UserId.from(user.getId());
         final var username = Optional.ofNullable(user.getUserName());
         final var savedUser = userDao
-            .getById(user.getId())
-            .orElseGet(() -> createUser(user.getId(), false, username));
+            .getById(userId)
+            .orElseGet(() -> createUser(userId, false, username));
         if (!savedUser.username().equals(username)) {
             userDao.updateUsername(savedUser.id(), username.orElse(null));
         }
     }
 
-    private User createUser(long userId, boolean isPrivateMessage) {
+    private User createUser(UserId userId, boolean isPrivateMessage) {
         return createUser(userId, isPrivateMessage, Optional.empty());
     }
 
-    private User createUser(long userId, boolean isPrivateMessage, Optional<String> username) {
+    private User createUser(UserId userId, boolean isPrivateMessage, Optional<String> username) {
         final var personage = username
             .map(
                 name -> personageService

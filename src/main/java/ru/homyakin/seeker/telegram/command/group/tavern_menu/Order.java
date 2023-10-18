@@ -5,10 +5,11 @@ import java.util.Optional;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record Order(
     long groupId,
-    long userId,
+    UserId userId,
     int messageId,
     Optional<Integer> itemId,
     Optional<MentionInfo> mentionInfo
@@ -16,7 +17,7 @@ public record Order(
     public static Order from(Message message) {
         return new Order(
             message.getChatId(),
-            message.getFrom().getId(),
+            UserId.from(message.getFrom().getId()),
             message.getMessageId(),
             OrderUtils.getMenuItemId(message.getText()),
             MentionInfo.from(message)

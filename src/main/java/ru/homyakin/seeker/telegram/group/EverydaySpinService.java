@@ -8,6 +8,7 @@ import ru.homyakin.seeker.telegram.group.database.EverydaySpinDao;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
 import ru.homyakin.seeker.telegram.group.models.SpinCount;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 //TODO если появятся клиенты кроме телеги, надо подумать как это объединить
@@ -28,7 +29,7 @@ public class EverydaySpinService {
         this.everydaySpinDao = everydaySpinDao;
     }
 
-    public Either<SpinError, Long> chooseRandomUserId(long groupId) {
+    public Either<SpinError, UserId> chooseRandomUserId(long groupId) {
         final var date = TimeUtils.moscowDate();
         final var todayResult = everydaySpinDao.findUserIdByGrouptgIdAndDate(groupId, date);
         if (todayResult.isPresent()) {

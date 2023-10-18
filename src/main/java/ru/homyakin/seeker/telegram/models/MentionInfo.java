@@ -4,13 +4,14 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.Optional;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public sealed interface MentionInfo {
     UserType userType();
 
-    record Id(long userId, UserType userType) implements MentionInfo {
+    record Id(UserId userId, UserType userType) implements MentionInfo {
         public static Id from(User user) {
-            return new Id(user.getId(), UserType.from(user));
+            return new Id(UserId.from(user.getId()), UserType.from(user));
         }
 
         private static final String TEXT_MENTION_ENTITY = "text_mention";

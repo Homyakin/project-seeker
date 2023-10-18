@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministr
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.models.Pair;
 import ru.homyakin.seeker.telegram.group.database.GroupUserDao;
@@ -33,12 +34,12 @@ public class GroupUserService {
         this.telegramSender = telegramSender;
     }
 
-    public Either<TelegramError, Boolean> isUserAdminInGroup(Long groupId, Long userId) {
+    public Either<TelegramError, Boolean> isUserAdminInGroup(Long groupId, UserId userId) {
         return telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId))
             .map(it -> it instanceof ChatMemberAdministrator || it instanceof ChatMemberOwner);
     }
 
-    public Pair<Group, User> getAndActivateOrCreate(long groupId, long userId) {
+    public Pair<Group, User> getAndActivateOrCreate(long groupId, UserId userId) {
         final var group = groupService.getOrCreate(groupId);
         final var user = userService.getOrCreateFromGroup(userId);
         groupUserDao.getByGroupIdAndUserId(groupId, userId)

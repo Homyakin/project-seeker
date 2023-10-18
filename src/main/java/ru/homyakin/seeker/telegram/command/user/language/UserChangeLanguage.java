@@ -2,11 +2,12 @@ package ru.homyakin.seeker.telegram.command.user.language;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record UserChangeLanguage(
-    Long userId
+    UserId userId
 ) implements Command {
     public static UserChangeLanguage from(Message message) {
-        return new UserChangeLanguage(message.getFrom().getId());
+        return new UserChangeLanguage(UserId.from(message.getFrom().getId()));
     }
 }

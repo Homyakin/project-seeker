@@ -39,6 +39,7 @@ import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
@@ -95,7 +96,7 @@ public class CommandParser {
 
     private Optional<Command> parsePrivateMessage(Message message) {
         return userStateService
-            .getUserStateById(message.getFrom().getId())
+            .getUserStateById(new UserId(message.getFrom().getId()))
             .map(state -> state.nextCommand(message))
             .or(() -> commandByPrivateMessage(message));
     }

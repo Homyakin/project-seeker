@@ -2,13 +2,14 @@ package ru.homyakin.seeker.telegram.command.user.change_name;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record CancelChangeName(
-    long userId
+    UserId userId
 ) implements Command {
     public static CancelChangeName from(Message message) {
         return new CancelChangeName(
-            message.getFrom().getId()
+            UserId.from(message.getFrom().getId())
         );
     }
 }

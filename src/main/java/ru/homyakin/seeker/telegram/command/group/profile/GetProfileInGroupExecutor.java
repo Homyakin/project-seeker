@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -27,7 +28,7 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
     public void execute(GetProfileInGroup command) {
         final var groupUserPair = groupUserService.getAndActivateOrCreate(
             command.groupId(),
-            command.userId()
+            UserId.from(command.userId())
         );
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
