@@ -56,7 +56,9 @@ public class ConfirmResetCharacteristicsExecutor extends CommandExecutor<Confirm
     private String successResetText(Language language, Characteristics characteristics) {
         return CharacteristicLocalization.successReset(language)
             + "\n"
-            + CharacteristicLocalization.currentCharacteristics(language, characteristics);
+            + CharacteristicLocalization.currentCharacteristics(language, characteristics)
+            + "\n\n"
+            + CharacteristicLocalization.chooseCharacteristic(language);
 
     }
 }

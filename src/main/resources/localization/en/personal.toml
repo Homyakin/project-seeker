@@ -25,7 +25,9 @@ canceledReset = "The book will stay here. Come when you decide"
 increasedCharacteristic = "You've improved the skill: ${increased_value}${increased_icon}."
 currentCharacteristics = """\
 Current characteristics: ${strength_value}${strength_icon}${agility_value}${agility_icon}${wisdom_value}${wisdom_icon}"""
-chooseCharacteristic = "Choose what you want to study:"
+chooseCharacteristic = """\
+Choose what you want to study:
+(${strength_icon}>${agility_icon}>${wisdom_icon}>${strength_icon})"""
 notEnoughCharacteristicPoints = "You've reached your limit! If you want to change your fighting style, use the book of oblivion."
 notEnoughMoney = "You can't afford the Book of Oblivion! Need ${money_icon}${money_count}"
 profileLevelUp = "You can improve your skills! Click ${level_up_command}"

@@ -65,7 +65,14 @@ public class CharacteristicLocalization {
     }
 
     public static String chooseCharacteristic(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).chooseCharacteristic(), map.get(Language.DEFAULT).chooseCharacteristic());
+        final var params = new HashMap<String, Object>();
+        params.put("strength_icon", CharacteristicType.STRENGTH.icon());
+        params.put("agility_icon", CharacteristicType.AGILITY.icon());
+        params.put("wisdom_icon", CharacteristicType.WISDOM.icon());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).chooseCharacteristic(), map.get(Language.DEFAULT).chooseCharacteristic()),
+            params
+        );
     }
 
     public static String notEnoughCharacteristicPoints(Language language) {

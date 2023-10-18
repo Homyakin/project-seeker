@@ -35,7 +35,9 @@ canceledReset = "Книга останется здесь. Приходи, ко�
 increasedCharacteristic = "Ты улучшил навык: ${increased_value}${increased_icon}."
 currentCharacteristics = """\
 Текущие характеристики: ${strength_value}${strength_icon}${agility_value}${agility_icon}${wisdom_value}${wisdom_icon}"""
-chooseCharacteristic = "Выбери, что ты хочешь изучить:"
+chooseCharacteristic = """\
+Выбери, что ты хочешь изучить:
+(${strength_icon}>${agility_icon}>${wisdom_icon}>${strength_icon})"""
 notEnoughCharacteristicPoints = "Ты достиг своего предела! Если захочешь изменить стиль боя, воспользуйся книгой забвения."
 notEnoughMoney = "Книга забвения тебе не по карману! Нужно ${money_icon}${money_count}"
 profileLevelUp = "Ты можешь улучшить свои навыки! Жми ${level_up_command}"
