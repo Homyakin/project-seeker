@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.database.PersonageEventDao;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
@@ -45,11 +46,11 @@ public class LaunchedEventService {
         launchedEventDao.updateIsActive(launchedEvent.id(), isActive);
     }
 
-    public Optional<LaunchedEvent> getActiveEventByPersonageId(Long personageId) {
+    public Optional<LaunchedEvent> getActiveEventByPersonageId(PersonageId personageId) {
         return launchedEventDao.getActiveByPersonageId(personageId);
     }
 
-    public void addPersonageToLaunchedEvent(Long personageId, Long launchedEventId) {
+    public void addPersonageToLaunchedEvent(PersonageId personageId, long launchedEventId) {
         personageEventDao.save(personageId, launchedEventId);
     }
 

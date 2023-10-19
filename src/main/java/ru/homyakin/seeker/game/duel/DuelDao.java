@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -68,14 +69,14 @@ public class DuelDao {
     }
 
     public long create(
-        long initiatingPersonageId,
-        long acceptingPersonageId,
+        PersonageId initiatingPersonageId,
+        PersonageId acceptingPersonageId,
         GroupId groupId,
         Duration lifeTime
     ) {
         final var params = new HashMap<String, Object>();
-        params.put("initiating_personage_id", initiatingPersonageId);
-        params.put("accepting_personage_id", acceptingPersonageId);
+        params.put("initiating_personage_id", initiatingPersonageId.value());
+        params.put("accepting_personage_id", acceptingPersonageId.value());
         params.put("grouptg_id", groupId.value());
         params.put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
         params.put("status_id", DuelStatus.WAITING.id());
@@ -90,9 +91,9 @@ public class DuelDao {
         ).stream().findFirst();
     }
 
-    public Optional<Duel> getWaitingDuelByInitiatingPersonage(long initiatingPersonageId) {
+    public Optional<Duel> getWaitingDuelByInitiatingPersonage(PersonageId initiatingPersonageId) {
         final var params = new HashMap<String, Object>();
-        params.put("initiating_personage_id", initiatingPersonageId);
+        params.put("initiating_personage_id", initiatingPersonageId.value());
         params.put("status_id", DuelStatus.WAITING.id());
         return jdbcTemplate.query(
             GET_WAITING_BY_INITIATING_PERSONAGE,
@@ -122,10 +123,10 @@ public class DuelDao {
         );
     }
 
-    public void addWinnerIdToDuel(long duelId, long personageId) {
+    public void addWinnerIdToDuel(long duelId, PersonageId personageId) {
         final var params = new HashMap<String, Object>();
         params.put("id", duelId);
-        params.put("winner_personage_id", personageId);
+        params.put("winner_personage_id", personageId.value());
         jdbcTemplate.update(
             ADD_WINNER_ID,
             params
@@ -145,8 +146,8 @@ public class DuelDao {
     private Duel mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Duel(
             rs.getLong("id"),
-            rs.getLong("initiating_personage_id"),
-            rs.getLong("accepting_personage_id"),
+            PersonageId.from(rs.getLong("initiating_personage_id")),
+            PersonageId.from(rs.getLong("accepting_personage_id")),
             GroupId.from(rs.getLong("grouptg_id")),
             rs.getTimestamp("expiring_date").toLocalDateTime(),
             DuelStatus.getById(rs.getInt("status_id")),

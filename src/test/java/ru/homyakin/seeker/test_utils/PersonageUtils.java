@@ -6,6 +6,7 @@ import java.util.List;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class PersonageUtils {
@@ -14,7 +15,7 @@ public class PersonageUtils {
         for (int i = 1; i <= size; ++i) {
             personages.add(
                 new Personage(
-                    i,
+                    PersonageId.from(i),
                     "",
                     Money.zero(),
                     Characteristics.random(),

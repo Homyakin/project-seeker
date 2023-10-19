@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemOrder;
 import ru.homyakin.seeker.game.tavern_menu.models.OrderStatus;
 
@@ -34,14 +35,14 @@ public class MenuItemOrderDao {
 
     public long createOrder(
         int menuItemId,
-        long orderingPersonageId,
-        long acceptingPersonageId,
+        PersonageId orderingPersonageId,
+        PersonageId acceptingPersonageId,
         LocalDateTime expireDateTime
     ) {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
             .addValue("menu_item_id", menuItemId)
-            .addValue("ordering_personage_id", orderingPersonageId)
-            .addValue("accepting_personage_id", acceptingPersonageId)
+            .addValue("ordering_personage_id", orderingPersonageId.value())
+            .addValue("accepting_personage_id", acceptingPersonageId.value())
             .addValue("expire_date_time", expireDateTime)
             .addValue("status_id", OrderStatus.CREATED.id());
 
@@ -67,8 +68,8 @@ public class MenuItemOrderDao {
         return new MenuItemOrder(
             resultSet.getLong("id"),
             resultSet.getInt("menu_item_id"),
-            resultSet.getLong("ordering_personage_id"),
-            resultSet.getLong("accepting_personage_id"),
+            PersonageId.from(resultSet.getLong("ordering_personage_id")),
+            PersonageId.from(resultSet.getLong("accepting_personage_id")),
             resultSet.getTimestamp("expire_date_time").toLocalDateTime(),
             OrderStatus.findById(resultSet.getInt("status_id"))
         );

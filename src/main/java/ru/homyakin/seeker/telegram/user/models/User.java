@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.user.models;
 
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.user.UserDao;
 
@@ -9,7 +10,7 @@ public record User(
     UserId id,
     boolean isActivePrivateMessages,
     Language language,
-    long personageId,
+    PersonageId personageId,
     Optional<String> username
 ) {
     public boolean isSameLanguage(Language newLanguage) {

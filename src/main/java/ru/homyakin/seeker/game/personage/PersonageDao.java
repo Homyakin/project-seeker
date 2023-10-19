@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 @Component
 public class PersonageDao {
@@ -55,7 +56,7 @@ public class PersonageDao {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public long save(Personage personage) {
+    public PersonageId save(Personage personage) {
         final var params = new HashMap<String, Object>();
         params.put("name", personage.name());
         params.put("money", personage.money().value());
@@ -67,14 +68,12 @@ public class PersonageDao {
         params.put("wisdom", personage.characteristics().wisdom());
         params.put("last_health_change", personage.lastHealthChange());
 
-        return jdbcInsert.executeAndReturnKey(
-            params
-        ).longValue();
+        return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
     }
 
     public void update(Personage personage) {
         final var params = new HashMap<String, Object>();
-        params.put("id", personage.id());
+        params.put("id", personage.id().value());
         params.put("name", personage.name());
         params.put("strength", personage.characteristics().strength());
         params.put("agility", personage.characteristics().agility());
@@ -88,11 +87,10 @@ public class PersonageDao {
         );
     }
 
-    public Optional<Personage> getById(Long id) {
-        final var params = Collections.singletonMap("id", id);
+    public Optional<Personage> getById(PersonageId id) {
         final var result = jdbcTemplate.query(
             GET_BY_ID,
-            params,
+            Collections.singletonMap("id", id.value()),
             this::mapRow
         );
         return result.stream().findFirst();
@@ -109,7 +107,7 @@ public class PersonageDao {
 
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Personage(
-            rs.getLong("id"),
+            PersonageId.from(rs.getLong("id")),
             rs.getString("name"),
             new Money(rs.getInt("money")),
             new Characteristics(

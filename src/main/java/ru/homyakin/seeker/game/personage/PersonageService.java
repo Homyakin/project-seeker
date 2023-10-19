@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
@@ -47,7 +48,7 @@ public class PersonageService {
             .peekLeft(error -> logger.warn("Can't create personage with name " + name));
     }
 
-    public Either<PersonageEventError, Success> addEvent(long personageId, Long launchedEventId) {
+    public Either<PersonageEventError, Success> addEvent(PersonageId personageId, long launchedEventId) {
         final var requestedEvent = launchedEventService.getById(launchedEventId);
         if (requestedEvent.isEmpty()) {
             logger.error("Requested event " + launchedEventId + " doesn't present");
@@ -72,12 +73,12 @@ public class PersonageService {
         }
     }
 
-    public Optional<Personage> getById(long personageId) {
+    public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
             .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao));
     }
 
-    public Personage getByIdForce(long personageId) {
+    public Personage getByIdForce(PersonageId personageId) {
         return getById(personageId)
             .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
     }

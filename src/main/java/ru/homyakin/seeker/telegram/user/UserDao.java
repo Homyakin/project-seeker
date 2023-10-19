@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -30,7 +31,7 @@ public class UserDao {
         params.put("is_active_private_messages", user.isActivePrivateMessages());
         params.put("language_id", user.language().id());
         params.put("init_date", TimeUtils.moscowTime());
-        params.put("personage_id", user.personageId());
+        params.put("personage_id", user.personageId().value());
 
         jdbcTemplate.update(
             SAVE_USER,
@@ -47,10 +48,10 @@ public class UserDao {
         return result.stream().findFirst();
     }
 
-    public Optional<User> getByPersonageId(long personageId) {
+    public Optional<User> getByPersonageId(PersonageId personageId) {
         final var result = jdbcTemplate.query(
             GET_BY_PERSONAGE_ID,
-            Collections.singletonMap("personage_id", personageId),
+            Collections.singletonMap("personage_id", personageId.value()),
             this::mapRow
         );
         return result.stream().findFirst();
@@ -86,7 +87,7 @@ public class UserDao {
             new UserId(rs.getLong("id")),
             rs.getBoolean("is_active_private_messages"),
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getLong("personage_id"),
+            PersonageId.from(rs.getLong("personage_id")),
             Optional.ofNullable(rs.getString("username"))
         );
     }

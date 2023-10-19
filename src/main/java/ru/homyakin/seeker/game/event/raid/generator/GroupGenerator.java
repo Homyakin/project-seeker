@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.event.raid.generator;
 
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 
@@ -21,7 +22,7 @@ public class GroupGenerator implements RaidBattleGenerator {
             final var characteristics = Characteristics.random();
             group.add(
                 new Personage(
-                    -1 - i,
+                    PersonageId.from(-1 - i),
                     null,
                     null,
                     new Characteristics(

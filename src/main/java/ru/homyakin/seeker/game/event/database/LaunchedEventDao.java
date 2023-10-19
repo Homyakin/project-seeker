@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -72,8 +73,8 @@ public class LaunchedEventDao {
         return result.stream().findFirst();
     }
 
-    public Optional<LaunchedEvent> getActiveByPersonageId(Long personageId) {
-        final var params = Collections.singletonMap("personage_id", personageId);
+    public Optional<LaunchedEvent> getActiveByPersonageId(PersonageId personageId) {
+        final var params = Collections.singletonMap("personage_id", personageId.value());
         final var result = jdbcTemplate.query(
             GET_ACTIVE_EVENTS_BY_PERSONAGE_ID,
             params,

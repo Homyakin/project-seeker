@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class SingleBossGenerator implements RaidBattleGenerator {
@@ -12,7 +13,7 @@ public class SingleBossGenerator implements RaidBattleGenerator {
         final var characteristics = Characteristics.random();
         final int health = characteristics.health() * personagesCount;
         final var boss = new Personage(
-            -1,
+            PersonageId.from(-1),
             null,
             null,
             new Characteristics(

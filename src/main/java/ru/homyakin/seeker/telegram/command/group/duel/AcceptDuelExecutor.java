@@ -48,7 +48,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         final var acceptingUser = groupUser.second();
         final var group = groupUser.first();
 
-        if (duel.acceptingPersonageId() != acceptingUser.personageId()) {
+        if (duel.acceptingPersonageId().equals(acceptingUser.personageId())) {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
@@ -66,7 +66,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         final var result = duelService.finishDuel(duel);
         final User winnerUser;
         final User looserUser;
-        if (result.winner().personage().id() == acceptingUser.personageId()) {
+        if (result.winner().personage().id().equals(acceptingUser.personageId())) {
             winnerUser = acceptingUser;
             looserUser = userService.getByPersonageIdForce(result.looser().personage().id());
         } else {

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
@@ -51,7 +52,7 @@ public class UserService {
         return user.changeLanguage(language, userDao);
     }
 
-    public User getByPersonageIdForce(long personageId) {
+    public User getByPersonageIdForce(PersonageId personageId) {
         return userDao.getByPersonageId(personageId)
             .orElseThrow(() -> new IllegalStateException("User must be present at personage " + personageId));
     }

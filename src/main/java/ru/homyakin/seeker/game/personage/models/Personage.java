@@ -16,7 +16,7 @@ import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
-    long id,
+    PersonageId id,
     String name,
     Money money,
     Characteristics characteristics,
@@ -123,7 +123,7 @@ public record Personage(
 
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
-            id,
+            id.value(),
             characteristics
         );
     }
@@ -134,7 +134,7 @@ public record Personage(
 
     public static Personage createDefault(String name) {
         return new Personage(
-            0L,
+            PersonageId.from(0L),
             name,
             Money.zero(),
             Characteristics.createDefault(),

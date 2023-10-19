@@ -4,6 +4,7 @@ import java.util.HashMap;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 @Component
 public class PersonageEventDao {
@@ -18,9 +19,9 @@ public class PersonageEventDao {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public void save(Long personageId, Long launchedEventId) {
+    public void save(PersonageId personageId, long launchedEventId) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_id", personageId);
+        params.put("personage_id", personageId.value());
         params.put("launched_event_id", launchedEventId);
 
         jdbcTemplate.update(
