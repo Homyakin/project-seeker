@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.tavern_menu.models.OrderStatus;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.group.models.MenuItemOrderTg;
 
 import javax.sql.DataSource;
@@ -23,7 +24,7 @@ public class MenuItemOrderTgDao {
     public MenuItemOrderTg insert(MenuItemOrderTg menuItemOrderTg) {
         final var params = new MapSqlParameterSource()
             .addValue("menu_item_order_id", menuItemOrderTg.menuItemOrderId())
-            .addValue("grouptg_id", menuItemOrderTg.groupTgId())
+            .addValue("grouptg_id", menuItemOrderTg.groupTgId().value())
             .addValue("message_id", menuItemOrderTg.messageId());
 
         jdbcTemplate.update(INSERT, params);
@@ -42,7 +43,7 @@ public class MenuItemOrderTgDao {
     private MenuItemOrderTg mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new MenuItemOrderTg(
             rs.getLong("menu_item_order_id"),
-            rs.getLong("grouptg_id"),
+            GroupId.from(rs.getLong("grouptg_id")),
             rs.getInt("message_id")
         );
     }

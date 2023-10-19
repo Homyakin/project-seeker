@@ -6,6 +6,7 @@ import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
@@ -30,7 +31,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         if (command.isPrivate()) {
             language = userService.getOrCreateFromPrivate(UserId.from(command.chatId())).language();
         } else {
-            language = groupService.getOrCreate(command.chatId()).language();
+            language = groupService.getOrCreate(GroupId.from(command.chatId())).language();
         }
         final var section = command.helpSection();
 

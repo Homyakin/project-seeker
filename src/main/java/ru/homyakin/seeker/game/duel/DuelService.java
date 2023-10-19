@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -39,7 +40,7 @@ public class DuelService {
     public Either<DuelError, Duel> createDuel(
         Personage initiatingPersonage,
         Personage acceptingPersonage,
-        long groupId
+        GroupId groupId
     ) {
         if (duelDao.getWaitingDuelByInitiatingPersonage(initiatingPersonage.id()).isPresent()) {
             return Either.left(new DuelError.PersonageAlreadyHasDuel());

@@ -10,6 +10,7 @@ import ru.homyakin.seeker.telegram.group.database.GroupDao;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.ActiveTimeError;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.models.Success;
 
 @Service
@@ -22,13 +23,13 @@ public class GroupService {
         this.groupStatsService = groupStatsService;
     }
 
-    public Group getOrCreate(long groupId) {
+    public Group getOrCreate(GroupId groupId) {
         return getGroup(groupId)
             .map(group -> group.activate(groupDao))
             .orElseGet(() -> createGroup(groupId));
     }
 
-    public void setNotActive(long groupId) {
+    public void setNotActive(GroupId groupId) {
         getGroup(groupId).map(group -> group.deactivate(groupDao));
     }
 
@@ -59,11 +60,11 @@ public class GroupService {
             .map(it -> Success.INSTANCE);
     }
 
-    private Optional<Group> getGroup(long group) {
+    private Optional<Group> getGroup(GroupId group) {
         return groupDao.getById(group);
     }
 
-    private Group createGroup(long groupId) {
+    private Group createGroup(GroupId groupId) {
         final var group = new Group(groupId, true, Language.DEFAULT, ActiveTime.createDefault());
         groupDao.save(group);
         groupStatsService.create(groupId);

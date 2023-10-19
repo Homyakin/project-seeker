@@ -1,8 +1,10 @@
 package ru.homyakin.seeker.game.event.models;
 
+import ru.homyakin.seeker.telegram.group.models.GroupId;
+
 public record GroupLaunchedEvent(
     long launchedEventId,
-    long groupId,
+    GroupId groupId,
     int messageId
 ) {
 }

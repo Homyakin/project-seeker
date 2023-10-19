@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -55,7 +56,7 @@ public class UserDao {
         return result.stream().findFirst();
     }
 
-    public Optional<User> getByUsernameInGroup(String username, long groupId) {
+    public Optional<User> getByUsernameInGroup(String username, GroupId groupId) {
         //TODO багфикс
         final var params = new MapSqlParameterSource()
             .addValue("username", username);

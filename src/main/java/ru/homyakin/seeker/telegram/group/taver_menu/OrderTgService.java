@@ -15,6 +15,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.group.models.MenuItemOrderTg;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -102,7 +103,7 @@ public class OrderTgService {
         );
     }
 
-    private MenuItemOrderTg linkOrderToMessage(long orderId, long groupId, int messageId) {
+    private MenuItemOrderTg linkOrderToMessage(long orderId, GroupId groupId, int messageId) {
         return menuItemOrderTgDao.insert(
             new MenuItemOrderTg(
                 orderId,

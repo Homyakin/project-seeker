@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministr
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.models.Pair;
@@ -34,12 +35,12 @@ public class GroupUserService {
         this.telegramSender = telegramSender;
     }
 
-    public Either<TelegramError, Boolean> isUserAdminInGroup(Long groupId, UserId userId) {
+    public Either<TelegramError, Boolean> isUserAdminInGroup(GroupId groupId, UserId userId) {
         return telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId))
             .map(it -> it instanceof ChatMemberAdministrator || it instanceof ChatMemberOwner);
     }
 
-    public Pair<Group, User> getAndActivateOrCreate(long groupId, UserId userId) {
+    public Pair<Group, User> getAndActivateOrCreate(GroupId groupId, UserId userId) {
         final var group = groupService.getOrCreate(groupId);
         final var user = userService.getOrCreateFromGroup(userId);
         groupUserDao.getByGroupIdAndUserId(groupId, userId)
@@ -50,7 +51,7 @@ public class GroupUserService {
         return new Pair<>(group, user);
     }
 
-    public Optional<GroupUser> getRandomUserFromGroup(long groupId) {
+    public Optional<GroupUser> getRandomUserFromGroup(GroupId groupId) {
         return groupUserDao.getRandomUserByGroup(groupId);
     }
 
@@ -69,7 +70,7 @@ public class GroupUserService {
         return Either.right(true);
     }
 
-    public int countUsersInGroup(long groupId) {
+    public int countUsersInGroup(GroupId groupId) {
         return groupUserDao.countUsersInGroup(groupId);
     }
 

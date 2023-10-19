@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 @Component
 public class GroupTgLaunchedEventDao {
@@ -27,7 +28,7 @@ public class GroupTgLaunchedEventDao {
     public void save(GroupLaunchedEvent groupLaunchedEvent) {
         final var params = new HashMap<String, Object>();
         params.put("launched_event_id", groupLaunchedEvent.launchedEventId());
-        params.put("grouptg_id", groupLaunchedEvent.groupId());
+        params.put("grouptg_id", groupLaunchedEvent.groupId().value());
         params.put("message_id", groupLaunchedEvent.messageId());
 
         jdbcTemplate.update(
@@ -48,7 +49,7 @@ public class GroupTgLaunchedEventDao {
     private GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupLaunchedEvent(
             rs.getLong("launched_event_id"),
-            rs.getLong("grouptg_id"),
+            GroupId.from(rs.getLong("grouptg_id")),
             rs.getInt("message_id")
         );
     }

@@ -4,7 +4,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.database.GroupDao;
 
 public record Group(
-    long id,
+    GroupId id,
     boolean isActive,
     Language language,
     ActiveTime activeTime

@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.group.models;
 
 public record GroupStats(
-    long groupId,
+    GroupId groupId,
     int raidsComplete,
     int duelsComplete,
     long tavernMoneySpent

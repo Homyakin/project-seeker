@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -35,8 +36,8 @@ public class GroupUserDao {
 
     public void save(GroupUser groupUser) {
         final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupUser.groupId());
-        params.put("usertg_id", groupUser.userId());
+        params.put("grouptg_id", groupUser.groupId().value());
+        params.put("usertg_id", groupUser.userId().value());
         params.put("is_active", groupUser.isActive());
         jdbcTemplate.update(
             SAVE_GROUP_USER,
@@ -44,9 +45,9 @@ public class GroupUserDao {
         );
     }
 
-    public Optional<GroupUser> getByGroupIdAndUserId(long groupId, UserId userId) {
+    public Optional<GroupUser> getByGroupIdAndUserId(GroupId groupId, UserId userId) {
         final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupId);
+        params.put("grouptg_id", groupId.value());
         params.put("usertg_id", userId.value());
         final var result = jdbcTemplate.query(
             GET_GROUP_USER_BY_KEY,
@@ -57,11 +58,11 @@ public class GroupUserDao {
 
     }
 
-    public int countUsersInGroup(long groupId) {
+    public int countUsersInGroup(GroupId groupId) {
         final var sql = """
                     SELECT count(*) as count FROM grouptg_to_usertg
                     WHERE grouptg_id = :grouptg_id and is_active = true""";
-        final var param = Collections.singletonMap("grouptg_id", groupId);
+        final var param = Collections.singletonMap("grouptg_id", groupId.value());
         return jdbcTemplate.query(
             sql,
             param,
@@ -69,12 +70,12 @@ public class GroupUserDao {
         ).get(0);
     }
 
-    public Optional<GroupUser> getRandomUserByGroup(long groupId) {
+    public Optional<GroupUser> getRandomUserByGroup(GroupId groupId) {
         final var sql = """
                     SELECT * FROM grouptg_to_usertg
                     WHERE grouptg_id = :grouptg_id and is_active = true
                     ORDER BY random() LIMIT 1""";
-        final var param = Collections.singletonMap("grouptg_id", groupId);
+        final var param = Collections.singletonMap("grouptg_id", groupId.value());
         return jdbcTemplate.query(
             sql,
             param,
@@ -84,8 +85,8 @@ public class GroupUserDao {
 
     public void update(GroupUser groupUser) {
         final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupUser.groupId());
-        params.put("usertg_id", groupUser.userId());
+        params.put("grouptg_id", groupUser.groupId().value());
+        params.put("usertg_id", groupUser.userId().value());
         params.put("is_active", groupUser.isActive());
         jdbcTemplate.update(
             UPDATE,
@@ -95,7 +96,7 @@ public class GroupUserDao {
 
     private GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupUser(
-            rs.getLong("grouptg_id"),
+            GroupId.from(rs.getLong("grouptg_id")),
             UserId.from(rs.getLong("usertg_id")),
             rs.getBoolean("is_active")
         );

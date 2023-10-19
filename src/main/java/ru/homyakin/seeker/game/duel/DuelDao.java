@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -69,13 +70,13 @@ public class DuelDao {
     public long create(
         long initiatingPersonageId,
         long acceptingPersonageId,
-        long groupId,
+        GroupId groupId,
         Duration lifeTime
     ) {
         final var params = new HashMap<String, Object>();
         params.put("initiating_personage_id", initiatingPersonageId);
         params.put("accepting_personage_id", acceptingPersonageId);
-        params.put("grouptg_id", groupId);
+        params.put("grouptg_id", groupId.value());
         params.put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
         params.put("status_id", DuelStatus.WAITING.id());
         return jdbcInsert.executeAndReturnKey(params).longValue();
@@ -146,7 +147,7 @@ public class DuelDao {
             rs.getLong("id"),
             rs.getLong("initiating_personage_id"),
             rs.getLong("accepting_personage_id"),
-            rs.getLong("grouptg_id"),
+            GroupId.from(rs.getLong("grouptg_id")),
             rs.getTimestamp("expiring_date").toLocalDateTime(),
             DuelStatus.getById(rs.getInt("status_id")),
             Optional.ofNullable(DatabaseUtils.getNullableInt(rs, "message_id"))

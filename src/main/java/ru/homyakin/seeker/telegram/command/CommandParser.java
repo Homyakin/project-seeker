@@ -70,8 +70,8 @@ public class CommandParser {
         if (TelegramUtils.isGroupChat(chatMember.getChat())) {
             return Optional.ofNullable(
                 switch (chatMember.getNewChatMember().getStatus()) {
-                    case "left" -> new LeftGroup(chatMember.getChat().getId());
-                    case "member" -> new JoinGroup(chatMember.getChat().getId());
+                    case "left" -> LeftGroup.from(chatMember);
+                    case "member" -> JoinGroup.from(chatMember);
                     default -> null;
                 }
             );

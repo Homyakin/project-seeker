@@ -5,7 +5,7 @@ import ru.homyakin.seeker.telegram.user.models.UserId;
 
 //TODO добавить обработку выхода из чата
 public record GroupUser(
-    long groupId,
+    GroupId groupId,
     UserId userId,
     boolean isActive
 ) {
