@@ -27,7 +27,7 @@ public class UserDao {
 
     public void save(User user) {
         final var params = new HashMap<String, Object>();
-        params.put("id", user.id());
+        params.put("id", user.id().value());
         params.put("is_active_private_messages", user.isActivePrivateMessages());
         params.put("language_id", user.language().id());
         params.put("init_date", TimeUtils.moscowTime());
@@ -73,7 +73,7 @@ public class UserDao {
 
     public void update(User user) {
         final var params = new MapSqlParameterSource()
-            .addValue("id", user.id())
+            .addValue("id", user.id().value())
             .addValue("language_id", user.language().id())
             .addValue("is_active_private_messages", user.isActivePrivateMessages());
         jdbcTemplate.update(

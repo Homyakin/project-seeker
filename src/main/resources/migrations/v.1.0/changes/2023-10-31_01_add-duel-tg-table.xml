@@ -1,0 +1,45 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-menu-item-order-tables">
+        <createTable tableName="duel_tg">
+            <column name="duel_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="grouptg_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="duel_tg"
+                baseColumnNames="duel_id"
+                referencedTableName="duel"
+                referencedColumnNames="id"
+                constraintName="fk_duel_tg_duel"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="duel_tg"
+                baseColumnNames="grouptg_id"
+                referencedTableName="grouptg"
+                referencedColumnNames="id"
+                constraintName="fk_duel_tg_grouptg"
+        />
+
+        <sql>
+            INSERT INTO duel_tg (duel_id, grouptg_id, message_id)
+            SELECT id, grouptg_id, message_id
+            FROM duel
+            WHERE message_id is not null;
+        </sql>
+
+        <dropColumn tableName="duel" columnName="grouptg_id"/>
+        <dropColumn tableName="duel" columnName="message_id"/>
+    </changeSet>
+</databaseChangeLog>

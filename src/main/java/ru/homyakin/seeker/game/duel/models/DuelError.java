@@ -2,20 +2,14 @@ package ru.homyakin.seeker.game.duel.models;
 
 import ru.homyakin.seeker.game.models.Money;
 
-public abstract sealed class DuelError {
-    public static final class PersonageAlreadyHasDuel extends DuelError {
+public sealed interface DuelError {
+    final class PersonageAlreadyHasDuel implements DuelError {
     }
 
-    public static final class InitiatingPersonageNotEnoughMoney extends DuelError {
-        private final Money money;
+    record InitiatingPersonageNotEnoughMoney(Money money) implements DuelError {
+    }
 
-        public InitiatingPersonageNotEnoughMoney(Money money) {
-            this.money = money;
-        }
-
-        public Money money() {
-            return money;
-        }
+    final class InternalError implements DuelError {
     }
 }
 

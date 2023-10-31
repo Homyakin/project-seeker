@@ -13,15 +13,12 @@ import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class DuelService {
     private final DuelDao duelDao;
     private final Duration duelLifeTime;
     private final PersonageService personageService;
-
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
 
     public DuelService(
@@ -39,8 +36,7 @@ public class DuelService {
     //TODO прочитать про transactional
     public Either<DuelError, Duel> createDuel(
         Personage initiatingPersonage,
-        Personage acceptingPersonage,
-        GroupId groupId
+        Personage acceptingPersonage
     ) {
         if (duelDao.getWaitingDuelByInitiatingPersonage(initiatingPersonage.id()).isPresent()) {
             return Either.left(new DuelError.PersonageAlreadyHasDuel());
@@ -51,21 +47,13 @@ public class DuelService {
 
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
 
-        final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), groupId, duelLifeTime);
+        final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), duelLifeTime);
         return Either.right(getByIdForce(id));
     }
 
     public Duel getByIdForce(long duelId) {
         return duelDao.getById(duelId)
             .orElseThrow(() -> new IllegalStateException("Duel " + duelId + "must exist"));
-    }
-
-    public void addMessageIdToDuel(long duelId, int messageId) {
-        duelDao.addMessageIdToDuel(duelId, messageId);
-    }
-
-    public List<Duel> getExpiringDuels() {
-        return duelDao.getWaitingDuelsWithLessExpireDate(TimeUtils.moscowTime());
     }
 
     public void expireDuel(long duelId) {
@@ -112,5 +100,5 @@ public class DuelService {
         personageService.addMoney(initiatingPersonage, DUEL_PRICE);
     }
 
-    private static final Money DUEL_PRICE = new Money(3);
+    private static final Money DUEL_PRICE = new Money(5);
 }

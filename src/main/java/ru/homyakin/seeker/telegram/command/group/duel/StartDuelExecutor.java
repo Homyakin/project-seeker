@@ -4,18 +4,16 @@ import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.DuelError;
-import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.group.duel.DuelTgService;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
-import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -23,21 +21,18 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
     private static final Logger logger = LoggerFactory.getLogger(StartDuelExecutor.class);
     private final GroupUserService groupUserService;
     private final UserService userService;
-    private final PersonageService personageService;
-    private final DuelService duelService;
+    private final DuelTgService duelTgService;
     private final TelegramSender telegramSender;
 
     public StartDuelExecutor(
         GroupUserService groupUserService,
         UserService userService,
-        PersonageService personageService,
-        DuelService duelService,
+        DuelTgService duelTgService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.userService = userService;
-        this.personageService = personageService;
-        this.duelService = duelService;
+        this.duelTgService = duelTgService;
         this.telegramSender = telegramSender;
     }
 
@@ -78,10 +73,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             return;
         }
         final var acceptingUser = userResult.get();
-        final var initiatingPersonage = personageService.getByIdForce(initiatingUser.personageId());
-        final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
-
-        final var duelResult = duelService.createDuel(initiatingPersonage, acceptingPersonage, group.id());
+        final var duelResult = duelTgService.createDuel(initiatingUser, acceptingUser, group);
         if (duelResult.isLeft()) {
             final var error = duelResult.getLeft();
             final var message = switch (error) {
@@ -89,30 +81,12 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
                     DuelLocalization.personageAlreadyStartDuel(group.language());
                 case DuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney ->
                     DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
+                case DuelError.InternalError ignored -> CommonLocalization.internalError(group.language());
             };
             telegramSender.send(
                 SendMessageBuilder.builder().chatId(group.id()).text(message).build()
             );
-            return;
         }
-        final var telegramResult = telegramSender.send(
-            SendMessageBuilder.builder()
-                .chatId(group.id())
-                .text(
-                    DuelLocalization.initDuel(
-                        group.language(),
-                        TgPersonageMention.of(initiatingPersonage, initiatingUser.id()),
-                        TgPersonageMention.of(acceptingPersonage, acceptingUser.id())
-                    )
-                )
-                .keyboard(InlineKeyboards.duelKeyboard(group.language(), duelResult.get().id()))
-                .build()
-        );
-        if (telegramResult.isLeft()) {
-            logger.error("Can't send duel to group");
-            return;
-        }
-        duelService.addMessageIdToDuel(duelResult.get().id(), telegramResult.get().getMessageId());
     }
 
     private Either<String, MentionInfo> validateCommand(StartDuel command, Language language) {
