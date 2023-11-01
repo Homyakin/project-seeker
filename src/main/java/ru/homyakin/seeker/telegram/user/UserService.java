@@ -60,6 +60,9 @@ public class UserService {
     public void updateUserInfoFromUpdate(Update update) {
         if (update.hasMessage()) {
             updateUserInfoFromUser(update.getMessage().getFrom());
+            if (update.getMessage().isReply()) {
+                updateUserInfoFromUser(update.getMessage().getReplyToMessage().getFrom());
+            }
         } else if (update.hasCallbackQuery()) {
             updateUserInfoFromUser(update.getCallbackQuery().getFrom());
         } else if (update.hasChatMember()) {
@@ -106,6 +109,7 @@ public class UserService {
             username
         );
         userDao.save(user);
+        logger.info("Created new user: " + user);
         return user;
     }
 }
