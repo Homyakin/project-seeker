@@ -60,17 +60,18 @@ public class GroupUserService {
         return new Pair<>(group, user);
     }
 
-    public Optional<GroupUser> getRandomUserFromGroup(GroupId groupId) {
-        return groupUserDao.getRandomUserByGroup(groupId);
+    public Optional<User> getRandomUserFromGroup(GroupId groupId) {
+        return groupUserDao.getRandomUserByGroup(groupId)
+            .map(groupUser -> userService.getOrCreateFromGroup(groupUser.userId()));
     }
 
-    public Either<TelegramError.InternalError, Boolean> isUserStillInGroup(GroupUser groupUser) {
-        final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupUser.groupId(), groupUser.userId()));
+    public Either<TelegramError.InternalError, Boolean> isUserStillInGroup(GroupId groupId, UserId userId) {
+        final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId));
         if (result.isLeft()) {
             return switch (result.getLeft()) {
                 case TelegramError.UserNotFound ignored -> {
-                    logger.warn("User {} is no longer in group {}", groupUser.userId(), groupUser.groupId());
-                    deactivateGroupUser(groupUser);
+                    logger.warn("User {} is no longer in group {}", userId.value(), groupId.value());
+                    deactivateGroupUser(groupId, userId);
                     yield Either.right(false);
                 }
                 case TelegramError.InternalError internalError -> Either.left(internalError);
@@ -83,8 +84,9 @@ public class GroupUserService {
         return groupUserDao.countUsersInGroup(groupId);
     }
 
-    private GroupUser deactivateGroupUser(GroupUser groupUser) {
-        return groupUser.deactivate(groupUserDao);
+    private void deactivateGroupUser(GroupId groupId, UserId userId) {
+        groupUserDao.getByGroupIdAndUserId(groupId, userId)
+            .map(groupUser -> groupUser.deactivate(groupUserDao));
     }
 
     private void createGroupUser(Group group, User user) {

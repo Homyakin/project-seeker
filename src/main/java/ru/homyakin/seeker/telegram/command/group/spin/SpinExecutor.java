@@ -42,8 +42,7 @@ public class SpinExecutor extends CommandExecutor<Spin> {
     public void execute(Spin command) {
         final var group = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId()).first();
         final var message = everydaySpinService
-            .chooseRandomUserId(command.groupId())
-            .map(userService::getOrCreateFromGroup)
+            .chooseRandomUser(command.groupId())
             .fold(
                 error -> mapSpinErrorToMessage(error, group),
                 user -> {
@@ -67,11 +66,10 @@ public class SpinExecutor extends CommandExecutor<Spin> {
             case SpinError.NotEnoughUsers notEnoughUsers ->
                 EverydaySpinLocalization.notEnoughUsers(group.language(), notEnoughUsers.requiredUsers());
             case SpinError.AlreadyChosen alreadyChosen -> {
-                final var personage = personageService.getByIdForce(
-                    userService.getOrCreateFromGroup(alreadyChosen.userId()).personageId()
-                );
+                final var personage = personageService.getByIdForce(alreadyChosen.personageId());
+                final var user = userService.getByPersonageIdForce(personage.id());
                 yield EverydaySpinLocalization.alreadyChosen(
-                    group.language(), TgPersonageMention.of(personage, alreadyChosen.userId())
+                    group.language(), TgPersonageMention.of(personage, user.id())
                 );
             }
             case SpinError.InternalError ignored -> CommonLocalization.internalError(group.language());

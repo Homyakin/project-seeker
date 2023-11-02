@@ -7,9 +7,9 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.group.models.PersonageCount;
-import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Repository
 public class EverydaySpinDao {
@@ -19,22 +19,22 @@ public class EverydaySpinDao {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public void save(GroupId groupId, UserId userId, LocalDate date) {
+    public void save(GroupId groupId, PersonageId personageId, LocalDate date) {
         String sql = """
-            INSERT INTO everyday_spin_tg (grouptg_id, usertg_id, choose_date)
-            VALUES (:grouptg_id, :usertg_id, :choose_date)""";
+            INSERT INTO everyday_spin_tg (grouptg_id, personage_id, choose_date)
+            VALUES (:grouptg_id, :personage_id, :choose_date)""";
 
         final var params = new HashMap<String, Object>();
         params.put("grouptg_id", groupId.value());
-        params.put("usertg_id", userId.value());
+        params.put("personage_id", personageId.value());
         params.put("choose_date", date);
 
         jdbcTemplate.update(sql, params);
     }
 
-    public Optional<UserId> findUserIdByGrouptgIdAndDate(GroupId grouptgId, LocalDate chooseDate) {
+    public Optional<PersonageId> findPersonageIdByGrouptgIdAndDate(GroupId grouptgId, LocalDate chooseDate) {
         String sql = """
-            SELECT usertg_id FROM everyday_spin_tg
+            SELECT personage_id FROM everyday_spin_tg
             WHERE grouptg_id = :grouptg_id AND choose_date = :choose_date""";
 
         final var params = new HashMap<String, Object>();
@@ -42,7 +42,7 @@ public class EverydaySpinDao {
         params.put("choose_date", chooseDate);
 
         return jdbcTemplate
-            .query(sql, params, (rs, rowNum) -> UserId.from(rs.getLong("usertg_id")))
+            .query(sql, params, (rs, rowNum) -> PersonageId.from(rs.getLong("personage_id")))
             .stream()
             .findFirst();
     }
@@ -52,11 +52,9 @@ public class EverydaySpinDao {
         WITH personage_count
         AS (
             SELECT personage_id, COUNT(*) as count
-            FROM everyday_spin_tg est
-            LEFT JOIN usertg u on u.id = est.usertg_id
-            WHERE est.grouptg_id = :grouptg_id
-            AND personage_id is not null
-            GROUP BY u.personage_id
+            FROM everyday_spin_tg
+            WHERE grouptg_id = :grouptg_id
+            GROUP BY personage_id
         )
         SELECT p.name, pc.count
         FROM personage_count pc

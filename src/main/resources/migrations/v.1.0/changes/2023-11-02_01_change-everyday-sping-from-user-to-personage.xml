@@ -1,0 +1,45 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="change-everyday-sping-from-user-to-personage">
+
+        <addColumn tableName="everyday_spin_tg">
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE everyday_spin_tg
+            SET personage_id = (
+                SELECT personage_id
+                FROM usertg
+                WHERE id = everyday_spin_tg.usertg_id
+            );
+        </sql>
+
+        <addNotNullConstraint tableName="everyday_spin_tg" columnName="personage_id"/>
+
+        <addForeignKeyConstraint
+                baseColumnNames="personage_id"
+                baseTableName="everyday_spin_tg"
+                constraintName="fk_everyday_spin_tg_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+        
+        <dropUniqueConstraint tableName="everyday_spin_tg" constraintName="everyday_spin_tg_pk"/>
+
+        <addUniqueConstraint
+                columnNames="grouptg_id, personage_id, choose_date"
+                constraintName="everyday_spin_tg_pk"
+                tableName="everyday_spin_tg"
+        />
+        
+        <dropForeignKeyConstraint baseTableName="everyday_spin_tg" constraintName="fk_everyday_spin_tg_usertg"/>
+        
+        <dropColumn tableName="everyday_spin_tg" columnName="usertg_id"/>
+    </changeSet>
+</databaseChangeLog>

@@ -23,4 +23,5 @@
     <include file="changes/2023-10-15_01_add-usertg-state.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-10-31_01_add-duel-tg-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-11-01_01_add-grouptg-personage-stats-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-11-02_01_change-everyday-sping-from-user-to-personage.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
