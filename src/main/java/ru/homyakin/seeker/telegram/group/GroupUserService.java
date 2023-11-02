@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.models.Pair;
@@ -27,12 +28,20 @@ public class GroupUserService {
     private final UserService userService;
     private final GroupUserDao groupUserDao;
     private final TelegramSender telegramSender;
+    private final GroupPersonageStatsService groupPersonageStatsService;
 
-    public GroupUserService(GroupService groupService, UserService userService, GroupUserDao groupUserDao, TelegramSender telegramSender) {
+    public GroupUserService(
+        GroupService groupService,
+        UserService userService,
+        GroupUserDao groupUserDao,
+        TelegramSender telegramSender,
+        GroupPersonageStatsService groupPersonageStatsService
+    ) {
         this.groupService = groupService;
         this.userService = userService;
         this.groupUserDao = groupUserDao;
         this.telegramSender = telegramSender;
+        this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
     public Either<TelegramError, Boolean> isUserAdminInGroup(GroupId groupId, UserId userId) {
@@ -46,7 +55,7 @@ public class GroupUserService {
         groupUserDao.getByGroupIdAndUserId(groupId, userId)
             .ifPresentOrElse(
                 groupUser -> groupUser.activate(groupUserDao),
-                () -> groupUserDao.save(new GroupUser(groupId, userId, true))
+                () -> createGroupUser(group, user)
             );
         return new Pair<>(group, user);
     }
@@ -76,5 +85,10 @@ public class GroupUserService {
 
     private GroupUser deactivateGroupUser(GroupUser groupUser) {
         return groupUser.deactivate(groupUserDao);
+    }
+
+    private void createGroupUser(Group group, User user) {
+        groupUserDao.save(new GroupUser(group.id(), user.id(), true));
+        groupPersonageStatsService.create(group.id(), user.personageId());
     }
 }

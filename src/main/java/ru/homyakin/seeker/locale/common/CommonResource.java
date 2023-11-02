@@ -10,6 +10,7 @@ public record CommonResource(
     String receptionDesk,
     String[] mainMenu,
     String groupStats,
+    String personageGroupStats,
     String personageBattleResult
 ) {
 }

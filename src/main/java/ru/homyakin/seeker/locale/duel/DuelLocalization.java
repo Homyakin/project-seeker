@@ -97,10 +97,10 @@ public class DuelLocalization {
         );
     }
 
-    public static String finishedDuel(Language language, PersonageMention winnerMention, PersonageMention looserMention) {
+    public static String finishedDuel(Language language, PersonageMention winnerMention, PersonageMention loserMention) {
         final var params = new HashMap<String, Object>();
         params.put("mention_winner_icon_with_name", winnerMention.value());
-        params.put("mention_looser_icon_with_name", looserMention.value());
+        params.put("mention_loser_icon_with_name", loserMention.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(map.get(language).finishedDuel(), map.get(Language.DEFAULT).finishedDuel())

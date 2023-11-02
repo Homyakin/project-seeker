@@ -6,7 +6,8 @@ import ru.homyakin.seeker.game.battle.PersonageResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.group.models.GroupStats;
+import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
+import ru.homyakin.seeker.telegram.group.stats.GroupStats;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -67,6 +68,21 @@ public class CommonLocalization {
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
+            params
+        );
+    }
+
+    public static String personageGroupStats(Language language, GroupPersonageStats stats) {
+        final var params = new HashMap<String, Object>();
+        params.put("raids_success", stats.raidsSuccess());
+        params.put("raids_total", stats.raidsTotal());
+        params.put("duels_wins", stats.duelsWins());
+        params.put("duels_total", stats.duelsTotal());
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("tavern_money_spent", stats.tavernMoneySpent());
+        params.put("spin_wins_count", stats.spinWinsCount());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).personageGroupStats(), map.get(Language.DEFAULT).personageGroupStats()),
             params
         );
     }

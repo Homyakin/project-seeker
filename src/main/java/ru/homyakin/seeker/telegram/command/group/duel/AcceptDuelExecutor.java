@@ -10,7 +10,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.group.GroupStatsService;
+import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -65,21 +65,21 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
 
         final var result = duelService.finishDuel(duel);
         final User winnerUser;
-        final User looserUser;
+        final User loserUser;
         if (result.winner().personage().id().equals(acceptingUser.personageId())) {
             winnerUser = acceptingUser;
-            looserUser = userService.getByPersonageIdForce(result.looser().personage().id());
+            loserUser = userService.getByPersonageIdForce(result.loser().personage().id());
         } else {
             winnerUser = userService.getByPersonageIdForce(result.winner().personage().id());
-            looserUser = acceptingUser;
+            loserUser = acceptingUser;
         }
-        groupStatsService.increaseDuelsComplete(command.groupId(), 1);
+        groupStatsService.increaseDuelsComplete(command.groupId(), winnerUser.personageId(), loserUser.personageId());
 
         telegramSender.send(
             EditMessageTextBuilder.builder()
                 .chatId(group.id())
                 .messageId(command.messageId())
-                .text(finishedDuelText(group.language(), result, winnerUser, looserUser))
+                .text(finishedDuelText(group.language(), result, winnerUser, loserUser))
                 .build()
         );
     }
@@ -88,12 +88,12 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         Language language,
         DuelResult duelResult,
         User winnerUser,
-        User looserUser
+        User loserUser
     ) {
         return DuelLocalization.finishedDuel(
             language,
             TgPersonageMention.of(duelResult.winner().personage(), winnerUser.id()),
-            TgPersonageMention.of(duelResult.looser().personage(), looserUser.id())
-        ) + "\n\n" + duelResult.winner().statsText(language) + "\n" + duelResult.looser().statsText(language);
+            TgPersonageMention.of(duelResult.loser().personage(), loserUser.id())
+        ) + "\n\n" + duelResult.winner().statsText(language) + "\n" + duelResult.loser().statsText(language);
     }
 }

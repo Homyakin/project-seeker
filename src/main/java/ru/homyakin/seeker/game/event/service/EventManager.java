@@ -3,9 +3,8 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
-import ru.homyakin.seeker.telegram.group.GroupStatsService;
+import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.game.event.config.EventConfig;
@@ -72,9 +71,9 @@ public class EventManager {
         launchedEventService.updateActive(launchedEvent, false);
         launchedEventService.getGroupEvents(launchedEvent)
             .forEach(groupEvent -> {
-                if (result.map(RaidResult::isSuccess).orElse(false)) {
-                    groupStatsService.increaseRaidsComplete(groupEvent.groupId(), 1);
-                }
+                result.ifPresent(
+                    raidResult -> groupStatsService.updateRaidStats(groupEvent.groupId(), raidResult)
+                );
                 final var group = groupService.getOrCreate(groupEvent.groupId());
                 final var event = eventService.getEventById(launchedEvent.eventId())
                     .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));

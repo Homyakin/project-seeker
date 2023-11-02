@@ -18,6 +18,15 @@ groupStats = """\
 
 🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
 """
+personageGroupStats = """\
+📊<b>Твоя статистика в группе:</b>
+
+🗡Успешные рейды: ${raids_success}/${raids_total}
+🤺Победы в дуэлях: ${duels_wins}/${duels_total}
+
+🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
+⚒Работяга дня: ${spin_wins_count}
+"""
 personageBattleResult = "${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨"
 # текста для лички
 # TODO перенести куда-нибудь

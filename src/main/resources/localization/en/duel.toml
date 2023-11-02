@@ -28,7 +28,7 @@ declinedDuel = [
 finishedDuel = [
     """\
 The seeker ${mention_winner_icon_with_name} got the better of \
-${mention_looser_icon_with_name}"""
+${mention_loser_icon_with_name}"""
 ]
 acceptDuelButton = "Take the challenge🗡"
 declineDuelButton = "Decline👐"

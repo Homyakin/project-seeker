@@ -4,6 +4,6 @@ import ru.homyakin.seeker.game.battle.PersonageResult;
 
 public record DuelResult(
     PersonageResult winner,
-    PersonageResult looser
+    PersonageResult loser
 ) {
 }

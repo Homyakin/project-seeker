@@ -1,0 +1,56 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-grouptg-personage-stats-table">
+        <createTable tableName="grouptg_personage_stats">
+            <column name="grouptg_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="raids_success" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raids_total" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_wins" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_total" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tavern_money_spent" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="spin_wins_count" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="grouptg_id, personage_id"
+                constraintName="grouptg_personage_stats_pk"
+                tableName="grouptg_personage_stats"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="grouptg_id"
+                baseTableName="grouptg_personage_stats"
+                constraintName="fk_grouptg_personage_stats_grouptg"
+                referencedColumnNames="id"
+                referencedTableName="grouptg"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="personage_id"
+                baseTableName="grouptg_personage_stats"
+                constraintName="fk_grouptg_personage_stats_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+    </changeSet>
+</databaseChangeLog>

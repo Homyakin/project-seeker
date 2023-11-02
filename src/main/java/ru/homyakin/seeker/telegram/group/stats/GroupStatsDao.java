@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.group.database;
+package ru.homyakin.seeker.telegram.group.stats;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
-import ru.homyakin.seeker.telegram.group.models.GroupStats;
 
 @Repository
 public class GroupStatsDao {

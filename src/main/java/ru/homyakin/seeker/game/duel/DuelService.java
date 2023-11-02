@@ -79,20 +79,20 @@ public class DuelService {
         );
 
         final PersonageResult winner;
-        final PersonageResult looser;
+        final PersonageResult loser;
         switch (battleResult.winner()) {
             case FIRST_TEAM -> {
                 winner = battleResult.firstTeamResult().personageResults().get(0);
-                looser = battleResult.secondTeamResult().personageResults().get(0);
+                loser = battleResult.secondTeamResult().personageResults().get(0);
             }
             case SECOND_TEAM -> {
                 winner = battleResult.secondTeamResult().personageResults().get(0);
-                looser = battleResult.firstTeamResult().personageResults().get(0);
+                loser = battleResult.firstTeamResult().personageResults().get(0);
             }
             default -> throw new IllegalStateException("Unexpected status");
         }
         duelDao.addWinnerIdToDuel(duel.id(), winner.personage().id());
-        return new DuelResult(winner, looser);
+        return new DuelResult(winner, loser);
     }
 
     private void returnMoneyToInitiator(long duelId) {

@@ -35,7 +35,8 @@ public enum CommandType {
     SPIN_TOP("/worktop", CheckType.EQUALS),
     SET_ACTIVE_TIME("/set_active_time", CheckType.STARTS_WITH),
     GET_ACTIVE_TIME("/get_active_time", CheckType.EQUALS),
-    CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS)
+    CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS),
+    PERSONAGE_STATS("/stats_me", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

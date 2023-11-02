@@ -1,4 +1,6 @@
-package ru.homyakin.seeker.telegram.group.models;
+package ru.homyakin.seeker.telegram.group.stats;
+
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 public record GroupStats(
     GroupId groupId,

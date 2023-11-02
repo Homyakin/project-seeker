@@ -22,6 +22,7 @@ import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.common.help.ShowHelp;
 import ru.homyakin.seeker.telegram.command.group.spin.SpinTop;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
+import ru.homyakin.seeker.telegram.command.group.stats.GetPersonageStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
@@ -131,6 +132,7 @@ public class CommandParser {
                 case SPIN_TOP -> SpinTop.from(message);
                 case SET_ACTIVE_TIME -> SetActiveTime.from(message);
                 case GET_ACTIVE_TIME -> GetActiveTime.from(message);
+                case PERSONAGE_STATS -> GetPersonageStats.from(message);
                 default -> null;
             });
     }
