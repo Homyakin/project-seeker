@@ -58,9 +58,9 @@ public class UserDao {
     }
 
     public Optional<User> getByUsernameInGroup(String username, GroupId groupId) {
-        //TODO багфикс
         final var params = new MapSqlParameterSource()
-            .addValue("username", username);
+            .addValue("username", username)
+            .addValue("grouptg_id", groupId.value());
         return jdbcTemplate.query(GET_BY_USERNAME, params, this::mapRow).stream().findFirst();
     }
 
@@ -110,6 +110,7 @@ public class UserDao {
         SELECT u.* FROM usertg u
         LEFT JOIN grouptg_to_usertg gtu on u.id = gtu.usertg_id
         WHERE u.username = :username
+        AND gtu.grouptg_id = :grouptg_id
         AND gtu.is_active = true
         """;
     private static final String UPDATE_USERNAME = "UPDATE usertg SET username = :username WHERE id = :id";
