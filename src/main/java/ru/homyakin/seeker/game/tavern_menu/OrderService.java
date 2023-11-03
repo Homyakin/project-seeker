@@ -65,7 +65,7 @@ public class OrderService {
             logger.error("Final status in consuming order: " + orderId);
             return Either.left(ConsumeError.AlreadyFinalStatus.INSTANCE);
         }
-        if (order.acceptingPersonageId().equals(consumer.id())) {
+        if (!order.acceptingPersonageId().equals(consumer.id())) {
             return Either.left(ConsumeError.WrongConsumer.INSTANCE);
         }
 
