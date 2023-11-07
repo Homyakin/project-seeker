@@ -1,7 +1,7 @@
 [
   {
     "code": "test_rumor",
-    "is_available": true,
+    "is_available": false,
     "locale": [
       {
         "language_id": "ru",
@@ -15,7 +15,7 @@
   },
   {
     "code": "test_rumor_2",
-    "is_available": true,
+    "is_available": false,
     "locale": [
       {
         "language_id": "ru",

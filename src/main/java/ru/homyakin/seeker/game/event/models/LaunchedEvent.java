@@ -7,6 +7,9 @@ public record LaunchedEvent(
     int eventId,
     LocalDateTime startDate,
     LocalDateTime endDate,
-    boolean isActive
+    EventStatus status
 ) {
+    public boolean isInFinalStatus() {
+        return status.isFinal();
+    }
 }

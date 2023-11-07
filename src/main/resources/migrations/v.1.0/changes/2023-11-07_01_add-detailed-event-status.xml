@@ -1,0 +1,59 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-detailed-event-status">
+
+        <createTable tableName="event_status">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="event_status_pkey"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="event_status">
+            <column name="id" value="0"/>
+            <column name="name" value="Запущено"/>
+        </insert>
+        <insert tableName="event_status">
+            <column name="id" value="1"/>
+            <column name="name" value="Просрочено"/>
+        </insert>
+        <insert tableName="event_status">
+            <column name="id" value="2"/>
+            <column name="name" value="Неуспех"/>
+        </insert>
+        <insert tableName="event_status">
+            <column name="id" value="3"/>
+            <column name="name" value="Успех"/>
+        </insert>
+        <insert tableName="event_status">
+            <column name="id" value="4"/>
+            <column name="name" value="Ошибка создания"/>
+        </insert>
+
+        <addColumn tableName="launched_event">
+            <column name="status_id" type="INT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE launched_event
+            SET status_id = CASE WHEN is_active = true THEN 0 ELSE 3 END;
+        </sql>
+
+        <addForeignKeyConstraint
+                baseTableName="launched_event"
+                baseColumnNames="status_id"
+                referencedTableName="event_status"
+                referencedColumnNames="id"
+                constraintName="fk_launched_event_event_status"
+        />
+
+        <dropColumn tableName="launched_event" columnName="is_active"/>
+    </changeSet>
+</databaseChangeLog>

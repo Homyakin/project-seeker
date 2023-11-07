@@ -30,7 +30,7 @@ public class DuelDao {
         WHERE id = :id
         """;
 
-    private static final String UPDATE_status_id = """
+    private static final String UPDATE_STATUS = """
         UPDATE duel
         SET status_id = :status_id
         WHERE id = :id
@@ -99,7 +99,7 @@ public class DuelDao {
         params.put("id", duelId);
         params.put("status_id", status.id());
         jdbcTemplate.update(
-            UPDATE_status_id,
+            UPDATE_STATUS,
             params
         );
     }

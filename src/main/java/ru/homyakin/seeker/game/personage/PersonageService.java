@@ -53,7 +53,7 @@ public class PersonageService {
         if (requestedEvent.isEmpty()) {
             logger.error("Requested event " + launchedEventId + " doesn't present");
             return Either.left(new EventNotExist());
-        } else if (!requestedEvent.get().isActive()) {
+        } else if (requestedEvent.get().isInFinalStatus()) {
             return Either.left(eventService.getEventById(requestedEvent.get().eventId())
                 .<PersonageEventError>map(ExpiredEvent::new)
                 .orElseGet(EventNotExist::new)

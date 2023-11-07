@@ -68,11 +68,15 @@ public class EventManager {
     private void stopLaunchedEvent(LaunchedEvent launchedEvent) {
         logger.info("Stopping event " + launchedEvent.id());
         final var result = eventProcessing.processEvent(launchedEvent);
-        launchedEventService.updateActive(launchedEvent, false);
+
         launchedEventService.getGroupEvents(launchedEvent)
             .forEach(groupEvent -> {
-                result.ifPresent(
-                    raidResult -> groupStatsService.updateRaidStats(groupEvent.groupId(), raidResult)
+                result.ifPresentOrElse(
+                    raidResult -> {
+                        launchedEventService.updateResult(launchedEvent, raidResult);
+                        groupStatsService.updateRaidStats(groupEvent.groupId(), raidResult);
+                    },
+                    () -> launchedEventService.expireEvent(launchedEvent)
                 );
                 final var group = groupService.getOrCreate(groupEvent.groupId());
                 final var event = eventService.getEventById(launchedEvent.eventId())
@@ -112,7 +116,7 @@ public class EventManager {
                 .build()
         );
         if (result.isLeft()) {
-            launchedEventService.updateActive(launchedEvent, false);
+            launchedEventService.creationError(launchedEvent);
             return;
         }
         launchedEventService.addGroupMessage(launchedEvent, group, result.get().getMessageId());

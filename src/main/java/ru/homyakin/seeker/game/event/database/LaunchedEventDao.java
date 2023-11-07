@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
+import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -25,14 +26,14 @@ public class LaunchedEventDao {
         SELECT * FROM personage_to_event pe
          LEFT JOIN launched_event le on pe.launched_event_id = le.id
          WHERE pe.personage_id = :personage_id
-         AND le.is_active = true
+         AND le.status_id = :status_id
         """;
     private static final String GET_ACTIVE_EVENTS_WITH_LESS_END_DATE = """
-        SELECT * FROM launched_event WHERE end_date <= :end_date AND is_active = true;
+        SELECT * FROM launched_event WHERE end_date <= :end_date AND status_id = :status_id;
         """;
-    private static final String UPDATE_ACTIVE = """
+    private static final String UPDATE_STATUS = """
         update launched_event
-        set is_active = :is_active
+        set status_id = :status_id
         where id = :id;
         """;
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -45,7 +46,7 @@ public class LaunchedEventDao {
                 "event_id",
                 "start_date",
                 "end_date",
-                "is_active"
+                "status_id"
             )
             .usingGeneratedKeyColumns("id");
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -57,7 +58,7 @@ public class LaunchedEventDao {
         params.put("event_id", event.id());
         params.put("start_date", startDate);
         params.put("end_date", startDate.plus(event.duration()).plus(event.period()));
-        params.put("is_active", true);
+        params.put("status_id", EventStatus.LAUNCHED.id());
         return jdbcInsert.executeAndReturnKey(
             params
         ).longValue();
@@ -74,7 +75,9 @@ public class LaunchedEventDao {
     }
 
     public Optional<LaunchedEvent> getActiveByPersonageId(PersonageId personageId) {
-        final var params = Collections.singletonMap("personage_id", personageId.value());
+        final var params = new HashMap<String, Object>();
+        params.put("personage_id", personageId.value());
+        params.put("status_id", EventStatus.LAUNCHED.id());
         final var result = jdbcTemplate.query(
             GET_ACTIVE_EVENTS_BY_PERSONAGE_ID,
             params,
@@ -84,7 +87,9 @@ public class LaunchedEventDao {
     }
 
     public List<LaunchedEvent> getActiveEventsWithLessEndDate(LocalDateTime maxEndDate) {
-        final var params = Collections.singletonMap("end_date", maxEndDate);
+        final var params = new HashMap<String, Object>();
+        params.put("end_date", maxEndDate);
+        params.put("status_id", EventStatus.LAUNCHED.id());
         return jdbcTemplate.query(
             GET_ACTIVE_EVENTS_WITH_LESS_END_DATE,
             params,
@@ -92,12 +97,12 @@ public class LaunchedEventDao {
         );
     }
 
-    public void updateIsActive(Long launchedEventId, boolean isActive) {
+    public void updateStatus(Long launchedEventId, EventStatus status) {
         final var params = new HashMap<String, Object>();
         params.put("id", launchedEventId);
-        params.put("is_active", isActive);
+        params.put("status_id", status.id());
         jdbcTemplate.update(
-            UPDATE_ACTIVE,
+            UPDATE_STATUS,
             params
         );
     }
@@ -108,7 +113,7 @@ public class LaunchedEventDao {
             rs.getInt("event_id"),
             rs.getTimestamp("start_date").toLocalDateTime(),
             rs.getTimestamp("end_date").toLocalDateTime(),
-            rs.getBoolean("is_active")
+            EventStatus.findById(rs.getInt("status_id"))
         );
     }
 }
