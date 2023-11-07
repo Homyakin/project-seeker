@@ -4,12 +4,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.battle.PersonageResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -39,16 +41,11 @@ public class RaidProcessing {
         );
 
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
-        int baseReward = doesParticipantsWin ? 10 : 2; // TODO баланс
         final var endTime = TimeUtils.moscowTime();
         for (final var personageResult: result.secondTeamResult().personageResults()) {
             personageService.addMoney(
                 personageResult.personage(),
-                new Money((int) (
-                    baseReward + Math.sqrt(
-                        (double) personageResult.battlePersonage().battleStats().damageDealtAndBlocked() / 10
-                    )
-                ))
+                new Money(calculateReward(doesParticipantsWin, personageResult))
             );
         }
 
@@ -58,4 +55,14 @@ public class RaidProcessing {
             result.secondTeamResult().personageResults()
         );
     }
+
+    private int calculateReward(boolean doesParticipantsWin, PersonageResult result) {
+        if (!doesParticipantsWin) {
+            return 0;
+        }
+        // За рейд где-то 300-500 урона; log2.9(600) ~ 6; за рейд плюс-минус 10-15 золота
+        return (int) (BASE_REWARD + MathUtils.log(2.9, result.battlePersonage().battleStats().damageDealtAndBlocked()));
+    }
+
+    private static final int BASE_REWARD = 5;
 }
