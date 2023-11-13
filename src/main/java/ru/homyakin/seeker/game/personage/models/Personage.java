@@ -136,7 +136,7 @@ public record Personage(
         return new Personage(
             PersonageId.from(0L),
             name,
-            Money.zero(),
+            Money.from(10),
             Characteristics.createDefault(),
             TimeUtils.moscowTime()
         );

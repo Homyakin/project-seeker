@@ -3,6 +3,11 @@ package ru.homyakin.seeker.game.models;
 public record Money(
     int value
 ) implements Comparable<Money> {
+
+    public static Money from(int value) {
+        return new Money(value);
+    }
+
     public static Money zero() {
         return new Money(0);
     }
