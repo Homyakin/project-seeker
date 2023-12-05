@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
@@ -30,7 +31,8 @@ public class PersonageDao {
     private static final String UPDATE = """
         UPDATE personage
         SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
-        health = :health, last_health_change = :last_health_change, money = :money
+        health = :health, last_energy_change = :last_energy_change, money = :money,
+        energy = :energy
         WHERE id = :id
         """;
 
@@ -49,7 +51,8 @@ public class PersonageDao {
                 "strength",
                 "agility",
                 "wisdom",
-                "last_health_change"
+                "last_energy_change",
+                "energy"
             );
         jdbcInsert.setGeneratedKeyName("id");
 
@@ -66,7 +69,8 @@ public class PersonageDao {
         params.put("strength", personage.characteristics().strength());
         params.put("agility", personage.characteristics().agility());
         params.put("wisdom", personage.characteristics().wisdom());
-        params.put("last_health_change", personage.lastHealthChange());
+        params.put("last_energy_change", personage.energy().lastChange());
+        params.put("energy", personage.energy().value());
 
         return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
     }
@@ -79,7 +83,8 @@ public class PersonageDao {
         params.put("agility", personage.characteristics().agility());
         params.put("wisdom", personage.characteristics().wisdom());
         params.put("health", personage.characteristics().health());
-        params.put("last_health_change", personage.lastHealthChange());
+        params.put("last_energy_change", personage.energy().lastChange());
+        params.put("energy", personage.energy().value());
         params.put("money", personage.money().value());
         jdbcTemplate.update(
             UPDATE,
@@ -118,7 +123,10 @@ public class PersonageDao {
                 rs.getInt("agility"),
                 rs.getInt("wisdom")
             ),
-            rs.getTimestamp("last_health_change").toLocalDateTime()
+            new Energy(
+                rs.getInt("energy"),
+                rs.getTimestamp("last_energy_change").toLocalDateTime()
+            )
         );
     }
 }

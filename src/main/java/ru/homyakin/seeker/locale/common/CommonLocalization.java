@@ -2,7 +2,7 @@ package ru.homyakin.seeker.locale.common;
 
 import java.util.HashMap;
 import java.util.Map;
-import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -42,8 +42,10 @@ public class CommonLocalization {
     public static String profileTemplate(Language language, Personage personage) {
         final var params = new HashMap<String, Object>();
         params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("energy_icon", TextConstants.ENERGY_ICON);
         params.put("personage_icon_with_name", personage.iconWithName());
         params.put("personage_money", personage.money().value());
+        params.put("energy_value", personage.energy().value());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),
             params
@@ -87,12 +89,12 @@ public class CommonLocalization {
         );
     }
 
-    public static String personageBattleResult(Language language, PersonageResult personageResult) {
+    public static String personageBattleResult(Language language, BattlePersonage battlePersonage) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon_with_name", personageResult.personage().iconWithName());
-        params.put("damage_dealt", personageResult.battlePersonage().battleStats().damageDealt());
-        params.put("damage_taken", personageResult.battlePersonage().battleStats().damageTaken());
-        params.put("dodges_count", personageResult.battlePersonage().battleStats().dodgesCount());
+        params.put("personage_icon_with_name", battlePersonage.personage().iconWithName());
+        params.put("damage_dealt", battlePersonage.battleStats().damageDealt());
+        params.put("damage_taken", battlePersonage.battleStats().damageTaken());
+        params.put("dodges_count", battlePersonage.battleStats().dodgesCount());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).personageBattleResult(), map.get(Language.DEFAULT).personageBattleResult()),
             params

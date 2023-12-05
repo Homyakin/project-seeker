@@ -4,7 +4,7 @@ import io.vavr.control.Either;
 import java.time.Duration;
 import java.util.List;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.duel.models.DuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
@@ -74,20 +74,20 @@ public class DuelService {
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
         final var battleResult = twoPersonageTeamsBattle.battle(
-            List.of(personage1),
-            List.of(personage2)
+            List.of(personage1.toBattlePersonage()),
+            List.of(personage2.toBattlePersonage())
         );
 
-        final PersonageResult winner;
-        final PersonageResult loser;
+        final BattlePersonage winner;
+        final BattlePersonage loser;
         switch (battleResult.winner()) {
             case FIRST_TEAM -> {
-                winner = battleResult.firstTeamResult().personageResults().get(0);
-                loser = battleResult.secondTeamResult().personageResults().get(0);
+                winner = battleResult.firstTeamResult().battlePersonages().get(0);
+                loser = battleResult.secondTeamResult().battlePersonages().get(0);
             }
             case SECOND_TEAM -> {
-                winner = battleResult.secondTeamResult().personageResults().get(0);
-                loser = battleResult.firstTeamResult().personageResults().get(0);
+                winner = battleResult.secondTeamResult().battlePersonages().get(0);
+                loser = battleResult.firstTeamResult().battlePersonages().get(0);
             }
             default -> throw new IllegalStateException("Unexpected status");
         }

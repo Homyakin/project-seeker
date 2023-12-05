@@ -7,7 +7,8 @@ onlyAdminLanguage = "This action is available only for administrators"
 internalError = "Unexpected error, try again later"
 profileTemplate = """\
 ${personage_icon}${personage_name}
-${money_icon}Gold: ${personage_money}"""
+${money_icon}Gold: ${personage_money}
+${energy_icon}Energy: ${energy_value}%"""
 
 #текста для группы
 groupStats = """\

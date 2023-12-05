@@ -24,6 +24,7 @@ public class HelpLocalization {
     public static String raids(Language language) {
         final var params = new HashMap<String, Object>();
         params.put("set_active_time_command", CommandType.SET_ACTIVE_TIME.getText());
+        params.put("energy_icon", TextConstants.ENERGY_ICON);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).raids(), map.get(Language.DEFAULT).raids()),
             params

@@ -3,6 +3,9 @@ package ru.homyakin.seeker.game.battle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage implements Cloneable {
@@ -11,14 +14,17 @@ public class BattlePersonage implements Cloneable {
     private int health;
     private final BattleStats battleStats = new BattleStats();
     private final BattleCharacteristics characteristics;
+    private final Personage personage;
 
     public BattlePersonage(
         long id,
-        Characteristics characteristics
+        Characteristics characteristics,
+        Personage personage
     ) {
         this.id = id;
         this.health = characteristics.health();
         this.characteristics = BattleCharacteristics.from(characteristics);
+        this.personage = personage;
     }
 
     public long id() {
@@ -35,6 +41,14 @@ public class BattlePersonage implements Cloneable {
 
     public BattleStats battleStats() {
         return battleStats;
+    }
+
+    public Personage personage() {
+        return personage;
+    }
+
+    public String statsText(Language language) {
+        return CommonLocalization.personageBattleResult(language, this);
     }
 
     public void dealDamageToPersonage(BattlePersonage enemy) {
@@ -160,17 +174,20 @@ public class BattlePersonage implements Cloneable {
         return new BattlePersonage(
             id,
             health,
-            characteristics.clone()
+            characteristics.clone(),
+            personage
         );
     }
 
     private BattlePersonage(
         long id,
         int health,
-        BattleCharacteristics battleCharacteristics
+        BattleCharacteristics battleCharacteristics,
+        Personage personage
     ) {
         this.id = id;
         this.health = health;
         this.characteristics = battleCharacteristics;
+        this.personage = personage;
     }
 }

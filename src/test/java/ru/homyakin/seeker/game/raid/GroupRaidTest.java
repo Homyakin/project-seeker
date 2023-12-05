@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
-import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
 import ru.homyakin.seeker.test_utils.CommonUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.test_utils.TwoPersonageTeamsBattleUtility;
@@ -13,7 +12,7 @@ import ru.homyakin.seeker.test_utils.TwoPersonageTeamsBattleUtility;
 public class GroupRaidTest {
     private final GroupGenerator generator = new GroupGenerator();
 
-     @Disabled
+    @Disabled
     @Test // TODO после нормального баланса написать новые тесты
     @DisplayName("The probability of winning at raid battle is 50% (+-5)")
     public void victoryAt50Percent() {

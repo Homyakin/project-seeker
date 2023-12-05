@@ -1,11 +1,11 @@
 package ru.homyakin.seeker.game.event.raid;
 
 import java.util.List;
-import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 
 public record RaidResult(
     boolean isSuccess,
-    List<PersonageResult> raidNpcResults,
-    List<PersonageResult> personageResults
+    List<BattlePersonage> raidNpcResults,
+    List<BattlePersonage> personageResults
 ) {
 }

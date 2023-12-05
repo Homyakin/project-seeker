@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -79,10 +79,10 @@ public class RaidLocalization {
         long totalEnemiesHealth = 0;
         long remainEnemiesHealth = 0;
         long remainingEnemies = 0;
-        for (final var result: raidResult.raidNpcResults()) {
-            totalEnemiesHealth += result.personage().characteristics().health();
-            remainEnemiesHealth += result.battlePersonage().health();
-            if (!result.battlePersonage().isDead()) {
+        for (final var battlePersonage : raidResult.raidNpcResults()) {
+            totalEnemiesHealth += battlePersonage.personage().characteristics().health();
+            remainEnemiesHealth += battlePersonage.health();
+            if (!battlePersonage.isDead()) {
                 ++remainingEnemies;
             }
         }
@@ -98,7 +98,7 @@ public class RaidLocalization {
         );
     }
 
-    private static final Comparator<PersonageResult> resultComparator = Comparator.<PersonageResult>comparingLong(
-        personageResult -> personageResult.battlePersonage().battleStats().damageDealtAndBlocked()
+    private static final Comparator<BattlePersonage> resultComparator = Comparator.<BattlePersonage>comparingLong(
+        battlePersonage -> battlePersonage.battleStats().damageDealtAndBlocked()
     ).reversed();
 }

@@ -25,4 +25,5 @@
     <include file="changes/2023-11-01_01_add-grouptg-personage-stats-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-11-02_01_change-everyday-sping-from-user-to-personage.xml" relativeToChangelogFile="true"/>
     <include file="changes/2023-11-07_01_add-detailed-event-status.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2023-11-13_01_add-personage-energy.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

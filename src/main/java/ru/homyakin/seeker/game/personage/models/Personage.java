@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageDao;
+import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
@@ -13,14 +14,13 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Personage(
     PersonageId id,
     String name,
     Money money,
     Characteristics characteristics,
-    LocalDateTime lastHealthChange
+    Energy energy
 ) {
     public Personage addMoney(Money money) {
         return new Personage(
@@ -28,7 +28,7 @@ public record Personage(
             name,
             this.money.add(money),
             characteristics,
-            lastHealthChange
+            energy
         );
     }
 
@@ -73,25 +73,14 @@ public record Personage(
         return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
-    public Personage checkHealthAndRegenIfNeed(PersonageDao personageDao) {
-        //TODO механика бодрости будет основа на этом, поэтому пока закомменчено
-        /*
-        final var maximumHealth = maxHealth();
-        if (characteristics.health() >= maximumHealth) {
-            return this;
-        }
-        final var minutesPass = Duration.between(lastHealthChange, TimeUtils.moscowTime()).toMinutes();
-        final var increaseHealth = MathUtils.doubleToIntWithMinMaxValues(
-            ((double) maximumHealth) / 100 * minutesPass
-        );
-        if (increaseHealth > 0) {
-            final int newHealth = Math.min(characteristics.health() + increaseHealth, maximumHealth);
-            final var personage = copyWithHealthAndLastHealthChange(newHealth, lastHealthChange.plusMinutes(minutesPass));
-            personageDao.update(personage);
-            return personage;
-        }
-         */
-        return this;
+    public Either<EnergyStillSame, Personage> regenEnergyIfNeed() {
+        return energy
+            .regenIfNeeded()
+            .map(this::copyWithEnergy);
+    }
+
+    public Personage nullifyEnergy(LocalDateTime energyChangeTime) {
+        return copyWithEnergy(Energy.createZero(energyChangeTime));
     }
 
     public String icon() {
@@ -124,11 +113,20 @@ public record Personage(
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id.value(),
-            characteristics
+            characteristics,
+            this
         );
     }
 
-    public static Personage createDefault() {
+    public BattlePersonage toBattlePersonageUsingEnergy() {
+        return new BattlePersonage(
+            id.value(),
+            characteristics.multiply(energy),
+            this
+        );
+    }
+
+    public static Personage createDefault()                {
         return createDefault(TextConstants.DEFAULT_NAME);
     }
 
@@ -138,7 +136,7 @@ public record Personage(
             name,
             Money.from(10),
             Characteristics.createDefault(),
-            TimeUtils.moscowTime()
+            Energy.createDefault()
         );
     }
 
@@ -157,7 +155,7 @@ public record Personage(
             name,
             money,
             characteristics,
-            lastHealthChange
+            energy
         );
     }
 
@@ -167,7 +165,17 @@ public record Personage(
             name,
             money,
             characteristics,
-            lastHealthChange
+            energy
+        );
+    }
+
+    private Personage copyWithEnergy(Energy energy) {
+        return new Personage(
+            id,
+            name,
+            money,
+            characteristics,
+            energy
         );
     }
 }

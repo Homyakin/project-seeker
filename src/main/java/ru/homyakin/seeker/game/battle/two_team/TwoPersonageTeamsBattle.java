@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.game.battle.two_team;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -8,36 +7,17 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.PersonageResult;
 import ru.homyakin.seeker.game.battle.TeamResult;
-import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
 public class TwoPersonageTeamsBattle {
 
-    public TwoTeamBattleResult battle(List<Personage> firstTeam, List<Personage> secondTeam) {
-        final var firstTeamResult = new ArrayList<PersonageResult>();
-        final var secondTeamResult = new ArrayList<PersonageResult>();
-        final var firstBattleTeam = firstTeam.stream().map(
-            it -> {
-                final var battlePersonage = it.toBattlePersonage();
-                firstTeamResult.add(new PersonageResult(it, battlePersonage));
-                return battlePersonage;
-            }
-        ).toList();
-        final var secondBattleTeam = secondTeam.stream().map(
-            it -> {
-                final var battlePersonage = it.toBattlePersonage();
-                secondTeamResult.add(new PersonageResult(it, battlePersonage));
-                return battlePersonage;
-            }
-        ).toList();
-
+    public TwoTeamBattleResult battle(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
         return new TwoTeamBattleResult(
-            process(firstBattleTeam, secondBattleTeam),
-            new TeamResult(firstTeamResult),
-            new TeamResult(secondTeamResult)
+            process(firstTeam, secondTeam),
+            new TeamResult(firstTeam),
+            new TeamResult(secondTeam)
         );
     }
 

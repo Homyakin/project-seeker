@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.game.duel.models;
 
-import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 
 public record DuelResult(
-    PersonageResult winner,
-    PersonageResult loser
+    BattlePersonage winner,
+    BattlePersonage loser
 ) {
 }

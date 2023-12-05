@@ -14,6 +14,10 @@
  -->
 
 <module name="Checker">
+    <module name="SuppressionFilter">
+        <property name="file" value="suppression.xml"/>
+    </module>
+
     <property name="charset" value="UTF-8"/>
 
     <property name="severity" value="error"/>

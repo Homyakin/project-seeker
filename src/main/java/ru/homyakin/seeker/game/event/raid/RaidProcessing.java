@@ -4,7 +4,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.battle.PersonageResult;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.Event;
@@ -36,32 +36,32 @@ public class RaidProcessing {
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
 
         final var result = twoPersonageTeamsBattle.battle(
-            raid.template().generate(participants.size()),
-            participants
+            raid.template().generate(participants.size()).stream().map(Personage::toBattlePersonage).toList(),
+            participants.stream().map(Personage::toBattlePersonageUsingEnergy).toList()
         );
-
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
         final var endTime = TimeUtils.moscowTime();
-        for (final var personageResult: result.secondTeamResult().personageResults()) {
-            personageService.addMoney(
+        for (final var personageResult: result.secondTeamResult().battlePersonages()) {
+            personageService.addMoneyAndNullifyEnergy(
                 personageResult.personage(),
-                new Money(calculateReward(doesParticipantsWin, personageResult))
+                new Money(calculateReward(doesParticipantsWin, personageResult)),
+                endTime
             );
         }
 
         return new RaidResult(
             doesParticipantsWin,
-            result.firstTeamResult().personageResults(),
-            result.secondTeamResult().personageResults()
+            result.firstTeamResult().battlePersonages(),
+            result.secondTeamResult().battlePersonages()
         );
     }
 
-    private int calculateReward(boolean doesParticipantsWin, PersonageResult result) {
+    private int calculateReward(boolean doesParticipantsWin, BattlePersonage battlePersonage) {
         if (!doesParticipantsWin) {
             return 0;
         }
         // За рейд где-то 300-500 урона; log2.9(600) ~ 6; за рейд плюс-минус 10-15 золота
-        return (int) (BASE_REWARD + MathUtils.log(2.9, result.battlePersonage().battleStats().damageDealtAndBlocked()));
+        return (int) (BASE_REWARD + MathUtils.log(2.9, battlePersonage.battleStats().damageDealtAndBlocked()));
     }
 
     private static final int BASE_REWARD = 5;

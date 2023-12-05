@@ -13,8 +13,8 @@ public class TwoPersonageTeamsBattleUtility {
         int firstTeamWins = 0;
         for (int i = 0; i < REPEAT; ++i) {
             final var result = battle.battle(
-                firstTeam,
-                secondTeam
+                firstTeam.stream().map(Personage::toBattlePersonageUsingEnergy).toList(),
+                secondTeam.stream().map(Personage::toBattlePersonageUsingEnergy).toList()
             );
             if (result.winner() == TwoTeamBattleWinner.FIRST_TEAM) {
                 ++firstTeamWins;

@@ -7,7 +7,8 @@ onlyAdminLanguage = "Данное действие доступно только
 internalError = "Произошла ошибка, попробуйте позже"
 profileTemplate = """\
 ${personage_icon_with_name}
-${money_icon}Золото: ${personage_money}"""
+${money_icon}Золото: ${personage_money}
+${energy_icon}Энергия: ${energy_value}%"""
 
 # текста для группы
 groupStats = """\

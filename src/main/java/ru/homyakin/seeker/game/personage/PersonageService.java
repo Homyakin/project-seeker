@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.control.Either;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -75,7 +76,10 @@ public class PersonageService {
 
     public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
-            .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao));
+            .map(personage -> {
+                personage.regenEnergyIfNeed().peek(personageDao::update);
+                return personage;
+            });
     }
 
     public Personage getByIdForce(PersonageId personageId) {
@@ -84,13 +88,23 @@ public class PersonageService {
     }
 
     public List<Personage> getByLaunchedEvent(long launchedEventId) {
-        return personageDao.getByLaunchedEvent(launchedEventId).stream()
-            .map(personage -> personage.checkHealthAndRegenIfNeed(personageDao))
+        return personageDao
+            .getByLaunchedEvent(launchedEventId)
+            .stream()
+            .peek(personage -> personage.regenEnergyIfNeed().peek(personageDao::update))
             .toList();
     }
 
     public Personage addMoney(Personage personage, Money money) {
         final var updatedPersonage = personage.addMoney(money);
+        personageDao.update(updatedPersonage);
+        return updatedPersonage;
+    }
+
+    public Personage addMoneyAndNullifyEnergy(Personage personage, Money money, LocalDateTime energyChangeTime) {
+        final var updatedPersonage = personage
+            .addMoney(money)
+            .nullifyEnergy(energyChangeTime);
         personageDao.update(updatedPersonage);
         return updatedPersonage;
     }
