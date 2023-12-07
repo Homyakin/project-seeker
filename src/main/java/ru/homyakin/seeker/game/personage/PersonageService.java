@@ -76,10 +76,11 @@ public class PersonageService {
 
     public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
-            .map(personage -> {
-                personage.regenEnergyIfNeed().peek(personageDao::update);
-                return personage;
-            });
+            .map(personage ->
+                personage.regenEnergyIfNeed()
+                    .peek(personageDao::update)
+                    .getOrElse(personage)
+            );
     }
 
     public Personage getByIdForce(PersonageId personageId) {
