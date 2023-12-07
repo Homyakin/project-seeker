@@ -27,17 +27,20 @@ public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
     @Override
     public void execute(ShowHelp command) {
         final Language language;
-        //TODO подумать над айдишками
+        final var builder = SendMessageBuilder.builder();
         if (command.isPrivate()) {
-            language = userService.getOrCreateFromPrivate(UserId.from(command.chatId())).language();
+            final var user = userService.getOrCreateFromPrivate(UserId.from(command.chatId()));
+            builder.chatId(user.id());
+            language = user.language();
         } else {
-            language = groupService.getOrCreate(GroupId.from(command.chatId())).language();
+            final var group = groupService.getOrCreate(GroupId.from(command.chatId()));
+            builder.chatId(group.id());
+            language = group.language();
         }
-        telegramSender.send(SendMessageBuilder.builder()
-            .chatId(command.chatId())
-            .text(HelpLocalization.main(language))
-            .keyboard(InlineKeyboards.helpKeyboard(language))
-            .build()
+        telegramSender.send(
+            builder.text(HelpLocalization.main(language))
+                .keyboard(InlineKeyboards.helpKeyboard(language))
+                .build()
         );
     }
 }
