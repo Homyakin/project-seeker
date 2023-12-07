@@ -47,6 +47,7 @@ public class LocalizationInitializer {
         final var languages = Language.values();
 
         for (final var language : languages) {
+            // TODO закрыть потоки
             ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + COMMON_PATH)
                 .ifPresent(it -> CommonLocalization.add(language, extractClass(mapper, it, CommonResource.class)));
 

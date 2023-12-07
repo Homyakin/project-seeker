@@ -39,7 +39,7 @@ public class SendMessageBuilder {
         return this;
     }
 
-    public SendMessageBuilder chatId(long chatId) {
+    private SendMessageBuilder chatId(long chatId) {
         this.builder.chatId(chatId);
         return this;
     }

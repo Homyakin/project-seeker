@@ -91,7 +91,11 @@ public class PersonageService {
         return personageDao
             .getByLaunchedEvent(launchedEventId)
             .stream()
-            .peek(personage -> personage.regenEnergyIfNeed().peek(personageDao::update))
+            .map(
+                personage -> personage.regenEnergyIfNeed()
+                    .peek(personageDao::update)
+                    .getOrElse(personage)
+            )
             .toList();
     }
 
