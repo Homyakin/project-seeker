@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
+import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
@@ -27,6 +29,7 @@ public class EventManager {
     private final LaunchedEventService launchedEventService;
     private final EventProcessing eventProcessing;
     private final GroupStatsService groupStatsService;
+    private final LockService lockService;
 
     public EventManager(
         EventConfig eventConfig,
@@ -35,7 +38,8 @@ public class EventManager {
         TelegramSender telegramSender,
         LaunchedEventService launchedEventService,
         EventProcessing eventProcessing,
-        GroupStatsService groupStatsService
+        GroupStatsService groupStatsService,
+        LockService lockService
     ) {
         this.eventConfig = eventConfig;
         this.groupService = groupService;
@@ -44,25 +48,33 @@ public class EventManager {
         this.launchedEventService = launchedEventService;
         this.eventProcessing = eventProcessing;
         this.groupStatsService = groupStatsService;
+        this.lockService = lockService;
     }
 
     public void launchEventsInGroups() {
-        //TODO Здесь может возникнуть какая-нибудь многопоточная гонка, потом можно добавить локи на чаты
         groupService
             .getGetGroupsWithLessNextEventDate(TimeUtils.moscowTime())
             .stream()
             .filter(it -> it.activeTime().isActiveNow())
             .forEach(group -> {
-                logger.info("Creating event for group " + group.id());
-                final var event = eventService.getRandomEvent();
-                launchEventInGroup(group, event);
+                final var key = LockPrefixes.GROUP_EVENT.name() + group.id().value();
+                lockService.tryLockAndExecute(
+                    key,
+                    () -> {
+                        final var event = eventService.getRandomEvent();
+                        launchEventInGroup(group, event);
+                    }
+                );
             });
     }
 
     public void stopEvents() {
         launchedEventService
             .getExpiredActiveEvents()
-            .forEach(this::stopLaunchedEvent);
+            .forEach(event -> {
+                final var key = LockPrefixes.LAUNCHED_EVENT.name() + event.id();
+                lockService.tryLockAndExecute(key, () -> stopLaunchedEvent(event));
+            });
     }
 
     private void stopLaunchedEvent(LaunchedEvent launchedEvent) {
@@ -107,6 +119,7 @@ public class EventManager {
     }
 
     private void launchEventInGroup(Group group, Event event) {
+        logger.info("Creating event " + event.id() + " for group " + group.id());
         final var launchedEvent = launchedEventService.createLaunchedEvent(event);
         var result = telegramSender.send(
             SendMessageBuilder.builder()

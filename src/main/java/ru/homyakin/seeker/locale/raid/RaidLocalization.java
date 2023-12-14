@@ -51,6 +51,10 @@ public class RaidLocalization {
         return CommonUtils.ifNullThan(map.get(language).expiredRaid(), map.get(Language.DEFAULT).expiredRaid());
     }
 
+    public static String raidInProcess(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).raidInProcess(), map.get(Language.DEFAULT).raidInProcess());
+    }
+
     public static String successRaid(Language language) {
         return RandomUtils.getRandomElement(
             CommonUtils.ifNullThan(map.get(language).successRaid(), map.get(Language.DEFAULT).successRaid())

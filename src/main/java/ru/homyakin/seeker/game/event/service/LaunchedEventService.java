@@ -7,6 +7,8 @@ import ru.homyakin.seeker.game.event.database.PersonageEventDao;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
+import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
@@ -19,15 +21,18 @@ public class LaunchedEventService {
     private final LaunchedEventDao launchedEventDao;
     private final PersonageEventDao personageEventDao;
     private final GroupEventService groupEventService;
+    private final LockService lockService;
 
     public LaunchedEventService(
         LaunchedEventDao launchedEventDao,
         PersonageEventDao personageEventDao,
-        GroupEventService groupEventService
+        GroupEventService groupEventService,
+        LockService lockService
     ) {
         this.launchedEventDao = launchedEventDao;
         this.personageEventDao = personageEventDao;
         this.groupEventService = groupEventService;
+        this.lockService = lockService;
     }
 
     public LaunchedEvent createLaunchedEvent(Event event) {
@@ -64,8 +69,11 @@ public class LaunchedEventService {
         return launchedEventDao.getActiveByPersonageId(personageId);
     }
 
-    public void addPersonageToLaunchedEvent(PersonageId personageId, long launchedEventId) {
-        personageEventDao.save(personageId, launchedEventId);
+    public boolean addPersonageToLaunchedEvent(PersonageId personageId, long launchedEventId) {
+        return lockService.tryLockAndExecute(
+            LockPrefixes.LAUNCHED_EVENT.name() + launchedEventId,
+            () -> personageEventDao.save(personageId, launchedEventId)
+        );
     }
 
     public List<LaunchedEvent> getExpiredActiveEvents() {

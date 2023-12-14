@@ -65,6 +65,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                 yield RaidLocalization.expiredRaid(group.language());
             }
             case PersonageInThisEvent ignored -> RaidLocalization.userAlreadyInThisEvent(group.language());
+            case PersonageEventError.EventInProcess ignored -> RaidLocalization.raidInProcess(group.language());
         };
     }
 }

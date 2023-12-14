@@ -9,6 +9,7 @@ public record RaidResource(
     String userAlreadyInThisEvent,
     String userAlreadyInOtherEvent,
     String expiredRaid,
+    String raidInProcess,
     String[] successRaid,
     String[] failureRaid,
     String[] zeroParticipants,
