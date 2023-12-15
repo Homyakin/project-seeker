@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorConfig;
 import ru.homyakin.seeker.game.rumor.RumorService;
+import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
+import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.models.Group;
@@ -26,12 +28,20 @@ public class RumorTgService {
     private final RumorService rumorService;
     private final TelegramSender telegramSender;
     private final RumorConfig rumorConfig;
+    private final LockService lockService;
 
-    public RumorTgService(GroupService groupService, RumorService rumorService, TelegramSender telegramSender, RumorConfig rumorConfig) {
+    public RumorTgService(
+        GroupService groupService,
+        RumorService rumorService,
+        TelegramSender telegramSender,
+        RumorConfig rumorConfig,
+        LockService lockService
+    ) {
         this.groupService = groupService;
         this.rumorService = rumorService;
         this.telegramSender = telegramSender;
         this.rumorConfig = rumorConfig;
+        this.lockService = lockService;
     }
 
     @Scheduled(cron = "0 * * * * *")
@@ -41,15 +51,22 @@ public class RumorTgService {
             .stream()
             .filter(group -> group.isActive() && group.activeTime().isActiveNow())
             .forEach(
-                group -> rumorService.getRandomAvailableRumor()
-                    .ifPresentOrElse(
-                        rumor -> {
-                            logger.info("Launching rumor " + rumor.code() + " in group " + group.id());
-                            telegramSender.send(toMessage(rumor, group));
-                            groupService.updateNextRumorDate(group, nextRumorDate(group));
-                        },
-                        () -> logger.warn("No available rumors")
-                    )
+                group -> lockService.tryLockAndExecute(
+                    LockPrefixes.RUMOR.name() + group,
+                    () -> launchRandomRumorInGroup(group)
+                )
+            );
+    }
+
+    private void launchRandomRumorInGroup(Group group) {
+        rumorService.getRandomAvailableRumor()
+            .ifPresentOrElse(
+                rumor -> {
+                    logger.info("Launching rumor " + rumor.code() + " in group " + group.id());
+                    telegramSender.send(toMessage(rumor, group));
+                    groupService.updateNextRumorDate(group, nextRumorDate(group));
+                },
+                () -> logger.warn("No available rumors")
             );
     }
 
