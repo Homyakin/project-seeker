@@ -2,11 +2,15 @@ package ru.homyakin.seeker.game.event.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.database.PersonageEventDao;
+import ru.homyakin.seeker.game.event.models.EventLocked;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.infrastructure.lock.KeyLocked;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.telegram.group.models.Group;
@@ -15,6 +19,7 @@ import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.utils.TimeUtils;
+import ru.homyakin.seeker.utils.models.Success;
 
 @Service
 public class LaunchedEventService {
@@ -69,11 +74,11 @@ public class LaunchedEventService {
         return launchedEventDao.getActiveByPersonageId(personageId);
     }
 
-    public boolean addPersonageToLaunchedEvent(PersonageId personageId, long launchedEventId) {
+    public Either<EventLocked, Success> addPersonageToLaunchedEvent(PersonageId personageId, long launchedEventId) {
         return lockService.tryLockAndExecute(
             LockPrefixes.LAUNCHED_EVENT.name() + launchedEventId,
             () -> personageEventDao.save(personageId, launchedEventId)
-        );
+        ).mapLeft(ignored -> EventLocked.INSTANCE);
     }
 
     public List<LaunchedEvent> getExpiredActiveEvents() {

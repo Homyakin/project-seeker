@@ -62,7 +62,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
                     .build()
             );
             return;
-        } else if (userResult.get().id() == initiatingUser.id()) {
+        } else if (userResult.get().id().equals(initiatingUser.id())) { // TODO в ерсив
             telegramSender.send(
                 SendMessageBuilder
                     .builder()

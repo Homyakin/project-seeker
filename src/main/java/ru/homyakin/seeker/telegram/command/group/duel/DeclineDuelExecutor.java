@@ -44,7 +44,8 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
         final var user = groupUser.second();
         final var group = groupUser.first();
 
-        if (duel.acceptingPersonageId() != user.personageId()) {
+        // TODO в сервис
+        if (!duel.acceptingPersonageId().equals(user.personageId())) {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
@@ -54,14 +55,25 @@ public class DeclineDuelExecutor extends CommandExecutor<DeclineDuel> {
             return;
         }
 
-        duelService.declineDuel(duel.id());
-        final var initiatingPersonage = personageService.getByIdForce(duel.initiatingPersonageId());
-        final var initiatingUser = userService.getByPersonageIdForce(duel.initiatingPersonageId());
-        telegramSender.send(EditMessageTextBuilder.builder()
-            .chatId(group.id())
-            .messageId(command.messageId())
-            .text(DuelLocalization.declinedDuel(group.language(), TgPersonageMention.of(initiatingPersonage, initiatingUser.id())))
-            .build()
-        );
+        duelService.declineDuel(duel.id())
+            .peek(success -> {
+                final var initiatingPersonage = personageService.getByIdForce(duel.initiatingPersonageId());
+                final var initiatingUser = userService.getByPersonageIdForce(duel.initiatingPersonageId());
+                telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(group.id())
+                    .messageId(command.messageId())
+                    .text(DuelLocalization.declinedDuel(group.language(), TgPersonageMention.of(initiatingPersonage, initiatingUser.id())))
+                    .build()
+                );
+            })
+            .peekLeft(error ->
+                telegramSender.send(
+                    TelegramMethods.createAnswerCallbackQuery(
+                        command.callbackId(),
+                        DuelLocalization.duelIsLocked(group.language())
+                    )
+                )
+            );
+
     }
 }

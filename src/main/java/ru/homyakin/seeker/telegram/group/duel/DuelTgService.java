@@ -80,19 +80,21 @@ public class DuelTgService {
         logger.debug("Expiring duels");
         duelTgDao.findNotFinalWithLessExpireDateTime(TimeUtils.moscowTime()).forEach(
             duelTg -> {
-                logger.info("Duel " + duelTg.duelId() + " was expired");
-                duelService.expireDuel(duelTg.duelId());
-                final var duel = duelService.getByIdForce(duelTg.duelId());
-                final var group = groupService.getOrCreate(duelTg.groupTgId());
-                final var acceptor = personageService.getByIdForce(duel.acceptingPersonageId());
-                final var user = userService.getByPersonageIdForce(acceptor.id());
-                telegramSender.send(
-                    EditMessageTextBuilder.builder()
-                        .chatId(group.id())
-                        .messageId(duelTg.messageId())
-                        .text(DuelLocalization.expiredDuel(group.language(), TgPersonageMention.of(acceptor, user.id())))
-                        .build()
-                );
+                logger.info("Duel " + duelTg.duelId() + " expired");
+                duelService.expireDuel(duelTg.duelId())
+                    .peek(success -> {
+                        final var duel = duelService.getByIdForce(duelTg.duelId());
+                        final var group = groupService.getOrCreate(duelTg.groupTgId());
+                        final var acceptor = personageService.getByIdForce(duel.acceptingPersonageId());
+                        final var user = userService.getByPersonageIdForce(acceptor.id());
+                        telegramSender.send(
+                            EditMessageTextBuilder.builder()
+                                .chatId(group.id())
+                                .messageId(duelTg.messageId())
+                                .text(DuelLocalization.expiredDuel(group.language(), TgPersonageMention.of(acceptor, user.id())))
+                                .build()
+                        );
+                    });
             }
         );
     }

@@ -10,6 +10,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
+import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
@@ -48,7 +49,8 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         final var acceptingUser = groupUser.second();
         final var group = groupUser.first();
 
-        if (duel.acceptingPersonageId().equals(acceptingUser.personageId())) {
+        // TODO в сервис
+        if (!duel.acceptingPersonageId().equals(acceptingUser.personageId())) {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
@@ -63,7 +65,20 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             return;
         }
 
-        final var result = duelService.finishDuel(duel);
+        duelService.finishDuel(duel)
+            .peek(result -> processDuelResult(result, acceptingUser, command, group))
+            .peekLeft(error ->
+                telegramSender.send(
+                    TelegramMethods.createAnswerCallbackQuery(
+                        command.callbackId(),
+                        DuelLocalization.duelIsLocked(group.language())
+                    )
+                )
+            );
+
+    }
+
+    private void processDuelResult(DuelResult result, User acceptingUser, AcceptDuel command, Group group) {
         final User winnerUser;
         final User loserUser;
         if (result.winner().personage().id().equals(acceptingUser.personageId())) {

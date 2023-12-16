@@ -63,11 +63,8 @@ public class PersonageService {
 
         final var activeEvent = launchedEventService.getActiveEventByPersonageId(personageId);
         if (activeEvent.isEmpty()) {
-            if (launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)) {
-                return Either.right(Success.INSTANCE);
-            } else {
-                return Either.left(PersonageEventError.EventInProcess.INSTANCE);
-            }
+            return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
+                .mapLeft(ignored -> PersonageEventError.EventInProcess.INSTANCE);
         }
 
         if (activeEvent.get().id() == launchedEventId) {

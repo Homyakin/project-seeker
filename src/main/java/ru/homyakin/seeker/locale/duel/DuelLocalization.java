@@ -122,4 +122,8 @@ public class DuelLocalization {
             CommonUtils.ifNullThan(map.get(language).duelWithUnknownUser(), map.get(Language.DEFAULT).duelWithUnknownUser())
         );
     }
+
+    public static String duelIsLocked(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).duelIsLocked(), map.get(Language.DEFAULT).duelIsLocked());
+    }
 }

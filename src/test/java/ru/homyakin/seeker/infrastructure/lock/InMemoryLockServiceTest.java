@@ -123,7 +123,7 @@ public class InMemoryLockServiceTest {
         final var result = service.tryLockAndExecute(key, action);
 
         // then
-        Assertions.assertTrue(result);
+        Assertions.assertTrue(result.isRight());
         Mockito.verify(action, Mockito.times(1)).run();
     }
 
@@ -138,7 +138,7 @@ public class InMemoryLockServiceTest {
         final var result = service.tryLockAndExecute(key, action);
 
         // then
-        Assertions.assertFalse(result);
+        Assertions.assertFalse(result.isRight());
         Mockito.verify(action, Mockito.never()).run();
     }
 

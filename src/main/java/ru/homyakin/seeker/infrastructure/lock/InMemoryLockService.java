@@ -1,10 +1,15 @@
 package ru.homyakin.seeker.infrastructure.lock;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
+
+import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.utils.models.Success;
 
 @Service
 public class InMemoryLockService implements LockService {
@@ -22,20 +27,21 @@ public class InMemoryLockService implements LockService {
     }
 
     @Override
-    public boolean tryLockAndExecute(String key, Runnable action) {
+    public <T> Either<KeyLocked, T> tryLockAndCalc(String key, Supplier<T> supplier) {
         logger.debug("try to lock: " + key);
         if (tryLock(key)) {
             logger.debug("success lock " + key);
+            final T result;
             try {
-                action.run();
+                result = supplier.get();
             } finally {
                 unlock(key);
             }
             logger.debug("free lock " + key);
-            return true;
+            return Either.right(result);
         }
         logger.debug("key already locked " + key);
-        return false;
+        return Either.left(KeyLocked.INSTANCE);
     }
 
     private enum Stub { INSTANCE }
