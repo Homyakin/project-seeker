@@ -14,6 +14,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -57,8 +58,8 @@ public class GroupDao {
         params.put("is_active", group.isActive());
         params.put("language_id", group.language().id());
         params.put("init_date", now);
-        params.put("next_event_date", now);
-        params.put("next_rumor_date", now);
+        params.put("next_event_date", now.plusMinutes(RandomUtils.getInInterval(20, 60)));
+        params.put("next_rumor_date", now.plusMinutes(RandomUtils.getInInterval(120, 240)));
         jdbcTemplate.update(
             SAVE_GROUP,
             params
