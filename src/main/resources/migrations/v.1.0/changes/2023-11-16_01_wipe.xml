@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="2023-11-16-wipe">
+        <sql>
+            DELETE FROM duel_tg;
+            DELETE FROM duel;
+            DELETE FROM everyday_spin_tg;
+            DELETE FROM grouptg_personage_stats;
+            DELETE FROM grouptg_stats;
+            DELETE FROM grouptg_to_launched_event;
+            DELETE FROM personage_to_event;
+            DELETE FROM launched_event;
+            DELETE FROM menu_item_order_tg;
+            DELETE FROM menu_item_order;
+            UPDATE personage SET money = 100;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
