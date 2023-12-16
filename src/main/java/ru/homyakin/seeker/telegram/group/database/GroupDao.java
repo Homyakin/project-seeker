@@ -26,8 +26,8 @@ public class GroupDao {
         SELECT * FROM grouptg WHERE next_rumor_date < :next_rumor_date and is_active = true
         """;
     private static final String SAVE_GROUP = """
-        insert into grouptg (id, is_active, language_id, init_date, next_event_date)
-        values (:id, :is_active, :language_id, :init_date, :next_event_date)
+        insert into grouptg (id, is_active, language_id, init_date, next_event_date, next_rumor_date)
+        values (:id, :is_active, :language_id, :init_date, :next_event_date, :next_rumor_date)
         """;
     private static final String UPDATE = """
         update grouptg
@@ -58,6 +58,7 @@ public class GroupDao {
         params.put("language_id", group.language().id());
         params.put("init_date", now);
         params.put("next_event_date", now);
+        params.put("next_rumor_date", now);
         jdbcTemplate.update(
             SAVE_GROUP,
             params
