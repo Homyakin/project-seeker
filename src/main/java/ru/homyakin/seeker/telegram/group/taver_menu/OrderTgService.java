@@ -89,16 +89,18 @@ public class OrderTgService {
         logger.debug("Expiring orders");
         menuItemOrderTgDao.findNotFinalWithLessExpireDateTime(TimeUtils.moscowTime()).forEach(
             order -> {
-                logger.info("Order " + order.menuItemOrderId() + " was expired");
-                orderService.expireOrder(order.menuItemOrderId());
-                final var group = groupService.getOrCreate(order.groupTgId());
-                telegramSender.send(
-                    EditMessageTextBuilder.builder()
-                        .text(TavernMenuLocalization.expiredOrder(group.language()))
-                        .messageId(order.messageId())
-                        .chatId(order.groupTgId())
-                        .build()
-                );
+                logger.info("Order " + order.menuItemOrderId() + " expired");
+                orderService.expireOrder(order.menuItemOrderId())
+                    .peek(success -> {
+                        final var group = groupService.getOrCreate(order.groupTgId());
+                        telegramSender.send(
+                            EditMessageTextBuilder.builder()
+                                .text(TavernMenuLocalization.expiredOrder(group.language()))
+                                .messageId(order.messageId())
+                                .chatId(order.groupTgId())
+                                .build()
+                        );
+                    });
             }
         );
     }

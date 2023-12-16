@@ -76,8 +76,13 @@ public class OrderExecutor extends CommandExecutor<Order> {
             }
             final var userResult = userService.tryGetOrCreateByMention(mentionInfo, group.id());
             if (userResult.isEmpty()) {
-                //TODO ошибка
                 logger.warn("Unknown mention group={}, mention={}", group.id(), mentionInfo);
+                telegramSender.send(SendMessageBuilder.builder()
+                    .chatId(group.id())
+                    .text(TavernMenuLocalization.orderToUnknownUser(group.language()))
+                    .replyMessageId(command.messageId())
+                    .build()
+                );
                 return;
             }
             acceptor = userResult.get();

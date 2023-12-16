@@ -16,6 +16,7 @@ public record TavernMenuResource(
     String consumeAlreadyInFinalStatus,
     String wrongConsumer,
     String[] expiredOrder,
-    String[] orderToUnknownUser
+    String[] orderToUnknownUser,
+    String orderIsLocked
 ) {
 }

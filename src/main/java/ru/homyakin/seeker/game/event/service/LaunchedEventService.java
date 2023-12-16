@@ -10,7 +10,6 @@ import ru.homyakin.seeker.game.event.models.EventLocked;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.infrastructure.lock.KeyLocked;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.telegram.group.models.Group;

@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.infrastructure.lock;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
@@ -9,7 +8,6 @@ import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.utils.models.Success;
 
 @Service
 public class InMemoryLockService implements LockService {

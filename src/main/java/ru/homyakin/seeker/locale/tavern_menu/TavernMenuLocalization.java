@@ -127,4 +127,8 @@ public class TavernMenuLocalization {
             CommonUtils.ifNullThan(map.get(language).orderToUnknownUser(), map.get(Language.DEFAULT).orderToUnknownUser())
         );
     }
+
+    public static String orderIsLocked(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).orderIsLocked(), map.get(Language.DEFAULT).orderIsLocked());
+    }
 }

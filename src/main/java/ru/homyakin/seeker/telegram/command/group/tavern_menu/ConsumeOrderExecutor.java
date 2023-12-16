@@ -3,7 +3,7 @@ package ru.homyakin.seeker.telegram.command.group.tavern_menu;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.tavern_menu.OrderService;
-import ru.homyakin.seeker.game.tavern_menu.models.ConsumeError;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItemOrderError;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -47,7 +47,7 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
             .peekLeft(
                 error -> {
                     switch (error) {
-                        case ConsumeError.AlreadyFinalStatus ignored ->
+                        case MenuItemOrderError.AlreadyFinalStatus ignored ->
                             telegramSender.send(
                                 EditMessageTextBuilder
                                     .builder()
@@ -56,10 +56,15 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
                                     .chatId(command.groupId())
                                     .build()
                             );
-                        case ConsumeError.WrongConsumer ignored ->
+                        case MenuItemOrderError.WrongConsumer ignored ->
                             telegramSender.send(
                                 TelegramMethods.createAnswerCallbackQuery(command.callbackId(), error.text(group.language()))
                             );
+                        case MenuItemOrderError.OrderLocked ignored -> {
+                            telegramSender.send(
+                                TelegramMethods.createAnswerCallbackQuery(command.callbackId(), error.text(group.language()))
+                            );
+                        }
                     }
                 }
             );

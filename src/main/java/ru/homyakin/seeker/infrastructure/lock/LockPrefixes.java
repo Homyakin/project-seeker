@@ -5,4 +5,5 @@ public enum LockPrefixes {
     LAUNCHED_EVENT,
     RUMOR,
     DUEL,
+    MENU_ITEM_ORDER,
 }
