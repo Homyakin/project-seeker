@@ -9,7 +9,7 @@
             DELETE FROM duel;
             DELETE FROM everyday_spin_tg;
             DELETE FROM grouptg_personage_stats;
-            DELETE FROM grouptg_stats;
+            UPDATE grouptg_stats SET raids_complete = 0, duels_complete = 0, tavern_money_spent = 0;
             DELETE FROM grouptg_to_launched_event;
             DELETE FROM personage_to_event;
             DELETE FROM launched_event;
