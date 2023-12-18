@@ -10,10 +10,10 @@ notEnoughMoneyMainDish = [
     "Кто не работает, тот не ест! Заработай ещё ${money_icon}${not_enough_money_value}"
 ]
 orderGiftToDifferentBot = [
-    "Заказ для другого бота ПЕРЕДЕЛАТЬ"
+    "Прости, но заказы для неодушевлённых предметов не принимаются"
 ]
 orderGiftToThisBot = [
-    "Заказ для этого бота ПЕРЕДЕЛАТЬ"
+    "Бармену не наливать"
 ]
 order = [
     "${item_name} для ${mention_acceptor_icon_with_name}!"
