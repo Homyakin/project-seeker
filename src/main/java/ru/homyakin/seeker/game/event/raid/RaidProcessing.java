@@ -58,11 +58,12 @@ public class RaidProcessing {
 
     private int calculateReward(boolean doesParticipantsWin, BattlePersonage battlePersonage) {
         if (!doesParticipantsWin) {
-            return 0;
+            return BASE_LOSE_REWARD;
         }
-        // За рейд где-то 300-500 урона; log2.9(600) ~ 6; за рейд плюс-минус 10-15 золота
-        return (int) (BASE_REWARD + MathUtils.log(2.9, battlePersonage.battleStats().damageDealtAndBlocked()));
+        // За рейд где-то 300-500 урона; log2.5(700) ~ 7;
+        return (int) (BASE_WIN_REWARD + MathUtils.log(2.5, battlePersonage.battleStats().damageDealtAndBlocked()));
     }
 
-    private static final int BASE_REWARD = 5;
+    private static final int BASE_WIN_REWARD = 10;
+    private static final int BASE_LOSE_REWARD = 5;
 }
