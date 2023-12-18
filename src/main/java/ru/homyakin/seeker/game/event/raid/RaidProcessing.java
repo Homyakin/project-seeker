@@ -58,7 +58,7 @@ public class RaidProcessing {
 
     private int calculateReward(boolean doesParticipantsWin, BattlePersonage battlePersonage) {
         if (!doesParticipantsWin) {
-            return BASE_LOSE_REWARD;
+            return Math.round(BASE_LOSE_REWARD * battlePersonage.personage().energy().percent());
         }
         // За рейд где-то 300-500 урона; log2.5(700) ~ 7;
         return (int) (BASE_WIN_REWARD + MathUtils.log(2.5, battlePersonage.battleStats().damageDealtAndBlocked()));
