@@ -4,7 +4,7 @@
     <!--Консольный аппендер -->
     <appender name="sout" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %highlight(%-5level) [&lt;%logger{36}&gt; \(%file:%line\)] %boldBlue(%msg) %n</Pattern>
+            <Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %highlight(%-5level) [%file:%line] %boldBlue(%msg) %n</Pattern>
         </layout>
     </appender>
     <!-- Логгеры -->
