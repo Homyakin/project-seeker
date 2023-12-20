@@ -42,9 +42,11 @@ public class RaidProcessing {
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
         final var endTime = TimeUtils.moscowTime();
         for (final var personageResult: result.secondTeamResult().battlePersonages()) {
+            final var reward = new Money(calculateReward(doesParticipantsWin, personageResult));
+            personageResult.setReward(reward);
             personageService.addMoneyAndNullifyEnergy(
                 personageResult.personage(),
-                new Money(calculateReward(doesParticipantsWin, personageResult)),
+                reward,
                 endTime
             );
         }

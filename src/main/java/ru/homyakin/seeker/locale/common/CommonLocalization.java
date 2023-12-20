@@ -95,6 +95,8 @@ public class CommonLocalization {
         params.put("damage_dealt", battlePersonage.battleStats().damageDealt());
         params.put("damage_taken", battlePersonage.battleStats().damageTaken());
         params.put("dodges_count", battlePersonage.battleStats().dodgesCount());
+        params.put("money", battlePersonage.reward().value());
+        params.put("money_icon", TextConstants.MONEY_ICON);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).personageBattleResult(), map.get(Language.DEFAULT).personageBattleResult()),
             params

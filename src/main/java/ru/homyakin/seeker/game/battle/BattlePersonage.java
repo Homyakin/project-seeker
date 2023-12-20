@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.battle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
@@ -12,6 +13,7 @@ public class BattlePersonage implements Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
     private int health;
+    private Money reward;
     private final BattleStats battleStats = new BattleStats();
     private final BattleCharacteristics characteristics;
     private final Personage personage;
@@ -49,6 +51,14 @@ public class BattlePersonage implements Cloneable {
 
     public String statsText(Language language) {
         return CommonLocalization.personageBattleResult(language, this);
+    }
+
+    public Money reward() {
+        return reward;
+    }
+
+    public void setReward(Money reward) {
+        this.reward = reward;
     }
 
     public void dealDamageToPersonage(BattlePersonage enemy) {
