@@ -23,7 +23,7 @@
         <assertj.version>3.24.2</assertj.version>
 
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-        <checkstyle.suppressions.location>suppression.xml</checkstyle.suppressions.location>
+        <checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
     </properties>
 
     <dependencies>
