@@ -28,7 +28,7 @@ personageGroupStats = """\
 🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
 ⚒Работяга дня: ${spin_wins_count}
 """
-personageBattleResult = "${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨 +${money}${money_icon}"
+
 # текста для лички
 # TODO перенести куда-нибудь
 welcomeUser = "Добро пожаловать в таверну, Искатель!"

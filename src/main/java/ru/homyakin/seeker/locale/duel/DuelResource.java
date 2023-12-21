@@ -15,6 +15,7 @@ public record DuelResource(
     String acceptDuelButton,
     String declineDuelButton,
     String[] duelWithUnknownUser,
-    String duelIsLocked
+    String duelIsLocked,
+    String personageDuelResult
 ) {
 }

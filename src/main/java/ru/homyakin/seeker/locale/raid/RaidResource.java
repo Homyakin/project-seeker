@@ -13,6 +13,7 @@ public record RaidResource(
     String[] successRaid,
     String[] failureRaid,
     String[] zeroParticipants,
-    String raidResult
+    String raidResult,
+    String personageRaidResult
 ) {
 }

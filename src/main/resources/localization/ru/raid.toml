@@ -20,6 +20,7 @@ failureRaid = [
 zeroParticipants = [
     "Никто не принял заказ😢В этот раз денег никто не получит."
 ]
+personageRaidResult = "${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨 +${money}${money_icon}"
 raidResult = """\
 Противники: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
 

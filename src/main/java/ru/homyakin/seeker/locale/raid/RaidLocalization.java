@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -78,7 +79,11 @@ public class RaidLocalization {
         sortedPersonages.sort(resultComparator);
         final var topPersonages = new StringBuilder();
         for (int i = 0; i < 5 && i < sortedPersonages.size(); ++i) {
-            topPersonages.append(i + 1).append(". ").append(sortedPersonages.get(i).statsText(language)).append("\n");
+            topPersonages
+                .append(i + 1)
+                .append(". ")
+                .append(RaidLocalization.personageRaidResult(language, sortedPersonages.get(i)))
+                .append("\n");
         }
         long totalEnemiesHealth = 0;
         long remainEnemiesHealth = 0;
@@ -98,6 +103,20 @@ public class RaidLocalization {
         params.put("top_personages_list", topPersonages.toString());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
+            params
+        );
+    }
+
+    public static String personageRaidResult(Language language, BattlePersonage battlePersonage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_icon_with_name", battlePersonage.personage().iconWithName());
+        params.put("damage_dealt", battlePersonage.battleStats().damageDealt());
+        params.put("damage_taken", battlePersonage.battleStats().damageTaken());
+        params.put("dodges_count", battlePersonage.battleStats().dodgesCount());
+        params.put("money", battlePersonage.reward().value());
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
             params
         );
     }

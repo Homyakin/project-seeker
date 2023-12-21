@@ -99,6 +99,7 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
         );
     }
 
+    // TODO в локализацию
     private String finishedDuelText(
         Language language,
         DuelResult duelResult,
@@ -109,6 +110,8 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             language,
             TgPersonageMention.of(duelResult.winner().personage(), winnerUser.id()),
             TgPersonageMention.of(duelResult.loser().personage(), loserUser.id())
-        ) + "\n\n" + duelResult.winner().statsText(language) + "\n" + duelResult.loser().statsText(language);
+        ) + "\n\n" +
+            DuelLocalization.personageDuelResult(language, duelResult.winner()) + "\n" +
+            DuelLocalization.personageDuelResult(language, duelResult.loser());
     }
 }

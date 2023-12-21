@@ -5,15 +5,14 @@ import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage implements Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
     private int health;
-    private Money reward;
+    //TODO вынести куда-то, потому что в дуэли награды нет
+    private Money reward = Money.zero();
     private final BattleStats battleStats = new BattleStats();
     private final BattleCharacteristics characteristics;
     private final Personage personage;
@@ -47,10 +46,6 @@ public class BattlePersonage implements Cloneable {
 
     public Personage personage() {
         return personage;
-    }
-
-    public String statsText(Language language) {
-        return CommonLocalization.personageBattleResult(language, this);
     }
 
     public Money reward() {
