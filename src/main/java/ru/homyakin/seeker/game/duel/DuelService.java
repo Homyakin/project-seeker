@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.utils.models.Success;
@@ -82,7 +83,10 @@ public class DuelService {
         );
     }
 
-    public Either<ProcessDuelError, Success> declineDuel(Duel duel) {
+    public Either<ProcessDuelError, Success> declineDuel(Duel duel, PersonageId acceptor) {
+        if (!acceptor.equals(duel.acceptingPersonageId())) {
+            return Either.left(ProcessDuelError.NotDuelAcceptor.INSTANCE);
+        }
         return lockService.<Either<ProcessDuelError, Success>>tryLockAndCalc(
             duelLockKey(duel.id()),
             () -> {
@@ -99,7 +103,10 @@ public class DuelService {
         );
     }
 
-    public Either<ProcessDuelError, DuelResult> finishDuel(Duel duel) {
+    public Either<ProcessDuelError, DuelResult> finishDuel(Duel duel, PersonageId acceptor) {
+        if (!acceptor.equals(duel.acceptingPersonageId())) {
+            return Either.left(ProcessDuelError.NotDuelAcceptor.INSTANCE);
+        }
         return lockService.tryLockAndCalc(
             duelLockKey(duel.id()),
             () -> finishDuelLogic(duel)

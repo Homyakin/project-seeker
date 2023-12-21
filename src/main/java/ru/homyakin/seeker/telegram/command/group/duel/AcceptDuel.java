@@ -2,7 +2,6 @@ package ru.homyakin.seeker.telegram.command.group.duel;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -13,7 +12,7 @@ public record AcceptDuel(
     int messageId,
     long duelId,
     String currentText
-) implements Command {
+) implements ProcessDuel {
     public static AcceptDuel from(CallbackQuery callback) {
         return new AcceptDuel(
             callback.getId(),
