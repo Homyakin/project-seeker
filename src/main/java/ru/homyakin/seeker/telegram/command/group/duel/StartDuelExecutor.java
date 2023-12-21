@@ -4,7 +4,7 @@ import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.duel.models.DuelError;
+import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
@@ -77,11 +77,11 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         if (duelResult.isLeft()) {
             final var error = duelResult.getLeft();
             final var message = switch (error) {
-                case DuelError.PersonageAlreadyHasDuel ignored ->
+                case CreateDuelError.PersonageAlreadyHasDuel ignored ->
                     DuelLocalization.personageAlreadyStartDuel(group.language());
-                case DuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney ->
+                case CreateDuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney ->
                     DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
-                case DuelError.InternalError ignored -> CommonLocalization.internalError(group.language());
+                case CreateDuelError.InternalError ignored -> CommonLocalization.internalError(group.language());
             };
             telegramSender.send(
                 SendMessageBuilder.builder().chatId(group.id()).text(message).build()

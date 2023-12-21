@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.Duel;
-import ru.homyakin.seeker.game.duel.models.DuelError;
+import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
@@ -51,7 +51,7 @@ public class DuelTgService {
         this.userService = userService;
     }
 
-    public Either<DuelError, DuelTg> createDuel(
+    public Either<CreateDuelError, DuelTg> createDuel(
         User initiatingUser,
         User acceptingUser,
         Group group
@@ -69,7 +69,7 @@ public class DuelTgService {
                 ).mapLeft(
                     error -> {
                         logger.warn("Can't send message to telegram: " + error.toString());
-                        return new DuelError.InternalError();
+                        return new CreateDuelError.InternalError();
                     }
                 )
             );

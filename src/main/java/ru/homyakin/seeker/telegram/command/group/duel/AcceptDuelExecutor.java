@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
-import ru.homyakin.seeker.game.duel.models.DuelStatus;
+import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -60,20 +60,33 @@ public class AcceptDuelExecutor extends CommandExecutor<AcceptDuel> {
             return;
         }
 
-        if (duel.status() != DuelStatus.WAITING) {
-            //TODO нормальный обработчик
-            return;
-        }
-
         duelService.finishDuel(duel)
             .peek(result -> processDuelResult(result, acceptingUser, command, group))
-            .peekLeft(error ->
-                telegramSender.send(
-                    TelegramMethods.createAnswerCallbackQuery(
-                        command.callbackId(),
-                        DuelLocalization.duelIsLocked(group.language())
-                    )
-                )
+            .peekLeft(error -> {
+                    switch (error) {
+                        case ProcessDuelError.DuelIsFinished duelIsFinished -> {
+                            logger.warn("Duel {} already finished", duel.id());
+                            telegramSender.send(EditMessageTextBuilder.builder()
+                                .chatId(group.id())
+                                .messageId(command.messageId())
+                                .text(command.currentText())
+                                .build()
+                            );
+                            telegramSender.send(
+                                TelegramMethods.createAnswerCallbackQuery(
+                                    command.callbackId(),
+                                    DuelLocalization.duelAlreadyFinished(group.language())
+                                )
+                            );
+                        }
+                        case ProcessDuelError.DuelLocked duelLocked -> telegramSender.send(
+                            TelegramMethods.createAnswerCallbackQuery(
+                                command.callbackId(),
+                                DuelLocalization.duelIsLocked(group.language())
+                            )
+                        );
+                    }
+                }
             );
 
     }

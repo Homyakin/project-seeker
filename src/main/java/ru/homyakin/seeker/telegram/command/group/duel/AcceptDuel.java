@@ -11,7 +11,8 @@ public record AcceptDuel(
     GroupId groupId,
     UserId userId,
     int messageId,
-    long duelId
+    long duelId,
+    String currentText
 ) implements Command {
     public static AcceptDuel from(CallbackQuery callback) {
         return new AcceptDuel(
@@ -19,7 +20,8 @@ public record AcceptDuel(
             GroupId.from(callback.getMessage().getChatId()),
             UserId.from(callback.getFrom().getId()),
             callback.getMessage().getMessageId(),
-            Long.parseLong(callback.getData().split(TextConstants.CALLBACK_DELIMITER)[1])
+            Long.parseLong(callback.getData().split(TextConstants.CALLBACK_DELIMITER)[1]),
+            callback.getMessage().getText()
         );
     }
 }

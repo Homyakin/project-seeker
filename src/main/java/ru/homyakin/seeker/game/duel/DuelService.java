@@ -8,11 +8,11 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
-import ru.homyakin.seeker.game.duel.models.DuelError;
+import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
-import ru.homyakin.seeker.game.duel.models.DuelLocked;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
+import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -43,15 +43,15 @@ public class DuelService {
     }
 
     //TODO прочитать про transactional
-    public Either<DuelError, Duel> createDuel(
+    public Either<CreateDuelError, Duel> createDuel(
         Personage initiatingPersonage,
         Personage acceptingPersonage
     ) {
         if (duelDao.getWaitingDuelByInitiatingPersonage(initiatingPersonage.id()).isPresent()) {
-            return Either.left(new DuelError.PersonageAlreadyHasDuel());
+            return Either.left(new CreateDuelError.PersonageAlreadyHasDuel());
         }
         if (initiatingPersonage.money().lessThan(DUEL_PRICE)) {
-            return Either.left(new DuelError.InitiatingPersonageNotEnoughMoney(DUEL_PRICE));
+            return Either.left(new CreateDuelError.InitiatingPersonageNotEnoughMoney(DUEL_PRICE));
         }
 
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
@@ -65,34 +65,54 @@ public class DuelService {
             .orElseThrow(() -> new IllegalStateException("Duel " + duelId + "must exist"));
     }
 
-    public Either<DuelLocked, Success> expireDuel(long duelId) {
-        return lockService.tryLockAndExecute(
+    public Either<ProcessDuelError, Success> expireDuel(long duelId) {
+        return lockService.<Either<ProcessDuelError, Success>>tryLockAndCalc(
             duelLockKey(duelId),
             () -> {
+                if (getByIdForce(duelId).isFinalStatus()) {
+                    return Either.left(ProcessDuelError.DuelIsFinished.INSTANCE);
+                }
                 returnMoneyToInitiator(duelId);
                 duelDao.updateStatus(duelId, DuelStatus.EXPIRED);
+                return Either.right(Success.INSTANCE);
             }
-        ).mapLeft(ignored -> DuelLocked.INSTANCE);
+        ).fold(
+            error -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
+            either -> either
+        );
     }
 
-    public Either<DuelLocked, Success> declineDuel(long duelId) {
-        return lockService.tryLockAndExecute(
-            duelLockKey(duelId),
+    public Either<ProcessDuelError, Success> declineDuel(Duel duel) {
+        return lockService.<Either<ProcessDuelError, Success>>tryLockAndCalc(
+            duelLockKey(duel.id()),
             () -> {
-                returnMoneyToInitiator(duelId);
-                duelDao.updateStatus(duelId, DuelStatus.DECLINED);
+                if (duel.isFinalStatus()) {
+                    return Either.left(ProcessDuelError.DuelIsFinished.INSTANCE);
+                }
+                returnMoneyToInitiator(duel.id());
+                duelDao.updateStatus(duel.id(), DuelStatus.DECLINED);
+                return Either.right(Success.INSTANCE);
             }
-        ).mapLeft(ignored -> DuelLocked.INSTANCE);
+        ).fold(
+            error -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
+            either -> either
+        );
     }
 
-    public Either<DuelLocked, DuelResult> finishDuel(Duel duel) {
+    public Either<ProcessDuelError, DuelResult> finishDuel(Duel duel) {
         return lockService.tryLockAndCalc(
             duelLockKey(duel.id()),
             () -> finishDuelLogic(duel)
-        ).mapLeft(ignored -> DuelLocked.INSTANCE);
+        ).fold(
+            error -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
+            either -> either
+        );
     }
 
-    private DuelResult finishDuelLogic(Duel duel) {
+    private Either<ProcessDuelError, DuelResult> finishDuelLogic(Duel duel) {
+        if (duel.isFinalStatus()) {
+            return Either.left(ProcessDuelError.DuelIsFinished.INSTANCE);
+        }
         duelDao.updateStatus(duel.id(), DuelStatus.FINISHED);
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
@@ -115,7 +135,7 @@ public class DuelService {
             default -> throw new IllegalStateException("Unexpected status");
         }
         duelDao.addWinnerIdToDuel(duel.id(), winner.personage().id());
-        return new DuelResult(winner, loser);
+        return Either.right(new DuelResult(winner, loser));
     }
 
     private void returnMoneyToInitiator(long duelId) {

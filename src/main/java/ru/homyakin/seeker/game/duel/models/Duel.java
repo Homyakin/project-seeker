@@ -10,4 +10,7 @@ public record Duel(
     LocalDateTime expiringDate,
     DuelStatus status
 ) {
+    public boolean isFinalStatus() {
+        return status != DuelStatus.WAITING;
+    }
 }

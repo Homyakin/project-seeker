@@ -140,4 +140,8 @@ public class DuelLocalization {
             params
         );
     }
+
+    public static String duelAlreadyFinished(Language language) {
+        return CommonUtils.ifNullThan(map.get(language).duelAlreadyFinished(), map.get(Language.DEFAULT).duelAlreadyFinished());
+    }
 }
