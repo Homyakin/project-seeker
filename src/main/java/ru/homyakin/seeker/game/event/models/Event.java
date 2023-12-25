@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 import jakarta.validation.constraints.NotNull;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Event(
     int id,
@@ -23,7 +23,7 @@ public record Event(
     @NotNull
     List<EventLocale> locales
 ) {
-    public String toStartMessage(Language language) {
+    private String toBaseMessage(Language language) {
         final var locale = getLocaleByLanguageOrDefault(language);
 
         return "<b>%s</b>%n%n%s".formatted(
@@ -32,24 +32,19 @@ public record Event(
         );
     }
 
-    public String toStartMessage(Language language, LocalDateTime endDate) {
-        final var locale = getLocaleByLanguageOrDefault(language);
-        final var endDateText = endDateText(language, endDate);
-        if (endDateText.isEmpty()) {
-            return toStartMessage(language);
+    public String toEndMessage(Language language, List<Personage> participants) {
+        if (participants.isEmpty()) {
+            return toBaseMessage(language);
+        } else {
+            return toBaseMessage(language) + "\n\n" + RaidLocalization.raidParticipants(language, participants);
         }
-        return
-            """
-                <b>%s</b>
-                                
-                %s
-                                
-                %s
-                """.formatted(
-                locale.intro(),
-                locale.description(),
-                endDateText.get()
-            );
+    }
+
+    public String toStartMessage(Language language, LocalDateTime startDate, LocalDateTime endDate) {
+        final var endDateText = endDateText(language, startDate, endDate);
+        return endDateText
+            .map(s -> toBaseMessage(language) + "\n\n" + s)
+            .orElseGet(() -> toBaseMessage(language));
     }
 
     public String endMessage(Language language, RaidResult raidResult) {
@@ -58,12 +53,11 @@ public record Event(
         };
     }
 
-    private Optional<String> endDateText(Language language, LocalDateTime endDate) {
-        final var now = TimeUtils.moscowTime();
-        if (endDate.isBefore(now)) {
+    private Optional<String> endDateText(Language language, LocalDateTime startDate, LocalDateTime endDate) {
+        if (endDate.isBefore(startDate)) {
             return Optional.empty();
         }
-        final var diff = Duration.between(now, endDate);
+        final var diff = Duration.between(startDate, endDate);
         var hours = "";
         if (diff.toHours() > 0) {
             hours = diff.toHours() + " " + RaidLocalization.hoursShort(language);

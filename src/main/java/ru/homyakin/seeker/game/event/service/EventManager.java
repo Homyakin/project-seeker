@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
@@ -101,10 +102,13 @@ public class EventManager {
                         .build()
                     );
                 } else {
+                    final var participants = result.get().personageResults().stream()
+                        .map(BattlePersonage::personage)
+                        .toList();
                     telegramSender.send(EditMessageTextBuilder.builder()
                         .chatId(groupEvent.groupId())
                         .messageId(groupEvent.messageId())
-                        .text(event.toStartMessage(group.language()))
+                        .text(event.toEndMessage(group.language(), participants))
                         .build()
                     );
                     telegramSender.send(SendMessageBuilder.builder()
@@ -124,7 +128,7 @@ public class EventManager {
         var result = telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(group.id())
-                .text(event.toStartMessage(group.language(), launchedEvent.endDate()))
+                .text(event.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
                 .keyboard(InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id()))
                 .build()
         );

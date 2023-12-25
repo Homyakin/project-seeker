@@ -1,12 +1,16 @@
 package ru.homyakin.seeker.locale.raid;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -34,10 +38,6 @@ public class RaidLocalization {
 
     public static String minutesShort(Language language) {
         return CommonUtils.ifNullThan(map.get(language).minutesShort(), map.get(Language.DEFAULT).minutesShort());
-    }
-
-    public static String successJoinEvent(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).successJoinEvent(), map.get(Language.DEFAULT).successJoinEvent());
     }
 
     public static String userAlreadyInThisEvent(Language language) {
@@ -118,6 +118,16 @@ public class RaidLocalization {
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
             params
+        );
+    }
+
+    public static String raidParticipants(Language language, List<Personage> participants) {
+        final var iconNames = participants.stream()
+            .map(Personage::iconWithName)
+            .collect(Collectors.joining(", "));
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).raidParticipants(), map.get(Language.DEFAULT).raidParticipants()),
+            Collections.singletonMap("personage_icon_name_list", iconNames)
         );
     }
 

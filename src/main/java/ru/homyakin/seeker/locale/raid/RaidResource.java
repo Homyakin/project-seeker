@@ -5,7 +5,6 @@ public record RaidResource(
     String raidStartsPrefix,
     String hoursShort,
     String minutesShort,
-    String successJoinEvent,
     String userAlreadyInThisEvent,
     String userAlreadyInOtherEvent,
     String expiredRaid,
@@ -14,6 +13,7 @@ public record RaidResource(
     String[] failureRaid,
     String[] zeroParticipants,
     String raidResult,
-    String personageRaidResult
+    String personageRaidResult,
+    String raidParticipants
 ) {
 }

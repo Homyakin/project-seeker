@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.event;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
 import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
@@ -14,6 +15,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
@@ -21,15 +23,18 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
     private final GroupUserService groupUserService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
+    private final EventService eventService;
 
     public JoinEventExecutor(
         GroupUserService groupUserService,
         PersonageService personageService,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        EventService eventService
     ) {
         this.groupUserService = groupUserService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
+        this.eventService = eventService;
     }
 
     @Override
@@ -41,13 +46,28 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
         final var result = personageService.addEvent(user.personageId(), command.launchedEventId());
-
-        final var notificationText = result.fold(
+        final var text = result.fold(
             error -> mapErrorToUserMessage(error, group, command),
-            success -> RaidLocalization.successJoinEvent(group.language())
+            launchedEvent -> {
+                final var participants = personageService.getByLaunchedEvent(command.launchedEventId());
+                return eventService.getEventById(launchedEvent.eventId())
+                    .map(it -> it.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
+                    .map(it -> it + "\n\n" + RaidLocalization.raidParticipants(group.language(), participants))
+                    .orElseThrow();
+            }
         );
-
-        telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), notificationText));
+        if (result.isLeft()) {
+            telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), text));
+        } else {
+            telegramSender.send(
+                EditMessageTextBuilder.builder()
+                    .chatId(command.groupId())
+                    .messageId(command.messageId())
+                    .text(text)
+                    .keyboard(InlineKeyboards.joinRaidEventKeyboard(group.language(), command.launchedEventId()))
+                    .build()
+            );
+        }
     }
 
     private String mapErrorToUserMessage(PersonageEventError error, Group group, JoinEvent command) {
@@ -59,7 +79,9 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                 telegramSender.send(EditMessageTextBuilder.builder()
                     .chatId(command.groupId())
                     .messageId(command.messageId())
-                    .text(expiredEvent.event().toStartMessage(group.language()))
+                    .text(expiredEvent.event().toEndMessage(
+                        group.language(),  personageService.getByLaunchedEvent(command.launchedEventId())
+                    ))
                     .build()
                 );
                 yield RaidLocalization.expiredRaid(group.language());

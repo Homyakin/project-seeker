@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
@@ -15,7 +16,6 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
-import ru.homyakin.seeker.utils.models.Success;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
 import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
@@ -49,7 +49,7 @@ public class PersonageService {
             .peekLeft(error -> logger.warn("Can't create personage with name " + name));
     }
 
-    public Either<PersonageEventError, Success> addEvent(PersonageId personageId, long launchedEventId) {
+    public Either<PersonageEventError, LaunchedEvent> addEvent(PersonageId personageId, long launchedEventId) {
         final var requestedEvent = launchedEventService.getById(launchedEventId);
         if (requestedEvent.isEmpty()) {
             logger.error("Requested event " + launchedEventId + " doesn't present");
@@ -64,6 +64,7 @@ public class PersonageService {
         final var activeEvent = launchedEventService.getActiveEventByPersonageId(personageId);
         if (activeEvent.isEmpty()) {
             return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
+                .map(success -> requestedEvent.get())
                 .mapLeft(ignored -> PersonageEventError.EventInProcess.INSTANCE);
         }
 
