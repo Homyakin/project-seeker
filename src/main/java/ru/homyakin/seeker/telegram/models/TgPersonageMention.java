@@ -21,4 +21,12 @@ public class TgPersonageMention implements PersonageMention {
     public String value() {
         return value;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof TgPersonageMention mention) {
+            return mention.value.equals(this.value);
+        }
+        return false;
+    }
 }

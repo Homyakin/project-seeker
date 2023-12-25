@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
 import ru.homyakin.seeker.test_utils.CommonUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
-import ru.homyakin.seeker.test_utils.TwoPersonageTeamsBattleUtility;
+import ru.homyakin.seeker.test_utils.battle.TwoPersonageTeamsBattleUtility;
 
 public class SingleBossRaidTest {
     private final SingleBossGenerator generator = new SingleBossGenerator();
@@ -19,7 +19,7 @@ public class SingleBossRaidTest {
         final var repeat = 1000;
         double sumPercent = 0;
         for (int i = 0; i < repeat; ++i) {
-            final var personages = PersonageUtils.generateRandom(2);
+            final var personages = PersonageUtils.randomList(2);
             final var boss = generator.generate(personages.size());
 
              sumPercent += TwoPersonageTeamsBattleUtility.probabilityOfFirstTeamWin(

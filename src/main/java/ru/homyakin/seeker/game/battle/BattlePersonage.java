@@ -184,6 +184,14 @@ public class BattlePersonage implements Cloneable {
         );
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof BattlePersonage battlePersonage) {
+            return battlePersonage.id == this.id;
+        }
+        return false;
+    }
+
     private BattlePersonage(
         long id,
         int health,

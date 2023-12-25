@@ -25,7 +25,7 @@ public abstract class ProcessDuelExecutor<T extends ProcessDuel> extends Command
     }
 
     @Override
-    public void execute(T command) {
+    public final void execute(T command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var user = groupUser.second();
         final var group = groupUser.first();
@@ -54,6 +54,7 @@ public abstract class ProcessDuelExecutor<T extends ProcessDuel> extends Command
                                 DuelLocalization.duelIsLocked(group.language())
                             )
                         );
+                        // TODO надо поэксперементировать с cache_time, непонятно действует он в разрезе юзера или нет
                         case ProcessDuelError.NotDuelAcceptor notDuelAcceptor -> telegramSender.send(
                             TelegramMethods.createAnswerCallbackQuery(
                                 command.callbackId(),

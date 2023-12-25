@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
 import ru.homyakin.seeker.test_utils.CommonUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
-import ru.homyakin.seeker.test_utils.TwoPersonageTeamsBattleUtility;
+import ru.homyakin.seeker.test_utils.battle.TwoPersonageTeamsBattleUtility;
 
 public class GroupRaidTest {
     private final GroupGenerator generator = new GroupGenerator();
@@ -20,7 +20,7 @@ public class GroupRaidTest {
             final var repeat = 1000;
             double sumPercent = 0;
             for (int i = 0; i < repeat; ++i) {
-                final var personages = PersonageUtils.generateRandom(personageCount);
+                final var personages = PersonageUtils.randomList(personageCount);
                 final var enemies = generator.generate(personages.size());
 
                 sumPercent += TwoPersonageTeamsBattleUtility.probabilityOfFirstTeamWin(

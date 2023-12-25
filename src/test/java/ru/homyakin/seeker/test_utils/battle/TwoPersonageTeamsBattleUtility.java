@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.test_utils;
+package ru.homyakin.seeker.test_utils.battle;
 
 import java.util.List;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
