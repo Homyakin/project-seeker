@@ -71,7 +71,7 @@ public record Event(
         final var prefix = switch (type) {
             case RAID -> RaidLocalization.raidStartsPrefix(language);
         };
-        return Optional.of(prefix + hours + " " + minutes);
+        return Optional.of(prefix + " " + hours + " " + minutes);
     }
 
     private String raidEndMessage(Language language, RaidResult raidResult) {

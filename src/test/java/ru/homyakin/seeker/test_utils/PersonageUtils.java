@@ -20,6 +20,16 @@ public class PersonageUtils {
         return personages;
     }
 
+    public static Personage random() {
+        return new Personage(
+            PersonageId.from(RandomUtils.nextLong()),
+            RandomStringUtils.randomAlphanumeric(5),
+            Money.zero(),
+            Characteristics.random(),
+            Energy.createDefault()
+        );
+    }
+
     public static Personage withId(PersonageId id) {
         return new Personage(
             id,
