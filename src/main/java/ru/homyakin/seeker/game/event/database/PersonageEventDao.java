@@ -1,8 +1,7 @@
 package ru.homyakin.seeker.game.event.database;
 
-import java.util.HashMap;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
@@ -13,20 +12,16 @@ public class PersonageEventDao {
         values (:personage_id, :launched_event_id);
         """;
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public PersonageEventDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void save(PersonageId personageId, long launchedEventId) {
-        final var params = new HashMap<String, Object>();
-        params.put("personage_id", personageId.value());
-        params.put("launched_event_id", launchedEventId);
-
-        jdbcTemplate.update(
-            SAVE_USER_EVENT,
-            params
-        );
+        jdbcClient.sql(SAVE_USER_EVENT)
+            .param("personage_id", personageId.value())
+            .param("launched_event_id", launchedEventId)
+            .update();
     }
 }

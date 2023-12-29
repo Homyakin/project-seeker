@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventLocale;
@@ -23,35 +23,30 @@ public class EventDao {
     private static final String GET_RANDOM_EVENT = "SELECT * FROM event WHERE is_enabled = true ORDER BY random() LIMIT 1";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String GET_EVENT_LOCALES = "SELECT * FROM event_locale WHERE event_id = :event_id";
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public EventDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public Event getRandomEvent() {
-        final var result = jdbcTemplate.query(
-            GET_RANDOM_EVENT,
-            this::mapEvent
-        );
-        final var eventWithoutLocale = result
-            .stream()
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("No events in database")); // TODO either
-        final var locales = getEventLocales(eventWithoutLocale.id());
-        return eventWithoutLocale.toEvent(locales);
+    public Optional<Event> getRandomEvent() {
+        return jdbcClient.sql(GET_RANDOM_EVENT)
+            .query(this::mapEvent)
+            .optional()
+            .map(
+                eventWithoutLocale -> {
+                    final var locales = getEventLocales(eventWithoutLocale.id());
+                    return eventWithoutLocale.toEvent(locales);
+                }
+            );
+
     }
 
     public Optional<Event> getById(Integer eventId) {
-        final var params = Collections.singletonMap("id", eventId);
-        final var result = jdbcTemplate.query(
-            GET_EVENT_BY_ID,
-            params,
-            this::mapEvent
-        );
-        final var eventWithoutLocale = result
-            .stream()
-            .findFirst();
+        final var eventWithoutLocale = jdbcClient.sql(GET_EVENT_BY_ID)
+            .param("id", eventId)
+            .query(this::mapEvent)
+            .optional();
         if (eventWithoutLocale.isEmpty()) {
             return Optional.empty();
         }
@@ -60,12 +55,10 @@ public class EventDao {
     }
 
     private List<EventLocale> getEventLocales(int eventId) {
-        final var params = Collections.singletonMap("event_id", eventId);
-        return jdbcTemplate.query(
-            GET_EVENT_LOCALES,
-            params,
-            this::mapEventLocale
-        );
+        return jdbcClient.sql(GET_EVENT_LOCALES)
+            .param("event_id", eventId)
+            .query(this::mapEventLocale)
+            .list();
     }
 
     private EventWithoutLocale mapEvent(ResultSet rs, int rowNum) throws SQLException {

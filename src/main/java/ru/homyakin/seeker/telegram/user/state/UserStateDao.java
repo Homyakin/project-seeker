@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -21,18 +19,18 @@ public class UserStateDao {
     private static final Logger logger = LoggerFactory.getLogger(UserStateDao.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public UserStateDao(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcClient = JdbcClient.create(dataSource);
     }
 
     public Optional<UserState> getUserStateById(UserId userId) {
         final var sql = "SELECT * FROM usertg_state WHERE usertg_id = :usertg_id";
-        return jdbcTemplate
-            .query(sql, Collections.singletonMap("usertg_id", userId.value()), this::mapRow)
-            .stream()
-            .findFirst();
+        return jdbcClient.sql(sql)
+            .param("usertg_id", userId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public void setUserState(UserId userId, UserState state) {
@@ -40,15 +38,17 @@ public class UserStateDao {
         INSERT INTO usertg_state (usertg_id, state) VALUES (:usertg_id, :state)
         ON CONFLICT (usertg_id) DO UPDATE SET state = :state
         """;
-        final var params = new HashMap<String, Object>();
-        params.put("usertg_id", userId.value());
-        params.put("state", mapUserStateToJson(state));
-        jdbcTemplate.update(sql, params);
+        jdbcClient.sql(sql)
+            .param("usertg_id", userId.value())
+            .param("state", mapUserStateToJson(state))
+            .update();
     }
 
     public void clearUserState(UserId userId) {
         final var sql = "DELETE FROM usertg_state WHERE usertg_id = :usertg_id";
-        jdbcTemplate.update(sql, Collections.singletonMap("usertg_id", userId.value()));
+        jdbcClient.sql(sql)
+            .param("usertg_id", userId.value())
+            .update();
     }
 
     private UserState mapRow(ResultSet rs, int rowNum) throws SQLException {

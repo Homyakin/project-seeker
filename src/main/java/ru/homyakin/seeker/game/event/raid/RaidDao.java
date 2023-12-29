@@ -2,27 +2,26 @@ package ru.homyakin.seeker.game.event.raid;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RaidDao {
     private static final String GET_RANDOM_EVENT = "SELECT * FROM raid WHERE event_id = :event_id";
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public RaidDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public Optional<Raid> getByEventId(int eventId) {
-        return jdbcTemplate.query(
-            GET_RANDOM_EVENT,
-            Collections.singletonMap("event_id", eventId),
-            this::mapRow
-        ).stream().findFirst();
+        return jdbcClient.sql(GET_RANDOM_EVENT)
+            .param("event_id", eventId)
+            .query(this::mapRow)
+            .optional();
     }
 
     private Raid mapRow(ResultSet rs, int rowNum) throws SQLException {

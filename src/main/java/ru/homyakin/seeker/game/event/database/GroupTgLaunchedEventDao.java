@@ -2,11 +2,9 @@ package ru.homyakin.seeker.game.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
@@ -19,31 +17,25 @@ public class GroupTgLaunchedEventDao {
         """;
     private static final String GET_GROUP_LAUNCHED_EVENT_BY_ID =
         "SELECT * FROM grouptg_to_launched_event WHERE launched_event_id = :launched_event_id";
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public GroupTgLaunchedEventDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void save(GroupLaunchedEvent groupLaunchedEvent) {
-        final var params = new HashMap<String, Object>();
-        params.put("launched_event_id", groupLaunchedEvent.launchedEventId());
-        params.put("grouptg_id", groupLaunchedEvent.groupId().value());
-        params.put("message_id", groupLaunchedEvent.messageId());
-
-        jdbcTemplate.update(
-            SAVE_GROUP_LAUNCHED_EVENT,
-            params
-        );
+        jdbcClient.sql(SAVE_GROUP_LAUNCHED_EVENT)
+            .param("launched_event_id", groupLaunchedEvent.launchedEventId())
+            .param("grouptg_id", groupLaunchedEvent.groupId().value())
+            .param("message_id", groupLaunchedEvent.messageId())
+            .update();
     }
 
     public List<GroupLaunchedEvent> getByLaunchedEventId(Long launchedEventId) {
-        final var params = Collections.singletonMap("launched_event_id", launchedEventId);
-        return jdbcTemplate.query(
-            GET_GROUP_LAUNCHED_EVENT_BY_ID,
-            params,
-            this::mapRow
-        );
+        return jdbcClient.sql(GET_GROUP_LAUNCHED_EVENT_BY_ID)
+            .param("launched_event_id", launchedEventId)
+            .query(this::mapRow)
+            .list();
     }
 
     private GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.tavern_menu;
 
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -16,11 +16,11 @@ import java.util.Optional;
 
 @Repository
 public class MenuItemOrderDao {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
     public MenuItemOrderDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
         simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("menu_item_order")
             .usingColumns(
@@ -50,18 +50,14 @@ public class MenuItemOrderDao {
     }
 
     public Optional<MenuItemOrder> getById(long id) {
-        MapSqlParameterSource parameters = new MapSqlParameterSource()
-            .addValue("id", id);
-
-        return jdbcTemplate.query(GET_BY_ID, parameters, this::mapRow).stream().findFirst();
+        return jdbcClient.sql(GET_BY_ID).param("id", id).query(this::mapRow).optional();
     }
 
     public void updateStatus(long orderId, OrderStatus status) {
-        final var paramMap = new MapSqlParameterSource()
-            .addValue("status_id", status.id())
-            .addValue("orderId", orderId);
-
-        jdbcTemplate.update(UPDATE_STATUS, paramMap);
+        jdbcClient.sql(UPDATE_STATUS)
+            .param("status_id", status.id())
+            .param("orderId", orderId)
+            .update();
     }
 
     private MenuItemOrder mapRow(ResultSet resultSet, int rowNum) throws SQLException {

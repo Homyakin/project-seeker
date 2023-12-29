@@ -15,7 +15,7 @@ public class EventService {
         this.eventDao = eventDao;
     }
 
-    public Event getRandomEvent() {
+    public Optional<Event> getRandomEvent() {
         return eventDao.getRandomEvent();
     }
 

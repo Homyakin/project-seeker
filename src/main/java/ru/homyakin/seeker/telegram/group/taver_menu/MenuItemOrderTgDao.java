@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.group.taver_menu;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.tavern_menu.models.OrderStatus;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
@@ -15,29 +14,28 @@ import java.util.List;
 
 @Repository
 public class MenuItemOrderTgDao {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public MenuItemOrderTgDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public MenuItemOrderTg insert(MenuItemOrderTg menuItemOrderTg) {
-        final var params = new MapSqlParameterSource()
-            .addValue("menu_item_order_id", menuItemOrderTg.menuItemOrderId())
-            .addValue("grouptg_id", menuItemOrderTg.groupTgId().value())
-            .addValue("message_id", menuItemOrderTg.messageId());
-
-        jdbcTemplate.update(INSERT, params);
+        jdbcClient.sql(INSERT)
+            .param("menu_item_order_id", menuItemOrderTg.menuItemOrderId())
+            .param("grouptg_id", menuItemOrderTg.groupTgId().value())
+            .param("message_id", menuItemOrderTg.messageId())
+            .update();
 
         return menuItemOrderTg;
     }
 
     public List<MenuItemOrderTg> findNotFinalWithLessExpireDateTime(LocalDateTime expiringDateTime) {
-        final var params = new MapSqlParameterSource()
-            .addValue("status_id", OrderStatus.CREATED.id())
-            .addValue("expire_date_time", expiringDateTime);
-
-        return jdbcTemplate.query(GET_WITH_LESS_EXPIRE_DATE_AND_STATUS, params, this::mapRow);
+        return jdbcClient.sql(GET_WITH_LESS_EXPIRE_DATE_AND_STATUS)
+            .param("status_id", OrderStatus.CREATED.id())
+            .param("expire_date_time", expiringDateTime)
+            .query(this::mapRow)
+            .list();
     }
 
     private MenuItemOrderTg mapRow(ResultSet rs, int rowNum) throws SQLException {

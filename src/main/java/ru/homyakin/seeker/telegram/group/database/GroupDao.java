@@ -3,12 +3,11 @@ package ru.homyakin.seeker.telegram.group.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
@@ -45,86 +44,68 @@ public class GroupDao {
         UPDATE grouptg SET next_rumor_date = :next_rumor_date WHERE id = :id
         """;
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public GroupDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void save(Group group) {
         final var now = TimeUtils.moscowTime();
-        final var params = new HashMap<String, Object>();
-        params.put("id", group.id().value());
-        params.put("is_active", group.isActive());
-        params.put("language_id", group.language().id());
-        params.put("init_date", now);
-        params.put("next_event_date", now.plusMinutes(RandomUtils.getInInterval(20, 60)));
-        params.put("next_rumor_date", now.plusMinutes(RandomUtils.getInInterval(120, 240)));
-        jdbcTemplate.update(
-            SAVE_GROUP,
-            params
-        );
+        jdbcClient.sql(SAVE_GROUP)
+            .param("id", group.id().value())
+            .param("is_active", group.isActive())
+            .param("language_id", group.language().id())
+            .param("init_date", now)
+            .param("next_event_date", now.plusMinutes(RandomUtils.getInInterval(20, 60)))
+            .param("next_rumor_date", now.plusMinutes(RandomUtils.getInInterval(120, 240)))
+            .update();
     }
 
     public Optional<Group> getById(GroupId groupId) {
-        final var result = jdbcTemplate.query(
-            GET_GROUP_BY_ID,
-            Collections.singletonMap("id", groupId.value()),
-            this::mapRow
-        );
-        return result.stream().findFirst();
+        return jdbcClient.sql(GET_GROUP_BY_ID)
+            .param("id", groupId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public List<Group> getGetGroupsWithLessNextEventDate(LocalDateTime maxNextEventDate) {
-        final var params = Collections.singletonMap("next_event_date", maxNextEventDate);
-        return jdbcTemplate.query(
-            GET_GROUP_WITH_LESS_NEXT_EVENT_DATE,
-            params,
-            this::mapRow
-        );
+        return jdbcClient.sql(GET_GROUP_WITH_LESS_NEXT_EVENT_DATE)
+            .param("next_event_date", maxNextEventDate)
+            .query(this::mapRow)
+            .list();
     }
 
     public List<Group> getGetGroupsWithLessNextRumorDate(LocalDateTime maxNextRumorDate) {
-        final var params = Collections.singletonMap("next_rumor_date", maxNextRumorDate);
-        return jdbcTemplate.query(
-            GET_GROUP_WITH_LESS_NEXT_RUMOR_DATE,
-            params,
-            this::mapRow
-        );
+        return jdbcClient.sql(GET_GROUP_WITH_LESS_NEXT_RUMOR_DATE)
+            .param("next_rumor_date", maxNextRumorDate)
+            .query(this::mapRow)
+            .list();
     }
 
     public void update(Group group) {
-        final var params = new HashMap<String, Object>();
-        params.put("id", group.id().value());
-        params.put("is_active", group.isActive());
-        params.put("language_id", group.language().id());
-        params.put("start_active_hour", group.activeTime().startHour());
-        params.put("end_active_hour", group.activeTime().endHour());
-        params.put("active_time_zone", group.activeTime().timeZone());
-        jdbcTemplate.update(
-            UPDATE,
-            params
-        );
+        jdbcClient.sql(UPDATE)
+            .param("id", group.id().value())
+            .param("is_active", group.isActive())
+            .param("language_id", group.language().id())
+            .param("start_active_hour", group.activeTime().startHour())
+            .param("end_active_hour", group.activeTime().endHour())
+            .param("active_time_zone", group.activeTime().timeZone())
+            .update();
     }
 
     public void updateNextEventDate(GroupId groupId, LocalDateTime nextEventDate) {
-        final var params = new HashMap<String, Object>();
-        params.put("id", groupId.value());
-        params.put("next_event_date", nextEventDate);
-        jdbcTemplate.update(
-            UPDATE_NEXT_EVENT_DATE,
-            params
-        );
+        jdbcClient.sql(UPDATE_NEXT_EVENT_DATE)
+            .param("id", groupId.value())
+            .param("next_event_date", nextEventDate)
+            .update();
     }
 
     public void updateNextRumorDate(GroupId groupId, LocalDateTime nextRumorDate) {
-        final var params = new HashMap<String, Object>();
-        params.put("id", groupId.value());
-        params.put("next_rumor_date", nextRumorDate);
-        jdbcTemplate.update(
-            UPDATE_NEXT_RUMOR_DATE,
-            params
-        );
+        jdbcClient.sql(UPDATE_NEXT_RUMOR_DATE)
+            .param("id", groupId.value())
+            .param("next_rumor_date", nextRumorDate)
+            .update();
     }
 
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -2,11 +2,9 @@ package ru.homyakin.seeker.telegram.group.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
@@ -28,33 +26,26 @@ public class GroupUserDao {
         where grouptg_id = :grouptg_id and usertg_id = :usertg_id
         """;
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public GroupUserDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void save(GroupUser groupUser) {
-        final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupUser.groupId().value());
-        params.put("usertg_id", groupUser.userId().value());
-        params.put("is_active", groupUser.isActive());
-        jdbcTemplate.update(
-            SAVE_GROUP_USER,
-            params
-        );
+        jdbcClient.sql(SAVE_GROUP_USER)
+            .param("grouptg_id", groupUser.groupId().value())
+            .param("usertg_id", groupUser.userId().value())
+            .param("is_active", groupUser.isActive())
+            .update();
     }
 
     public Optional<GroupUser> getByGroupIdAndUserId(GroupId groupId, UserId userId) {
-        final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupId.value());
-        params.put("usertg_id", userId.value());
-        final var result = jdbcTemplate.query(
-            GET_GROUP_USER_BY_KEY,
-            params,
-            this::mapRow
-        );
-        return result.stream().findFirst();
+        return jdbcClient.sql(GET_GROUP_USER_BY_KEY)
+            .param("grouptg_id", groupId.value())
+            .param("usertg_id", userId.value())
+            .query(this::mapRow)
+            .optional();
 
     }
 
@@ -62,12 +53,11 @@ public class GroupUserDao {
         final var sql = """
                     SELECT count(*) as count FROM grouptg_to_usertg
                     WHERE grouptg_id = :grouptg_id and is_active = true""";
-        final var param = Collections.singletonMap("grouptg_id", groupId.value());
-        return jdbcTemplate.query(
-            sql,
-            param,
-            (rs, rowNum) -> rs.getInt("count")
-        ).get(0);
+        return jdbcClient.sql(sql)
+            .param("grouptg_id", groupId.value())
+            .query(Integer.class)
+            .optional()
+            .orElseThrow();
     }
 
     public Optional<GroupUser> getRandomUserByGroup(GroupId groupId) {
@@ -75,23 +65,18 @@ public class GroupUserDao {
                     SELECT * FROM grouptg_to_usertg
                     WHERE grouptg_id = :grouptg_id and is_active = true
                     ORDER BY random() LIMIT 1""";
-        final var param = Collections.singletonMap("grouptg_id", groupId.value());
-        return jdbcTemplate.query(
-            sql,
-            param,
-            this::mapRow
-        ).stream().findFirst();
+        return jdbcClient.sql(sql)
+            .param("grouptg_id", groupId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public void update(GroupUser groupUser) {
-        final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupUser.groupId().value());
-        params.put("usertg_id", groupUser.userId().value());
-        params.put("is_active", groupUser.isActive());
-        jdbcTemplate.update(
-            UPDATE,
-            params
-        );
+        jdbcClient.sql(UPDATE)
+            .param("grouptg_id", groupUser.groupId().value())
+            .param("usertg_id", groupUser.userId().value())
+            .param("is_active", groupUser.isActive())
+            .update();
     }
 
     private GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {

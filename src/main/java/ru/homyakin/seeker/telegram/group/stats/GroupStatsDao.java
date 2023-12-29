@@ -2,56 +2,52 @@ package ru.homyakin.seeker.telegram.group.stats;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 @Repository
 public class GroupStatsDao {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public GroupStatsDao(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void create(GroupId groupId) {
-        final var sql = "INSERT INTO grouptg_stats (grouptg_id) VALUES (:grouptg_id)";
-        final var param = Collections.singletonMap("grouptg_id", groupId.value());
-        jdbcTemplate.update(sql, param);
+        jdbcClient.sql("INSERT INTO grouptg_stats (grouptg_id) VALUES (:grouptg_id)")
+            .param("grouptg_id", groupId.value())
+            .update();
     }
 
     public Optional<GroupStats> getById(GroupId groupId) {
-        final var sql = "SELECT * FROM grouptg_stats WHERE grouptg_id = :grouptg_id";
-        final var param = Collections.singletonMap("grouptg_id", groupId.value());
-        return jdbcTemplate.query(sql, param, this::mapRow).stream().findFirst();
+        return jdbcClient.sql("SELECT * FROM grouptg_stats WHERE grouptg_id = :grouptg_id")
+            .param("grouptg_id", groupId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public void increaseRaidsComplete(GroupId groupId, int amount) {
-        final var sql = "UPDATE grouptg_stats SET raids_complete = raids_complete + :amount WHERE grouptg_id = :grouptg_id";
-        final var params = new HashMap<String, Object>();
-        params.put("amount", amount);
-        params.put("grouptg_id", groupId.value());
-        jdbcTemplate.update(sql, params);
+        jdbcClient.sql("UPDATE grouptg_stats SET raids_complete = raids_complete + :amount WHERE grouptg_id = :grouptg_id")
+            .param("amount", amount)
+            .param("grouptg_id", groupId.value())
+            .update();
     }
 
     public void increaseDuelsComplete(GroupId groupId, int amount) {
-        final var sql = "UPDATE grouptg_stats SET duels_complete = duels_complete + :amount WHERE grouptg_id = :grouptg_id";
-        final var params = new HashMap<String, Object>();
-        params.put("amount", amount);
-        params.put("grouptg_id", groupId.value());
-        jdbcTemplate.update(sql, params);
+        jdbcClient.sql("UPDATE grouptg_stats SET duels_complete = duels_complete + :amount WHERE grouptg_id = :grouptg_id")
+            .param("amount", amount)
+            .param("grouptg_id", groupId.value())
+            .update();
     }
 
     public void increaseTavernMoneySpent(GroupId groupId, long amount) {
-        final var sql = "UPDATE grouptg_stats SET tavern_money_spent = tavern_money_spent + :amount WHERE grouptg_id = :grouptg_id";
-        final var params = new HashMap<String, Object>();
-        params.put("amount", amount);
-        params.put("grouptg_id", groupId.value());
-        jdbcTemplate.update(sql, params);
+        jdbcClient.sql("UPDATE grouptg_stats SET tavern_money_spent = tavern_money_spent + :amount WHERE grouptg_id = :grouptg_id")
+            .param("amount", amount)
+            .param("grouptg_id", groupId.value())
+            .update();
     }
 
     private GroupStats mapRow(ResultSet rs, int rowNum) throws SQLException {

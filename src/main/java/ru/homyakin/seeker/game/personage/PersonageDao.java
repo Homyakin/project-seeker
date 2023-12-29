@@ -1,13 +1,6 @@
 package ru.homyakin.seeker.game.personage;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -15,6 +8,13 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import javax.sql.DataSource;
 
 @Component
 public class PersonageDao {
@@ -37,7 +37,7 @@ public class PersonageDao {
         """;
 
     private final SimpleJdbcInsert jdbcInsert;
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public PersonageDao(DataSource dataSource) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
@@ -56,7 +56,7 @@ public class PersonageDao {
             );
         jdbcInsert.setGeneratedKeyName("id");
 
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcClient = JdbcClient.create(dataSource);
     }
 
     public PersonageId save(Personage personage) {
@@ -76,38 +76,31 @@ public class PersonageDao {
     }
 
     public void update(Personage personage) {
-        final var params = new HashMap<String, Object>();
-        params.put("id", personage.id().value());
-        params.put("name", personage.name());
-        params.put("strength", personage.characteristics().strength());
-        params.put("agility", personage.characteristics().agility());
-        params.put("wisdom", personage.characteristics().wisdom());
-        params.put("health", personage.characteristics().health());
-        params.put("last_energy_change", personage.energy().lastChange());
-        params.put("energy", personage.energy().value());
-        params.put("money", personage.money().value());
-        jdbcTemplate.update(
-            UPDATE,
-            params
-        );
+        jdbcClient.sql(UPDATE)
+            .param("id", personage.id().value())
+            .param("name", personage.name())
+            .param("strength", personage.characteristics().strength())
+            .param("agility", personage.characteristics().agility())
+            .param("wisdom", personage.characteristics().wisdom())
+            .param("health", personage.characteristics().health())
+            .param("last_energy_change", personage.energy().lastChange())
+            .param("energy", personage.energy().value())
+            .param("money", personage.money().value())
+            .update();
     }
 
     public Optional<Personage> getById(PersonageId id) {
-        final var result = jdbcTemplate.query(
-            GET_BY_ID,
-            Collections.singletonMap("id", id.value()),
-            this::mapRow
-        );
-        return result.stream().findFirst();
+        return jdbcClient.sql(GET_BY_ID)
+            .param("id", id.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public List<Personage> getByLaunchedEvent(Long launchedEventId) {
-        final var params = Collections.singletonMap("launched_event_id", launchedEventId);
-        return jdbcTemplate.query(
-            GET_BY_LAUNCHED_EVENT,
-            params,
-            this::mapRow
-        );
+        return jdbcClient.sql(GET_BY_LAUNCHED_EVENT)
+            .param("launched_event_id", launchedEventId)
+            .query(this::mapRow)
+            .list();
     }
 
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {

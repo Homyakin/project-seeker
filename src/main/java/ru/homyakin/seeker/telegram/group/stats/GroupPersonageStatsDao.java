@@ -2,49 +2,50 @@ package ru.homyakin.seeker.telegram.group.stats;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 @Repository
 public class GroupPersonageStatsDao {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public GroupPersonageStatsDao(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void create(GroupId groupId, PersonageId personageId) {
         final var sql = "INSERT INTO grouptg_personage_stats (grouptg_id, personage_id) VALUES (:grouptg_id, :personage_id)";
-        final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupId.value());
-        params.put("personage_id", personageId.value());
-        jdbcTemplate.update(sql, params);
+        jdbcClient.sql(sql)
+            .param("grouptg_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .update();
     }
 
     public Optional<GroupPersonageStats> get(GroupId groupId, PersonageId personageId) {
         final var sql = "SELECT * FROM grouptg_personage_stats WHERE grouptg_id = :grouptg_id and personage_id = :personage_id";
-        final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", groupId.value());
-        params.put("personage_id", personageId.value());
-        return jdbcTemplate.query(sql, params, this::mapRow).stream().findFirst();
+        return jdbcClient.sql(sql)
+            .param("grouptg_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public void update(GroupPersonageStats stats) {
-        final var params = new HashMap<String, Object>();
-        params.put("grouptg_id", stats.groupId().value());
-        params.put("personage_id", stats.personageId().value());
-        params.put("raids_success", stats.raidsSuccess());
-        params.put("raids_total", stats.raidsTotal());
-        params.put("duels_wins", stats.duelsWins());
-        params.put("duels_total", stats.duelsTotal());
-        params.put("tavern_money_spent", stats.tavernMoneySpent());
-        params.put("spin_wins_count", stats.spinWinsCount());
-        jdbcTemplate.update(UPDATE, params);
+        jdbcClient.sql(UPDATE)
+            .param("grouptg_id", stats.groupId().value())
+            .param("personage_id", stats.personageId().value())
+            .param("raids_success", stats.raidsSuccess())
+            .param("raids_total", stats.raidsTotal())
+            .param("duels_wins", stats.duelsWins())
+            .param("duels_total", stats.duelsTotal())
+            .param("tavern_money_spent", stats.tavernMoneySpent())
+            .param("spin_wins_count", stats.spinWinsCount())
+            .update();
     }
 
     private GroupPersonageStats mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -59,7 +60,7 @@ public class GroupPersonageStatsDao {
             rs.getInt("spin_wins_count")
         );
     }
-    
+
     private static String UPDATE = """
         UPDATE grouptg_personage_stats
         SET

@@ -61,10 +61,11 @@ public class EventManager {
                 final var key = LockPrefixes.GROUP_EVENT.name() + group.id().value();
                 lockService.tryLockAndExecute(
                     key,
-                    () -> {
-                        final var event = eventService.getRandomEvent();
-                        launchEventInGroup(group, event);
-                    }
+                    () -> eventService.getRandomEvent()
+                        .ifPresentOrElse(
+                            event -> launchEventInGroup(group, event),
+                            () -> logger.warn("No events in database")
+                        )
                 );
             });
     }

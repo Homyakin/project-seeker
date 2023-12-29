@@ -2,10 +2,9 @@ package ru.homyakin.seeker.game.tavern_menu;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import ru.homyakin.seeker.game.models.Money;
@@ -21,34 +20,34 @@ public class MenuDao {
 
     private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public MenuDao(DataSource dataSource) {
-        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcClient = JdbcClient.create(dataSource);
     }
 
     public List<MenuItem> getAvailableMenu() {
-        return jdbcTemplate.query(GET_AVAILABLE_MENU, this::mapMenuItem)
+        return jdbcClient.sql(GET_AVAILABLE_MENU)
+            .query(this::mapMenuItem)
+            .list()
             .stream()
             .map(it -> it.toMenuItem(getMenuItemLocales(it.id)))
             .toList();
     }
 
     public Optional<MenuItem> getMenuItem(int id) {
-        final var param = Collections.singletonMap("id", id);
-        return jdbcTemplate.query(GET_MENU_ITEM, param, this::mapMenuItem)
-            .stream()
-            .findFirst()
+        return jdbcClient.sql(GET_MENU_ITEM)
+            .param("id", id)
+            .query(this::mapMenuItem)
+            .optional()
             .map(it -> it.toMenuItem(getMenuItemLocales(id)));
     }
 
     private List<MenuItemLocale> getMenuItemLocales(int menuItemId) {
-        final var params = Collections.singletonMap("menu_item_id", menuItemId);
-        return jdbcTemplate.query(
-            GET_MENU_ITEM_LOCALES,
-            params,
-            this::mapLocale
-        );
+        return jdbcClient.sql(GET_MENU_ITEM_LOCALES)
+            .param("menu_item_id", menuItemId)
+            .query(this::mapLocale)
+            .list();
     }
 
     private MenuItemWithoutLocale mapMenuItem(ResultSet rs, int rowNum) throws SQLException {

@@ -2,13 +2,10 @@ package ru.homyakin.seeker.telegram.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
@@ -19,67 +16,57 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class UserDao {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
 
     public UserDao(DataSource dataSource) {
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public void save(User user) {
-        final var params = new HashMap<String, Object>();
-        params.put("id", user.id().value());
-        params.put("is_active_private_messages", user.isActivePrivateMessages());
-        params.put("language_id", user.language().id());
-        params.put("init_date", TimeUtils.moscowTime());
-        params.put("personage_id", user.personageId().value());
-
-        jdbcTemplate.update(
-            SAVE_USER,
-            params
-        );
+        jdbcClient.sql(SAVE_USER)
+            .param("id", user.id().value())
+            .param("is_active_private_messages", user.isActivePrivateMessages())
+            .param("language_id", user.language().id())
+            .param("init_date", TimeUtils.moscowTime())
+            .param("personage_id", user.personageId().value())
+            .update();
     }
 
     public Optional<User> getById(UserId userId) {
-        final var result = jdbcTemplate.query(
-            GET_USER_BY_ID,
-            Collections.singletonMap("id", userId.value()),
-            this::mapRow
-        );
-        return result.stream().findFirst();
+        return jdbcClient.sql(GET_USER_BY_ID)
+            .param("id", userId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public Optional<User> getByPersonageId(PersonageId personageId) {
-        final var result = jdbcTemplate.query(
-            GET_BY_PERSONAGE_ID,
-            Collections.singletonMap("personage_id", personageId.value()),
-            this::mapRow
-        );
-        return result.stream().findFirst();
+        return jdbcClient.sql(GET_BY_PERSONAGE_ID)
+            .param("personage_id", personageId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public Optional<User> getByUsernameInGroup(String username, GroupId groupId) {
-        final var params = new MapSqlParameterSource()
-            .addValue("username", username)
-            .addValue("grouptg_id", groupId.value());
-        return jdbcTemplate.query(GET_BY_USERNAME, params, this::mapRow).stream().findFirst();
+        return jdbcClient.sql(GET_BY_USERNAME)
+            .param("username", username)
+            .param("grouptg_id", groupId.value())
+            .query(this::mapRow)
+            .optional();
     }
 
     public void updateUsername(UserId userId, String newUsername) {
-        final var params = new MapSqlParameterSource()
-            .addValue("username", newUsername)
-            .addValue("id", userId.value());
-        jdbcTemplate.update(UPDATE_USERNAME, params);
+        jdbcClient.sql(UPDATE_USERNAME)
+            .param("username", newUsername)
+            .param("id", userId.value())
+            .update();
     }
 
     public void update(User user) {
-        final var params = new MapSqlParameterSource()
-            .addValue("id", user.id().value())
-            .addValue("language_id", user.language().id())
-            .addValue("is_active_private_messages", user.isActivePrivateMessages());
-        jdbcTemplate.update(
-            UPDATE,
-            params
-        );
+        jdbcClient.sql(UPDATE)
+            .param("id", user.id().value())
+            .param("language_id", user.language().id())
+            .param("is_active_private_messages", user.isActivePrivateMessages())
+            .update();
     }
 
     private User mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -3,11 +3,10 @@ package ru.homyakin.seeker.game.duel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.duel.models.Duel;
@@ -36,7 +35,7 @@ public class DuelDao {
         WHERE id = :id
         """;
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
     private final SimpleJdbcInsert jdbcInsert;
 
     public DuelDao(DataSource dataSource) {
@@ -49,7 +48,7 @@ public class DuelDao {
                 "status_id"
             )
             .usingGeneratedKeyColumns("id");
-        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(dataSource);
     }
 
     public long create(
@@ -66,42 +65,35 @@ public class DuelDao {
     }
 
     public Optional<Duel> getById(long id) {
-        return jdbcTemplate.query(
-            GET_BY_ID,
-            Collections.singletonMap("id", id),
-            this::mapRow
-        ).stream().findFirst();
+        return jdbcClient.sql(GET_BY_ID)
+            .param("id", id)
+            .query(this::mapRow)
+            .optional();
     }
 
     public Optional<Duel> getWaitingDuelByInitiatingPersonage(PersonageId initiatingPersonageId) {
-        final var params = new HashMap<String, Object>();
-        params.put("initiating_personage_id", initiatingPersonageId.value());
-        params.put("status_id", DuelStatus.WAITING.id());
-        return jdbcTemplate.query(
-            GET_WAITING_BY_INITIATING_PERSONAGE,
-            params,
-            this::mapRow
-        ).stream().findFirst();
+        return jdbcClient.sql(GET_WAITING_BY_INITIATING_PERSONAGE)
+            .param("initiating_personage_id", initiatingPersonageId.value())
+            .param("status_id", DuelStatus.WAITING.id())
+            .query(this::mapRow)
+            .optional();
     }
 
     public void addWinnerIdToDuel(long duelId, PersonageId personageId) {
-        final var params = new HashMap<String, Object>();
-        params.put("id", duelId);
-        params.put("winner_personage_id", personageId.value());
-        jdbcTemplate.update(
-            ADD_WINNER_ID,
-            params
-        );
+        jdbcClient.sql(ADD_WINNER_ID)
+            .param("id", duelId)
+            .param("winner_personage_id", personageId.value())
+            .update();
     }
 
     public void updateStatus(long duelId, DuelStatus status) {
         final var params = new HashMap<String, Object>();
         params.put("id", duelId);
         params.put("status_id", status.id());
-        jdbcTemplate.update(
-            UPDATE_STATUS,
-            params
-        );
+        jdbcClient.sql(UPDATE_STATUS)
+            .param("id", duelId)
+            .param("status_id", status.id())
+            .update();
     }
 
     private Duel mapRow(ResultSet rs, int rowNum) throws SQLException {
