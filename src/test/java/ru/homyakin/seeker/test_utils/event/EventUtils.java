@@ -19,7 +19,7 @@ public class EventUtils {
         return new Event(
             RandomUtils.nextInt(),
             Period.ZERO,
-            Duration.ofSeconds(RandomUtils.nextInt(3600, 7200)),
+            Duration.ofSeconds(RandomUtils.nextInt(3601, 7199)),
             EventType.RAID,
             locale
         );
