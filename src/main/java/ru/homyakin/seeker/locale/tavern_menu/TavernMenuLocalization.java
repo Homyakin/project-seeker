@@ -73,7 +73,7 @@ public class TavernMenuLocalization {
         params.put("item_name", item.name(language));
         params.put("mention_acceptor_icon_with_name", acceptor.value());
         final String text;
-        if (giver.equals(acceptor)) {
+        if (!giver.equals(acceptor)) {
             params.put("mention_giver_icon_with_name", giver.value());
             text = RandomUtils.getRandomElement(
                 CommonUtils.ifNullThan(map.get(language).orderGift(), map.get(Language.DEFAULT).orderGift())
