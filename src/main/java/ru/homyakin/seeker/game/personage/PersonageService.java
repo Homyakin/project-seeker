@@ -57,6 +57,11 @@ public class PersonageService {
             );
         }
 
+        final var energyResult = getByIdForce(personageId).hasEnoughEnergyForEvent();
+        if (energyResult.isLeft()) {
+            return Either.left(energyResult.getLeft());
+        }
+
         final var activeEvent = launchedEventService.getActiveEventByPersonageId(personageId);
         if (activeEvent.isEmpty()) {
             return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)

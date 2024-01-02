@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 public class PersonageUtils {
     public static List<Personage> randomList(int size) {
@@ -27,6 +28,16 @@ public class PersonageUtils {
             Money.zero(),
             Characteristics.random(),
             Energy.createDefault()
+        );
+    }
+
+    public static Personage randomZeroEnergy() {
+        return new Personage(
+            PersonageId.from(RandomUtils.nextLong()),
+            RandomStringUtils.randomAlphanumeric(5),
+            Money.zero(),
+            Characteristics.random(),
+            Energy.createZero(TimeUtils.moscowTime())
         );
     }
 

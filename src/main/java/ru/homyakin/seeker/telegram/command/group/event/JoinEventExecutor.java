@@ -84,6 +84,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
             }
             case PersonageEventError.PersonageInThisEvent ignored -> RaidLocalization.userAlreadyInThisEvent(group.language());
             case PersonageEventError.EventInProcess ignored -> RaidLocalization.raidInProcess(group.language());
+            case PersonageEventError.NotEnoughEnergy notEnoughEnergy -> RaidLocalization.notEnoughEnergy(group.language(), notEnoughEnergy);
         };
     }
 }

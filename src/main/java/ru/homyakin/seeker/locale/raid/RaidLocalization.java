@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -128,6 +129,16 @@ public class RaidLocalization {
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).raidParticipants(), map.get(Language.DEFAULT).raidParticipants()),
             Collections.singletonMap("personage_icon_name_list", iconNames)
+        );
+    }
+
+    public static String notEnoughEnergy(Language language, PersonageEventError.NotEnoughEnergy notEnoughEnergy) {
+        final var params = new HashMap<String, Object>();
+        params.put("energy_icon", TextConstants.ENERGY_ICON);
+        params.put("required_energy", notEnoughEnergy.requiredEnergy());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).notEnoughEnergy(), map.get(Language.DEFAULT).notEnoughEnergy()),
+            params
         );
     }
 

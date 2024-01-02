@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
+import ru.homyakin.seeker.utils.models.Success;
 
 public record Energy(
     int value,
@@ -29,6 +30,14 @@ public record Energy(
         return (float) value / MAX_ENERGY;
     }
 
+    public Either<Integer, Success> isEnoughForEvent() {
+        if (value >= MIN_ENERGY_FOR_EVENT) {
+            return Either.right(Success.INSTANCE);
+        } else {
+            return Either.left(MIN_ENERGY_FOR_EVENT);
+        }
+    }
+
     public Either<EnergyStillSame, Energy> regenIfNeeded() {
         if (value >= MAX_ENERGY) {
             return Either.left(EnergyStillSame.INSTANCE);
@@ -46,4 +55,5 @@ public record Energy(
     }
 
     private static final int MAX_ENERGY = 100;
+    private static final int MIN_ENERGY_FOR_EVENT = 50;
 }

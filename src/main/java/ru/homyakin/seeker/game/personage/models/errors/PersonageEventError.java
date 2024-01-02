@@ -15,4 +15,6 @@ public sealed interface PersonageEventError {
         Event event
     ) implements PersonageEventError {
     }
+
+    record NotEnoughEnergy(int requiredEnergy) implements PersonageEventError { }
 }

@@ -18,10 +18,10 @@ import ru.homyakin.seeker.utils.models.Success;
 import java.util.Optional;
 
 public class PersonageServiceAddEventTest {
-    private PersonageDao personageDao = Mockito.mock(PersonageDao.class);
-    private LaunchedEventService launchedEventService = Mockito.mock(LaunchedEventService.class);
-    private EventService eventService = Mockito.mock(EventService.class);
-    private PersonageService service = new PersonageService(personageDao, launchedEventService, eventService);
+    private final PersonageDao personageDao = Mockito.mock(PersonageDao.class);
+    private final LaunchedEventService launchedEventService = Mockito.mock(LaunchedEventService.class);
+    private final EventService eventService = Mockito.mock(EventService.class);
+    private final PersonageService service = new PersonageService(personageDao, launchedEventService, eventService);
     private Personage personage;
     private Event event;
 
@@ -39,6 +39,7 @@ public class PersonageServiceAddEventTest {
         Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.empty());
         Mockito.when(launchedEventService.addPersonageToLaunchedEvent(personage.id(), launchedEvent.id()))
             .thenReturn(Either.right(Success.INSTANCE));
+        Mockito.when(personageDao.getById(personage.id())).thenReturn(Optional.of(personage));
 
         // when
         final var result = service.addEvent(personage.id(), launchedEvent.id());
@@ -84,6 +85,7 @@ public class PersonageServiceAddEventTest {
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(eventService.getEventById(launchedEvent.eventId())).thenReturn(Optional.of(event));
         Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.of(launchedEvent));
+        Mockito.when(personageDao.getById(personage.id())).thenReturn(Optional.of(personage));
 
         // when
         final var result = service.addEvent(personage.id(), launchedEvent.id());
@@ -100,6 +102,7 @@ public class PersonageServiceAddEventTest {
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(eventService.getEventById(launchedEvent.eventId())).thenReturn(Optional.of(event));
         Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.of(LaunchedEventUtils.fromEvent(event)));
+        Mockito.when(personageDao.getById(personage.id())).thenReturn(Optional.of(personage));
 
         // when
         final var result = service.addEvent(personage.id(), launchedEvent.id());
@@ -107,5 +110,23 @@ public class PersonageServiceAddEventTest {
         // then
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(PersonageEventError.PersonageInOtherEvent.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    public void Given_PersonageWithZeroEnergy_When_AddEvent_Then_ReturnNotEnoughEnergyError() {
+        // given
+        final var launchedEvent = LaunchedEventUtils.fromEvent(event);
+        personage = PersonageUtils.randomZeroEnergy();
+        Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
+        Mockito.when(eventService.getEventById(launchedEvent.eventId())).thenReturn(Optional.of(event));
+        Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.of(LaunchedEventUtils.fromEvent(event)));
+        Mockito.when(personageDao.getById(personage.id())).thenReturn(Optional.of(personage));
+
+        // when
+        final var result = service.addEvent(personage.id(), launchedEvent.id());
+
+        // then
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(new PersonageEventError.NotEnoughEnergy(50), result.getLeft());
     }
 }

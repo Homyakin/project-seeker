@@ -10,10 +10,12 @@ import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
+import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
+import ru.homyakin.seeker.utils.models.Success;
 
 public record Personage(
     PersonageId id,
@@ -100,6 +102,11 @@ public record Personage(
             addMoney(RESET_STATS_COST.negative())
                 .copyWithCharacteristics(characteristics.reset())
         );
+    }
+
+    public Either<PersonageEventError, Success> hasEnoughEnergyForEvent() {
+        return energy.isEnoughForEvent()
+            .mapLeft(PersonageEventError.NotEnoughEnergy::new);
     }
 
     @Override

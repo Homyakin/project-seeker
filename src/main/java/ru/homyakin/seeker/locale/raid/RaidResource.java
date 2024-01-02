@@ -14,6 +14,7 @@ public record RaidResource(
     String[] zeroParticipants,
     String raidResult,
     String personageRaidResult,
-    String raidParticipants
+    String raidParticipants,
+    String notEnoughEnergy
 ) {
 }
