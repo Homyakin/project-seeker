@@ -46,34 +46,34 @@ public class PersonageService {
     }
 
     public Either<PersonageEventError, LaunchedEvent> addEvent(PersonageId personageId, long launchedEventId) {
-        final var requestedEvent = launchedEventService.getById(launchedEventId);
-        if (requestedEvent.isEmpty()) {
-            logger.error("Requested event " + launchedEventId + " doesn't present");
-            return Either.left(PersonageEventError.EventNotExist.INSTANCE);
-        } else if (requestedEvent.get().isInFinalStatus()) {
-            return Either.left(eventService.getEventById(requestedEvent.get().eventId())
-                .<PersonageEventError>map(PersonageEventError.ExpiredEvent::new)
-                .orElse(PersonageEventError.EventNotExist.INSTANCE)
+        return launchedEventService.getById(launchedEventId)
+            .<Either<PersonageEventError, LaunchedEvent>>map(Either::right)
+            .orElse(Either.left(PersonageEventError.EventNotExist.INSTANCE))
+            .filterOrElse(
+                LaunchedEvent::isNotInFinalStatus,
+                requestedEvent -> eventService.getEventById(requestedEvent.eventId())
+                    .<PersonageEventError>map(PersonageEventError.ExpiredEvent::new)
+                    .orElse(PersonageEventError.EventNotExist.INSTANCE)
+            )
+            .flatMap(requestedEvent -> getByIdForce(personageId)
+                .hasEnoughEnergyForEvent()
+                .map(success -> requestedEvent)
+            )
+            .flatMap(requestedEvent -> launchedEventService
+                .getActiveEventByPersonageId(personageId)
+                .<Either<PersonageEventError, LaunchedEvent>>map(activeEvent -> {
+                    if (activeEvent.id() == launchedEventId) {
+                        return Either.left(PersonageEventError.PersonageInThisEvent.INSTANCE);
+                    } else {
+                        return Either.left(PersonageEventError.PersonageInOtherEvent.INSTANCE);
+                    }
+                })
+                .orElseGet(() -> launchedEventService
+                    .addPersonageToLaunchedEvent(personageId, launchedEventId)
+                    .map(success -> requestedEvent)
+                    .mapLeft(locked -> PersonageEventError.EventInProcess.INSTANCE)
+                )
             );
-        }
-
-        final var energyResult = getByIdForce(personageId).hasEnoughEnergyForEvent();
-        if (energyResult.isLeft()) {
-            return Either.left(energyResult.getLeft());
-        }
-
-        final var activeEvent = launchedEventService.getActiveEventByPersonageId(personageId);
-        if (activeEvent.isEmpty()) {
-            return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
-                .map(success -> requestedEvent.get())
-                .mapLeft(locked -> PersonageEventError.EventInProcess.INSTANCE);
-        }
-
-        if (activeEvent.get().id() == launchedEventId) {
-            return Either.left(PersonageEventError.PersonageInThisEvent.INSTANCE);
-        } else {
-            return Either.left(PersonageEventError.PersonageInOtherEvent.INSTANCE);
-        }
     }
 
     public Optional<Personage> getById(PersonageId personageId) {

@@ -12,4 +12,8 @@ public record LaunchedEvent(
     public boolean isInFinalStatus() {
         return status.isFinal();
     }
+
+    public boolean isNotInFinalStatus() {
+        return !isInFinalStatus();
+    }
 }
