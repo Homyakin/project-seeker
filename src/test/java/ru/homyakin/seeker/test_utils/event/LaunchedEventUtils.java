@@ -17,4 +17,15 @@ public class LaunchedEventUtils {
             EventStatus.LAUNCHED
         );
     }
+
+    public static LaunchedEvent expiredFromEvent(Event event) {
+        final var now = TimeUtils.moscowTime();
+        return new LaunchedEvent(
+            RandomUtils.nextLong(),
+            event.id(),
+            now.minus(event.duration()),
+            now,
+            EventStatus.EXPIRED
+        );
+    }
 }

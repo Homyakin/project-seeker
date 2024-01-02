@@ -17,10 +17,6 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
-import ru.homyakin.seeker.game.personage.models.errors.EventNotExist;
-import ru.homyakin.seeker.game.personage.models.errors.ExpiredEvent;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageInOtherEvent;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageInThisEvent;
 
 @Service
 public class PersonageService {
@@ -53,11 +49,11 @@ public class PersonageService {
         final var requestedEvent = launchedEventService.getById(launchedEventId);
         if (requestedEvent.isEmpty()) {
             logger.error("Requested event " + launchedEventId + " doesn't present");
-            return Either.left(new EventNotExist());
+            return Either.left(PersonageEventError.EventNotExist.INSTANCE);
         } else if (requestedEvent.get().isInFinalStatus()) {
             return Either.left(eventService.getEventById(requestedEvent.get().eventId())
-                .<PersonageEventError>map(ExpiredEvent::new)
-                .orElseGet(EventNotExist::new)
+                .<PersonageEventError>map(PersonageEventError.ExpiredEvent::new)
+                .orElse(PersonageEventError.EventNotExist.INSTANCE)
             );
         }
 
@@ -65,13 +61,13 @@ public class PersonageService {
         if (activeEvent.isEmpty()) {
             return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
                 .map(success -> requestedEvent.get())
-                .mapLeft(ignored -> PersonageEventError.EventInProcess.INSTANCE);
+                .mapLeft(locked -> PersonageEventError.EventInProcess.INSTANCE);
         }
 
         if (activeEvent.get().id() == launchedEventId) {
-            return Either.left(new PersonageInThisEvent());
+            return Either.left(PersonageEventError.PersonageInThisEvent.INSTANCE);
         } else {
-            return Either.left(new PersonageInOtherEvent());
+            return Either.left(PersonageEventError.PersonageInOtherEvent.INSTANCE);
         }
     }
 
