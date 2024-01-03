@@ -3,8 +3,7 @@ package ru.homyakin.seeker.locale.duel;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.infrastructure.TextConstants;
@@ -129,12 +128,12 @@ public class DuelLocalization {
         return CommonUtils.ifNullThan(map.get(language).duelIsLocked(), map.get(Language.DEFAULT).duelIsLocked());
     }
 
-    public static String personageDuelResult(Language language, BattlePersonage battlePersonage) {
+    public static String personageDuelResult(Language language, PersonageBattleResult result) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon_with_name", battlePersonage.personage().iconWithName());
-        params.put("damage_dealt", battlePersonage.battleStats().damageDealt());
-        params.put("damage_taken", battlePersonage.battleStats().damageTaken());
-        params.put("dodges_count", battlePersonage.battleStats().dodgesCount());
+        params.put("personage_icon_with_name", result.personage().iconWithName());
+        params.put("damage_dealt", result.stats().damageDealt());
+        params.put("damage_taken", result.stats().damageTaken());
+        params.put("dodges_count", result.stats().dodgesCount());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).personageDuelResult(), map.get(Language.DEFAULT).personageDuelResult()),
             params

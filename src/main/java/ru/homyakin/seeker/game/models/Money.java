@@ -9,7 +9,7 @@ public record Money(
     }
 
     public static Money zero() {
-        return new Money(0);
+        return ZERO;
     }
 
     public Money add(Money money) {
@@ -40,4 +40,6 @@ public record Money(
     public int compareTo(Money other) {
         return Integer.compare(value, other.value);
     }
+
+    private static final Money ZERO = new Money(0);
 }

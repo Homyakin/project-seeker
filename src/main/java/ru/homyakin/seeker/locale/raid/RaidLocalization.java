@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.event.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.raid.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
@@ -86,13 +85,21 @@ public class RaidLocalization {
                 .append(RaidLocalization.personageRaidResult(language, sortedPersonages.get(i)))
                 .append("\n");
         }
+        final var params = paramsForRaidResult(raidResult, topPersonages);
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThan(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
+            params
+        );
+    }
+
+    private static HashMap<String, Object> paramsForRaidResult(RaidResult raidResult, StringBuilder topPersonages) {
         long totalEnemiesHealth = 0;
         long remainEnemiesHealth = 0;
         long remainingEnemies = 0;
-        for (final var battlePersonage : raidResult.raidNpcResults()) {
-            totalEnemiesHealth += battlePersonage.personage().characteristics().health();
-            remainEnemiesHealth += battlePersonage.health();
-            if (!battlePersonage.isDead()) {
+        for (final var result : raidResult.raidNpcResults()) {
+            totalEnemiesHealth += result.personage().characteristics().health();
+            remainEnemiesHealth += result.stats().remainHealth();
+            if (!result.stats().isDead()) {
                 ++remainingEnemies;
             }
         }
@@ -102,19 +109,16 @@ public class RaidLocalization {
         params.put("remain_enemies_count", remainingEnemies);
         params.put("total_enemies_count", raidResult.raidNpcResults().size());
         params.put("top_personages_list", topPersonages.toString());
-        return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
-            params
-        );
+        return params;
     }
 
-    public static String personageRaidResult(Language language, BattlePersonage battlePersonage) {
+    public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_icon_with_name", battlePersonage.personage().iconWithName());
-        params.put("damage_dealt", battlePersonage.battleStats().damageDealt());
-        params.put("damage_taken", battlePersonage.battleStats().damageTaken());
-        params.put("dodges_count", battlePersonage.battleStats().dodgesCount());
-        params.put("money", battlePersonage.reward().value());
+        params.put("personage_icon_with_name", result.personage().iconWithName());
+        params.put("damage_dealt", result.stats().damageDealt());
+        params.put("damage_taken", result.stats().damageTaken());
+        params.put("dodges_count", result.stats().dodgesCount());
+        params.put("money", result.reward().value());
         params.put("money_icon", TextConstants.MONEY_ICON);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThan(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
@@ -142,7 +146,7 @@ public class RaidLocalization {
         );
     }
 
-    private static final Comparator<BattlePersonage> resultComparator = Comparator.<BattlePersonage>comparingLong(
-        battlePersonage -> battlePersonage.battleStats().damageDealtAndBlocked()
+    private static final Comparator<PersonageRaidResult> resultComparator = Comparator.<PersonageRaidResult>comparingLong(
+        result -> result.stats().damageDealtAndTaken()
     ).reversed();
 }

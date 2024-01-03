@@ -75,8 +75,8 @@ public class AcceptDuelExecutorTest {
         Mockito.when(duelService.finishDuel(duel, acceptorPersonage.id())).thenReturn(
             Either.right(
                 new DuelResult(
-                    initiatorPersonage.toBattlePersonage(),
-                    acceptorPersonage.toBattlePersonage()
+                    initiatorPersonage.toBattlePersonage().toResult(),
+                    acceptorPersonage.toBattlePersonage().toResult()
                 )
             )
         );
@@ -98,14 +98,14 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        initiatorPersonage.toBattlePersonage()
+                        initiatorPersonage.toBattlePersonage().toResult()
                     )
                 )
                 .thenReturn(winnerResultText);
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        acceptorPersonage.toBattlePersonage()
+                        acceptorPersonage.toBattlePersonage().toResult()
                     )
                 )
                 .thenReturn(loserResultText);
@@ -135,8 +135,8 @@ public class AcceptDuelExecutorTest {
         Mockito.when(duelService.finishDuel(duel, acceptorPersonage.id())).thenReturn(
             Either.right(
                 new DuelResult(
-                    acceptorPersonage.toBattlePersonage(),
-                    initiatorPersonage.toBattlePersonage()
+                    acceptorPersonage.toBattlePersonage().toResult(),
+                    initiatorPersonage.toBattlePersonage().toResult()
                 )
             )
         );
@@ -158,14 +158,14 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        initiatorPersonage.toBattlePersonage()
+                        initiatorPersonage.toBattlePersonage().toResult()
                     )
                 )
                 .thenReturn(loserResultText);
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        acceptorPersonage.toBattlePersonage()
+                        acceptorPersonage.toBattlePersonage().toResult()
                     )
                 )
                 .thenReturn(winnerResultText);

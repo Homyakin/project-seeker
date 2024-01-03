@@ -7,7 +7,6 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.TeamResult;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
@@ -16,8 +15,8 @@ public class TwoPersonageTeamsBattle {
     public TwoTeamBattleResult battle(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
         return new TwoTeamBattleResult(
             process(firstTeam, secondTeam),
-            new TeamResult(firstTeam),
-            new TeamResult(secondTeam)
+            firstTeam.stream().map(BattlePersonage::toResult).toList(),
+            secondTeam.stream().map(BattlePersonage::toResult).toList()
         );
     }
 
