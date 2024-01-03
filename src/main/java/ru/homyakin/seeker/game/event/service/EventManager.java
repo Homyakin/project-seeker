@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.event.raid.models.PersonageRaidResult;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;

@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.raid.models.Raid;
+import ru.homyakin.seeker.game.event.raid.models.RaidTemplate;
 
 @Component
 public class RaidDao {

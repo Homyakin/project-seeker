@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.raid;
+package ru.homyakin.seeker.game.event.raid.models;
 
 import java.util.Arrays;
 import java.util.HashMap;

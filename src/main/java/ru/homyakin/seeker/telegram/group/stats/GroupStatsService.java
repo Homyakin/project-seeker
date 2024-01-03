@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.group.stats;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;

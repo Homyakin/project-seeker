@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidProcessing;
-import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.PersonageService;
 
 @Service
