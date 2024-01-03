@@ -60,5 +60,5 @@ duelWithUnknownUser = [
 Возможно твой товарищ ещё не посещал данную таверну, а может сменил имя."""
 ]
 duelIsLocked = "Дуэль обрабатывается, попробуйте позже."
-personageDuelResult = "${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨"
+personageDuelResult = "${winner_or_loser_icon}${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨"
 duelAlreadyFinished = "Дуэль была завершена ранее, но результат не отразился по причине ошибки системы. Приносим свои извинения."

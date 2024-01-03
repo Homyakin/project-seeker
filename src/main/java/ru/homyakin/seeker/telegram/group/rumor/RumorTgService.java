@@ -52,7 +52,7 @@ public class RumorTgService {
             .filter(group -> group.isActive() && group.activeTime().isActiveNow())
             .forEach(
                 group -> lockService.tryLockAndExecute(
-                    LockPrefixes.RUMOR.name() + group,
+                    LockPrefixes.RUMOR.name() + group.id().value(),
                     () -> launchRandomRumorInGroup(group)
                 )
             );

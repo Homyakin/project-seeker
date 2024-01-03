@@ -98,14 +98,16 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        initiatorPersonage.toBattlePersonage().toResult()
+                        initiatorPersonage.toBattlePersonage().toResult(),
+                        true
                     )
                 )
                 .thenReturn(winnerResultText);
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        acceptorPersonage.toBattlePersonage().toResult()
+                        acceptorPersonage.toBattlePersonage().toResult(),
+                        false
                     )
                 )
                 .thenReturn(loserResultText);
@@ -158,14 +160,16 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        initiatorPersonage.toBattlePersonage().toResult()
+                        initiatorPersonage.toBattlePersonage().toResult(),
+                        false
                     )
                 )
                 .thenReturn(loserResultText);
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        acceptorPersonage.toBattlePersonage().toResult()
+                        acceptorPersonage.toBattlePersonage().toResult(),
+                        true
                     )
                 )
                 .thenReturn(winnerResultText);

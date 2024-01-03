@@ -114,10 +114,10 @@ public class RaidLocalization {
 
     public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
+        params.put("dead_icon_or_empty", result.stats().isDead() ? TextConstants.DEAD_ICON : "");
         params.put("personage_icon_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
-        params.put("dodges_count", result.stats().dodgesCount());
         params.put("money", result.reward().value());
         params.put("money_icon", TextConstants.MONEY_ICON);
         return StringNamedTemplate.format(

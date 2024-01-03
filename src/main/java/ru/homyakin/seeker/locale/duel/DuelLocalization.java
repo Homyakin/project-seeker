@@ -128,8 +128,9 @@ public class DuelLocalization {
         return CommonUtils.ifNullThan(map.get(language).duelIsLocked(), map.get(Language.DEFAULT).duelIsLocked());
     }
 
-    public static String personageDuelResult(Language language, PersonageBattleResult result) {
+    public static String personageDuelResult(Language language, PersonageBattleResult result, boolean isWinner) {
         final var params = new HashMap<String, Object>();
+        params.put("winner_or_loser_icon", isWinner ? TextConstants.DUEL_WINNER_ICON : TextConstants.DUEL_LOSER_ICON);
         params.put("personage_icon_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());

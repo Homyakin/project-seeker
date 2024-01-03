@@ -13,6 +13,9 @@ public class TextConstants {
     public static final String DEFENSE_ICON = EmojiManager.getByAlias(":shield:").orElseThrow().getEmoji();
     public static final String HEALTH_ICON = EmojiManager.getByAlias(":heart:").orElseThrow().getEmoji();
     public static final String ENERGY_ICON = EmojiManager.getByAlias(":battery:").orElseThrow().getEmoji();
+    public static final String DEAD_ICON = EmojiManager.getByAlias(":dizzy_face:").orElseThrow().getEmoji();
+    public static final String DUEL_WINNER_ICON = EmojiManager.getByAlias(":tada:").orElseThrow().getEmoji();
+    public static final String DUEL_LOSER_ICON = DEAD_ICON;
     public static final String DEFAULT_NAME = "Безымянный";
     public static final String SOURCE_LINK = "https://github.com/Homyakin/project-seeker";
     public static final String TELEGRAM_CHANNEL_USERNAME = "@krezar_news";
