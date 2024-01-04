@@ -134,6 +134,7 @@ public class DuelLocalization {
         params.put("personage_icon_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
+        params.put("crits_count", result.stats().critsCount());
         params.put("dodges_count", result.stats().dodgesCount());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).personageDuelResult(), map.get(Language.DEFAULT).personageDuelResult()),
