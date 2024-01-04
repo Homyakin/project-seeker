@@ -26,7 +26,7 @@ raidResult = """\
 Лучшие искатели:
 ${top_personages_list}
 
-Подробный отчёт можно посмотреть в профиле <code>${raid_report_command}</code>"""
+Отчёт можно посмотреть в профиле <code>${raid_report_command}</code>"""
 raidParticipants = "Участники: ${personage_icon_name_list}"
 notEnoughEnergy = "Выглядишь уставшим! Отдохни хотя бы до ${energy_icon}${required_energy}%"
 report = """\

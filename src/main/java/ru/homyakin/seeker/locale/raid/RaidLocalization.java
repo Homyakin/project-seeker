@@ -82,12 +82,15 @@ public class RaidLocalization {
         final var sortedPersonages = new ArrayList<>(raidResult.personageResults());
         sortedPersonages.sort(resultComparator);
         final var topPersonages = new StringBuilder();
-        for (int i = 0; i < 5 && i < sortedPersonages.size(); ++i) {
+        final int topCount = Math.min(5, sortedPersonages.size());
+        for (int i = 0; i < topCount; ++i) {
             topPersonages
                 .append(i + 1)
                 .append(". ")
-                .append(RaidLocalization.personageRaidResult(language, sortedPersonages.get(i)))
-                .append("\n");
+                .append(RaidLocalization.personageRaidResult(language, sortedPersonages.get(i)));
+            if (i < topCount - 1) {
+                topPersonages.append("\n");
+            }
         }
         final var params = paramsForRaidResult(raidResult, topPersonages);
         return StringNamedTemplate.format(
