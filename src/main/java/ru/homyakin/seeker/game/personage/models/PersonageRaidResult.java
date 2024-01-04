@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.raid.models;
+package ru.homyakin.seeker.game.personage.models;
 
 import ru.homyakin.seeker.game.battle.PersonageBattleStats;
 import ru.homyakin.seeker.game.models.Money;

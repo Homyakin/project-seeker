@@ -7,15 +7,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import ru.homyakin.seeker.game.event.raid.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 public class RaidLocalization {
     private static final Map<Language, RaidResource> map = new HashMap<>();
@@ -109,6 +113,7 @@ public class RaidLocalization {
         params.put("remain_enemies_count", remainingEnemies);
         params.put("total_enemies_count", raidResult.raidNpcResults().size());
         params.put("top_personages_list", topPersonages.toString());
+        params.put("raid_report_command", CommandType.RAID_REPORT.getText());
         return params;
     }
 
@@ -144,6 +149,42 @@ public class RaidLocalization {
             CommonUtils.ifNullThen(map.get(language).notEnoughEnergy(), map.get(Language.DEFAULT).notEnoughEnergy()),
             params
         );
+    }
+
+    public static String report(Language language, PersonageRaidSavedResult result, LaunchedEvent event) {
+        final var params = new HashMap<String, Object>();
+        params.put("raid_date_time", TimeUtils.toString(event.endDate()));
+        params.put("attack_icon", TextConstants.ATTACK_ICON);
+        params.put("attack_value", result.stats().characteristics().attack());
+        params.put("defense_icon", TextConstants.DEFENSE_ICON);
+        params.put("defense_value", result.stats().characteristics().defense());
+        params.put("strength_icon", TextConstants.STRENGTH_ICON);
+        params.put("strength_value", result.stats().characteristics().strength());
+        params.put("agility_icon", TextConstants.AGILITY_ICON);
+        params.put("agility_value", result.stats().characteristics().agility());
+        params.put("wisdom_icon", TextConstants.WISDOM_ICON);
+        params.put("wisdom_value", result.stats().characteristics().wisdom());
+        params.put("normal_damage_value", result.stats().normalDamageDealt());
+        params.put("normal_damage_count", result.stats().normalAttackCount());
+        params.put("crit_damage_value", result.stats().critDamageDealt());
+        params.put("crit_damage_count", result.stats().critsCount());
+        params.put("misses_count", result.stats().missesCount());
+        params.put("damage_blocked_value", result.stats().damageBlocked());
+        params.put("damage_blocked_count", result.stats().blockCount());
+        params.put("dodged_damage_value", result.stats().damageDodged());
+        params.put("dodged_damage_count", result.stats().dodgesCount());
+        params.put("remain_health", result.stats().remainHealth());
+        params.put("max_health", result.stats().characteristics().health());
+        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("reward_value", result.reward().value());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),
+            params
+        );
+    }
+
+    public static String reportNotPresent(Language language) {
+        return CommonUtils.ifNullThen(map.get(language).reportNotPresent(), map.get(Language.DEFAULT).reportNotPresent());
     }
 
     private static final Comparator<PersonageRaidResult> resultComparator = Comparator.<PersonageRaidResult>comparingLong(

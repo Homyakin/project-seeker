@@ -8,12 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.game.event.raid.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
@@ -126,6 +127,10 @@ public class PersonageService {
 
     public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
         personageRaidResultDao.saveBatch(results, launchedEvent);
+    }
+
+    public Optional<PersonageRaidSavedResult> getLastRaidResult(PersonageId personageId) {
+        return personageRaidResultDao.getLastByPersonage(personageId);
     }
 
     public Personage takeMoney(Personage personage, Money money) {

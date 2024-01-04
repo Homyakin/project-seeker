@@ -50,6 +50,7 @@ public class BotInitializer {
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(
-        new BotCommand(CommandType.SHOW_HELP.getText(), "Get help")
+        new BotCommand(CommandType.SHOW_HELP.getText(), "Get help"),
+        new BotCommand(CommandType.RAID_REPORT.getText(), "Show last raid report")
     );
 }

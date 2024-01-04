@@ -37,6 +37,7 @@ public enum CommandType {
     GET_ACTIVE_TIME("/get_active_time", CheckType.EQUALS),
     CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS),
     PERSONAGE_STATS("/stats_me", CheckType.EQUALS),
+    RAID_REPORT("/report_raid", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

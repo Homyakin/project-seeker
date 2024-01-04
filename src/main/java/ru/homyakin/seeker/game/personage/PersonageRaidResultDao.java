@@ -1,23 +1,33 @@
 package ru.homyakin.seeker.game.personage;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PersonageBattleStats;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.game.event.raid.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
 public class PersonageRaidResultDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
 
     public PersonageRaidResultDao(DataSource dataSource, JsonUtils jsonUtils) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        jdbcClient = JdbcClient.create(jdbcTemplate);
         this.jsonUtils = jsonUtils;
     }
 
@@ -34,8 +44,32 @@ public class PersonageRaidResultDao {
         jdbcTemplate.batchUpdate(SAVE_RESULT, parameters.toArray(new SqlParameterSource[0]));
     }
 
-    private static final  String SAVE_RESULT = """
+    public Optional<PersonageRaidSavedResult> getLastByPersonage(PersonageId personageId) {
+        return jdbcClient.sql(SELECT_LAST_RESULT)
+            .param("personage_id", personageId.value())
+            .query(this::mapRow)
+            .optional();
+    }
+
+    private static final String SAVE_RESULT = """
         INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward)
         VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward)
         """;
+
+    private static final String SELECT_LAST_RESULT = """
+        SELECT *
+        FROM personage_raid_result
+        WHERE personage_id = :personage_id
+        ORDER BY launched_event_id DESC
+        LIMIT 1;
+        """;
+
+    private PersonageRaidSavedResult mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new PersonageRaidSavedResult(
+            PersonageId.from(rs.getLong("personage_id")),
+            rs.getLong("launched_event_id"),
+            jsonUtils.fromString(rs.getString("stats"), PersonageBattleStats.class),
+            Money.from(rs.getInt("reward"))
+        );
+    }
 }
