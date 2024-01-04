@@ -38,10 +38,6 @@ public class BattlePersonage implements Cloneable {
         return health <= 0;
     }
 
-    public BattleStats battleStats() {
-        return battleStats;
-    }
-
     public Personage personage() {
         return personage;
     }

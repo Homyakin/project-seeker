@@ -3,7 +3,5 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <include file="v.1.0/changelog.xml" relativeToChangelogFile="true"/>
-    <include file="v.1.1/changelog.xml" relativeToChangelogFile="true"/>
-
+    <include file="changes/2024-01-03_01_add-raid-results-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
@@ -23,11 +24,18 @@ public class PersonageService {
     private static final Logger logger = LoggerFactory.getLogger(PersonageService.class);
     private final PersonageDao personageDao;
     private final LaunchedEventService launchedEventService;
+    private final PersonageRaidResultDao personageRaidResultDao;
     private final EventService eventService;
 
-    public PersonageService(PersonageDao personageDao, LaunchedEventService launchedEventService, EventService eventService) {
+    public PersonageService(
+        PersonageDao personageDao,
+        LaunchedEventService launchedEventService,
+        PersonageRaidResultDao personageRaidResultDao,
+        EventService eventService
+    ) {
         this.personageDao = personageDao;
         this.launchedEventService = launchedEventService;
+        this.personageRaidResultDao = personageRaidResultDao;
         this.eventService = eventService;
     }
 
@@ -114,6 +122,10 @@ public class PersonageService {
             .nullifyEnergy(energyChangeTime);
         personageDao.update(updatedPersonage);
         return updatedPersonage;
+    }
+
+    public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
+        personageRaidResultDao.saveBatch(results, launchedEvent);
     }
 
     public Personage takeMoney(Personage personage, Money money) {

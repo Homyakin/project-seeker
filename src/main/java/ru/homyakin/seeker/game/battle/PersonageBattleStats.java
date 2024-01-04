@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.battle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 
 public record PersonageBattleStats(
@@ -27,6 +28,7 @@ public record PersonageBattleStats(
         return damageBlocked + damageDodged;
     }
 
+    @JsonIgnore
     public boolean isDead() {
         return remainHealth <= 0;
     }

@@ -28,7 +28,11 @@ public class EventProcessing {
             return Optional.empty();
         }
         return switch (event.type()) {
-            case RAID -> Optional.of(raidProcessing.process(event, participants));
+            case RAID -> {
+                final var results = raidProcessing.process(event, participants);
+                personageService.saveRaidResults(results.personageResults(), launchedEvent);
+                yield Optional.of(results);
+            }
         };
     }
 }
