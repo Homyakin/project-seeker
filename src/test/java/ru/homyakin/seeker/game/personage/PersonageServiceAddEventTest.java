@@ -21,7 +21,12 @@ public class PersonageServiceAddEventTest {
     private final PersonageDao personageDao = Mockito.mock(PersonageDao.class);
     private final LaunchedEventService launchedEventService = Mockito.mock(LaunchedEventService.class);
     private final EventService eventService = Mockito.mock(EventService.class);
-    private final PersonageService service = new PersonageService(personageDao, launchedEventService, eventService);
+    private final PersonageService service = new PersonageService(
+        personageDao,
+        launchedEventService,
+        Mockito.mock(PersonageRaidResultDao.class),
+        eventService
+    );
     private Personage personage;
     private Event event;
 
