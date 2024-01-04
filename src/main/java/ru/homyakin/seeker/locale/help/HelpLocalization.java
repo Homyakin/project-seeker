@@ -67,6 +67,20 @@ public class HelpLocalization {
         );
     }
 
+    public static String battleSystem(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("health_icon", TextConstants.HEALTH_ICON);
+        params.put("attack_icon", TextConstants.ATTACK_ICON);
+        params.put("defense_icon", TextConstants.DEFENSE_ICON);
+        params.put("strength_icon", TextConstants.STRENGTH_ICON);
+        params.put("agility_icon", TextConstants.AGILITY_ICON);
+        params.put("wisdom_icon", TextConstants.WISDOM_ICON);
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThen(map.get(language).battleSystem(), map.get(Language.DEFAULT).battleSystem()),
+            params
+        );
+    }
+
     public static String raidsButton(Language language) {
         return CommonUtils.ifNullThen(map.get(language).raidsButton(), map.get(Language.DEFAULT).raidsButton());
     }
@@ -85,5 +99,9 @@ public class HelpLocalization {
 
     public static String infoButton(Language language) {
         return CommonUtils.ifNullThen(map.get(language).infoButton(), map.get(Language.DEFAULT).infoButton());
+    }
+
+    public static String battleSystemButton(Language language) {
+        return CommonUtils.ifNullThen(map.get(language).battleSystemButton(), map.get(Language.DEFAULT).battleSystemButton());
     }
 }

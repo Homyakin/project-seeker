@@ -7,10 +7,12 @@ public record HelpResource(
     String menu,
     String personage,
     String info,
+    String battleSystem,
     String raidsButton,
     String duelsButton,
     String menuButton,
     String personageButton,
-    String infoButton
+    String infoButton,
+    String battleSystemButton
 ) {
 }
