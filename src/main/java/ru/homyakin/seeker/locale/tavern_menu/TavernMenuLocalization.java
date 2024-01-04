@@ -19,24 +19,24 @@ public class TavernMenuLocalization {
     }
 
     public static String menuHeader(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).menuHeader(), map.get(Language.DEFAULT).menuHeader());
+        return CommonUtils.ifNullThen(map.get(language).menuHeader(), map.get(Language.DEFAULT).menuHeader());
     }
 
     public static String drinks(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).drinks(), map.get(Language.DEFAULT).drinks());
+        return CommonUtils.ifNullThen(map.get(language).drinks(), map.get(Language.DEFAULT).drinks());
     }
 
     public static String itemNotInMenu(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).itemNotInMenu(), map.get(Language.DEFAULT).itemNotInMenu());
+        return CommonUtils.ifNullThen(map.get(language).itemNotInMenu(), map.get(Language.DEFAULT).itemNotInMenu());
     }
 
     public static String mainDishes(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).mainDishes(), map.get(Language.DEFAULT).mainDishes());
+        return CommonUtils.ifNullThen(map.get(language).mainDishes(), map.get(Language.DEFAULT).mainDishes());
     }
 
     public static String notEnoughMoneyDrink(Language language, Money itemCost, Money personageMoneyValue) {
         return notEnoughMoney(
-            CommonUtils.ifNullThan(map.get(language).notEnoughMoneyDrink(), map.get(Language.DEFAULT).notEnoughMoneyDrink()),
+            CommonUtils.ifNullThen(map.get(language).notEnoughMoneyDrink(), map.get(Language.DEFAULT).notEnoughMoneyDrink()),
             itemCost,
             personageMoneyValue
         );
@@ -44,7 +44,7 @@ public class TavernMenuLocalization {
 
     public static String notEnoughMoneyMainDish(Language language, Money itemCost, Money personageMoneyValue) {
         return notEnoughMoney(
-            CommonUtils.ifNullThan(map.get(language).notEnoughMoneyMainDish(), map.get(Language.DEFAULT).notEnoughMoneyMainDish()),
+            CommonUtils.ifNullThen(map.get(language).notEnoughMoneyMainDish(), map.get(Language.DEFAULT).notEnoughMoneyMainDish()),
             itemCost,
             personageMoneyValue
         );
@@ -52,7 +52,7 @@ public class TavernMenuLocalization {
 
     public static String orderGiftToDifferentBot(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(
+            CommonUtils.ifNullThen(
                 map.get(language).orderGiftToDifferentBot(),
                 map.get(Language.DEFAULT).orderGiftToDifferentBot()
             )
@@ -61,7 +61,7 @@ public class TavernMenuLocalization {
 
     public static String orderGiftToThisBot(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(
+            CommonUtils.ifNullThen(
                 map.get(language).orderGiftToThisBot(),
                 map.get(Language.DEFAULT).orderGiftToThisBot()
             )
@@ -76,12 +76,12 @@ public class TavernMenuLocalization {
         if (!giver.equals(acceptor)) {
             params.put("mention_giver_icon_with_name", giver.value());
             text = RandomUtils.getRandomElement(
-                CommonUtils.ifNullThan(map.get(language).orderGift(), map.get(Language.DEFAULT).orderGift())
+                CommonUtils.ifNullThen(map.get(language).orderGift(), map.get(Language.DEFAULT).orderGift())
             );
 
         } else {
             text = RandomUtils.getRandomElement(
-                CommonUtils.ifNullThan(map.get(language).order(), map.get(Language.DEFAULT).order())
+                CommonUtils.ifNullThen(map.get(language).order(), map.get(Language.DEFAULT).order())
             );
         }
         return StringNamedTemplate.format(text, params);
@@ -99,36 +99,36 @@ public class TavernMenuLocalization {
     }
 
     public static String consumeDrinkButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).consumeDrinkButton(), map.get(Language.DEFAULT).consumeDrinkButton());
+        return CommonUtils.ifNullThen(map.get(language).consumeDrinkButton(), map.get(Language.DEFAULT).consumeDrinkButton());
     }
 
     public static String consumeMainDishButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).consumeMainDishButton(), map.get(Language.DEFAULT).consumeMainDishButton());
+        return CommonUtils.ifNullThen(map.get(language).consumeMainDishButton(), map.get(Language.DEFAULT).consumeMainDishButton());
     }
 
     public static String wrongConsumer(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).wrongConsumer(), map.get(Language.DEFAULT).wrongConsumer());
+        return CommonUtils.ifNullThen(map.get(language).wrongConsumer(), map.get(Language.DEFAULT).wrongConsumer());
     }
 
     public static String consumeAlreadyInFinalStatus(Language language) {
-        return CommonUtils.ifNullThan(
+        return CommonUtils.ifNullThen(
             map.get(language).consumeAlreadyInFinalStatus(), map.get(Language.DEFAULT).consumeAlreadyInFinalStatus()
         );
     }
 
     public static String expiredOrder(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(map.get(language).expiredOrder(), map.get(Language.DEFAULT).expiredOrder())
+            CommonUtils.ifNullThen(map.get(language).expiredOrder(), map.get(Language.DEFAULT).expiredOrder())
         );
     }
 
     public static String orderToUnknownUser(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(map.get(language).orderToUnknownUser(), map.get(Language.DEFAULT).orderToUnknownUser())
+            CommonUtils.ifNullThen(map.get(language).orderToUnknownUser(), map.get(Language.DEFAULT).orderToUnknownUser())
         );
     }
 
     public static String orderIsLocked(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).orderIsLocked(), map.get(Language.DEFAULT).orderIsLocked());
+        return CommonUtils.ifNullThen(map.get(language).orderIsLocked(), map.get(Language.DEFAULT).orderIsLocked());
     }
 }

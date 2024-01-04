@@ -19,23 +19,23 @@ public class CommonLocalization {
     }
 
     public static String welcomeGroup(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).welcomeGroup(), map.get(Language.DEFAULT).welcomeGroup());
+        return CommonUtils.ifNullThen(map.get(language).welcomeGroup(), map.get(Language.DEFAULT).welcomeGroup());
     }
 
     public static String welcomeUser(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).welcomeUser(), map.get(Language.DEFAULT).welcomeUser());
+        return CommonUtils.ifNullThen(map.get(language).welcomeUser(), map.get(Language.DEFAULT).welcomeUser());
     }
 
     public static String chooseLanguage(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).chooseLanguage(), map.get(Language.DEFAULT).chooseLanguage());
+        return CommonUtils.ifNullThen(map.get(language).chooseLanguage(), map.get(Language.DEFAULT).chooseLanguage());
     }
 
     public static String onlyAdminLanguage(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).onlyAdminLanguage(), map.get(Language.DEFAULT).onlyAdminLanguage());
+        return CommonUtils.ifNullThen(map.get(language).onlyAdminLanguage(), map.get(Language.DEFAULT).onlyAdminLanguage());
     }
 
     public static String internalError(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
+        return CommonUtils.ifNullThen(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
     }
 
     public static String profileTemplate(Language language, Personage personage) {
@@ -46,18 +46,18 @@ public class CommonLocalization {
         params.put("personage_money", personage.money().value());
         params.put("energy_value", personage.energy().value());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),
+            CommonUtils.ifNullThen(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),
             params
         );
     }
 
     public static String receptionDesk(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).receptionDesk(), map.get(Language.DEFAULT).receptionDesk());
+        return CommonUtils.ifNullThen(map.get(language).receptionDesk(), map.get(Language.DEFAULT).receptionDesk());
     }
 
     public static String mainMenu(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(map.get(language).mainMenu(), map.get(Language.DEFAULT).mainMenu())
+            CommonUtils.ifNullThen(map.get(language).mainMenu(), map.get(Language.DEFAULT).mainMenu())
         );
     }
 
@@ -68,7 +68,7 @@ public class CommonLocalization {
         params.put("money_icon", TextConstants.MONEY_ICON);
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
+            CommonUtils.ifNullThen(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
             params
         );
     }
@@ -83,7 +83,7 @@ public class CommonLocalization {
         params.put("tavern_money_spent", stats.tavernMoneySpent());
         params.put("spin_wins_count", stats.spinWinsCount());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).personageGroupStats(), map.get(Language.DEFAULT).personageGroupStats()),
+            CommonUtils.ifNullThen(map.get(language).personageGroupStats(), map.get(Language.DEFAULT).personageGroupStats()),
             params
         );
     }

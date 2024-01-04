@@ -25,52 +25,52 @@ public class RaidLocalization {
     }
 
     public static String joinRaidEvent(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).joinRaidEvent(), map.get(Language.DEFAULT).joinRaidEvent());
+        return CommonUtils.ifNullThen(map.get(language).joinRaidEvent(), map.get(Language.DEFAULT).joinRaidEvent());
     }
 
     public static String raidStartsPrefix(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).raidStartsPrefix(), map.get(Language.DEFAULT).raidStartsPrefix());
+        return CommonUtils.ifNullThen(map.get(language).raidStartsPrefix(), map.get(Language.DEFAULT).raidStartsPrefix());
     }
 
     public static String hoursShort(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).hoursShort(), map.get(Language.DEFAULT).minutesShort());
+        return CommonUtils.ifNullThen(map.get(language).hoursShort(), map.get(Language.DEFAULT).minutesShort());
     }
 
     public static String minutesShort(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).minutesShort(), map.get(Language.DEFAULT).minutesShort());
+        return CommonUtils.ifNullThen(map.get(language).minutesShort(), map.get(Language.DEFAULT).minutesShort());
     }
 
     public static String userAlreadyInThisEvent(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).userAlreadyInThisEvent(), map.get(Language.DEFAULT).userAlreadyInThisEvent());
+        return CommonUtils.ifNullThen(map.get(language).userAlreadyInThisEvent(), map.get(Language.DEFAULT).userAlreadyInThisEvent());
     }
 
     public static String userAlreadyInOtherEvent(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).userAlreadyInOtherEvent(), map.get(Language.DEFAULT).userAlreadyInOtherEvent());
+        return CommonUtils.ifNullThen(map.get(language).userAlreadyInOtherEvent(), map.get(Language.DEFAULT).userAlreadyInOtherEvent());
     }
 
     public static String expiredRaid(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).expiredRaid(), map.get(Language.DEFAULT).expiredRaid());
+        return CommonUtils.ifNullThen(map.get(language).expiredRaid(), map.get(Language.DEFAULT).expiredRaid());
     }
 
     public static String raidInProcess(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).raidInProcess(), map.get(Language.DEFAULT).raidInProcess());
+        return CommonUtils.ifNullThen(map.get(language).raidInProcess(), map.get(Language.DEFAULT).raidInProcess());
     }
 
     public static String successRaid(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(map.get(language).successRaid(), map.get(Language.DEFAULT).successRaid())
+            CommonUtils.ifNullThen(map.get(language).successRaid(), map.get(Language.DEFAULT).successRaid())
         );
     }
 
     public static String failureRaid(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(map.get(language).failureRaid(), map.get(Language.DEFAULT).failureRaid())
+            CommonUtils.ifNullThen(map.get(language).failureRaid(), map.get(Language.DEFAULT).failureRaid())
         );
     }
 
     public static String zeroParticipants(Language language) {
         return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThan(map.get(language).zeroParticipants(), map.get(Language.DEFAULT).zeroParticipants())
+            CommonUtils.ifNullThen(map.get(language).zeroParticipants(), map.get(Language.DEFAULT).zeroParticipants())
         );
     }
 
@@ -87,7 +87,7 @@ public class RaidLocalization {
         }
         final var params = paramsForRaidResult(raidResult, topPersonages);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
+            CommonUtils.ifNullThen(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
             params
         );
     }
@@ -121,7 +121,7 @@ public class RaidLocalization {
         params.put("money", result.reward().value());
         params.put("money_icon", TextConstants.MONEY_ICON);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
+            CommonUtils.ifNullThen(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
             params
         );
     }
@@ -131,7 +131,7 @@ public class RaidLocalization {
             .map(Personage::iconWithName)
             .collect(Collectors.joining(", "));
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).raidParticipants(), map.get(Language.DEFAULT).raidParticipants()),
+            CommonUtils.ifNullThen(map.get(language).raidParticipants(), map.get(Language.DEFAULT).raidParticipants()),
             Collections.singletonMap("personage_icon_name_list", iconNames)
         );
     }
@@ -141,7 +141,7 @@ public class RaidLocalization {
         params.put("energy_icon", TextConstants.ENERGY_ICON);
         params.put("required_energy", notEnoughEnergy.requiredEnergy());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).notEnoughEnergy(), map.get(Language.DEFAULT).notEnoughEnergy()),
+            CommonUtils.ifNullThen(map.get(language).notEnoughEnergy(), map.get(Language.DEFAULT).notEnoughEnergy()),
             params
         );
     }

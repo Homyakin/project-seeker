@@ -20,7 +20,7 @@ public class EverydaySpinLocalization {
 
     public static String notEnoughUsers(Language language, int requiredUsers) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).notEnoughUsers(), map.get(Language.DEFAULT).notEnoughUsers()),
+            CommonUtils.ifNullThen(map.get(language).notEnoughUsers(), map.get(Language.DEFAULT).notEnoughUsers()),
             Collections.singletonMap("required_users", requiredUsers)
         );
     }
@@ -28,7 +28,7 @@ public class EverydaySpinLocalization {
     public static String alreadyChosen(Language language, PersonageMention mention) {
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
-                CommonUtils.ifNullThan(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
+                CommonUtils.ifNullThen(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
             ),
             Collections.singletonMap("mention_personage_icon_with_name", mention.value())
         );
@@ -41,17 +41,17 @@ public class EverydaySpinLocalization {
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
-                CommonUtils.ifNullThan(map.get(language).chosenUser(), map.get(Language.DEFAULT).chosenUser())
+                CommonUtils.ifNullThen(map.get(language).chosenUser(), map.get(Language.DEFAULT).chosenUser())
             ),
             params
         );
     }
 
     public static String noChosenUsers(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).noChosenUsers(), map.get(Language.DEFAULT).noChosenUsers());
+        return CommonUtils.ifNullThen(map.get(language).noChosenUsers(), map.get(Language.DEFAULT).noChosenUsers());
     }
 
     public static String topChosenUsers(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).topChosenUsers(), map.get(Language.DEFAULT).topChosenUsers());
+        return CommonUtils.ifNullThen(map.get(language).topChosenUsers(), map.get(Language.DEFAULT).topChosenUsers());
     }
 }

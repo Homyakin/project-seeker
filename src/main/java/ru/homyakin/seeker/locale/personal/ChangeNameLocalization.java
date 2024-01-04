@@ -15,36 +15,36 @@ public class ChangeNameLocalization {
     }
 
     public static String changeNameWithoutName(Language language) {
-        return CommonUtils.ifNullThan(
+        return CommonUtils.ifNullThen(
             map.get(language).changeNameWithoutName(), map.get(Language.DEFAULT).changeNameWithoutName()
         );
     }
 
     public static String initChangeName(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).initChangeName(), map.get(Language.DEFAULT).initChangeName());
+        return CommonUtils.ifNullThen(map.get(language).initChangeName(), map.get(Language.DEFAULT).initChangeName());
     }
 
     public static String cancelChangeName(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).cancelChangeName(), map.get(Language.DEFAULT).cancelChangeName());
+        return CommonUtils.ifNullThen(map.get(language).cancelChangeName(), map.get(Language.DEFAULT).cancelChangeName());
     }
 
     public static String confirmName(Language language, String name) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).confirmName(), map.get(Language.DEFAULT).confirmName()),
+            CommonUtils.ifNullThen(map.get(language).confirmName(), map.get(Language.DEFAULT).confirmName()),
             Collections.singletonMap("name", name)
         );
     }
 
     public static String cancelButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).cancelButton(), map.get(Language.DEFAULT).cancelButton());
+        return CommonUtils.ifNullThen(map.get(language).cancelButton(), map.get(Language.DEFAULT).cancelButton());
     }
 
     public static String confirmButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).confirmButton(), map.get(Language.DEFAULT).confirmButton());
+        return CommonUtils.ifNullThen(map.get(language).confirmButton(), map.get(Language.DEFAULT).confirmButton());
     }
 
     public static String repeatButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).repeatButton(), map.get(Language.DEFAULT).repeatButton());
+        return CommonUtils.ifNullThen(map.get(language).repeatButton(), map.get(Language.DEFAULT).repeatButton());
     }
 
     public static String personageNameInvalidLength(Language language, int minNameLength, int maxNameLength) {
@@ -52,22 +52,22 @@ public class ChangeNameLocalization {
         params.put("max_name_length", maxNameLength);
         params.put("min_name_length", minNameLength);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).personageNameInvalidLength(), map.get(Language.DEFAULT).personageNameInvalidLength()),
+            CommonUtils.ifNullThen(map.get(language).personageNameInvalidLength(), map.get(Language.DEFAULT).personageNameInvalidLength()),
             params
         );
     }
 
     public static String personageNameInvalidSymbols(Language language) {
-        return CommonUtils.ifNullThan(
+        return CommonUtils.ifNullThen(
             map.get(language).personageNameInvalidSymbols(), map.get(Language.DEFAULT).personageNameInvalidSymbols()
         );
     }
 
     public static String successNameChange(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).successNameChange(), map.get(Language.DEFAULT).successNameChange());
+        return CommonUtils.ifNullThen(map.get(language).successNameChange(), map.get(Language.DEFAULT).successNameChange());
     }
 
     public static String internalError(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
+        return CommonUtils.ifNullThen(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
     }
 }
