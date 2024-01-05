@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
-import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -122,12 +122,12 @@ public class RaidLocalization {
 
     public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
-        params.put("dead_icon_or_empty", result.stats().isDead() ? TextConstants.DEAD_ICON : "");
+        params.put("dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "");
         params.put("personage_icon_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
         params.put("money", result.reward().value());
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
             params
@@ -146,7 +146,7 @@ public class RaidLocalization {
 
     public static String notEnoughEnergy(Language language, PersonageEventError.NotEnoughEnergy notEnoughEnergy) {
         final var params = new HashMap<String, Object>();
-        params.put("energy_icon", TextConstants.ENERGY_ICON);
+        params.put("energy_icon", Icons.ENERGY);
         params.put("required_energy", notEnoughEnergy.requiredEnergy());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).notEnoughEnergy(), map.get(Language.DEFAULT).notEnoughEnergy()),
@@ -157,15 +157,15 @@ public class RaidLocalization {
     public static String report(Language language, PersonageRaidSavedResult result, LaunchedEvent event) {
         final var params = new HashMap<String, Object>();
         params.put("raid_date_time", TimeUtils.toString(event.endDate()));
-        params.put("attack_icon", TextConstants.ATTACK_ICON);
+        params.put("attack_icon", Icons.ATTACK);
         params.put("attack_value", result.stats().characteristics().attack());
-        params.put("defense_icon", TextConstants.DEFENSE_ICON);
+        params.put("defense_icon", Icons.DEFENSE);
         params.put("defense_value", result.stats().characteristics().defense());
-        params.put("strength_icon", TextConstants.STRENGTH_ICON);
+        params.put("strength_icon", Icons.STRENGTH);
         params.put("strength_value", result.stats().characteristics().strength());
-        params.put("agility_icon", TextConstants.AGILITY_ICON);
+        params.put("agility_icon", Icons.AGILITY);
         params.put("agility_value", result.stats().characteristics().agility());
-        params.put("wisdom_icon", TextConstants.WISDOM_ICON);
+        params.put("wisdom_icon", Icons.WISDOM);
         params.put("wisdom_value", result.stats().characteristics().wisdom());
         params.put("normal_damage_value", result.stats().normalDamageDealt());
         params.put("normal_damage_count", result.stats().normalAttackCount());
@@ -178,7 +178,7 @@ public class RaidLocalization {
         params.put("dodged_damage_count", result.stats().dodgesCount());
         params.put("remain_health", result.stats().remainHealth());
         params.put("max_health", result.stats().characteristics().health());
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("reward_value", result.reward().value());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),

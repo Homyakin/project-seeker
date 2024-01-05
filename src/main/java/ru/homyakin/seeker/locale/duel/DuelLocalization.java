@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
-import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -46,7 +46,7 @@ public class DuelLocalization {
 
     public static String duelWithInitiatorNotEnoughMoney(Language language, Money money) {
         final var params = new HashMap<String, Object>();
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
@@ -130,7 +130,7 @@ public class DuelLocalization {
 
     public static String personageDuelResult(Language language, PersonageBattleResult result, boolean isWinner) {
         final var params = new HashMap<String, Object>();
-        params.put("winner_or_loser_icon", isWinner ? TextConstants.DUEL_WINNER_ICON : TextConstants.DUEL_LOSER_ICON);
+        params.put("winner_or_loser_icon", isWinner ? Icons.DUEL_WINNER : Icons.DUEL_LOSER);
         params.put("personage_icon_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());

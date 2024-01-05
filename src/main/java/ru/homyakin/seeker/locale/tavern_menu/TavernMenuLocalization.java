@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
-import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.utils.CommonUtils;
@@ -89,7 +89,7 @@ public class TavernMenuLocalization {
 
     private static String notEnoughMoney(String[] array, Money itemCost, Money personageMoneyValue) {
         final var params = new HashMap<String, Object>();
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("not_enough_money_value", itemCost.value() - personageMoneyValue.value());
         params.put("item_cost", itemCost.value());
         return StringNamedTemplate.format(

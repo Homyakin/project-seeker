@@ -3,7 +3,7 @@ package ru.homyakin.seeker.locale.common;
 import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
 import ru.homyakin.seeker.telegram.group.stats.GroupStats;
@@ -40,8 +40,8 @@ public class CommonLocalization {
 
     public static String profileTemplate(Language language, Personage personage) {
         final var params = new HashMap<String, Object>();
-        params.put("money_icon", TextConstants.MONEY_ICON);
-        params.put("energy_icon", TextConstants.ENERGY_ICON);
+        params.put("money_icon", Icons.MONEY);
+        params.put("energy_icon", Icons.ENERGY);
         params.put("personage_icon_with_name", personage.iconWithName());
         params.put("personage_money", personage.money().value());
         params.put("energy_value", personage.energy().value());
@@ -65,7 +65,7 @@ public class CommonLocalization {
         final var params = new HashMap<String, Object>();
         params.put("raids_count", groupStats.raidsComplete());
         params.put("duels_count", groupStats.duelsComplete());
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
@@ -79,7 +79,7 @@ public class CommonLocalization {
         params.put("raids_total", stats.raidsTotal());
         params.put("duels_wins", stats.duelsWins());
         params.put("duels_total", stats.duelsTotal());
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", stats.tavernMoneySpent());
         params.put("spin_wins_count", stats.spinWinsCount());
         return StringNamedTemplate.format(

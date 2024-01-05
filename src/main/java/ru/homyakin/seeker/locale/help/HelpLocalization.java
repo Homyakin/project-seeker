@@ -3,6 +3,7 @@ package ru.homyakin.seeker.locale.help;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
@@ -24,7 +25,7 @@ public class HelpLocalization {
     public static String raids(Language language) {
         final var params = new HashMap<String, Object>();
         params.put("set_active_time_command", CommandType.SET_ACTIVE_TIME.getText());
-        params.put("energy_icon", TextConstants.ENERGY_ICON);
+        params.put("energy_icon", Icons.ENERGY);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).raids(), map.get(Language.DEFAULT).raids()),
             params
@@ -69,12 +70,12 @@ public class HelpLocalization {
 
     public static String battleSystem(Language language) {
         final var params = new HashMap<String, Object>();
-        params.put("health_icon", TextConstants.HEALTH_ICON);
-        params.put("attack_icon", TextConstants.ATTACK_ICON);
-        params.put("defense_icon", TextConstants.DEFENSE_ICON);
-        params.put("strength_icon", TextConstants.STRENGTH_ICON);
-        params.put("agility_icon", TextConstants.AGILITY_ICON);
-        params.put("wisdom_icon", TextConstants.WISDOM_ICON);
+        params.put("health_icon", Icons.HEALTH);
+        params.put("attack_icon", Icons.ATTACK);
+        params.put("defense_icon", Icons.DEFENSE);
+        params.put("strength_icon", Icons.STRENGTH);
+        params.put("agility_icon", Icons.AGILITY);
+        params.put("wisdom_icon", Icons.WISDOM);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).battleSystem(), map.get(Language.DEFAULT).battleSystem()),
             params

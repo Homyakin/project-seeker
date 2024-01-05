@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
@@ -21,7 +21,7 @@ public class CharacteristicLocalization {
 
     public static String resetConfirmation(Language language, Money money) {
         final var params = new HashMap<String, Object>();
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(
@@ -84,7 +84,7 @@ public class CharacteristicLocalization {
 
     public static String notEnoughMoney(Language language, Money money) {
         final var params = new HashMap<String, Object>();
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).notEnoughMoney(), map.get(Language.DEFAULT).notEnoughMoney()),

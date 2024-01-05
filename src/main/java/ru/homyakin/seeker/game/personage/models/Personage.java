@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -86,7 +87,7 @@ public record Personage(
     }
 
     public String icon() {
-        return TextConstants.PERSONAGE_ICON;
+        return Icons.PERSONAGE;
     }
 
     public String iconWithName() {
