@@ -180,6 +180,12 @@ public class RaidLocalization {
         params.put("max_health", result.stats().characteristics().health());
         params.put("money_icon", Icons.MONEY);
         params.put("reward_value", result.reward().value());
+        params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
+        params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("miss_icon", Icons.MISS);
+        params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
+        params.put("dodge_icon", Icons.DODGE);
+        params.put("health_icon", Icons.HEALTH);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),
             params

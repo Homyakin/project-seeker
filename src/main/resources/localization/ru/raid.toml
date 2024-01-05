@@ -38,14 +38,14 @@ ${attack_icon}${attack_value}${defense_icon}${defense_value}
 ${strength_icon}${strength_value}${agility_icon}${agility_value}${wisdom_icon}${wisdom_value}
 
 📊Статистика:
-⚔️Обычные атаки: ${normal_damage_value} (${normal_damage_count})
-💥Критические атаки: ${crit_damage_value} (${crit_damage_count})
-⭕️Промахи: ${misses_count}
+${normal_attack_icon}Обычные атаки: ${normal_damage_value} (${normal_damage_count})
+${crit_attack_icon}Критические атаки: ${crit_damage_value} (${crit_damage_count})
+${miss_icon}Промахи: ${misses_count}
 
-🛡Урона получено: ${damage_blocked_value} (${damage_blocked_count})
-💨Уклонения: ${dodged_damage_value} (${dodged_damage_count})
+${damage_blocked_icon}Урона получено: ${damage_blocked_value} (${damage_blocked_count})
+${dodge_icon}Уклонения: ${dodged_damage_value} (${dodged_damage_count})
 
-❤️Здоровье: ${remain_health}/${max_health}
+${health_icon}️Здоровье: ${remain_health}/${max_health}
 
 ${money_icon}Награда: ${reward_value}"""
 reportNotPresent = "Не смогли найти ваш отчёт о рейде в системе"

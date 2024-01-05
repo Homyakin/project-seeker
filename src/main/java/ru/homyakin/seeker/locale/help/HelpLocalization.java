@@ -76,6 +76,9 @@ public class HelpLocalization {
         params.put("strength_icon", Icons.STRENGTH);
         params.put("agility_icon", Icons.AGILITY);
         params.put("wisdom_icon", Icons.WISDOM);
+        params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
+        params.put("dodge_icon", Icons.DODGE);
+        params.put("crit_attack_icon", Icons.CRIT_ATTACK);
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).battleSystem(), map.get(Language.DEFAULT).battleSystem()),
             params
