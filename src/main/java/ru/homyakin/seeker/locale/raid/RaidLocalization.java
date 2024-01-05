@@ -19,6 +19,7 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 public class RaidLocalization {
     private static final Map<Language, RaidResource> map = new HashMap<>();
@@ -155,6 +156,7 @@ public class RaidLocalization {
 
     public static String report(Language language, PersonageRaidSavedResult result, LaunchedEvent event) {
         final var params = paramsForRaidReport(result);
+        params.put("raid_date_time", TimeUtils.toString(event.endDate()));
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),
             params
