@@ -38,7 +38,7 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
                     return RaidLocalization.report(user.language(), result, event);
                 }
             )
-            .orElseGet(() -> RaidLocalization.reportNotPresent(user.language()));
+            .orElseGet(() -> RaidLocalization.reportNotPresentForUser(user.language()));
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(text)

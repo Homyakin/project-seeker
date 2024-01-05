@@ -48,4 +48,4 @@ ${dodge_icon}Уклонения: ${dodged_damage_value} (${dodged_damage_count})
 ${health_icon}️Здоровье: ${remain_health}/${max_health}
 
 ${money_icon}Награда: ${reward_value}"""
-reportNotPresent = "Не смогли найти ваш отчёт о рейде в системе"
+reportNotPresentForUser = "Не смогли найти ваш отчёт о рейде в системе"

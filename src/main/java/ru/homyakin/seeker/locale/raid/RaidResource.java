@@ -17,6 +17,6 @@ public record RaidResource(
     String raidParticipants,
     String notEnoughEnergy,
     String report,
-    String reportNotPresent
+    String reportNotPresentForUser
 ) {
 }

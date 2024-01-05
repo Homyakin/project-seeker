@@ -192,8 +192,8 @@ public class RaidLocalization {
         );
     }
 
-    public static String reportNotPresent(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).reportNotPresent(), map.get(Language.DEFAULT).reportNotPresent());
+    public static String reportNotPresentForUser(Language language) {
+        return CommonUtils.ifNullThen(map.get(language).reportNotPresentForUser(), map.get(Language.DEFAULT).reportNotPresentForUser());
     }
 
     private static final Comparator<PersonageRaidResult> resultComparator = Comparator.<PersonageRaidResult>comparingLong(
