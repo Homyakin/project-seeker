@@ -133,6 +133,10 @@ public class PersonageService {
         return personageRaidResultDao.getLastByPersonage(personageId);
     }
 
+    public Optional<PersonageRaidSavedResult> getRaidResult(PersonageId personageId, LaunchedEvent launchedEvent) {
+        return personageRaidResultDao.getByPersonageAndEvent(personageId, launchedEvent);
+    }
+
     public Personage takeMoney(Personage personage, Money money) {
         return addMoney(personage, money.negative());
     }

@@ -57,7 +57,7 @@ public class GroupUserService {
                 groupUser -> groupUser.activate(groupUserDao),
                 () -> createGroupUser(group, user)
             );
-        return new Pair<>(group, user);
+        return Pair.of(group, user);
     }
 
     public Optional<User> getRandomUserFromGroup(GroupId groupId) {

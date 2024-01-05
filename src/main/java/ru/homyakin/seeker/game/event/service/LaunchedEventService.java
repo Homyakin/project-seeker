@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
@@ -86,5 +87,9 @@ public class LaunchedEventService {
 
     public List<GroupLaunchedEvent> getGroupEvents(LaunchedEvent launchedEvent) {
         return groupEventService.getByLaunchedEventId(launchedEvent.id());
+    }
+
+    public Optional<LaunchedEvent> getLastEndedEventInGroup(GroupId groupId) {
+        return launchedEventDao.lastEndedEventInGroup(groupId);
     }
 }

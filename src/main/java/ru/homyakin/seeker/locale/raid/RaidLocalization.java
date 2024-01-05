@@ -19,7 +19,6 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 public class RaidLocalization {
     private static final Map<Language, RaidResource> map = new HashMap<>();
@@ -155,8 +154,36 @@ public class RaidLocalization {
     }
 
     public static String report(Language language, PersonageRaidSavedResult result, LaunchedEvent event) {
+        final var params = paramsForRaidReport(result);
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),
+            params
+        );
+    }
+
+    public static String shortPersonageReport(Language language, PersonageRaidSavedResult result, Personage personage) {
+        final var params = paramsForRaidReport(result);
+        params.put("personage_icon_with_name", personage.iconWithName());
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThen(map.get(language).shortPersonageReport(), map.get(Language.DEFAULT).shortPersonageReport()),
+            params
+        );
+    }
+
+    public static String reportNotPresentForPersonage(Language language) {
+        return CommonUtils.ifNullThen(
+            map.get(language).reportNotPresentForPersonage(), map.get(Language.DEFAULT).reportNotPresentForPersonage()
+        );
+    }
+
+    public static String lastGroupRaidReportNotFound(Language language) {
+        return CommonUtils.ifNullThen(
+            map.get(language).lastGroupRaidReportNotFound(), map.get(Language.DEFAULT).lastGroupRaidReportNotFound()
+        );
+    }
+
+    private static HashMap<String, Object> paramsForRaidReport(PersonageRaidSavedResult result) {
         final var params = new HashMap<String, Object>();
-        params.put("raid_date_time", TimeUtils.toString(event.endDate()));
         params.put("attack_icon", Icons.ATTACK);
         params.put("attack_value", result.stats().characteristics().attack());
         params.put("defense_icon", Icons.DEFENSE);
@@ -186,14 +213,7 @@ public class RaidLocalization {
         params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
         params.put("dodge_icon", Icons.DODGE);
         params.put("health_icon", Icons.HEALTH);
-        return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),
-            params
-        );
-    }
-
-    public static String reportNotPresentForUser(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).reportNotPresentForUser(), map.get(Language.DEFAULT).reportNotPresentForUser());
+        return params;
     }
 
     private static final Comparator<PersonageRaidResult> resultComparator = Comparator.<PersonageRaidResult>comparingLong(

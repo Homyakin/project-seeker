@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
+import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.settings.GetActiveTime;
 import ru.homyakin.seeker.telegram.command.group.settings.SetActiveTime;
 import ru.homyakin.seeker.telegram.command.group.spin.Spin;
@@ -135,6 +136,7 @@ public class CommandParser {
                 case SET_ACTIVE_TIME -> SetActiveTime.from(message);
                 case GET_ACTIVE_TIME -> GetActiveTime.from(message);
                 case PERSONAGE_STATS -> GetPersonageStats.from(message);
+                case RAID_REPORT -> RaidReportInGroup.from(message);
                 default -> null;
             });
     }

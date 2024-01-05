@@ -48,4 +48,10 @@ ${dodge_icon}Уклонения: ${dodged_damage_value} (${dodged_damage_count})
 ${health_icon}️Здоровье: ${remain_health}/${max_health}
 
 ${money_icon}Награда: ${reward_value}"""
-reportNotPresentForUser = "Не смогли найти ваш отчёт о рейде в системе"
+reportNotPresentForPersonage = "Не смогли найти твой отчёт о рейде в архивах"
+shortPersonageReport = """\
+📜${personage_icon_with_name}
+${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
+${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
++${reward_value}${money_icon}"""
+lastGroupRaidReportNotFound = "Ты не участвовал в последнем рейде"
