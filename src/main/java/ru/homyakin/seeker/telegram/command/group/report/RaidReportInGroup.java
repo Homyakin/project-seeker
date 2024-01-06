@@ -7,9 +7,14 @@ import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record RaidReportInGroup(
     GroupId groupId,
-    UserId userId
+    UserId userId,
+    int messageId
 ) implements Command {
     public static RaidReportInGroup from(Message message) {
-        return new RaidReportInGroup(GroupId.from(message.getChatId()), UserId.from(message.getFrom().getId()));
+        return new RaidReportInGroup(
+            GroupId.from(message.getChatId()),
+            UserId.from(message.getFrom().getId()),
+            message.getMessageId()
+        );
     }
 }

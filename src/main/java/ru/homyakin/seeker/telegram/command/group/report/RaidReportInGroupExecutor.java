@@ -43,6 +43,7 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(group.id())
             .text(text)
+            .replyMessageId(command.messageId())
             .build()
         );
     }
