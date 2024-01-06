@@ -5,10 +5,13 @@ Sit down at the table, order a drink, make yourself at home
 chooseLanguage = "Choose language:"
 onlyAdminLanguage = "This action is available only for administrators"
 internalError = "Unexpected error, try again later"
-profileTemplate = """\
+fullProfile = """\
 ${personage_icon}${personage_name}
 ${money_icon}Gold: ${personage_money}
-${energy_icon}Energy: ${energy_value}%"""
+${energy_icon}Energy: ${energy_value}%
+${health_icon}Health: ${health_value}
+${attack_icon}${attack_value} ${defense_icon}${defense_value}
+${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
 
 #текста для группы
 groupStats = """\

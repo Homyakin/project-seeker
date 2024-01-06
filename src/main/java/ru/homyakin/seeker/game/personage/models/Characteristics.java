@@ -2,7 +2,6 @@ package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
-import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
@@ -47,21 +46,6 @@ public record Characteristics(
             }
         }
         return new Characteristics(500, 50, 20, strength, agility, wisdom);
-    }
-
-    public String shortStats() {
-        return
-            """
-            %s%d%s%d%s%d
-            %s%d%s%d%s%d
-            """.formatted(
-                Icons.HEALTH, health,
-                Icons.ATTACK, attack,
-                Icons.DEFENSE, defense,
-                Icons.STRENGTH, strength,
-                Icons.AGILITY, agility,
-                Icons.WISDOM, wisdom
-            );
     }
 
     public Either<NotEnoughLevelingPoints, Characteristics> incrementStrength() {

@@ -52,13 +52,11 @@ public record Personage(
     }
 
     public String shortProfile(Language language) {
-        return CommonLocalization
-            .profileTemplate(language, this) + "\n" + characteristics.shortStats();
+        return CommonLocalization.shortProfile(language, this);
     }
 
     public String fullProfile(Language language) {
-        final var profile = CommonLocalization
-            .profileTemplate(language, this) + "\n" + characteristics.shortStats();
+        final var profile = CommonLocalization.fullProfile(language, this);
 
         return characteristics.hasUnspentLevelingPoints()
             ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;

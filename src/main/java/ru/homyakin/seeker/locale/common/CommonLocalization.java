@@ -38,17 +38,40 @@ public class CommonLocalization {
         return CommonUtils.ifNullThen(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
     }
 
-    public static String profileTemplate(Language language, Personage personage) {
+    public static String fullProfile(Language language, Personage personage) {
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThen(map.get(language).fullProfile(), map.get(Language.DEFAULT).fullProfile()),
+            profileParams(personage)
+        );
+    }
+
+    public static String shortProfile(Language language, Personage personage) {
+        return StringNamedTemplate.format(
+            CommonUtils.ifNullThen(map.get(language).shortProfile(), map.get(Language.DEFAULT).shortProfile()),
+            profileParams(personage)
+        );
+    }
+
+    private static HashMap<String, Object> profileParams(Personage personage) {
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);
         params.put("personage_icon_with_name", personage.iconWithName());
         params.put("personage_money", personage.money().value());
         params.put("energy_value", personage.energy().value());
-        return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).profileTemplate(), map.get(Language.DEFAULT).profileTemplate()),
-            params
-        );
+        params.put("attack_icon", Icons.ATTACK);
+        params.put("attack_value", personage.characteristics().attack());
+        params.put("defense_icon", Icons.DEFENSE);
+        params.put("defense_value", personage.characteristics().defense());
+        params.put("strength_icon", Icons.STRENGTH);
+        params.put("strength_value", personage.characteristics().strength());
+        params.put("agility_icon", Icons.AGILITY);
+        params.put("agility_value", personage.characteristics().agility());
+        params.put("wisdom_icon", Icons.WISDOM);
+        params.put("wisdom_value", personage.characteristics().wisdom());
+        params.put("health_icon", Icons.HEALTH);
+        params.put("health_value", personage.characteristics().health());
+        return params;
     }
 
     public static String receptionDesk(Language language) {
