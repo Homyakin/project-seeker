@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.rumor;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.locale.Language;
 
 import javax.sql.DataSource;
@@ -16,6 +17,19 @@ public class RumorDao {
         SELECT * FROM rumor WHERE is_available = true ORDER BY random() LIMIT 1
         """;
     private static final String GET_RUMOR_LOCALES = "SELECT * FROM rumor_locale WHERE rumor_id = :rumor_id";
+    private static final String SAVE_RUMOR = """
+        INSERT INTO rumor (code, is_available)
+        VALUES (:code, :is_available)
+        ON CONFLICT (code)
+        DO UPDATE SET is_available = :is_available
+        RETURNING id
+        """;
+    private static final String SAVE_LOCALE = """
+        INSERT INTO rumor_locale (rumor_id, language_id, text)
+        VALUES (:rumor_id, :language_id, :text)
+        ON CONFLICT (rumor_id, language_id)
+        DO UPDATE SET text = :text
+        """;
     private final JdbcClient jdbcClient;
 
     public RumorDao(DataSource dataSource) {
@@ -36,10 +50,29 @@ public class RumorDao {
             .list();
     }
 
+    @Transactional
+    public void saveRumor(Rumor rumor) {
+        final int id = jdbcClient.sql(SAVE_RUMOR)
+            .param("code", rumor.code())
+            .param("is_available", rumor.isAvailable())
+            .query((rs, rowNum) -> rs.getInt("id"))
+            .optional().orElseThrow();
+        rumor.locales().forEach(locale -> saveLocale(id, locale));
+    }
+
+    private void saveLocale(int rumorId, RumorLocale locale) {
+        jdbcClient.sql(SAVE_LOCALE)
+            .param("rumor_id", rumorId)
+            .param("language_id", locale.language().id())
+            .param("text", locale.text())
+            .update();
+    }
+
     private RumorWithoutLocale mapRumor(ResultSet rs, int rowNum) throws SQLException {
         return new RumorWithoutLocale(
             rs.getInt("id"),
-            rs.getString("code")
+            rs.getString("code"),
+            rs.getBoolean("is_available")
         );
     }
 
@@ -52,12 +85,14 @@ public class RumorDao {
 
     private record RumorWithoutLocale(
         int id,
-        String code
+        String code,
+        boolean isAvailable
     ) {
         public Rumor toRumor(List<RumorLocale> locales) {
             return new Rumor(
                 id,
                 code,
+                isAvailable,
                 locales
             );
         }

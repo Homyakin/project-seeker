@@ -67,7 +67,7 @@ public class MenuDao {
         saveLocales(menuItem);
     }
 
-    public void saveLocales(MenuItem menuItem) {
+    private void saveLocales(MenuItem menuItem) {
         menuItem.locales().forEach(
             locale -> jdbcClient.sql(SAVE_LOCALE)
                 .param("menu_item_id", menuItem.id())

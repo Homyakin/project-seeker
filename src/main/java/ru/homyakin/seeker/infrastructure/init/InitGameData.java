@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.rumor.Rumor;
+import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -27,11 +29,13 @@ public class InitGameData {
         .build();
     private final EventService eventService;
     private final MenuService menuService;
+    private final RumorService rumorService;
     private InitGameDataType type;
 
-    public InitGameData(EventService eventService, MenuService menuService) {
+    public InitGameData(EventService eventService, MenuService menuService, RumorService rumorService) {
         this.eventService = eventService;
         this.menuService = menuService;
+        this.rumorService = rumorService;
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -58,6 +62,18 @@ public class InitGameData {
         logger.info("loaded menu items");
     }
 
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadRumors() {
+        logger.info("loading rumors");
+        ResourceUtils.getResourcePath(rumorsPath())
+            .map(stream -> extractClass(stream, Rumors.class))
+            .ifPresent(rumors -> {
+                rumors.rumor().forEach(Rumor::validateLocale);
+                rumors.rumor().forEach(rumorService::save);
+            });
+        logger.info("loaded rumors");
+    }
+
     private <T> T extractClass(InputStream stream, Class<T> clazz) {
         try {
             return mapper.readValue(stream, clazz);
@@ -74,6 +90,10 @@ public class InitGameData {
         return DATA_FOLDER + type.folder() + MENU_ITEMS;
     }
 
+    private String rumorsPath() {
+        return DATA_FOLDER + type.folder() + RUMORS;
+    }
+
     public void setType(InitGameDataType type) {
         this.type = type;
     }
@@ -81,4 +101,5 @@ public class InitGameData {
     private static final String DATA_FOLDER = "game-data" + File.separator;
     private static final String EVENTS = File.separator + "events.toml";
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
+    private static final String RUMORS = File.separator + "rumors.toml";
 }
