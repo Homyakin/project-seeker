@@ -16,4 +16,8 @@ public class LocaleUtils {
         }
         return Optional.ofNullable(defaultLocale);
     }
+
+    public static <T extends LocaleObject> boolean checkDefaultLanguage(List<T> locales) {
+        return locales.stream().anyMatch(locale -> locale.language() == Language.DEFAULT);
+    }
 }

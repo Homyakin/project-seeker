@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 @Configuration
@@ -24,22 +26,36 @@ public class InitGameData {
         .addModule(new Jdk8Module())
         .build();
     private final EventService eventService;
+    private final MenuService menuService;
     private InitGameDataType type;
 
-    public InitGameData(EventService eventService) {
+    public InitGameData(EventService eventService, MenuService menuService) {
         this.eventService = eventService;
+        this.menuService = menuService;
     }
 
     @EventListener(ApplicationStartedEvent.class)
     public void loadEvents() {
         logger.info("loading events");
-        ResourceUtils.getResourcePath(eventsPath(type))
+        ResourceUtils.getResourcePath(eventsPath())
             .map(stream -> extractClass(stream, Events.class))
             .ifPresent(events -> {
                 events.event().forEach(SavingEvent::validateLocale);
                 events.event().forEach(eventService::save);
             });
         logger.info("loaded events");
+    }
+
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadMenuItems() {
+        logger.info("loading menu items");
+        ResourceUtils.getResourcePath(menuItemsPath())
+            .map(stream -> extractClass(stream, Items.class))
+            .ifPresent(items -> {
+                items.item().forEach(MenuItem::validateLocale);
+                items.item().forEach(menuService::saveItem);
+            });
+        logger.info("loaded menu items");
     }
 
     private <T> T extractClass(InputStream stream, Class<T> clazz) {
@@ -50,8 +66,12 @@ public class InitGameData {
         }
     }
 
-    private String eventsPath(InitGameDataType type) {
+    private String eventsPath() {
         return DATA_FOLDER + type.folder() + EVENTS;
+    }
+
+    private String menuItemsPath() {
+        return DATA_FOLDER + type.folder() + MENU_ITEMS;
     }
 
     public void setType(InitGameDataType type) {
@@ -60,4 +80,5 @@ public class InitGameData {
 
     private static final String DATA_FOLDER = "game-data" + File.separator;
     private static final String EVENTS = File.separator + "events.toml";
+    private static final String MENU_ITEMS = File.separator + "menu_items.toml";
 }

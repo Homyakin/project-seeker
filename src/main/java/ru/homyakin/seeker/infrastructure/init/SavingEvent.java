@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.event.models.EventLocale;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.raid.models.RaidTemplate;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 
 public record SavingEvent(
     int id,
@@ -17,9 +18,7 @@ public record SavingEvent(
 ) {
 
     public void validateLocale() {
-        boolean hasDefault = locales.stream()
-            .anyMatch(locale -> locale.language() == Language.DEFAULT);
-        if (!hasDefault) {
+        if (!LocaleUtils.checkDefaultLanguage(locales)) {
             throw new IllegalStateException("Locale must have default language " + Language.DEFAULT + " at event " + id);
         }
     }

@@ -5,7 +5,6 @@ import process_menu_items
 import process_rumors
 
 threads = [
-    threading.Thread(target=process_menu_items.process_file, args=['project-seeker-prod-data']),
     threading.Thread(target=process_rumors.process_file, args=['project-seeker-prod-data'])
 ]
 

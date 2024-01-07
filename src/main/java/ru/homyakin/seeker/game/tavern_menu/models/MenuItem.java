@@ -35,6 +35,12 @@ public record MenuItem(
         );
     }
 
+    public void validateLocale() {
+        if (!LocaleUtils.checkDefaultLanguage(locales)) {
+            throw new IllegalStateException("Locale must have default language " + Language.DEFAULT + " at menu item " + id);
+        }
+    }
+
     private MenuItemLocale getLocaleByLanguageOrDefault(Language language) {
         return LocaleUtils.getLocaleByLanguageOrDefault(locales, language)
             .orElseThrow(() -> new IllegalStateException("No default locale for menu item " + id));

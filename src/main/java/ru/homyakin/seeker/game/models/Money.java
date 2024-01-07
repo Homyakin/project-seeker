@@ -1,9 +1,12 @@
 package ru.homyakin.seeker.game.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public record Money(
     int value
 ) implements Comparable<Money> {
 
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static Money from(int value) {
         return new Money(value);
     }

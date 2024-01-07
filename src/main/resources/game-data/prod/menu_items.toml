@@ -1,0 +1,166 @@
+[[item]]
+id = 1
+price = 3
+isAvailable = true
+category = "DRINK"
+
+[[item.locales]]
+language = "RU"
+name = "Пиво"
+consumeTemplate = [
+    "Кружка пива для нашего постоянного гостя <b>${personage_icon_with_name}</b>",
+    "Нет ничего лучше кружки прохладного пива после тяжёлого дня. Верно, <b>${personage_icon_with_name}</b>?",
+    "Пивка! Для рывка!",
+    "Губит людей не пиво. Губит людей вода!"
+]
+
+[[item.locales]]
+language = "EN"
+name = "Beer"
+consumeTemplate = [
+    "A beer mug for our regular guest <b>${personage_icon_with_name}</b>",
+    "There is nothing better than a mug of cool beer after a hard day. Right, <b>${personage_icon_with_name}</b>?"
+]
+
+[[item]]
+id = 2
+price = 5
+isAvailable = true
+category = "DRINK"
+
+[[item.locales]]
+language = "RU"
+name = "Настойка на слаймах"
+consumeTemplate = [
+    "Я смотрю, <b>${personage_icon_with_name}</b> знает толк в качественной выпивке! И слаймах.",
+    "Настойка на слаймах, пойманных в окрестностях Крезара. Утром даже голова не болит! Но от других побочек никто не застрахован..."
+]
+
+[[item.locales]]
+language = "EN"
+name = "Tincture on slimes"
+consumeTemplate = [
+    "I see <b>${personage_icon_with_name}</b> knows a lot about quality booze! And slime.",
+    "Tincture on slimes caught in the vicinity of Krezar. It's not even a headache in the morning! But no one is immune from other side effects..."
+]
+
+[[item]]
+id = 3
+price = 2
+isAvailable = true
+category = "DRINK"
+
+[[item.locales]]
+language = "RU"
+name = "Гречкин чай"
+consumeTemplate = [
+    "Нет не из гречихи, да на гречке, угощайтесь, <b>${personage_icon_with_name}</b>.",
+    "Теплый напиток со вкусом обеда - готов!"
+]
+
+[[item.locales]]
+language = "EN"
+name = "Buckwheat tea"
+consumeTemplate = [
+    "Fresh buckwheat, treat yourself, <b>${personage_icon_with_name}</b>.",
+    "A warm drink with the taste of lunch is ready!"
+]
+
+[[item]]
+id = 4
+price = 7
+isAvailable = true
+category = "DRINK"
+
+[[item.locales]]
+language = "RU"
+name = "Монастырское вино"
+consumeTemplate = [
+    "Ароматный букет ладана и масла защищает душу и тело от происков врагов.",
+    "Вино категорически запрещено в употребление демонам и нежити. Но тебе же нечего бояться, правда?"
+]
+
+[[item.locales]]
+language = "EN"
+name = "Monastery wine"
+consumeTemplate = [
+    "A fragrant bouquet of incense and oil protects the soul and body from the machinations of enemies.",
+    "Wine is strictly forbidden for use by demons and undead. But you have nothing to be afraid of, right?"
+]
+
+[[item]]
+id = 5
+price = 5
+isAvailable = true
+category = "DRINK"
+
+[[item.locales]]
+language = "RU"
+name = "Горгоний соблазн"
+consumeTemplate = [
+    "Настойка на змеином яде, ее можно не только пить, но и втирать в колени!",
+    "Таверна не несёт ответственности в случае частичного превращения в камень. За твоё здоровье!"
+]
+
+[[item.locales]]
+language = "EN"
+name = ""
+consumeTemplate = [
+    "Tincture of snake venom, you can not only drink it, but also rub it into your knees!",
+    "The tavern is not responsible in case of partial transformation into stone. To your health!"
+]
+
+[[item]]
+id = 6
+price = 6
+isAvailable = true
+category = "MAIN_DISH"
+
+[[item.locales]]
+language = "RU"
+name = "Суп с котом"
+consumeTemplate = [
+    "Суп с котом для <b>${personage_icon_with_name}</b>! Мяукал ещё 15 минут назад"
+]
+
+[[item.locales]]
+language = "EN"
+name = "Cat soup"
+consumeTemplate = [
+    "Cat soup for <b>${personage_icon_with_name}</b>! Meowed 15 minutes ago"
+]
+
+[[item]]
+id = 7
+price = 8
+isAvailable = true
+category = "MAIN_DISH"
+
+[[item.locales]]
+language = "RU"
+name = "Жаркое из маггуся"
+consumeTemplate = [ "Жаркое из свежего маггуся! Повышает магическую потенцию" ]
+
+[[item.locales]]
+language = "EN"
+name = "Roast of maggoose"
+consumeTemplate = [ "Roast of fresh maggoose! Increases magical potency" ]
+
+[[item]]
+id = 8
+price = 5
+isAvailable = true
+category = "MAIN_DISH"
+
+[[item.locales]]
+language = "RU"
+name = "Жареная картошечка"
+consumeTemplate = [
+    "Мммм, горячая картошечка... Отжарили ее для <b>${personage_icon_with_name}</b>!",
+    "Горячее этой картошечки - только ты!"
+]
+
+[[item.locales]]
+language = "EN"
+name = "Fried potatoes"
+consumeTemplate = [ "Only you are hotter than this potato!" ]

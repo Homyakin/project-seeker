@@ -36,6 +36,10 @@ public class MenuService {
             .filter(MenuItem::isAvailable);
     }
 
+    public void saveItem(MenuItem menuItem) {
+        menuDao.saveItem(menuItem);
+    }
+
     public Optional<MenuItem> getMenuItem(int id) {
         return menuDao.getMenuItem(id);
     }
