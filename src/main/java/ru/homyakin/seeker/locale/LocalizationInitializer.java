@@ -47,40 +47,55 @@ public class LocalizationInitializer {
         final var languages = Language.values();
 
         for (final var language : languages) {
-            // TODO закрыть потоки
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + COMMON_PATH)
-                .ifPresent(it -> CommonLocalization.add(language, extractClass(mapper, it, CommonResource.class)));
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + COMMON_PATH,
+                it -> CommonLocalization.add(language, extractClass(mapper, it, CommonResource.class))
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + DUEL_PATH)
-                .ifPresent(it -> DuelLocalization.add(language, extractClass(mapper, it, DuelResource.class)));
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + DUEL_PATH,
+                it -> DuelLocalization.add(language, extractClass(mapper, it, DuelResource.class))
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + PERSONAL_PATH)
-                .ifPresent(it -> {
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + PERSONAL_PATH,
+                it -> {
                     final var resource = extractClass(mapper, it, PersonalResource.class);
                     ChangeNameLocalization.add(language, resource.changeName());
                     CharacteristicLocalization.add(language, resource.characteristics());
                     MenuLocalization.add(language, resource.menu());
                     CommandType.fillLocaleMap(resource.menu());
                     ChangeNameCommandType.fillLocaleMap(resource.changeName());
-                });
+                }
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + RAID_PATH)
-                .ifPresent(it -> RaidLocalization.add(language, extractClass(mapper, it, RaidResource.class)));
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + RAID_PATH,
+                it -> RaidLocalization.add(language, extractClass(mapper, it, RaidResource.class))
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + TAVERN_MENU_PATH)
-                .ifPresent(it -> TavernMenuLocalization.add(language, extractClass(mapper, it, TavernMenuResource.class)));
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + TAVERN_MENU_PATH,
+                it -> TavernMenuLocalization.add(language, extractClass(mapper, it, TavernMenuResource.class))
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + HELP_PATH)
-                .ifPresent(it -> HelpLocalization.add(language, extractClass(mapper, it, HelpResource.class)));
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + HELP_PATH,
+                it -> HelpLocalization.add(language, extractClass(mapper, it, HelpResource.class))
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + EVERYDAY_SPIN_PATH)
-                .ifPresent(it -> EverydaySpinLocalization.add(language, extractClass(mapper, it, EverydaySpinResource.class)));
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + EVERYDAY_SPIN_PATH,
+                it -> EverydaySpinLocalization.add(language, extractClass(mapper, it, EverydaySpinResource.class))
+            );
 
-            ResourceUtils.getResourcePath(LOCALIZATION_PATH + language.value() + GROUP_SETTINGS_PATH)
-                .ifPresent(it -> {
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + GROUP_SETTINGS_PATH,
+                it -> {
                     final var resource = extractClass(mapper, it, GroupSettingsResource.class);
                     ActiveTimeLocalization.add(language, resource.activeTime());
-                });
+                }
+            );
         }
         logger.info("Localization loaded");
     }

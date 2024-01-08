@@ -25,7 +25,7 @@ public class LocalizationTest {
         for (final var language: Language.values()) {
             final var languageMap = new HashMap<String, String>();
             for (final var file : FILES) {
-                final var stream = ResourceUtils.getResourcePath(LOCALIZATION_PATH.formatted(language.value(), file)).get();
+                final var stream = ResourceUtils.doAction(LOCALIZATION_PATH.formatted(language.value(), file)).get();
                 final Map<String, Object> map = mapper.readValue(stream, HashMap.class);
                 fillMap(languageMap, map, file);
             }

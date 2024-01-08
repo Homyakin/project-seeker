@@ -40,36 +40,42 @@ public class InitGameData {
     @EventListener(ApplicationStartedEvent.class)
     public void loadEvents() {
         logger.info("loading events");
-        ResourceUtils.getResourcePath(eventsPath())
-            .map(stream -> extractClass(stream, Events.class))
-            .ifPresent(events -> {
+        ResourceUtils.doAction(
+            eventsPath(),
+            stream -> {
+                final var events = extractClass(stream, Events.class);
                 events.event().forEach(SavingEvent::validateLocale);
                 events.event().forEach(eventService::save);
-            });
+            }
+        );
         logger.info("loaded events");
     }
 
     @EventListener(ApplicationStartedEvent.class)
     public void loadMenuItems() {
         logger.info("loading menu items");
-        ResourceUtils.getResourcePath(menuItemsPath())
-            .map(stream -> extractClass(stream, Items.class))
-            .ifPresent(items -> {
+        ResourceUtils.doAction(
+            menuItemsPath(),
+            stream -> {
+                final var items = extractClass(stream, Items.class);
                 items.item().forEach(SavingMenuItem::validateLocale);
                 items.item().forEach(menuService::saveItem);
-            });
+            }
+        );
         logger.info("loaded menu items");
     }
 
     @EventListener(ApplicationStartedEvent.class)
     public void loadRumors() {
         logger.info("loading rumors");
-        ResourceUtils.getResourcePath(rumorsPath())
-            .map(stream -> extractClass(stream, Rumors.class))
-            .ifPresent(rumors -> {
+        ResourceUtils.doAction(
+            rumorsPath(),
+            stream -> {
+                final var rumors = extractClass(stream, Rumors.class);
                 rumors.rumor().forEach(Rumor::validateLocale);
                 rumors.rumor().forEach(rumorService::save);
-            });
+            }
+        );
         logger.info("loaded rumors");
     }
 
