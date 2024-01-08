@@ -16,7 +16,11 @@ public class RumorDao {
     private static final String GET_RANDOM = """
         SELECT * FROM rumor WHERE is_available = true ORDER BY random() LIMIT 1
         """;
-    private static final String GET_RUMOR_LOCALES = "SELECT * FROM rumor_locale WHERE rumor_id = :rumor_id";
+    private static final String GET_RUMOR_LOCALES = """
+        SELECT rl.* FROM rumor_locale rl
+        LEFT JOIN public.rumor r on r.id = rl.rumor_id
+        WHERE r.code = :code
+        """;
     private static final String SAVE_RUMOR = """
         INSERT INTO rumor (code, is_available)
         VALUES (:code, :is_available)
@@ -40,12 +44,12 @@ public class RumorDao {
         return jdbcClient.sql(GET_RANDOM)
             .query(this::mapRumor)
             .optional()
-            .map(it -> it.toRumor(getRumorLocales(it.id())));
+            .map(it -> it.toRumor(getRumorLocales(it.code())));
     }
 
-    private List<RumorLocale> getRumorLocales(int rumorId) {
+    private List<RumorLocale> getRumorLocales(String code) {
         return jdbcClient.sql(GET_RUMOR_LOCALES)
-            .param("rumor_id", rumorId)
+            .param("code", code)
             .query(this::mapRumorLocale)
             .list();
     }
@@ -70,7 +74,6 @@ public class RumorDao {
 
     private RumorWithoutLocale mapRumor(ResultSet rs, int rowNum) throws SQLException {
         return new RumorWithoutLocale(
-            rs.getInt("id"),
             rs.getString("code"),
             rs.getBoolean("is_available")
         );
@@ -84,13 +87,11 @@ public class RumorDao {
     }
 
     private record RumorWithoutLocale(
-        int id,
         String code,
         boolean isAvailable
     ) {
         public Rumor toRumor(List<RumorLocale> locales) {
             return new Rumor(
-                id,
                 code,
                 isAvailable,
                 locales
