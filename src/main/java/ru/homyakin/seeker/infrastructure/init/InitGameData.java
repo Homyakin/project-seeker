@@ -16,7 +16,6 @@ import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 @Configuration
@@ -56,7 +55,7 @@ public class InitGameData {
         ResourceUtils.getResourcePath(menuItemsPath())
             .map(stream -> extractClass(stream, Items.class))
             .ifPresent(items -> {
-                items.item().forEach(MenuItem::validateLocale);
+                items.item().forEach(SavingMenuItem::validateLocale);
                 items.item().forEach(menuService::saveItem);
             });
         logger.info("loaded menu items");

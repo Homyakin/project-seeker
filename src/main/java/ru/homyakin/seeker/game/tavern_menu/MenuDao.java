@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
+import ru.homyakin.seeker.infrastructure.init.SavingMenuItem;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
@@ -20,11 +21,7 @@ public class MenuDao {
     private static final String GET_MENU_ITEM_BY_CODE = "SELECT * FROM menu_item WHERE code = :code";
     private static final String GET_MENU_ITEM_BY_ID = "SELECT * FROM menu_item WHERE id = :id";
 
-    private static final String GET_MENU_ITEM_LOCALES = """
-        SELECT mil.* FROM menu_item_locale mil
-        LEFT JOIN public.menu_item mi on mi.id = mil.menu_item_id
-        WHERE mi.code = :code
-        """;
+    private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
     private static final String SAVE_ITEM = """
         INSERT INTO menu_item (price, is_available, category_id, code)
         VALUES (:price, :is_available, :category_id, :code)
@@ -50,7 +47,7 @@ public class MenuDao {
             .query(this::mapMenuItem)
             .list()
             .stream()
-            .map(it -> it.toMenuItem(getMenuItemLocales(it.code)))
+            .map(it -> it.toMenuItem(getMenuItemLocales(it.id)))
             .toList();
     }
 
@@ -59,7 +56,7 @@ public class MenuDao {
             .param("id", id)
             .query(this::mapMenuItem)
             .optional()
-            .map(it -> it.toMenuItem(getMenuItemLocales(it.code())));
+            .map(it -> it.toMenuItem(getMenuItemLocales(it.id)));
     }
 
     public Optional<MenuItem> getMenuItem(String code) {
@@ -67,11 +64,11 @@ public class MenuDao {
             .param("code", code)
             .query(this::mapMenuItem)
             .optional()
-            .map(it -> it.toMenuItem(getMenuItemLocales(code)));
+            .map(it -> it.toMenuItem(getMenuItemLocales(it.id)));
     }
 
     @Transactional
-    public void saveItem(MenuItem menuItem) {
+    public void saveItem(SavingMenuItem menuItem) {
         final int id = jdbcClient.sql(SAVE_ITEM)
             .param("price", menuItem.price().value())
             .param("is_available", menuItem.isAvailable())
@@ -93,9 +90,9 @@ public class MenuDao {
             .update();
     }
 
-    private List<MenuItemLocale> getMenuItemLocales(String code) {
+    private List<MenuItemLocale> getMenuItemLocales(int menuItemId) {
         return jdbcClient.sql(GET_MENU_ITEM_LOCALES)
-            .param("code", code)
+            .param("menu_item_id", menuItemId)
             .query(this::mapLocale)
             .list();
     }
