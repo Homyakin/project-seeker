@@ -37,4 +37,9 @@ public enum Language {
     public String value() {
         return value;
     }
+
+    public String buttonText() {
+        final var coverage = "%.2f%%".formatted(LocalizationCoverage.coverage(this) * 100);
+        return value + "(" + coverage + ")";
+    }
 }

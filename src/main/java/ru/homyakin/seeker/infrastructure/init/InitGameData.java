@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.locale.LocalizationCoverage;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 @Configuration
@@ -44,6 +45,7 @@ public class InitGameData {
             eventsPath(),
             stream -> {
                 final var events = extractClass(stream, Events.class);
+                LocalizationCoverage.addEventsInfo(events);
                 events.event().forEach(SavingEvent::validateLocale);
                 events.event().forEach(eventService::save);
             }
@@ -58,6 +60,7 @@ public class InitGameData {
             menuItemsPath(),
             stream -> {
                 final var items = extractClass(stream, Items.class);
+                LocalizationCoverage.addMenuItemsInfo(items);
                 items.item().forEach(SavingMenuItem::validateLocale);
                 items.item().forEach(menuService::saveItem);
             }
@@ -72,6 +75,7 @@ public class InitGameData {
             rumorsPath(),
             stream -> {
                 final var rumors = extractClass(stream, Rumors.class);
+                LocalizationCoverage.addRumorsInfo(rumors);
                 rumors.rumor().forEach(Rumor::validateLocale);
                 rumors.rumor().forEach(rumorService::save);
             }

@@ -45,6 +45,7 @@ public class LocalizationInitializer {
         logger.info("Filling localization");
         final var mapper = TomlMapper.builder().build();
         final var languages = Language.values();
+        LocalizationCoverage.fillLocalizationData(mapper, LOCALIZATION_PATH);
 
         for (final var language : languages) {
             ResourceUtils.doAction(

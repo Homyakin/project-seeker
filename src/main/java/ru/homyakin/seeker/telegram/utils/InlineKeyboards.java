@@ -25,9 +25,9 @@ public class InlineKeyboards {
             }
             final String text;
             if (currentLanguage == languages[i]) {
-                text = selectedLanguageIcon + languages[i].value();
+                text = selectedLanguageIcon + languages[i].buttonText();
             } else {
-                text = languages[i].value();
+                text = languages[i].buttonText();
             }
             builder.addButton(
                 text,
