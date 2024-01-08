@@ -3,6 +3,7 @@ id = 1
 price = 2
 isAvailable = true
 category = "DRINK"
+code = "water"
 
 [[item.locales]]
 language = "RU"
@@ -23,6 +24,7 @@ id = 2
 price = 10
 isAvailable = true
 category = "DRINK"
+code = "glass_water"
 
 [[item.locales]]
 language = "RU"
@@ -45,6 +47,7 @@ id = 3
 price = 5
 isAvailable = true
 category = "MAIN_DISH"
+code = "cat_soup"
 
 [[item.locales]]
 language = "RU"

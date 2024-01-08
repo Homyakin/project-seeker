@@ -21,10 +21,10 @@ public class MenuDao {
 
     private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
     private static final String SAVE_ITEM = """
-        INSERT INTO menu_item (id, price, is_available, category_id) 
-        VALUES (:id, :price, :is_available, :category_id)
+        INSERT INTO menu_item (id, price, is_available, category_id, code)
+        VALUES (:id, :price, :is_available, :category_id, :code)
         ON CONFLICT (id)
-        DO UPDATE SET price = :price, is_available = :is_available, category_id = :category_id
+        DO UPDATE SET price = :price, is_available = :is_available, category_id = :category_id, code = :code
         """;
     private static final String SAVE_LOCALE = """
         INSERT INTO menu_item_locale (menu_item_id, language_id, name, consume_template) 
@@ -63,6 +63,7 @@ public class MenuDao {
             .param("price", menuItem.price().value())
             .param("is_available", menuItem.isAvailable())
             .param("category_id", menuItem.category().id())
+            .param("code", menuItem.code())
             .update();
         saveLocales(menuItem);
     }
@@ -88,6 +89,7 @@ public class MenuDao {
     private MenuItemWithoutLocale mapMenuItem(ResultSet rs, int rowNum) throws SQLException {
         return new MenuItemWithoutLocale(
             rs.getInt("id"),
+            rs.getString("code"),
             rs.getInt("price"),
             rs.getBoolean("is_available"),
             Category.getById(rs.getInt("category_id"))
@@ -104,6 +106,7 @@ public class MenuDao {
 
     private record MenuItemWithoutLocale(
         int id,
+        String code,
         int price,
         boolean isAvailable,
         Category category
@@ -111,6 +114,7 @@ public class MenuDao {
         public MenuItem toMenuItem(List<MenuItemLocale> locales) {
             return new MenuItem(
                 id,
+                code,
                 new Money(price),
                 isAvailable,
                 category,

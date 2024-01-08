@@ -13,6 +13,7 @@ import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public record MenuItem(
     int id,
+    String code,
     Money price,
     boolean isAvailable,
     Category category,
