@@ -5,6 +5,7 @@ import java.util.List;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -19,9 +20,10 @@ public record MenuItem(
     Category category,
     List<MenuItemLocale> locales
 ) {
+    // TODO в локализацию
     public String menuPositionText(Language language) {
         return  "<b>" + name(language) + "</b> " + Icons.MONEY + price.value() + " "
-            + CommandType.ORDER.getText() + id;
+            + CommandType.ORDER.getText() + TextConstants.TG_COMMAND_DELIMITER + code;
     }
 
     public String name(Language language) {
@@ -38,12 +40,12 @@ public record MenuItem(
 
     public void validateLocale() {
         if (!LocaleUtils.checkDefaultLanguage(locales)) {
-            throw new IllegalStateException("Locale must have default language " + Language.DEFAULT + " at menu item " + id);
+            throw new IllegalStateException("Locale must have default language " + Language.DEFAULT + " at menu item " + code);
         }
     }
 
     private MenuItemLocale getLocaleByLanguageOrDefault(Language language) {
         return LocaleUtils.getLocaleByLanguageOrDefault(locales, language)
-            .orElseThrow(() -> new IllegalStateException("No default locale for menu item " + id));
+            .orElseThrow(() -> new IllegalStateException("No default locale for menu item " + code));
     }
 }

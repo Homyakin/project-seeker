@@ -1,9 +1,8 @@
 [[item]]
-id = 1
+code = "water"
 price = 2
 isAvailable = true
 category = "DRINK"
-code = "water"
 
 [[item.locales]]
 language = "RU"
@@ -20,11 +19,10 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 2
+code = "glass_water"
 price = 10
 isAvailable = true
 category = "DRINK"
-code = "glass_water"
 
 [[item.locales]]
 language = "RU"
@@ -43,11 +41,10 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 3
+code = "cat_soup"
 price = 5
 isAvailable = true
 category = "MAIN_DISH"
-code = "cat_soup"
 
 [[item.locales]]
 language = "RU"

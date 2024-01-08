@@ -56,7 +56,7 @@ public class RumorDao {
             .param("code", rumor.code())
             .param("is_available", rumor.isAvailable())
             .query((rs, rowNum) -> rs.getInt("id"))
-            .optional().orElseThrow();
+            .single();
         rumor.locales().forEach(locale -> saveLocale(id, locale));
     }
 

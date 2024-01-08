@@ -1,0 +1,17 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="make-menu-item-code-unique-not-null">
+        <addNotNullConstraint tableName="menu_item" columnName="code"/>
+
+        <addUniqueConstraint
+                columnNames="code"
+                constraintName="menu_item_code_unique"
+                tableName="menu_item"
+        />
+
+        <addAutoIncrement tableName="menu_item" columnName="id" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

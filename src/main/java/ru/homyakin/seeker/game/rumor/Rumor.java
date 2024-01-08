@@ -6,6 +6,7 @@ import ru.homyakin.seeker.locale.LocaleUtils;
 import java.util.List;
 
 public record Rumor(
+    // TODO delete
     int id,
     String code,
     boolean isAvailable,

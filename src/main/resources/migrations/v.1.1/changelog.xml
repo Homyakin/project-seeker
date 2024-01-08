@@ -5,4 +5,5 @@
 >
     <include file="changes/2024-01-03_01_add-raid-results-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-01-07_01_add-code-to-menu-item.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-01-08_01_make-menu-item-code-unique-not-null.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

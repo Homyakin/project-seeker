@@ -5,4 +5,5 @@ public class TextConstants {
     public static final String SOURCE_LINK = "https://github.com/Homyakin/project-seeker";
     public static final String TELEGRAM_CHANNEL_USERNAME = "@krezar_news";
     public static final String CALLBACK_DELIMITER = "~";
+    public static final String TG_COMMAND_DELIMITER = "_";
 }

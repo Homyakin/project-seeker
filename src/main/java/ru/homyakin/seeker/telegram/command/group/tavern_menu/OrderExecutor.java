@@ -46,16 +46,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
         final var giver = groupUser.second();
-        if (command.itemId().isEmpty()) {
-            telegramSender.send(SendMessageBuilder.builder()
-                .chatId(group.id())
-                .text(TavernMenuLocalization.itemNotInMenu(group.language()))
-                .replyMessageId(command.messageId())
-                .build()
-            );
-            return;
-        }
-        final var menuItemResult = menuService.getAvailableMenuItem(command.itemId().get());
+        final var menuItemResult = menuService.getAvailableMenuItem(command.itemCode());
         if (menuItemResult.isEmpty()) {
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(group.id())

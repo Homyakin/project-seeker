@@ -31,9 +31,8 @@ public class MenuService {
         return new TavernMenu(map);
     }
 
-    public Optional<MenuItem> getAvailableMenuItem(int id) {
-        return menuDao.getMenuItem(id)
-            .filter(MenuItem::isAvailable);
+    public Optional<MenuItem> getAvailableMenuItem(String code) {
+        return menuDao.getMenuItem(code).filter(MenuItem::isAvailable);
     }
 
     public void saveItem(MenuItem menuItem) {

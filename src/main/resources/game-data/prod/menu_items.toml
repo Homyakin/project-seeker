@@ -1,5 +1,4 @@
 [[item]]
-id = 1
 code = "beer"
 price = 3
 isAvailable = true
@@ -24,7 +23,6 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 2
 code = "slime_nastoyka"
 price = 5
 isAvailable = true
@@ -47,7 +45,6 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 3
 code = "grechka_tea"
 price = 2
 isAvailable = true
@@ -70,7 +67,6 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 4
 code = "monastery_wine"
 price = 7
 isAvailable = true
@@ -93,7 +89,6 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 5
 code = "gorgon"
 price = 5
 isAvailable = true
@@ -116,7 +111,6 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 6
 code = "cat_soup"
 price = 6
 isAvailable = true
@@ -137,7 +131,6 @@ consumeTemplate = [
 ]
 
 [[item]]
-id = 7
 code = "roast_maggoose"
 price = 8
 isAvailable = true
@@ -154,7 +147,6 @@ name = "Roast of maggoose"
 consumeTemplate = [ "Roast of fresh maggoose! Increases magical potency" ]
 
 [[item]]
-id = 8
 code = "fried_potato"
 price = 5
 isAvailable = true
