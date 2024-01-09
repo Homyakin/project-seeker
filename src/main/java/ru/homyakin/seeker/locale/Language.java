@@ -8,6 +8,7 @@ import java.util.Optional;
 public enum Language {
     RU(1, "ru"),
     EN(2, "en"),
+    KZ(3, "kz"),
     ;
 
     private final int id;
