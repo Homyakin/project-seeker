@@ -1,0 +1,141 @@
+[[rumor]]
+code = "baldurs-gate-3"
+isAvailable = false
+
+[[rumor.locales]]
+language = "RU"
+text = "Говорят калитка некоего Балдура ломается уже третий раз подряд... Бедняга"
+
+[[rumor.locales]]
+language = "EN"
+text = "Rumor has it that a certain Baldur's gate has broken for the third time in a row.... Poor guy"
+
+[[rumor]]
+code = "slime-beer"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = "В таверне уже не первый раз пытаются сварить слаймовое пиво. Вот только всех дегустаторов пришлось откачивать в храме."
+
+[[rumor.locales]]
+language = "EN"
+text = "Heard the tavern's been trying to brew slime beer for a while now. Except all the tasters had to be pumped out at the temple."
+
+[[rumor]]
+code = "maggeese-breeding"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = "Недавно один крестьянин попытался разводить маггусей на своём участке. Теперь это их участок."
+
+[[rumor.locales]]
+language = "EN"
+text = "Recently, a farmer tried to breed maggots on his property. Now it's their plot."
+
+[[rumor]]
+code = "seeker-update"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = """
+- Слышала как маги из академии обсуждали какое-то крупное обновление для системы Искателей.
+- И когда выпустят?
+- Как только так сразу...."""
+
+[[rumor.locales]]
+language = "EN"
+text = """
+- I heard the mages at the academy discussing some major update to the Seeker system.
+- When will it be released?
+- As soon as possible...."""
+
+[[rumor]]
+code = "magramming"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = '- Говорила мне мама: "иди, дитятко, в маграммисты"... А теперь до конца жизни буду заказы разносить...'
+
+[[rumor.locales]]
+language = "EN"
+text = "- My mom told me to go into magramming... Now I'm gonna be delivering orders for the rest of my life..."
+
+[[rumor]]
+code = "busy-magisterium"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = """
+- Как же я задолбался! Убей гоблинов, убей чучело, убей ещё кого-нибудь! Где настоящие приключения?!
+- Слышала, что Магистрат сейчас погружён в исследования... Так что довольствуемся тем, что имеем. На пиво хватает, и то хорошо."""
+
+[[rumor.locales]]
+language = "EN"
+text = """
+- I'm so sick of this! Kill the goblins, kill the scarecrow, kill somebody else! Where's the real adventure?!
+- I hear the Magisterium is in the middle of research. So we make do with what we've got. It's good enough for a beer."""
+
+[[rumor]]
+code = "rumors"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = """
+- Ходит слух, что в таверне теперь ходят слухи.
+- Да ладно?!"""
+
+[[rumor.locales]]
+language = "EN"
+text = """
+- There's a rumor going around the tavern now.
+- Oh, really?!"""
+
+[[rumor]]
+code = "cat-soup"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = """
+- Эй! Кто-нибудь видел полосатого кота около таверны? Нигде не могу найти.
+- Не знаю про кота, но суп сегодня просто отменный!"""
+
+[[rumor.locales]]
+language = "EN"
+text = """
+- Hey! Has anyone seen a striped cat outside the tavern? I can't find it anywhere.
+- I don't know about the cat, but the soup is really good today!"""
+
+[[rumor]]
+code = "alcoholic-waldemar"
+isAvailable = false
+
+[[rumor.locales]]
+language = "RU"
+text = """
+- Я своими глазами видела как Вальдемар выпил 42 настойки подряд и даже не закусил!
+- Да кому ты тут пиздишь?! Он из своей башни не вылезает!"""
+
+[[rumor.locales]]
+language = "EN"
+text = """
+- I saw Waldemar drink 42 tinctures in a row and not even a snack!
+- Who the fuck are you fucking kidding?! He can't get out of his tower."""
+
+[[rumor]]
+code = "wolf-citation"
+isAvailable = true
+
+[[rumor.locales]]
+language = "RU"
+text = "В жизни полно лжи и грязи, она не так красива. Даже твой лучший друг может не поделиться пивом..."
+
+[[rumor.locales]]
+language = "EN"
+text = "Life is full of lies and dirt, it's not so pretty. Even your best friend may not share a beer..."

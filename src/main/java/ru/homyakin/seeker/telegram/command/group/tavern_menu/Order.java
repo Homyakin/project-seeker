@@ -12,7 +12,7 @@ public record Order(
     GroupId groupId,
     UserId userId,
     int messageId,
-    Optional<Integer> itemId,
+    String itemCode,
     Optional<MentionInfo> mentionInfo
 ) implements Command {
     public static Order from(Message message) {
@@ -20,7 +20,7 @@ public record Order(
             GroupId.from(message.getChatId()),
             UserId.from(message.getFrom().getId()),
             message.getMessageId(),
-            OrderUtils.getMenuItemId(message.getText()),
+            OrderUtils.getMenuItemCode(message.getText()),
             MentionInfo.from(message)
         );
     }

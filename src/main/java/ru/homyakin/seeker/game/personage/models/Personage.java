@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -51,13 +52,11 @@ public record Personage(
     }
 
     public String shortProfile(Language language) {
-        return CommonLocalization
-            .profileTemplate(language, this) + "\n" + characteristics.shortStats();
+        return CommonLocalization.shortProfile(language, this);
     }
 
     public String fullProfile(Language language) {
-        final var profile = CommonLocalization
-            .profileTemplate(language, this) + "\n" + characteristics.shortStats();
+        final var profile = CommonLocalization.fullProfile(language, this);
 
         return characteristics.hasUnspentLevelingPoints()
             ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
@@ -86,7 +85,7 @@ public record Personage(
     }
 
     public String icon() {
-        return TextConstants.PERSONAGE_ICON;
+        return Icons.PERSONAGE;
     }
 
     public String iconWithName() {

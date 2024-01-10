@@ -6,7 +6,6 @@ target/
 __pycache__/
 **.DS_Store
 
-**/project-seeker-prod-data/
 src/main/resources/application-dev.properties
 
 # Eclipse

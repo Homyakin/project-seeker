@@ -1,11 +1,11 @@
 package ru.homyakin.seeker.game.personage.models;
 
-import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.infrastructure.Icons;
 
 public enum CharacteristicType {
-    STRENGTH(TextConstants.STRENGTH_ICON),
-    AGILITY(TextConstants.AGILITY_ICON),
-    WISDOM(TextConstants.WISDOM_ICON);
+    STRENGTH(Icons.STRENGTH),
+    AGILITY(Icons.AGILITY),
+    WISDOM(Icons.WISDOM);
 
     private final String icon;
 

@@ -13,27 +13,27 @@ public class MenuLocalization {
     }
 
     public static String profileButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).profileButton(), map.get(Language.DEFAULT).profileButton());
+        return CommonUtils.ifNullThen(map.get(language).profileButton(), map.get(Language.DEFAULT).profileButton());
     }
 
     public static String languageButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).languageButton(), map.get(Language.DEFAULT).languageButton());
+        return CommonUtils.ifNullThen(map.get(language).languageButton(), map.get(Language.DEFAULT).languageButton());
     }
 
     public static String receptionDeskButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).receptionDeskButton(), map.get(Language.DEFAULT).receptionDeskButton());
+        return CommonUtils.ifNullThen(map.get(language).receptionDeskButton(), map.get(Language.DEFAULT).receptionDeskButton());
     }
 
     public static String backButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).backButton(), map.get(Language.DEFAULT).backButton());
+        return CommonUtils.ifNullThen(map.get(language).backButton(), map.get(Language.DEFAULT).backButton());
     }
 
     public static String changeNameButton(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).changeNameButton(), map.get(Language.DEFAULT).changeNameButton());
+        return CommonUtils.ifNullThen(map.get(language).changeNameButton(), map.get(Language.DEFAULT).changeNameButton());
     }
 
     public static String resetStatsButton(Language language) {
-        return CommonUtils.ifNullThan(
+        return CommonUtils.ifNullThen(
             map.get(language).resetCharacteristicsButton(),
             map.get(Language.DEFAULT).resetCharacteristicsButton()
         );

@@ -5,10 +5,18 @@ welcomeGroup = """\
 chooseLanguage = "Выберите язык:"
 onlyAdminLanguage = "Данное действие доступно только администраторам"
 internalError = "Произошла ошибка, попробуйте позже"
-profileTemplate = """\
+fullProfile = """\
 ${personage_icon_with_name}
 ${money_icon}Золото: ${personage_money}
-${energy_icon}Энергия: ${energy_value}%"""
+${energy_icon}Энергия: ${energy_value}%
+${health_icon}Здоровье: ${health_value}
+${attack_icon}${attack_value} ${defense_icon}${defense_value}
+${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
+shortProfile = """\
+${personage_icon_with_name}
+${money_icon}${personage_money} ${energy_icon}${energy_value}%
+${health_icon}${health_value} ${attack_icon}${attack_value} ${defense_icon}${defense_value}
+${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
 
 # текста для группы
 groupStats = """\

@@ -6,7 +6,7 @@ import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import jakarta.validation.constraints.NotNull;
-import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;

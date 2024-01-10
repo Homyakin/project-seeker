@@ -77,7 +77,7 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
             TgPersonageMention.of(duelResult.winner().personage(), winnerUser.id()),
             TgPersonageMention.of(duelResult.loser().personage(), loserUser.id())
         ) + "\n\n" +
-            DuelLocalization.personageDuelResult(language, duelResult.winner()) + "\n" +
-            DuelLocalization.personageDuelResult(language, duelResult.loser());
+            DuelLocalization.personageDuelResult(language, duelResult.winner(), true) + "\n" +
+            DuelLocalization.personageDuelResult(language, duelResult.loser(), false);
     }
 }

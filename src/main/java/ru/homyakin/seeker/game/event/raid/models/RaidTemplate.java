@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.raid;
+package ru.homyakin.seeker.game.event.raid.models;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 
 public enum RaidTemplate {
     SINGLE_BOSS(1, new SingleBossGenerator()),
-    RAID_TEMPLATE(2, new GroupGenerator()),
+    ENEMY_GROUP(2, new GroupGenerator()),
     ;
 
     private final int id;
@@ -22,6 +22,10 @@ public enum RaidTemplate {
     RaidTemplate(int id, RaidBattleGenerator generator) {
         this.id = id;
         this.generator = generator;
+    }
+
+    public int id() {
+        return id;
     }
 
     private static final Map<Integer, RaidTemplate> map = new HashMap<>() {{

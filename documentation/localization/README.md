@@ -3,10 +3,37 @@
 1. Необходимо зайти в [папку с файлами локализации](../../src/main/resources/localization).
 2. Добавить папку с кодом своего языка.
 3. Перевести все `.toml` файлы из других папок
-4. Сделать пулл реквест с добавлением новой локализации
+4. Зайти в [папку с игровыми данными](../../src/main/resources/game-data/prod)
+5. Добавить к каждой записи объект со своим переводом. 
+Пример для events.toml:
+```toml
+[[event.locales]]
+language = "RU"
+intro = "Появилось соломенное чучело!"
+description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
+
+[[event.locales]]
+language = "КОД_ЯЗЫКА"
+intro = "ПЕРЕВОД"
+description = "ПЕРЕВОД"
+```
+6. Сделать пулл реквест с добавлением новой локализации
 
 # How to add new localization?
 1. Go to [localization files folder](../../src/main/resources/localization).
 2. Add a folder with your language code.
 3. Translate all `.toml` files from other folders
-4. Make a pull request with the addition of a new localization
+4. Go to [folder with game data](../../src/main/resources/game-data/prod)
+5. Add your translation to each object. Example for events.toml:
+```toml
+[[event.locales]]
+language = "RU"
+intro = "Появилось соломенное чучело!"
+description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
+
+[[event.locales]]
+language = "YOUR_CODE"
+intro = "YOUR_TRANSLATE"
+description = "YOUR_TRANSLATE"
+```
+6. Make pull request with the addition of new localization

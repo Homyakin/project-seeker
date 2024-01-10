@@ -14,7 +14,7 @@ public enum Category {
         this.id = id;
     }
 
-    public int getId() {
+    public int id() {
         return id;
     }
 
@@ -34,7 +34,7 @@ public enum Category {
 
     public static Category getById(int id) {
         for (Category category : values()) {
-            if (category.getId() == id) {
+            if (category.id() == id) {
                 return category;
             }
         }

@@ -15,23 +15,23 @@ public class ActiveTimeLocalization {
     }
 
     public static String incorrectArgumentsNumber(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).incorrectArgumentsNumber(), map.get(Language.DEFAULT).incorrectArgumentsNumber());
+        return CommonUtils.ifNullThen(map.get(language).incorrectArgumentsNumber(), map.get(Language.DEFAULT).incorrectArgumentsNumber());
     }
 
     public static String argumentsNotANumber(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).argumentsNotANumber(), map.get(Language.DEFAULT).argumentsNotANumber());
+        return CommonUtils.ifNullThen(map.get(language).argumentsNotANumber(), map.get(Language.DEFAULT).argumentsNotANumber());
     }
 
     public static String successChange(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).successChange(), map.get(Language.DEFAULT).successChange());
+        return CommonUtils.ifNullThen(map.get(language).successChange(), map.get(Language.DEFAULT).successChange());
     }
 
     public static String incorrectHour(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).incorrectHour(), map.get(Language.DEFAULT).incorrectHour());
+        return CommonUtils.ifNullThen(map.get(language).incorrectHour(), map.get(Language.DEFAULT).incorrectHour());
     }
 
     public static String startMoreThanEnd(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).startMoreThanEnd(), map.get(Language.DEFAULT).startMoreThanEnd());
+        return CommonUtils.ifNullThen(map.get(language).startMoreThanEnd(), map.get(Language.DEFAULT).startMoreThanEnd());
     }
 
     public static String incorrectTimeZone(Language language, int minTimeZone, int maxTimeZone) {
@@ -39,7 +39,7 @@ public class ActiveTimeLocalization {
         params.put("min_time_zone", minTimeZone);
         params.put("max_time_zone", maxTimeZone);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).incorrectTimeZone(), map.get(Language.DEFAULT).incorrectTimeZone()),
+            CommonUtils.ifNullThen(map.get(language).incorrectTimeZone(), map.get(Language.DEFAULT).incorrectTimeZone()),
             params
         );
     }
@@ -48,7 +48,7 @@ public class ActiveTimeLocalization {
         final var params = new HashMap<String, Object>();
         params.put("active_time", activeTime.toString());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).current(), map.get(Language.DEFAULT).current()),
+            CommonUtils.ifNullThen(map.get(language).current(), map.get(Language.DEFAULT).current()),
             params
         );
     }

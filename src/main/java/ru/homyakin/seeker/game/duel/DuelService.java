@@ -1,20 +1,18 @@
 package ru.homyakin.seeker.game.duel;
 
 import io.vavr.control.Either;
-
 import java.time.Duration;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
-import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
@@ -128,16 +126,16 @@ public class DuelService {
             List.of(personage2.toBattlePersonage())
         );
 
-        final BattlePersonage winner;
-        final BattlePersonage loser;
+        final PersonageBattleResult winner;
+        final PersonageBattleResult loser;
         switch (battleResult.winner()) {
             case FIRST_TEAM -> {
-                winner = battleResult.firstTeamResult().battlePersonages().getFirst();
-                loser = battleResult.secondTeamResult().battlePersonages().getFirst();
+                winner = battleResult.firstTeamResults().getFirst();
+                loser = battleResult.secondTeamResults().getFirst();
             }
             case SECOND_TEAM -> {
-                winner = battleResult.secondTeamResult().battlePersonages().getFirst();
-                loser = battleResult.firstTeamResult().battlePersonages().getFirst();
+                winner = battleResult.secondTeamResults().getFirst();
+                loser = battleResult.firstTeamResults().getFirst();
             }
             default -> throw new IllegalStateException("Unexpected status");
         }

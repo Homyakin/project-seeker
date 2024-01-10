@@ -15,6 +15,10 @@ public record RaidResource(
     String raidResult,
     String personageRaidResult,
     String raidParticipants,
-    String notEnoughEnergy
+    String notEnoughEnergy,
+    String report,
+    String reportNotPresentForPersonage,
+    String shortPersonageReport,
+    String lastGroupRaidReportNotFound
 ) {
 }

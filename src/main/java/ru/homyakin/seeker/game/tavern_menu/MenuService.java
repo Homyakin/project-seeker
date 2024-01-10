@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.TavernMenu;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
+import ru.homyakin.seeker.infrastructure.init.SavingMenuItem;
 
 @Component
 public class MenuService {
@@ -31,9 +32,12 @@ public class MenuService {
         return new TavernMenu(map);
     }
 
-    public Optional<MenuItem> getAvailableMenuItem(int id) {
-        return menuDao.getMenuItem(id)
-            .filter(MenuItem::isAvailable);
+    public Optional<MenuItem> getAvailableMenuItem(String code) {
+        return menuDao.getMenuItem(code).filter(MenuItem::isAvailable);
+    }
+
+    public void saveItem(SavingMenuItem menuItem) {
+        menuDao.saveItem(menuItem);
     }
 
     public Optional<MenuItem> getMenuItem(int id) {

@@ -15,6 +15,10 @@ public enum EventType {
         this.id = id;
     }
 
+    public int id() {
+        return id;
+    }
+
     private static final Map<Integer, EventType> map = new HashMap<>() {{
         Arrays.stream(EventType.values()).forEach(it -> put(it.id, it));
     }};

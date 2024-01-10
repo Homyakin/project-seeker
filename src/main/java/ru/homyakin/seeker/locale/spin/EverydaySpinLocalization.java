@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
-import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -20,7 +20,7 @@ public class EverydaySpinLocalization {
 
     public static String notEnoughUsers(Language language, int requiredUsers) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThan(map.get(language).notEnoughUsers(), map.get(Language.DEFAULT).notEnoughUsers()),
+            CommonUtils.ifNullThen(map.get(language).notEnoughUsers(), map.get(Language.DEFAULT).notEnoughUsers()),
             Collections.singletonMap("required_users", requiredUsers)
         );
     }
@@ -28,7 +28,7 @@ public class EverydaySpinLocalization {
     public static String alreadyChosen(Language language, PersonageMention mention) {
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
-                CommonUtils.ifNullThan(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
+                CommonUtils.ifNullThen(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
             ),
             Collections.singletonMap("mention_personage_icon_with_name", mention.value())
         );
@@ -37,21 +37,21 @@ public class EverydaySpinLocalization {
     public static String chosenUser(Language language, PersonageMention mention, Money money) {
         final var params = new HashMap<String, Object>();
         params.put("mention_personage_icon_with_name", mention.value());
-        params.put("money_icon", TextConstants.MONEY_ICON);
+        params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(
-                CommonUtils.ifNullThan(map.get(language).chosenUser(), map.get(Language.DEFAULT).chosenUser())
+                CommonUtils.ifNullThen(map.get(language).chosenUser(), map.get(Language.DEFAULT).chosenUser())
             ),
             params
         );
     }
 
     public static String noChosenUsers(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).noChosenUsers(), map.get(Language.DEFAULT).noChosenUsers());
+        return CommonUtils.ifNullThen(map.get(language).noChosenUsers(), map.get(Language.DEFAULT).noChosenUsers());
     }
 
     public static String topChosenUsers(Language language) {
-        return CommonUtils.ifNullThan(map.get(language).topChosenUsers(), map.get(Language.DEFAULT).topChosenUsers());
+        return CommonUtils.ifNullThen(map.get(language).topChosenUsers(), map.get(Language.DEFAULT).topChosenUsers());
     }
 }

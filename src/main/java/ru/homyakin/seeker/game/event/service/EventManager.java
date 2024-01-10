@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
@@ -104,7 +104,7 @@ public class EventManager {
                     );
                 } else {
                     final var participants = result.get().personageResults().stream()
-                        .map(BattlePersonage::personage)
+                        .map(PersonageRaidResult::personage)
                         .toList();
                     telegramSender.send(EditMessageTextBuilder.builder()
                         .chatId(groupEvent.groupId())

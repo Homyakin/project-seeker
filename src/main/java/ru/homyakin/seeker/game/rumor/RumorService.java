@@ -17,4 +17,8 @@ public class RumorService {
     public Optional<Rumor> getRandomAvailableRumor() {
         return rumorDao.getRandomAvailableRumor();
     }
+
+    public void save(Rumor rumor) {
+        rumorDao.saveRumor(rumor);
+    }
 }

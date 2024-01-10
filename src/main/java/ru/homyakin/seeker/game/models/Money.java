@@ -1,15 +1,18 @@
 package ru.homyakin.seeker.game.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public record Money(
     int value
 ) implements Comparable<Money> {
 
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static Money from(int value) {
         return new Money(value);
     }
 
     public static Money zero() {
-        return new Money(0);
+        return ZERO;
     }
 
     public Money add(Money money) {
@@ -40,4 +43,6 @@ public record Money(
     public int compareTo(Money other) {
         return Integer.compare(value, other.value);
     }
+
+    private static final Money ZERO = new Money(0);
 }

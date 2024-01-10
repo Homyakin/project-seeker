@@ -25,9 +25,9 @@ public class InlineKeyboards {
             }
             final String text;
             if (currentLanguage == languages[i]) {
-                text = selectedLanguageIcon + languages[i].value();
+                text = selectedLanguageIcon + languages[i].buttonText();
             } else {
-                text = languages[i].value();
+                text = languages[i].buttonText();
             }
             builder.addButton(
                 text,
@@ -72,6 +72,8 @@ public class InlineKeyboards {
             .addRow()
             .addButton(HelpLocalization.menuButton(language), callbackPrefix + HelpSection.MENU.name())
             .addButton(HelpLocalization.personageButton(language), callbackPrefix + HelpSection.PERSONAGE.name())
+            .addRow()
+            .addButton(HelpLocalization.battleSystemButton(language), callbackPrefix + HelpSection.BATTLE_SYSTEM.name())
             .addRow()
             .addButton(HelpLocalization.infoButton(language), callbackPrefix + HelpSection.INFO.name())
             .build();

@@ -3,7 +3,7 @@ package ru.homyakin.seeker.utils;
 import java.util.Map;
 
 public class CommonUtils {
-    public static <T> T ifNullThan(T obj1, T obj2) {
+    public static <T> T ifNullThen(T obj1, T obj2) {
         return obj1 == null ? obj2 : obj1;
     }
 

@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidProcessing;
-import ru.homyakin.seeker.game.event.raid.RaidResult;
+import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.PersonageService;
 
 @Service
@@ -28,7 +28,11 @@ public class EventProcessing {
             return Optional.empty();
         }
         return switch (event.type()) {
-            case RAID -> Optional.of(raidProcessing.process(event, participants));
+            case RAID -> {
+                final var results = raidProcessing.process(event, participants);
+                personageService.saveRaidResults(results.personageResults(), launchedEvent);
+                yield Optional.of(results);
+            }
         };
     }
 }

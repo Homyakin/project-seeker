@@ -8,11 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
@@ -23,11 +25,18 @@ public class PersonageService {
     private static final Logger logger = LoggerFactory.getLogger(PersonageService.class);
     private final PersonageDao personageDao;
     private final LaunchedEventService launchedEventService;
+    private final PersonageRaidResultDao personageRaidResultDao;
     private final EventService eventService;
 
-    public PersonageService(PersonageDao personageDao, LaunchedEventService launchedEventService, EventService eventService) {
+    public PersonageService(
+        PersonageDao personageDao,
+        LaunchedEventService launchedEventService,
+        PersonageRaidResultDao personageRaidResultDao,
+        EventService eventService
+    ) {
         this.personageDao = personageDao;
         this.launchedEventService = launchedEventService;
+        this.personageRaidResultDao = personageRaidResultDao;
         this.eventService = eventService;
     }
 
@@ -114,6 +123,18 @@ public class PersonageService {
             .nullifyEnergy(energyChangeTime);
         personageDao.update(updatedPersonage);
         return updatedPersonage;
+    }
+
+    public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
+        personageRaidResultDao.saveBatch(results, launchedEvent);
+    }
+
+    public Optional<PersonageRaidSavedResult> getLastRaidResult(PersonageId personageId) {
+        return personageRaidResultDao.getLastByPersonage(personageId);
+    }
+
+    public Optional<PersonageRaidSavedResult> getRaidResult(PersonageId personageId, LaunchedEvent launchedEvent) {
+        return personageRaidResultDao.getByPersonageAndEvent(personageId, launchedEvent);
     }
 
     public Personage takeMoney(Personage personage, Money money) {

@@ -1,0 +1,44 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-raid-results-table">
+        <createTable tableName="personage_raid_result">
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stats" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reward" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="personage_id, launched_event_id"
+                constraintName="personage_raid_result_pk"
+                tableName="personage_raid_result"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="personage_id"
+                baseTableName="personage_raid_result"
+                constraintName="fk_personage_raid_result_personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="launched_event_id"
+                baseTableName="personage_raid_result"
+                constraintName="fk_personage_raid_result_launched_event"
+                referencedColumnNames="id"
+                referencedTableName="launched_event"
+        />
+    </changeSet>
+</databaseChangeLog>
