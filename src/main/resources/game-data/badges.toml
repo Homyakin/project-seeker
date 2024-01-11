@@ -1,0 +1,13 @@
+[[badge]]
+code = "standart"
+
+[[badge.locales]]
+language = "RU"
+description = "Стандартный жетон Искателя"
+
+[[badge]]
+code = "first-personages"
+
+[[badge.locales]]
+language = "RU"
+description = "Первые Искатели"

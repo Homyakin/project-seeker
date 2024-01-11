@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.personage.badge.Badge;
+import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
@@ -30,12 +32,19 @@ public class InitGameData {
     private final EventService eventService;
     private final MenuService menuService;
     private final RumorService rumorService;
+    private final BadgeService badgeService;
     private InitGameDataType type;
 
-    public InitGameData(EventService eventService, MenuService menuService, RumorService rumorService) {
+    public InitGameData(
+        EventService eventService,
+        MenuService menuService,
+        RumorService rumorService,
+        BadgeService badgeService
+    ) {
         this.eventService = eventService;
         this.menuService = menuService;
         this.rumorService = rumorService;
+        this.badgeService = badgeService;
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -83,6 +92,21 @@ public class InitGameData {
         logger.info("loaded rumors");
     }
 
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadBadges() {
+        logger.info("loading badges");
+        ResourceUtils.doAction(
+            BADGES,
+            stream -> {
+                final var badges = extractClass(stream, Badges.class);
+                LocalizationCoverage.addBadgesInfo(badges);
+                badges.badge().forEach(Badge::validateLocale);
+                badges.badge().forEach(badgeService::save);
+            }
+        );
+        logger.info("loaded badges");
+    }
+
     private <T> T extractClass(InputStream stream, Class<T> clazz) {
         try {
             return mapper.readValue(stream, clazz);
@@ -111,4 +135,5 @@ public class InitGameData {
     private static final String EVENTS = File.separator + "events.toml";
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";
+    private static final String BADGES = DATA_FOLDER + "badges.toml";
 }

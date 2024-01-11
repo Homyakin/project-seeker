@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import ru.homyakin.seeker.infrastructure.init.Badges;
 import ru.homyakin.seeker.infrastructure.init.Events;
 import ru.homyakin.seeker.infrastructure.init.Items;
 import ru.homyakin.seeker.infrastructure.init.Rumors;
@@ -88,6 +89,23 @@ public class LocalizationCoverage {
         );
     }
 
+    public static void addBadgesInfo(Badges badges) {
+        final var count = badges.badge().size();
+        final var translatedEvents = new HashMap<Language, Integer>();
+        badges.badge().forEach(
+            rumor -> rumor.locales().forEach(
+                locale -> translatedEvents.merge(locale.language(), 1, Integer::sum)
+            )
+        );
+        translateInfo.put(
+            TranslateType.BADGES,
+            new TranslatedData(
+                count,
+                translatedEvents
+            )
+        );
+    }
+
     public static void addMenuItemsInfo(Items items) {
         final var count = items.item().size();
         final var translatedEvents = new HashMap<Language, Integer>();
@@ -136,5 +154,6 @@ public class LocalizationCoverage {
         EVENTS,
         RUMORS,
         MENU_ITEMS,
+        BADGES,
     }
 }

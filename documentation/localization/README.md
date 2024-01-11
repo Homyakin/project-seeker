@@ -3,7 +3,7 @@
 1. Необходимо зайти в [папку с файлами локализации](../../src/main/resources/localization).
 2. Добавить папку с кодом своего языка.
 3. Перевести все `.toml` файлы из других папок
-4. Зайти в [папку с игровыми данными](../../src/main/resources/game-data/prod)
+4. Зайти в [папку с игровыми данными](../../src/main/resources/game-data)
 5. Добавить к каждой записи объект со своим переводом. 
 Пример для events.toml:
 ```toml
@@ -23,7 +23,7 @@ description = "ПЕРЕВОД"
 1. Go to [localization files folder](../../src/main/resources/localization).
 2. Add a folder with your language code.
 3. Translate all `.toml` files from other folders
-4. Go to [folder with game data](../../src/main/resources/game-data/prod)
+4. Go to [folder with game data](../../src/main/resources/game-data)
 5. Add your translation to each object. Example for events.toml:
 ```toml
 [[event.locales]]
