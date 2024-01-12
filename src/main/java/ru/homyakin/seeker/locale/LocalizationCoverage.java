@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import ru.homyakin.seeker.infrastructure.init.Badges;
 import ru.homyakin.seeker.infrastructure.init.Events;
@@ -56,69 +57,35 @@ public class LocalizationCoverage {
     }
 
     public static void addEventsInfo(Events events) {
-        final var count = events.event().size();
-        final var translatedEvents = new HashMap<Language, Integer>();
-        events.event().forEach(
-            event -> event.locales().forEach(
-                locale -> translatedEvents.merge(locale.language(), 1, Integer::sum)
-            )
-        );
-        translateInfo.put(
-            TranslateType.EVENTS,
-            new TranslatedData(
-                count,
-                translatedEvents
-            )
-        );
+        addLocalizedInfo(events.event(), TranslateType.EVENTS);
     }
 
     public static void addRumorsInfo(Rumors rumors) {
-        final var count = rumors.rumor().size();
-        final var translatedEvents = new HashMap<Language, Integer>();
-        rumors.rumor().forEach(
-            rumor -> rumor.locales().forEach(
-                locale -> translatedEvents.merge(locale.language(), 1, Integer::sum)
-            )
-        );
-        translateInfo.put(
-            TranslateType.RUMORS,
-            new TranslatedData(
-                count,
-                translatedEvents
-            )
-        );
+        addLocalizedInfo(rumors.rumor(), TranslateType.RUMORS);
     }
 
     public static void addBadgesInfo(Badges badges) {
-        final var count = badges.badge().size();
-        final var translatedEvents = new HashMap<Language, Integer>();
-        badges.badge().forEach(
-            rumor -> rumor.locales().forEach(
-                locale -> translatedEvents.merge(locale.language(), 1, Integer::sum)
-            )
-        );
-        translateInfo.put(
-            TranslateType.BADGES,
-            new TranslatedData(
-                count,
-                translatedEvents
-            )
-        );
+        addLocalizedInfo(badges.badge(), TranslateType.BADGES);
     }
 
     public static void addMenuItemsInfo(Items items) {
-        final var count = items.item().size();
-        final var translatedEvents = new HashMap<Language, Integer>();
-        items.item().forEach(
-            item -> item.locales().forEach(
-                locale -> translatedEvents.merge(locale.language(), 1, Integer::sum)
+        addLocalizedInfo(items.item(), TranslateType.MENU_ITEMS);
+    }
+
+    private static <T extends Localized<?>> void addLocalizedInfo(List<T> locales, TranslateType type) {
+        final var count = locales.size();
+        final var translatedLocales = new HashMap<Language, Integer>();
+        locales.forEach(
+            // Считаем по каждому объекту на какие языки он был переведён
+            localized -> localized.locales().forEach(
+                locale -> translatedLocales.merge(locale.language(), 1, Integer::sum)
             )
         );
         translateInfo.put(
-            TranslateType.MENU_ITEMS,
+            type,
             new TranslatedData(
                 count,
-                translatedEvents
+                translatedLocales
             )
         );
     }

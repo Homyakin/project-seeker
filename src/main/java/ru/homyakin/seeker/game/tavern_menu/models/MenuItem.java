@@ -8,6 +8,7 @@ import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
+import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -19,7 +20,7 @@ public record MenuItem(
     boolean isAvailable,
     Category category,
     List<MenuItemLocale> locales
-) {
+) implements Localized<MenuItemLocale> {
     // TODO в локализацию
     public String menuPositionText(Language language) {
         return  "<b>" + name(language) + "</b> " + Icons.MONEY + price.value() + " "

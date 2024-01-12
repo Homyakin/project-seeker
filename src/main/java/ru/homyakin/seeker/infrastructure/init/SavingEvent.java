@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.raid.models.RaidTemplate;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
+import ru.homyakin.seeker.locale.Localized;
 
 public record SavingEvent(
     int id,
@@ -15,7 +16,7 @@ public record SavingEvent(
     boolean isEnabled,
     List<EventLocale> locales,
     Optional<SavindRaid> raid
-) {
+) implements Localized<EventLocale> {
 
     public void validateLocale() {
         if (!LocaleUtils.checkDefaultLanguage(locales)) {

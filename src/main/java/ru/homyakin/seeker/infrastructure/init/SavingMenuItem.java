@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
+import ru.homyakin.seeker.locale.Localized;
 
 public record SavingMenuItem(
     String code,
@@ -13,7 +14,7 @@ public record SavingMenuItem(
     boolean isAvailable,
     Category category,
     List<MenuItemLocale> locales
-) {
+) implements Localized<MenuItemLocale> {
 
     public void validateLocale() {
         if (!LocaleUtils.checkDefaultLanguage(locales)) {

@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
+import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 
 public record Event(
@@ -22,7 +23,7 @@ public record Event(
     EventType type,
     @NotNull
     List<EventLocale> locales
-) {
+) implements Localized<EventLocale> {
     private String toBaseMessage(Language language) {
         final var locale = getLocaleByLanguageOrDefault(language);
 
