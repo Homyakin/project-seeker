@@ -1,5 +1,5 @@
 package ru.homyakin.seeker.locale;
 
-public interface LocaleObject {
+public interface LanguageObject {
     Language language();
 }

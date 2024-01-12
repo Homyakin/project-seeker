@@ -1,14 +1,14 @@
 package ru.homyakin.seeker.game.event.models;
 
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.LocaleObject;
+import ru.homyakin.seeker.locale.LanguageObject;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 
 public record EventLocale(
     Language language,
     String intro,
     String description
-) implements LocaleObject {
+) implements LanguageObject {
     public String toStartMessage() {
         return "<b>%s</b>%n%n%s".formatted(
             intro,
