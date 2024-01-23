@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
-import ru.homyakin.seeker.game.personage.badge.Badge;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
@@ -106,7 +106,7 @@ public class InitGameData {
             stream -> {
                 final var badges = extractClass(stream, Badges.class);
                 LocalizationCoverage.addBadgesInfo(badges);
-                badges.badge().forEach(Badge::validateLocale);
+                badges.badge().forEach(SavingBadge::validateLocale);
                 badges.badge().forEach(badgeService::save);
             }
         );

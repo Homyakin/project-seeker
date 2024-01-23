@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.personage.badge;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 
 @Service
 public class BadgeService {
@@ -12,7 +13,7 @@ public class BadgeService {
         this.badgeDao = badgeDao;
     }
 
-    public void save(Badge badge) {
+    public void save(SavingBadge badge) {
         badgeDao.save(badge);
     }
 }

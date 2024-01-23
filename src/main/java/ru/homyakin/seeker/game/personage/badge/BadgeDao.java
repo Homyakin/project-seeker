@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 
 @Repository
 public class BadgeDao {
@@ -14,7 +15,7 @@ public class BadgeDao {
     }
 
     @Transactional
-    public void save(Badge badge) {
+    public void save(SavingBadge badge) {
         final var sql = """
         INSERT INTO badge (code)
         VALUES (:code)
