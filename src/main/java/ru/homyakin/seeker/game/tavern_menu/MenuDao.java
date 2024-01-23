@@ -12,7 +12,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
-import ru.homyakin.seeker.infrastructure.init.SavingMenuItem;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 import ru.homyakin.seeker.locale.Language;
 
 @Component

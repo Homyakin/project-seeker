@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventLocale;
 import ru.homyakin.seeker.game.event.models.EventType;
-import ru.homyakin.seeker.infrastructure.init.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
 import ru.homyakin.seeker.locale.Language;
 
 @Component

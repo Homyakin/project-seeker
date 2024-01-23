@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import ru.homyakin.seeker.infrastructure.init.Badges;
-import ru.homyakin.seeker.infrastructure.init.Events;
-import ru.homyakin.seeker.infrastructure.init.Items;
-import ru.homyakin.seeker.infrastructure.init.Rumors;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Events;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 public class LocalizationCoverage {

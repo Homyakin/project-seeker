@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.infrastructure.init;
+package ru.homyakin.seeker.infrastructure.init.saving_models;
 
 import java.time.Duration;
 import java.util.List;

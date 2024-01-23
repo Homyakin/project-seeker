@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.TavernMenu;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
-import ru.homyakin.seeker.infrastructure.init.SavingMenuItem;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 
 @Component
 public class MenuService {

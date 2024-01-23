@@ -18,6 +18,12 @@ import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Events;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 import ru.homyakin.seeker.locale.LocalizationCoverage;
 import ru.homyakin.seeker.utils.ResourceUtils;
 

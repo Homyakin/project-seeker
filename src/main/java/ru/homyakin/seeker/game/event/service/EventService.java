@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.event.database.EventDao;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.raid.RaidDao;
-import ru.homyakin.seeker.infrastructure.init.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
 
 @Service
 public class EventService {
