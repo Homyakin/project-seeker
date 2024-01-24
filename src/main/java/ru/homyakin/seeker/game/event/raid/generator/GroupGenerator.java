@@ -35,6 +35,7 @@ public class GroupGenerator implements RaidBattleGenerator {
                         characteristics.agility(),
                         characteristics.wisdom()
                     ),
+                    null,
                     null
                 )
             );

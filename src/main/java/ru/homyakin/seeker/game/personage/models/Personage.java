@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageDao;
+import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
-import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -23,7 +23,8 @@ public record Personage(
     String name,
     Money money,
     Characteristics characteristics,
-    Energy energy
+    Energy energy,
+    BadgeView badge
 ) {
     public Personage addMoney(Money money) {
         return new Personage(
@@ -31,7 +32,8 @@ public record Personage(
             name,
             this.money.add(money),
             characteristics,
-            energy
+            energy,
+            badge
         );
     }
 
@@ -84,12 +86,8 @@ public record Personage(
         return copyWithEnergy(Energy.createZero(energyChangeTime));
     }
 
-    public String icon() {
-        return Icons.PERSONAGE;
-    }
-
     public String iconWithName() {
-        return icon() + name;
+        return badge().icon() + name;
     }
 
     public Either<NotEnoughMoney, Personage> resetStats() {
@@ -142,7 +140,8 @@ public record Personage(
             name,
             Money.from(10),
             Characteristics.createDefault(),
-            Energy.createDefault()
+            Energy.createDefault(),
+            BadgeView.STANDARD
         );
     }
 
@@ -161,7 +160,8 @@ public record Personage(
             name,
             money,
             characteristics,
-            energy
+            energy,
+            badge
         );
     }
 
@@ -171,7 +171,8 @@ public record Personage(
             name,
             money,
             characteristics,
-            energy
+            energy,
+            badge
         );
     }
 
@@ -181,7 +182,8 @@ public record Personage(
             name,
             money,
             characteristics,
-            energy
+            energy,
+            badge
         );
     }
 }

@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.personage.badge;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
@@ -15,5 +16,9 @@ public class BadgeService {
 
     public void save(SavingBadge badge) {
         badgeDao.save(badge);
+    }
+
+    public Optional<Badge> getByCode(String code) {
+        return badgeDao.getByCode(code);
     }
 }

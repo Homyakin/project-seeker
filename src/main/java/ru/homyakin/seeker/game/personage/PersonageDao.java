@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.personage;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.personage.badge.BadgeService;
+import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;
@@ -19,12 +21,15 @@ import javax.sql.DataSource;
 @Component
 public class PersonageDao {
     private static final String GET_BY_ID = """
-        SELECT * FROM personage WHERE id = :id
+        SELECT p.*, b.code as badge_code FROM personage p
+        LEFT JOIN badge b on p.badge_id = b.id
+        WHERE p.id = :id
         """;
 
     private static final String GET_BY_LAUNCHED_EVENT = """
-        SELECT p.* FROM personage_to_event le
+        SELECT p.*, b.code as badge_code FROM personage_to_event le
         LEFT JOIN personage p on p.id = le.personage_id
+        LEFT JOIN badge b on p.badge_id = b.id
         WHERE le.launched_event_id = :launched_event_id
         """;
 
@@ -38,8 +43,9 @@ public class PersonageDao {
 
     private final SimpleJdbcInsert jdbcInsert;
     private final JdbcClient jdbcClient;
+    private final BadgeService badgeService;
 
-    public PersonageDao(DataSource dataSource) {
+    public PersonageDao(DataSource dataSource, BadgeService badgeService) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("personage")
             .usingColumns(
@@ -52,11 +58,13 @@ public class PersonageDao {
                 "agility",
                 "wisdom",
                 "last_energy_change",
-                "energy"
+                "energy",
+                "badge_id"
             );
         jdbcInsert.setGeneratedKeyName("id");
 
         this.jdbcClient = JdbcClient.create(dataSource);
+        this.badgeService = badgeService;
     }
 
     public PersonageId save(Personage personage) {
@@ -71,6 +79,7 @@ public class PersonageDao {
         params.put("wisdom", personage.characteristics().wisdom());
         params.put("last_energy_change", personage.energy().lastChange());
         params.put("energy", personage.energy().value());
+        params.put("badge_id", badgeService.getByCode(personage.badge().code()).orElseThrow().id());
 
         return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
     }
@@ -119,7 +128,8 @@ public class PersonageDao {
             new Energy(
                 rs.getInt("energy"),
                 rs.getTimestamp("last_energy_change").toLocalDateTime()
-            )
+            ),
+            BadgeView.findByCode(rs.getString("badge_code"))
         );
     }
 }

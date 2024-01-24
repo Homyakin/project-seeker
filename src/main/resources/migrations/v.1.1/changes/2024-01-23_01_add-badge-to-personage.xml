@@ -1,0 +1,30 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-badge-to-personage">
+        <addColumn tableName="personage">
+            <column name="badge_id" type="INT" defaultValue="0">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE personage
+            SET badge_id = (
+                SELECT id FROM badge WHERE code = 'standard' LIMIT 1
+            );
+        </sql>
+
+        <addNotNullConstraint tableName="personage" columnName="badge_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="personage"
+                baseColumnNames="badge_id"
+                referencedTableName="badge"
+                referencedColumnNames="id"
+                constraintName="fk_personage_badge"
+        />
+    </changeSet>
+</databaseChangeLog>

@@ -24,6 +24,7 @@ public class SingleBossGenerator implements RaidBattleGenerator {
                 characteristics.agility(),
                 characteristics.wisdom()
             ),
+            null,
             null
         );
         return Collections.singletonList(boss);
