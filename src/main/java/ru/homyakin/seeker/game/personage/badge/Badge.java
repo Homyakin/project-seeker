@@ -5,7 +5,7 @@ import ru.homyakin.seeker.locale.Localized;
 
 public record Badge(
     int id,
-    String code,
+    BadgeView view,
     List<BadgeLocale> locales
 ) implements Localized<BadgeLocale> {
 }

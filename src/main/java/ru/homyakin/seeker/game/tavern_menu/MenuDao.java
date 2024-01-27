@@ -100,7 +100,7 @@ public class MenuDao {
     private MenuItemWithoutLocale mapMenuItem(ResultSet rs, int rowNum) throws SQLException {
         return new MenuItemWithoutLocale(
             rs.getInt("id"),
-            rs.getString("code"),
+            rs.getString("view"),
             rs.getInt("price"),
             rs.getBoolean("is_available"),
             Category.getById(rs.getInt("category_id"))

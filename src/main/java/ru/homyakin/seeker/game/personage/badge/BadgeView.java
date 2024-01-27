@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.personage.badge;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import ru.homyakin.seeker.infrastructure.Icons;
 
 public enum BadgeView {
@@ -15,6 +16,7 @@ public enum BadgeView {
         this.icon = icon;
     }
 
+    @JsonCreator
     public static BadgeView findByCode(String code) {
         for (BadgeView badge : values()) {
             if (badge.code.equals(code)) {

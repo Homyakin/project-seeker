@@ -28,7 +28,7 @@ public class BadgeDao {
         RETURNING id
         """;
         final int id = jdbcClient.sql(sql)
-            .param("code", badge.code())
+            .param("code", badge.view().code())
             .query((rs, rowNum) -> rs.getInt("id"))
             .single();
         badge.locales().forEach(locale -> saveLocale(id, locale));
@@ -84,7 +84,7 @@ public class BadgeDao {
         String code
     ) {
         public Badge toBadge(List<BadgeLocale> locales) {
-            return new Badge(id, code, locales);
+            return new Badge(id, BadgeView.findByCode(code), locales);
         }
     }
 }

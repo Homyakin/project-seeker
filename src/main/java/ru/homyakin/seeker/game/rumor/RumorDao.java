@@ -74,7 +74,7 @@ public class RumorDao {
 
     private RumorWithoutLocale mapRumor(ResultSet rs, int rowNum) throws SQLException {
         return new RumorWithoutLocale(
-            rs.getString("code"),
+            rs.getString("view"),
             rs.getBoolean("is_available")
         );
     }
