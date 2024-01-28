@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
@@ -27,21 +28,25 @@ public class PersonageService {
     private final LaunchedEventService launchedEventService;
     private final PersonageRaidResultDao personageRaidResultDao;
     private final EventService eventService;
+    private final BadgeService badgeService;
 
     public PersonageService(
         PersonageDao personageDao,
         LaunchedEventService launchedEventService,
         PersonageRaidResultDao personageRaidResultDao,
-        EventService eventService
+        EventService eventService,
+        BadgeService badgeService
     ) {
         this.personageDao = personageDao;
         this.launchedEventService = launchedEventService;
         this.personageRaidResultDao = personageRaidResultDao;
         this.eventService = eventService;
+        this.badgeService = badgeService;
     }
 
     public Personage createPersonage() {
         final var id = personageDao.save(Personage.createDefault());
+        badgeService.createDefaultPersonageBadge(id);
         return personageDao.getById(id)
             .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }
@@ -50,7 +55,10 @@ public class PersonageService {
         return Personage.validateName(name)
             .map(Personage::createDefault)
             .map(personageDao::save)
-            .map(id -> personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create")))
+            .map(id -> {
+                badgeService.createDefaultPersonageBadge(id);
+                return personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
+            })
             .peekLeft(error -> logger.warn("Can't create personage with name " + name));
     }
 

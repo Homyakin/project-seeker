@@ -1,0 +1,60 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-personage-available-badges-table">
+        <createTable tableName="personage_available_badge">
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="badge_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="personage_id, badge_id"
+                constraintName="personage_available_badge_pk"
+                tableName="personage_available_badge"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="personage_available_badge"
+                baseColumnNames="personage_id"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+                constraintName="fk_personage_available_badge_personage"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="personage_available_badge"
+                baseColumnNames="badge_id"
+                referencedTableName="badge"
+                referencedColumnNames="id"
+                constraintName="fk_personage_available_badge_badge"
+        />
+
+        <sql>
+            INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
+            SELECT p.id, b.id, false
+            FROM personage p, badge b
+            WHERE b.code IN ('standard', 'first-personages');
+        </sql>
+
+        <sql>
+            UPDATE personage_available_badge pab
+            SET is_active = true
+            WHERE badge_id = (
+                SELECT p.badge_id FROM personage p
+                WHERE p.id = pab.personage_id
+                LIMIT 1
+            )
+        </sql>
+
+        <dropColumn tableName="personage" columnName="badge_id"/>
+    </changeSet>
+</databaseChangeLog>

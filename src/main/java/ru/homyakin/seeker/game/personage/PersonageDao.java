@@ -3,7 +3,6 @@ package ru.homyakin.seeker.game.personage;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
@@ -22,15 +21,19 @@ import javax.sql.DataSource;
 public class PersonageDao {
     private static final String GET_BY_ID = """
         SELECT p.*, b.code as badge_code FROM personage p
-        LEFT JOIN badge b on p.badge_id = b.id
+        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
+        LEFT JOIN badge b ON pab.badge_id = b.id
         WHERE p.id = :id
+        AND pab.is_active = true
         """;
 
     private static final String GET_BY_LAUNCHED_EVENT = """
         SELECT p.*, b.code as badge_code FROM personage_to_event le
         LEFT JOIN personage p on p.id = le.personage_id
-        LEFT JOIN badge b on p.badge_id = b.id
+        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
+        LEFT JOIN badge b on pab.badge_id = b.id
         WHERE le.launched_event_id = :launched_event_id
+        AND pab.is_active = true
         """;
 
     private static final String UPDATE = """
@@ -43,9 +46,8 @@ public class PersonageDao {
 
     private final SimpleJdbcInsert jdbcInsert;
     private final JdbcClient jdbcClient;
-    private final BadgeService badgeService;
 
-    public PersonageDao(DataSource dataSource, BadgeService badgeService) {
+    public PersonageDao(DataSource dataSource) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("personage")
             .usingColumns(
@@ -58,13 +60,11 @@ public class PersonageDao {
                 "agility",
                 "wisdom",
                 "last_energy_change",
-                "energy",
-                "badge_id"
+                "energy"
             );
         jdbcInsert.setGeneratedKeyName("id");
 
         this.jdbcClient = JdbcClient.create(dataSource);
-        this.badgeService = badgeService;
     }
 
     public PersonageId save(Personage personage) {
@@ -79,7 +79,6 @@ public class PersonageDao {
         params.put("wisdom", personage.characteristics().wisdom());
         params.put("last_energy_change", personage.energy().lastChange());
         params.put("energy", personage.energy().value());
-        params.put("badge_id", badgeService.getByCode(personage.badge().code()).orElseThrow().id());
 
         return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
     }

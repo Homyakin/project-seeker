@@ -83,7 +83,7 @@ public class GroupUserDao {
         return new GroupUser(
             GroupId.from(rs.getLong("grouptg_id")),
             UserId.from(rs.getLong("usertg_id")),
-            rs.getBoolean("is_active")
+            rs.getBoolean("isActive")
         );
     }
 }

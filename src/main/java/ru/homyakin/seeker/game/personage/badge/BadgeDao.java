@@ -43,6 +43,18 @@ public class BadgeDao {
             .map(it -> it.toBadge(getLocales(it.id)));
     }
 
+    public void savePersonageAvailableBadge(PersonageAvailableBadge availableBadge) {
+        final var sql = """
+        INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
+        VALUES (:personage_id, :badge_id, :is_active)
+        """;
+        jdbcClient.sql(sql)
+            .param("personage_id", availableBadge.personageId().value())
+            .param("badge_id", availableBadge.badge().id())
+            .param("is_active", availableBadge.isActive())
+            .update();
+    }
+
     private List<BadgeLocale> getLocales(int badgeId) {
         final var sql = "SELECT * FROM badge_locale WHERE badge_id = :badge_id";
         return jdbcClient.sql(sql)
