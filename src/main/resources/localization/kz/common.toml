@@ -5,10 +5,6 @@ welcomeGroup = """\
 chooseLanguage = "Тілді таңдаңыз:"
 onlyAdminLanguage = "Бұл әрекет тек администраторларға ғана қолжетімді"
 internalError = "Қате, кейінірек қайталап көріңіз"
-profileTemplate = """\
-${personage_icon_with_name}
-${money_icon}Алтын: ${personage_money}
-${energy_icon}Энергия: ${energy_value}%"""
 
 # текста для группы
 groupStats = """\
