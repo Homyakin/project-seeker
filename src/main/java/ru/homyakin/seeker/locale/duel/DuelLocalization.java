@@ -2,46 +2,40 @@ package ru.homyakin.seeker.locale.duel;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
-import ru.homyakin.seeker.utils.CommonUtils;
-import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class DuelLocalization {
-    private static final Map<Language, DuelResource> map = new HashMap<>();
+    private static final Resources<DuelResource> resources = new Resources<>();
 
     public static void add(Language language, DuelResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String duelMustContainsMention(Language language) {
-        final Map<String, Object> param = Collections.singletonMap("duel_command", CommandType.START_DUEL.getText());
+        final var param = Collections.<String, Object>singletonMap("duel_command", CommandType.START_DUEL.getText());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).duelMustContainsMention(), map.get(Language.DEFAULT).duelMustContainsMention()),
+            resources.getOrDefault(language, DuelResource::duelMustContainsMention),
             param
         );
     }
 
     public static String duelWithDifferentBot(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).duelWithDifferentBot(), map.get(Language.DEFAULT).duelWithDifferentBot())
-        );
+        return resources.getOrDefaultRandom(language, DuelResource::duelWithDifferentBot);
     }
 
     public static String duelWithThisBot(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).duelWithThisBot(), map.get(Language.DEFAULT).duelWithThisBot())
-        );
+        return resources.getOrDefaultRandom(language, DuelResource::duelWithThisBot);
     }
 
     public static String duelWithYourself(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).duelWithYourself(), map.get(Language.DEFAULT).duelWithYourself());
+        return resources.getOrDefault(language, DuelResource::duelWithYourself);
     }
 
     public static String duelWithInitiatorNotEnoughMoney(Language language, Money money) {
@@ -49,18 +43,13 @@ public class DuelLocalization {
         params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(
-                CommonUtils.ifNullThen(
-                    map.get(language).duelWithInitiatorNotEnoughMoney(),
-                    map.get(Language.DEFAULT).duelWithInitiatorNotEnoughMoney()
-                )
-            ),
+            resources.getOrDefaultRandom(language, DuelResource::duelWithInitiatorNotEnoughMoney),
             params
         );
     }
 
     public static String personageAlreadyStartDuel(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).personageAlreadyStartDuel(), map.get(Language.DEFAULT).personageAlreadyStartDuel());
+        return resources.getOrDefault(language, DuelResource::personageAlreadyStartDuel);
     }
 
     public static String initDuel(Language language, PersonageMention initiatorMention, PersonageMention acceptorMention) {
@@ -68,22 +57,20 @@ public class DuelLocalization {
         params.put("mention_initiator_icon_with_name", initiatorMention.value());
         params.put("mention_acceptor_icon_with_name", acceptorMention.value());
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(
-                CommonUtils.ifNullThen(map.get(language).initDuel(), map.get(Language.DEFAULT).initDuel())
-            ),
+            resources.getOrDefaultRandom(language, DuelResource::initDuel),
             params
         );
     }
 
     public static String notDuelAcceptingPersonage(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).notDuelAcceptingPersonage(), map.get(Language.DEFAULT).notDuelAcceptingPersonage());
+        return resources.getOrDefault(language, DuelResource::notDuelAcceptingPersonage);
     }
 
     public static String expiredDuel(Language language, PersonageMention acceptorMention) {
         final var params = new HashMap<String, Object>();
         params.put("mention_acceptor_icon_with_name", acceptorMention.value());
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(CommonUtils.ifNullThen(map.get(language).expiredDuel(), map.get(Language.DEFAULT).expiredDuel())),
+            resources.getOrDefaultRandom(language, DuelResource::expiredDuel),
             params
         );
     }
@@ -92,8 +79,7 @@ public class DuelLocalization {
         final var params = new HashMap<String, Object>();
         params.put("mention_initiator_icon_with_name", initiatorMention.value());
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(
-                CommonUtils.ifNullThen(map.get(language).declinedDuel(), map.get(Language.DEFAULT).declinedDuel())),
+            resources.getOrDefaultRandom(language, DuelResource::declinedDuel),
             params
         );
     }
@@ -103,29 +89,25 @@ public class DuelLocalization {
         params.put("mention_winner_icon_with_name", winnerMention.value());
         params.put("mention_loser_icon_with_name", loserMention.value());
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(
-                CommonUtils.ifNullThen(map.get(language).finishedDuel(), map.get(Language.DEFAULT).finishedDuel())
-            ),
+            resources.getOrDefaultRandom(language, DuelResource::finishedDuel),
             params
         );
     }
 
     public static String acceptDuelButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).acceptDuelButton(), map.get(Language.DEFAULT).acceptDuelButton());
+        return resources.getOrDefault(language, DuelResource::acceptDuelButton);
     }
 
     public static String declineDuelButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).declineDuelButton(), map.get(Language.DEFAULT).declineDuelButton());
+        return resources.getOrDefault(language, DuelResource::declineDuelButton);
     }
 
     public static String duelWithUnknownUser(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).duelWithUnknownUser(), map.get(Language.DEFAULT).duelWithUnknownUser())
-        );
+        return resources.getOrDefaultRandom(language, DuelResource::duelWithUnknownUser);
     }
 
     public static String duelIsLocked(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).duelIsLocked(), map.get(Language.DEFAULT).duelIsLocked());
+        return resources.getOrDefault(language, DuelResource::duelIsLocked);
     }
 
     public static String personageDuelResult(Language language, PersonageBattleResult result, boolean isWinner) {
@@ -137,12 +119,12 @@ public class DuelLocalization {
         params.put("crits_count", result.stats().critsCount());
         params.put("dodges_count", result.stats().dodgesCount());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).personageDuelResult(), map.get(Language.DEFAULT).personageDuelResult()),
+            resources.getOrDefault(language, DuelResource::personageDuelResult),
             params
         );
     }
 
     public static String duelAlreadyFinished(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).duelAlreadyFinished(), map.get(Language.DEFAULT).duelAlreadyFinished());
+        return resources.getOrDefault(language, DuelResource::duelAlreadyFinished);
     }
 }

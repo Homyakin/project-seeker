@@ -1,53 +1,51 @@
 package ru.homyakin.seeker.locale.common;
 
 import java.util.HashMap;
-import java.util.Map;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
 import ru.homyakin.seeker.telegram.group.stats.GroupStats;
-import ru.homyakin.seeker.utils.CommonUtils;
-import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class CommonLocalization {
-    private static final Map<Language, CommonResource> map = new HashMap<>();
+    private static final Resources<CommonResource> resources = new Resources<>();
 
     public static void add(Language language, CommonResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String welcomeGroup(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).welcomeGroup(), map.get(Language.DEFAULT).welcomeGroup());
+        return resources.getOrDefault(language, CommonResource::welcomeGroup);
     }
 
     public static String welcomeUser(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).welcomeUser(), map.get(Language.DEFAULT).welcomeUser());
+        return resources.getOrDefault(language, CommonResource::welcomeUser);
     }
 
     public static String chooseLanguage(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).chooseLanguage(), map.get(Language.DEFAULT).chooseLanguage());
+        return resources.getOrDefault(language, CommonResource::chooseLanguage);
     }
 
     public static String onlyAdminLanguage(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).onlyAdminLanguage(), map.get(Language.DEFAULT).onlyAdminLanguage());
+        return resources.getOrDefault(language, CommonResource::onlyAdminLanguage);
     }
 
     public static String internalError(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
+        return resources.getOrDefault(language, CommonResource::internalError);
     }
 
     public static String fullProfile(Language language, Personage personage) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).fullProfile(), map.get(Language.DEFAULT).fullProfile()),
+            resources.getOrDefault(language, CommonResource::fullProfile),
             profileParams(personage)
         );
     }
 
     public static String shortProfile(Language language, Personage personage) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).shortProfile(), map.get(Language.DEFAULT).shortProfile()),
+            resources.getOrDefault(language, CommonResource::shortProfile),
             profileParams(personage)
         );
     }
@@ -75,13 +73,11 @@ public class CommonLocalization {
     }
 
     public static String receptionDesk(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).receptionDesk(), map.get(Language.DEFAULT).receptionDesk());
+        return resources.getOrDefault(language, CommonResource::receptionDesk);
     }
 
     public static String mainMenu(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).mainMenu(), map.get(Language.DEFAULT).mainMenu())
-        );
+        return resources.getOrDefaultRandom(language, CommonResource::mainMenu);
     }
 
     public static String groupStats(Language language, GroupStats groupStats) {
@@ -91,7 +87,7 @@ public class CommonLocalization {
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).groupStats(), map.get(Language.DEFAULT).groupStats()),
+            resources.getOrDefault(language, CommonResource::groupStats),
             params
         );
     }
@@ -106,7 +102,7 @@ public class CommonLocalization {
         params.put("tavern_money_spent", stats.tavernMoneySpent());
         params.put("spin_wins_count", stats.spinWinsCount());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).personageGroupStats(), map.get(Language.DEFAULT).personageGroupStats()),
+            resources.getOrDefault(language, CommonResource::personageGroupStats),
             params
         );
     }

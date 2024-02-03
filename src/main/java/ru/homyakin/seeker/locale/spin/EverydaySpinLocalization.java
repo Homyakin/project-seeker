@@ -2,34 +2,30 @@ package ru.homyakin.seeker.locale.spin;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.utils.CommonUtils;
-import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class EverydaySpinLocalization {
-    private static final Map<Language, EverydaySpinResource> map = new HashMap<>();
+    private static final Resources<EverydaySpinResource> resources = new Resources<>();
 
     public static void add(Language language, EverydaySpinResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String notEnoughUsers(Language language, int requiredUsers) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).notEnoughUsers(), map.get(Language.DEFAULT).notEnoughUsers()),
+            resources.getOrDefault(language, EverydaySpinResource::notEnoughUsers),
             Collections.singletonMap("required_users", requiredUsers)
         );
     }
 
     public static String alreadyChosen(Language language, PersonageMention mention) {
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(
-                CommonUtils.ifNullThen(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
-            ),
+            resources.getOrDefaultRandom(language, EverydaySpinResource::alreadyChosen),
             Collections.singletonMap("mention_personage_badge_with_name", mention.value())
         );
     }
@@ -40,18 +36,16 @@ public class EverydaySpinLocalization {
         params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(
-            RandomUtils.getRandomElement(
-                CommonUtils.ifNullThen(map.get(language).chosenUser(), map.get(Language.DEFAULT).chosenUser())
-            ),
+            resources.getOrDefaultRandom(language, EverydaySpinResource::chosenUser),
             params
         );
     }
 
     public static String noChosenUsers(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).noChosenUsers(), map.get(Language.DEFAULT).noChosenUsers());
+        return resources.getOrDefault(language, EverydaySpinResource::noChosenUsers);
     }
 
     public static String topChosenUsers(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).topChosenUsers(), map.get(Language.DEFAULT).topChosenUsers());
+        return resources.getOrDefault(language, EverydaySpinResource::topChosenUsers);
     }
 }

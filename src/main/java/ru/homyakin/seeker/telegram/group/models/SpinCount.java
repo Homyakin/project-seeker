@@ -15,6 +15,7 @@ public record SpinCount(
             final var top = new StringBuilder(EverydaySpinLocalization.topChosenUsers(language)).append("\n");
             final var sorted = userCounts.stream().sorted(Comparator.comparing(PersonageCount::count).reversed()).toList();
             //TODO если вызвавшего пользователя не показало, показать место
+            // TODO в локализацию
             for (int i = 1; i <= Math.min(sorted.size(), 50); ++i) {
                 final var item = sorted.get(i - 1);
                 top.append("\n").append(i).append(". ").append(item.name()).append(": ").append(item.count());

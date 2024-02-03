@@ -2,49 +2,46 @@ package ru.homyakin.seeker.locale.personal;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.utils.CommonUtils;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class ChangeNameLocalization {
-    private static final Map<Language, ChangeNameResource> map = new HashMap<>();
+    private static final Resources<ChangeNameResource> resources = new Resources<>();
 
     public static void add(Language language, ChangeNameResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String changeNameWithoutName(Language language) {
-        return CommonUtils.ifNullThen(
-            map.get(language).changeNameWithoutName(), map.get(Language.DEFAULT).changeNameWithoutName()
-        );
+        return resources.getOrDefault(language, ChangeNameResource::changeNameWithoutName);
     }
 
     public static String initChangeName(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).initChangeName(), map.get(Language.DEFAULT).initChangeName());
+        return resources.getOrDefault(language, ChangeNameResource::initChangeName);
     }
 
     public static String cancelChangeName(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).cancelChangeName(), map.get(Language.DEFAULT).cancelChangeName());
+        return resources.getOrDefault(language, ChangeNameResource::cancelChangeName);
     }
 
     public static String confirmName(Language language, String name) {
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).confirmName(), map.get(Language.DEFAULT).confirmName()),
+            resources.getOrDefault(language, ChangeNameResource::confirmName),
             Collections.singletonMap("name", name)
         );
     }
 
     public static String cancelButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).cancelButton(), map.get(Language.DEFAULT).cancelButton());
+        return resources.getOrDefault(language, ChangeNameResource::cancelButton);
     }
 
     public static String confirmButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).confirmButton(), map.get(Language.DEFAULT).confirmButton());
+        return resources.getOrDefault(language, ChangeNameResource::confirmButton);
     }
 
     public static String repeatButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).repeatButton(), map.get(Language.DEFAULT).repeatButton());
+        return resources.getOrDefault(language, ChangeNameResource::repeatButton);
     }
 
     public static String personageNameInvalidLength(Language language, int minNameLength, int maxNameLength) {
@@ -52,22 +49,20 @@ public class ChangeNameLocalization {
         params.put("max_name_length", maxNameLength);
         params.put("min_name_length", minNameLength);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).personageNameInvalidLength(), map.get(Language.DEFAULT).personageNameInvalidLength()),
+            resources.getOrDefault(language, ChangeNameResource::personageNameInvalidLength),
             params
         );
     }
 
     public static String personageNameInvalidSymbols(Language language) {
-        return CommonUtils.ifNullThen(
-            map.get(language).personageNameInvalidSymbols(), map.get(Language.DEFAULT).personageNameInvalidSymbols()
-        );
+        return resources.getOrDefault(language, ChangeNameResource::personageNameInvalidSymbols);
     }
 
     public static String successNameChange(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).successNameChange(), map.get(Language.DEFAULT).successNameChange());
+        return resources.getOrDefault(language, ChangeNameResource::successNameChange);
     }
 
     public static String internalError(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).internalError(), map.get(Language.DEFAULT).internalError());
+        return resources.getOrDefault(language, ChangeNameResource::internalError);
     }
 }

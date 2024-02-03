@@ -2,24 +2,23 @@ package ru.homyakin.seeker.locale.help;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
-import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class HelpLocalization {
-    private static final Map<Language, HelpResource> map = new HashMap<>();
+    private static final Resources<HelpResource> resources = new Resources<>();
 
     public static void add(Language language, HelpResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String main(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).main(), map.get(Language.DEFAULT).main());
+        return resources.getOrDefault(language, HelpResource::main);
     }
 
     public static String raids(Language language) {
@@ -27,15 +26,15 @@ public class HelpLocalization {
         params.put("set_active_time_command", CommandType.SET_ACTIVE_TIME.getText());
         params.put("energy_icon", Icons.ENERGY);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).raids(), map.get(Language.DEFAULT).raids()),
+            resources.getOrDefault(language, HelpResource::raids),
             params
         );
     }
 
     public static String duels(Language language) {
-        final Map<String, Object> param = Collections.singletonMap("duel_command", CommandType.START_DUEL.getText());
+        final var param = Collections.<String, Object>singletonMap("duel_command", CommandType.START_DUEL.getText());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).duels(), map.get(Language.DEFAULT).duels()),
+            resources.getOrDefault(language, HelpResource::duels),
             param
         );
     }
@@ -45,15 +44,15 @@ public class HelpLocalization {
         params.put("menu_command", CommandType.TAVERN_MENU.getText());
         params.put("order_command", CommandType.ORDER.getText());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).menu(), map.get(Language.DEFAULT).menu()),
+            resources.getOrDefault(language, HelpResource::menu),
             params
         );
     }
 
     public static String personage(Language language) {
-        final Map<String, Object> param = Collections.singletonMap("bot_username", "@" + TelegramBotConfig.username());
+        final var param = Collections.<String, Object>singletonMap("bot_username", "@" + TelegramBotConfig.username());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).personage(), map.get(Language.DEFAULT).personage()),
+            resources.getOrDefault(language, HelpResource::personage),
             param
         );
     }
@@ -63,7 +62,7 @@ public class HelpLocalization {
         params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
         params.put("source_code_link", TextConstants.SOURCE_LINK);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).info(), map.get(Language.DEFAULT).info()),
+            resources.getOrDefault(language, HelpResource::info),
             params
         );
     }
@@ -80,32 +79,32 @@ public class HelpLocalization {
         params.put("dodge_icon", Icons.DODGE);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).battleSystem(), map.get(Language.DEFAULT).battleSystem()),
+            resources.getOrDefault(language, HelpResource::battleSystem),
             params
         );
     }
 
     public static String raidsButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).raidsButton(), map.get(Language.DEFAULT).raidsButton());
+        return resources.getOrDefault(language, HelpResource::raidsButton);
     }
 
     public static String duelsButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).duelsButton(), map.get(Language.DEFAULT).duelsButton());
+        return resources.getOrDefault(language, HelpResource::duelsButton);
     }
 
     public static String menuButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).menuButton(), map.get(Language.DEFAULT).menuButton());
+        return resources.getOrDefault(language, HelpResource::menuButton);
     }
 
     public static String personageButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).personageButton(), map.get(Language.DEFAULT).personageButton());
+        return resources.getOrDefault(language, HelpResource::personageButton);
     }
 
     public static String infoButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).infoButton(), map.get(Language.DEFAULT).infoButton());
+        return resources.getOrDefault(language, HelpResource::infoButton);
     }
 
     public static String battleSystemButton(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).battleSystemButton(), map.get(Language.DEFAULT).battleSystemButton());
+        return resources.getOrDefault(language, HelpResource::battleSystemButton);
     }
 }

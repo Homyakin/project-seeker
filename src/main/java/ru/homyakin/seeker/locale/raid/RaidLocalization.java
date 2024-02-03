@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
@@ -15,67 +14,60 @@ import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
-import ru.homyakin.seeker.utils.CommonUtils;
-import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public class RaidLocalization {
-    private static final Map<Language, RaidResource> map = new HashMap<>();
+    private static final Resources<RaidResource> resources = new Resources<>();
 
     public static void add(Language language, RaidResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String joinRaidEvent(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).joinRaidEvent(), map.get(Language.DEFAULT).joinRaidEvent());
+        return resources.getOrDefault(language, RaidResource::joinRaidEvent);
     }
 
     public static String raidStartsPrefix(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).raidStartsPrefix(), map.get(Language.DEFAULT).raidStartsPrefix());
+        return resources.getOrDefault(language, RaidResource::raidStartsPrefix);
     }
 
     public static String hoursShort(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).hoursShort(), map.get(Language.DEFAULT).minutesShort());
+        return resources.getOrDefault(language, RaidResource::hoursShort);
     }
 
     public static String minutesShort(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).minutesShort(), map.get(Language.DEFAULT).minutesShort());
+        return resources.getOrDefault(language, RaidResource::minutesShort);
     }
 
     public static String userAlreadyInThisEvent(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).userAlreadyInThisEvent(), map.get(Language.DEFAULT).userAlreadyInThisEvent());
+        return resources.getOrDefault(language, RaidResource::userAlreadyInThisEvent);
     }
 
     public static String userAlreadyInOtherEvent(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).userAlreadyInOtherEvent(), map.get(Language.DEFAULT).userAlreadyInOtherEvent());
+        return resources.getOrDefault(language, RaidResource::userAlreadyInOtherEvent);
     }
 
     public static String expiredRaid(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).expiredRaid(), map.get(Language.DEFAULT).expiredRaid());
+        return resources.getOrDefault(language, RaidResource::expiredRaid);
     }
 
     public static String raidInProcess(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).raidInProcess(), map.get(Language.DEFAULT).raidInProcess());
+        return resources.getOrDefault(language, RaidResource::raidInProcess);
     }
 
     public static String successRaid(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).successRaid(), map.get(Language.DEFAULT).successRaid())
-        );
+        return resources.getOrDefaultRandom(language, RaidResource::successRaid);
     }
 
     public static String failureRaid(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).failureRaid(), map.get(Language.DEFAULT).failureRaid())
-        );
+        return resources.getOrDefaultRandom(language, RaidResource::failureRaid);
     }
 
     public static String zeroParticipants(Language language) {
-        return RandomUtils.getRandomElement(
-            CommonUtils.ifNullThen(map.get(language).zeroParticipants(), map.get(Language.DEFAULT).zeroParticipants())
-        );
+        return resources.getOrDefaultRandom(language, RaidResource::zeroParticipants);
     }
 
     public static String raidResult(Language language, RaidResult raidResult) {
@@ -94,7 +86,7 @@ public class RaidLocalization {
         }
         final var params = paramsForRaidResult(raidResult, topPersonages);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).raidResult(), map.get(Language.DEFAULT).raidResult()),
+            resources.getOrDefault(language, RaidResource::raidResult),
             params
         );
     }
@@ -129,7 +121,7 @@ public class RaidLocalization {
         params.put("money", result.reward().value());
         params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).personageRaidResult(), map.get(Language.DEFAULT).personageRaidResult()),
+            resources.getOrDefault(language, RaidResource::personageRaidResult),
             params
         );
     }
@@ -139,7 +131,7 @@ public class RaidLocalization {
             .map(Personage::iconWithName)
             .collect(Collectors.joining(", "));
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).raidParticipants(), map.get(Language.DEFAULT).raidParticipants()),
+            resources.getOrDefault(language, RaidResource::raidParticipants),
             Collections.singletonMap("personage_badge_name_list", iconNames)
         );
     }
@@ -149,7 +141,7 @@ public class RaidLocalization {
         params.put("energy_icon", Icons.ENERGY);
         params.put("required_energy", notEnoughEnergy.requiredEnergy());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).notEnoughEnergy(), map.get(Language.DEFAULT).notEnoughEnergy()),
+            resources.getOrDefault(language, RaidResource::notEnoughEnergy),
             params
         );
     }
@@ -158,7 +150,7 @@ public class RaidLocalization {
         final var params = paramsForRaidReport(result);
         params.put("raid_date_time", TimeUtils.toString(event.endDate()));
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).report(), map.get(Language.DEFAULT).report()),
+            resources.getOrDefault(language, RaidResource::report),
             params
         );
     }
@@ -167,21 +159,17 @@ public class RaidLocalization {
         final var params = paramsForRaidReport(result);
         params.put("personage_badge_with_name", personage.iconWithName());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).shortPersonageReport(), map.get(Language.DEFAULT).shortPersonageReport()),
+            resources.getOrDefault(language, RaidResource::shortPersonageReport),
             params
         );
     }
 
     public static String reportNotPresentForPersonage(Language language) {
-        return CommonUtils.ifNullThen(
-            map.get(language).reportNotPresentForPersonage(), map.get(Language.DEFAULT).reportNotPresentForPersonage()
-        );
+        return resources.getOrDefault(language, RaidResource::reportNotPresentForPersonage);
     }
 
     public static String lastGroupRaidReportNotFound(Language language) {
-        return CommonUtils.ifNullThen(
-            map.get(language).lastGroupRaidReportNotFound(), map.get(Language.DEFAULT).lastGroupRaidReportNotFound()
-        );
+        return resources.getOrDefault(language, RaidResource::lastGroupRaidReportNotFound);
     }
 
     private static HashMap<String, Object> paramsForRaidReport(PersonageRaidSavedResult result) {

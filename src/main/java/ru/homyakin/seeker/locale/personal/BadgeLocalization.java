@@ -3,19 +3,18 @@ package ru.homyakin.seeker.locale.personal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import ru.homyakin.seeker.game.personage.badge.Badge;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
-import ru.homyakin.seeker.utils.CommonUtils;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class BadgeLocalization {
-    private static final Map<Language, BadgeResource> map = new HashMap<>();
+    private static final Resources<BadgeResource> resources = new Resources<>();
 
     public static void add(Language language, BadgeResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String availableBadges(Language language, List<PersonageAvailableBadge> badges) {
@@ -24,7 +23,7 @@ public class BadgeLocalization {
             .toList();
         final var badgeList = String.join("\n", showBadges);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).availableBadges(), map.get(Language.DEFAULT).availableBadges()),
+            resources.getOrDefault(language, BadgeResource::availableBadges),
             Collections.singletonMap("badge_list", badgeList)
         );
     }
@@ -35,12 +34,12 @@ public class BadgeLocalization {
         params.put("badge_icon", badge.view().icon());
         params.put("badge_description", badgeLocale.orElseThrow().description());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).badge(), map.get(Language.DEFAULT).badge()),
+            resources.getOrDefault(language, BadgeResource::badge),
             params
         );
     }
 
     public static String badgeIsNotAvailable(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).badgeIsNotAvailable(), map.get(Language.DEFAULT).badgeIsNotAvailable());
+        return resources.getOrDefault(language, BadgeResource::badgeIsNotAvailable);
     }
 }

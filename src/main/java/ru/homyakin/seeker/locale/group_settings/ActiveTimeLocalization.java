@@ -1,37 +1,36 @@
 package ru.homyakin.seeker.locale.group_settings;
 
 import java.util.HashMap;
-import java.util.Map;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
-import ru.homyakin.seeker.utils.CommonUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class ActiveTimeLocalization {
-    private static final Map<Language, ActiveTimeResource> map = new HashMap<>();
+    private static final Resources<ActiveTimeResource> resources = new Resources<>();
 
     public static void add(Language language, ActiveTimeResource resource) {
-        map.put(language, resource);
+        resources.add(language, resource);
     }
 
     public static String incorrectArgumentsNumber(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).incorrectArgumentsNumber(), map.get(Language.DEFAULT).incorrectArgumentsNumber());
+        return resources.getOrDefault(language, ActiveTimeResource::incorrectArgumentsNumber);
     }
 
     public static String argumentsNotANumber(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).argumentsNotANumber(), map.get(Language.DEFAULT).argumentsNotANumber());
+        return resources.getOrDefault(language, ActiveTimeResource::argumentsNotANumber);
     }
 
     public static String successChange(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).successChange(), map.get(Language.DEFAULT).successChange());
+        return resources.getOrDefault(language, ActiveTimeResource::successChange);
     }
 
     public static String incorrectHour(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).incorrectHour(), map.get(Language.DEFAULT).incorrectHour());
+        return resources.getOrDefault(language, ActiveTimeResource::incorrectHour);
     }
 
     public static String startMoreThanEnd(Language language) {
-        return CommonUtils.ifNullThen(map.get(language).startMoreThanEnd(), map.get(Language.DEFAULT).startMoreThanEnd());
+        return resources.getOrDefault(language, ActiveTimeResource::startMoreThanEnd);
     }
 
     public static String incorrectTimeZone(Language language, int minTimeZone, int maxTimeZone) {
@@ -39,7 +38,7 @@ public class ActiveTimeLocalization {
         params.put("min_time_zone", minTimeZone);
         params.put("max_time_zone", maxTimeZone);
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).incorrectTimeZone(), map.get(Language.DEFAULT).incorrectTimeZone()),
+            resources.getOrDefault(language, ActiveTimeResource::incorrectTimeZone),
             params
         );
     }
@@ -48,7 +47,7 @@ public class ActiveTimeLocalization {
         final var params = new HashMap<String, Object>();
         params.put("active_time", activeTime.toString());
         return StringNamedTemplate.format(
-            CommonUtils.ifNullThen(map.get(language).current(), map.get(Language.DEFAULT).current()),
+            resources.getOrDefault(language, ActiveTimeResource::current),
             params
         );
     }
