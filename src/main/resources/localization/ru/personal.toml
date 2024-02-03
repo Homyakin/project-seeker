@@ -50,7 +50,7 @@ wisdomButton = "+1${wisdom_icon}"
 
 [badges]
 availableBadges = """\
-Досутпные жетоны:
+Доступные жетоны:
 
 ${badge_list}"""
 badge = """\
