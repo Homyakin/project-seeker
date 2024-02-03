@@ -70,6 +70,7 @@ public class BadgeDao {
             SELECT * FROM personage_available_badge pab
             LEFT JOIN public.badge b on b.id = pab.badge_id
             WHERE personage_id = :personage_id
+            ORDER BY b.id
             """;
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
