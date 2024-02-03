@@ -35,7 +35,7 @@ public record MenuItem(
         final var locale = getLocaleByLanguageOrDefault(language);
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(locale.consumeTemplate()),
-            Collections.singletonMap("personage_icon_with_name", personage.iconWithName())
+            Collections.singletonMap("personage_badge_with_name", personage.iconWithName())
         );
     }
 

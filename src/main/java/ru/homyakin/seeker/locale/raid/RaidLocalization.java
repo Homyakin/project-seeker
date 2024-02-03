@@ -123,7 +123,7 @@ public class RaidLocalization {
     public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
         params.put("dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "");
-        params.put("personage_icon_with_name", result.personage().iconWithName());
+        params.put("personage_badge_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
         params.put("money", result.reward().value());
@@ -140,7 +140,7 @@ public class RaidLocalization {
             .collect(Collectors.joining(", "));
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).raidParticipants(), map.get(Language.DEFAULT).raidParticipants()),
-            Collections.singletonMap("personage_icon_name_list", iconNames)
+            Collections.singletonMap("personage_badge_name_list", iconNames)
         );
     }
 
@@ -165,7 +165,7 @@ public class RaidLocalization {
 
     public static String shortPersonageReport(Language language, PersonageRaidSavedResult result, Personage personage) {
         final var params = paramsForRaidReport(result);
-        params.put("personage_icon_with_name", personage.iconWithName());
+        params.put("personage_badge_with_name", personage.iconWithName());
         return StringNamedTemplate.format(
             CommonUtils.ifNullThen(map.get(language).shortPersonageReport(), map.get(Language.DEFAULT).shortPersonageReport()),
             params

@@ -56,7 +56,7 @@ public class CommonLocalization {
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);
-        params.put("personage_icon_with_name", personage.iconWithName());
+        params.put("personage_badge_with_name", personage.iconWithName());
         params.put("personage_money", personage.money().value());
         params.put("energy_value", personage.energy().value());
         params.put("attack_icon", Icons.ATTACK);

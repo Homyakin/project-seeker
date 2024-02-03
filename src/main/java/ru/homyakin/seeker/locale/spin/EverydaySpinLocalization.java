@@ -30,13 +30,13 @@ public class EverydaySpinLocalization {
             RandomUtils.getRandomElement(
                 CommonUtils.ifNullThen(map.get(language).alreadyChosen(), map.get(Language.DEFAULT).alreadyChosen())
             ),
-            Collections.singletonMap("mention_personage_icon_with_name", mention.value())
+            Collections.singletonMap("mention_personage_badge_with_name", mention.value())
         );
     }
 
     public static String chosenUser(Language language, PersonageMention mention, Money money) {
         final var params = new HashMap<String, Object>();
-        params.put("mention_personage_icon_with_name", mention.value());
+        params.put("mention_personage_badge_with_name", mention.value());
         params.put("money_icon", Icons.MONEY);
         params.put("money_count", money.value());
         return StringNamedTemplate.format(

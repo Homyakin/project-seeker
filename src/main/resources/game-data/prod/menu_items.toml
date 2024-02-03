@@ -8,8 +8,8 @@ category = "DRINK"
 language = "RU"
 name = "Пиво"
 consumeTemplate = [
-    "Кружка пива для нашего постоянного гостя <b>${personage_icon_with_name}</b>",
-    "Нет ничего лучше кружки прохладного пива после тяжёлого дня. Верно, <b>${personage_icon_with_name}</b>?",
+    "Кружка пива для нашего постоянного гостя <b>${personage_badge_with_name}</b>",
+    "Нет ничего лучше кружки прохладного пива после тяжёлого дня. Верно, <b>${personage_badge_with_name}</b>?",
     "Пивка! Для рывка!",
     "Губит людей не пиво. Губит людей вода!"
 ]
@@ -18,8 +18,8 @@ consumeTemplate = [
 language = "EN"
 name = "Beer"
 consumeTemplate = [
-    "A beer mug for our regular guest <b>${personage_icon_with_name}</b>",
-    "There is nothing better than a mug of cool beer after a hard day. Right, <b>${personage_icon_with_name}</b>?"
+    "A beer mug for our regular guest <b>${personage_badge_with_name}</b>",
+    "There is nothing better than a mug of cool beer after a hard day. Right, <b>${personage_badge_with_name}</b>?"
 ]
 
 [[item]]
@@ -32,7 +32,7 @@ category = "DRINK"
 language = "RU"
 name = "Настойка на слаймах"
 consumeTemplate = [
-    "Я смотрю, <b>${personage_icon_with_name}</b> знает толк в качественной выпивке! И слаймах.",
+    "Я смотрю, <b>${personage_badge_with_name}</b> знает толк в качественной выпивке! И слаймах.",
     "Настойка на слаймах, пойманных в окрестностях Крезара. Утром даже голова не болит! Но от других побочек никто не застрахован..."
 ]
 
@@ -40,7 +40,7 @@ consumeTemplate = [
 language = "EN"
 name = "Tincture on slimes"
 consumeTemplate = [
-    "I see <b>${personage_icon_with_name}</b> knows a lot about quality booze! And slime.",
+    "I see <b>${personage_badge_with_name}</b> knows a lot about quality booze! And slime.",
     "Tincture on slimes caught in the vicinity of Krezar. It's not even a headache in the morning! But no one is immune from other side effects..."
 ]
 
@@ -54,7 +54,7 @@ category = "DRINK"
 language = "RU"
 name = "Гречкин чай"
 consumeTemplate = [
-    "Нет не из гречихи, да на гречке, угощайтесь, <b>${personage_icon_with_name}</b>.",
+    "Нет не из гречихи, да на гречке, угощайтесь, <b>${personage_badge_with_name}</b>.",
     "Теплый напиток со вкусом обеда - готов!"
 ]
 
@@ -62,7 +62,7 @@ consumeTemplate = [
 language = "EN"
 name = "Buckwheat tea"
 consumeTemplate = [
-    "Fresh buckwheat, treat yourself, <b>${personage_icon_with_name}</b>.",
+    "Fresh buckwheat, treat yourself, <b>${personage_badge_with_name}</b>.",
     "A warm drink with the taste of lunch is ready!"
 ]
 
@@ -120,14 +120,14 @@ category = "MAIN_DISH"
 language = "RU"
 name = "Суп с котом"
 consumeTemplate = [
-    "Суп с котом для <b>${personage_icon_with_name}</b>! Мяукал ещё 15 минут назад"
+    "Суп с котом для <b>${personage_badge_with_name}</b>! Мяукал ещё 15 минут назад"
 ]
 
 [[item.locales]]
 language = "EN"
 name = "Cat soup"
 consumeTemplate = [
-    "Cat soup for <b>${personage_icon_with_name}</b>! Meowed 15 minutes ago"
+    "Cat soup for <b>${personage_badge_with_name}</b>! Meowed 15 minutes ago"
 ]
 
 [[item]]
@@ -156,7 +156,7 @@ category = "MAIN_DISH"
 language = "RU"
 name = "Жареная картошечка"
 consumeTemplate = [
-    "Мммм, горячая картошечка... Отжарили ее для <b>${personage_icon_with_name}</b>!",
+    "Мммм, горячая картошечка... Отжарили ее для <b>${personage_badge_with_name}</b>!",
     "Горячее этой картошечки - только ты!"
 ]
 

@@ -18,11 +18,11 @@ failureRaid = [
 zeroParticipants = [
     "Тапсырысты ешкім қабылдамады😢Бұл жолы ақшаны ешкім алмайды."
 ]
-personageRaidResult = "${personage_icon_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨 +${money}${money_icon}"
+personageRaidResult = "${personage_badge_with_name}: ${damage_dealt}💥 ${damage_taken}🛡 ${dodges_count}💨 +${money}${money_icon}"
 raidResult = """\
 Қарсыластар: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
 
 Үздік іздеушілер:
 ${top_personages_list}"""
-raidParticipants = "Қатысушылар: ${personage_icon_name_list}"
+raidParticipants = "Қатысушылар: ${personage_badge_name_list}"
 notEnoughEnergy = "Шаршаған көрінесің! Кем дегенде осыған дейін демалыңыз: ${energy_icon}${required_energy}%"

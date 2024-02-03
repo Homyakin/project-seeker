@@ -2,29 +2,29 @@ notEnoughUsers = """\
 Для торжественного объявления Работяги дня необходимо собрать хотя бы минимальную группу: ${required_users}! \
 Просто покажите удостоверение через /me"""
 alreadyChosen = [
-    "На сегодня место главного работяги занято ${mention_personage_icon_with_name}",
-    "Все работяги уже распределены. Сегодня это ${mention_personage_icon_with_name}. Приходите завтра!"
+    "На сегодня место главного работяги занято ${mention_personage_badge_with_name}",
+    "Все работяги уже распределены. Сегодня это ${mention_personage_badge_with_name}. Приходите завтра!"
 ]
 chosenUser = [
-    "Теперь ${mention_personage_icon_with_name} в рядах работяг Крезара, вот лопата, вот могилы! +${money_count}${money_icon}",
-    "Работяга дня - ${mention_personage_icon_with_name}! Занимается отшкребыванием зубастых грибов у бабы Зины на даче. +${money_count}${money_icon}",
+    "Теперь ${mention_personage_badge_with_name} в рядах работяг Крезара, вот лопата, вот могилы! +${money_count}${money_icon}",
+    "Работяга дня - ${mention_personage_badge_with_name}! Занимается отшкребыванием зубастых грибов у бабы Зины на даче. +${money_count}${money_icon}",
     """\
-Добро пожаловать в ряды работяг, ${mention_personage_icon_with_name}! \
+Добро пожаловать в ряды работяг, ${mention_personage_badge_with_name}! \
 Туалеты тут, вилку в зубы и вот так вот раз-раз, раз-раз! +${money_count}${money_icon}""",
     """\
 Новая задача для работяги! Как известно волк в цирке не выступает, \
-а ${mention_personage_icon_with_name} с удовольствием заменит его сегодня на арене! +${money_count}${money_icon}""",
+а ${mention_personage_badge_with_name} с удовольствием заменит его сегодня на арене! +${money_count}${money_icon}""",
     """\
-Барды всю ночь драли глотки. Сегодня работяге ${mention_personage_icon_with_name} \
+Барды всю ночь драли глотки. Сегодня работяге ${mention_personage_badge_with_name} \
 предстоит смазать все гортани музыкантов для дальнейшей эксплуатации. +${money_count}${money_icon}""",
     """\
-Работа не волк, да и ${mention_personage_icon_with_name} не волк. \
+Работа не волк, да и ${mention_personage_badge_with_name} не волк. \
 Просто настоящий работяга — давайте хотя бы сегодня это признаем! +${money_count}${money_icon}""",
     """\
-Э, ${mention_personage_icon_with_name}, вставай. Вставай, бля, задолбал, на работу пора. \
+Э, ${mention_personage_badge_with_name}, вставай. Вставай, бля, задолбал, на работу пора. \
 Всё ради +${money_count}${money_icon}""",
     """\
-Работать, ${mention_personage_icon_with_name}! Солнце ещё высоко! Задача на сегодня: \
+Работать, ${mention_personage_badge_with_name}! Солнце ещё высоко! Задача на сегодня: \
 копать от забора и до обеда за +${money_count}${money_icon}""",
 ]
 noChosenUsers = "Никто ещё не был назначен работягой в этой группе."

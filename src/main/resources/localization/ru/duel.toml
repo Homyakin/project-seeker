@@ -61,6 +61,6 @@ duelWithUnknownUser = [
 ]
 duelIsLocked = "Дуэль обрабатывается, попробуйте позже."
 personageDuelResult = """\
-${winner_or_loser_icon}${personage_icon_with_name}: \
+${winner_or_loser_icon}${personage_badge_with_name}: \
 ${damage_dealt}⚔️ ${damage_taken}🛡 (${crits_count}💥${dodges_count}💨)"""
 duelAlreadyFinished = "Дуэль была завершена ранее, но результат не отразился по причине ошибки системы. Приносим свои извинения."

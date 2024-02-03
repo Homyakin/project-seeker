@@ -131,7 +131,7 @@ public class DuelLocalization {
     public static String personageDuelResult(Language language, PersonageBattleResult result, boolean isWinner) {
         final var params = new HashMap<String, Object>();
         params.put("winner_or_loser_icon", isWinner ? Icons.DUEL_WINNER : Icons.DUEL_LOSER);
-        params.put("personage_icon_with_name", result.personage().iconWithName());
+        params.put("personage_badge_with_name", result.personage().iconWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
         params.put("crits_count", result.stats().critsCount());
