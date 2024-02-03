@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.locale.Language;
 
@@ -22,11 +23,11 @@ public class BadgeDao {
     @Transactional
     public void save(SavingBadge badge) {
         final var sql = """
-        INSERT INTO badge (code)
-        VALUES (:code)
-        ON CONFLICT (code) DO UPDATE SET code = :code
-        RETURNING id
-        """;
+            INSERT INTO badge (code)
+            VALUES (:code)
+            ON CONFLICT (code) DO UPDATE SET code = :code
+            RETURNING id
+            """;
         final int id = jdbcClient.sql(sql)
             .param("code", badge.view().code())
             .query((rs, rowNum) -> rs.getInt("id"))
@@ -43,15 +44,65 @@ public class BadgeDao {
             .map(it -> it.toBadge(getLocales(it.id)));
     }
 
+    public Optional<Badge> getById(int id) {
+        final var sql = "SELECT * FROM badge WHERE id = :id";
+        return jdbcClient.sql(sql)
+            .param("id", id)
+            .query(this::mapBadge)
+            .optional()
+            .map(it -> it.toBadge(getLocales(it.id)));
+    }
+
     public void savePersonageAvailableBadge(PersonageAvailableBadge availableBadge) {
         final var sql = """
-        INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
-        VALUES (:personage_id, :badge_id, :is_active)
-        """;
+            INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
+            VALUES (:personage_id, :badge_id, :is_active)
+            """;
         jdbcClient.sql(sql)
             .param("personage_id", availableBadge.personageId().value())
             .param("badge_id", availableBadge.badge().id())
             .param("is_active", availableBadge.isActive())
+            .update();
+    }
+
+    public List<PersonageAvailableBadge> getPersonageAvailableBadges(PersonageId personageId) {
+        final var sql = """
+            SELECT * FROM personage_available_badge pab
+            LEFT JOIN public.badge b on b.id = pab.badge_id
+            WHERE personage_id = :personage_id
+            """;
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .query((rs, rowNum) -> {
+                final var badge = mapBadge(rs, rowNum);
+                final var locales = getLocales(badge.id());
+                return new PersonageAvailableBadge(
+                    personageId,
+                    badge.toBadge(locales),
+                    rs.getBoolean("is_active")
+                );
+            })
+            .list();
+    }
+
+    @Transactional
+    public void activatePersonageBadge(PersonageId personageId, Badge badge) {
+        final var deactivatePersonageBadges = """
+            UPDATE personage_available_badge SET is_active = false
+            WHERE personage_id = :personage_id
+            AND is_active = true
+            """;
+        final var activatePersonageBadge = """
+            UPDATE personage_available_badge SET is_active = true
+            WHERE personage_id = :personage_id
+            AND badge_id = :badge_id
+            """;
+        jdbcClient.sql(deactivatePersonageBadges)
+            .param("personage_id", personageId.value())
+            .update();
+        jdbcClient.sql(activatePersonageBadge)
+            .param("personage_id", personageId.value())
+            .param("badge_id", badge.id())
             .update();
     }
 
@@ -65,11 +116,11 @@ public class BadgeDao {
 
     private void saveLocale(int badgeId, BadgeLocale locale) {
         final var sql = """
-        INSERT INTO badge_locale (badge_id, language_id, description)
-        VALUES (:badge_id, :language_id, :description)
-        ON CONFLICT (badge_id, language_id)
-        DO UPDATE SET description = :description
-        """;
+            INSERT INTO badge_locale (badge_id, language_id, description)
+            VALUES (:badge_id, :language_id, :description)
+            ON CONFLICT (badge_id, language_id)
+            DO UPDATE SET description = :description
+            """;
         jdbcClient.sql(sql)
             .param("badge_id", badgeId)
             .param("language_id", locale.language().id())

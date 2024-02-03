@@ -24,6 +24,7 @@ public class ReplyKeyboards {
             .addButton(button(MenuLocalization.languageButton(language)))
             .addRow()
             .addButton(button(MenuLocalization.changeNameButton(language)))
+            .addButton(button(MenuLocalization.showBadgesButton(language)))
             .addRow()
             .addButton(button(MenuLocalization.backButton(language)))
             .build();

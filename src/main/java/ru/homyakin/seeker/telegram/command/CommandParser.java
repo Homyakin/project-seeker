@@ -28,6 +28,8 @@ import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.command.user.badge.SelectBadge;
+import ru.homyakin.seeker.telegram.command.user.badge.ShowBadges;
 import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
@@ -117,6 +119,7 @@ public class CommandParser {
                 case RESET_CHARACTERISTICS -> ResetCharacteristics.from(message);
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
+                case SHOW_BADGES -> ShowBadges.from(message);
                 default -> null;
             });
     }
@@ -160,6 +163,7 @@ public class CommandParser {
                 case CONFIRM_RESET_CHARACTERISTICS -> ConfirmResetCharacteristics.from(callback);
                 case CANCEL_RESET_CHARACTERISTICS -> CancelResetCharacteristics.from(callback);
                 case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
+                case SELECT_BADGE -> SelectBadge.from(callback);
                 default -> null;
             });
     }

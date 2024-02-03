@@ -38,6 +38,8 @@ public enum CommandType {
     CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS),
     PERSONAGE_STATS("/stats_me", CheckType.EQUALS),
     RAID_REPORT("/report_raid", CheckType.EQUALS),
+    SHOW_BADGES(null, CheckType.MAP),
+    SELECT_BADGE("selectBadge", CheckType.EQUALS)
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -70,6 +72,7 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.backButton(), CommandType.BACK);
         CommonUtils.putIfKeyPresents(textToType, resource.resetCharacteristicsButton(), CommandType.RESET_CHARACTERISTICS);
         CommonUtils.putIfKeyPresents(textToType, resource.changeNameButton(), CommandType.INIT_CHANGE_NAME);
+        CommonUtils.putIfKeyPresents(textToType, resource.showBadgesButton(), CommandType.SHOW_BADGES);
     }
 
     private boolean check(String text) {

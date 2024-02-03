@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
@@ -25,7 +26,8 @@ public class PersonageServiceAddEventTest {
         personageDao,
         launchedEventService,
         Mockito.mock(PersonageRaidResultDao.class),
-        eventService
+        eventService,
+        Mockito.mock(BadgeService.class)
     );
     private Personage personage;
     private Event event;

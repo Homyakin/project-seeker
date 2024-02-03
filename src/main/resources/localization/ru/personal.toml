@@ -5,6 +5,7 @@ receptionDeskButton = "✍️Стойка регистрации"
 backButton = "⬅️Назад"
 resetCharacteristicsButton = "📖Книга забвения"
 changeNameButton = "🔮Сменить имя"
+showBadgesButton = "🔰Жетоны"
 
 [changeName]
 changeNameWithoutName="Имя не может быть пустым!"
@@ -46,3 +47,12 @@ cancelButton = "❌В другой раз"
 strengthButton = "+1${strength_icon}"
 agilityButton = "+1${agility_icon}"
 wisdomButton = "+1${wisdom_icon}"
+
+[badges]
+availableBadges = """\
+Досутпные жетоны:
+
+${badge_list}"""
+badge = """\
+${badge_icon} ${badge_description}"""
+badgeIsNotAvailable = "Данный жетон недоступен"

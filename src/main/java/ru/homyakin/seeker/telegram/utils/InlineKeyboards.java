@@ -1,7 +1,9 @@
 package ru.homyakin.seeker.telegram.utils;
 
+import java.util.List;
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
@@ -14,7 +16,7 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
 
 public class InlineKeyboards {
-    private static final String selectedLanguageIcon = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
+    private static final String selectedIcon = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
 
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
         final var languages = Language.values();
@@ -25,7 +27,7 @@ public class InlineKeyboards {
             }
             final String text;
             if (currentLanguage == languages[i]) {
-                text = selectedLanguageIcon + languages[i].buttonText();
+                text = selectedIcon + languages[i].buttonText();
             } else {
                 text = languages[i].buttonText();
             }
@@ -97,6 +99,24 @@ public class InlineKeyboards {
             .addButton(CharacteristicLocalization.agilityButton(language), callbackPrefix + CharacteristicType.AGILITY.name())
             .addButton(CharacteristicLocalization.wisdomButton(language), callbackPrefix + CharacteristicType.WISDOM.name())
             .build();
+    }
+
+    public static InlineKeyboardMarkup badgeSelector(List<PersonageAvailableBadge> badges) {
+        final var builder = InlineKeyboardBuilder.builder();
+        final var callbackPrefix = CommandType.SELECT_BADGE.getText() + TextConstants.CALLBACK_DELIMITER;
+        for (int i = 0; i < badges.size(); ++i) {
+            if (i % 4 == 0) { // по 4 элемента в строке
+                builder.addRow();
+            }
+            final var badge = badges.get(i);
+            if (badge.isActive()) {
+                builder.addButton(selectedIcon + badge.badge().view().icon(), callbackPrefix + badge.badge().id());
+            } else {
+                builder.addButton(badge.badge().view().icon(), callbackPrefix + badge.badge().id());
+            }
+
+        }
+        return builder.build();
     }
 
     public static InlineKeyboardMarkup consumeMenuItemOrderKeyboard(

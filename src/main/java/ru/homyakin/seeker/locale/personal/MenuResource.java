@@ -6,6 +6,7 @@ public record MenuResource(
     String receptionDeskButton,
     String backButton,
     String resetCharacteristicsButton,
-    String changeNameButton
+    String changeNameButton,
+    String showBadgesButton
 ) {
 }

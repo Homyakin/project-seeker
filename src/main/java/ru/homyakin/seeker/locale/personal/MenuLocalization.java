@@ -32,6 +32,10 @@ public class MenuLocalization {
         return CommonUtils.ifNullThen(map.get(language).changeNameButton(), map.get(Language.DEFAULT).changeNameButton());
     }
 
+    public static String showBadgesButton(Language language) {
+        return CommonUtils.ifNullThen(map.get(language).showBadgesButton(), map.get(Language.DEFAULT).showBadgesButton());
+    }
+
     public static String resetStatsButton(Language language) {
         return CommonUtils.ifNullThen(
             map.get(language).resetCharacteristicsButton(),

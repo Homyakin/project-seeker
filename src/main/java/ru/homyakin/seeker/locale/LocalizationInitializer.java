@@ -14,6 +14,7 @@ import ru.homyakin.seeker.locale.group_settings.ActiveTimeLocalization;
 import ru.homyakin.seeker.locale.group_settings.GroupSettingsResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.help.HelpResource;
+import ru.homyakin.seeker.locale.personal.BadgeLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
@@ -65,6 +66,7 @@ public class LocalizationInitializer {
                     ChangeNameLocalization.add(language, resource.changeName());
                     CharacteristicLocalization.add(language, resource.characteristics());
                     MenuLocalization.add(language, resource.menu());
+                    BadgeLocalization.add(language, resource.badges());
                     CommandType.fillLocaleMap(resource.menu());
                     ChangeNameCommandType.fillLocaleMap(resource.changeName());
                 }
