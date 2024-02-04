@@ -111,7 +111,7 @@ public class GroupDao {
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Group(
             GroupId.from(rs.getLong("id")),
-            rs.getBoolean("isActive"),
+            rs.getBoolean("is_active"),
             Language.getOrDefault(rs.getInt("language_id")),
             new ActiveTime(
                 rs.getInt("start_active_hour"),
