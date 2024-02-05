@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.tavern_menu;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -77,41 +78,45 @@ public class MenuDao {
             .query((rs, rowNum) -> rs.getInt("id"))
             .single();
         menuItem.locales().forEach(
-            locale -> saveLocale(id, locale)
+            (language, locale) -> saveLocale(id, language, locale)
         );
     }
 
-    private void saveLocale(int menuItemId, MenuItemLocale locale) {
+    private void saveLocale(int menuItemId, Language language, MenuItemLocale locale) {
         jdbcClient.sql(SAVE_LOCALE)
             .param("menu_item_id", menuItemId)
-            .param("language_id", locale.language().id())
+            .param("language_id", language.id())
             .param("name", locale.name())
             .param("consume_template", locale.consumeTemplate())
             .update();
     }
 
-    private List<MenuItemLocale> getMenuItemLocales(int menuItemId) {
-        return jdbcClient.sql(GET_MENU_ITEM_LOCALES)
+    @SuppressWarnings("unchecked")
+    private Map<Language, MenuItemLocale> getMenuItemLocales(int menuItemId) {
+        final var list = jdbcClient.sql(GET_MENU_ITEM_LOCALES)
             .param("menu_item_id", menuItemId)
             .query(this::mapLocale)
             .list();
+        return Map.ofEntries(list.toArray(new Map.Entry[0]));
     }
 
     private MenuItemWithoutLocale mapMenuItem(ResultSet rs, int rowNum) throws SQLException {
         return new MenuItemWithoutLocale(
             rs.getInt("id"),
-            rs.getString("view"),
+            rs.getString("code"),
             rs.getInt("price"),
             rs.getBoolean("is_available"),
             Category.getById(rs.getInt("category_id"))
         );
     }
 
-    private MenuItemLocale mapLocale(ResultSet rs, int rowNum) throws SQLException {
-        return new MenuItemLocale(
+    private Map.Entry<Language, MenuItemLocale> mapLocale(ResultSet rs, int rowNum) throws SQLException {
+        return Map.entry(
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getString("name"),
-            (String[]) rs.getArray("consume_template").getArray()
+            new MenuItemLocale(
+                rs.getString("name"),
+                (String[]) rs.getArray("consume_template").getArray()
+            )
         );
     }
 
@@ -122,7 +127,7 @@ public class MenuDao {
         boolean isAvailable,
         Category category
     ) {
-        public MenuItem toMenuItem(List<MenuItemLocale> locales) {
+        public MenuItem toMenuItem(Map<Language, MenuItemLocale> locales) {
             return new MenuItem(
                 id,
                 code,

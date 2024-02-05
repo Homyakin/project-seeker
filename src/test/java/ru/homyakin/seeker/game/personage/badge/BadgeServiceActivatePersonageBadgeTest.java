@@ -20,7 +20,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
             new Badge(
                 RandomUtils.nextInt(),
                 BadgeView.FIRST_PERSONAGES,
-                Collections.emptyList()
+                Collections.emptyMap()
             ),
             true
         );
@@ -29,7 +29,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
             new Badge(
                 RandomUtils.nextInt(),
                 BadgeView.STANDARD,
-                Collections.emptyList()
+                Collections.emptyMap()
             ),
             false
         );
@@ -51,7 +51,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
             new Badge(
                 RandomUtils.nextInt(),
                 BadgeView.FIRST_PERSONAGES,
-                Collections.emptyList()
+                Collections.emptyMap()
             ),
             true
         );
@@ -71,7 +71,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
             new Badge(
                 RandomUtils.nextInt(),
                 BadgeView.FIRST_PERSONAGES,
-                Collections.emptyList()
+                Collections.emptyMap()
             ),
             true
         );
@@ -79,7 +79,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
             .thenReturn(List.of(activeAvailableBadge));
 
         final var result = service.activatePersonageBadge(
-            personageId, new Badge(RandomUtils.nextInt(), BadgeView.STANDARD, Collections.emptyList())
+            personageId, new Badge(RandomUtils.nextInt(), BadgeView.STANDARD, Collections.emptyMap())
         );
 
         Assertions.assertEquals(ActivatePersonageBadgeError.BadgeIsNotAvailable.INSTANCE, result.getLeft());

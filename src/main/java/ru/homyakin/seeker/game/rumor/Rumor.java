@@ -1,25 +1,15 @@
 package ru.homyakin.seeker.game.rumor;
 
+import java.util.Map;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.LocaleUtils;
-
-import java.util.List;
 import ru.homyakin.seeker.locale.Localized;
 
 public record Rumor(
     String code,
     boolean isAvailable,
-    List<RumorLocale> locales
+    Map<Language, RumorLocale> locales
 ) implements Localized<RumorLocale> {
     public String text(Language language) {
-        return LocaleUtils.getLocaleByLanguageOrDefault(locales, language)
-            .map(RumorLocale::text)
-            .orElseThrow(() -> new IllegalStateException("No locale for rumor " + code));
-    }
-
-    public void validateLocale() {
-        if (!LocaleUtils.checkDefaultLanguage(locales)) {
-            throw new IllegalStateException("Locale must have default language " + Language.DEFAULT + " at rumor " + code);
-        }
+        return getLocaleOrDefault(language).text();
     }
 }

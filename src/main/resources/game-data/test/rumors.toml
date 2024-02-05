@@ -2,22 +2,18 @@
 code = "test_rumor"
 isAvailable = false
 
-[[rumor.locales]]
-language = "RU"
+[rumor.locales.RU]
 text = "Это слух в таверне. Он должен быть интересным и актуальным"
 
-[[rumor.locales]]
-language = "EN"
+[rumor.locales.EN]
 text = "This is rumor on tavern, but in english"
 
 [[rumor]]
 code = "test_rumor_2"
 isAvailable = false
 
-[[rumor.locales]]
-language = "RU"
+[rumor.locales.RU]
 text = "Это второй слух. Не такой интересный как первый."
 
-[[rumor.locales]]
-language = "EN"
+[rumor.locales.EN]
 text = "This is second rumor on tavern, but in english"

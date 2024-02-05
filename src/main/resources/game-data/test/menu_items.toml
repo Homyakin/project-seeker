@@ -4,15 +4,13 @@ price = 2
 isAvailable = true
 category = "DRINK"
 
-[[item.locales]]
-language = "RU"
+[item.locales.RU]
 name = "Вода"
 consumeTemplate = [
     "Свежая водичка специально для <b>${personage_badge_with_name}</b>"
 ]
 
-[[item.locales]]
-language = "EN"
+[item.locales.EN]
 name = "Water"
 consumeTemplate = [
     "Fresh water specially for <b>${personage_badge_with_name}</b>"
@@ -24,16 +22,14 @@ price = 10
 isAvailable = true
 category = "DRINK"
 
-[[item.locales]]
-language = "RU"
+[item.locales.RU]
 name = "Вода в стекле"
 consumeTemplate = [
     "У <b>${personage_badge_with_name}</b> много денег, раз он может позволить себе воду в стекле",
     "Похоже сегодня у <b>${personage_badge_with_name}</b> праздник! Прохладная вода в стекле уже на столе"
 ]
 
-[[item.locales]]
-language = "EN"
+[item.locales.EN]
 name = "Water in glass"
 consumeTemplate = [
     "<b>${personage_badge_with_name}</b> has a lot of money, since he can afford water in the glass",
@@ -46,15 +42,13 @@ price = 5
 isAvailable = true
 category = "MAIN_DISH"
 
-[[item.locales]]
-language = "RU"
+[item.locales.RU]
 name = "Суп с котом"
 consumeTemplate = [
     "Суп с котом для <b>${personage_badge_with_name}</b>! Мяукал ещё 15 минут назад"
 ]
 
-[[item.locales]]
-language = "EN"
+[item.locales.EN]
 name = "Cat soup"
 consumeTemplate = [
     "Cat soup for <b>${personage_badge_with_name}</b>! Meowed 15 minutes ago"

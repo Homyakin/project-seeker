@@ -10,17 +10,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.locale.LocaleUtils;
-import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -112,8 +107,8 @@ public class JoinEventExecutorTest {
             + event.duration().toHours() + " " + hours + " "
             + event.duration().toMinutesPart() + " " + minutes;
         final var expectedText = "<b>%s</b>%n%n%s".formatted(
-            LocaleUtils.getLocaleByLanguageOrDefault(event.locales(), group.language()).get().intro(),
-            LocaleUtils.getLocaleByLanguageOrDefault(event.locales(), group.language()).get().description()
+            event.getLocaleOrDefault(group.language()).intro(),
+            event.getLocaleOrDefault(group.language()).description()
         ) + "\n\n" + timeText + "\n\n" + participantsText;
 
         final var expected = EditMessageText.builder()

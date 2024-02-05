@@ -1,13 +1,12 @@
 package ru.homyakin.seeker.game.tavern_menu.models;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -19,7 +18,7 @@ public record MenuItem(
     Money price,
     boolean isAvailable,
     Category category,
-    List<MenuItemLocale> locales
+    Map<Language, MenuItemLocale> locales
 ) implements Localized<MenuItemLocale> {
     // TODO в локализацию
     public String menuPositionText(Language language) {
@@ -28,19 +27,14 @@ public record MenuItem(
     }
 
     public String name(Language language) {
-        return getLocaleByLanguageOrDefault(language).name();
+        return getLocaleOrDefault(language).name();
     }
 
     public String consumeText(Language language, Personage personage) {
-        final var locale = getLocaleByLanguageOrDefault(language);
+        final var locale = getLocaleOrDefault(language);
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(locale.consumeTemplate()),
             Collections.singletonMap("personage_badge_with_name", personage.iconWithName())
         );
-    }
-
-    private MenuItemLocale getLocaleByLanguageOrDefault(Language language) {
-        return LocaleUtils.getLocaleByLanguageOrDefault(locales, language)
-            .orElseThrow(() -> new IllegalStateException("No default locale for menu item " + code));
     }
 }

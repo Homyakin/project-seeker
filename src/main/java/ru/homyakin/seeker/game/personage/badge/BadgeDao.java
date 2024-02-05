@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.personage.badge;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -32,7 +33,7 @@ public class BadgeDao {
             .param("code", badge.view().code())
             .query((rs, rowNum) -> rs.getInt("id"))
             .single();
-        badge.locales().forEach(locale -> saveLocale(id, locale));
+        badge.locales().forEach((language, locale) -> saveLocale(id, language, locale));
     }
 
     public Optional<Badge> getByCode(String code) {
@@ -107,15 +108,17 @@ public class BadgeDao {
             .update();
     }
 
-    private List<BadgeLocale> getLocales(int badgeId) {
+    @SuppressWarnings("unchecked")
+    private Map<Language, BadgeLocale> getLocales(int badgeId) {
         final var sql = "SELECT * FROM badge_locale WHERE badge_id = :badge_id";
-        return jdbcClient.sql(sql)
+        final var list = jdbcClient.sql(sql)
             .param("badge_id", badgeId)
             .query(this::mapLocale)
             .list();
+        return Map.ofEntries(list.toArray(new Map.Entry[0]));
     }
 
-    private void saveLocale(int badgeId, BadgeLocale locale) {
+    private void saveLocale(int badgeId, Language language, BadgeLocale locale) {
         final var sql = """
             INSERT INTO badge_locale (badge_id, language_id, description)
             VALUES (:badge_id, :language_id, :description)
@@ -124,7 +127,7 @@ public class BadgeDao {
             """;
         jdbcClient.sql(sql)
             .param("badge_id", badgeId)
-            .param("language_id", locale.language().id())
+            .param("language_id", language.id())
             .param("description", locale.description())
             .update();
     }
@@ -136,10 +139,10 @@ public class BadgeDao {
         );
     }
 
-    private BadgeLocale mapLocale(ResultSet rs, int rowNum) throws SQLException {
-        return new BadgeLocale(
+    private Map.Entry<Language, BadgeLocale> mapLocale(ResultSet rs, int rowNum) throws SQLException {
+        return Map.entry(
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getString("description")
+            new BadgeLocale(rs.getString("description"))
         );
     }
 
@@ -147,7 +150,7 @@ public class BadgeDao {
         int id,
         String code
     ) {
-        public Badge toBadge(List<BadgeLocale> locales) {
+        public Badge toBadge(Map<Language, BadgeLocale> locales) {
             return new Badge(id, BadgeView.findByCode(code), locales);
         }
     }

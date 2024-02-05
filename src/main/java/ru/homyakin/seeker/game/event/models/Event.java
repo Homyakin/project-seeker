@@ -4,12 +4,12 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import jakarta.validation.constraints.NotNull;
 import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 
@@ -22,10 +22,10 @@ public record Event(
     @NotNull
     EventType type,
     @NotNull
-    List<EventLocale> locales
+    Map<Language, EventLocale> locales
 ) implements Localized<EventLocale> {
     private String toBaseMessage(Language language) {
-        final var locale = getLocaleByLanguageOrDefault(language);
+        final var locale = getLocaleOrDefault(language);
 
         return "<b>%s</b>%n%n%s".formatted(
             locale.intro(),
@@ -81,10 +81,5 @@ public record Event(
         } else {
             return RaidLocalization.failureRaid(language) + "\n\n" + RaidLocalization.raidResult(language, raidResult);
         }
-    }
-
-    private EventLocale getLocaleByLanguageOrDefault(Language language) {
-        return LocaleUtils.getLocaleByLanguageOrDefault(locales, language)
-            .orElseThrow(() -> new IllegalStateException("No locales for event " + id));
     }
 }

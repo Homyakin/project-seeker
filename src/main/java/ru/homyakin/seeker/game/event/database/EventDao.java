@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.postgresql.util.PGInterval;
@@ -78,20 +78,22 @@ public class EventDao {
 
     private void saveLocales(SavingEvent event) {
         event.locales().forEach(
-            locale -> jdbcClient.sql(SAVE_LOCALES)
+            (language, locale) -> jdbcClient.sql(SAVE_LOCALES)
                 .param("event_id", event.id())
-                .param("language_id", locale.language().id())
+                .param("language_id", language.id())
                 .param("intro", locale.intro())
                 .param("description", locale.description())
                 .update()
         );
     }
 
-    private List<EventLocale> getEventLocales(int eventId) {
-        return jdbcClient.sql(GET_EVENT_LOCALES)
+    @SuppressWarnings("unchecked")
+    private Map<Language, EventLocale> getEventLocales(int eventId) {
+        final var list = jdbcClient.sql(GET_EVENT_LOCALES)
             .param("event_id", eventId)
             .query(this::mapEventLocale)
             .list();
+        return Map.ofEntries(list.toArray(new Map.Entry[0]));
     }
 
     private EventWithoutLocale mapEvent(ResultSet rs, int rowNum) throws SQLException {
@@ -109,11 +111,13 @@ public class EventDao {
         );
     }
 
-    private EventLocale mapEventLocale(ResultSet rs, int rowNum) throws SQLException {
-        return new EventLocale(
+    private Map.Entry<Language, EventLocale> mapEventLocale(ResultSet rs, int rowNum) throws SQLException {
+        return Map.entry(
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getString("intro"),
-            rs.getString("description")
+            new EventLocale(
+                rs.getString("intro"),
+                rs.getString("description")
+            )
         );
     }
 
@@ -131,7 +135,7 @@ public class EventDao {
         Duration duration,
         EventType type
     ) {
-        public Event toEvent(List<EventLocale> locales) {
+        public Event toEvent(Map<Language, EventLocale> locales) {
             return new Event(
                 id,
                 period,

@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.rumor;
 
+import java.util.Map;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,7 +9,6 @@ import ru.homyakin.seeker.locale.Language;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -47,11 +47,13 @@ public class RumorDao {
             .map(it -> it.toRumor(getRumorLocales(it.code())));
     }
 
-    private List<RumorLocale> getRumorLocales(String code) {
-        return jdbcClient.sql(GET_RUMOR_LOCALES)
+    @SuppressWarnings("unchecked")
+    private Map<Language, RumorLocale> getRumorLocales(String code) {
+        final var list = jdbcClient.sql(GET_RUMOR_LOCALES)
             .param("code", code)
             .query(this::mapRumorLocale)
             .list();
+        return Map.ofEntries(list.toArray(new Map.Entry[0]));
     }
 
     @Transactional
@@ -61,28 +63,28 @@ public class RumorDao {
             .param("is_available", rumor.isAvailable())
             .query((rs, rowNum) -> rs.getInt("id"))
             .single();
-        rumor.locales().forEach(locale -> saveLocale(id, locale));
+        rumor.locales().forEach((language, locale) -> saveLocale(id, language, locale));
     }
 
-    private void saveLocale(int rumorId, RumorLocale locale) {
+    private void saveLocale(int rumorId, Language language, RumorLocale locale) {
         jdbcClient.sql(SAVE_LOCALE)
             .param("rumor_id", rumorId)
-            .param("language_id", locale.language().id())
+            .param("language_id", language.id())
             .param("text", locale.text())
             .update();
     }
 
     private RumorWithoutLocale mapRumor(ResultSet rs, int rowNum) throws SQLException {
         return new RumorWithoutLocale(
-            rs.getString("view"),
+            rs.getString("code"),
             rs.getBoolean("is_available")
         );
     }
 
-    private RumorLocale mapRumorLocale(ResultSet rs, int rowNum) throws SQLException {
-        return new RumorLocale(
+    private Map.Entry<Language, RumorLocale> mapRumorLocale(ResultSet rs, int rowNum) throws SQLException {
+        return Map.entry(
             Language.getOrDefault(rs.getInt("language_id")),
-            rs.getString("text")
+            new RumorLocale(rs.getString("text"))
         );
     }
 
@@ -90,7 +92,7 @@ public class RumorDao {
         String code,
         boolean isAvailable
     ) {
-        public Rumor toRumor(List<RumorLocale> locales) {
+        public Rumor toRumor(Map<Language, RumorLocale> locales) {
             return new Rumor(
                 code,
                 isAvailable,

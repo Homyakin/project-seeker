@@ -6,7 +6,6 @@ import java.util.List;
 import ru.homyakin.seeker.game.personage.badge.Badge;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
@@ -29,10 +28,10 @@ public class BadgeLocalization {
     }
 
     private static String badge(Language language, Badge badge) {
-        final var badgeLocale = LocaleUtils.getLocaleByLanguageOrDefault(badge.locales(), language);
+        final var badgeLocale = badge.getLocaleOrDefault(language);
         final var params = new HashMap<String, Object>();
         params.put("badge_icon", badge.view().icon());
-        params.put("badge_description", badgeLocale.orElseThrow().description());
+        params.put("badge_description", badgeLocale.description());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, BadgeResource::badge),
             params
