@@ -13,6 +13,7 @@ public record User(
     PersonageId personageId,
     Optional<String> username
 ) {
+    // TODO убрать dao из класса
     public boolean isSameLanguage(Language newLanguage) {
         return language == newLanguage;
     }

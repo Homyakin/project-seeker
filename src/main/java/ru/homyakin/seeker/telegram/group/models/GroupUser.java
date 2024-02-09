@@ -9,6 +9,7 @@ public record GroupUser(
     UserId userId,
     boolean isActive
 ) {
+    // TODO Убрать dao из класса
     public GroupUser activate(GroupUserDao groupUserDao) {
         return changeActive(true, groupUserDao);
     }

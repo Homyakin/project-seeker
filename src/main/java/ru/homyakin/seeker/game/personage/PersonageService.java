@@ -162,7 +162,7 @@ public class PersonageService {
     }
 
     public Either<NameError, Personage> changeName(Personage personage, String name) {
-        return personage.changeName(name, personageDao);
+        return personage.changeName(name).peek(personageDao::update);
     }
 
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {

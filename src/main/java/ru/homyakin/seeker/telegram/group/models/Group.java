@@ -9,6 +9,7 @@ public record Group(
     Language language,
     ActiveTime activeTime
 ) {
+    // TODO убрать dao из класса
     public Group activate(GroupDao groupDao) {
         return changeActive(true, groupDao);
     }

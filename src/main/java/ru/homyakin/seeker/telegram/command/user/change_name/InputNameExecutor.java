@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.change_name;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -40,8 +41,7 @@ public class InputNameExecutor extends CommandExecutor<InputName> {
             return;
         }
         final var messageBuilder = SendMessageBuilder.builder().chatId(user.id());
-        personageService.getByIdForce(user.personageId())
-            .validateName(command.name())
+        Personage.validateName(command.name())
             .fold(
                 error -> messageBuilder.text(error.toUserMessage(user.language())),
                 name -> {

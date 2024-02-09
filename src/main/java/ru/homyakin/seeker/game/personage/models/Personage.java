@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.personage.PersonageDao;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
@@ -37,10 +36,8 @@ public record Personage(
         );
     }
 
-    public Either<NameError, Personage> changeName(String name, PersonageDao personageDao) {
-        return validateName(name)
-            .map(this::copyWithName)
-            .peek(personageDao::update);
+    public Either<NameError, Personage> changeName(String name) {
+        return validateName(name).map(this::copyWithName);
     }
 
     public static Either<NameError, String> validateName(String name) {

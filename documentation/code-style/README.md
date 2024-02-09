@@ -1,0 +1,67 @@
+# Правила оформления кода
+
+## Соответствие checkstyle
+
+Для автоматизированной проверки правил кода используется checkstyle. Правила описаны в файлах:
+- [checkstyle.xml](../../checkstyle.xml)
+- [checkstyle-suppression.xml](../../checkstyle-suppression.xml)
+
+## База данных
+Доступ к базе данных осуществляется с помощью прямых SQL запросов. ORM не используется.
+
+Всё взаимодействие с базой данных находится в классах *Dao.
+
+## Объекты
+Объекты отражают реальные сущности из доменной области. Всё, что изменяет состояние объекта, находится внутри класса.
+Пример:
+```java
+public record Personage(
+    String name
+) {
+    public Either<NameError, Personage> changeName(String name) {
+        return validateName(name)
+            .map(this::copyWithName);
+    }
+
+    public static Either<NameError, String> validateName(String name) {
+        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
+            return Either.left(new NameError.InvalidLength(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
+        }
+        if (!NAME_PATTERN.matcher(name).matches()) {
+            return Either.left(new NameError.NotAllowedSymbols());
+        }
+        return Either.right(name);
+    }
+
+    private static final int MIN_NAME_LENGTH = 10;
+    private static final int MAX_NAME_LENGTH = 20;
+    private static final Pattern NAME_PATTERN = Pattern.compile("....");
+}
+```
+Здесь класс Personage отражает сущность игрового персонажа, и имя является его параметром. 
+Поэтому все манипуляции с именем находятся внутри класса. 
+
+Однако, за изменения состояния объекта в базе данных отвечает сервис:
+```java
+public class PersonageService {
+    //...
+    public Either<NameError, Personage> changeName(Personage personage, String name) {
+        return personage.changeName(name).peek(personageDao::update);
+    }
+}
+```
+
+## Обработка ошибок
+Для ошибок бизнес логики используется return-based подход с использованием Either из библиотеки vavr.io
+```java
+public record Personage(
+    String name
+) {
+    public Either<NameError, Personage> changeName(String name) {
+        return validateName(name).map(this::copyWithName);
+    }
+}
+```
+
+Исключения используются для ситуаций, которые невозможно обработать корректно.
+
