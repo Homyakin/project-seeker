@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.spin;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
@@ -14,7 +13,6 @@ import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
 public class SpinExecutor extends CommandExecutor<Spin> {
@@ -46,11 +44,8 @@ public class SpinExecutor extends CommandExecutor<Spin> {
             .fold(
                 error -> mapSpinErrorToMessage(error, group),
                 user -> {
-                    //TODO вынести награду в сервис
                     final var personage = personageService.getByIdForce(user.personageId());
-                    final var reward = new Money(RandomUtils.getInInterval(MINIMUM_REWARD.value(), MAXIMUM_REWARD.value()));
-                    personageService.addMoney(personage, reward);
-                    return EverydaySpinLocalization.chosenUser(group.language(), TgPersonageMention.of(personage, user.id()), reward);
+                    return EverydaySpinLocalization.chosenUser(group.language(), TgPersonageMention.of(personage, user.id()));
                 }
             );
 
@@ -75,7 +70,4 @@ public class SpinExecutor extends CommandExecutor<Spin> {
             case SpinError.InternalError ignored -> CommonLocalization.internalError(group.language());
         };
     }
-
-    private static final Money MINIMUM_REWARD = new Money(3);
-    private static final Money MAXIMUM_REWARD = new Money(7);
 }
