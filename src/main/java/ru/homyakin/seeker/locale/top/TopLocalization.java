@@ -49,6 +49,7 @@ public class TopLocalization {
             );
         }
         params.put("top_personage_list", personageList.toString());
+        params.put("total_count", positions.size());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topRaidWeek), params);
     }
 
