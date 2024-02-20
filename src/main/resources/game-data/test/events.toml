@@ -1,7 +1,7 @@
 [[event]]
 id = 1
 duration = "PT1M"
-isEnabled = false
+isEnabled = true
 
 [event.raid]
 template = "SINGLE_BOSS"

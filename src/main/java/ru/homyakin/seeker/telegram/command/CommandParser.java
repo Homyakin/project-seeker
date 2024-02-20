@@ -27,6 +27,7 @@ import ru.homyakin.seeker.telegram.command.group.stats.GetPersonageStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
+import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeek;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.badge.SelectBadge;
 import ru.homyakin.seeker.telegram.command.user.badge.ShowBadges;
@@ -140,6 +141,7 @@ public class CommandParser {
                 case GET_ACTIVE_TIME -> GetActiveTime.from(message);
                 case PERSONAGE_STATS -> GetPersonageStats.from(message);
                 case RAID_REPORT -> RaidReportInGroup.from(message);
+                case TOP_RAID_WEEK -> TopRaidWeek.from(message);
                 default -> null;
             });
     }

@@ -1,9 +1,11 @@
 package ru.homyakin.seeker.utils;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 public class TimeUtils {
     public static LocalDateTime moscowTime() {
@@ -20,6 +22,16 @@ public class TimeUtils {
 
     public static String toString(LocalDateTime dateTime) {
         return dateTime.format(formatter);
+    }
+
+    public static LocalDate thisWeekMonday() {
+        final var today = LocalDate.now();
+        return today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    }
+
+    public static LocalDate thisWeekSunday() {
+        final var today = LocalDate.now();
+        return today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
     }
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ('GMT'+03)");

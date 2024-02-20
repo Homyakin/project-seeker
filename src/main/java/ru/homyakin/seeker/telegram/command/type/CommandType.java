@@ -39,7 +39,8 @@ public enum CommandType {
     PERSONAGE_STATS("/stats_me", CheckType.EQUALS),
     RAID_REPORT("/report_raid", CheckType.EQUALS),
     SHOW_BADGES(null, CheckType.MAP),
-    SELECT_BADGE("selectBadge", CheckType.EQUALS)
+    SELECT_BADGE("selectBadge", CheckType.EQUALS),
+    TOP_RAID_WEEK("/top_raid_week", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

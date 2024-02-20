@@ -1,0 +1,10 @@
+topRaidWeek = """\
+🏆Топ всех Искателей в рейдах за неделю <code>${start_date} - ${end_date}</code>:
+
+${top_personage_list}"""
+topRaidWeekGroup = """\
+🏆Топ Искателей в группе в рейдах за неделю <code>${start_date} - ${end_date}</code>:
+
+${top_personage_list}"""
+topRaidPosition = "${position}. ${personage_badge_with_name} ${success_raids}/${all_raids}"
+topRaidEmpty = "Никто не участвовал в рейдах за выбранный период"

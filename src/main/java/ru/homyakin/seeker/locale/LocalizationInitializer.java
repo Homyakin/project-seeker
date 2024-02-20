@@ -25,6 +25,8 @@ import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
 import ru.homyakin.seeker.locale.spin.EverydaySpinResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
+import ru.homyakin.seeker.locale.top.TopLocalization;
+import ru.homyakin.seeker.locale.top.TopResource;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -40,6 +42,7 @@ public class LocalizationInitializer {
     private static final String HELP_PATH = File.separator + "help.toml";
     private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
     private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
+    private static final String TOP_PATH = File.separator + "top.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -98,6 +101,11 @@ public class LocalizationInitializer {
                     final var resource = extractClass(mapper, it, GroupSettingsResource.class);
                     ActiveTimeLocalization.add(language, resource.activeTime());
                 }
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + TOP_PATH,
+                it -> TopLocalization.add(language, extractClass(mapper, it, TopResource.class))
             );
         }
         logger.info("Localization loaded");
