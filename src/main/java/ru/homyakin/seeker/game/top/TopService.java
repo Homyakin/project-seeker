@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.top.models.TopPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopResult;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -20,6 +21,14 @@ public class TopService {
         final var end = TimeUtils.thisWeekSunday();
         final var top = topDao.getUnsortedTopRaid(start, end);
         top.sort(Comparator.comparingInt(TopPosition::score).reversed());
-        return new TopRaidResult(start, end, top);
+        return new TopRaidResult(start, end, top, TopRaidResult.Type.WEEK);
+    }
+
+    public TopResult getTopRaidWeekGroup(GroupId groupId) {
+        final var start = TimeUtils.thisWeekMonday();
+        final var end = TimeUtils.thisWeekSunday();
+        final var top = topDao.getUnsortedTopRaidGroup(start, end, groupId);
+        top.sort(Comparator.comparingInt(TopPosition::score).reversed());
+        return new TopRaidResult(start, end, top, TopRaidResult.Type.WEEK_GROUP);
     }
 }

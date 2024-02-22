@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocalizationInitializer;
 
-public class TopLocalizationTopRaidWeekTest {
+public class TopUtilsTest {
     @BeforeAll
     public static void init() {
         LocalizationInitializer.initLocale();
@@ -26,22 +26,19 @@ public class TopLocalizationTopRaidWeekTest {
         final var top = new TopRaidResult(
             LocalDate.of(2020, 11, 11),
             LocalDate.of(2020, 11, 12),
-            topRaidPositions
+            topRaidPositions,
+            TopRaidResult.Type.WEEK
         );
 
         //when
-        final var result = TopLocalization.topRaidWeek(Language.RU, PersonageId.from(0L), top);
+        final var result = TopUtils.createTopList(Language.RU, PersonageId.from(0L), top);
 
         //then
         Assertions.assertEquals(
-            """
-                🏆Топ всех Искателей в рейдах за неделю <code>2020-11-11 - 2020-11-12</code>:
-                                
+            """ 
                 1. 🔰Тест1 3/3
                 2. 🔰Тест2 2/2
-                3. 🔰Тест3 1/1
-                
-                Всего участников: 3""",
+                3. 🔰Тест3 1/1""",
             result
         );
     }
@@ -53,17 +50,16 @@ public class TopLocalizationTopRaidWeekTest {
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
             LocalDate.of(2021, 11, 12),
-            topRaidPositions
+            topRaidPositions,
+            TopRaidResult.Type.WEEK
         );
 
         //when
-        final var result = TopLocalization.topRaidWeek(Language.RU, PersonageId.from(1000L), top);
+        final var result = TopUtils.createTopList(Language.RU, PersonageId.from(1000L), top);
 
         //then
         Assertions.assertEquals(
             """
-                🏆Топ всех Искателей в рейдах за неделю <code>2021-11-11 - 2021-11-12</code>:
-                                
                 1. 🔰Тест1 11/11
                 2. 🔰Тест2 10/10
                 3. 🔰Тест3 9/9
@@ -73,9 +69,7 @@ public class TopLocalizationTopRaidWeekTest {
                 7. 🔰Тест7 5/5
                 8. 🔰Тест8 4/4
                 9. 🔰Тест9 3/3
-                10. 🔰Тест10 2/2
-                
-                Всего участников: 11""",
+                10. 🔰Тест10 2/2""",
             result
         );
     }
@@ -87,17 +81,16 @@ public class TopLocalizationTopRaidWeekTest {
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
             LocalDate.of(2021, 11, 12),
-            topRaidPositions
+            topRaidPositions,
+            TopRaidResult.Type.WEEK
         );
 
         //when
-        final var result = TopLocalization.topRaidWeek(Language.RU, PersonageId.from(10L), top);
+        final var result = TopUtils.createTopList(Language.RU, PersonageId.from(10L), top);
 
         //then
         Assertions.assertEquals(
             """
-                🏆Топ всех Искателей в рейдах за неделю <code>2021-11-11 - 2021-11-12</code>:
-                                
                 1. 🔰Тест1 13/13
                 2. 🔰Тест2 12/12
                 3. 🔰Тест3 11/11
@@ -108,9 +101,7 @@ public class TopLocalizationTopRaidWeekTest {
                 8. 🔰Тест8 6/6
                 9. 🔰Тест9 5/5
                 10. 🔰Тест10 4/4
-                11. 🔰Тест11 3/3
-                
-                Всего участников: 13""",
+                11. 🔰Тест11 3/3""",
             result
         );
     }
@@ -122,17 +113,16 @@ public class TopLocalizationTopRaidWeekTest {
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
             LocalDate.of(2021, 11, 12),
-            topRaidPositions
+            topRaidPositions,
+            TopRaidResult.Type.WEEK
         );
 
         //when
-        final var result = TopLocalization.topRaidWeek(Language.RU, PersonageId.from(14L), top);
+        final var result = TopUtils.createTopList(Language.RU, PersonageId.from(14L), top);
 
         //then
         Assertions.assertEquals(
-            """
-                🏆Топ всех Искателей в рейдах за неделю <code>2021-11-11 - 2021-11-12</code>:
-                                
+            """                
                 1. 🔰Тест1 15/15
                 2. 🔰Тест2 14/14
                 3. 🔰Тест3 13/13
@@ -145,9 +135,7 @@ public class TopLocalizationTopRaidWeekTest {
                 10. 🔰Тест10 6/6
                 -----------
                 14. 🔰Тест14 2/2
-                15. 🔰Тест15 1/1
-                
-                Всего участников: 15""",
+                15. 🔰Тест15 1/1""",
             result
         );
     }
@@ -159,17 +147,16 @@ public class TopLocalizationTopRaidWeekTest {
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
             LocalDate.of(2021, 11, 12),
-            topRaidPositions
+            topRaidPositions,
+            TopRaidResult.Type.WEEK
         );
 
         //when
-        final var result = TopLocalization.topRaidWeek(Language.RU, PersonageId.from(14L), top);
+        final var result = TopUtils.createTopList(Language.RU, PersonageId.from(14L), top);
 
         //then
         Assertions.assertEquals(
-            """
-                🏆Топ всех Искателей в рейдах за неделю <code>2021-11-11 - 2021-11-12</code>:
-                                
+            """               
                 1. 🔰Тест1 16/16
                 2. 🔰Тест2 15/15
                 3. 🔰Тест3 14/14
@@ -183,9 +170,7 @@ public class TopLocalizationTopRaidWeekTest {
                 -----------
                 14. 🔰Тест14 3/3
                 15. 🔰Тест15 2/2
-                16. 🔰Тест16 1/1
-                
-                Всего участников: 16""",
+                16. 🔰Тест16 1/1""",
             result
         );
     }
