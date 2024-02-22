@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class TopLocalization {
@@ -54,5 +55,16 @@ public class TopLocalization {
 
     public static String topRaidEmpty(Language language) {
         return resources.getOrDefault(language, TopResource::topRaidEmpty);
+    }
+
+    public static String topList(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("top_work_group_command", CommandType.SPIN_TOP.getText());
+        params.put("top_raid_week_command", CommandType.TOP_RAID_WEEK.getText());
+        params.put("top_raid_week_group_command", CommandType.TOP_RAID_WEEK_GROUP.getText());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topList),
+            params
+        );
     }
 }
