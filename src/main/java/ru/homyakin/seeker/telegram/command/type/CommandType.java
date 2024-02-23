@@ -43,6 +43,8 @@ public enum CommandType {
     TOP_RAID_WEEK("/top_raid_week", CheckType.EQUALS),
     TOP_RAID_WEEK_GROUP("/top_raid_week_group", CheckType.EQUALS),
     TOP("/top", CheckType.EQUALS),
+    ADD_TRIGGER("/add_trigger", CheckType.STARTS_WITH),
+    DEL_TRIGGER("/del_trigger", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

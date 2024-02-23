@@ -27,6 +27,8 @@ import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 import ru.homyakin.seeker.locale.top.TopResource;
+import ru.homyakin.seeker.locale.trigger.TriggerLocalization;
+import ru.homyakin.seeker.locale.trigger.TriggerResource;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -43,6 +45,7 @@ public class LocalizationInitializer {
     private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
     private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
     private static final String TOP_PATH = File.separator + "top.toml";
+    private static final String TRIGGER_PATH = File.separator + "trigger.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -106,6 +109,11 @@ public class LocalizationInitializer {
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + TOP_PATH,
                 it -> TopLocalization.add(language, extractClass(mapper, it, TopResource.class))
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + TRIGGER_PATH,
+                it -> TriggerLocalization.add(language, extractClass(mapper, it, TriggerResource.class))
             );
         }
         logger.info("Localization loaded");

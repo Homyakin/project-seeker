@@ -34,7 +34,7 @@ public enum RaidTemplate {
 
     public static RaidTemplate get(int id) {
         return Optional.ofNullable(map.get(id))
-            .orElseThrow(() -> new IllegalStateException("Unexpected raid template id: " + id));
+            .orElseThrow(() -> new IllegalStateException("Unexpected raid template groupId: " + id));
     }
 
     public List<Personage> generate(int personagesCount) {

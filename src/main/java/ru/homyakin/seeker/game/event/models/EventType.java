@@ -25,6 +25,6 @@ public enum EventType {
 
     public static EventType get(int id) {
         return Optional.ofNullable(map.get(id))
-            .orElseThrow(() -> new IllegalStateException("Unexpected event id: " + id));
+            .orElseThrow(() -> new IllegalStateException("Unexpected event groupId: " + id));
     }
 }

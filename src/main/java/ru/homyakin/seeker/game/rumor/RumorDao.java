@@ -18,7 +18,7 @@ public class RumorDao {
         """;
     private static final String GET_RUMOR_LOCALES = """
         SELECT rl.* FROM rumor_locale rl
-        LEFT JOIN public.rumor r on r.id = rl.rumor_id
+        LEFT JOIN public.rumor r on r.groupId = rl.rumor_id
         WHERE r.code = :code
         """;
     private static final String SAVE_RUMOR = """
@@ -26,7 +26,7 @@ public class RumorDao {
         VALUES (:code, :is_available)
         ON CONFLICT (code)
         DO UPDATE SET is_available = :is_available
-        RETURNING id
+        RETURNING groupId
         """;
     private static final String SAVE_LOCALE = """
         INSERT INTO rumor_locale (rumor_id, language_id, text)

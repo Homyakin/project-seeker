@@ -20,11 +20,11 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Component
 public class LaunchedEventDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = """
-        SELECT * FROM launched_event WHERE id = :id
+        SELECT * FROM launched_event WHERE groupId = :groupId
         """;
     private static final String GET_ACTIVE_EVENTS_BY_PERSONAGE_ID = """
         SELECT * FROM personage_to_event pe
-         LEFT JOIN launched_event le on pe.launched_event_id = le.id
+         LEFT JOIN launched_event le on pe.launched_event_id = le.groupId
          WHERE pe.personage_id = :personage_id
          AND le.status_id = :status_id
         """;
@@ -34,14 +34,14 @@ public class LaunchedEventDao {
     private static final String UPDATE_STATUS = """
         update launched_event
         set status_id = :status_id
-        where id = :id;
+        where groupId = :groupId;
         """;
     private static final String LAST_ENDED_EVENT_IN_GROUP = """
         SELECT le.* FROM launched_event le
-        LEFT JOIN public.grouptg_to_launched_event gtle on le.id = gtle.launched_event_id
+        LEFT JOIN public.grouptg_to_launched_event gtle on le.groupId = gtle.launched_event_id
         WHERE gtle.grouptg_id = :grouptg_id
         AND le.status_id != :active_status_id
-        ORDER BY le.id DESC
+        ORDER BY le.groupId DESC
         LIMIT 1
         """;
     private final JdbcClient jdbcClient;

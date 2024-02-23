@@ -104,7 +104,7 @@ public class PersonageService {
 
     public Personage getByIdForce(PersonageId personageId) {
         return getById(personageId)
-            .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
+            .orElseThrow(() -> new IllegalStateException("Personage must be present with groupId " + personageId));
     }
 
     public List<Personage> getByLaunchedEvent(long launchedEventId) {

@@ -80,25 +80,25 @@ public class UserDao {
     }
 
     private static final String SAVE_USER = """
-        insert into usertg (id, is_active_private_messages, language_id, init_date, personage_id)
-        values (:id, :is_active_private_messages, :language_id, :init_date, :personage_id);
+        insert into usertg (groupId, is_active_private_messages, language_id, init_date, personage_id)
+        values (:groupId, :is_active_private_messages, :language_id, :init_date, :personage_id);
         """;
     private static final String GET_USER_BY_ID = """
         SELECT * FROM usertg
-        WHERE id = :id
+        WHERE groupId = :groupId
         """;
     private static final String GET_BY_PERSONAGE_ID = "SELECT * FROM usertg WHERE personage_id = :personage_id";
     private static final String UPDATE = """
         update usertg
         set is_active_private_messages = :is_active_private_messages, language_id = :language_id
-        where id = :id
+        where groupId = :groupId
         """;
     private static final String GET_BY_USERNAME = """
         SELECT u.* FROM usertg u
-        LEFT JOIN grouptg_to_usertg gtu on u.id = gtu.usertg_id
+        LEFT JOIN grouptg_to_usertg gtu on u.groupId = gtu.usertg_id
         WHERE u.username = :username
         AND gtu.grouptg_id = :grouptg_id
         AND gtu.is_active = true
         """;
-    private static final String UPDATE_USERNAME = "UPDATE usertg SET username = :username WHERE id = :id";
+    private static final String UPDATE_USERNAME = "UPDATE usertg SET username = :username WHERE groupId = :groupId";
 }

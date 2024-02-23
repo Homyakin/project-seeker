@@ -13,7 +13,7 @@ public class TgPersonageMention implements PersonageMention {
 
     public static TgPersonageMention of(Personage personage, UserId userId) {
         return new TgPersonageMention(
-            "<a href=\"tg://user?id=" + userId.value() + "\">" + personage.iconWithName() + "</a>"
+            "<a href=\"tg://user?groupId=" + userId.value() + "\">" + personage.iconWithName() + "</a>"
         );
     }
 
