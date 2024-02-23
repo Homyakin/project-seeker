@@ -20,7 +20,7 @@ public class TriggerDao {
     private static final String UPSERT_NEW_TRIGGER = """
                     insert into triggertg (group_id, text_to_trigger, trigger_text)
                     values (:group_id, :text_to_trigger, :trigger_text)
-                    on conflict (triggertg__primarykey) do update set trigger_text = :trigger_text;
+                    on conflict (PK_triggertg) do update set trigger_text = :trigger_text;
             """;
 
     private static final String DELETE_TRIGGER = """
@@ -49,8 +49,8 @@ public class TriggerDao {
                 .update();
     }
 
-    public void delete(Trigger trigger) {
-        jdbcClient.sql(DELETE_TRIGGER)
+    public boolean delete(Trigger trigger) {
+        return 0 < jdbcClient.sql(DELETE_TRIGGER)
                 .param("group_id", trigger.groupId())
                 .param("text_to_trigger", trigger.textToTrigger())
                 .update();

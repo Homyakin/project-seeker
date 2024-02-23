@@ -30,4 +30,13 @@ public class TriggerService {
         triggerDao.createOrUpdate(Trigger.from(group, textToTrigger, triggerText));
         return Either.right(Success.INSTANCE);
     }
+
+    public Either<TriggerError, Success> deleteTrigger(Group group, String textToTrigger) {
+        boolean deleted = triggerDao.delete(Trigger.from(group, textToTrigger, null));
+        if (deleted) {
+            return Either.right(Success.INSTANCE);
+        } else {
+            return Either.left(TriggerError.NoTriggerFound.INSTANCE);
+        }
+    }
 }
