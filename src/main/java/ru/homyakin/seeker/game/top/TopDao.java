@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
+import ru.homyakin.seeker.game.top.models.TopSpinPosition;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 @Component
@@ -28,7 +29,7 @@ public class TopDao {
             .param("fail_id", EventStatus.FAILED.id())
             .param("start_date", start)
             .param("end_date", end)
-            .query(this::mapRow)
+            .query(this::mapRaidPosition)
             .list();
     }
 
@@ -40,17 +41,33 @@ public class TopDao {
             .param("start_date", start)
             .param("end_date", end)
             .param("grouptg_id", groupId.value())
-            .query(this::mapRow)
+            .query(this::mapRaidPosition)
             .list();
     }
 
-    private TopRaidPosition mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public List<TopSpinPosition> getUnsortedTopSpinGroup(GroupId groupId) {
+        return jdbcClient.sql(TOP_SPIN_GROUP)
+            .param("grouptg_id", groupId.value())
+            .query(this::mapSpinPosition)
+            .list();
+    }
+
+    private TopRaidPosition mapRaidPosition(ResultSet rs, int rowNum) throws SQLException {
         return new TopRaidPosition(
             PersonageId.from(rs.getLong("personage_id")),
             rs.getString("personage_name"),
             BadgeView.findByCode(rs.getString("badge_code")),
             rs.getInt("success_count"),
             rs.getInt("fail_count")
+        );
+    }
+
+    private TopSpinPosition mapSpinPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new TopSpinPosition(
+            PersonageId.from(rs.getLong("personage_id")),
+            rs.getString("personage_name"),
+            BadgeView.findByCode(rs.getString("badge_code")),
+            rs.getInt("count")
         );
     }
 
@@ -83,6 +100,20 @@ public class TopDao {
     private static String RAIDS_PERSONAGE_INFO = """
         SELECT p.id personage_id, p.name personage_name, b.code badge_code, success_count, fail_count FROM personage p
         INNER JOIN event_points ep ON p.id = ep.personage_id
+        LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
+        LEFT JOIN public.badge b on b.id = pab.badge_id
+        WHERE pab.is_active = true""";
+
+    private static String TOP_SPIN_GROUP = """
+        WITH personage_count
+        AS (
+            SELECT personage_id, COUNT(*) as count
+            FROM everyday_spin_tg
+            WHERE grouptg_id = :grouptg_id
+            GROUP BY personage_id
+        )
+        SELECT p.id personage_id, p.name personage_name, b.code badge_code, pc.count FROM personage p
+        INNER JOIN personage_count pc ON p.id = pc.personage_id
         LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
         LEFT JOIN public.badge b on b.id = pab.badge_id
         WHERE pab.is_active = true""";

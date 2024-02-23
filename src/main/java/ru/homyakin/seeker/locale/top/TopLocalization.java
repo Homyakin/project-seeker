@@ -4,6 +4,8 @@ import java.util.HashMap;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
+import ru.homyakin.seeker.game.top.models.TopSpinPosition;
+import ru.homyakin.seeker.game.top.models.TopSpinResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -66,5 +68,28 @@ public class TopLocalization {
             resources.getOrDefault(language, TopResource::topList),
             params
         );
+    }
+
+    public static String topSpinEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topSpinEmpty);
+    }
+
+    public static String topSpinGroup(Language language, PersonageId requestedPersonageId, TopSpinResult topSpinResult) {
+        final var params = new HashMap<String, Object>();
+        final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, topSpinResult);
+        params.put("top_personage_list", topPersonageList);
+        params.put("total_count", topSpinResult.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topSpinGroup),
+            params
+        );
+    }
+
+    public static String topSpinPosition(Language language, int positionNumber, TopSpinPosition position) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("personage_badge_with_name", position.personageBadgeWithName());
+        params.put("work_count", position.workCount());
+        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topSpinPosition), params);
     }
 }

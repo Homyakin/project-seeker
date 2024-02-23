@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.group.database.EverydaySpinDao;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
-import ru.homyakin.seeker.telegram.group.models.SpinCount;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -61,9 +60,5 @@ public class EverydaySpinService {
         everydaySpinDao.save(groupId, user.personageId(), date);
         groupPersonageStatsService.addSpinWin(groupId, user.personageId());
         return Either.right(user);
-    }
-
-    public SpinCount getSpinCountForGroup(GroupId groupId) {
-        return new SpinCount(everydaySpinDao.findPersonageCountByGrouptgId(groupId));
     }
 }

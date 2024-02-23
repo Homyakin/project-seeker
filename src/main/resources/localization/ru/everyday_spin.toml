@@ -23,5 +23,3 @@ chosenUser = [
     "Э, ${mention_personage_badge_with_name}, вставай. Вставай, бля, задолбал, на работу пора.",
     "Работать, ${mention_personage_badge_with_name}! Солнце ещё высоко! Задача на сегодня: копать от забора и до обеда.",
 ]
-noChosenUsers = "Никто ещё не был назначен работягой в этой группе."
-topChosenUsers = "Топ работяг за всё время:"

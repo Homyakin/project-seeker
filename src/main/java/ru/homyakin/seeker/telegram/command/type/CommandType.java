@@ -32,7 +32,7 @@ public enum CommandType {
     INCREASE_CHARACTERISTIC("increaseCharacteristic", CheckType.EQUALS),
     GROUP_STATS("/stats", CheckType.EQUALS),
     SPIN("/work", CheckType.EQUALS),
-    SPIN_TOP("/worktop", CheckType.EQUALS),
+    SPIN_TOP("/top_work_group", CheckType.EQUALS),
     SET_ACTIVE_TIME("/set_active_time", CheckType.STARTS_WITH),
     GET_ACTIVE_TIME("/get_active_time", CheckType.EQUALS),
     CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS),

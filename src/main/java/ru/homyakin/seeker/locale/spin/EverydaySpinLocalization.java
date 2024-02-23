@@ -36,12 +36,4 @@ public class EverydaySpinLocalization {
             params
         );
     }
-
-    public static String noChosenUsers(Language language) {
-        return resources.getOrDefault(language, EverydaySpinResource::noChosenUsers);
-    }
-
-    public static String topChosenUsers(Language language) {
-        return resources.getOrDefault(language, EverydaySpinResource::topChosenUsers);
-    }
 }

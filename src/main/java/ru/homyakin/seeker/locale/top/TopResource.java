@@ -5,6 +5,9 @@ public record TopResource(
     String topRaidWeekGroup,
     String topRaidPosition,
     String topRaidEmpty,
-    String topList
+    String topList,
+    String topSpinEmpty,
+    String topSpinGroup,
+    String topSpinPosition
 ) {
 }

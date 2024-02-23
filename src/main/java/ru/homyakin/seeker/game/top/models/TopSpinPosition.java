@@ -5,20 +5,19 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 
-public record TopRaidPosition(
+public record TopSpinPosition(
     PersonageId personageId,
     String personageName,
     BadgeView personageBadge,
-    int successRaids,
-    int failedRaids
+    int workCount
 ) implements TopPosition {
     @Override
     public int score() {
-        return successRaids * 2 + failedRaids;
+        return workCount;
     }
 
     @Override
     public String toLocalizedString(Language language, int positionNumber) {
-        return TopLocalization.topRaidPosition(language, positionNumber, this);
+        return TopLocalization.topSpinPosition(language, positionNumber, this);
     }
 }

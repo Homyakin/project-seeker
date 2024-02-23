@@ -10,7 +10,7 @@ topRaidWeekGroup = """\
 ${top_personage_list}
 
 Всего участников: ${total_count}"""
-topRaidPosition = "${position}. ${personage_badge_with_name} ${success_raids}/${all_raids}"
+topRaidPosition = "${position}. ${personage_badge_with_name}: ${success_raids}/${all_raids}"
 topRaidEmpty = "Никто не участвовал в рейдах за выбранный период"
 topList = """\
 📊Список топов доступных к просмотру:
@@ -19,3 +19,12 @@ topList = """\
 
 🗡Топ Искателей в рейдах за неделю ${top_raid_week_command}
 🗡Топ Искателей группы в рейдах за неделю ${top_raid_week_group_command}"""
+topSpinEmpty = "Никто ещё не был назначен работягой в этой группе."
+topSpinGroup = """\
+⚒Топ работяг в группе за всё время:
+
+${top_personage_list}
+
+Всего участников: ${total_count}
+"""
+topSpinPosition = "${position}. ${personage_badge_with_name}: ${work_count}"
