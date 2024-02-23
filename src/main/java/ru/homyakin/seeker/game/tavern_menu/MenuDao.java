@@ -20,7 +20,7 @@ import ru.homyakin.seeker.locale.Language;
 public class MenuDao {
     private static final String GET_AVAILABLE_MENU = "SELECT * FROM menu_item WHERE is_available = true";
     private static final String GET_MENU_ITEM_BY_CODE = "SELECT * FROM menu_item WHERE code = :code";
-    private static final String GET_MENU_ITEM_BY_ID = "SELECT * FROM menu_item WHERE groupId = :groupId";
+    private static final String GET_MENU_ITEM_BY_ID = "SELECT * FROM menu_item WHERE id = :id";
 
     private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
     private static final String SAVE_ITEM = """
@@ -28,7 +28,7 @@ public class MenuDao {
         VALUES (:price, :is_available, :category_id, :code)
         ON CONFLICT (code)
         DO UPDATE SET price = :price, is_available = :is_available, category_id = :category_id
-        RETURNING groupId
+        RETURNING id
         """;
     private static final String SAVE_LOCALE = """
         INSERT INTO menu_item_locale (menu_item_id, language_id, name, consume_template) 

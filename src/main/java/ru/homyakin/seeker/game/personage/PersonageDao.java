@@ -21,17 +21,17 @@ import javax.sql.DataSource;
 public class PersonageDao {
     private static final String GET_BY_ID = """
         SELECT p.*, b.code as badge_code FROM personage p
-        LEFT JOIN personage_available_badge pab ON p.groupId = pab.personage_id
-        LEFT JOIN badge b ON pab.badge_id = b.groupId
-        WHERE p.groupId = :groupId
+        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
+        LEFT JOIN badge b ON pab.badge_id = b.id
+        WHERE p.id = :id
         AND pab.is_active = true
         """;
 
     private static final String GET_BY_LAUNCHED_EVENT = """
         SELECT p.*, b.code as badge_code FROM personage_to_event le
-        LEFT JOIN personage p on p.groupId = le.personage_id
-        LEFT JOIN personage_available_badge pab ON p.groupId = pab.personage_id
-        LEFT JOIN badge b on pab.badge_id = b.groupId
+        LEFT JOIN personage p on p.id = le.personage_id
+        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
+        LEFT JOIN badge b on pab.badge_id = b.id
         WHERE le.launched_event_id = :launched_event_id
         AND pab.is_active = true
         """;
@@ -41,7 +41,7 @@ public class PersonageDao {
         SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
         health = :health, last_energy_change = :last_energy_change, money = :money,
         energy = :energy
-        WHERE groupId = :groupId
+        WHERE id = :id
         """;
 
     private final SimpleJdbcInsert jdbcInsert;

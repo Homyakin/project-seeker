@@ -18,7 +18,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class GroupDao {
-    private static final String GET_GROUP_BY_ID = "SELECT * FROM grouptg WHERE groupId = :groupId";
+    private static final String GET_GROUP_BY_ID = "SELECT * FROM grouptg WHERE id = :id";
     private static final String GET_GROUP_WITH_LESS_NEXT_EVENT_DATE = """
         SELECT * FROM grouptg WHERE next_event_date  < :next_event_date and is_active = true
         """;
@@ -26,22 +26,22 @@ public class GroupDao {
         SELECT * FROM grouptg WHERE next_rumor_date < :next_rumor_date and is_active = true
         """;
     private static final String SAVE_GROUP = """
-        insert into grouptg (groupId, is_active, language_id, init_date, next_event_date, next_rumor_date)
-        values (:groupId, :is_active, :language_id, :init_date, :next_event_date, :next_rumor_date)
+        insert into grouptg (id, is_active, language_id, init_date, next_event_date, next_rumor_date)
+        values (:id, :is_active, :language_id, :init_date, :next_event_date, :next_rumor_date)
         """;
     private static final String UPDATE = """
         update grouptg
         set is_active = :is_active, language_id = :language_id, start_active_hour = :start_active_hour, 
         end_active_hour = :end_active_hour, active_time_zone = :active_time_zone
-        where groupId = :groupId;
+        where id = :id;
         """;
 
     private static final String UPDATE_NEXT_EVENT_DATE = """
-        UPDATE grouptg SET next_event_date = :next_event_date WHERE groupId = :groupId
+        UPDATE grouptg SET next_event_date = :next_event_date WHERE id = :id
         """;
 
     private static final String UPDATE_NEXT_RUMOR_DATE = """
-        UPDATE grouptg SET next_rumor_date = :next_rumor_date WHERE groupId = :groupId
+        UPDATE grouptg SET next_rumor_date = :next_rumor_date WHERE id = :id
         """;
 
     private final JdbcClient jdbcClient;

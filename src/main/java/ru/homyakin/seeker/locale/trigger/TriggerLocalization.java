@@ -2,7 +2,6 @@ package ru.homyakin.seeker.locale.trigger;
 
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
-import ru.homyakin.seeker.locale.common.CommonResource;
 
 public class TriggerLocalization {
 

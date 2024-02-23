@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.group.models;
 
-import io.vavr.control.Either;
 import jakarta.annotation.Nullable;
 
 public record Trigger(

@@ -21,12 +21,12 @@ import ru.homyakin.seeker.locale.Language;
 public class EventDao {
     // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
     private static final String GET_RANDOM_EVENT = "SELECT * FROM event WHERE is_enabled = true ORDER BY random() LIMIT 1";
-    private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE groupId = :groupId";
+    private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String GET_EVENT_LOCALES = "SELECT * FROM event_locale WHERE event_id = :event_id";
     private static final String SAVE_EVENT = """
-        INSERT INTO event (groupId, type_id, duration, is_enabled)
-        VALUES (:groupId, :type_id, :duration, :is_enabled)
-        ON CONFLICT (groupId)
+        INSERT INTO event (id, type_id, duration, is_enabled)
+        VALUES (:id, :type_id, :duration, :is_enabled)
+        ON CONFLICT (id)
         DO UPDATE SET type_id = :type_id, duration = :duration, is_enabled = :is_enabled
         """;
     private static final String SAVE_LOCALES = """

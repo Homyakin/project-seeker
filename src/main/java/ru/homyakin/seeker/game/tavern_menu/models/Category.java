@@ -38,7 +38,7 @@ public enum Category {
                 return category;
             }
         }
-        throw new IllegalArgumentException("Invalid Category groupId: " + id);
+        throw new IllegalArgumentException("Invalid Category id: " + id);
     }
 }
 

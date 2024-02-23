@@ -19,7 +19,7 @@ public enum DuelStatus {
 
     public static DuelStatus getById(int value) {
         return Optional.ofNullable(map.get(value))
-            .orElseThrow(() -> new IllegalStateException("Unknown duel status groupId"));
+            .orElseThrow(() -> new IllegalStateException("Unknown duel status id"));
     }
 
     public int id() {

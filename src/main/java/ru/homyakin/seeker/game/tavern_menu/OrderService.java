@@ -76,10 +76,10 @@ public class OrderService {
 
     public void techCancelOrder(long orderId) {
         final var order = getById(orderId)
-            .orElseThrow(() -> new IllegalStateException("No order to cancel; groupId=" + orderId));
+            .orElseThrow(() -> new IllegalStateException("No order to cancel; id=" + orderId));
         final var giver = personageService.getByIdForce(order.orderingPersonageId());
         final var menuItem = menuService.getMenuItem(order.menuItemId())
-            .orElseThrow(() -> new IllegalStateException("Invalid menu item groupId=" + order.menuItemId()));
+            .orElseThrow(() -> new IllegalStateException("Invalid menu item id=" + order.menuItemId()));
         personageService.addMoney(giver, menuItem.price());
         menuItemOrderDao.updateStatus(orderId, OrderStatus.TECH_CANCEL);
     }

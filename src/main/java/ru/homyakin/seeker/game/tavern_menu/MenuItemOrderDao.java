@@ -71,7 +71,7 @@ public class MenuItemOrderDao {
         );
     }
 
-    private static final String UPDATE_STATUS = "UPDATE menu_item_order SET status_id = :status_id WHERE groupId = :orderId";
-    private static final String GET_BY_ID = "SELECT * FROM menu_item_order WHERE groupId = :groupId";
+    private static final String UPDATE_STATUS = "UPDATE menu_item_order SET status_id = :status_id WHERE id = :orderId";
+    private static final String GET_BY_ID = "SELECT * FROM menu_item_order WHERE id = :id";
 }
 

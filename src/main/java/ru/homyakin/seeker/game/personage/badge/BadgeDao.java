@@ -27,7 +27,7 @@ public class BadgeDao {
             INSERT INTO badge (code)
             VALUES (:code)
             ON CONFLICT (code) DO UPDATE SET code = :code
-            RETURNING groupId
+            RETURNING id
             """;
         final int id = jdbcClient.sql(sql)
             .param("code", badge.view().code())
@@ -46,7 +46,7 @@ public class BadgeDao {
     }
 
     public Optional<Badge> getById(int id) {
-        final var sql = "SELECT * FROM badge WHERE groupId = :groupId";
+        final var sql = "SELECT * FROM badge WHERE id = :id";
         return jdbcClient.sql(sql)
             .param("id", id)
             .query(this::mapBadge)
@@ -69,9 +69,9 @@ public class BadgeDao {
     public List<PersonageAvailableBadge> getPersonageAvailableBadges(PersonageId personageId) {
         final var sql = """
             SELECT * FROM personage_available_badge pab
-            LEFT JOIN public.badge b on b.groupId = pab.badge_id
+            LEFT JOIN public.badge b on b.id = pab.badge_id
             WHERE personage_id = :personage_id
-            ORDER BY b.groupId
+            ORDER BY b.id
             """;
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())

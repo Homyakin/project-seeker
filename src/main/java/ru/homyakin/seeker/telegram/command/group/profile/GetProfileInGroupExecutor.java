@@ -33,7 +33,7 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
         final var user = groupUserPair.second();
         final var personage = personageService
             .getById(user.personageId())
-            .orElseThrow(() -> new IllegalStateException("Personage must be present at user with groupId " + user))
+            .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
             ;
 
         telegramSender.send(

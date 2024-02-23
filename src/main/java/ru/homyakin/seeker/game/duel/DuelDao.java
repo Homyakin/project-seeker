@@ -20,19 +20,19 @@ public class DuelDao {
         SELECT * FROM duel WHERE status_id = :status_id and initiating_personage_id = :initiating_personage_id
         """;
     private static final String GET_BY_ID = """
-        SELECT * FROM duel WHERE groupId = :groupId
+        SELECT * FROM duel WHERE id = :id
         """;
 
     private static final String ADD_WINNER_ID = """
         UPDATE duel
         SET winner_personage_id = :winner_personage_id
-        WHERE groupId = :groupId
+        WHERE id = :id
         """;
 
     private static final String UPDATE_STATUS = """
         UPDATE duel
         SET status_id = :status_id
-        WHERE groupId = :groupId
+        WHERE id = :id
         """;
 
     private final JdbcClient jdbcClient;
