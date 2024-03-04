@@ -13,7 +13,6 @@ import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -67,10 +66,7 @@ public class RaidProcessing {
         if (!doesParticipantsWin) {
             reward = BASE_LOSE_REWARD;
         } else {
-            // За рейд где-то 300-500 урона и столько же получено; log3.4(700) ~ 5.4;
-            reward = (int) Math.round(
-                BASE_WIN_REWARD + MathUtils.log(3.4, result.stats().damageDealtAndTaken())
-            );
+            reward = (int) (BASE_WIN_REWARD + result.stats().damageDealtAndTaken() / 200);
         }
         return Math.round(reward * result.personage().energy().percent());
     }
