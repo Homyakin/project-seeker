@@ -16,7 +16,7 @@ public class GroupRaidTest {
     @Test // TODO после нормального баланса написать новые тесты
     @DisplayName("The probability of winning at raid battle is 50% (+-5)")
     public void victoryAt50Percent() {
-        for (int personageCount = 1; personageCount <= 10; ++personageCount) {
+        for (int personageCount = 1; personageCount <= 15; ++personageCount) {
             final var repeat = 1000;
             double sumPercent = 0;
             for (int i = 0; i < repeat; ++i) {
@@ -29,7 +29,7 @@ public class GroupRaidTest {
                 );
             }
             final var percent = sumPercent / repeat;
-            System.out.println(personageCount + ": " + percent);
+            System.out.println(personageCount + ": " + percent * 100);
             Assertions.assertTrue(
                 CommonUtils.compareDoubles(percent, 0.50, 0.05),
                 "Expected 50(+-5), actual: " + percent * 100

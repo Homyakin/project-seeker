@@ -37,7 +37,7 @@ public record Characteristics(
         int strength = 1;
         int agility = 1;
         int wisdom = 1;
-        while (strength + agility + wisdom < MAX_LEVELING_POINTS) {
+        for (int i = 0; i < MAX_LEVELING_POINTS; ++i) {
             final var random = RandomUtils.getInInterval(1, 3);
             switch (random) {
                 case 1 -> ++strength;
