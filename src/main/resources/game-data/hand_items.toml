@@ -1,0 +1,61 @@
+# Первый список модификаторов
+[[firstModifier]]
+code = "blazing"
+attack = 1
+
+[firstModifier.locales.RU.form]
+MASCULINE = "Пылающий"
+FEMININE = "Пылающая"
+NEUTER = "Пылающее"
+PLURAL = "Пылающие"
+
+[firstModifier.locales.EN.form]
+WITHOUT = "Blazing"
+
+# Второй список модификаторов, разделение идёт по русскому языку
+[[secondModifier]]
+code = "strength"
+attack = 1
+
+[secondModifier.locales.RU.form]
+WITHOUT = "Силы"
+
+[secondModifier.locales.EN.form]
+WITHOUT = "Of Strength"
+
+# Сам предмет, который описывают модификаторы выше
+[[item]]
+code = "sword"
+attack = 1
+
+[item.locales.RU]
+text = "Меч"
+form = "MASCULINE"
+
+[item.locales.EN]
+text = "Swrod"
+form = "WITHOUT"
+
+[[item]]
+code = "club"
+attack = 2
+
+[item.locales.RU]
+text = "Палица"
+form = "FEMININE"
+
+[item.locales.EN]
+text = "Club"
+form = "WITHOUT"
+
+[[item]]
+code = "spear"
+attack = 3
+
+[item.locales.RU]
+text = "Копьё"
+form = "NEUTER"
+
+[item.locales.EN]
+text = "Spear"
+form = "WITHOUT"
