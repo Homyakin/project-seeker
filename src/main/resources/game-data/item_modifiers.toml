@@ -1,0 +1,50 @@
+# Первый список модификаторов
+[[firstModifier]]
+code = "sharp"
+attack = 2
+
+[firstModifier.locales.RU.form]
+MASCULINE = "Острый"
+FEMININE = "Острая"
+NEUTER = "Острое"
+PLURAL = "Острые"
+
+[firstModifier.locales.EN.form]
+WITHOUT = "Sharp"
+
+[[firstModifier]]
+code = "iron"
+attack = 2
+
+[firstModifier.locales.RU.form]
+MASCULINE = "Железный"
+FEMININE = "Железная"
+NEUTER = "Железное"
+PLURAL = "Железные"
+
+[firstModifier.locales.EN.form]
+WITHOUT = "Iron"
+
+[[firstModifier]]
+code = "wooden"
+attack = 1
+
+[firstModifier.locales.RU.form]
+MASCULINE = "Деревянный"
+FEMININE = "Деревянная"
+NEUTER = "Деревянное"
+PLURAL = "Дервянные"
+
+[firstModifier.locales.EN.form]
+WITHOUT = "Wooden"
+
+# Второй список модификаторов, разделение идёт по русскому языку
+[[secondModifier]]
+code = "strength"
+attack = 1
+
+[secondModifier.locales.RU.form]
+WITHOUT = "Силы"
+
+[secondModifier.locales.EN.form]
+WITHOUT = "Of Strength"

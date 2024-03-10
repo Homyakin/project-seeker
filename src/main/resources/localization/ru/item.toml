@@ -1,0 +1,5 @@
+itemWithoutModifiers = "${item}"
+itemWithFirstModifier = "${first_modifier} ${item}"
+itemWithSecondModifier = "${item} ${second_modifier}"
+itemWithFirstAndSecondModifier = "${first_modifier} ${item} ${second_modifier}"
+itemWithTwoFirstModifiers = "${first_modifier_one} ${first_modifier_two} ${item}"

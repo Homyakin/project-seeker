@@ -1,0 +1,36 @@
+# Сам предмет, который описывают модификаторы выше
+[[item]]
+code = "sword"
+attack = 1
+
+[item.locales.RU]
+text = "Меч"
+form = "MASCULINE"
+
+[item.locales.EN]
+text = "Swrod"
+form = "WITHOUT"
+
+[[item]]
+code = "club"
+attack = 1
+
+[item.locales.RU]
+text = "Палица"
+form = "FEMININE"
+
+[item.locales.EN]
+text = "Club"
+form = "WITHOUT"
+
+[[item]]
+code = "spear"
+attack = 2
+
+[item.locales.RU]
+text = "Копьё"
+form = "NEUTER"
+
+[item.locales.EN]
+text = "Spear"
+form = "WITHOUT"
