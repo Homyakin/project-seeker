@@ -1,50 +1,51 @@
-# Первый список модификаторов
-[[firstModifier]]
+# Есть два типа модификаторов, FIRST и SECOND, разделение идёт по порядку слов в русском языке
+[[modifier]]
 code = "sharp"
-attack = 2
+type = "FIRST"
+attack.min = 1
+attack.max = 2
 
-[firstModifier.locales.RU.form]
+[modifier.locales.RU.form]
 MASCULINE = "Острый"
 FEMININE = "Острая"
 NEUTER = "Острое"
 PLURAL = "Острые"
 
-[firstModifier.locales.EN.form]
+[modifier.locales.EN.form]
 WITHOUT = "Sharp"
 
-[[firstModifier]]
+[[modifier]]
 code = "iron"
-attack = 2
+type = "FIRST"
 
-[firstModifier.locales.RU.form]
+[modifier.locales.RU.form]
 MASCULINE = "Железный"
 FEMININE = "Железная"
 NEUTER = "Железное"
 PLURAL = "Железные"
 
-[firstModifier.locales.EN.form]
+[modifier.locales.EN.form]
 WITHOUT = "Iron"
 
-[[firstModifier]]
+[[modifier]]
 code = "wooden"
-attack = 1
+type = "FIRST"
 
-[firstModifier.locales.RU.form]
+[modifier.locales.RU.form]
 MASCULINE = "Деревянный"
 FEMININE = "Деревянная"
 NEUTER = "Деревянное"
 PLURAL = "Дервянные"
 
-[firstModifier.locales.EN.form]
+[modifier.locales.EN.form]
 WITHOUT = "Wooden"
 
-# Второй список модификаторов, разделение идёт по русскому языку
-[[secondModifier]]
+[[modifier]]
 code = "strength"
-attack = 1
+type = "SECOND"
 
-[secondModifier.locales.RU.form]
+[modifier.locales.RU.form]
 WITHOUT = "Силы"
 
-[secondModifier.locales.EN.form]
+[modifier.locales.EN.form]
 WITHOUT = "Of Strength"
