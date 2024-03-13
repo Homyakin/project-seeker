@@ -1,7 +1,7 @@
 # Есть два типа модификаторов, FIRST и SECOND, разделение идёт по порядку слов в русском языке
 [[modifier]]
 code = "sharp"
-type = "FIRST"
+type = "PREFIX"
 attack.min = 1
 attack.max = 2
 
@@ -16,7 +16,7 @@ WITHOUT = "Sharp"
 
 [[modifier]]
 code = "iron"
-type = "FIRST"
+type = "PREFIX"
 
 [modifier.locales.RU.form]
 MASCULINE = "Железный"
@@ -29,7 +29,7 @@ WITHOUT = "Iron"
 
 [[modifier]]
 code = "wooden"
-type = "FIRST"
+type = "PREFIX"
 
 [modifier.locales.RU.form]
 MASCULINE = "Деревянный"
@@ -42,7 +42,7 @@ WITHOUT = "Wooden"
 
 [[modifier]]
 code = "strength"
-type = "SECOND"
+type = "SUFFIX"
 
 [modifier.locales.RU.form]
 WITHOUT = "Силы"
