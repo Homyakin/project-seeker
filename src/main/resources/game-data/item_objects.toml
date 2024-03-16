@@ -1,39 +1,39 @@
 # Сам предмет, который описывают модификаторы выше
-[[item]]
+[[object]]
 code = "sword"
 type = "ONE_HANDED_SWORD"
 attack = "1-1"
 
-[item.locales.RU]
+[object.locales.RU]
 text = "Меч"
 form = "MASCULINE"
 
-[item.locales.EN]
+[object.locales.EN]
 text = "Swrod"
 form = "WITHOUT"
 
-[[item]]
+[[object]]
 code = "club"
 type = "ONE_HANDED_BLUNT"
 attack = "1-1"
 
-[item.locales.RU]
+[object.locales.RU]
 text = "Палица"
 form = "FEMININE"
 
-[item.locales.EN]
+[object.locales.EN]
 text = "Club"
 form = "WITHOUT"
 
-[[item]]
+[[object]]
 code = "spear"
 type = "POLE_WEAPON"
 attack = "2-2"
 
-[item.locales.RU]
+[object.locales.RU]
 text = "Копьё"
 form = "NEUTER"
 
-[item.locales.EN]
+[object.locales.EN]
 text = "Spear"
 form = "WITHOUT"

@@ -13,6 +13,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.item.ItemObject;
+import ru.homyakin.seeker.game.item.Modifier;
+import ru.homyakin.seeker.infrastructure.init.saving_models.ItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
@@ -113,6 +117,32 @@ public class InitGameData {
         logger.info("loaded badges");
     }
 
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadItems() {
+        logger.info("loading items");
+        ResourceUtils.doAction(
+            ITEM_OBJECTS,
+            stream -> {
+                final var itemObjects = extractClass(stream, ItemObjects.class);
+                LocalizationCoverage.addItemObjectsInfo(itemObjects);
+                itemObjects.object().forEach(ItemObject::validateLocale);
+                // TODO save to db
+                System.out.println(itemObjects);
+            }
+        );
+        ResourceUtils.doAction(
+            ITEM_MODIFIERS,
+            stream -> {
+                final var itemModifiers = extractClass(stream, ItemModifiers.class);
+                LocalizationCoverage.addIteModifiersInfo(itemModifiers);
+                itemModifiers.modifier().forEach(Modifier::validateLocale);
+                // TODO save to db
+                System.out.println(itemModifiers);
+            }
+        );
+        logger.info("loaded items");
+    }
+
     private <T> T extractClass(InputStream stream, Class<T> clazz) {
         try {
             return mapper.readValue(stream, clazz);
@@ -142,4 +172,6 @@ public class InitGameData {
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";
     private static final String BADGES = DATA_FOLDER + "badges.toml";
+    private static final String ITEM_OBJECTS = DATA_FOLDER + "item_objects.toml";
+    private static final String ITEM_MODIFIERS = DATA_FOLDER + "item_modifiers.toml";
 }
