@@ -1,6 +1,7 @@
 # Сам предмет, который описывают модификаторы выше
 [[item]]
 code = "sword"
+type = "ONE_HANDED_SWORD"
 attack.min = 1
 attack.max = 1
 
@@ -14,6 +15,7 @@ form = "WITHOUT"
 
 [[item]]
 code = "club"
+type = "ONE_HANDED_BLUNT"
 attack.min = 1
 attack.max = 1
 
@@ -27,6 +29,7 @@ form = "WITHOUT"
 
 [[item]]
 code = "spear"
+type = "POLE_WEAPON"
 attack.min = 2
 attack.max = 2
 
