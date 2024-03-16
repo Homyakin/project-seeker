@@ -2,8 +2,7 @@
 [[item]]
 code = "sword"
 type = "ONE_HANDED_SWORD"
-attack.min = 1
-attack.max = 1
+attack = "1-1"
 
 [item.locales.RU]
 text = "Меч"
@@ -16,8 +15,7 @@ form = "WITHOUT"
 [[item]]
 code = "club"
 type = "ONE_HANDED_BLUNT"
-attack.min = 1
-attack.max = 1
+attack = "1-1"
 
 [item.locales.RU]
 text = "Палица"
@@ -30,8 +28,7 @@ form = "WITHOUT"
 [[item]]
 code = "spear"
 type = "POLE_WEAPON"
-attack.min = 2
-attack.max = 2
+attack = "2-2"
 
 [item.locales.RU]
 text = "Копьё"

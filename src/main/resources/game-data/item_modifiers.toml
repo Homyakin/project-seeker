@@ -2,8 +2,7 @@
 [[modifier]]
 code = "sharp"
 type = "PREFIX"
-attack.min = 1
-attack.max = 2
+attack = "1-2"
 
 [modifier.locales.RU.form]
 MASCULINE = "Острый"
