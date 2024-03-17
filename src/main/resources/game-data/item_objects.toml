@@ -1,7 +1,7 @@
 # Сам предмет, который описывают модификаторы выше
 [[object]]
 code = "sword"
-type = "ONE_HANDED_SWORD"
+slots = ["MAIN_HAND"]
 attack = "1-1"
 
 [object.locales.RU]
@@ -14,7 +14,7 @@ form = "WITHOUT"
 
 [[object]]
 code = "club"
-type = "ONE_HANDED_BLUNT"
+slots = ["MAIN_HAND"]
 attack = "1-1"
 
 [object.locales.RU]
@@ -27,7 +27,7 @@ form = "WITHOUT"
 
 [[object]]
 code = "spear"
-type = "POLE_WEAPON"
+slots = ["MAIN_HAND", "OFF_HAND"]
 attack = "2-2"
 
 [object.locales.RU]

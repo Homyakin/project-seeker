@@ -44,4 +44,11 @@ public class InitGameDataTest {
         initGameData.setType(type);
         Assertions.assertDoesNotThrow(initGameData::loadBadges);
     }
+
+    @ParameterizedTest
+    @EnumSource(InitGameDataType.class)
+    public void When_LoadItems_Then_NoErrors(InitGameDataType type) {
+        initGameData.setType(type);
+        Assertions.assertDoesNotThrow(initGameData::loadItems);
+    }
 }
