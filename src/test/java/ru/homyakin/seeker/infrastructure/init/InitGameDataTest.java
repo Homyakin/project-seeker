@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
@@ -14,7 +15,8 @@ public class InitGameDataTest {
         Mockito.mock(EventService.class),
         Mockito.mock(MenuService.class),
         Mockito.mock(RumorService.class),
-        Mockito.mock(BadgeService.class)
+        Mockito.mock(BadgeService.class),
+        Mockito.mock(ItemService.class)
     );
 
     @ParameterizedTest

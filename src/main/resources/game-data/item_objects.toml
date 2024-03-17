@@ -2,7 +2,7 @@
 [[object]]
 code = "sword"
 slots = ["MAIN_HAND"]
-attack = "1-1"
+characteristics.attack = "1-1"
 
 [object.locales.RU]
 text = "Меч"
@@ -15,7 +15,7 @@ form = "WITHOUT"
 [[object]]
 code = "club"
 slots = ["MAIN_HAND"]
-attack = "1-1"
+characteristics.attack = "1-1"
 
 [object.locales.RU]
 text = "Палица"
@@ -28,7 +28,7 @@ form = "WITHOUT"
 [[object]]
 code = "spear"
 slots = ["MAIN_HAND", "OFF_HAND"]
-attack = "2-2"
+characteristics.attack = "2-2"
 
 [object.locales.RU]
 text = "Копьё"

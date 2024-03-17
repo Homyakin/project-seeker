@@ -1,0 +1,182 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-items-tables">
+        <!--Добавляем слоты для персонажа-->
+        <createTable tableName="personage_slot">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="personage_slot">
+            <column name="id" value="1"/>
+            <column name="name" value="Основная рука"/>
+        </insert>
+
+        <insert tableName="personage_slot">
+            <column name="id" value="2"/>
+            <column name="name" value="Вспомогательная рука"/>
+        </insert>
+
+        <!--Объект и занимаемые слоты-->
+        <createTable tableName="item_object">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="characteristics" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="code"
+                constraintName="item_object-unique_code"
+                tableName="item_object"
+        />
+
+        <createTable tableName="item_object_to_personage_slot">
+            <column name="item_object_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_slot_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="item_object_id, personage_slot_id"
+                constraintName="item_object_to_personage_slot-pk"
+                tableName="item_object_to_personage_slot"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_object_to_personage_slot"
+                baseColumnNames="item_object_id"
+                referencedTableName="item_object"
+                referencedColumnNames="id"
+                constraintName="fk-item_object_to_personage_slot-to-item_object"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_object_to_personage_slot"
+                baseColumnNames="personage_slot_id"
+                referencedTableName="personage_slot"
+                referencedColumnNames="id"
+                constraintName="fk-item_object_to_personage_slot-to-personage_slot"
+        />
+
+        <!--Таблицы для модификаторов-->
+        <createTable tableName="item_modifier_type">
+            <column name="id" type="INT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="item_modifier_type">
+            <column name="id" value="1"/>
+            <column name="name" value="Префикс"/>
+        </insert>
+
+        <insert tableName="item_modifier_type">
+            <column name="id" value="2"/>
+            <column name="name" value="Суффикс"/>
+        </insert>
+
+        <createTable tableName="item_modifier">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_modifier_type_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="characteristics" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="code"
+                constraintName="item_modifier-unique_code"
+                tableName="item_modifier"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_modifier"
+                baseColumnNames="item_modifier_type_id"
+                referencedTableName="item_modifier_type"
+                referencedColumnNames="id"
+                constraintName="fk-item_modifier-to-item_modifier_type"
+        />
+
+        <!--Сам предмет-->
+        <createTable tableName="item">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_object_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_equipped" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attack" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="item_to_item_modifier">
+            <column name="item_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_modifier_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="item_id, item_modifier_id"
+                constraintName="item_to_item_modifier-pk"
+                tableName="item_to_item_modifier"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_to_item_modifier"
+                baseColumnNames="item_id"
+                referencedTableName="item"
+                referencedColumnNames="id"
+                constraintName="fk-item_to_item_modifier-to-item"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_to_item_modifier"
+                baseColumnNames="item_modifier_id"
+                referencedTableName="item_modifier"
+                referencedColumnNames="id"
+                constraintName="fk-item_to_item_modifier-to-item_modifier"
+        />
+    </changeSet>
+</databaseChangeLog>

@@ -2,7 +2,7 @@
 [[modifier]]
 code = "sharp"
 type = "PREFIX"
-attack = "1-2"
+characteristics.attack = "1-2"
 
 [modifier.locales.RU.form]
 MASCULINE = "Острый"
@@ -16,6 +16,7 @@ WITHOUT = "Sharp"
 [[modifier]]
 code = "iron"
 type = "PREFIX"
+characteristics.attack = "1-2"
 
 [modifier.locales.RU.form]
 MASCULINE = "Железный"
@@ -29,6 +30,7 @@ WITHOUT = "Iron"
 [[modifier]]
 code = "wooden"
 type = "PREFIX"
+characteristics.attack = "1-2"
 
 [modifier.locales.RU.form]
 MASCULINE = "Деревянный"
@@ -42,6 +44,7 @@ WITHOUT = "Wooden"
 [[modifier]]
 code = "strength"
 type = "SUFFIX"
+characteristics.attack = "1-2"
 
 [modifier.locales.RU.form]
 WITHOUT = "Силы"

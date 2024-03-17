@@ -13,8 +13,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
-import ru.homyakin.seeker.game.item.ItemObject;
-import ru.homyakin.seeker.game.item.Modifier;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.infrastructure.init.saving_models.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
@@ -43,18 +44,21 @@ public class InitGameData {
     private final MenuService menuService;
     private final RumorService rumorService;
     private final BadgeService badgeService;
+    private final ItemService itemService;
     private InitGameDataType type;
 
     public InitGameData(
         EventService eventService,
         MenuService menuService,
         RumorService rumorService,
-        BadgeService badgeService
+        BadgeService badgeService,
+        ItemService itemService
     ) {
         this.eventService = eventService;
         this.menuService = menuService;
         this.rumorService = rumorService;
         this.badgeService = badgeService;
+        this.itemService = itemService;
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -126,8 +130,7 @@ public class InitGameData {
                 final var itemObjects = extractClass(stream, ItemObjects.class);
                 LocalizationCoverage.addItemObjectsInfo(itemObjects);
                 itemObjects.object().forEach(ItemObject::validateLocale);
-                // TODO save to db
-                System.out.println(itemObjects);
+                itemService.saveObjects(itemObjects);
             }
         );
         ResourceUtils.doAction(
@@ -136,8 +139,8 @@ public class InitGameData {
                 final var itemModifiers = extractClass(stream, ItemModifiers.class);
                 LocalizationCoverage.addIteModifiersInfo(itemModifiers);
                 itemModifiers.modifier().forEach(Modifier::validateLocale);
-                // TODO save to db
-                System.out.println(itemModifiers);
+                itemModifiers.modifier().forEach(Modifier::validateWordForms);
+                itemService.saveModifiers(itemModifiers);
             }
         );
         logger.info("loaded items");

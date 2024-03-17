@@ -2,6 +2,8 @@ package ru.homyakin.seeker.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import java.sql.SQLException;
 import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JsonUtils {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = JsonMapper.builder()
+        .addModule(new Jdk8Module())
+        .build();
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 
     public <T> T fromString(String string, Class<T> clazz) {

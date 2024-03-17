@@ -1,8 +1,9 @@
 package ru.homyakin.seeker.locale;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public enum WordForm {
     MASCULINE,
@@ -12,7 +13,11 @@ public enum WordForm {
     WITHOUT,
     ;
 
-    private static final Map<Language, List<WordForm>> languageRequiredForms = new HashMap<>() {{
-       put(Language.RU, List.of(MASCULINE, FEMININE, NEUTER, PLURAL));
+    private static final Map<Language, Set<WordForm>> languageRequiredForms = new HashMap<>() {{
+       put(Language.RU, Set.of(MASCULINE, FEMININE, NEUTER, PLURAL));
     }};
+
+    public static Optional<Set<WordForm>> languageRequiredForms(Language language) {
+        return Optional.ofNullable(languageRequiredForms.get(language));
+    }
 }

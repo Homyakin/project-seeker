@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.item;
+package ru.homyakin.seeker.game.item.models;
 
 import java.util.Map;
 import ru.homyakin.seeker.locale.WordForm;
