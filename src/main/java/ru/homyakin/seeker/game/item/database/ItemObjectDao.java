@@ -1,12 +1,20 @@
 package ru.homyakin.seeker.game.item.database;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
+import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
@@ -20,7 +28,7 @@ public class ItemObjectDao {
     }
 
     @Transactional
-    public void saveObject(ItemObject object) {
+    public void saveObject(SavingItemObject object) {
         final var sql = """
             INSERT INTO item_object (code, characteristics, locale)
             VALUES (:code, CAST(:characteristics AS JSON), CAST(:locale AS JSON))
@@ -40,7 +48,22 @@ public class ItemObjectDao {
         saveObjectSlots(id, object.slots());
     }
 
-    public void saveObjectSlots(int id, Set<PersonageSlot> slots) {
+    public ItemObject getRandomObject() {
+        final var sql = """
+            WITH random_object AS (
+               SELECT id FROM item_object
+               ORDER BY random() LIMIT 1
+            )
+            SELECT * FROM item_object io
+            LEFT JOIN item_object_to_personage_slot iotps on io.id = iotps.item_object_id
+            LEFT JOIN random_object ro ON io.id = ro.id
+            WHERE io.id = ro.id
+            """;
+        return jdbcClient.sql(sql)
+            .query(this::extractSingleObject);
+    }
+
+    private void saveObjectSlots(int id, Set<PersonageSlot> slots) {
         final var selectExistingSlots = """
             SELECT * FROM item_object_to_personage_slot WHERE item_object_id = :item_object_id
             """;
@@ -55,7 +78,7 @@ public class ItemObjectDao {
             INSERT INTO item_object_to_personage_slot (item_object_id, personage_slot_id) 
             VALUES (:item_object_id, :personage_slot_id)
             """;
-        for (final var slot: slots) {
+        for (final var slot : slots) {
             if (!existingSlots.contains(slot)) {
                 jdbcClient
                     .sql(insert)
@@ -69,7 +92,7 @@ public class ItemObjectDao {
             DELETE FROM item_object_to_personage_slot
             WHERE item_object_id = :item_object_id AND personage_slot_id = :personage_slot_id
             """;
-        for (final var slot: existingSlots) {
+        for (final var slot : existingSlots) {
             if (!slots.contains(slot)) {
                 jdbcClient
                     .sql(delete)
@@ -79,4 +102,33 @@ public class ItemObjectDao {
             }
         }
     }
+
+    @SuppressWarnings("unchecked") // locale парсится как Map без типизации дженериков
+    private ItemObject extractSingleObject(ResultSet rs) throws SQLException {
+        rs.next();
+        final var id = rs.getInt("id");
+        final var code = rs.getString("code");
+        final var locale = jsonUtils.fromString(rs.getString("locale"), Map.class);
+        final var characteristics = jsonUtils.fromString(rs.getString("characteristics"), ItemRangeCharacteristics.class);
+        final var slots = new HashSet<PersonageSlot>();
+        do {
+            slots.add(PersonageSlot.findById(rs.getInt("personage_slot_id")));
+        } while (rs.next());
+
+        return new ItemObject(
+            id,
+            code,
+            slots,
+            characteristics,
+            (Map<Language, ItemObjectLocale>) locale
+        );
+    }
+
+    private record ItemObjectWithoutSlots(
+        int id,
+        String code,
+        Set<PersonageSlot> slots,
+        ItemRangeCharacteristics characteristics,
+        Map<Language, ItemObjectLocale> locales
+    ) {}
 }

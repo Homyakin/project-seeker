@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.models.ItemObject;
-import ru.homyakin.seeker.game.item.models.Modifier;
-import ru.homyakin.seeker.infrastructure.init.saving_models.ItemModifiers;
-import ru.homyakin.seeker.infrastructure.init.saving_models.ItemObjects;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
@@ -129,7 +129,7 @@ public class InitGameData {
             stream -> {
                 final var itemObjects = extractClass(stream, ItemObjects.class);
                 LocalizationCoverage.addItemObjectsInfo(itemObjects);
-                itemObjects.object().forEach(ItemObject::validateLocale);
+                itemObjects.object().forEach(SavingItemObject::validateLocale);
                 itemService.saveObjects(itemObjects);
             }
         );
@@ -138,8 +138,8 @@ public class InitGameData {
             stream -> {
                 final var itemModifiers = extractClass(stream, ItemModifiers.class);
                 LocalizationCoverage.addIteModifiersInfo(itemModifiers);
-                itemModifiers.modifier().forEach(Modifier::validateLocale);
-                itemModifiers.modifier().forEach(Modifier::validateWordForms);
+                itemModifiers.modifier().forEach(SavingModifier::validateLocale);
+                itemModifiers.modifier().forEach(SavingModifier::validateWordForms);
                 itemService.saveModifiers(itemModifiers);
             }
         );

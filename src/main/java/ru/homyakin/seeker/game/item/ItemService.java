@@ -1,10 +1,13 @@
 package ru.homyakin.seeker.game.item;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
-import ru.homyakin.seeker.infrastructure.init.saving_models.ItemModifiers;
-import ru.homyakin.seeker.infrastructure.init.saving_models.ItemObjects;
+import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 
 @Service
 public class ItemService {
@@ -22,5 +25,17 @@ public class ItemService {
 
     public void saveModifiers(ItemModifiers modifiers) {
         modifiers.modifier().forEach(itemModifierDao::saveModifier);
+    }
+
+    public Item generateItemForPersonage(long personageId) {
+        final var object = itemObjectDao.getRandomObject();
+        return new Item(
+            0L,
+            object,
+            List.of(),
+            Optional.of(personageId),
+            false,
+            0
+        );
     }
 }

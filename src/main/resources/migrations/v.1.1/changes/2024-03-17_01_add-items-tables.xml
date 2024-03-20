@@ -131,7 +131,7 @@
 
         <!--Сам предмет-->
         <createTable tableName="item">
-            <column name="id" type="SERIAL">
+            <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="item_object_id" type="INT">

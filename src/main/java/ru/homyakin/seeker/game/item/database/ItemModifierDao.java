@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.item.database;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.models.Modifier;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
@@ -16,7 +16,7 @@ public class ItemModifierDao {
         this.jsonUtils = jsonUtils;
     }
 
-    public void saveModifier(Modifier modifier) {
+    public void saveModifier(SavingModifier modifier) {
         final var sql = """
             INSERT INTO item_modifier (code, item_modifier_type_id, characteristics, locale)
             VALUES (:code, :item_modifier_type_id, CAST(:characteristics AS JSON), CAST(:locale AS JSON))
