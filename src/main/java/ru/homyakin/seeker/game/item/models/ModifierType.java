@@ -10,4 +10,13 @@ public enum ModifierType {
     ModifierType(int id) {
         this.id = id;
     }
+
+    public static ModifierType findById(int id) {
+        for (final var type : values()) {
+            if (type.id == id) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid modifier type id: " + id);
+    }
 }

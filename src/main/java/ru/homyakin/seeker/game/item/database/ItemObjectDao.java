@@ -123,12 +123,4 @@ public class ItemObjectDao {
             (Map<Language, ItemObjectLocale>) locale
         );
     }
-
-    private record ItemObjectWithoutSlots(
-        int id,
-        String code,
-        Set<PersonageSlot> slots,
-        ItemRangeCharacteristics characteristics,
-        Map<Language, ItemObjectLocale> locales
-    ) {}
 }

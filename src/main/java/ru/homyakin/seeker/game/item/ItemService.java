@@ -29,10 +29,11 @@ public class ItemService {
 
     public Item generateItemForPersonage(long personageId) {
         final var object = itemObjectDao.getRandomObject();
+        final var modifier = itemModifierDao.getRandomModifier();
         return new Item(
             0L,
             object,
-            List.of(),
+            List.of(modifier),
             Optional.of(personageId),
             false,
             0
