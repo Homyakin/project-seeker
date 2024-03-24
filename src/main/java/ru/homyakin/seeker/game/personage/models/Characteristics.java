@@ -5,7 +5,6 @@ import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
-
     int health,
     int attack,
     int defense,

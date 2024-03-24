@@ -2,12 +2,9 @@ package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.personage.badge.BadgeService;
-import ru.homyakin.seeker.locale.personal.BadgeLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -31,7 +28,7 @@ public class RandomItemExecutor extends CommandExecutor<RandomItem> {
         final var user = userService.getOrCreateFromPrivate(command.userId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(itemService.generateItemForPersonage(0).toString())
+            .text(itemService.generateItemForPersonage(user.personageId()).toString())
             .build()
         );
     }

@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
@@ -48,7 +48,7 @@ public class ItemObjectDao {
         saveObjectSlots(id, object.slots());
     }
 
-    public ItemObject getRandomObject() {
+    public GenerateItemObject getRandomObject() {
         final var sql = """
             WITH random_object AS (
                SELECT id FROM item_object
@@ -104,7 +104,7 @@ public class ItemObjectDao {
     }
 
     @SuppressWarnings("unchecked") // locale парсится как Map без типизации дженериков
-    private ItemObject extractSingleObject(ResultSet rs) throws SQLException {
+    private GenerateItemObject extractSingleObject(ResultSet rs) throws SQLException {
         rs.next();
         final var id = rs.getInt("id");
         final var code = rs.getString("code");
@@ -115,7 +115,7 @@ public class ItemObjectDao {
             slots.add(PersonageSlot.findById(rs.getInt("personage_slot_id")));
         } while (rs.next());
 
-        return new ItemObject(
+        return new GenerateItemObject(
             id,
             code,
             slots,

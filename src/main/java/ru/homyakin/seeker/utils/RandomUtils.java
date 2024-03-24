@@ -36,4 +36,8 @@ public class RandomUtils {
         Collections.shuffle(modifiableList);
         return modifiableList;
     }
+
+    public static boolean bool() {
+        return random.nextBoolean();
+    }
 }

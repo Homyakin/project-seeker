@@ -148,6 +148,14 @@
             </column>
         </createTable>
 
+        <addForeignKeyConstraint
+                baseTableName="item"
+                baseColumnNames="personage_id"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+                constraintName="fk-item-to-personage"
+        />
+
         <createTable tableName="item_to_item_modifier">
             <column name="item_id" type="INT">
                 <constraints nullable="false"/>

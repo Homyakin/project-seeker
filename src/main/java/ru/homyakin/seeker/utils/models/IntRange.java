@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.utils.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 public record IntRange(
     int min,
@@ -16,5 +17,9 @@ public record IntRange(
             Integer.parseInt(split[0]),
             Integer.parseInt(split[1])
         );
+    }
+
+    public int value() {
+        return RandomUtils.getInInterval(min, max);
     }
 }

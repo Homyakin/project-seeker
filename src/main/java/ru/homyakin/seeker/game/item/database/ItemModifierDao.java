@@ -6,13 +6,10 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.duel.models.Duel;
-import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
-import ru.homyakin.seeker.game.item.models.Modifier;
+import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.ModifierLocale;
 import ru.homyakin.seeker.game.item.models.ModifierType;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.JsonUtils;
@@ -45,7 +42,7 @@ public class ItemModifierDao {
             .update();
     }
 
-    public Modifier getRandomModifier() {
+    public GenerateModifier getRandomModifier() {
         final var sql = """
             SELECT * FROM item_modifier
             ORDER BY random() LIMIT 1
@@ -57,9 +54,35 @@ public class ItemModifierDao {
             .orElseThrow();
     }
 
+    public GenerateModifier getRandomModifierExcludeId(int id) {
+        final var sql = """
+            SELECT * FROM item_modifier
+            WHERE id != :id
+            ORDER BY random() LIMIT 1
+            """;
+
+        return jdbcClient.sql(sql)
+            .param("id", id)
+            .query(this::mapRow)
+            .single();
+    }
+
+    public GenerateModifier getRandomModifierWithType(ModifierType type) {
+        final var sql = """
+            SELECT * FROM item_modifier
+            WHERE item_modifier_type_id = :item_modifier_type_id
+            ORDER BY random() LIMIT 1
+            """;
+
+        return jdbcClient.sql(sql)
+            .param("item_modifier_type_id", type.id)
+            .query(this::mapRow)
+            .single();
+    }
+
     @SuppressWarnings("unchecked") // locale парсится как Map без типизации дженериков
-    private Modifier mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Modifier(
+    private GenerateModifier mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new GenerateModifier(
             rs.getInt("id"),
             rs.getString("code"),
             ModifierType.findById(rs.getInt("item_modifier_type_id")),
