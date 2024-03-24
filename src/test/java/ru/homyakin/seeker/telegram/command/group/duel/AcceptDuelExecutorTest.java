@@ -118,7 +118,7 @@ public class AcceptDuelExecutorTest {
         Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(group.id(), initiatorPersonage.id(), acceptorPersonage.id());
         final var captor = ArgumentCaptor.forClass(EditMessageText.class);
         Mockito.verify(telegramSender).send(captor.capture());
-        System.out.println(captor.getValue());
+
         final var expected = EditMessageText.builder()
             .chatId(group.id().value())
             .messageId(command.messageId())

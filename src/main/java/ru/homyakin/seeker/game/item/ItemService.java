@@ -48,9 +48,9 @@ public class ItemService {
             if (RandomUtils.bool()) {
                 // Может быть либо 2 префиксных, либо 1 суффикс и 1 префикс
                 if (modifier.type() == ModifierType.PREFIX) {
-                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id()));
+                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.SUFFIX));
                 } else {
-                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX));
+                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id()));
                 }
             }
         }
@@ -68,7 +68,7 @@ public class ItemService {
     }
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
-        var attack = object.characteristics().attack().map(IntRange::value).orElse(0);
+        int attack = object.characteristics().attack().map(IntRange::value).orElse(0);
         attack += modifiers.stream()
             .map(modifier -> modifier.characteristics().attack().map(IntRange::value).orElse(0))
             .reduce(0, Integer::sum);

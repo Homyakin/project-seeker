@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.sql.DataSource;
@@ -82,7 +81,7 @@ public class ItemDao {
     private List<Item> extractItems(ResultSet rs) throws SQLException {
         final var itemIdToItemObjectId = new HashMap<Long, Integer>();
         final var itemObjectIdToSlots = new HashMap<Integer, Set<PersonageSlot>>();
-        final var itemIdToModifiers = new HashMap<Long, List<Integer>>();
+        final var itemIdToModifiers = new HashMap<Long, Set<Integer>>();
         final var modifierMap = new HashMap<Integer, Modifier>();
         final var objectMap = new HashMap<Integer, ItemObject>();
         final var itemMap = new HashMap<Long, Item>();
@@ -107,7 +106,7 @@ public class ItemDao {
                 );
                 itemIdToItemObjectId.put(itemId, itemObjectId);
                 if (!objectMap.containsKey(itemObjectId)) {
-                    final var locale = jsonUtils.fromString(rs.getString("object_locale"), Map.class);
+                    final var locale = jsonUtils.fromString(rs.getString("object_locale"), JsonUtils.ITEM_OBJECT_LOCALE);
                     objectMap.put(
                         itemObjectId,
                         new ItemObject(itemObjectId, null, locale)
@@ -122,10 +121,10 @@ public class ItemDao {
             if (rs.wasNull()) {
                 continue;
             }
-            itemIdToModifiers.computeIfAbsent(itemId, k -> new ArrayList<>()).add(modifierId);
+            itemIdToModifiers.computeIfAbsent(itemId, k -> new HashSet<>()).add(modifierId);
             if (!modifierMap.containsKey(modifierId)) {
                 final var type = ModifierType.findById(rs.getInt("item_modifier_type_id"));
-                final var locale = jsonUtils.fromString(rs.getString("modifier_locale"), Map.class);
+                final var locale = jsonUtils.fromString(rs.getString("modifier_locale"), JsonUtils.MODIFIER_LOCALE);
                 modifierMap.put(
                     modifierId,
                     new Modifier(modifierId, type, locale)

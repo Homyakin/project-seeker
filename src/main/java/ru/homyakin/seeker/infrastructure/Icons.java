@@ -22,4 +22,7 @@ public class Icons {
     public static final String MISS = EmojiManager.getByAlias(":o:").orElseThrow().getEmoji();
     public static final String DODGE = EmojiManager.getByAlias(":dash:").orElseThrow().getEmoji();
 
+    // PersonageSlots
+    public static final String MAIN_HAND = EmojiManager.getByAlias(":raised_hand:").orElseThrow().getEmoji();
+    public static final String OFF_HAND = EmojiManager.getByAlias(":leftwards_hand:").orElseThrow().getEmoji();
 }

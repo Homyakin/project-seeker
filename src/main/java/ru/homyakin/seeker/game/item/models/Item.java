@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.locale.Language;
 
 public record Item(
     long id,
@@ -13,4 +14,26 @@ public record Item(
     boolean isEquipped,
     Characteristics characteristics
 ) {
+    /**
+     * @param requestedLanguage запрашиваемый язык
+     * @return Возвращает requestedLanguage если он присутствует во object и во всех modifiers,
+     *         иначе название предмета будет на разных языках, что может нарушить смысл и порядок слов
+     */
+    public Language getItemLanguage(Language requestedLanguage) {
+        if (requestedLanguage == Language.DEFAULT) {
+            return Language.DEFAULT;
+        }
+
+        if (!object.locales().containsKey(requestedLanguage)) {
+            return Language.DEFAULT;
+        }
+
+        for (final var modifier: modifiers) {
+            if (!modifier.locales().containsKey(requestedLanguage)) {
+                return Language.DEFAULT;
+            }
+        }
+
+        return requestedLanguage;
+    }
 }

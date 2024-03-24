@@ -1,5 +1,8 @@
-itemWithoutModifiers = "${item}"
-itemWithPrefixModifier = "${prefix_modifier} ${item}"
-itemWithSuffixModifier = "${item} ${suffix_modifier}"
-itemWithPrefixAndSuffixModifier = "${prefix_modifier} ${item} ${suffix_modifier}"
-itemWithTwoPrefixModifiers = "${prefix_modifier_one} ${prefix_modifier_two} ${item}"
+# TODO характеристики
+itemWithoutModifiers = "${slots} ${item} ${characteristics}"
+itemWithPrefixModifier = "${slots} ${prefix_modifier} ${item} ${characteristics}"
+itemWithSuffixModifier = "${slots} ${item} ${suffix_modifier} ${characteristics}"
+itemWithPrefixAndSuffixModifier = "${slots} ${prefix_modifier} ${item} ${suffix_modifier} ${characteristics}"
+itemWithTwoPrefixModifiers = "${slots} ${prefix_modifier_one} ${prefix_modifier_two} ${item} ${characteristics}"
+characteristics = "${not_zero_attack}"
+attack = "${attack_icon}${attack_value}"

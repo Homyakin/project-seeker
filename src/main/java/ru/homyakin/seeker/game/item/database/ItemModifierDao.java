@@ -2,16 +2,13 @@ package ru.homyakin.seeker.game.item.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
-import ru.homyakin.seeker.game.item.models.ModifierLocale;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
-import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
@@ -80,14 +77,13 @@ public class ItemModifierDao {
             .single();
     }
 
-    @SuppressWarnings("unchecked") // locale парсится как Map без типизации дженериков
     private GenerateModifier mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GenerateModifier(
             rs.getInt("id"),
             rs.getString("code"),
             ModifierType.findById(rs.getInt("item_modifier_type_id")),
             jsonUtils.fromString(rs.getString("characteristics"), ItemRangeCharacteristics.class),
-            (Map<Language, ModifierLocale>) jsonUtils.fromString(rs.getString("locale"), Map.class)
+            jsonUtils.fromString(rs.getString("locale"), JsonUtils.MODIFIER_LOCALE)
         );
     }
 }

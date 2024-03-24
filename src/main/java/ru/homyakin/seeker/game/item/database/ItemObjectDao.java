@@ -3,7 +3,6 @@ package ru.homyakin.seeker.game.item.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -12,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
-import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
-import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
@@ -103,12 +100,11 @@ public class ItemObjectDao {
         }
     }
 
-    @SuppressWarnings("unchecked") // locale парсится как Map без типизации дженериков
     private GenerateItemObject extractSingleObject(ResultSet rs) throws SQLException {
         rs.next();
         final var id = rs.getInt("id");
         final var code = rs.getString("code");
-        final var locale = jsonUtils.fromString(rs.getString("locale"), Map.class);
+        final var locale = jsonUtils.fromString(rs.getString("locale"), JsonUtils.ITEM_OBJECT_LOCALE);
         final var characteristics = jsonUtils.fromString(rs.getString("characteristics"), ItemRangeCharacteristics.class);
         final var slots = new HashSet<PersonageSlot>();
         do {
@@ -120,7 +116,7 @@ public class ItemObjectDao {
             code,
             slots,
             characteristics,
-            (Map<Language, ItemObjectLocale>) locale
+            locale
         );
     }
 }
