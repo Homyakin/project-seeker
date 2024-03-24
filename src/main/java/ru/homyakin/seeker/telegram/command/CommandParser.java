@@ -37,6 +37,7 @@ import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
+import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.RandomItem;
 import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
@@ -125,6 +126,7 @@ public class CommandParser {
                 case RAID_REPORT -> RaidReport.from(message);
                 case SHOW_BADGES -> ShowBadges.from(message);
                 case RANDOM_ITEM -> RandomItem.from(message);
+                case INVENTORY -> Inventory.from(message);
                 default -> null;
             });
     }

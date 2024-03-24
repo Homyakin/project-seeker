@@ -2,12 +2,12 @@ package ru.homyakin.seeker.locale.item;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
-import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
@@ -42,6 +42,21 @@ public class ItemLocalization {
             }
         }
         return itemWithoutModifiers(itemLanguage, item);
+    }
+
+    public static String inventory(Language language, List<Item> items) {
+        final var params = new HashMap<String, Object>();
+        params.put("items_in_bag_count", items.size());
+        params.put("max_items_in_bag", 20); // TODO вынести
+        final var itemsBuilder = new StringBuilder();
+        for (final var item: items) {
+            itemsBuilder.append(ItemLocalization.item(language, item)).append("\n");
+        }
+        params.put("items_in_bag", itemsBuilder.toString());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::inventory),
+            params
+        );
     }
 
     private static String itemWithoutModifiers(Language language, Item item) {

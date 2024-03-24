@@ -59,23 +59,21 @@ public class ItemDao {
         return id;
     }
 
-    public Item getById(long id) {
-        final var sql = """
-            SELECT *,
-             i.id real_item_id, -- в item_to_item_modifier тоже item_id
-             io.locale object_locale,
-             im.locale modifier_locale
-            FROM item i
-            LEFT JOIN item_object io ON i.item_object_id = io.id
-            LEFT JOIN item_object_to_personage_slot iotps ON io.id = iotps.item_object_id
-            LEFT JOIN item_to_item_modifier itim ON i.id = itim.item_id
-            LEFT JOIN item_modifier im on itim.item_modifier_id = im.id
-            WHERE i.id = :id
-            """;
+    public Optional<Item> getById(long id) {
+        final var sql = SELECT_ITEMS + " WHERE i.id = :id";
+        return Optional.ofNullable(
+            jdbcClient.sql(sql)
+                .param("id", id)
+                .query(this::extractItems)
+                .getFirst()
+        );
+    }
+
+    public List<Item> getByPersonageId(PersonageId personageId) {
+        final var sql = SELECT_ITEMS + " WHERE i.personage_id = :personage_id";
         return jdbcClient.sql(sql)
-            .param("id", id)
-            .query(this::extractItems)
-            .getFirst();
+            .param("personage_id", personageId.value())
+            .query(this::extractItems);
     }
 
     private List<Item> extractItems(ResultSet rs) throws SQLException {
@@ -157,4 +155,16 @@ public class ItemDao {
 
         return items;
     }
+
+    private static final String SELECT_ITEMS = """
+        SELECT *,
+             i.id real_item_id, -- в item_to_item_modifier тоже item_id
+             io.locale object_locale,
+             im.locale modifier_locale
+            FROM item i
+            LEFT JOIN item_object io ON i.item_object_id = io.id
+            LEFT JOIN item_object_to_personage_slot iotps ON io.id = iotps.item_object_id
+            LEFT JOIN item_to_item_modifier itim ON i.id = itim.item_id
+            LEFT JOIN item_modifier im on itim.item_modifier_id = im.id
+        """;
 }

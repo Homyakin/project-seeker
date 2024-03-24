@@ -43,7 +43,8 @@ public enum CommandType {
     TOP_RAID_WEEK("/top_raid_week", CheckType.EQUALS),
     TOP_RAID_WEEK_GROUP("/top_raid_week_group", CheckType.EQUALS),
     TOP("/top", CheckType.EQUALS),
-    RANDOM_ITEM("/gen", CheckType.EQUALS)
+    RANDOM_ITEM("/gen", CheckType.EQUALS), // TODO удалить, когда механика с предметами будет готова
+    INVENTORY(null, CheckType.MAP),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -77,6 +78,7 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.resetCharacteristicsButton(), CommandType.RESET_CHARACTERISTICS);
         CommonUtils.putIfKeyPresents(textToType, resource.changeNameButton(), CommandType.INIT_CHANGE_NAME);
         CommonUtils.putIfKeyPresents(textToType, resource.showBadgesButton(), CommandType.SHOW_BADGES);
+        CommonUtils.putIfKeyPresents(textToType, resource.inventoryButton(), CommandType.INVENTORY);
     }
 
     private boolean check(String text) {

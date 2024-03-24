@@ -6,3 +6,9 @@ itemWithPrefixAndSuffixModifier = "${slots} ${prefix_modifier} ${item} ${suffix_
 itemWithTwoPrefixModifiers = "${slots} ${prefix_modifier_one} ${prefix_modifier_two} ${item} ${characteristics}"
 characteristics = "${not_zero_attack}"
 attack = "${attack_icon}${attack_value}"
+
+inventory = """\
+<b>👤Снаряжение:</b>
+
+<b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
+${items_in_bag}"""

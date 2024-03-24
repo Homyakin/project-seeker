@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
@@ -64,7 +65,11 @@ public class ItemService {
         );
 
         final var id = itemDao.saveItem(tempItem);
-        return itemDao.getById(id);
+        return itemDao.getById(id).orElseThrow();
+    }
+
+    public List<Item> getPersonageItems(PersonageId personageId) {
+        return itemDao.getByPersonageId(personageId);
     }
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
