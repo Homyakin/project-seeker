@@ -2,8 +2,14 @@ package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.PutOnItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
@@ -23,7 +29,8 @@ public record Personage(
     Money money,
     Characteristics characteristics,
     Energy energy,
-    BadgeView badge
+    BadgeView badge,
+    Characteristics itemCharacteristics
 ) {
     public Personage addMoney(Money money) {
         return new Personage(
@@ -32,7 +39,8 @@ public record Personage(
             this.money.add(money),
             characteristics,
             energy,
-            badge
+            badge,
+            itemCharacteristics
         );
     }
 
@@ -59,6 +67,10 @@ public record Personage(
 
         return characteristics.hasUnspentLevelingPoints()
             ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
+    }
+
+    public Characteristics calcTotalCharacteristics() {
+        return characteristics.add(itemCharacteristics);
     }
 
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength() {
@@ -114,7 +126,7 @@ public record Personage(
     public BattlePersonage toBattlePersonage() {
         return new BattlePersonage(
             id.value(),
-            characteristics,
+            calcTotalCharacteristics(),
             this
         );
     }
@@ -122,9 +134,39 @@ public record Personage(
     public BattlePersonage toBattlePersonageUsingEnergy() {
         return new BattlePersonage(
             id.value(),
-            characteristics.multiply(energy),
+            calcTotalCharacteristics().multiply(energy),
             this
         );
+    }
+
+    public Either<PutOnItemError, Success> canPutOnItem(List<Item> personageItems, Item item) {
+        if (!item.personageId().map(it -> it.equals(id)).orElse(true)) {
+            return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
+        }
+        if (item.isEquipped()) {
+            return Either.left(PutOnItemError.AlreadyEquipped.INSTANCE);
+        }
+
+        final var personageBusySlots = new HashMap<PersonageSlot, Integer>();
+        for (final var slot: item.object().slots()) {
+            personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
+            personageBusySlots.putIfAbsent(slot, 1);
+        }
+        for (final var personageItem: personageItems) {
+            for (final var slot: personageItem.object().slots()) {
+                personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
+            }
+        }
+        final var missingSlots = new ArrayList<PersonageSlot>();
+        for (final var entry: personageBusySlots.entrySet()) {
+            if (entry.getValue() > personageAvailableSlots.getOrDefault(entry.getKey(), 0)) {
+                missingSlots.add(entry.getKey());
+            }
+        }
+        if (missingSlots.isEmpty()) {
+            return Either.right(Success.INSTANCE);
+        }
+        return Either.left(new PutOnItemError.RequiredFreeSlots(missingSlots));
     }
 
     public static Personage createDefault()                {
@@ -138,7 +180,8 @@ public record Personage(
             Money.from(10),
             Characteristics.createDefault(),
             Energy.createDefault(),
-            BadgeView.STANDARD
+            BadgeView.STANDARD,
+            Characteristics.createZero()
         );
     }
 
@@ -150,6 +193,10 @@ public record Personage(
     private static final String SPECIAL = "_\\-\\.#№ ";
     private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
     public static final Money RESET_STATS_COST = new Money(50);
+    private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{
+        put(PersonageSlot.MAIN_HAND, 1);
+        put(PersonageSlot.OFF_HAND, 1);
+    }};
 
     private Personage copyWithName(String name) {
         return new Personage(
@@ -158,7 +205,8 @@ public record Personage(
             money,
             characteristics,
             energy,
-            badge
+            badge,
+            itemCharacteristics
         );
     }
 
@@ -169,7 +217,8 @@ public record Personage(
             money,
             characteristics,
             energy,
-            badge
+            badge,
+            itemCharacteristics
         );
     }
 
@@ -180,7 +229,8 @@ public record Personage(
             money,
             characteristics,
             energy,
-            badge
+            badge,
+            itemCharacteristics
         );
     }
 }

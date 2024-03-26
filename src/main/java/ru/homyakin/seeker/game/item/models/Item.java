@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public record Item(
     long id,
@@ -35,5 +37,9 @@ public record Item(
         }
 
         return requestedLanguage;
+    }
+
+    public String putOnCommand() {
+        return CommandType.PUT_ON.getText() + TextConstants.TG_COMMAND_DELIMITER + id;
     }
 }

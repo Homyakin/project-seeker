@@ -51,6 +51,7 @@ public class CommonLocalization {
     }
 
     private static HashMap<String, Object> profileParams(Personage personage) {
+        final var characteristics = personage.calcTotalCharacteristics();
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);
@@ -58,17 +59,17 @@ public class CommonLocalization {
         params.put("personage_money", personage.money().value());
         params.put("energy_value", personage.energy().value());
         params.put("attack_icon", Icons.ATTACK);
-        params.put("attack_value", personage.characteristics().attack());
+        params.put("attack_value", characteristics.attack());
         params.put("defense_icon", Icons.DEFENSE);
-        params.put("defense_value", personage.characteristics().defense());
+        params.put("defense_value", characteristics.defense());
         params.put("strength_icon", Icons.STRENGTH);
-        params.put("strength_value", personage.characteristics().strength());
+        params.put("strength_value", characteristics.strength());
         params.put("agility_icon", Icons.AGILITY);
-        params.put("agility_value", personage.characteristics().agility());
+        params.put("agility_value", characteristics.agility());
         params.put("wisdom_icon", Icons.WISDOM);
-        params.put("wisdom_value", personage.characteristics().wisdom());
+        params.put("wisdom_value", characteristics.wisdom());
         params.put("health_icon", Icons.HEALTH);
-        params.put("health_value", personage.characteristics().health());
+        params.put("health_value", characteristics.health());
         return params;
     }
 

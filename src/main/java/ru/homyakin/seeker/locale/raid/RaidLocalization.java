@@ -96,7 +96,7 @@ public class RaidLocalization {
         long remainEnemiesHealth = 0;
         long remainingEnemies = 0;
         for (final var result : raidResult.raidNpcResults()) {
-            totalEnemiesHealth += result.personage().characteristics().health();
+            totalEnemiesHealth += result.personage().calcTotalCharacteristics().health();
             remainEnemiesHealth += result.stats().remainHealth();
             if (!result.stats().isDead()) {
                 ++remainingEnemies;

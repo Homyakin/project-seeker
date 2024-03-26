@@ -20,10 +20,16 @@ import javax.sql.DataSource;
 @Component
 public class PersonageDao {
     private static final String GET_BY_ID = """
-        SELECT p.*, b.code as badge_code FROM personage p
+        WITH item_characteristics AS (
+            SELECT personage_id, SUM(attack) item_attack
+            FROM item WHERE personage_id in (:id_list) AND is_equipped = true
+            GROUP BY personage_id
+        )
+        SELECT p.*, b.code as badge_code, ic.* FROM personage p
         LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
         LEFT JOIN badge b ON pab.badge_id = b.id
-        WHERE p.id = :id
+        JOIN item_characteristics ic on p.id = ic.personage_id
+        WHERE p.id in (:id_list)
         AND pab.is_active = true
         """;
 
@@ -99,14 +105,22 @@ public class PersonageDao {
 
     public Optional<Personage> getById(PersonageId id) {
         return jdbcClient.sql(GET_BY_ID)
-            .param("id", id.value())
+            .param("id_list", List.of(id.value()))
             .query(this::mapRow)
             .optional();
     }
 
     public List<Personage> getByLaunchedEvent(Long launchedEventId) {
-        return jdbcClient.sql(GET_BY_LAUNCHED_EVENT)
+        // TODO Эффективность неизвестна, данный запрос написан просто чтобы работали предметы.
+        // TODO Надо протестировать запросы на проде
+        final var personageIdByLaunchedEvent = """
+            SELECT * FROM personage_to_event WHERE launched_event_id = :launched_event_id
+            """;
+        final var idList = jdbcClient.sql(personageIdByLaunchedEvent)
             .param("launched_event_id", launchedEventId)
+            .query((rs, rowNum) -> rs.getLong("personage_id"));
+        return jdbcClient.sql(GET_BY_ID)
+            .param("id_list", idList)
             .query(this::mapRow)
             .list();
     }
@@ -128,7 +142,15 @@ public class PersonageDao {
                 rs.getInt("energy"),
                 rs.getTimestamp("last_energy_change").toLocalDateTime()
             ),
-            BadgeView.findByCode(rs.getString("badge_code"))
+            BadgeView.findByCode(rs.getString("badge_code")),
+            new Characteristics(
+                0,
+                rs.getInt("item_attack"),
+                0,
+                0,
+                0,
+                0
+            )
         );
     }
 }

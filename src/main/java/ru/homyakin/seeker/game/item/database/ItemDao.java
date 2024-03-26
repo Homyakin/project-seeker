@@ -61,12 +61,20 @@ public class ItemDao {
 
     public Optional<Item> getById(long id) {
         final var sql = SELECT_ITEMS + " WHERE i.id = :id";
-        return Optional.ofNullable(
-            jdbcClient.sql(sql)
-                .param("id", id)
-                .query(this::extractItems)
-                .getFirst()
-        );
+        final var result = jdbcClient.sql(sql)
+            .param("id", id)
+            .query(this::extractItems);
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(result.getFirst());
+    }
+
+    public void invertEquip(long id) {
+        final var sql = "UPDATE item SET is_equipped = not is_equipped WHERE id = :id";
+        jdbcClient.sql(sql)
+            .param("id", id)
+            .update();
     }
 
     public List<Item> getByPersonageId(PersonageId personageId) {

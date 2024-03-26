@@ -16,6 +16,10 @@ public record Characteristics(
         return new Characteristics(500, 50, 20, 5, 5, 5);
     }
 
+    public static Characteristics createZero() {
+        return new Characteristics(0, 0, 0, 0, 0, 0);
+    }
+
     public Characteristics reset() {
         return new Characteristics(health, attack, defense, 1, 1, 1);
     }
@@ -29,6 +33,17 @@ public record Characteristics(
             Math.max(1, Math.round(strength * energyPercent)),
             Math.max(1, Math.round(agility * energyPercent)),
             Math.max(1, Math.round(wisdom * energyPercent))
+        );
+    }
+
+    public Characteristics add(Characteristics other) {
+        return new Characteristics(
+            health + other.health,
+            attack + other.attack,
+            defense + other.defense,
+            strength + other.strength,
+            agility + other.agility,
+            wisdom + other.wisdom
         );
     }
 

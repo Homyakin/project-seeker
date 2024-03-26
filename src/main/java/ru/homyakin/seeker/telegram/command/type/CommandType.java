@@ -45,6 +45,7 @@ public enum CommandType {
     TOP("/top", CheckType.EQUALS),
     RANDOM_ITEM("/gen", CheckType.EQUALS), // TODO удалить, когда механика с предметами будет готова
     INVENTORY(null, CheckType.MAP),
+    PUT_ON("/on", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

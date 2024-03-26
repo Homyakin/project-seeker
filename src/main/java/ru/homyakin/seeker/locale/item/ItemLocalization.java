@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.locale.item;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
@@ -46,15 +48,63 @@ public class ItemLocalization {
 
     public static String inventory(Language language, List<Item> items) {
         final var params = new HashMap<String, Object>();
-        params.put("items_in_bag_count", items.size());
         params.put("max_items_in_bag", 20); // TODO вынести
-        final var itemsBuilder = new StringBuilder();
+        final var itemsInBagBuilder = new StringBuilder();
+        final var equippedItemsBuilder = new StringBuilder();
+        int itemsInBagCount = 0;
         for (final var item: items) {
-            itemsBuilder.append(ItemLocalization.item(language, item)).append("\n");
+            if (item.isEquipped()) {
+                if (!equippedItemsBuilder.isEmpty()) {
+                    equippedItemsBuilder.append("\n");
+                }
+                equippedItemsBuilder.append(item(language, item));
+            } else {
+                itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
+                ++itemsInBagCount;
+            }
         }
-        params.put("items_in_bag", itemsBuilder.toString());
+
+        params.put("items_in_bag_count", itemsInBagCount);
+        params.put("equipped_items", equippedItemsBuilder.toString());
+        params.put("items_in_bag", itemsInBagBuilder.toString());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::inventory),
+            params
+        );
+    }
+
+    public static String personageMissingItem(Language language) {
+        return resources.getOrDefault(language, ItemResource::personageMissingItem);
+    }
+
+    public static String alreadyEquipped(Language language) {
+        return resources.getOrDefault(language, ItemResource::alreadyEquipped);
+    }
+
+    public static String requiredFreeSlots(Language language, List<PersonageSlot> slots) {
+        final var builder = new StringBuilder();
+        for (final var slot: slots) {
+            builder.append(slot.icon);
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::requiredFreeSlots),
+            Collections.singletonMap("busy_slots", builder.toString())
+        );
+    }
+
+    public static String successPutOn(Language language, Item item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successPutOn),
+            Collections.singletonMap("item", item(language, item))
+        );
+    }
+
+    public static String itemInBag(Language language, Item item) {
+        final var params = new HashMap<String, Object>();
+        params.put("item", item(language, item));
+        params.put("put_on_command", item.putOnCommand());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::itemInBag),
             params
         );
     }
@@ -98,9 +148,8 @@ public class ItemLocalization {
     }
 
     private static String itemWithTwoPrefixModifiers(Language language, Item item, Modifier modifier1, Modifier modifier2) {
-        final var params = new HashMap<String, Object>();
+        final var params = requiredItemParams(language, item);
         final var objectLocale = item.object().getLocaleOrDefault(language);
-        params.put("item", objectLocale.text());
         if (modifier1.id() > modifier2.id()) {
             params.put("prefix_modifier_one", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
             params.put("prefix_modifier_two", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
@@ -108,7 +157,6 @@ public class ItemLocalization {
             params.put("prefix_modifier_one", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
             params.put("prefix_modifier_two", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         }
-        params.put("characteristics", characteristics(language, item));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemWithTwoPrefixModifiers),
             params

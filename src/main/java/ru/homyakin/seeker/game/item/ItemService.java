@@ -1,16 +1,20 @@
 package ru.homyakin.seeker.game.item;
 
+import io.vavr.control.Either;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.item.models.PutOnItemError;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -21,6 +25,7 @@ import ru.homyakin.seeker.utils.models.IntRange;
 
 @Service
 public class ItemService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ItemObjectDao itemObjectDao;
     private final ItemModifierDao itemModifierDao;
     private final ItemDao itemDao;
@@ -70,6 +75,21 @@ public class ItemService {
 
     public List<Item> getPersonageItems(PersonageId personageId) {
         return itemDao.getByPersonageId(personageId);
+    }
+
+    public Either<PutOnItemError, Item> putOnItem(Personage personage, long itemId) {
+        final var itemResult = itemDao.getById(itemId);
+        if (itemResult.isEmpty()) {
+            logger.debug("Personage {} tried to equip incorrect item with id {}", personage.id(), itemId);
+            return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
+        }
+
+        return personage.canPutOnItem(
+                getPersonageItems(personage.id()),
+                itemResult.get()
+            )
+            .peek(it -> itemDao.invertEquip(itemId))
+            .map(it -> itemDao.getById(itemId).orElseThrow());
     }
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {

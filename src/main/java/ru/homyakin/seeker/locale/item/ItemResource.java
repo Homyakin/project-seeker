@@ -8,6 +8,12 @@ public record ItemResource(
     String itemWithTwoPrefixModifiers,
     String characteristics,
     String attack,
-    String inventory
+    String itemInBag,
+    String personageFreeSlot,
+    String inventory,
+    String personageMissingItem,
+    String alreadyEquipped,
+    String requiredFreeSlots,
+    String successPutOn
 ) {
 }
