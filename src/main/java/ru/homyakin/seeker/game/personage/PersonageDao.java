@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+import ru.homyakin.seeker.utils.DatabaseUtils;
 
 @Component
 public class PersonageDao {
@@ -28,7 +29,7 @@ public class PersonageDao {
         SELECT p.*, b.code as badge_code, ic.* FROM personage p
         LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
         LEFT JOIN badge b ON pab.badge_id = b.id
-        JOIN item_characteristics ic on p.id = ic.personage_id
+        LEFT JOIN item_characteristics ic on p.id = ic.personage_id
         WHERE p.id in (:id_list)
         AND pab.is_active = true
         """;
@@ -145,7 +146,7 @@ public class PersonageDao {
             BadgeView.findByCode(rs.getString("badge_code")),
             new Characteristics(
                 0,
-                rs.getInt("item_attack"),
+                DatabaseUtils.getIntOrDefault(rs, "item_attack", 0),
                 0,
                 0,
                 0,

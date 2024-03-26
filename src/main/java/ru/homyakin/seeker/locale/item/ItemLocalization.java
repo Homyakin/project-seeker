@@ -64,9 +64,18 @@ public class ItemLocalization {
                 ++itemsInBagCount;
             }
         }
-
+        final var freeSlots = personage.getFreeSlots(items)
+            .stream()
+            .map(slot -> personageFreeSlot(language, slot))
+            .collect(Collectors.joining("\n"));
+        if (equippedItemsBuilder.isEmpty()) {
+            params.put("equipped_items_and_free_slots", freeSlots);
+        } else if (freeSlots.isEmpty()) {
+            params.put("equipped_items_and_free_slots", equippedItemsBuilder.toString());
+        } else {
+            params.put("equipped_items_and_free_slots", equippedItemsBuilder.append("\n").append(freeSlots).toString());
+        }
         params.put("items_in_bag_count", itemsInBagCount);
-        params.put("equipped_items", equippedItemsBuilder.toString());
         params.put("items_in_bag", itemsInBagBuilder.toString());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::inventory),
@@ -132,6 +141,13 @@ public class ItemLocalization {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::equippedItem),
             params
+        );
+    }
+
+    private static String personageFreeSlot(Language language, PersonageSlot slot) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::personageFreeSlot),
+            Collections.singletonMap("slot", slot.icon)
         );
     }
 

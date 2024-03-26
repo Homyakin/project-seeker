@@ -12,8 +12,7 @@ personageFreeSlot = "${slot} <i>Пусто</i>"
 
 inventory = """\
 <b>👤Снаряжение:</b>
-${equipped_items}
-${personage_free_slots}
+${equipped_items_and_free_slots}
 
 <b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
 ${items_in_bag}"""

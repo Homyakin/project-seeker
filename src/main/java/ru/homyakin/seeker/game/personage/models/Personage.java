@@ -123,7 +123,7 @@ public record Personage(
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Personage other) {
-           return this.id == other.id;
+            return this.id == other.id;
         }
         return false;
     }
@@ -153,11 +153,11 @@ public record Personage(
         }
 
         final var personageBusySlots = new HashMap<PersonageSlot, Integer>();
-        for (final var slot: item.object().slots()) {
+        for (final var slot : item.object().slots()) {
             personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
             personageBusySlots.putIfAbsent(slot, 1);
         }
-        for (final var personageItem: personageItems) {
+        for (final var personageItem : personageItems) {
             if (personageItem.isEquipped()) {
                 for (final var slot : personageItem.object().slots()) {
                     personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
@@ -165,7 +165,7 @@ public record Personage(
             }
         }
         final var missingSlots = new ArrayList<PersonageSlot>();
-        for (final var entry: personageBusySlots.entrySet()) {
+        for (final var entry : personageBusySlots.entrySet()) {
             if (entry.getValue() > personageAvailableSlots.getOrDefault(entry.getKey(), 0)) {
                 missingSlots.add(entry.getKey());
             }
@@ -184,7 +184,7 @@ public record Personage(
             return Either.left(TakeOffItemError.AlreadyTakenOff.INSTANCE);
         }
         int itemsInBag = 0;
-        for (final var personageItem: personageItems) {
+        for (final var personageItem : personageItems) {
             if (personageItem.isEquipped()) {
                 ++itemsInBag;
             }
@@ -196,7 +196,25 @@ public record Personage(
         return Either.right(Success.INSTANCE);
     }
 
-    public static Personage createDefault()                {
+    public List<PersonageSlot> getFreeSlots(List<Item> personageItems) {
+        final var freeSlots = new HashMap<>(personageAvailableSlots);
+        for (final var item : personageItems) {
+            if (item.isEquipped()) {
+                for (final var slot : item.object().slots()) {
+                    freeSlots.computeIfPresent(slot, (k, v) -> v - 1);
+                }
+            }
+        }
+        final var result = new ArrayList<PersonageSlot>();
+        for (final var entry : freeSlots.entrySet()) {
+            for (int i = 0; i < entry.getValue(); ++i) {
+                result.add(entry.getKey());
+            }
+        }
+        return result;
+    }
+
+    public static Personage createDefault() {
         return createDefault(TextConstants.DEFAULT_NAME);
     }
 
