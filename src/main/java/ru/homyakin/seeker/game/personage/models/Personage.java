@@ -158,8 +158,10 @@ public record Personage(
             personageBusySlots.putIfAbsent(slot, 1);
         }
         for (final var personageItem: personageItems) {
-            for (final var slot: personageItem.object().slots()) {
-                personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
+            if (personageItem.isEquipped()) {
+                for (final var slot : personageItem.object().slots()) {
+                    personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
+                }
             }
         }
         final var missingSlots = new ArrayList<PersonageSlot>();
