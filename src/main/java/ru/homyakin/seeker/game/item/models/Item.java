@@ -42,4 +42,8 @@ public record Item(
     public String putOnCommand() {
         return CommandType.PUT_ON.getText() + TextConstants.TG_COMMAND_DELIMITER + id;
     }
+
+    public String takeOffCommand() {
+        return CommandType.TAKE_OFF.getText() + TextConstants.TG_COMMAND_DELIMITER + id;
+    }
 }

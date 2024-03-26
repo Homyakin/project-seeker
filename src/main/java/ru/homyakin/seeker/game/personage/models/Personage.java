@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.PutOnItemError;
+import ru.homyakin.seeker.game.item.models.TakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
@@ -115,6 +116,10 @@ public record Personage(
             .mapLeft(PersonageEventError.NotEnoughEnergy::new);
     }
 
+    public int maxBagSize() {
+        return MAX_BAG_SIZE;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Personage other) {
@@ -169,6 +174,26 @@ public record Personage(
         return Either.left(new PutOnItemError.RequiredFreeSlots(missingSlots));
     }
 
+    public Either<TakeOffItemError, Success> canTakeOffItem(List<Item> personageItems, Item item) {
+        if (!item.personageId().map(it -> it.equals(id)).orElse(true)) {
+            return Either.left(TakeOffItemError.PersonageMissingItem.INSTANCE);
+        }
+        if (!item.isEquipped()) {
+            return Either.left(TakeOffItemError.AlreadyTakenOff.INSTANCE);
+        }
+        int itemsInBag = 0;
+        for (final var personageItem: personageItems) {
+            if (personageItem.isEquipped()) {
+                ++itemsInBag;
+            }
+        }
+
+        if (itemsInBag >= maxBagSize()) {
+            return Either.left(TakeOffItemError.NotEnoughSpaceInBag.INSTANCE);
+        }
+        return Either.right(Success.INSTANCE);
+    }
+
     public static Personage createDefault()                {
         return createDefault(TextConstants.DEFAULT_NAME);
     }
@@ -187,6 +212,7 @@ public record Personage(
 
     private static final int MIN_NAME_LENGTH = 3;
     private static final int MAX_NAME_LENGTH = 25;
+    private static final int MAX_BAG_SIZE = 10;
     private static final String CYRILLIC = "а-яА-ЯёЁ";
     private static final String ENGLISH = "a-zA-Z";
     private static final String NUMBERS = "0-9";

@@ -7,6 +7,7 @@ itemWithTwoPrefixModifiers = "${slots} ${prefix_modifier_one} ${prefix_modifier_
 characteristics = "${not_zero_attack}"
 attack = "${attack_icon}${attack_value}"
 itemInBag = "${item} ${put_on_command}"
+equippedItem = "${item} ${take_off_command}"
 personageFreeSlot = "${slot} <i>Пусто</i>"
 
 inventory = """\
@@ -19,5 +20,8 @@ ${items_in_bag}"""
 
 personageMissingItem = "У вас нет такого предмета"
 alreadyEquipped = "Вы уже экипировали данный предмет"
+alreadyTakenOff = "Данный предмет не экиперован"
+notEnoughSpaceInBag = "В рюзкаке недостаточно места, чтобы снять предмет"
 requiredFreeSlots = "Заняты необходимые слоты: ${busy_slots}"
 successPutOn = "Успешно экипировано: ${item}"
+successTakeOff = "Успешно снято: ${item}"

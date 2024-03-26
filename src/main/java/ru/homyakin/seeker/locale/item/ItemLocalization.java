@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
@@ -46,9 +47,9 @@ public class ItemLocalization {
         return itemWithoutModifiers(itemLanguage, item);
     }
 
-    public static String inventory(Language language, List<Item> items) {
+    public static String inventory(Language language, Personage personage, List<Item> items) {
         final var params = new HashMap<String, Object>();
-        params.put("max_items_in_bag", 20); // TODO вынести
+        params.put("max_items_in_bag", personage.maxBagSize()); // TODO вынести
         final var itemsInBagBuilder = new StringBuilder();
         final var equippedItemsBuilder = new StringBuilder();
         int itemsInBagCount = 0;
@@ -57,7 +58,7 @@ public class ItemLocalization {
                 if (!equippedItemsBuilder.isEmpty()) {
                     equippedItemsBuilder.append("\n");
                 }
-                equippedItemsBuilder.append(item(language, item));
+                equippedItemsBuilder.append(equippedItem(language, item));
             } else {
                 itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
                 ++itemsInBagCount;
@@ -81,6 +82,14 @@ public class ItemLocalization {
         return resources.getOrDefault(language, ItemResource::alreadyEquipped);
     }
 
+    public static String alreadyTakenOff(Language language) {
+        return resources.getOrDefault(language, ItemResource::alreadyTakenOff);
+    }
+
+    public static String notEnoughSpaceInBag(Language language) {
+        return resources.getOrDefault(language, ItemResource::notEnoughSpaceInBag);
+    }
+
     public static String requiredFreeSlots(Language language, List<PersonageSlot> slots) {
         final var builder = new StringBuilder();
         for (final var slot: slots) {
@@ -99,12 +108,29 @@ public class ItemLocalization {
         );
     }
 
-    public static String itemInBag(Language language, Item item) {
+    public static String successTakeOff(Language language, Item item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successTakeOff),
+            Collections.singletonMap("item", item(language, item))
+        );
+    }
+
+    private static String itemInBag(Language language, Item item) {
         final var params = new HashMap<String, Object>();
         params.put("item", item(language, item));
         params.put("put_on_command", item.putOnCommand());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemInBag),
+            params
+        );
+    }
+
+    private static String equippedItem(Language language, Item item) {
+        final var params = new HashMap<String, Object>();
+        params.put("item", item(language, item));
+        params.put("take_off_command", item.takeOffCommand());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::equippedItem),
             params
         );
     }

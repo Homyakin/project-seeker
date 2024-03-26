@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.item.models.PutOnItemError;
+import ru.homyakin.seeker.game.item.models.TakeOffItemError;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -85,6 +86,21 @@ public class ItemService {
         }
 
         return personage.canPutOnItem(
+                getPersonageItems(personage.id()),
+                itemResult.get()
+            )
+            .peek(it -> itemDao.invertEquip(itemId))
+            .map(it -> itemDao.getById(itemId).orElseThrow());
+    }
+
+    public Either<TakeOffItemError, Item> takeOffItem(Personage personage, long itemId) {
+        final var itemResult = itemDao.getById(itemId);
+        if (itemResult.isEmpty()) {
+            logger.debug("Personage {} tried to take off incorrect item with id {}", personage.id(), itemId);
+            return Either.left(TakeOffItemError.PersonageMissingItem.INSTANCE);
+        }
+
+        return personage.canTakeOffItem(
                 getPersonageItems(personage.id()),
                 itemResult.get()
             )

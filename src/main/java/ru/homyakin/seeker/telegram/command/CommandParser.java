@@ -40,6 +40,7 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetChar
 import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
 import ru.homyakin.seeker.telegram.command.user.item.RandomItem;
+import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
 import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
@@ -129,6 +130,7 @@ public class CommandParser {
                 case RANDOM_ITEM -> RandomItem.from(message);
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
+                case TAKE_OFF -> TakeOffItem.from(message);
                 default -> null;
             });
     }

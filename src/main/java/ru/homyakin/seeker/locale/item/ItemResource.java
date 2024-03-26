@@ -9,11 +9,15 @@ public record ItemResource(
     String characteristics,
     String attack,
     String itemInBag,
+    String equippedItem,
     String personageFreeSlot,
     String inventory,
     String personageMissingItem,
     String alreadyEquipped,
+    String alreadyTakenOff,
+    String notEnoughSpaceInBag,
     String requiredFreeSlots,
-    String successPutOn
+    String successPutOn,
+    String successTakeOff
 ) {
 }
