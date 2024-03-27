@@ -59,7 +59,7 @@ public class ItemDao {
         return id;
     }
 
-    public Optional<Item> getById(long id) {
+    public Optional<Item> getById(Long id) {
         final var sql = SELECT_ITEMS + " WHERE i.id = :id";
         final var result = jdbcClient.sql(sql)
             .param("id", id)

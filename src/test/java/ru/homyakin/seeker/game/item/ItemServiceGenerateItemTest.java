@@ -39,16 +39,7 @@ public class ItemServiceGenerateItemTest {
     @Test
     public void When_RandomUtilsReturnFalse_Then_GenerateItemWithoutModifiers() {
         // when
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(RandomUtils::bool).thenReturn(false);
-            mock.when(() -> RandomUtils.getInInterval(Mockito.any(Integer.class), Mockito.any(Integer.class)))
-                .thenCallRealMethod();
-            service.generateItemForPersonage(PersonageUtils.withId(personageId));
-        }
-
-        final var captor = ArgumentCaptor.forClass(Item.class);
-        Mockito.verify(itemDao).saveItem(captor.capture());
-
+        Mockito.when(itemDao.getByPersonageId(Mockito.any())).thenReturn(List.of());
         final var item = new Item(
             0L,
             object.toItemObject(),
@@ -64,6 +55,17 @@ public class ItemServiceGenerateItemTest {
                 0
             )
         );
+        Mockito.when(itemDao.getById(Mockito.any())).thenReturn(Optional.of(item));
+        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
+            mock.when(RandomUtils::bool).thenReturn(false);
+            mock.when(() -> RandomUtils.getInInterval(Mockito.any(Integer.class), Mockito.any(Integer.class)))
+                .thenCallRealMethod();
+            service.generateItemForPersonage(PersonageUtils.withId(personageId));
+        }
+
+        final var captor = ArgumentCaptor.forClass(Item.class);
+        Mockito.verify(itemDao).saveItem(captor.capture());
+
 
         Assertions.assertEquals(item, captor.getValue());
     }
