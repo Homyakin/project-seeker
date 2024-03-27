@@ -175,6 +175,7 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("full_item", fullItem(language, item));
         params.put("put_on_command", item.putOnCommand());
+        params.put("drop_command", item.dropCommand());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemInBag),
             params
