@@ -143,6 +143,7 @@ public class RaidLocalization {
         };
         return StringNamedTemplate.format(text, params);
     }
+
     public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
         params.put("dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "");

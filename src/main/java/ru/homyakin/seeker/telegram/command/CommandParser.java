@@ -39,7 +39,6 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacte
 import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
-import ru.homyakin.seeker.telegram.command.user.item.RandomItem;
 import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.ConfirmDropItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.DropItem;
