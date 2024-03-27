@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 public record RaidResult(
     boolean isSuccess,
     List<PersonageBattleResult> raidNpcResults,
-    List<PersonageRaidResult> personageResults
+    List<PersonageRaidResult> personageResults,
+    List<GeneratedItemResult> generatedItemResults
 ) {
 }

@@ -96,7 +96,7 @@ public record Personage(
         return copyWithEnergy(Energy.createZero(energyChangeTime));
     }
 
-    public String iconWithName() {
+    public String badgeWithName() {
         return badge().icon() + name;
     }
 

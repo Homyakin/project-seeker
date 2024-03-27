@@ -130,7 +130,7 @@ public class CommandParser {
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
                 case SHOW_BADGES -> ShowBadges.from(message);
-                case RANDOM_ITEM -> RandomItem.from(message);
+                // case RANDOM_ITEM -> RandomItem.from(message); // Для тестов
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
                 case TAKE_OFF -> TakeOffItem.from(message);

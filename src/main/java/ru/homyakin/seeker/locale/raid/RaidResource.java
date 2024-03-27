@@ -13,6 +13,8 @@ public record RaidResource(
     String[] failureRaid,
     String[] zeroParticipants,
     String raidResult,
+    String[] successItemForPersonage,
+    String[] notEnoughSpaceInBagForItem,
     String personageRaidResult,
     String raidParticipants,
     String notEnoughEnergy,

@@ -5,6 +5,7 @@ itemWithSuffixModifier = "${object} ${suffix_modifier}"
 itemWithPrefixAndSuffixModifier = "${prefix_modifier} ${object} ${suffix_modifier}"
 itemWithTwoPrefixModifiers = "${prefix_modifier_one} ${prefix_modifier_two} ${object}"
 fullItem = "${slots} ${item} ${characteristics}"
+shortItem = "${item} ${characteristics}"
 characteristics = "${not_zero_attack}"
 attack = "${attack_icon}${attack_value}"
 itemInBag = "${full_item} ${put_on_command} ${drop_command}"
@@ -33,5 +34,4 @@ rejectDropButton = "❌Нет"
 successDrop = "Вы выкинули ${item}"
 rejectedDrop = "Не в этот раз"
 
-# TODO ошибка генерации при полном рюкзаке
 # TODO генерация предметов по результатам рейда

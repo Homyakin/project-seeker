@@ -119,7 +119,8 @@ public class PersonageDao {
             """;
         final var idList = jdbcClient.sql(personageIdByLaunchedEvent)
             .param("launched_event_id", launchedEventId)
-            .query((rs, rowNum) -> rs.getLong("personage_id"));
+            .query((rs, rowNum) -> rs.getLong("personage_id"))
+            .list();
         return jdbcClient.sql(GET_BY_ID)
             .param("id_list", idList)
             .query(this::mapRow)

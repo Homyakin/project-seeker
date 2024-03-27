@@ -7,6 +7,7 @@ public record ItemResource(
     String itemWithPrefixAndSuffixModifier,
     String itemWithTwoPrefixModifiers,
     String fullItem,
+    String shortItem,
     String characteristics,
     String attack,
     String itemInBag,

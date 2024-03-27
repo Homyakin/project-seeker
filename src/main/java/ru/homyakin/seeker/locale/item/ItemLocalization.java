@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
@@ -26,33 +25,8 @@ public class ItemLocalization {
 
     public static String fullItem(Language requestedlanguage, Item item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final String itemText;
-        if (item.modifiers().isEmpty()) {
-            itemText = itemWithoutModifiers(itemLanguage, item);
-        } else if (item.modifiers().size() == 1) {
-            final var modifier = item.modifiers().getFirst();
-            itemText = switch (modifier.type()) {
-                case PREFIX -> itemWithPrefixModifier(itemLanguage, item, modifier);
-                case SUFFIX -> itemWithSuffixModifier(itemLanguage, item, modifier);
-            };
-        } else if (item.modifiers().size() == 2) {
-            final var modifier1 = item.modifiers().getFirst();
-            final var modifier2 = item.modifiers().getLast();
-            if (modifier1.type() == ModifierType.PREFIX && modifier2.type() == ModifierType.SUFFIX) {
-                itemText = itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier1, modifier2);
-            } else if (modifier1.type() == ModifierType.SUFFIX && modifier2.type() == ModifierType.PREFIX) {
-                itemText = itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier2, modifier1);
-            } else if (modifier1.type() == ModifierType.PREFIX && modifier2.type() == ModifierType.PREFIX) {
-                itemText = itemWithTwoPrefixModifiers(itemLanguage, item, modifier1, modifier2);
-            } else {
-                itemText = itemWithoutModifiers(itemLanguage, item);
-            }
-        } else {
-            itemText = itemWithoutModifiers(itemLanguage, item);
-        }
-
         final var params = new HashMap<String, Object>();
-        params.put("item", itemText);
+        params.put("item", itemText(itemLanguage, item));
         params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
         params.put(
             "slots",
@@ -69,13 +43,24 @@ public class ItemLocalization {
         );
     }
 
+    public static String shortItem(Language requestedlanguage, Item item) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("item", itemText(itemLanguage, item));
+        params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::shortItem),
+            params
+        );
+    }
+
     public static String inventory(Language language, Personage personage, List<Item> items) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", personage.maxBagSize()); // TODO вынести
         final var itemsInBagBuilder = new StringBuilder();
         final var equippedItemsBuilder = new StringBuilder();
         int itemsInBagCount = 0;
-        for (final var item: items) {
+        for (final var item : items) {
             if (item.isEquipped()) {
                 if (!equippedItemsBuilder.isEmpty()) {
                     equippedItemsBuilder.append("\n");
@@ -123,7 +108,7 @@ public class ItemLocalization {
 
     public static String requiredFreeSlots(Language language, List<PersonageSlot> slots) {
         final var builder = new StringBuilder();
-        for (final var slot: slots) {
+        for (final var slot : slots) {
             builder.append(slot.icon);
         }
         return StringNamedTemplate.format(
@@ -248,7 +233,7 @@ public class ItemLocalization {
         if (modifier1.id() > modifier2.id()) {
             params.put("prefix_modifier_one", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
             params.put("prefix_modifier_two", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        } else  {
+        } else {
             params.put("prefix_modifier_one", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
             params.put("prefix_modifier_two", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         }
@@ -279,5 +264,28 @@ public class ItemLocalization {
             resources.getOrDefault(language, ItemResource::attack),
             params
         );
+    }
+
+    private static String itemText(Language itemLanguage, Item item) {
+        if (item.modifiers().isEmpty()) {
+            return itemWithoutModifiers(itemLanguage, item);
+        } else if (item.modifiers().size() == 1) {
+            final var modifier = item.modifiers().getFirst();
+            return switch (modifier.type()) {
+                case PREFIX -> itemWithPrefixModifier(itemLanguage, item, modifier);
+                case SUFFIX -> itemWithSuffixModifier(itemLanguage, item, modifier);
+            };
+        } else if (item.modifiers().size() == 2) {
+            final var modifier1 = item.modifiers().getFirst();
+            final var modifier2 = item.modifiers().getLast();
+            if (modifier1.type() == ModifierType.PREFIX && modifier2.type() == ModifierType.SUFFIX) {
+                return itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier1, modifier2);
+            } else if (modifier1.type() == ModifierType.SUFFIX && modifier2.type() == ModifierType.PREFIX) {
+                return itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier2, modifier1);
+            } else if (modifier1.type() == ModifierType.PREFIX && modifier2.type() == ModifierType.PREFIX) {
+                return itemWithTwoPrefixModifiers(itemLanguage, item, modifier1, modifier2);
+            }
+        }
+        return itemWithoutModifiers(itemLanguage, item);
     }
 }
