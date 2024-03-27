@@ -5,7 +5,6 @@ import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
-
     int health,
     int attack,
     int defense,
@@ -15,6 +14,10 @@ public record Characteristics(
 ) implements Cloneable {
     public static Characteristics createDefault() {
         return new Characteristics(500, 50, 20, 5, 5, 5);
+    }
+
+    public static Characteristics createZero() {
+        return new Characteristics(0, 0, 0, 0, 0, 0);
     }
 
     public Characteristics reset() {
@@ -30,6 +33,17 @@ public record Characteristics(
             Math.max(1, Math.round(strength * energyPercent)),
             Math.max(1, Math.round(agility * energyPercent)),
             Math.max(1, Math.round(wisdom * energyPercent))
+        );
+    }
+
+    public Characteristics add(Characteristics other) {
+        return new Characteristics(
+            health + other.health,
+            attack + other.attack,
+            defense + other.defense,
+            strength + other.strength,
+            agility + other.agility,
+            wisdom + other.wisdom
         );
     }
 

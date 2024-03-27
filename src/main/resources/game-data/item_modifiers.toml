@@ -1,0 +1,53 @@
+# Есть два типа модификаторов, FIRST и SECOND, разделение идёт по порядку слов в русском языке
+[[modifier]]
+code = "sharp"
+type = "PREFIX"
+characteristics.attack = "1-2"
+
+[modifier.locales.RU.form]
+MASCULINE = "Острый"
+FEMININE = "Острая"
+NEUTER = "Острое"
+PLURAL = "Острые"
+
+[modifier.locales.EN.form]
+WITHOUT = "Sharp"
+
+[[modifier]]
+code = "iron"
+type = "PREFIX"
+characteristics.attack = "1-2"
+
+[modifier.locales.RU.form]
+MASCULINE = "Железный"
+FEMININE = "Железная"
+NEUTER = "Железное"
+PLURAL = "Железные"
+
+[modifier.locales.EN.form]
+WITHOUT = "Iron"
+
+[[modifier]]
+code = "wooden"
+type = "PREFIX"
+characteristics.attack = "1-2"
+
+[modifier.locales.RU.form]
+MASCULINE = "Деревянный"
+FEMININE = "Деревянная"
+NEUTER = "Деревянное"
+PLURAL = "Дервянные"
+
+[modifier.locales.EN.form]
+WITHOUT = "Wooden"
+
+[[modifier]]
+code = "strength"
+type = "SUFFIX"
+characteristics.attack = "1-2"
+
+[modifier.locales.RU.form]
+WITHOUT = "Силы"
+
+[modifier.locales.EN.form]
+WITHOUT = "Of Strength"

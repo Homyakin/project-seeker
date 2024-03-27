@@ -37,6 +37,12 @@ import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
+import ru.homyakin.seeker.telegram.command.user.item.Inventory;
+import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
+import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
+import ru.homyakin.seeker.telegram.command.user.item.drop.ConfirmDropItem;
+import ru.homyakin.seeker.telegram.command.user.item.drop.DropItem;
+import ru.homyakin.seeker.telegram.command.user.item.drop.RejectDropItem;
 import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
@@ -123,6 +129,11 @@ public class CommandParser {
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
                 case SHOW_BADGES -> ShowBadges.from(message);
+                // case RANDOM_ITEM -> RandomItem.from(message); // Для тестов
+                case INVENTORY -> Inventory.from(message);
+                case PUT_ON -> PutOnItem.from(message);
+                case TAKE_OFF -> TakeOffItem.from(message);
+                case DROP_ITEM -> DropItem.from(message);
                 default -> null;
             });
     }
@@ -170,6 +181,8 @@ public class CommandParser {
                 case CANCEL_RESET_CHARACTERISTICS -> CancelResetCharacteristics.from(callback);
                 case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
                 case SELECT_BADGE -> SelectBadge.from(callback);
+                case CONFIRM_DROP_ITEM -> ConfirmDropItem.from(callback);
+                case REJECT_DROP_ITEM -> RejectDropItem.from(callback);
                 default -> null;
             });
     }

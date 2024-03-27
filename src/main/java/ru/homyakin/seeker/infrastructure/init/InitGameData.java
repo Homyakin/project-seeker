@@ -13,6 +13,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
@@ -39,18 +44,21 @@ public class InitGameData {
     private final MenuService menuService;
     private final RumorService rumorService;
     private final BadgeService badgeService;
+    private final ItemService itemService;
     private InitGameDataType type;
 
     public InitGameData(
         EventService eventService,
         MenuService menuService,
         RumorService rumorService,
-        BadgeService badgeService
+        BadgeService badgeService,
+        ItemService itemService
     ) {
         this.eventService = eventService;
         this.menuService = menuService;
         this.rumorService = rumorService;
         this.badgeService = badgeService;
+        this.itemService = itemService;
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -113,6 +121,31 @@ public class InitGameData {
         logger.info("loaded badges");
     }
 
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadItems() {
+        logger.info("loading items");
+        ResourceUtils.doAction(
+            ITEM_OBJECTS,
+            stream -> {
+                final var itemObjects = extractClass(stream, ItemObjects.class);
+                LocalizationCoverage.addItemObjectsInfo(itemObjects);
+                itemObjects.object().forEach(SavingItemObject::validateLocale);
+                itemService.saveObjects(itemObjects);
+            }
+        );
+        ResourceUtils.doAction(
+            ITEM_MODIFIERS,
+            stream -> {
+                final var itemModifiers = extractClass(stream, ItemModifiers.class);
+                LocalizationCoverage.addIteModifiersInfo(itemModifiers);
+                itemModifiers.modifier().forEach(SavingModifier::validateLocale);
+                itemModifiers.modifier().forEach(SavingModifier::validateWordForms);
+                itemService.saveModifiers(itemModifiers);
+            }
+        );
+        logger.info("loaded items");
+    }
+
     private <T> T extractClass(InputStream stream, Class<T> clazz) {
         try {
             return mapper.readValue(stream, clazz);
@@ -142,4 +175,6 @@ public class InitGameData {
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";
     private static final String BADGES = DATA_FOLDER + "badges.toml";
+    private static final String ITEM_OBJECTS = DATA_FOLDER + "item_objects.toml";
+    private static final String ITEM_MODIFIERS = DATA_FOLDER + "item_modifiers.toml";
 }

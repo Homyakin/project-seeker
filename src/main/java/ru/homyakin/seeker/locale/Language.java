@@ -22,7 +22,7 @@ public enum Language {
     private static final Map<Integer, Language> map = new HashMap<>() {{
         Arrays.stream(Language.values()).forEach(it -> put(it.id, it));
     }};
-    public static final Language DEFAULT = RU;
+    public static final Language DEFAULT = RU; // считаем, что данные язык есть во всех локализациях
 
     public static Language getOrDefault(Integer value) {
         if (value == null) {

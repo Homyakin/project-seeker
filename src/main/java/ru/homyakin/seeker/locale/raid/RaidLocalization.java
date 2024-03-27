@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -15,6 +16,7 @@ import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -84,19 +86,23 @@ public class RaidLocalization {
                 topPersonages.append("\n");
             }
         }
-        final var params = paramsForRaidResult(raidResult, topPersonages);
+        final var params = paramsForRaidResult(language, raidResult, topPersonages);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::raidResult),
             params
         );
     }
 
-    private static HashMap<String, Object> paramsForRaidResult(RaidResult raidResult, StringBuilder topPersonages) {
+    private static HashMap<String, Object> paramsForRaidResult(
+        Language language,
+        RaidResult raidResult,
+        StringBuilder topPersonages
+    ) {
         long totalEnemiesHealth = 0;
         long remainEnemiesHealth = 0;
         long remainingEnemies = 0;
         for (final var result : raidResult.raidNpcResults()) {
-            totalEnemiesHealth += result.personage().characteristics().health();
+            totalEnemiesHealth += result.personage().calcTotalCharacteristics().health();
             remainEnemiesHealth += result.stats().remainHealth();
             if (!result.stats().isDead()) {
                 ++remainingEnemies;
@@ -109,13 +115,39 @@ public class RaidLocalization {
         params.put("total_enemies_count", raidResult.raidNpcResults().size());
         params.put("top_personages_list", topPersonages.toString());
         params.put("raid_report_command", CommandType.RAID_REPORT.getText());
+        if (raidResult.generatedItemResults().isEmpty()) {
+            params.put("from_new_line_items_for_personages", "");
+        } else {
+            final var builder = new StringBuilder("\n\n");
+            for (final var result: raidResult.generatedItemResults()) {
+                builder.append(itemResult(language, result)).append("\n");
+            }
+            params.put("from_new_line_items_for_personages", builder.toString());
+        }
         return params;
+    }
+
+    public static String itemResult(Language language, GeneratedItemResult generatedItemResult) {
+        final var params = new HashMap<String, Object>();
+        final var text = switch (generatedItemResult) {
+            case GeneratedItemResult.Success success -> {
+                params.put("personage_badge_with_name", success.personage().badgeWithName());
+                params.put("short_item", ItemLocalization.shortItem(language, success.item()));
+                yield resources.getOrDefaultRandom(language, RaidResource::successItemForPersonage);
+            }
+            case GeneratedItemResult.NotEnoughSpaceInBag notEnoughSpaceInBag -> {
+                params.put("personage_badge_with_name", notEnoughSpaceInBag.personage().badgeWithName());
+                params.put("short_item", ItemLocalization.shortItem(language, notEnoughSpaceInBag.item()));
+                yield resources.getOrDefaultRandom(language, RaidResource::notEnoughSpaceInBagForItem);
+            }
+        };
+        return StringNamedTemplate.format(text, params);
     }
 
     public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
         params.put("dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "");
-        params.put("personage_badge_with_name", result.personage().iconWithName());
+        params.put("personage_badge_with_name", result.personage().badgeWithName());
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
         params.put("money", result.reward().value());
@@ -128,7 +160,7 @@ public class RaidLocalization {
 
     public static String raidParticipants(Language language, List<Personage> participants) {
         final var iconNames = participants.stream()
-            .map(Personage::iconWithName)
+            .map(Personage::badgeWithName)
             .collect(Collectors.joining(", "));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::raidParticipants),
@@ -157,7 +189,7 @@ public class RaidLocalization {
 
     public static String shortPersonageReport(Language language, PersonageRaidSavedResult result, Personage personage) {
         final var params = paramsForRaidReport(result);
-        params.put("personage_badge_with_name", personage.iconWithName());
+        params.put("personage_badge_with_name", personage.badgeWithName());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::shortPersonageReport),
             params

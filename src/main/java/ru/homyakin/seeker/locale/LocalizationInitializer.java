@@ -14,6 +14,8 @@ import ru.homyakin.seeker.locale.group_settings.ActiveTimeLocalization;
 import ru.homyakin.seeker.locale.group_settings.GroupSettingsResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.help.HelpResource;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
+import ru.homyakin.seeker.locale.item.ItemResource;
 import ru.homyakin.seeker.locale.personal.BadgeLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -43,6 +45,7 @@ public class LocalizationInitializer {
     private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
     private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
     private static final String TOP_PATH = File.separator + "top.toml";
+    private static final String ITEM_PATH = File.separator + "item.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -106,6 +109,11 @@ public class LocalizationInitializer {
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + TOP_PATH,
                 it -> TopLocalization.add(language, extractClass(mapper, it, TopResource.class))
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + ITEM_PATH,
+                it -> ItemLocalization.add(language, extractClass(mapper, it, ItemResource.class))
             );
         }
         logger.info("Localization loaded");

@@ -1,0 +1,37 @@
+# TODO характеристики
+itemWithoutModifiers = "${object}"
+itemWithPrefixModifier = "${prefix_modifier} ${object}"
+itemWithSuffixModifier = "${object} ${suffix_modifier}"
+itemWithPrefixAndSuffixModifier = "${prefix_modifier} ${object} ${suffix_modifier}"
+itemWithTwoPrefixModifiers = "${prefix_modifier_one} ${prefix_modifier_two} ${object}"
+fullItem = "${slots} ${item} ${characteristics}"
+shortItem = "${item} ${characteristics}"
+characteristics = "${not_zero_attack}"
+attack = "${attack_icon}${attack_value}"
+itemInBag = "${full_item} ${put_on_command} ${drop_command}"
+equippedItem = "${full_item} ${take_off_command}"
+personageFreeSlot = "${slot} <i>Пусто</i>"
+
+inventory = """\
+<b>👤Снаряжение:</b>
+${equipped_items_and_free_slots}
+
+<b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
+${items_in_bag}"""
+
+personageMissingItem = "У вас нет такого предмета"
+alreadyEquipped = "Вы уже экипировали данный предмет"
+alreadyTakenOff = "Данный предмет не экиперован"
+notEnoughSpaceInBag = "В рюзкаке недостаточно места, чтобы снять предмет"
+requiredFreeSlots = "Заняты необходимые слоты: ${busy_slots}"
+successPutOn = "Успешно экипировано: ${item}"
+successTakeOff = "Успешно снято: ${item}"
+
+
+confirmDrop = "Вы точно хотите выкинуть ${item}"
+confirmDropButton = "✅Да"
+rejectDropButton = "❌Нет"
+successDrop = "Вы выкинули ${item}"
+rejectedDrop = "Не в этот раз"
+
+# TODO генерация предметов по результатам рейда

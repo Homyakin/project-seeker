@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Events;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -68,6 +70,14 @@ public class LocalizationCoverage {
         addLocalizedInfo(badges.badge(), TranslateType.BADGES);
     }
 
+    public static void addItemObjectsInfo(ItemObjects itemObjects) {
+        addLocalizedInfo(itemObjects.object(), TranslateType.ITEM_OBJECTS);
+    }
+
+    public static void addIteModifiersInfo(ItemModifiers itemModifiers) {
+        addLocalizedInfo(itemModifiers.modifier(), TranslateType.ITEM_MODIFIERS);
+    }
+
     public static void addMenuItemsInfo(Items items) {
         addLocalizedInfo(items.item(), TranslateType.MENU_ITEMS);
     }
@@ -122,5 +132,7 @@ public class LocalizationCoverage {
         RUMORS,
         MENU_ITEMS,
         BADGES,
+        ITEM_OBJECTS,
+        ITEM_MODIFIERS,
     }
 }

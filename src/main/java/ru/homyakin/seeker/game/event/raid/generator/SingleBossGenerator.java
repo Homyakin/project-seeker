@@ -26,7 +26,8 @@ public class SingleBossGenerator implements RaidBattleGenerator {
                 characteristics.wisdom()
             ),
             Energy.createDefault(),
-            null
+            null,
+            Characteristics.createZero()
         );
         return Collections.singletonList(boss);
     }

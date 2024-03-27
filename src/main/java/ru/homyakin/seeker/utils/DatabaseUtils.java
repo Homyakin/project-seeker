@@ -4,10 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseUtils {
-    public static Integer getNullableInt(ResultSet resultSet, String columnName) throws SQLException {
+    public static int getIntOrDefault(ResultSet resultSet, String columnName, int defaultValue) throws SQLException {
         int i = resultSet.getInt(columnName);
         if (resultSet.wasNull()) {
-            return null;
+            return defaultValue;
         }
         return i;
     }

@@ -11,4 +11,5 @@
     <include file="changes/2024-01-23_01_add-badge-to-personage.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-01-28_01_add-personage-available-badges-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-02-12_01_rename-raid-event-type.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-03-17_01_add-items-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
