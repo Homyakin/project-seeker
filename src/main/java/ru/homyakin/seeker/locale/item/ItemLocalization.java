@@ -256,7 +256,7 @@ public class ItemLocalization {
 
     private static Map<String, Object> requiredItemParams(Language language, Item item) {
         final var params = new HashMap<String, Object>();
-        params.put("item", item.object().getLocaleOrDefault(language).text());
+        params.put("object", item.object().getLocaleOrDefault(language).text());
         params.put("characteristics", characteristics(language, item));
         params.put(
             "slots",
