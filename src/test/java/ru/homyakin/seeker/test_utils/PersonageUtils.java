@@ -29,7 +29,8 @@ public class PersonageUtils {
             Money.zero(),
             Characteristics.random(),
             Energy.createDefault(),
-            BadgeView.STANDARD
+            BadgeView.STANDARD,
+            Characteristics.random()
         );
     }
 
@@ -40,7 +41,8 @@ public class PersonageUtils {
             Money.zero(),
             Characteristics.random(),
             Energy.createZero(TimeUtils.moscowTime()),
-            BadgeView.STANDARD
+            BadgeView.STANDARD,
+            Characteristics.random()
         );
     }
 
@@ -51,7 +53,8 @@ public class PersonageUtils {
             Money.zero(),
             Characteristics.random(),
             Energy.createDefault(),
-            BadgeView.STANDARD
+            BadgeView.STANDARD,
+            Characteristics.random()
         );
     }
 }

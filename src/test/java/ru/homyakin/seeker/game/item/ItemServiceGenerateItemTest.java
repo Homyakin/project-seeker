@@ -21,6 +21,7 @@ import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
+import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.models.IntRange;
 
@@ -42,7 +43,7 @@ public class ItemServiceGenerateItemTest {
             mock.when(RandomUtils::bool).thenReturn(false);
             mock.when(() -> RandomUtils.getInInterval(Mockito.any(Integer.class), Mockito.any(Integer.class)))
                 .thenCallRealMethod();
-            service.generateItemForPersonage(personageId);
+            service.generateItemForPersonage(PersonageUtils.withId(personageId));
         }
 
         final var captor = ArgumentCaptor.forClass(Item.class);
