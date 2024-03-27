@@ -11,7 +11,9 @@ ${money_icon}Золото: ${personage_money}
 ${energy_icon}Энергия: ${energy_value}%
 ${health_icon}Здоровье: ${health_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
-${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
+${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
+
+👤Снаряжение: ${item_characteristics}"""
 shortProfile = """\
 ${personage_badge_with_name}
 ${money_icon}${personage_money} ${energy_icon}${energy_value}%

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -52,7 +53,7 @@ public class ItemLocalization {
 
         final var params = new HashMap<String, Object>();
         params.put("item", itemText);
-        params.put("characteristics", characteristics(itemLanguage, item));
+        params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
         params.put(
             "slots",
             item.object()
@@ -257,10 +258,10 @@ public class ItemLocalization {
         );
     }
 
-    private static String characteristics(Language language, Item item) {
+    public static String characteristics(Language language, Characteristics characteristics) {
         final var params = new HashMap<String, Object>();
-        if (item.characteristics().attack() != 0) {
-            params.put("not_zero_attack", attack(language, item.characteristics().attack()));
+        if (characteristics.attack() != 0) {
+            params.put("not_zero_attack", attack(language, characteristics.attack()));
         } else {
             params.put("not_zero_attack", "");
         }

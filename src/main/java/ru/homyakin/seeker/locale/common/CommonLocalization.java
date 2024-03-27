@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
 import ru.homyakin.seeker.telegram.group.stats.GroupStats;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -37,9 +38,11 @@ public class CommonLocalization {
     }
 
     public static String fullProfile(Language language, Personage personage) {
+        final var params = profileParams(personage);
+        params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::fullProfile),
-            profileParams(personage)
+            params
         );
     }
 
