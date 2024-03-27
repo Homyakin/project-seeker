@@ -30,7 +30,7 @@ public class RandomItemExecutor extends CommandExecutor<RandomItem> {
         final var item = itemService.generateItemForPersonage(user.personageId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(item.toString() + "\n\n" + ItemLocalization.item(user.language(), item))
+            .text(item.toString() + "\n\n" + ItemLocalization.fullItem(user.language(), item))
             .build()
         );
     }

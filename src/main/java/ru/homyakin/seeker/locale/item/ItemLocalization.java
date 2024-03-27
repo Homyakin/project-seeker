@@ -23,13 +23,14 @@ public class ItemLocalization {
         resources.add(language, resource);
     }
 
-    public static String item(Language requestedlanguage, Item item) {
+    public static String fullItem(Language requestedlanguage, Item item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final String itemText;
         if (item.modifiers().isEmpty()) {
-            return itemWithoutModifiers(itemLanguage, item);
+            itemText = itemWithoutModifiers(itemLanguage, item);
         } else if (item.modifiers().size() == 1) {
             final var modifier = item.modifiers().getFirst();
-            return switch (modifier.type()) {
+            itemText = switch (modifier.type()) {
                 case PREFIX -> itemWithPrefixModifier(itemLanguage, item, modifier);
                 case SUFFIX -> itemWithSuffixModifier(itemLanguage, item, modifier);
             };
@@ -37,14 +38,34 @@ public class ItemLocalization {
             final var modifier1 = item.modifiers().getFirst();
             final var modifier2 = item.modifiers().getLast();
             if (modifier1.type() == ModifierType.PREFIX && modifier2.type() == ModifierType.SUFFIX) {
-                return itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier1, modifier2);
+                itemText = itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier1, modifier2);
             } else if (modifier1.type() == ModifierType.SUFFIX && modifier2.type() == ModifierType.PREFIX) {
-                return itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier2, modifier1);
+                itemText = itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier2, modifier1);
             } else if (modifier1.type() == ModifierType.PREFIX && modifier2.type() == ModifierType.PREFIX) {
-                return itemWithTwoPrefixModifiers(itemLanguage, item, modifier1, modifier2);
+                itemText = itemWithTwoPrefixModifiers(itemLanguage, item, modifier1, modifier2);
+            } else {
+                itemText = itemWithoutModifiers(itemLanguage, item);
             }
+        } else {
+            itemText = itemWithoutModifiers(itemLanguage, item);
         }
-        return itemWithoutModifiers(itemLanguage, item);
+
+        final var params = new HashMap<String, Object>();
+        params.put("item", itemText);
+        params.put("characteristics", characteristics(itemLanguage, item));
+        params.put(
+            "slots",
+            item.object()
+                .slots()
+                .stream()
+                .sorted(Comparator.comparingInt(it -> it.id))
+                .map(it -> it.icon)
+                .collect(Collectors.joining())
+        );
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::fullItem),
+            params
+        );
     }
 
     public static String inventory(Language language, Personage personage, List<Item> items) {
@@ -113,21 +134,21 @@ public class ItemLocalization {
     public static String successPutOn(Language language, Item item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::successPutOn),
-            Collections.singletonMap("item", item(language, item))
+            Collections.singletonMap("item", fullItem(language, item))
         );
     }
 
     public static String successTakeOff(Language language, Item item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::successTakeOff),
-            Collections.singletonMap("item", item(language, item))
+            Collections.singletonMap("item", fullItem(language, item))
         );
     }
 
     public static String confirmDrop(Language language, Item item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::confirmDrop),
-            Collections.singletonMap("item", item(language, item))
+            Collections.singletonMap("item", fullItem(language, item))
         );
     }
 
@@ -142,7 +163,7 @@ public class ItemLocalization {
     public static String successDrop(Language language, Item item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::successDrop),
-            Collections.singletonMap("item", item(language, item))
+            Collections.singletonMap("item", fullItem(language, item))
         );
     }
 
@@ -152,7 +173,7 @@ public class ItemLocalization {
 
     private static String itemInBag(Language language, Item item) {
         final var params = new HashMap<String, Object>();
-        params.put("item", item(language, item));
+        params.put("full_item", fullItem(language, item));
         params.put("put_on_command", item.putOnCommand());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemInBag),
@@ -162,7 +183,7 @@ public class ItemLocalization {
 
     private static String equippedItem(Language language, Item item) {
         final var params = new HashMap<String, Object>();
-        params.put("item", item(language, item));
+        params.put("full_item", fullItem(language, item));
         params.put("take_off_command", item.takeOffCommand());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::equippedItem),
@@ -180,13 +201,14 @@ public class ItemLocalization {
     private static String itemWithoutModifiers(Language language, Item item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemWithoutModifiers),
-            requiredItemParams(language, item)
+            Collections.singletonMap("object", item.object().getLocaleOrDefault(language).text())
         );
     }
 
     private static String itemWithPrefixModifier(Language language, Item item, Modifier modifier) {
-        final var params = requiredItemParams(language, item);
+        final var params = new HashMap<String, Object>();
         final var objectLocale = item.object().getLocaleOrDefault(language);
+        params.put("object", objectLocale.text());
         params.put("prefix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemWithPrefixModifier),
@@ -195,8 +217,9 @@ public class ItemLocalization {
     }
 
     private static String itemWithSuffixModifier(Language language, Item item, Modifier modifier) {
-        final var params = requiredItemParams(language, item);
+        final var params = new HashMap<String, Object>();
         final var objectLocale = item.object().getLocaleOrDefault(language);
+        params.put("object", objectLocale.text());
         params.put("suffix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemWithSuffixModifier),
@@ -205,8 +228,9 @@ public class ItemLocalization {
     }
 
     private static String itemWithPrefixAndSuffixModifier(Language language, Item item, Modifier prefix, Modifier suffix) {
-        final var params = requiredItemParams(language, item);
+        final var params = new HashMap<String, Object>();
         final var objectLocale = item.object().getLocaleOrDefault(language);
+        params.put("object", objectLocale.text());
         params.put("prefix_modifier", prefix.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         params.put("suffix_modifier", suffix.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         return StringNamedTemplate.format(
@@ -216,8 +240,9 @@ public class ItemLocalization {
     }
 
     private static String itemWithTwoPrefixModifiers(Language language, Item item, Modifier modifier1, Modifier modifier2) {
-        final var params = requiredItemParams(language, item);
+        final var params = new HashMap<String, Object>();
         final var objectLocale = item.object().getLocaleOrDefault(language);
+        params.put("object", objectLocale.text());
         if (modifier1.id() > modifier2.id()) {
             params.put("prefix_modifier_one", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
             params.put("prefix_modifier_two", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
@@ -252,21 +277,5 @@ public class ItemLocalization {
             resources.getOrDefault(language, ItemResource::attack),
             params
         );
-    }
-
-    private static Map<String, Object> requiredItemParams(Language language, Item item) {
-        final var params = new HashMap<String, Object>();
-        params.put("object", item.object().getLocaleOrDefault(language).text());
-        params.put("characteristics", characteristics(language, item));
-        params.put(
-            "slots",
-            item.object()
-                .slots()
-                .stream()
-                .sorted(Comparator.comparingInt(it -> it.id))
-                .map(it -> it.icon)
-                .collect(Collectors.joining())
-        );
-        return params;
     }
 }
