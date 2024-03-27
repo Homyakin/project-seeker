@@ -120,6 +120,10 @@ public record Personage(
         return MAX_BAG_SIZE;
     }
 
+    public boolean hasSpaceInBag(List<Item> items) {
+        return items.size() < maxBagSize();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Personage other) {

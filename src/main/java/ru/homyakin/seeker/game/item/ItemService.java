@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import ru.homyakin.seeker.game.item.models.DropItemError;
+import ru.homyakin.seeker.game.item.models.GenerateItemError;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -46,7 +47,7 @@ public class ItemService {
         modifiers.modifier().forEach(itemModifierDao::saveModifier);
     }
 
-    public Item generateItemForPersonage(PersonageId personageId) {
+    public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage) {
         // TODO проверить количество предметов у персонажа
         final var object = itemObjectDao.getRandomObject();
         final var modifiers = new ArrayList<GenerateModifier>();
@@ -66,13 +67,17 @@ public class ItemService {
             0L,
             object.toItemObject(),
             modifiers.stream().map(GenerateModifier::toModifier).toList(),
-            Optional.of(personageId),
+            Optional.of(personage.id()),
             false,
             createCharacteristics(object, modifiers)
         );
 
+        if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
+            return Either.left(new GenerateItemError.NotEnoughSpace(tempItem));
+        }
+
         final var id = itemDao.saveItem(tempItem);
-        return itemDao.getById(id).orElseThrow();
+        return Either.right(itemDao.getById(id).orElseThrow());
     }
 
     public List<Item> getPersonageItems(PersonageId personageId) {
