@@ -24,3 +24,14 @@ notEnoughSpaceInBag = "В рюзкаке недостаточно места, ч
 requiredFreeSlots = "Заняты необходимые слоты: ${busy_slots}"
 successPutOn = "Успешно экипировано: ${item}"
 successTakeOff = "Успешно снято: ${item}"
+
+
+confirmDrop = "Вы точно хотите выкинуть ${item}"
+confirmDropButton = "✅Да"
+rejectDropButton = "❌Нет"
+successDrop = "Вы выкинули ${item}"
+rejectedDrop = "Не в этот раз"
+
+# TODO отображать эффект снаряжения и размер сумки в полном профиле
+# TODO ошибка генерации при полном рюкзаке
+# TODO генерация предметов по результатам рейда

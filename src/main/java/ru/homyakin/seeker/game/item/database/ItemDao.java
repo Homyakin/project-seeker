@@ -77,6 +77,13 @@ public class ItemDao {
             .update();
     }
 
+    public void deletePersonageAndMakeEquipFalse(long id) {
+        final var sql = "UPDATE item SET personage_id = null, is_equipped = false WHERE id = :id";
+        jdbcClient.sql(sql)
+            .param("id", id)
+            .update();
+    }
+
     public List<Item> getByPersonageId(PersonageId personageId) {
         final var sql = SELECT_ITEMS + " WHERE i.personage_id = :personage_id";
         return jdbcClient.sql(sql)

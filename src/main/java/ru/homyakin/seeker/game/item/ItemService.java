@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
+import ru.homyakin.seeker.game.item.models.DropItemError;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -105,6 +106,26 @@ public class ItemService {
                 itemResult.get()
             )
             .peek(it -> itemDao.invertEquip(itemId))
+            .map(it -> itemDao.getById(itemId).orElseThrow());
+    }
+
+    public Either<DropItemError, Item> canDropItem(Personage personage, long itemId) {
+        final var itemResult = itemDao.getById(itemId);
+        if (itemResult.isEmpty()) {
+            logger.debug("Personage {} tried to take off incorrect item with id {}", personage.id(), itemId);
+            return Either.left(DropItemError.PersonageMissingItem.INSTANCE);
+        }
+        final var item = itemResult.get();
+        if (!item.personageId().map(it -> it.equals(personage.id())).orElse(false)) {
+            return Either.left(DropItemError.PersonageMissingItem.INSTANCE);
+        }
+
+        return Either.right(item);
+    }
+
+    public Either<DropItemError, Item> dropItem(Personage personage, long itemId) {
+        return canDropItem(personage, itemId)
+            .peek(it -> itemDao.deletePersonageAndMakeEquipFalse(itemId))
             .map(it -> itemDao.getById(itemId).orElseThrow());
     }
 

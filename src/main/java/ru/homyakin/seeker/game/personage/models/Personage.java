@@ -145,7 +145,7 @@ public record Personage(
     }
 
     public Either<PutOnItemError, Success> canPutOnItem(List<Item> personageItems, Item item) {
-        if (!item.personageId().map(it -> it.equals(id)).orElse(true)) {
+        if (!item.personageId().map(it -> it.equals(id)).orElse(false)) {
             return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
         }
         if (item.isEquipped()) {
@@ -177,7 +177,7 @@ public record Personage(
     }
 
     public Either<TakeOffItemError, Success> canTakeOffItem(List<Item> personageItems, Item item) {
-        if (!item.personageId().map(it -> it.equals(id)).orElse(true)) {
+        if (!item.personageId().map(it -> it.equals(id)).orElse(false)) {
             return Either.left(TakeOffItemError.PersonageMissingItem.INSTANCE);
         }
         if (!item.isEquipped()) {

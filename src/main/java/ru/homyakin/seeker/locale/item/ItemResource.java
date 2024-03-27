@@ -18,6 +18,11 @@ public record ItemResource(
     String notEnoughSpaceInBag,
     String requiredFreeSlots,
     String successPutOn,
-    String successTakeOff
+    String successTakeOff,
+    String confirmDrop,
+    String confirmDropButton,
+    String rejectDropButton,
+    String successDrop,
+    String rejectedDrop
 ) {
 }

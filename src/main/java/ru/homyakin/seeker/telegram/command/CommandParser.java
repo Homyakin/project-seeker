@@ -41,6 +41,9 @@ import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
 import ru.homyakin.seeker.telegram.command.user.item.RandomItem;
 import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
+import ru.homyakin.seeker.telegram.command.user.item.drop.ConfirmDropItem;
+import ru.homyakin.seeker.telegram.command.user.item.drop.DropItem;
+import ru.homyakin.seeker.telegram.command.user.item.drop.RejectDropItem;
 import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
@@ -131,6 +134,7 @@ public class CommandParser {
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
                 case TAKE_OFF -> TakeOffItem.from(message);
+                case DROP_ITEM -> DropItem.from(message);
                 default -> null;
             });
     }
@@ -178,6 +182,8 @@ public class CommandParser {
                 case CANCEL_RESET_CHARACTERISTICS -> CancelResetCharacteristics.from(callback);
                 case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
                 case SELECT_BADGE -> SelectBadge.from(callback);
+                case CONFIRM_DROP_ITEM -> ConfirmDropItem.from(callback);
+                case REJECT_DROP_ITEM -> RejectDropItem.from(callback);
                 default -> null;
             });
     }

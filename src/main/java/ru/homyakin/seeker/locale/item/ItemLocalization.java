@@ -124,6 +124,32 @@ public class ItemLocalization {
         );
     }
 
+    public static String confirmDrop(Language language, Item item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::confirmDrop),
+            Collections.singletonMap("item", item(language, item))
+        );
+    }
+
+    public static String confirmDropButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::confirmDropButton);
+    }
+
+    public static String rejectDropButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::rejectDropButton);
+    }
+
+    public static String successDrop(Language language, Item item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successDrop),
+            Collections.singletonMap("item", item(language, item))
+        );
+    }
+
+    public static String rejectedDrop(Language language) {
+        return resources.getOrDefault(language, ItemResource::rejectedDrop);
+    }
+
     private static String itemInBag(Language language, Item item) {
         final var params = new HashMap<String, Object>();
         params.put("item", item(language, item));

@@ -47,6 +47,9 @@ public enum CommandType {
     INVENTORY(null, CheckType.MAP),
     PUT_ON("/on", CheckType.STARTS_WITH),
     TAKE_OFF("/off", CheckType.STARTS_WITH),
+    DROP_ITEM("/drop", CheckType.STARTS_WITH),
+    CONFIRM_DROP_ITEM("confirmDropItem", CheckType.STARTS_WITH),
+    REJECT_DROP_ITEM("rejectDropItem", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
