@@ -121,6 +121,9 @@ public class PersonageDao {
             .param("launched_event_id", launchedEventId)
             .query((rs, rowNum) -> rs.getLong("personage_id"))
             .list();
+        if (idList.isEmpty()) {
+            return List.of();
+        }
         return jdbcClient.sql(GET_BY_ID)
             .param("id_list", idList)
             .query(this::mapRow)
