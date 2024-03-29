@@ -35,8 +35,8 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
         final var text = itemService.putOnItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {
-                    case PutOnItemError.PersonageMissingItem ignored -> ItemLocalization.personageMissingItem(user.language());
-                    case PutOnItemError.AlreadyEquipped ignored -> ItemLocalization.alreadyEquipped(user.language());
+                    case PutOnItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
+                    case PutOnItemError.AlreadyEquipped _ -> ItemLocalization.alreadyEquipped(user.language());
                     case PutOnItemError.RequiredFreeSlots requiredFreeSlots ->
                         ItemLocalization.requiredFreeSlots(user.language(), requiredFreeSlots.slots());
                 },

@@ -53,7 +53,7 @@ public class SetActiveTimeExecutor extends CommandExecutor<SetActiveTime> {
                     .updateActiveTime(group, info.startHour(), info.endHour(), info.timeZone())
                     .fold(
                         error -> mapActiveTimeErrorToMessage(error, group),
-                        success -> ActiveTimeLocalization.successChange(group.language())
+                        _ -> ActiveTimeLocalization.successChange(group.language())
                     )
             );
 
@@ -70,18 +70,18 @@ public class SetActiveTimeExecutor extends CommandExecutor<SetActiveTime> {
                     incorrectTimeZone.min(),
                     incorrectTimeZone.max()
                 );
-            case ActiveTimeError.IncorrectHour ignored ->
+            case ActiveTimeError.IncorrectHour _ ->
                 ActiveTimeLocalization.incorrectHour(group.language());
-            case ActiveTimeError.StartMoreThanEnd ignored ->
+            case ActiveTimeError.StartMoreThanEnd _ ->
                 ActiveTimeLocalization.startMoreThanEnd(group.language());
         };
     }
 
     private String mapActiveTimeCommandErrorToMessage(ActiveTimeCommandError error, Group group) {
         return switch (error) {
-            case ActiveTimeCommandError.ArgumentsNotANumber ignored ->
+            case ActiveTimeCommandError.ArgumentsNotANumber _ ->
                 ActiveTimeLocalization.argumentsNotANumber(group.language());
-            case ActiveTimeCommandError.IncorrectArgumentsNumber ignored ->
+            case ActiveTimeCommandError.IncorrectArgumentsNumber _ ->
                 ActiveTimeLocalization.incorrectArgumentsNumber(group.language());
         };
     }

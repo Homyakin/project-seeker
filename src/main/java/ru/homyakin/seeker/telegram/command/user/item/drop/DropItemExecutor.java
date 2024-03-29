@@ -37,7 +37,7 @@ public class DropItemExecutor extends CommandExecutor<DropItem> {
             .fold(
                 error -> {
                     final var text = switch (error) {
-                        case DropItemError.PersonageMissingItem ignored ->
+                        case DropItemError.PersonageMissingItem _ ->
                             ItemLocalization.personageMissingItem(user.language());
                     };
                     return SendMessageBuilder.builder()

@@ -77,11 +77,11 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
         if (duelResult.isLeft()) {
             final var error = duelResult.getLeft();
             final var message = switch (error) {
-                case CreateDuelError.PersonageAlreadyHasDuel ignored ->
+                case CreateDuelError.PersonageAlreadyHasDuel _ ->
                     DuelLocalization.personageAlreadyStartDuel(group.language());
                 case CreateDuelError.InitiatingPersonageNotEnoughMoney notEnoughMoney ->
                     DuelLocalization.duelWithInitiatorNotEnoughMoney(group.language(), notEnoughMoney.money());
-                case CreateDuelError.InternalError ignored -> CommonLocalization.internalError(group.language());
+                case CreateDuelError.InternalError _ -> CommonLocalization.internalError(group.language());
             };
             telegramSender.send(
                 SendMessageBuilder.builder().chatId(group.id()).text(message).build()

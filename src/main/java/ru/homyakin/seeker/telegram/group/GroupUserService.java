@@ -69,7 +69,7 @@ public class GroupUserService {
         final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId));
         if (result.isLeft()) {
             return switch (result.getLeft()) {
-                case TelegramError.UserNotFound ignored -> {
+                case TelegramError.UserNotFound _ -> {
                     logger.warn("User {} is no longer in group {}", userId.value(), groupId.value());
                     deactivateGroupUser(groupId, userId);
                     yield Either.right(false);

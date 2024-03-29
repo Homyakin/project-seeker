@@ -19,14 +19,14 @@ public class ResourceUtils {
     public static void doAction(String path, Consumer<InputStream> action) {
         try (final var stream = new ClassPathResource(path).getInputStream()) {
             action.accept(stream);
-        } catch (IOException ignored) {
+        } catch (IOException _) {
         }
     }
 
     public static <T> Optional<T> calc(String path, Function<InputStream, T> function) {
         try (final var stream = new ClassPathResource(path).getInputStream()) {
             return Optional.of(function.apply(stream));
-        } catch (IOException ignored) {
+        } catch (IOException _) {
             return Optional.empty();
         }
     }

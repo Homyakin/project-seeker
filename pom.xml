@@ -9,7 +9,7 @@
     <version>1.1</version>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>22</java.version>
         <spring.version>3.2.1</spring.version>
         <liquibase.version>4.24.0</liquibase.version>
         <postgres.version>42.6.0</postgres.version>
@@ -174,8 +174,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>22</source>
+                    <target>22</target>
+                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
 

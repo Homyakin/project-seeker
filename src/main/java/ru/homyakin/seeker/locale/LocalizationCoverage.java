@@ -88,7 +88,7 @@ public class LocalizationCoverage {
         locales.forEach(
             // Считаем по каждому объекту на какие языки он был переведён
             localized -> localized.locales().forEach(
-                (language, ignored) -> translatedLocales.merge(language, 1, Integer::sum)
+                (language, _) -> translatedLocales.merge(language, 1, Integer::sum)
             )
         );
         translateInfo.put(

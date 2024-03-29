@@ -35,7 +35,7 @@ public class ConfirmDropItemExecutor extends CommandExecutor<ConfirmDropItem> {
         final var text = itemService.dropItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {
-                    case DropItemError.PersonageMissingItem ignored ->
+                    case DropItemError.PersonageMissingItem _ ->
                         ItemLocalization.personageMissingItem(user.language());
                 },
                 item -> ItemLocalization.successDrop(user.language(), item)

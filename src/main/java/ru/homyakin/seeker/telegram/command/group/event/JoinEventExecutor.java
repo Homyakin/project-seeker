@@ -68,8 +68,8 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
 
     private String mapErrorToUserMessage(PersonageEventError error, Group group, JoinEvent command) {
         return switch (error) {
-            case PersonageEventError.PersonageInOtherEvent ignored -> RaidLocalization.userAlreadyInOtherEvent(group.language());
-            case PersonageEventError.EventNotExist ignored -> CommonLocalization.internalError(group.language());
+            case PersonageEventError.PersonageInOtherEvent _ -> RaidLocalization.userAlreadyInOtherEvent(group.language());
+            case PersonageEventError.EventNotExist _ -> CommonLocalization.internalError(group.language());
             case PersonageEventError.ExpiredEvent expiredEvent -> {
                 //TODO может вынести в евент менеджер
                 telegramSender.send(EditMessageTextBuilder.builder()
@@ -82,8 +82,8 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                 );
                 yield RaidLocalization.expiredRaid(group.language());
             }
-            case PersonageEventError.PersonageInThisEvent ignored -> RaidLocalization.userAlreadyInThisEvent(group.language());
-            case PersonageEventError.EventInProcess ignored -> RaidLocalization.raidInProcess(group.language());
+            case PersonageEventError.PersonageInThisEvent _ -> RaidLocalization.userAlreadyInThisEvent(group.language());
+            case PersonageEventError.EventInProcess _ -> RaidLocalization.raidInProcess(group.language());
             case PersonageEventError.NotEnoughEnergy notEnoughEnergy -> RaidLocalization.notEnoughEnergy(group.language(), notEnoughEnergy);
         };
     }

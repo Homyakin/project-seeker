@@ -146,7 +146,7 @@
                      value="Parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="CatchParameterName">
-            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+            <property name="format" value="^[[a-z][a-zA-Z0-9]*|_]$"/>
             <message key="name.invalidPattern"
                      value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -232,7 +232,7 @@
             <property name="ignoreInlineTags" value="false"/>
         </module>
         <module name="EmptyCatchBlock">
-            <property name="exceptionVariableName" value="[expected|ignored]"/>
+            <property name="exceptionVariableName" value="[expected|ignored|_]"/>
         </module>
         <module name="CommentsIndentation">
             <property name="tokens" value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>

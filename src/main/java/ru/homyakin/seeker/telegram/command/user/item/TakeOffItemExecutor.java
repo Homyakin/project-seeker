@@ -35,9 +35,9 @@ public class TakeOffItemExecutor extends CommandExecutor<TakeOffItem> {
         final var text = itemService.takeOffItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {
-                    case TakeOffItemError.PersonageMissingItem ignored -> ItemLocalization.personageMissingItem(user.language());
-                    case TakeOffItemError.AlreadyTakenOff ignored -> ItemLocalization.alreadyTakenOff(user.language());
-                    case TakeOffItemError.NotEnoughSpaceInBag ignored -> ItemLocalization.notEnoughSpaceInBag(user.language());
+                    case TakeOffItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
+                    case TakeOffItemError.AlreadyTakenOff _ -> ItemLocalization.alreadyTakenOff(user.language());
+                    case TakeOffItemError.NotEnoughSpaceInBag _ -> ItemLocalization.notEnoughSpaceInBag(user.language());
                 },
                 item -> ItemLocalization.successTakeOff(user.language(), item)
             );

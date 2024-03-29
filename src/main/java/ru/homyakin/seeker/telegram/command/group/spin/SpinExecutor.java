@@ -67,7 +67,7 @@ public class SpinExecutor extends CommandExecutor<Spin> {
                     group.language(), TgPersonageMention.of(personage, user.id())
                 );
             }
-            case SpinError.InternalError ignored -> CommonLocalization.internalError(group.language());
+            case SpinError.InternalError _ -> CommonLocalization.internalError(group.language());
         };
     }
 }

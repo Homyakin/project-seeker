@@ -78,7 +78,7 @@ public class LaunchedEventService {
         return lockService.tryLockAndExecute(
             LockPrefixes.LAUNCHED_EVENT.name() + launchedEventId,
             () -> personageEventDao.save(personageId, launchedEventId)
-        ).mapLeft(ignored -> EventLocked.INSTANCE);
+        ).mapLeft(_ -> EventLocked.INSTANCE);
     }
 
     public List<LaunchedEvent> getExpiredActiveEvents() {

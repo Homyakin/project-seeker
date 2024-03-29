@@ -51,9 +51,9 @@ public class SelectBadgeExecutor extends CommandExecutor<SelectBadge> {
             .peekLeft(
                 error -> {
                     final Runnable runnable = switch (error) {
-                        case ActivatePersonageBadgeError.BadgeIsNotAvailable ignored ->
+                        case ActivatePersonageBadgeError.BadgeIsNotAvailable _ ->
                             () -> sendNotAvailableError(command, user.language());
-                        case ActivatePersonageBadgeError.AlreadyActivated ignored -> () -> {};
+                        case ActivatePersonageBadgeError.AlreadyActivated _ -> () -> {};
                     };
                     runnable.run();
                 }
