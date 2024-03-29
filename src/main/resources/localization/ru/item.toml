@@ -33,5 +33,3 @@ confirmDropButton = "✅Да"
 rejectDropButton = "❌Нет"
 successDrop = "Вы выкинули ${item}"
 rejectedDrop = "Не в этот раз"
-
-# TODO генерация предметов по результатам рейда

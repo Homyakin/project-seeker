@@ -9,7 +9,7 @@ text = "Меч"
 form = "MASCULINE"
 
 [object.locales.EN]
-text = "Swrod"
+text = "Sword"
 form = "WITHOUT"
 
 [[object]]

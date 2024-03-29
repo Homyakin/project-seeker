@@ -85,7 +85,7 @@ public class RaidProcessing {
     }
 
     private Optional<GeneratedItemResult> generateItem(List<Personage> personages) {
-        final var resultChance = BASE_ITEM_GENERATE_CHANCE + personages.size();
+        final var resultChance = BASE_ITEM_GENERATE_CHANCE + personages.size() * 2;
         if (RandomUtils.processChance(resultChance)) {
             final var personage = RandomUtils.getRandomElement(personages);
             final var result = itemService.generateItemForPersonage(personage)
