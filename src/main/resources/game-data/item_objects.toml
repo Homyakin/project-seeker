@@ -2,7 +2,7 @@
 [[object]]
 code = "sword"
 slots = ["MAIN_HAND"]
-characteristics.attack = "1-1"
+characteristics.attack = "2-6"
 
 [object.locales.RU]
 text = "Меч"
@@ -15,7 +15,7 @@ form = "WITHOUT"
 [[object]]
 code = "club"
 slots = ["MAIN_HAND"]
-characteristics.attack = "1-1"
+characteristics.attack = "2-6"
 
 [object.locales.RU]
 text = "Палица"
@@ -28,7 +28,7 @@ form = "WITHOUT"
 [[object]]
 code = "spear"
 slots = ["MAIN_HAND", "OFF_HAND"]
-characteristics.attack = "2-2"
+characteristics.attack = "4-10"
 
 [object.locales.RU]
 text = "Копьё"
@@ -36,4 +36,56 @@ form = "NEUTER"
 
 [object.locales.EN]
 text = "Spear"
+form = "WITHOUT"
+
+[[object]]
+code = "dagger"
+slots = ["OFF_HAND"]
+characteristics.attack = "1-5"
+
+[object.locales.RU]
+text = "Кинжал"
+form = "MASCULINE"
+
+[object.locales.EN]
+text = "Dagger"
+form = "WITHOUT"
+
+[[object]]
+code = "cutlass"
+slots = ["OFF_HAND"]
+characteristics.attack = "2-6"
+
+[object.locales.RU]
+text = "Кортик"
+form = "MASCULINE"
+
+[object.locales.EN]
+text = "Cutlass"
+form = "WITHOUT"
+
+[[object]]
+code = "stick"
+slots = ["MAIN_HAND"]
+characteristics.attack = "2-6"
+
+[object.locales.RU]
+text = "Палка"
+form = "FEMININE"
+
+[object.locales.EN]
+text = "Stick"
+form = "WITHOUT"
+
+[[object]]
+code = "saber"
+slots = ["MAIN_HAND"]
+characteristics.attack = "2-6"
+
+[object.locales.RU]
+text = "Сабля"
+form = "FEMININE"
+
+[object.locales.EN]
+text = "Saber"
 form = "WITHOUT"
