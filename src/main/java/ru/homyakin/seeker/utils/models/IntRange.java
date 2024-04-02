@@ -20,6 +20,6 @@ public record IntRange(
     }
 
     public int value() {
-        return RandomUtils.getInInterval(min, max);
+        return RandomUtils.getCharacteristic(min, max);
     }
 }

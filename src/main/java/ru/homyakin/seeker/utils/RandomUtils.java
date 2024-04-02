@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.random.RandomGenerator;
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
+import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RandomUtils {
     private static final Logger logger = LoggerFactory.getLogger(RandomUtils.class);
     private static final RandomGenerator random = RandomGenerator.getDefault();
+    private static final AbstractRealDistribution characteristicsRandom = new NormalDistribution(0.5, 0.2);
 
     public static Duration getRandomDuration(Duration minimum, Duration maximum) {
         return Duration.ofMillis(getInInterval(minimum.toMillis(), maximum.toMillis()));
@@ -47,6 +50,20 @@ public class RandomUtils {
         return list.get(random.nextInt(0, list.size()));
     }
 
+    public static int getCharacteristic(int min, int max) {
+        if (max < min) {
+            throw new IllegalArgumentException("Max %d is less than min %d".formatted(max, min));
+        }
+        final var percentValue = characteristicSampleFrom0To1();
+        /*
+        * Получаем значение от 0 до 1.
+        * Считаем разницу между min и max.
+        * Считаем, какой процент от разницы нужно прибавить к min и округляем
+         */
+        final var diff = max - min;
+        return (int) Math.round(min + diff * percentValue);
+    }
+
     public static <T> List<T> shuffle(List<T> list) {
         final var modifiableList = new ArrayList<T>(list);
         Collections.shuffle(modifiableList);
@@ -55,5 +72,15 @@ public class RandomUtils {
 
     public static boolean bool() {
         return random.nextBoolean();
+    }
+
+    private static double characteristicSampleFrom0To1() {
+        final var result = characteristicsRandom.sample();
+        if (result < 0) {
+            return 0;
+        } else if (result > 1) {
+            return 1;
+        }
+        return result;
     }
 }

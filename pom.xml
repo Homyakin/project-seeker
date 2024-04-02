@@ -18,6 +18,7 @@
         <jemoji.version>1.3.0</jemoji.version>
         <jackson.version>2.15.2</jackson.version>
         <jakarta.validation.version>3.0.2</jakarta.validation.version>
+        <commons-math3.version>3.6.1</commons-math3.version>
 
         <junit.version>5.10.2</junit.version>
         <assertj.version>3.24.2</assertj.version>
@@ -100,6 +101,12 @@
             <groupId>net.fellbaum</groupId>
             <artifactId>jemoji</artifactId>
             <version>${jemoji.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>${commons-math3.version}</version>
         </dependency>
 
         <!--TEST-->
