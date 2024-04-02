@@ -58,7 +58,7 @@ public class ItemServiceGenerateItemTest {
         Mockito.when(itemDao.getById(Mockito.any())).thenReturn(Optional.of(item));
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(RandomUtils::bool).thenReturn(false);
-            mock.when(() -> RandomUtils.getInInterval(Mockito.any(Integer.class), Mockito.any(Integer.class)))
+            mock.when(() -> RandomUtils.getCharacteristic(Mockito.any(Integer.class), Mockito.any(Integer.class)))
                 .thenCallRealMethod();
             service.generateItemForPersonage(PersonageUtils.withId(personageId));
         }
