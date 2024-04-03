@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.infrastructure.init.saving_models.item;
 
 import java.util.Map;
-import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
+import ru.homyakin.seeker.game.item.models.ItemGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.models.ModifierLocale;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.locale.Language;
@@ -11,7 +11,7 @@ import ru.homyakin.seeker.locale.WordForm;
 public record SavingModifier(
     String code,
     ModifierType type,
-    ItemRangeCharacteristics characteristics,
+    ItemGenerateCharacteristics characteristics,
     Map<Language, ModifierLocale> locales
 ) implements Localized<ModifierLocale> {
     public void validateWordForms() {

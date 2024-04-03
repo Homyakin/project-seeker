@@ -8,7 +8,7 @@ public record GenerateModifier(
     int id,
     String code,
     ModifierType type,
-    ItemRangeCharacteristics characteristics,
+    ItemGenerateCharacteristics characteristics,
     Map<Language, ModifierLocale> locales
 ) implements Localized<ModifierLocale> {
     public Modifier toModifier() {

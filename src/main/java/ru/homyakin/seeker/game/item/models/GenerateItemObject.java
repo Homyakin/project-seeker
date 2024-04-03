@@ -10,7 +10,7 @@ public record GenerateItemObject(
     int id,
     String code,
     Set<PersonageSlot> slots,
-    ItemRangeCharacteristics characteristics,
+    ItemGenerateCharacteristics characteristics,
     Map<Language, ItemObjectLocale> locales
 ) implements Localized<ItemObjectLocale> {
     public ItemObject toItemObject() {

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
+import ru.homyakin.seeker.game.item.models.ItemGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
@@ -82,7 +82,7 @@ public class ItemModifierDao {
             rs.getInt("id"),
             rs.getString("code"),
             ModifierType.findById(rs.getInt("item_modifier_type_id")),
-            jsonUtils.fromString(rs.getString("characteristics"), ItemRangeCharacteristics.class),
+            jsonUtils.fromString(rs.getString("characteristics"), ItemGenerateCharacteristics.class),
             jsonUtils.fromString(rs.getString("locale"), JsonUtils.MODIFIER_LOCALE)
         );
     }

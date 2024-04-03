@@ -9,18 +9,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.ItemObject;
-import ru.homyakin.seeker.game.item.models.ItemRangeCharacteristics;
+import ru.homyakin.seeker.game.item.models.ItemGenerateCharacteristics;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
-import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.models.IntRange;
@@ -75,7 +72,7 @@ public class ItemServiceGenerateItemTest {
         0,
         "",
         Set.of(PersonageSlot.MAIN_HAND),
-        new ItemRangeCharacteristics(
+        new ItemGenerateCharacteristics(
             Optional.of(new IntRange(1, 1))
         ),
         Collections.emptyMap()
