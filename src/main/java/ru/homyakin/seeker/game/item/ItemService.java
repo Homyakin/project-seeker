@@ -24,6 +24,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.utils.models.DoubleRange;
 import ru.homyakin.seeker.utils.models.IntRange;
 
 @Service
@@ -136,13 +137,15 @@ public class ItemService {
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
         int attack = object.characteristics().attack().map(IntRange::value).orElse(0);
-        attack += modifiers.stream()
-            .map(modifier -> modifier.characteristics().attack().map(IntRange::value).orElse(0))
-            .reduce(0, Integer::sum);
+        double multiplier = object.characteristics().multiplier().map(DoubleRange::value).orElse(1.0);
+        for (final var modifier: modifiers) {
+            attack += modifier.characteristics().attack().map(IntRange::value).orElse(0);
+            multiplier *= modifier.characteristics().multiplier().map(DoubleRange::value).orElse(1.0);
+        }
 
         return new Characteristics(
             /*health*/ 0,
-            /*attack*/ attack,
+            /*attack*/ (int) Math.round(attack * multiplier),
             /*defense*/ 0,
             /*strength*/ 0,
             /*agility*/ 0,

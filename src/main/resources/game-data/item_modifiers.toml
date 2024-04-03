@@ -16,7 +16,7 @@ WITHOUT = "Sharp"
 [[modifier]]
 code = "iron"
 type = "PREFIX"
-characteristics.attack = "2-4"
+characteristics.multiplier = "1.5-1.8"
 
 [modifier.locales.RU.form]
 MASCULINE = "Железный"
@@ -30,7 +30,7 @@ WITHOUT = "Iron"
 [[modifier]]
 code = "wooden"
 type = "PREFIX"
-characteristics.attack = "1-2"
+characteristics.multiplier = "1.1-1.3"
 
 [modifier.locales.RU.form]
 MASCULINE = "Деревянный"

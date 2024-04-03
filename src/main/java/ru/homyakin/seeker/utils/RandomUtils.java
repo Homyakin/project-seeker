@@ -64,6 +64,20 @@ public class RandomUtils {
         return (int) Math.round(min + diff * percentValue);
     }
 
+    public static double getCharacteristic(double min, double max) {
+        if (max < min) {
+            throw new IllegalArgumentException("Max %f is less than min %f".formatted(max, min));
+        }
+        final var percentValue = characteristicSampleFrom0To1();
+        /*
+        * Получаем значение от 0 до 1.
+        * Считаем разницу между min и max.
+        * Считаем, какой процент от разницы нужно прибавить к min и округляем
+         */
+        final var diff = max - min;
+        return min + diff * percentValue;
+    }
+
     public static <T> List<T> shuffle(List<T> list) {
         final var modifiableList = new ArrayList<T>(list);
         Collections.shuffle(modifiableList);

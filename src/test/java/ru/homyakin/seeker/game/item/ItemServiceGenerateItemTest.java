@@ -73,7 +73,8 @@ public class ItemServiceGenerateItemTest {
         "",
         Set.of(PersonageSlot.MAIN_HAND),
         new ItemGenerateCharacteristics(
-            Optional.of(new IntRange(1, 1))
+            Optional.of(new IntRange(1, 1)),
+            Optional.empty()
         ),
         Collections.emptyMap()
     );
