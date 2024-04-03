@@ -22,7 +22,10 @@ import ru.homyakin.seeker.utils.DatabaseUtils;
 public class PersonageDao {
     private static final String GET_BY_ID = """
         WITH item_characteristics AS (
-            SELECT personage_id, SUM(attack) item_attack
+            SELECT personage_id,
+                SUM(attack) item_attack,
+                SUM(health) item_health,
+                SUM(defense) item_defense
             FROM item WHERE personage_id in (:id_list) AND is_equipped = true
             GROUP BY personage_id
         )
@@ -149,9 +152,9 @@ public class PersonageDao {
             ),
             BadgeView.findByCode(rs.getString("badge_code")),
             new Characteristics(
-                0,
+                DatabaseUtils.getIntOrDefault(rs, "item_health", 0),
                 DatabaseUtils.getIntOrDefault(rs, "item_attack", 0),
-                0,
+                DatabaseUtils.getIntOrDefault(rs, "item_defense", 0),
                 0,
                 0,
                 0

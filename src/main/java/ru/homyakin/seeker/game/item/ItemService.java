@@ -137,16 +137,20 @@ public class ItemService {
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
         int attack = object.characteristics().attack().map(IntRange::value).orElse(0);
+        int defense = object.characteristics().defense().map(IntRange::value).orElse(0);
+        int health = object.characteristics().health().map(IntRange::value).orElse(0);
         double multiplier = object.characteristics().multiplier().map(DoubleRange::value).orElse(1.0);
         for (final var modifier: modifiers) {
             attack += modifier.characteristics().attack().map(IntRange::value).orElse(0);
+            defense += modifier.characteristics().defense().map(IntRange::value).orElse(0);
+            health += modifier.characteristics().health().map(IntRange::value).orElse(0);
             multiplier *= modifier.characteristics().multiplier().map(DoubleRange::value).orElse(1.0);
         }
 
         return new Characteristics(
-            /*health*/ 0,
+            /*health*/ (int) Math.round(health * multiplier),
             /*attack*/ (int) Math.round(attack * multiplier),
-            /*defense*/ 0,
+            /*defense*/ (int) Math.round(defense * multiplier),
             /*strength*/ 0,
             /*agility*/ 0,
             /*wisdom*/ 0

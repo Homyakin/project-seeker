@@ -250,6 +250,16 @@ public class ItemLocalization {
         } else {
             params.put("not_zero_attack", "");
         }
+        if (characteristics.health() != 0) {
+            params.put("not_zero_health", health(language, characteristics.health()));
+        } else {
+            params.put("not_zero_health", "");
+        }
+        if (characteristics.defense() != 0) {
+            params.put("not_zero_defense", defense(language, characteristics.defense()));
+        } else {
+            params.put("not_zero_defense", "");
+        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::characteristics),
             params
@@ -262,6 +272,26 @@ public class ItemLocalization {
         params.put("attack_value", attack);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::attack),
+            params
+        );
+    }
+
+    private static String health(Language language, int attack) {
+        final var params = new HashMap<String, Object>();
+        params.put("health_icon", Icons.HEALTH);
+        params.put("health_value", attack);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::health),
+            params
+        );
+    }
+
+    private static String defense(Language language, int attack) {
+        final var params = new HashMap<String, Object>();
+        params.put("defense_icon", Icons.DEFENSE);
+        params.put("defense_value", attack);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::defense),
             params
         );
     }

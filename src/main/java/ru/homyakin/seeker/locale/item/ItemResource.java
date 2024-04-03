@@ -10,6 +10,8 @@ public record ItemResource(
     String shortItem,
     String characteristics,
     String attack,
+    String health,
+    String defense,
     String itemInBag,
     String equippedItem,
     String personageFreeSlot,

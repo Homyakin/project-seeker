@@ -34,8 +34,8 @@ public class ItemDao {
     @Transactional
     public long saveItem(Item item) {
         final var insertItem = """
-            INSERT INTO item (item_object_id, personage_id, is_equipped, attack) 
-            VALUES (:item_object_id, :personage_id, :is_equipped, :attack)
+            INSERT INTO item (item_object_id, personage_id, is_equipped, attack, health, defense)
+            VALUES (:item_object_id, :personage_id, :is_equipped, :attack, :health, :defense)
             RETURNING id
             """;
         final var id = jdbcClient.sql(insertItem)
@@ -43,11 +43,13 @@ public class ItemDao {
             .param("personage_id", item.personageId().map(PersonageId::value).orElse(null))
             .param("is_equipped", item.isEquipped())
             .param("attack", item.characteristics().attack())
-            .query((rs, rowNum) -> rs.getLong("id"))
+            .param("health", item.characteristics().health())
+            .param("defense", item.characteristics().defense())
+            .query((rs, _) -> rs.getLong("id"))
             .single();
 
         final var insertModifier = """
-            INSERT INTO item_to_item_modifier (item_id, item_modifier_id) 
+            INSERT INTO item_to_item_modifier (item_id, item_modifier_id)
             VALUES (:item_id, :item_modifier_id)
             """;
         for (final var modifier : item.modifiers()) {
@@ -106,9 +108,9 @@ public class ItemDao {
                 final var personageId = Optional.ofNullable((Long) rs.getObject("personage_id"))
                     .map(PersonageId::from);
                 final var characteristics = new Characteristics(
-                    0,
+                    rs.getInt("health"),
                     rs.getInt("attack"),
-                    0,
+                    rs.getInt("defense"),
                     0,
                     0,
                     0
