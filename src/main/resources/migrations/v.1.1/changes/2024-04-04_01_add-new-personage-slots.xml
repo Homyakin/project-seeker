@@ -1,0 +1,32 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-new-personage-slots">
+        <insert tableName="personage_slot">
+            <column name="id" value="3"/>
+            <column name="name" value="Тело"/>
+        </insert>
+
+        <insert tableName="personage_slot">
+            <column name="id" value="4"/>
+            <column name="name" value="Штаны"/>
+        </insert>
+
+        <insert tableName="personage_slot">
+            <column name="id" value="5"/>
+            <column name="name" value="Ботинки"/>
+        </insert>
+
+        <insert tableName="personage_slot">
+            <column name="id" value="6"/>
+            <column name="name" value="Шлем"/>
+        </insert>
+
+        <insert tableName="personage_slot">
+            <column name="id" value="7"/>
+            <column name="name" value="Перчатки"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

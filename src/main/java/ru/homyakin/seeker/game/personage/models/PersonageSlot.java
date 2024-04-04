@@ -5,6 +5,11 @@ import ru.homyakin.seeker.infrastructure.Icons;
 public enum PersonageSlot {
     MAIN_HAND(1, Icons.MAIN_HAND),
     OFF_HAND(2, Icons.OFF_HAND),
+    BODY(3, Icons.BODY),
+    PANTS(4, Icons.PANTS),
+    SHOES(5, Icons.SHOES),
+    HELMET(6, Icons.HELMET),
+    GLOVES(7, Icons.GLOVES),
     ;
 
     public final int id;

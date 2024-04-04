@@ -246,6 +246,11 @@ public record Personage(
     private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{
         put(PersonageSlot.MAIN_HAND, 1);
         put(PersonageSlot.OFF_HAND, 1);
+        put(PersonageSlot.BODY, 1);
+        put(PersonageSlot.PANTS, 1);
+        put(PersonageSlot.HELMET, 1);
+        put(PersonageSlot.GLOVES, 1);
+        put(PersonageSlot.SHOES, 1);
     }};
 
     private Personage copyWithName(String name) {
