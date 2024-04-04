@@ -49,7 +49,6 @@ public class ItemService {
     }
 
     public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage) {
-        // TODO проверить количество предметов у персонажа
         final var object = itemObjectDao.getRandomObject();
         final var modifiers = new ArrayList<GenerateModifier>();
         if (RandomUtils.bool()) {
@@ -57,8 +56,8 @@ public class ItemService {
             modifiers.add(modifier);
             if (RandomUtils.bool()) {
                 // Может быть либо 2 префиксных, либо 1 суффикс и 1 префикс
-                if (modifier.type() == ModifierType.PREFIX) {
-                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.SUFFIX));
+                if (modifier.type() == ModifierType.SUFFIX) {
+                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX));
                 } else {
                     modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id()));
                 }
@@ -96,8 +95,8 @@ public class ItemService {
                 getPersonageItems(personage.id()),
                 itemResult.get()
             )
-            .peek(it -> itemDao.invertEquip(itemId))
-            .map(it -> itemDao.getById(itemId).orElseThrow());
+            .peek(_ -> itemDao.invertEquip(itemId))
+            .map(_ -> itemDao.getById(itemId).orElseThrow());
     }
 
     public Either<TakeOffItemError, Item> takeOffItem(Personage personage, long itemId) {
@@ -111,14 +110,14 @@ public class ItemService {
                 getPersonageItems(personage.id()),
                 itemResult.get()
             )
-            .peek(it -> itemDao.invertEquip(itemId))
-            .map(it -> itemDao.getById(itemId).orElseThrow());
+            .peek(_ -> itemDao.invertEquip(itemId))
+            .map(_ -> itemDao.getById(itemId).orElseThrow());
     }
 
     public Either<DropItemError, Item> canDropItem(Personage personage, long itemId) {
         final var itemResult = itemDao.getById(itemId);
         if (itemResult.isEmpty()) {
-            logger.debug("Personage {} tried to take off incorrect item with id {}", personage.id(), itemId);
+            logger.debug("Personage {} tried to drop incorrect item with id {}", personage.id(), itemId);
             return Either.left(DropItemError.PersonageMissingItem.INSTANCE);
         }
         final var item = itemResult.get();
@@ -131,8 +130,8 @@ public class ItemService {
 
     public Either<DropItemError, Item> dropItem(Personage personage, long itemId) {
         return canDropItem(personage, itemId)
-            .peek(it -> itemDao.deletePersonageAndMakeEquipFalse(itemId))
-            .map(it -> itemDao.getById(itemId).orElseThrow());
+            .peek(_ -> itemDao.deletePersonageAndMakeEquipFalse(itemId))
+            .map(_ -> itemDao.getById(itemId).orElseThrow());
     }
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
