@@ -66,7 +66,9 @@ WITHOUT = "Of Anger"
 [[modifier]]
 code = "random"
 type = "SUFFIX"
-characteristics.attack = "1-10"
+characteristics.attack = "1-5"
+characteristics.defense = "1-5"
+characteristics.health = "1-5"
 
 [modifier.locales.RU.form]
 WITHOUT = "Случайности"
@@ -87,3 +89,56 @@ PLURAL = "Праздничные"
 
 [modifier.locales.EN.form]
 WITHOUT = "Holiday"
+
+[[modifier]]
+code = "tea"
+type = "PREFIX"
+characteristics.multiplier = "1.6-2.0"
+
+[modifier.locales.RU.form]
+MASCULINE = "Чайный"
+FEMININE = "Чайная"
+NEUTER = "Чайное"
+PLURAL = "Чайные"
+
+[modifier.locales.EN.form]
+WITHOUT = "Tea"
+
+[[modifier]]
+code = "strange"
+type = "PREFIX"
+characteristics.multiplier = "1.1-1.5"
+
+[modifier.locales.RU.form]
+MASCULINE = "Странный"
+FEMININE = "Странная"
+NEUTER = "Странное"
+PLURAL = "Странные"
+
+[modifier.locales.EN.form]
+WITHOUT = "Strange"
+
+[[modifier]]
+code = "defense"
+type = "SUFFIX"
+characteristics.defense = "4-9"
+
+[modifier.locales.RU.form]
+WITHOUT = "Защиты"
+
+[modifier.locales.EN.form]
+WITHOUT = "Of Defense"
+
+[[modifier]]
+code = "beer"
+type = "PREFIX"
+characteristics.multiplier = "1.2-1.6"
+
+[modifier.locales.RU.form]
+MASCULINE = "Пивной"
+FEMININE = "Пивная"
+NEUTER = "Пивное"
+PLURAL = "Пивные"
+
+[modifier.locales.EN.form]
+WITHOUT = "beer"

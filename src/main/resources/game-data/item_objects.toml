@@ -102,3 +102,115 @@ form = "MASCULINE"
 [object.locales.EN]
 text = "Shield"
 form = "WITHOUT"
+
+[[object]]
+code = "vest"
+slots = ["BODY"]
+characteristics.defense = "1-5"
+characteristics.health = "10-20"
+
+[object.locales.RU]
+text = "Жилетка"
+form = "FEMININE"
+
+[object.locales.EN]
+text = "Vest"
+form = "WITHOUT"
+
+[[object]]
+code = "cuirass"
+slots = ["BODY"]
+characteristics.defense = "4-10"
+characteristics.health = "20-40"
+
+[object.locales.RU]
+text = "Кираса"
+form = "FEMININE"
+
+[object.locales.EN]
+text = "Cuirass"
+form = "WITHOUT"
+
+[[object]]
+code = "chain-mail"
+slots = ["BODY"]
+characteristics.defense = "5-13"
+characteristics.health = "15-30"
+
+[object.locales.RU]
+text = "Кольчуга"
+form = "FEMININE"
+
+[object.locales.EN]
+text = "Mail"
+form = "WITHOUT"
+
+[[object]]
+code = "pants"
+slots = ["PANTS"]
+characteristics.defense = "1-10"
+characteristics.health = "10-40"
+
+[object.locales.RU]
+text = "Штаны"
+form = "PLURAL"
+
+[object.locales.EN]
+text = "Pants"
+form = "WITHOUT"
+
+[[object]]
+code = "socks"
+slots = ["SHOES"]
+characteristics.defense = "1-3"
+characteristics.health = "5-10"
+
+[object.locales.RU]
+text = "Носки"
+form = "PLURAL"
+
+[object.locales.EN]
+text = "Socks"
+form = "WITHOUT"
+
+[[object]]
+code = "boots"
+slots = ["SHOES"]
+characteristics.defense = "2-8"
+characteristics.health = "10-20"
+
+[object.locales.RU]
+text = "Сапоги"
+form = "PLURAL"
+
+[object.locales.EN]
+text = "Boots"
+form = "WITHOUT"
+
+[[object]]
+code = "hat"
+slots = ["HELMET"]
+characteristics.defense = "2-6"
+characteristics.health = "5-20"
+
+[object.locales.RU]
+text = "Шляпа"
+form = "FEMININE"
+
+[object.locales.EN]
+text = "Hat"
+form = "WITHOUT"
+
+[[object]]
+code = "helmet"
+slots = ["HELMET"]
+characteristics.defense = "5-10"
+characteristics.health = "10-25"
+
+[object.locales.RU]
+text = "Шлем"
+form = "MASCULINE"
+
+[object.locales.EN]
+text = "Helmet"
+form = "WITHOUT"
