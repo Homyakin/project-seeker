@@ -214,3 +214,17 @@ form = "MASCULINE"
 [object.locales.EN]
 text = "Helmet"
 form = "WITHOUT"
+
+[[object]]
+code = "gloves"
+slots = ["GLOVES"]
+characteristics.defense = "5-10"
+characteristics.health = "10-25"
+
+[object.locales.RU]
+text = "Перчатки"
+form = "PLURAL"
+
+[object.locales.EN]
+text = "Gloves"
+form = "WITHOUT"
