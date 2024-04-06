@@ -73,3 +73,17 @@ WITHOUT = "Случайности"
 
 [modifier.locales.EN.form]
 WITHOUT = "Of Random"
+
+[[modifier]]
+code = "holiday"
+type = "PREFIX"
+characteristics.multiplier = "1.3-1.7"
+
+[modifier.locales.RU.form]
+MASCULINE = "Праздничный"
+FEMININE = "Праздничная"
+NEUTER = "Праздничное"
+PLURAL = "Праздничные"
+
+[modifier.locales.EN.form]
+WITHOUT = "Holiday"

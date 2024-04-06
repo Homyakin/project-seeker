@@ -89,3 +89,16 @@ form = "FEMININE"
 [object.locales.EN]
 text = "Saber"
 form = "WITHOUT"
+
+[[object]]
+code = "shield"
+slots = ["OFF_HAND"]
+characteristics.defense = "1-5"
+
+[object.locales.RU]
+text = "Щит"
+form = "MASCULINE"
+
+[object.locales.EN]
+text = "Shield"
+form = "WITHOUT"
