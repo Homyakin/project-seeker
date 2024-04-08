@@ -64,6 +64,7 @@ public class RaidProcessing {
                 return new PersonageRaidResult(battleResult.personage(), battleResult.stats(), reward);
             })
             .toList();
+        // TODO сохранять инфу о предметах в базу статистики
         final var items = new ArrayList<GeneratedItemResult>();
         if (doesParticipantsWin) {
             items.addAll(generateItem(participants));
@@ -89,10 +90,17 @@ public class RaidProcessing {
 
     private List<GeneratedItemResult> generateItem(List<Personage> personages) {
         final var items = new ArrayList<GeneratedItemResult>();
+        // пока логика - сортируем персонажей по количеству предметов, сначала даём тем, у кого меньше
+        final var personageItemsCount = personages
+            .stream()
+            .map(Personage::id)
+            .collect(Collectors.toMap(it -> it, itemService::personageItemCount));
+        // TODO тут на каждого персонажа по запросу в базу, можно одним, но не очень красиво
+
         final Queue<Personage> personagesByItems = personages
             .stream()
             .sorted(
-                Comparator.comparingInt(personage -> personage.itemCharacteristics().sumCharacteristics())
+                Comparator.comparingInt(personage -> personageItemsCount.get(personage.id()))
             )
             .collect(Collectors.toCollection(LinkedList::new));
         final var startChance = BASE_ITEM_GENERATE_CHANCE + personages.size() * 3;
@@ -115,5 +123,5 @@ public class RaidProcessing {
 
     private static final int BASE_WIN_REWARD = 10;
     private static final int BASE_LOSE_REWARD = 5;
-    private static final int BASE_ITEM_GENERATE_CHANCE = 5;
+    private static final int BASE_ITEM_GENERATE_CHANCE = 105;
 }

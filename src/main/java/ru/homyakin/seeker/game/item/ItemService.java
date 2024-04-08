@@ -134,6 +134,10 @@ public class ItemService {
             .map(_ -> itemDao.getById(itemId).orElseThrow());
     }
 
+    public int personageItemCount(PersonageId personageId) {
+        return itemDao.getCountByPersonageId(personageId);
+    }
+
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
         int attack = object.characteristics().attack().map(IntRange::value).orElse(0);
         int defense = object.characteristics().defense().map(IntRange::value).orElse(0);

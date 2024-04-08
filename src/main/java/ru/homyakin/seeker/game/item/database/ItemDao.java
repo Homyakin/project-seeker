@@ -93,6 +93,14 @@ public class ItemDao {
             .query(this::extractItems);
     }
 
+    public int getCountByPersonageId(PersonageId personageId) {
+        final var sql = "SELECT COUNT(*) item_count FROM item WHERE personage_id = :personage_id";
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .query((rs, _) -> rs.getInt("item_count"))
+            .single();
+    }
+
     private List<Item> extractItems(ResultSet rs) throws SQLException {
         final var itemIdToItemObjectId = new HashMap<Long, Integer>();
         final var itemObjectIdToSlots = new HashMap<Integer, Set<PersonageSlot>>();
