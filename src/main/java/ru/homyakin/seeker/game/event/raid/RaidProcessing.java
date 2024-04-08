@@ -1,8 +1,11 @@
 package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Queue;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,13 +14,13 @@ import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
+import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.GenerateItemError;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -63,7 +66,7 @@ public class RaidProcessing {
             .toList();
         final var items = new ArrayList<GeneratedItemResult>();
         if (doesParticipantsWin) {
-            generateItem(participants).ifPresent(items::add);
+            items.addAll(generateItem(participants));
         }
 
         return new RaidResult(
@@ -84,21 +87,30 @@ public class RaidProcessing {
         return Math.round(reward * result.personage().energy().percent());
     }
 
-    private Optional<GeneratedItemResult> generateItem(List<Personage> personages) {
-        final var resultChance = BASE_ITEM_GENERATE_CHANCE + personages.size() * 3;
-        if (RandomUtils.processChance(resultChance)) {
-            final var personage = RandomUtils.getRandomElement(personages);
-            final var result = itemService.generateItemForPersonage(personage)
-                .fold(
-                    error -> switch (error) {
-                        case GenerateItemError.NotEnoughSpace notEnoughSpace ->
-                            new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
-                    },
-                    item -> new GeneratedItemResult.Success(personage, item)
-                );
-            return Optional.of(result);
+    private List<GeneratedItemResult> generateItem(List<Personage> personages) {
+        final var items = new ArrayList<GeneratedItemResult>();
+        final Queue<Personage> personagesByItems = personages
+            .stream()
+            .sorted(
+                Comparator.comparingInt(personage -> personage.itemCharacteristics().sumCharacteristics())
+            )
+            .collect(Collectors.toCollection(LinkedList::new));
+        final var startChance = BASE_ITEM_GENERATE_CHANCE + personages.size() * 3;
+        for (var chance = startChance; chance > 0 && !personagesByItems.isEmpty(); chance /= 2) {
+            if (RandomUtils.processChance(chance)) {
+                final var personage = personagesByItems.poll();
+                final var result = itemService.generateItemForPersonage(personage)
+                    .fold(
+                        error -> switch (error) {
+                            case GenerateItemError.NotEnoughSpace notEnoughSpace ->
+                                new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
+                        },
+                        item -> new GeneratedItemResult.Success(personage, item)
+                    );
+                items.add(result);
+            }
         }
-        return Optional.empty();
+        return items;
     }
 
     private static final int BASE_WIN_REWARD = 10;

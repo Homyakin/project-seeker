@@ -104,6 +104,10 @@ public record Characteristics(
         return -8 / (advantage + 8) + 2;
     }
 
+    public int sumCharacteristics() {
+        return health + attack + defense + strength + agility + wisdom;
+    }
+
     @Override
     public Characteristics clone() {
         try {
