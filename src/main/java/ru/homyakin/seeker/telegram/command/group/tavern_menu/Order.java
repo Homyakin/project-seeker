@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.group.tavern_menu;
 
 import java.util.Optional;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;

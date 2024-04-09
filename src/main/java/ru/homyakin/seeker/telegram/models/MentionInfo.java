@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.telegram.models;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.Optional;

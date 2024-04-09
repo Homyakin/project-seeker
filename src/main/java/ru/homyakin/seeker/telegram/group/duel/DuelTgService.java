@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;

@@ -19,7 +19,7 @@ public class ReplyKeyboardBuilder {
             row = new KeyboardRow();
             return this;
         }
-        if (row.size() == 0) {
+        if (row.isEmpty()) {
             throw new IllegalStateException("Previous row is empty");
         }
         rows.add(row);
@@ -41,12 +41,11 @@ public class ReplyKeyboardBuilder {
     }
 
     public ReplyKeyboardMarkup build() {
-        if (row == null || row.size() == 0) {
+        if (row == null || row.isEmpty()) {
             throw new IllegalStateException("Last row is empty or doesn't exist");
         }
         rows.add(row);
-        var markupReply = new ReplyKeyboardMarkup();
-        markupReply.setKeyboard(rows);
+        final var markupReply = new ReplyKeyboardMarkup(rows);
         markupReply.setResizeKeyboard(resize);
         return markupReply;
     }

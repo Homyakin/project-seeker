@@ -5,10 +5,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 
 public class InlineKeyboardBuilder {
-    private final ArrayList<List<InlineKeyboardButton>> rows = new ArrayList<>();
-    private List<InlineKeyboardButton> row = null;
+    private final List<InlineKeyboardRow> rows = new ArrayList<>();
+    private InlineKeyboardRow row = null;
 
     public static InlineKeyboardBuilder builder() {
         return new InlineKeyboardBuilder();
@@ -16,14 +17,14 @@ public class InlineKeyboardBuilder {
 
     public InlineKeyboardBuilder addRow() {
         if (row == null) {
-            row = new ArrayList<>();
+            row = new InlineKeyboardRow();
             return this;
         }
-        if (row.size() == 0) {
+        if (row.isEmpty()) {
             throw new IllegalStateException("Previous row is empty");
         }
         rows.add(row);
-        row = new ArrayList<>();
+        row = new InlineKeyboardRow();
         return this;
     }
 
@@ -42,12 +43,10 @@ public class InlineKeyboardBuilder {
     }
 
     public InlineKeyboardMarkup build() {
-        if (row == null || row.size() == 0) {
+        if (row == null || row.isEmpty()) {
             throw new IllegalStateException("Last row is empty or doesn't exist");
         }
         rows.add(row);
-        var markupInline = new InlineKeyboardMarkup();
-        markupInline.setKeyboard(rows);
-        return markupInline;
+        return new InlineKeyboardMarkup(rows);
     }
 }

@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.user.state;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)

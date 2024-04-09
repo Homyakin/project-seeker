@@ -20,14 +20,14 @@ public class BotInitializer {
 
     @EventListener(ApplicationReadyEvent.class)
     public void initCommands() throws Exception {
-        telegramSender.execute(
+        telegramSender.send(
             SetMyCommands.builder()
                 .commands(GROUP_COMMANDS)
                 .scope(new BotCommandScopeAllGroupChats())
                 .build()
         );
 
-        telegramSender.execute(
+        telegramSender.send(
             SetMyCommands.builder()
                 .commands(PERSONAL_COMMAND)
                 .scope(new BotCommandScopeAllPrivateChats())

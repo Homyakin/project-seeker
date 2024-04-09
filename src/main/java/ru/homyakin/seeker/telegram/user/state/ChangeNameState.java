@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.telegram.user.state;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
 import ru.homyakin.seeker.telegram.command.user.change_name.CancelChangeName;
