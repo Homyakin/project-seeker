@@ -123,5 +123,5 @@ public class RaidProcessing {
 
     private static final int BASE_WIN_REWARD = 10;
     private static final int BASE_LOSE_REWARD = 5;
-    private static final int BASE_ITEM_GENERATE_CHANCE = 105;
+    private static final int BASE_ITEM_GENERATE_CHANCE = 5;
 }
