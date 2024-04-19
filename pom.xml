@@ -13,7 +13,7 @@
         <spring.version>3.2.4</spring.version>
         <liquibase.version>4.24.0</liquibase.version>
         <postgres.version>42.6.0</postgres.version>
-        <telegram.version>7.2.0</telegram.version>
+        <telegram.version>7.2.1</telegram.version>
         <vavr.version>0.10.4</vavr.version>
         <jemoji.version>1.3.0</jemoji.version>
         <jackson.version>2.15.2</jackson.version>
