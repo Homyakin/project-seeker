@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
+import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.settings.GetActiveTime;
 import ru.homyakin.seeker.telegram.command.group.settings.SetActiveTime;
@@ -96,6 +97,9 @@ public class CommandParser {
     }
 
     private Optional<Command> parseMessage(Message message) { //TODO разделить на group и private
+        if (message.getMigrateFromChatId() != null) {
+            return Optional.of(MigrateFromGroup.from(message));
+        }
         if (!message.hasText()) {
             return Optional.empty();
         }

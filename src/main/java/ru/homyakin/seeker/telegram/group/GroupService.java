@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.database.GroupDao;
+import ru.homyakin.seeker.telegram.group.database.GroupMigrateDao;
 import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.ActiveTimeError;
 import ru.homyakin.seeker.telegram.group.models.Group;
@@ -17,10 +18,12 @@ import ru.homyakin.seeker.utils.models.Success;
 @Service
 public class GroupService {
     private final GroupDao groupDao;
+    private final GroupMigrateDao groupMigrateDao;
     private final GroupStatsService groupStatsService;
 
-    public GroupService(GroupDao groupDao, GroupStatsService groupStatsService) {
+    public GroupService(GroupDao groupDao, GroupMigrateDao groupMigrateDao, GroupStatsService groupStatsService) {
         this.groupDao = groupDao;
+        this.groupMigrateDao = groupMigrateDao;
         this.groupStatsService = groupStatsService;
     }
 
@@ -58,7 +61,11 @@ public class GroupService {
         return ActiveTime.from(startHour, endHour, timeZone)
             .map(group::withActiveTime)
             .peek(groupDao::update)
-            .map(it -> Success.INSTANCE);
+            .map(_ -> Success.INSTANCE);
+    }
+
+    public void migrateGroupDate(GroupId from, GroupId to) {
+        groupMigrateDao.migrate(from, to);
     }
 
     private Optional<Group> getGroup(GroupId group) {

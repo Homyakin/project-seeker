@@ -14,4 +14,5 @@
     <include file="changes/2024-03-17_01_add-items-tables.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-04-03_01_add-health-and-defense-to-items.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-04-04_01_add-new-personage-slots.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-04-20_01_add-migrated-from-to-group.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

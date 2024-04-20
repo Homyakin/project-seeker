@@ -110,4 +110,8 @@ public class CommonLocalization {
             params
         );
     }
+
+    public static String migrateGroup(Language language) {
+        return resources.getOrDefault(language, CommonResource::migrateGroup);
+    }
 }

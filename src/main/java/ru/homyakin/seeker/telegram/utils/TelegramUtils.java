@@ -12,6 +12,9 @@ public class TelegramUtils {
             return true;
         }
         if (update.hasMessage()) {
+            if (update.getMessage().getMigrateFromChatId() != null) {
+                return true;
+            }
             return isGroupCommand(update.getMessage(), botUsername) || update.getMessage().isUserMessage();
         }
         if (update.hasCallbackQuery()) {

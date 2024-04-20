@@ -13,24 +13,33 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.models.TelegramError;
 
 @Component
 public class TelegramSender {
     private static final Logger logger = LoggerFactory.getLogger(TelegramSender.class);
     private final TelegramClient client;
+    private final GroupService groupService;
 
-    protected TelegramSender(TelegramBotConfig botConfig) {
+    protected TelegramSender(TelegramBotConfig botConfig, GroupService groupService) {
          client = new OkHttpTelegramClient(botConfig.token());
+        this.groupService = groupService;
     }
 
     public Either<TelegramError, Message> send(SendMessage sendMessage) {
         try {
             return Either.right(client.execute(sendMessage));
         } catch (Exception e) {
-            logger.error(
-                "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e
-            );
+            if (e.getMessage().contains("group chat was upgraded to a supergroup chat")) {
+                logger.error("group chat was upgraded to a supergroup chat {}", sendMessage.getChatId());
+                groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+            } else {
+                logger.error(
+                    "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e
+                );
+            }
             return Either.left(new TelegramError.InternalError(e.getMessage()));
         }
     }
