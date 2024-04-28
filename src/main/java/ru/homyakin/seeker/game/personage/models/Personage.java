@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,14 +87,14 @@ public record Personage(
         return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
-    public Either<EnergyStillSame, Personage> regenEnergyIfNeed() {
+    public Either<EnergyStillSame, Personage> regenEnergyIfNeed(Duration timeForFullRegen) {
         return energy
-            .regenIfNeeded()
+            .regenIfNeeded(timeForFullRegen)
             .map(this::copyWithEnergy);
     }
 
-    public Personage nullifyEnergy(LocalDateTime energyChangeTime) {
-        return copyWithEnergy(Energy.createZero(energyChangeTime));
+    public Personage reduceEnergy(LocalDateTime energyChangeTime, int energyToReduce) {
+        return copyWithEnergy(energy.reduce(energyToReduce, energyChangeTime));
     }
 
     public String badgeWithName() {
@@ -111,9 +112,11 @@ public record Personage(
         );
     }
 
-    public Either<PersonageEventError, Success> hasEnoughEnergyForEvent() {
-        return energy.isEnoughForEvent()
-            .mapLeft(PersonageEventError.NotEnoughEnergy::new);
+    public Either<PersonageEventError, Success> hasEnoughEnergyForEvent(int requiredEnergy) {
+        if (energy.isGreaterOrEqual(requiredEnergy)) {
+            return Either.right(Success.INSTANCE);
+        }
+        return Either.left(new PersonageEventError.NotEnoughEnergy(requiredEnergy));
     }
 
     public int maxBagSize() {
@@ -136,14 +139,6 @@ public record Personage(
         return new BattlePersonage(
             id.value(),
             calcTotalCharacteristics(),
-            this
-        );
-    }
-
-    public BattlePersonage toBattlePersonageUsingEnergy() {
-        return new BattlePersonage(
-            id.value(),
-            calcTotalCharacteristics().multiply(energy),
             this
         );
     }

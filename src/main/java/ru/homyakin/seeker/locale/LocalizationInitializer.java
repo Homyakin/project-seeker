@@ -10,7 +10,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.common.CommonResource;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.duel.DuelResource;
-import ru.homyakin.seeker.locale.group_settings.ActiveTimeLocalization;
+import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.group_settings.GroupSettingsResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.help.HelpResource;
@@ -100,10 +100,7 @@ public class LocalizationInitializer {
 
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + GROUP_SETTINGS_PATH,
-                it -> {
-                    final var resource = extractClass(mapper, it, GroupSettingsResource.class);
-                    ActiveTimeLocalization.add(language, resource.activeTime());
-                }
+                it -> GroupSettingsLocalization.add(language, extractClass(mapper, it, GroupSettingsResource.class))
             );
 
             ResourceUtils.doAction(

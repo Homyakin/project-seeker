@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
-import ru.homyakin.seeker.utils.models.Success;
 
 public record Energy(
     int value,
@@ -30,22 +29,14 @@ public record Energy(
         return (float) value / MAX_ENERGY;
     }
 
-    public Either<Integer, Success> isEnoughForEvent() {
-        if (value >= MIN_ENERGY_FOR_EVENT) {
-            return Either.right(Success.INSTANCE);
-        } else {
-            return Either.left(MIN_ENERGY_FOR_EVENT);
-        }
-    }
-
-    public Either<EnergyStillSame, Energy> regenIfNeeded() {
+    public Either<EnergyStillSame, Energy> regenIfNeeded(Duration timeForFullRegen) {
         if (value >= MAX_ENERGY) {
             return Either.left(EnergyStillSame.INSTANCE);
         }
         final var time = TimeUtils.moscowTime();
         final var minutesPass = Duration.between(lastChange, time).toMinutes();
         final var increaseEnergy = MathUtils.doubleToIntWithMinMaxValues(
-            ((double) MAX_ENERGY) / 200 * minutesPass
+            ((double) MAX_ENERGY) / timeForFullRegen.toMinutes() * minutesPass
         );
         if (increaseEnergy > 0) {
             final int newHealth = Math.min(value + increaseEnergy, MAX_ENERGY);
@@ -54,6 +45,17 @@ public record Energy(
         return Either.left(EnergyStillSame.INSTANCE);
     }
 
+    public boolean isGreaterOrEqual(int energyValue) {
+        return value >= energyValue;
+    }
+
+    public Energy reduce(int energyValue, LocalDateTime changeTime) {
+        if (value <= energyValue) {
+            return Energy.createZero(changeTime);
+        } else {
+            return new Energy(value - energyValue, changeTime);
+        }
+    }
+
     private static final int MAX_ENERGY = 100;
-    private static final int MIN_ENERGY_FOR_EVENT = 50;
 }

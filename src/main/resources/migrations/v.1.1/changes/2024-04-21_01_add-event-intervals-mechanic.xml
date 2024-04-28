@@ -1,0 +1,45 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-event-intervals-mechanic">
+        <dropColumn tableName="grouptg" columnName="start_active_hour"/>
+        <dropColumn tableName="grouptg" columnName="end_active_hour"/>
+        <dropColumn tableName="grouptg" columnName="active_time_zone"/>
+        <addColumn tableName="grouptg">
+            <column name="event_intervals_setting" type="JSON">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="grouptg">
+            <column name="time_zone_setting" type="VARCHAR(10)" defaultValue="+03:00">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE grouptg SET event_intervals_setting =
+            '{
+              "intervals": [
+                {
+                  "startHour": 10,
+                  "endHour": 11,
+                  "isEnabled": true
+                },
+                {
+                  "startHour": 16,
+                  "endHour": 17,
+                  "isEnabled": true
+                },
+                {
+                  "startHour": 22,
+                  "endHour": 23,
+                  "isEnabled": true
+                }
+              ]
+            }'::jsonb;
+        </sql>
+        <addNotNullConstraint tableName="grouptg" columnName="event_intervals_setting"/>
+    </changeSet>
+</databaseChangeLog>

@@ -33,8 +33,6 @@ public enum CommandType {
     GROUP_STATS("/stats", CheckType.EQUALS),
     SPIN("/work", CheckType.EQUALS),
     SPIN_TOP("/top_work_group", CheckType.EQUALS),
-    SET_ACTIVE_TIME("/set_active_time", CheckType.STARTS_WITH),
-    GET_ACTIVE_TIME("/get_active_time", CheckType.EQUALS),
     CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS),
     PERSONAGE_STATS("/stats_me", CheckType.EQUALS),
     RAID_REPORT("/report_raid", CheckType.EQUALS),
@@ -50,6 +48,9 @@ public enum CommandType {
     DROP_ITEM("/drop", CheckType.STARTS_WITH),
     CONFIRM_DROP_ITEM("confirmDropItem", CheckType.STARTS_WITH),
     REJECT_DROP_ITEM("rejectDropItem", CheckType.EQUALS),
+    SETTINGS("/settings", CheckType.EQUALS),
+    TOGGLE_EVENT_INTERVAL("toggleEventInterval", CheckType.STARTS_WITH),
+    SET_TIME_ZONE("/set_time_zone", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

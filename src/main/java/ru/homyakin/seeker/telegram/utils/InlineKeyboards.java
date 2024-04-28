@@ -3,12 +3,14 @@ package ru.homyakin.seeker.telegram.utils;
 import java.util.List;
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.homyakin.seeker.game.event.models.EventIntervals;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
+import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -149,5 +151,15 @@ public class InlineKeyboards {
                 item.confirmDropCommand()
             )
             .build();
+    }
+
+    public static InlineKeyboardMarkup eventIntervalsKeyboard(Language language, EventIntervals eventIntervals) {
+        final var builder = InlineKeyboardBuilder.builder();
+        final var intervals = eventIntervals.intervals();
+        final var callbackPrefix = CommandType.TOGGLE_EVENT_INTERVAL.getText() + TextConstants.CALLBACK_DELIMITER;
+        for (int i = 0; i < intervals.size(); ++i) {
+            builder.addRow().addButton(GroupSettingsLocalization.eventIntervalButton(language, intervals.get(i)), callbackPrefix + i);
+        }
+        return builder.build();
     }
 }

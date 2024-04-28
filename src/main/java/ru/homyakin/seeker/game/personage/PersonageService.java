@@ -29,19 +29,22 @@ public class PersonageService {
     private final PersonageRaidResultDao personageRaidResultDao;
     private final EventService eventService;
     private final BadgeService badgeService;
+    private final PersonageConfig personageConfig;
 
     public PersonageService(
         PersonageDao personageDao,
         LaunchedEventService launchedEventService,
         PersonageRaidResultDao personageRaidResultDao,
         EventService eventService,
-        BadgeService badgeService
+        BadgeService badgeService,
+        PersonageConfig personageConfig
     ) {
         this.personageDao = personageDao;
         this.launchedEventService = launchedEventService;
         this.personageRaidResultDao = personageRaidResultDao;
         this.eventService = eventService;
         this.badgeService = badgeService;
+        this.personageConfig = personageConfig;
     }
 
     public Personage createPersonage() {
@@ -73,8 +76,8 @@ public class PersonageService {
                     .orElse(PersonageEventError.EventNotExist.INSTANCE)
             )
             .flatMap(requestedEvent -> getByIdForce(personageId)
-                .hasEnoughEnergyForEvent()
-                .map(success -> requestedEvent)
+                .hasEnoughEnergyForEvent(personageConfig.raidEnergyCost())
+                .map(_ -> requestedEvent)
             )
             .flatMap(requestedEvent -> launchedEventService
                 .getActiveEventByPersonageId(personageId)
@@ -87,8 +90,8 @@ public class PersonageService {
                 })
                 .orElseGet(() -> launchedEventService
                     .addPersonageToLaunchedEvent(personageId, launchedEventId)
-                    .map(success -> requestedEvent)
-                    .mapLeft(locked -> PersonageEventError.EventInProcess.INSTANCE)
+                    .map(_ -> requestedEvent)
+                    .mapLeft(_ -> PersonageEventError.EventInProcess.INSTANCE)
                 )
             );
     }
@@ -96,7 +99,7 @@ public class PersonageService {
     public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
             .map(personage ->
-                personage.regenEnergyIfNeed()
+                personage.regenEnergyIfNeed(personageConfig.energyFullRecovery())
                     .peek(personageDao::update)
                     .getOrElse(personage)
             );
@@ -112,7 +115,7 @@ public class PersonageService {
             .getByLaunchedEvent(launchedEventId)
             .stream()
             .map(
-                personage -> personage.regenEnergyIfNeed()
+                personage -> personage.regenEnergyIfNeed(personageConfig.energyFullRecovery())
                     .peek(personageDao::update)
                     .getOrElse(personage)
             )
@@ -125,10 +128,10 @@ public class PersonageService {
         return updatedPersonage;
     }
 
-    public Personage addMoneyAndNullifyEnergy(Personage personage, Money money, LocalDateTime energyChangeTime) {
+    public Personage addMoneyAndReduceEnergyForEvent(Personage personage, Money money, LocalDateTime energyChangeTime) {
         final var updatedPersonage = personage
             .addMoney(money)
-            .nullifyEnergy(energyChangeTime);
+            .reduceEnergy(energyChangeTime, personageConfig.raidEnergyCost());
         personageDao.update(updatedPersonage);
         return updatedPersonage;
     }

@@ -21,6 +21,8 @@ public class Icons {
     public static final String BLOCKED_DAMAGE = DEFENSE;
     public static final String MISS = EmojiManager.getByAlias(":o:").orElseThrow().getEmoji();
     public static final String DODGE = EmojiManager.getByAlias(":dash:").orElseThrow().getEmoji();
+    public static final String ENABLED = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
+    public static final String DISABLED = EmojiManager.getByAlias(":x:").orElseThrow().getEmoji();
 
     // PersonageSlots
     public static final String MAIN_HAND = EmojiManager.getByAlias(":raised_hand:").orElseThrow().getEmoji();

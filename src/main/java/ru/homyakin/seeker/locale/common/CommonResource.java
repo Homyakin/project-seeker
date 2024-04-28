@@ -4,7 +4,7 @@ public record CommonResource(
     String welcomeGroup,
     String welcomeUser,
     String chooseLanguage,
-    String onlyAdminLanguage,
+    String onlyAdminAction,
     String internalError,
     String fullProfile,
     String shortProfile,

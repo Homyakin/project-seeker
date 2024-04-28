@@ -10,20 +10,17 @@ import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
-import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class EventManager {
     private static final Logger logger = LoggerFactory.getLogger(EventManager.class);
-    private final EventConfig eventConfig;
     private final GroupService groupService;
     private final EventService eventService;
     private final TelegramSender telegramSender;
@@ -33,7 +30,6 @@ public class EventManager {
     private final LockService lockService;
 
     public EventManager(
-        EventConfig eventConfig,
         GroupService groupService,
         EventService eventService,
         TelegramSender telegramSender,
@@ -42,7 +38,6 @@ public class EventManager {
         GroupStatsService groupStatsService,
         LockService lockService
     ) {
-        this.eventConfig = eventConfig;
         this.groupService = groupService;
         this.eventService = eventService;
         this.telegramSender = telegramSender;
@@ -56,7 +51,7 @@ public class EventManager {
         groupService
             .getGetGroupsWithLessNextEventDate(TimeUtils.moscowTime())
             .stream()
-            .filter(it -> it.activeTime().isActiveNow())
+            .filter(it -> it.settings().isActiveForEventNow())
             .forEach(group -> {
                 final var key = LockPrefixes.GROUP_EVENT.name() + group.id().value();
                 lockService.tryLockAndExecute(
@@ -140,12 +135,7 @@ public class EventManager {
         launchedEventService.addGroupMessage(launchedEvent, group, result.get().getMessageId());
         groupService.updateNextEventDate(
             group,
-            TimeUtils.moscowTime()
-                .plus(
-                    RandomUtils.getRandomDuration(
-                        eventConfig.minimalInterval(), eventConfig.maximumInterval()
-                    )
-                )
+            group.settings().eventDateInNextInterval().withOffsetSameInstant(TimeUtils.moscowOffset()).toLocalDateTime()
         );
     }
 }

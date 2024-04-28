@@ -3,16 +3,19 @@ package ru.homyakin.seeker.telegram.group.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.models.EventIntervals;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.group.models.ActiveTime;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupSettings;
+import ru.homyakin.seeker.utils.JsonUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -26,13 +29,15 @@ public class GroupDao {
         SELECT * FROM grouptg WHERE next_rumor_date < :next_rumor_date and is_active = true
         """;
     private static final String SAVE_GROUP = """
-        insert into grouptg (id, is_active, language_id, init_date, next_event_date, next_rumor_date)
-        values (:id, :is_active, :language_id, :init_date, :next_event_date, :next_rumor_date)
+        insert into grouptg (id, is_active, language_id, init_date, next_event_date, next_rumor_date,
+            event_intervals_setting, time_zone_setting)
+        values (:id, :is_active, :language_id, :init_date, :next_event_date, :next_rumor_date,
+            :event_intervals_setting, :time_zone_setting)
         """;
     private static final String UPDATE = """
         update grouptg
-        set is_active = :is_active, language_id = :language_id, start_active_hour = :start_active_hour, 
-        end_active_hour = :end_active_hour, active_time_zone = :active_time_zone
+        set is_active = :is_active, language_id = :language_id, time_zone_setting = :time_zone_setting,
+        event_intervals_setting = :event_intervals_setting
         where id = :id;
         """;
 
@@ -45,9 +50,11 @@ public class GroupDao {
         """;
 
     private final JdbcClient jdbcClient;
+    private final JsonUtils jsonUtils;
 
-    public GroupDao(DataSource dataSource) {
+    public GroupDao(DataSource dataSource, JsonUtils jsonUtils) {
         jdbcClient = JdbcClient.create(dataSource);
+        this.jsonUtils = jsonUtils;
     }
 
     public void save(Group group) {
@@ -59,6 +66,8 @@ public class GroupDao {
             .param("init_date", now)
             .param("next_event_date", now.plusMinutes(RandomUtils.getInInterval(20, 60)))
             .param("next_rumor_date", now.plusMinutes(RandomUtils.getInInterval(120, 240)))
+            .param("event_intervals_setting", jsonUtils.mapToPostgresJson(group.settings().eventIntervals()))
+            .param("time_zone_setting", group.settings().timeZone().getId())
             .update();
     }
 
@@ -88,9 +97,8 @@ public class GroupDao {
             .param("id", group.id().value())
             .param("is_active", group.isActive())
             .param("language_id", group.language().id())
-            .param("start_active_hour", group.activeTime().startHour())
-            .param("end_active_hour", group.activeTime().endHour())
-            .param("active_time_zone", group.activeTime().timeZone())
+            .param("time_zone_setting", group.settings().timeZone().getId())
+            .param("event_intervals_setting", jsonUtils.mapToPostgresJson(group.settings().eventIntervals()))
             .update();
     }
 
@@ -113,10 +121,9 @@ public class GroupDao {
             GroupId.from(rs.getLong("id")),
             rs.getBoolean("is_active"),
             Language.getOrDefault(rs.getInt("language_id")),
-            new ActiveTime(
-                rs.getInt("start_active_hour"),
-                rs.getInt("end_active_hour"),
-                rs.getInt("active_time_zone")
+            new GroupSettings(
+                ZoneOffset.of(rs.getString("time_zone_setting")),
+                jsonUtils.fromString(rs.getString("event_intervals_setting"), EventIntervals.class)
             )
         );
     }

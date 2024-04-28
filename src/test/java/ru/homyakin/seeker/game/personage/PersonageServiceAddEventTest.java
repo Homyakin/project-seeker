@@ -27,7 +27,8 @@ public class PersonageServiceAddEventTest {
         launchedEventService,
         Mockito.mock(PersonageRaidResultDao.class),
         eventService,
-        Mockito.mock(BadgeService.class)
+        Mockito.mock(BadgeService.class),
+        Mockito.mock(PersonageConfig.class)
     );
     private Personage personage;
     private Event event;

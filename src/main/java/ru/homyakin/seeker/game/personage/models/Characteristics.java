@@ -24,18 +24,6 @@ public record Characteristics(
         return new Characteristics(health, attack, defense, 1, 1, 1);
     }
 
-    public Characteristics multiply(Energy energy) {
-        final var energyPercent = energy.percent();
-        return new Characteristics(
-            (int) (health * Math.max(0.5, energyPercent)),
-            (int) (attack * Math.max(0.3, energyPercent)),
-            (int) (defense * Math.max(0.3, energyPercent)),
-            Math.max(1, Math.round(strength * energyPercent)),
-            Math.max(1, Math.round(agility * energyPercent)),
-            Math.max(1, Math.round(wisdom * energyPercent))
-        );
-    }
-
     public Characteristics add(Characteristics other) {
         return new Characteristics(
             health + other.health,

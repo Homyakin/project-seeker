@@ -3,7 +3,7 @@ welcomeGroup = """\
 Присаживайтесь за стол, заказывайте выпить, чувствуйте себя как дома
 """
 chooseLanguage = "Выберите язык:"
-onlyAdminLanguage = "Данное действие доступно только администраторам"
+onlyAdminAction = "Данное действие доступно только администраторам"
 internalError = "Произошла ошибка, попробуйте позже"
 fullProfile = """\
 ${personage_badge_with_name}

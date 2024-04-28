@@ -3,7 +3,7 @@ Welcome to the tavern of the city of Krezar, Seekers! \
 Sit down at the table, order a drink, make yourself at home
 """
 chooseLanguage = "Choose language:"
-onlyAdminLanguage = "This action is available only for administrators"
+onlyAdminAction = "This action is available only for administrators"
 internalError = "Unexpected error, try again later"
 fullProfile = """\
 ${personage_badge}${personage_name}

@@ -49,14 +49,14 @@ public class RaidProcessing {
 
         final var result = twoPersonageTeamsBattle.battle(
             raid.template().generate(participants.size()).stream().map(Personage::toBattlePersonage).toList(),
-            participants.stream().map(Personage::toBattlePersonageUsingEnergy).toList()
+            participants.stream().map(Personage::toBattlePersonage).toList()
         );
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
         final var endTime = TimeUtils.moscowTime();
         final var raidResults = result.secondTeamResults().stream()
             .map(battleResult -> {
                 final var reward = new Money(calculateReward(doesParticipantsWin, battleResult));
-                personageService.addMoneyAndNullifyEnergy(
+                personageService.addMoneyAndReduceEnergyForEvent(
                     battleResult.personage(),
                     reward,
                     endTime

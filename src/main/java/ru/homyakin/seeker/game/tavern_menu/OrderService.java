@@ -69,7 +69,7 @@ public class OrderService {
             lockOrderKey(orderId),
             () -> consumeLogic(orderId, consumer)
         ).fold(
-            error -> Either.left(MenuItemOrderError.OrderLocked.INSTANCE),
+            _ -> Either.left(MenuItemOrderError.OrderLocked.INSTANCE),
             either -> either
         );
     }

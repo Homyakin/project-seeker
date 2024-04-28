@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.telegram.group.models;
 
+import io.vavr.control.Either;
+import ru.homyakin.seeker.game.event.models.ZeroEnabledEventIntervalsError;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.database.GroupDao;
 
@@ -7,7 +9,7 @@ public record Group(
     GroupId id,
     boolean isActive,
     Language language,
-    ActiveTime activeTime
+    GroupSettings settings
 ) {
     // TODO убрать dao из класса
     public Group activate(GroupDao groupDao) {
@@ -24,7 +26,7 @@ public record Group(
                 id,
                 isActive,
                 newLanguage,
-                activeTime
+                settings
             );
             groupDao.update(group);
             return group;
@@ -32,13 +34,12 @@ public record Group(
         return this;
     }
 
-    public Group withActiveTime(ActiveTime activeTime) {
-        return new Group(
-            id,
-            isActive,
-            language,
-            activeTime
-        );
+    public Either<ZeroEnabledEventIntervalsError, Group> toggleEventInterval(int intervalIndex) {
+        return settings.toggleEventInterval(intervalIndex).map(this::copyWithSettings);
+    }
+
+    public Either<IncorrectTimeZone, Group> changeTimeZone(int timeZone) {
+        return settings.changeTimeZone(timeZone).map(this::copyWithSettings);
     }
 
     private Group changeActive(boolean newActive, GroupDao groupDao) {
@@ -47,11 +48,15 @@ public record Group(
                 id,
                 newActive,
                 language,
-                activeTime
+                settings
             );
             groupDao.update(group);
             return group;
         }
         return this;
+    }
+
+    private Group copyWithSettings(GroupSettings settings) {
+        return new Group(id, isActive, language, settings);
     }
 }

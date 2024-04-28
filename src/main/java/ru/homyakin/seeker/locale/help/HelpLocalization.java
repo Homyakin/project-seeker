@@ -23,8 +23,8 @@ public class HelpLocalization {
 
     public static String raids(Language language) {
         final var params = new HashMap<String, Object>();
-        params.put("set_active_time_command", CommandType.SET_ACTIVE_TIME.getText());
         params.put("energy_icon", Icons.ENERGY);
+        params.put("settings_command", CommandType.SETTINGS.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::raids),
             params

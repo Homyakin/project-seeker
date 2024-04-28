@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.telegram.group.rumor;
 
+import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,10 +17,6 @@ import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Service
 public class RumorTgService {
@@ -48,8 +45,6 @@ public class RumorTgService {
     public void createNewRumors() {
         logger.debug("Creating new rumors");
         groupService.getGetGroupsWithLessNextRumorDate(TimeUtils.moscowTime())
-            .stream()
-            .filter(group -> group.isActive() && group.activeTime().isActiveNow())
             .forEach(
                 group -> lockService.tryLockAndExecute(
                     LockPrefixes.RUMOR.name() + group.id().value(),
@@ -64,27 +59,19 @@ public class RumorTgService {
                 rumor -> {
                     logger.info("Launching rumor " + rumor.code() + " in group " + group.id());
                     telegramSender.send(toMessage(rumor, group));
-                    groupService.updateNextRumorDate(group, nextRumorDate(group));
+                    groupService.updateNextRumorDate(group, nextRumorDate());
                 },
                 () -> logger.warn("No available rumors")
             );
     }
 
-    private LocalDateTime nextRumorDate(Group group) {
-        final var time = TimeUtils.moscowTime()
-            .plus(
-                RandomUtils.getRandomDuration(
-                    rumorConfig.minimalInterval(), rumorConfig.maximumInterval()
-                )
-            );
-
-        if (group.activeTime().isHourInInterval(time.getHour())) {
-            return time;
-        } else {
-            return time.plus(Duration.of(1, ChronoUnit.DAYS))
-                .withHour(RandomUtils.getInInterval(group.activeTime().startHour(), group.activeTime().endHour() - 1))
-                .withMinute(RandomUtils.getInInterval(0, 60));
-        }
+    private LocalDateTime nextRumorDate() {
+        return TimeUtils.moscowTime().plus(
+            RandomUtils.getRandomDuration(
+                rumorConfig.minimalInterval(),
+                rumorConfig.maximumInterval()
+            )
+        );
     }
 
     private SendMessage toMessage(Rumor rumor, Group group) {

@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.game.personage;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -10,12 +12,14 @@ import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public class EnergyRegenTest {
+    private final Duration regenDuration = Duration.of(200, ChronoUnit.MINUTES);
+
     @Test
     public void Given_FullEnergy_When_RegenEnergy_Then_EnergyStillSame() {
         // given
         final var energy = new Energy(100, LocalDateTime.of(2020, 12, 31, 0, 0));
         // when
-        final var result = energy.regenIfNeeded();
+        final var result = energy.regenIfNeeded(regenDuration);
         // then
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(EnergyStillSame.INSTANCE, result.getLeft());
@@ -30,7 +34,7 @@ public class EnergyRegenTest {
         try (final var mock = Mockito.mockStatic(TimeUtils.class)) {
             // when
             mock.when(TimeUtils::moscowTime).thenReturn(time);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isLeft());
             Assertions.assertEquals(EnergyStillSame.INSTANCE, result.getLeft());
@@ -47,7 +51,7 @@ public class EnergyRegenTest {
             // when
             final var regenTime = time.plusMinutes(1);
             mock.when(TimeUtils::moscowTime).thenReturn(regenTime);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isLeft());
             Assertions.assertEquals(EnergyStillSame.INSTANCE, result.getLeft());
@@ -64,7 +68,7 @@ public class EnergyRegenTest {
             // when
             final var regenTime = time.plusMinutes(2);
             mock.when(TimeUtils::moscowTime).thenReturn(regenTime);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isRight());
             Assertions.assertEquals(1, result.get().value());
@@ -82,7 +86,7 @@ public class EnergyRegenTest {
             // when
             final var regenTime = time.plusMinutes(200);
             mock.when(TimeUtils::moscowTime).thenReturn(regenTime);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isRight());
             Assertions.assertEquals(MAX_ENERGY, result.get().value());
@@ -100,7 +104,7 @@ public class EnergyRegenTest {
             // when
             final var regenTime = time.plusMinutes(RandomUtils.getInInterval(201, Integer.MAX_VALUE - 1));
             mock.when(TimeUtils::moscowTime).thenReturn(regenTime);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isRight());
             Assertions.assertEquals(MAX_ENERGY, result.get().value());
@@ -118,7 +122,7 @@ public class EnergyRegenTest {
             // when
             final var regenTime = time.plusMinutes(2);
             mock.when(TimeUtils::moscowTime).thenReturn(regenTime);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isRight());
             Assertions.assertEquals(energy.value() + 1, result.get().value());
@@ -136,7 +140,7 @@ public class EnergyRegenTest {
             // when
             final var regenTime = time.plusMinutes(2).plusSeconds(30);
             mock.when(TimeUtils::moscowTime).thenReturn(regenTime);
-            final var result = energy.regenIfNeeded();
+            final var result = energy.regenIfNeeded(regenDuration);
             // then
             Assertions.assertTrue(result.isRight());
             Assertions.assertEquals(energy.value() + 1, result.get().value());

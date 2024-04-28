@@ -10,8 +10,9 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
-import ru.homyakin.seeker.telegram.command.group.settings.GetActiveTime;
-import ru.homyakin.seeker.telegram.command.group.settings.SetActiveTime;
+import ru.homyakin.seeker.telegram.command.group.settings.GetGroupSettings;
+import ru.homyakin.seeker.telegram.command.group.settings.SetTimeZone;
+import ru.homyakin.seeker.telegram.command.group.settings.ToggleEventInterval;
 import ru.homyakin.seeker.telegram.command.group.spin.Spin;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
@@ -154,13 +155,13 @@ public class CommandParser {
                 case GROUP_STATS -> GetGroupStats.from(message);
                 case SPIN -> Spin.from(message);
                 case SPIN_TOP -> TopSpin.from(message);
-                case SET_ACTIVE_TIME -> SetActiveTime.from(message);
-                case GET_ACTIVE_TIME -> GetActiveTime.from(message);
                 case PERSONAGE_STATS -> GetPersonageStats.from(message);
                 case RAID_REPORT -> RaidReportInGroup.from(message);
                 case TOP_RAID_WEEK -> TopRaidWeek.from(message);
                 case TOP_RAID_WEEK_GROUP -> TopRaidWeekGroup.from(message);
                 case TOP -> TopList.from(message);
+                case SETTINGS -> GetGroupSettings.from(message);
+                case SET_TIME_ZONE -> SetTimeZone.from(message);
                 default -> null;
             });
     }
@@ -201,6 +202,7 @@ public class CommandParser {
                 case ACCEPT_DUEL -> AcceptDuel.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);
                 case CONSUME_MENU_ITEM_ORDER -> ConsumeOrder.from(callback);
+                case TOGGLE_EVENT_INTERVAL -> ToggleEventInterval.from(callback);
                 default -> null;
             });
     }

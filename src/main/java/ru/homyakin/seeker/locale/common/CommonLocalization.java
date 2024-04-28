@@ -29,8 +29,8 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::chooseLanguage);
     }
 
-    public static String onlyAdminLanguage(Language language) {
-        return resources.getOrDefault(language, CommonResource::onlyAdminLanguage);
+    public static String onlyAdminAction(Language language) {
+        return resources.getOrDefault(language, CommonResource::onlyAdminAction);
     }
 
     public static String internalError(Language language) {

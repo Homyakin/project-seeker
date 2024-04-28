@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.utils;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +33,18 @@ public class RandomUtils {
             return start;
         }
         return random.nextInt(start, end + 1);
+    }
+
+    public static OffsetDateTime getInInterval(OffsetDateTime start, OffsetDateTime end) {
+        final var startSeconds = start.toEpochSecond();
+        final var endSeconds = end.toEpochSecond();
+        if (startSeconds >= endSeconds) {
+            return start;
+        }
+        return OffsetDateTime.of(
+            LocalDateTime.ofEpochSecond(random.nextLong(startSeconds, endSeconds), 0, start.getOffset()),
+            start.getOffset()
+        );
     }
 
     public static boolean processChance(int percent) {

@@ -44,9 +44,12 @@ public class GroupUserService {
         this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
-    public Either<TelegramError, Boolean> isUserAdminInGroup(GroupId groupId, UserId userId) {
+    public boolean isUserAdminInGroup(GroupId groupId, UserId userId) {
         return telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId))
-            .map(it -> it instanceof ChatMemberAdministrator || it instanceof ChatMemberOwner);
+            .fold(
+                _ -> false,
+                it -> it instanceof ChatMemberAdministrator || it instanceof ChatMemberOwner
+            );
     }
 
     public Pair<Group, User> getAndActivateOrCreate(GroupId groupId, UserId userId) {

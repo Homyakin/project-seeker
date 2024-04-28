@@ -1,8 +1,13 @@
-[activeTime]
-incorrectArgumentsNumber = "Необходимо указать три аргумента через пробел: [время_начала] [время_конца] [часовой_пояс]"
-argumentsNotANumber = "Все аргументы должны быть целыми числами"
-successChange = "Время активности группы успешно изменено!"
-incorrectHour = "Неправильно указано время, это должно быть целое число от 0 до 24"
-startMoreThanEnd = "Ошибка! Время начала больше времени конца"
+groupSettings = """\
+⚙️Текущие настройки группы:
+
+Часовой пояс: ${time_zone}
+Изменение часового пояса: <code>${set_time_zone_command} [часовой_пояс]</code>
+
+Интервалы для рейдов:"""
+eventIntervalButton = "${start_hour} — ${end_hour} ${enabled_icon}"
 incorrectTimeZone = "Неправильно указан часовой пояс, это должно быть целое число от ${min_time_zone} до ${max_time_zone}"
-current = "Текущее время активности группы: <code>${active_time}</code>"
+zeroEnabledEventIntervals = "Хотя бы один интервал должен быть включён"
+incorrectSetTimeZoneCommand = """\
+Команда вводится в формате: <code>${set_time_zone_command} [часовой_пояс]</code>. Часовое пояс является целым числом."""
+successChangeTimeZone = "Часовой пояс изменён."
