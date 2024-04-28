@@ -22,13 +22,14 @@ public class PersonageServiceAddEventTest {
     private final PersonageDao personageDao = Mockito.mock(PersonageDao.class);
     private final LaunchedEventService launchedEventService = Mockito.mock(LaunchedEventService.class);
     private final EventService eventService = Mockito.mock(EventService.class);
+    private final PersonageConfig config = Mockito.mock(PersonageConfig.class);
     private final PersonageService service = new PersonageService(
         personageDao,
         launchedEventService,
         Mockito.mock(PersonageRaidResultDao.class),
         eventService,
         Mockito.mock(BadgeService.class),
-        Mockito.mock(PersonageConfig.class)
+        config
     );
     private Personage personage;
     private Event event;
@@ -37,6 +38,7 @@ public class PersonageServiceAddEventTest {
     public void init() {
         personage = PersonageUtils.random();
         event = EventUtils.randomEvent();
+        Mockito.when(config.raidEnergyCost()).thenReturn(33);
     }
 
     @Test
@@ -127,7 +129,7 @@ public class PersonageServiceAddEventTest {
         personage = PersonageUtils.randomZeroEnergy();
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(eventService.getEventById(launchedEvent.eventId())).thenReturn(Optional.of(event));
-        Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.of(LaunchedEventUtils.fromEvent(event)));
+        Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.empty());
         Mockito.when(personageDao.getById(personage.id())).thenReturn(Optional.of(personage));
 
         // when
@@ -135,6 +137,6 @@ public class PersonageServiceAddEventTest {
 
         // then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(new PersonageEventError.NotEnoughEnergy(50), result.getLeft());
+        Assertions.assertEquals(new PersonageEventError.NotEnoughEnergy(33), result.getLeft());
     }
 }
