@@ -16,4 +16,5 @@
     <include file="changes/2024-04-04_01_add-new-personage-slots.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-04-20_01_add-migrated-from-to-group.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-04-21_01_add-event-intervals-mechanic.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-05-04_01_add-item-to-raid-result.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

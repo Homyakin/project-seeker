@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.PersonageBattleStats;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
@@ -38,7 +39,8 @@ public class PersonageRaidResultDao {
                 .addValue("personage_id", result.personage().id().value())
                 .addValue("launched_event_id", launchedEvent.id())
                 .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
-                .addValue("reward", result.reward().value());
+                .addValue("reward", result.reward().value())
+                .addValue("generated_item_id", result.generatedItem().map(Item::id).orElse(null));
             parameters.add(paramSource);
         }
         jdbcTemplate.batchUpdate(SAVE_RESULT, parameters.toArray(new SqlParameterSource[0]));
@@ -60,8 +62,8 @@ public class PersonageRaidResultDao {
     }
 
     private static final String SAVE_RESULT = """
-        INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward)
-        VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward)
+        INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward, generated_item_id)
+        VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :generated_item_id)
         """;
 
     private static final String SELECT_LAST_RESULT = """

@@ -25,10 +25,6 @@ public record Energy(
         return new Energy(0, changeTime);
     }
 
-    public float percent() {
-        return (float) value / MAX_ENERGY;
-    }
-
     public Either<EnergyStillSame, Energy> regenIfNeeded(Duration timeForFullRegen) {
         if (value >= MAX_ENERGY) {
             return Either.left(EnergyStillSame.INSTANCE);

@@ -2,8 +2,10 @@ package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
@@ -17,9 +19,11 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.GenerateItemError;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -52,6 +56,13 @@ public class RaidProcessing {
             participants.stream().map(Personage::toBattlePersonage).toList()
         );
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
+
+        final var items = new ArrayList<GeneratedItemResult>();
+        final var personageToItems = new HashMap<PersonageId, Item>();
+        if (doesParticipantsWin) {
+            items.addAll(generateItems(participants, personageToItems));
+        }
+
         final var endTime = TimeUtils.moscowTime();
         final var raidResults = result.secondTeamResults().stream()
             .map(battleResult -> {
@@ -61,14 +72,10 @@ public class RaidProcessing {
                     reward,
                     endTime
                 );
-                return new PersonageRaidResult(battleResult.personage(), battleResult.stats(), reward);
+                final var generatedItem = Optional.ofNullable(personageToItems.get(battleResult.personage().id()));
+                return new PersonageRaidResult(battleResult.personage(), battleResult.stats(), reward, generatedItem);
             })
             .toList();
-        // TODO сохранять инфу о предметах в базу статистики
-        final var items = new ArrayList<GeneratedItemResult>();
-        if (doesParticipantsWin) {
-            items.addAll(generateItem(participants));
-        }
 
         return new RaidResult(
             doesParticipantsWin,
@@ -85,10 +92,13 @@ public class RaidProcessing {
         } else {
             reward = (int) (BASE_WIN_REWARD + result.stats().damageDealtAndTaken() / 200);
         }
-        return Math.round(reward * result.personage().energy().percent());
+        return reward;
     }
 
-    private List<GeneratedItemResult> generateItem(List<Personage> personages) {
+    private List<GeneratedItemResult> generateItems(
+        List<Personage> personages,
+        final HashMap<PersonageId, Item> personageToItem // Временный костыль, скоро переделаю на другую систему генерации
+    ) {
         final var items = new ArrayList<GeneratedItemResult>();
         // пока логика - сортируем персонажей по количеству предметов, сначала даём тем, у кого меньше
         final var personageItemsCount = personages
@@ -113,7 +123,10 @@ public class RaidProcessing {
                             case GenerateItemError.NotEnoughSpace notEnoughSpace ->
                                 new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
                         },
-                        item -> new GeneratedItemResult.Success(personage, item)
+                        item -> {
+                            personageToItem.put(personage.id(), item);
+                            return new GeneratedItemResult.Success(personage, item);
+                        }
                     );
                 items.add(result);
             }

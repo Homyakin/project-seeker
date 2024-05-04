@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-item-to-raid-result">
+        <addColumn tableName="personage_raid_result">
+            <column name="generated_item_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint
+                baseColumnNames="generated_item_id"
+                baseTableName="personage_raid_result"
+                constraintName="fk-personage_raid_result-item"
+                referencedColumnNames="id"
+                referencedTableName="item"
+        />
+    </changeSet>
+</databaseChangeLog>
