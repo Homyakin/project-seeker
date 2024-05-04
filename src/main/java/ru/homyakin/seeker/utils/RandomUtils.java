@@ -49,6 +49,7 @@ public class RandomUtils {
 
     public static boolean processChance(int percent) {
         if (percent >= 100) {
+            logger.debug("Requested percent {} >= 100", percent);
             return true;
         }
         final var result = getInInterval(1, 100);

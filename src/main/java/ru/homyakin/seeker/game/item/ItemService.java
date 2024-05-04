@@ -73,6 +73,8 @@ public class ItemService {
         );
 
         if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
+            // TODO возможно стоит сохранять неудачные предметы в базу
+            logger.info("Personage '{}' has no space in bag", personage.id().value());
             return Either.left(new GenerateItemError.NotEnoughSpace(tempItem));
         }
 
@@ -132,10 +134,6 @@ public class ItemService {
         return canDropItem(personage, itemId)
             .peek(_ -> itemDao.deletePersonageAndMakeEquipFalse(itemId))
             .map(_ -> itemDao.getById(itemId).orElseThrow());
-    }
-
-    public int personageItemCount(PersonageId personageId) {
-        return itemDao.getCountByPersonageId(personageId);
     }
 
     private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {

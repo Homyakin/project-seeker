@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.PersonageBattleStats;
+import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
@@ -59,6 +60,29 @@ public class PersonageRaidResultDao {
             .param("launched_event_id", launchedEvent.id())
             .query(this::mapRow)
             .optional();
+    }
+
+    public int countSuccessRaidsFromLastItem(PersonageId personageId) {
+        final var sql = """
+            WITH last_non_null_item AS (
+                SELECT MAX(launched_event_id) AS last_event_with_item -- could be null
+                FROM personage_raid_result
+                WHERE personage_id = :personage_id AND generated_item_id IS NOT NULL
+            )
+            SELECT COUNT(*) AS raids_count
+            FROM personage_raid_result prr
+            LEFT JOIN launched_event le on le.id = prr.launched_event_id
+            WHERE personage_id = :personage_id
+            AND launched_event_id > -- more id => newer event
+                COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
+            AND le.status_id = :success_status_id
+            AND generated_item_id IS NULL
+            """;
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .param("success_status_id", EventStatus.SUCCESS.id())
+            .query((rs, _) -> rs.getInt("raids_count"))
+            .single();
     }
 
     private static final String SAVE_RESULT = """

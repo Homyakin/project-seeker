@@ -1,13 +1,8 @@
 package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,11 +14,9 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.GenerateItemError;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -57,11 +50,7 @@ public class RaidProcessing {
         );
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
 
-        final var items = new ArrayList<GeneratedItemResult>();
-        final var personageToItems = new HashMap<PersonageId, Item>();
-        if (doesParticipantsWin) {
-            items.addAll(generateItems(participants, personageToItems));
-        }
+        final var generatedItems = new ArrayList<GeneratedItemResult>();
 
         final var endTime = TimeUtils.moscowTime();
         final var raidResults = result.secondTeamResults().stream()
@@ -72,8 +61,18 @@ public class RaidProcessing {
                     reward,
                     endTime
                 );
-                final var generatedItem = Optional.ofNullable(personageToItems.get(battleResult.personage().id()));
-                return new PersonageRaidResult(battleResult.personage(), battleResult.stats(), reward, generatedItem);
+                final var generatedItem = doesParticipantsWin
+                    ? generateItem(battleResult.personage())
+                    : Optional.<GeneratedItemResult>empty();
+                generatedItem.ifPresent(generatedItems::add);
+                return new PersonageRaidResult(
+                    battleResult.personage(),
+                    battleResult.stats(),
+                    reward,
+                    generatedItem
+                        .filter(it -> it instanceof GeneratedItemResult.Success)
+                        .map(it -> ((GeneratedItemResult.Success) it).item())
+                );
             })
             .toList();
 
@@ -81,7 +80,7 @@ public class RaidProcessing {
             doesParticipantsWin,
             result.firstTeamResults(),
             raidResults,
-            items
+            generatedItems
         );
     }
 
@@ -95,46 +94,38 @@ public class RaidProcessing {
         return reward;
     }
 
-    private List<GeneratedItemResult> generateItems(
-        List<Personage> personages,
-        final HashMap<PersonageId, Item> personageToItem // Временный костыль, скоро переделаю на другую систему генерации
+    /**
+     * Функция генерации предметов для персонажа
+     * В основе лежит функция:
+     * Если x <= 5 => y = 2*x (нужно, потому что степенные функции в начале растут очень медленно)
+     * Если x > 5 => y = 10 + ((x - 5)^2) / 2.5
+     * x - количество рейдов подряд без предметов
+     * y - вероятность получить предмет в процентах
+     */
+    private Optional<GeneratedItemResult> generateItem(
+        Personage personage
     ) {
-        final var items = new ArrayList<GeneratedItemResult>();
-        // пока логика - сортируем персонажей по количеству предметов, сначала даём тем, у кого меньше
-        final var personageItemsCount = personages
-            .stream()
-            .map(Personage::id)
-            .collect(Collectors.toMap(it -> it, itemService::personageItemCount));
-        // TODO тут на каждого персонажа по запросу в базу, можно одним, но не очень красиво
-
-        final Queue<Personage> personagesByItems = personages
-            .stream()
-            .sorted(
-                Comparator.comparingInt(personage -> personageItemsCount.get(personage.id()))
-            )
-            .collect(Collectors.toCollection(LinkedList::new));
-        final var startChance = BASE_ITEM_GENERATE_CHANCE + personages.size() * 3;
-        for (var chance = startChance; chance > 0 && !personagesByItems.isEmpty(); chance /= 2) {
-            if (RandomUtils.processChance(chance)) {
-                final var personage = personagesByItems.poll();
-                final var result = itemService.generateItemForPersonage(personage)
-                    .fold(
-                        error -> switch (error) {
-                            case GenerateItemError.NotEnoughSpace notEnoughSpace ->
-                                new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
-                        },
-                        item -> {
-                            personageToItem.put(personage.id(), item);
-                            return new GeneratedItemResult.Success(personage, item);
-                        }
-                    );
-                items.add(result);
-            }
+        final var raidsWithoutItems = personageService.countSuccessRaidsFromLastItem(personage.id());
+        final int chance;
+        if (raidsWithoutItems <= 5) {
+            chance = raidsWithoutItems * 2;
+        } else {
+            chance = (int) (10 + Math.pow(raidsWithoutItems - 5, 2) / 2.5);
         }
-        return items;
+        if (RandomUtils.processChance(chance)) {
+            final var result = itemService.generateItemForPersonage(personage)
+                .fold(
+                    error -> switch (error) {
+                        case GenerateItemError.NotEnoughSpace notEnoughSpace ->
+                            new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
+                    },
+                    item -> new GeneratedItemResult.Success(personage, item)
+                );
+            return Optional.of(result);
+        }
+        return Optional.empty();
     }
 
     private static final int BASE_WIN_REWARD = 10;
     private static final int BASE_LOSE_REWARD = 5;
-    private static final int BASE_ITEM_GENERATE_CHANCE = 5;
 }

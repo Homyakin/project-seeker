@@ -168,6 +168,10 @@ public class PersonageService {
         return personage.changeName(name).peek(personageDao::update);
     }
 
+    public int countSuccessRaidsFromLastItem(PersonageId personageId) {
+        return personageRaidResultDao.countSuccessRaidsFromLastItem(personageId);
+    }
+
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {
         return personage
             .resetStats()
