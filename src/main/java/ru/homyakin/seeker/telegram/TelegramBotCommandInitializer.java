@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.telegram;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -11,10 +13,11 @@ import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScope
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 @Configuration
-public class BotInitializer {
+public class TelegramBotCommandInitializer {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final TelegramSender telegramSender;
 
-    public BotInitializer(TelegramSender telegramSender) {
+    public TelegramBotCommandInitializer(TelegramSender telegramSender) {
         this.telegramSender = telegramSender;
     }
 
@@ -33,6 +36,8 @@ public class BotInitializer {
                 .scope(new BotCommandScopeAllPrivateChats())
                 .build()
         );
+
+        logger.info("Commands initialized");
     }
 
     private static final List<BotCommand> GROUP_COMMANDS = List.of(

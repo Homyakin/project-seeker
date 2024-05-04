@@ -17,20 +17,22 @@ public class Application implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
     private final TelegramUpdateReceiver telegramUpdateReceiver;
     private final TelegramBotConfig telegramBotConfig;
+    private final TelegramBotsLongPollingApplication botsApplication;
 
     public Application(
         TelegramUpdateReceiver telegramUpdateReceiver,
-        TelegramBotConfig telegramBotConfig
+        TelegramBotConfig telegramBotConfig,
+        TelegramBotsLongPollingApplication telegramBotsLongPollingApplication
     ) {
         this.telegramUpdateReceiver = telegramUpdateReceiver;
         this.telegramBotConfig = telegramBotConfig;
+        this.botsApplication = telegramBotsLongPollingApplication;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        try (final var botsApplication = new TelegramBotsLongPollingApplication()) {
+        try {
             botsApplication.registerBot(telegramBotConfig.token(), telegramUpdateReceiver);
-            Thread.currentThread().join();
         } catch (Exception e) {
             logger.error("Can't start TelegramBot", e);
             throw e;
