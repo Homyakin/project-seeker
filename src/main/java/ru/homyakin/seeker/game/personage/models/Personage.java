@@ -124,7 +124,7 @@ public record Personage(
     }
 
     public boolean hasSpaceInBag(List<Item> items) {
-        return items.size() < maxBagSize();
+        return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize();
     }
 
     @Override
