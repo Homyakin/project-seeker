@@ -228,3 +228,17 @@ form = "PLURAL"
 [object.locales.EN]
 text = "Gloves"
 form = "WITHOUT"
+
+[[object]]
+code = "boxers"
+slots = ["PANTS"]
+characteristics.defense = "1-5"
+characteristics.health = "5-25"
+
+[object.locales.RU]
+text = "Семейники"
+form = "PLURAL"
+
+[object.locales.EN]
+text = "Boxers"
+form = "WITHOUT"
