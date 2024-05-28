@@ -119,3 +119,10 @@ text = "В жизни полно лжи и грязи, она не так кра
 
 [rumor.locales.EN]
 text = "Life is full of lies and dirt, it's not so pretty. Even your best friend may not share a beer..."
+
+[[rumor]]
+code = "color-equipment"
+isAvailable = true
+
+[rumor.locales.RU]
+text = "Послушай, Искатель... Когда у общества нет цветовой дифференциации шмота, то нет цели!"
