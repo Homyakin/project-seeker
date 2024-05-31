@@ -41,7 +41,7 @@ public enum CommandType {
     TOP_RAID_WEEK("/top_raid_week", CheckType.EQUALS),
     TOP_RAID_WEEK_GROUP("/top_raid_week_group", CheckType.EQUALS),
     TOP("/top", CheckType.EQUALS),
-    RANDOM_ITEM("/gen", CheckType.EQUALS), // Для тестов
+    // RANDOM_ITEM("/gen", CheckType.EQUALS), // Для тестов
     INVENTORY(null, CheckType.MAP),
     PUT_ON("/on", CheckType.STARTS_WITH),
     TAKE_OFF("/off", CheckType.STARTS_WITH),
