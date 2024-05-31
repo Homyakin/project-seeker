@@ -1,17 +1,27 @@
 package ru.homyakin.seeker.infrastructure.init.saving_models.item;
 
 import java.util.Map;
-import ru.homyakin.seeker.game.item.models.ItemGenerateCharacteristics;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.models.ModifierLocale;
 import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.locale.WordForm;
 
 public record SavingModifier(
+    @JsonProperty(required = true)
     String code,
+    @JsonProperty(required = true)
     ModifierType type,
-    ItemGenerateCharacteristics characteristics,
+    @JsonProperty(required = true)
+    Set<ItemRarity> rarities,
+    @JsonProperty(required = true)
+    ModifierGenerateCharacteristics characteristics,
+    @JsonProperty(required = true)
     Map<Language, ModifierLocale> locales
 ) implements Localized<ModifierLocale> {
     public void validateWordForms() {

@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.utils.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 public record DoubleRange(
     double min,
@@ -17,9 +16,5 @@ public record DoubleRange(
             Double.parseDouble(split[0]),
             Double.parseDouble(split[1])
         );
-    }
-
-    public double value() {
-        return RandomUtils.getCharacteristic(min, max);
     }
 }

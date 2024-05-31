@@ -1,144 +1,153 @@
-# Есть два типа модификаторов, FIRST и SECOND, разделение идёт по порядку слов в русском языке
+# Есть два типа модификаторов, PREFIX и SUFFIX, разделение идёт по порядку слов в русском языке
 [[modifier]]
-code = "sharp"
-type = "PREFIX"
-characteristics.attack = "3-6"
+    code = "sharp"
+    type = "PREFIX"
+    rarities = ["UNCOMMON", "RARE"]
+    characteristics.types = ["ATTACK"]
 
-[modifier.locales.RU.form]
-MASCULINE = "Острый"
-FEMININE = "Острая"
-NEUTER = "Острое"
-PLURAL = "Острые"
+    [modifier.locales.RU.form]
+    MASCULINE = "Острый"
+    FEMININE = "Острая"
+    NEUTER = "Острое"
+    PLURAL = "Острые"
 
-[modifier.locales.EN.form]
-WITHOUT = "Sharp"
-
-[[modifier]]
-code = "iron"
-type = "PREFIX"
-characteristics.multiplier = "1.5-1.8"
-
-[modifier.locales.RU.form]
-MASCULINE = "Железный"
-FEMININE = "Железная"
-NEUTER = "Железное"
-PLURAL = "Железные"
-
-[modifier.locales.EN.form]
-WITHOUT = "Iron"
+    [modifier.locales.EN.form]
+    WITHOUT = "Sharp"
 
 [[modifier]]
-code = "wooden"
-type = "PREFIX"
-characteristics.multiplier = "1.1-1.3"
+    code = "iron"
+    type = "PREFIX"
+    rarities = ["UNCOMMON", "RARE"]
+    characteristics.types = ["MULTIPLIER"]
 
-[modifier.locales.RU.form]
-MASCULINE = "Деревянный"
-FEMININE = "Деревянная"
-NEUTER = "Деревянное"
-PLURAL = "Деревянные"
+    [modifier.locales.RU.form]
+    MASCULINE = "Железный"
+    FEMININE = "Железная"
+    NEUTER = "Железное"
+    PLURAL = "Железные"
 
-[modifier.locales.EN.form]
-WITHOUT = "Wooden"
-
-[[modifier]]
-code = "strength"
-type = "SUFFIX"
-characteristics.attack = "4-8"
-
-[modifier.locales.RU.form]
-WITHOUT = "Силы"
-
-[modifier.locales.EN.form]
-WITHOUT = "Of Strength"
+    [modifier.locales.EN.form]
+    WITHOUT = "Iron"
 
 [[modifier]]
-code = "anger"
-type = "SUFFIX"
-characteristics.attack = "3-7"
+    code = "wooden"
+    type = "PREFIX"
+    rarities = ["COMMON"]
+    characteristics.types = ["MULTIPLIER"]
 
-[modifier.locales.RU.form]
-WITHOUT = "Гнева"
+    [modifier.locales.RU.form]
+    MASCULINE = "Деревянный"
+    FEMININE = "Деревянная"
+    NEUTER = "Деревянное"
+    PLURAL = "Деревянные"
 
-[modifier.locales.EN.form]
-WITHOUT = "Of Anger"
-
-[[modifier]]
-code = "random"
-type = "SUFFIX"
-characteristics.attack = "1-5"
-characteristics.defense = "1-5"
-characteristics.health = "1-5"
-
-[modifier.locales.RU.form]
-WITHOUT = "Случайности"
-
-[modifier.locales.EN.form]
-WITHOUT = "Of Random"
+    [modifier.locales.EN.form]
+    WITHOUT = "Wooden"
 
 [[modifier]]
-code = "holiday"
-type = "PREFIX"
-characteristics.multiplier = "1.3-1.7"
+    code = "strength"
+    type = "SUFFIX"
+    rarities = ["RARE", "EPIC"]
+    characteristics.types = ["ATTACK"]
 
-[modifier.locales.RU.form]
-MASCULINE = "Праздничный"
-FEMININE = "Праздничная"
-NEUTER = "Праздничное"
-PLURAL = "Праздничные"
+    [modifier.locales.RU.form]
+    WITHOUT = "Силы"
 
-[modifier.locales.EN.form]
-WITHOUT = "Holiday"
+    [modifier.locales.EN.form]
+    WITHOUT = "Of Strength"
 
 [[modifier]]
-code = "tea"
-type = "PREFIX"
-characteristics.multiplier = "1.6-2.0"
+    code = "anger"
+    type = "SUFFIX"
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["ATTACK"]
 
-[modifier.locales.RU.form]
-MASCULINE = "Чайный"
-FEMININE = "Чайная"
-NEUTER = "Чайное"
-PLURAL = "Чайные"
+    [modifier.locales.RU.form]
+    WITHOUT = "Гнева"
 
-[modifier.locales.EN.form]
-WITHOUT = "Tea"
+    [modifier.locales.EN.form]
+    WITHOUT = "Of Anger"
 
 [[modifier]]
-code = "strange"
-type = "PREFIX"
-characteristics.multiplier = "1.1-1.5"
+    code = "random"
+    type = "SUFFIX"
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["ATTACK", "DEFENSE", "HEALTH"]
 
-[modifier.locales.RU.form]
-MASCULINE = "Странный"
-FEMININE = "Странная"
-NEUTER = "Странное"
-PLURAL = "Странные"
+    [modifier.locales.RU.form]
+    WITHOUT = "Случайности"
 
-[modifier.locales.EN.form]
-WITHOUT = "Strange"
+    [modifier.locales.EN.form]
+    WITHOUT = "Of Random"
 
 [[modifier]]
-code = "defense"
-type = "SUFFIX"
-characteristics.defense = "4-9"
+    code = "holiday"
+    type = "PREFIX"
+    rarities = ["RARE", "EPIC", "LEGENDARY"]
+    characteristics.types = ["MULTIPLIER"]
 
-[modifier.locales.RU.form]
-WITHOUT = "Защиты"
+    [modifier.locales.RU.form]
+    MASCULINE = "Праздничный"
+    FEMININE = "Праздничная"
+    NEUTER = "Праздничное"
+    PLURAL = "Праздничные"
 
-[modifier.locales.EN.form]
-WITHOUT = "Of Defense"
+    [modifier.locales.EN.form]
+    WITHOUT = "Holiday"
 
 [[modifier]]
-code = "beer"
-type = "PREFIX"
-characteristics.multiplier = "1.2-1.6"
+    code = "tea"
+    type = "PREFIX"
+    rarities = ["RARE", "EPIC", "LEGENDARY"]
+    characteristics.types = ["MULTIPLIER"]
 
-[modifier.locales.RU.form]
-MASCULINE = "Пивной"
-FEMININE = "Пивная"
-NEUTER = "Пивное"
-PLURAL = "Пивные"
+    [modifier.locales.RU.form]
+    MASCULINE = "Чайный"
+    FEMININE = "Чайная"
+    NEUTER = "Чайное"
+    PLURAL = "Чайные"
 
-[modifier.locales.EN.form]
-WITHOUT = "beer"
+    [modifier.locales.EN.form]
+    WITHOUT = "Tea"
+
+[[modifier]]
+    code = "strange"
+    type = "PREFIX"
+    rarities = ["COMMON", "UNCOMMON", "RARE"]
+    characteristics.types = ["MULTIPLIER"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Странный"
+    FEMININE = "Странная"
+    NEUTER = "Странное"
+    PLURAL = "Странные"
+
+    [modifier.locales.EN.form]
+    WITHOUT = "Strange"
+
+[[modifier]]
+    code = "defense"
+    type = "SUFFIX"
+    rarities = ["COMMON", "UNCOMMON", "RARE"]
+    characteristics.types = ["DEFENSE"]
+
+    [modifier.locales.RU.form]
+    WITHOUT = "Защиты"
+
+    [modifier.locales.EN.form]
+    WITHOUT = "Of Defense"
+
+[[modifier]]
+    code = "beer"
+    type = "PREFIX"
+    rarities = ["RARE", "EPIC", "LEGENDARY"]
+    characteristics.types = ["MULTIPLIER"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Пивной"
+    FEMININE = "Пивная"
+    NEUTER = "Пивное"
+    PLURAL = "Пивные"
+
+    [modifier.locales.EN.form]
+    WITHOUT = "beer"

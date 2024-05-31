@@ -5,11 +5,14 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
-import ru.homyakin.seeker.game.item.models.ItemGenerateCharacteristics;
+import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
+import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.infrastructure.database.ManyToManyUpdater;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.JsonUtils;
@@ -18,9 +21,11 @@ import ru.homyakin.seeker.utils.JsonUtils;
 public class ItemObjectDao {
     private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
+    private final ManyToManyUpdater updater;
 
-    public ItemObjectDao(DataSource dataSource, JsonUtils jsonUtils) {
+    public ItemObjectDao(DataSource dataSource, JsonUtils jsonUtils, ManyToManyUpdater updater) {
         this.jdbcClient = JdbcClient.create(dataSource);
+        this.updater = updater;
         this.jsonUtils = jsonUtils;
     }
 
@@ -39,16 +44,19 @@ public class ItemObjectDao {
             .param("code", object.code())
             .param("characteristics", jsonUtils.mapToPostgresJson(object.characteristics()))
             .param("locale", jsonUtils.mapToPostgresJson(object.locales()))
-            .query((rs, rowNum) -> rs.getInt("id"))
+            .query((rs, _) -> rs.getInt("id"))
             .single();
 
         saveObjectSlots(id, object.slots());
+        saveObjectRarities(id, object.rarities());
     }
 
-    public GenerateItemObject getRandomObject() {
+    public GenerateItemObject getRandomObject(ItemRarity rarity) {
         final var sql = """
             WITH random_object AS (
-               SELECT id FROM item_object
+               SELECT id FROM item_object io
+                LEFT JOIN item_object_to_item_rarity iotir on io.id = iotir.item_object_id
+                WHERE iotir.item_rarity_id = :item_rarity_id
                ORDER BY random() LIMIT 1
             )
             SELECT * FROM item_object io
@@ -57,47 +65,28 @@ public class ItemObjectDao {
             WHERE io.id = ro.id
             """;
         return jdbcClient.sql(sql)
+            .param("item_rarity_id", rarity.id)
             .query(this::extractSingleObject);
     }
 
     private void saveObjectSlots(int id, Set<PersonageSlot> slots) {
-        final var selectExistingSlots = """
-            SELECT * FROM item_object_to_personage_slot WHERE item_object_id = :item_object_id
-            """;
+        updater.update(
+            "item_object_to_personage_slot",
+            "item_object_id",
+            "personage_slot_id",
+            id,
+            slots.stream().map(it -> it.id).toList()
+        );
+    }
 
-        final var existingSlots = jdbcClient
-            .sql(selectExistingSlots)
-            .param("item_object_id", id)
-            .query((rs, rowNum) -> PersonageSlot.findById(rs.getInt("personage_slot_id")))
-            .set();
-
-        final var insert = """
-            INSERT INTO item_object_to_personage_slot (item_object_id, personage_slot_id) 
-            VALUES (:item_object_id, :personage_slot_id)
-            """;
-        for (final var slot : slots) {
-            if (!existingSlots.contains(slot)) {
-                jdbcClient
-                    .sql(insert)
-                    .param("item_object_id", id)
-                    .param("personage_slot_id", slot.id)
-                    .update();
-            }
-        }
-
-        final var delete = """
-            DELETE FROM item_object_to_personage_slot
-            WHERE item_object_id = :item_object_id AND personage_slot_id = :personage_slot_id
-            """;
-        for (final var slot : existingSlots) {
-            if (!slots.contains(slot)) {
-                jdbcClient
-                    .sql(delete)
-                    .param("item_object_id", id)
-                    .param("personage_slot_id", slot.id)
-                    .update();
-            }
-        }
+    private void saveObjectRarities(int id, Set<ItemRarity> rarities) {
+        updater.update(
+            "item_object_to_item_rarity",
+            "item_object_id",
+            "item_rarity_id",
+            id,
+            rarities.stream().map(it -> it.id).toList()
+        );
     }
 
     private GenerateItemObject extractSingleObject(ResultSet rs) throws SQLException {
@@ -105,7 +94,7 @@ public class ItemObjectDao {
         final var id = rs.getInt("id");
         final var code = rs.getString("code");
         final var locale = jsonUtils.fromString(rs.getString("locale"), JsonUtils.ITEM_OBJECT_LOCALE);
-        final var characteristics = jsonUtils.fromString(rs.getString("characteristics"), ItemGenerateCharacteristics.class);
+        final var characteristics = jsonUtils.fromString(rs.getString("characteristics"), ObjectGenerateCharacteristics.class);
         final var slots = new HashSet<PersonageSlot>();
         do {
             slots.add(PersonageSlot.findById(rs.getInt("personage_slot_id")));

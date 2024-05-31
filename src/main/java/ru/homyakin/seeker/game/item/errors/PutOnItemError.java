@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.item.models;
+package ru.homyakin.seeker.game.item.errors;
 
 import java.util.List;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;

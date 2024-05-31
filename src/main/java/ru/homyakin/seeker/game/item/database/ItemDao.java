@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -34,8 +35,8 @@ public class ItemDao {
     @Transactional
     public long saveItem(Item item) {
         final var insertItem = """
-            INSERT INTO item (item_object_id, personage_id, is_equipped, attack, health, defense)
-            VALUES (:item_object_id, :personage_id, :is_equipped, :attack, :health, :defense)
+            INSERT INTO item (item_object_id, personage_id, is_equipped, attack, health, defense, item_rarity_id)
+            VALUES (:item_object_id, :personage_id, :is_equipped, :attack, :health, :defense, :item_rarity_id)
             RETURNING id
             """;
         final var id = jdbcClient.sql(insertItem)
@@ -45,6 +46,7 @@ public class ItemDao {
             .param("attack", item.characteristics().attack())
             .param("health", item.characteristics().health())
             .param("defense", item.characteristics().defense())
+            .param("item_rarity_id", item.rarity().id)
             .query((rs, _) -> rs.getLong("id"))
             .single();
 
@@ -115,9 +117,10 @@ public class ItemDao {
                     0,
                     0
                 );
+                final var rarity = ItemRarity.findById(rs.getInt("item_rarity_id"));
                 itemMap.put(
                     itemId,
-                    new Item(itemId, null, null, personageId, isEquipped, characteristics)
+                    new Item(itemId, null, rarity, null, personageId, isEquipped, characteristics)
                 );
                 itemIdToItemObjectId.put(itemId, itemObjectId);
                 if (!objectMap.containsKey(itemObjectId)) {
@@ -159,6 +162,7 @@ public class ItemDao {
                         itemObjectIdToSlots.get(object.id()),
                         object.locales()
                     ),
+                    item.rarity(),
                     Optional
                         .ofNullable(itemIdToModifiers.get(item.id()))
                         .map(it -> it.stream().map(modifierMap::get).toList())

@@ -11,6 +11,8 @@ import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.homyakin.seeker.utils.models.DoubleRange;
+import ru.homyakin.seeker.utils.models.IntRange;
 
 public class RandomUtils {
     private static final Logger logger = LoggerFactory.getLogger(RandomUtils.class);
@@ -65,21 +67,15 @@ public class RandomUtils {
         return list.get(random.nextInt(0, list.size()));
     }
 
-    public static int getCharacteristic(int min, int max) {
-        if (max < min) {
-            throw new IllegalArgumentException("Max %d is less than min %d".formatted(max, min));
-        }
-        final var percentValue = characteristicSampleFrom0To1();
-        /*
-        * Получаем значение от 0 до 1.
-        * Считаем разницу между min и max.
-        * Считаем, какой процент от разницы нужно прибавить к min и округляем
-         */
-        final var diff = max - min;
-        return (int) Math.round(min + diff * percentValue);
+    public static double getCharacteristic(IntRange range) {
+        return getCharacteristic(range.min(), range.max());
     }
 
-    public static double getCharacteristic(double min, double max) {
+    public static double getCharacteristic(DoubleRange range) {
+        return getCharacteristic(range.min(), range.max());
+    }
+
+    private static double getCharacteristic(double min, double max) {
         if (max < min) {
             throw new IllegalArgumentException("Max %f is less than min %f".formatted(max, min));
         }

@@ -26,6 +26,7 @@ public class ItemLocalization {
     public static String fullItem(Language requestedlanguage, Item item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon);
         params.put("item", itemText(itemLanguage, item));
         params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
         params.put(
@@ -46,6 +47,7 @@ public class ItemLocalization {
     public static String shortItem(Language requestedlanguage, Item item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon);
         params.put("item", itemText(itemLanguage, item));
         params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
         return StringNamedTemplate.format(

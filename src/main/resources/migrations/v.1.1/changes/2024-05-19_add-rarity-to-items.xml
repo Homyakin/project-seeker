@@ -1,0 +1,114 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-rarity-to-items">
+        <createTable tableName="item_rarity">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="item_rarity">
+            <column name="id" value="1"/>
+            <column name="name" value="Обычный"/>
+        </insert>
+        <insert tableName="item_rarity">
+            <column name="id" value="2"/>
+            <column name="name" value="Необычный"/>
+        </insert>
+        <insert tableName="item_rarity">
+            <column name="id" value="3"/>
+            <column name="name" value="Редкий"/>
+        </insert>
+        <insert tableName="item_rarity">
+            <column name="id" value="4"/>
+            <column name="name" value="Эпический"/>
+        </insert>
+        <insert tableName="item_rarity">
+            <column name="id" value="5"/>
+            <column name="name" value="Легендарный"/>
+        </insert>
+
+        <!--Редкости к item_object-->
+        <createTable tableName="item_object_to_item_rarity">
+            <column name="item_object_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_rarity_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="item_object_id, item_rarity_id"
+                constraintName="item_object_to_item_rarity-pk"
+                tableName="item_object_to_item_rarity"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_object_to_item_rarity"
+                baseColumnNames="item_object_id"
+                referencedTableName="item_object"
+                referencedColumnNames="id"
+                constraintName="fk-item_object_to_item_rarity-to-item_object"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_object_to_item_rarity"
+                baseColumnNames="item_rarity_id"
+                referencedTableName="item_rarity"
+                referencedColumnNames="id"
+                constraintName="fk-item_object_to_item_rarity-to-item_rarity"
+        />
+
+        <!--Редкости к item_modifier-->
+        <createTable tableName="item_modifier_to_item_rarity">
+            <column name="item_modifier_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_rarity_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="item_modifier_id, item_rarity_id"
+                constraintName="item_modifier_to_item_rarity-pk"
+                tableName="item_modifier_to_item_rarity"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_modifier_to_item_rarity"
+                baseColumnNames="item_modifier_id"
+                referencedTableName="item_modifier"
+                referencedColumnNames="id"
+                constraintName="fk-item_modifier_to_item_rarity-to-item_modifier"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item_object_to_item_rarity"
+                baseColumnNames="item_rarity_id"
+                referencedTableName="item_rarity"
+                referencedColumnNames="id"
+                constraintName="fk-item_modifier_to_item_rarity-to-item_rarity"
+        />
+
+        <!--Редкость предмета определяется в момент создания, старые предметы UNCOMMON для упрощения-->
+        <addColumn tableName="item">
+            <column name="item_rarity_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE item SET item_rarity_id = 2
+        </sql>
+
+        <addNotNullConstraint tableName="item" columnName="item_rarity_id"/>
+    </changeSet>
+</databaseChangeLog>

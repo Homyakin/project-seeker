@@ -2,6 +2,8 @@ package ru.homyakin.seeker.game.item.models;
 
 import java.util.List;
 import java.util.Optional;
+
+import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.TextConstants;
@@ -11,6 +13,7 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 public record Item(
     long id,
     ItemObject object,
+    ItemRarity rarity,
     List<Modifier> modifiers,
     Optional<PersonageId> personageId,
     boolean isEquipped,

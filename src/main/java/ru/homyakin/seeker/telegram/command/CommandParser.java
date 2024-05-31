@@ -41,6 +41,7 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacte
 import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
+import ru.homyakin.seeker.telegram.command.user.item.RandomItem;
 import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.ConfirmDropItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.DropItem;
@@ -134,7 +135,7 @@ public class CommandParser {
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
                 case SHOW_BADGES -> ShowBadges.from(message);
-                // case RANDOM_ITEM -> RandomItem.from(message); // Для тестов
+                case RANDOM_ITEM -> RandomItem.from(message); // Для тестов
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
                 case TAKE_OFF -> TakeOffItem.from(message);

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.infrastructure;
+package ru.homyakin.seeker.infrastructure.database;
 
 import javax.sql.DataSource;
 import liquibase.integration.spring.SpringLiquibase;

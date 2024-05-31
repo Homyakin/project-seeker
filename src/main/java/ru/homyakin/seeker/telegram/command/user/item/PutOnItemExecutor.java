@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.models.PutOnItemError;
+import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;

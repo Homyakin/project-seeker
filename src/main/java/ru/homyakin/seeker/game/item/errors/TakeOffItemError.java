@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.item.models;
+package ru.homyakin.seeker.game.item.errors;
 
 public sealed interface TakeOffItemError {
     enum PersonageMissingItem implements TakeOffItemError { INSTANCE }

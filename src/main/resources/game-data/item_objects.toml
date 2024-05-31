@@ -1,244 +1,518 @@
 # Сам предмет, который описывают модификаторы выше
 [[object]]
-code = "sword"
-slots = ["MAIN_HAND"]
-characteristics.attack = "2-6"
+    code = "sword"
+    slots = ["MAIN_HAND"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Меч"
-form = "MASCULINE"
+    [object.locales.RU]
+    text = "Меч"
+    form = "MASCULINE"
 
-[object.locales.EN]
-text = "Sword"
-form = "WITHOUT"
-
-[[object]]
-code = "club"
-slots = ["MAIN_HAND"]
-characteristics.attack = "2-6"
-
-[object.locales.RU]
-text = "Палица"
-form = "FEMININE"
-
-[object.locales.EN]
-text = "Club"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Sword"
+    form = "WITHOUT"
 
 [[object]]
-code = "spear"
-slots = ["MAIN_HAND", "OFF_HAND"]
-characteristics.attack = "4-10"
+    code = "club"
+    slots = ["MAIN_HAND"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Копьё"
-form = "NEUTER"
+    [object.locales.RU]
+    text = "Палица"
+    form = "FEMININE"
 
-[object.locales.EN]
-text = "Spear"
-form = "WITHOUT"
-
-[[object]]
-code = "dagger"
-slots = ["OFF_HAND"]
-characteristics.attack = "1-5"
-
-[object.locales.RU]
-text = "Кинжал"
-form = "MASCULINE"
-
-[object.locales.EN]
-text = "Dagger"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Club"
+    form = "WITHOUT"
 
 [[object]]
-code = "cutlass"
-slots = ["OFF_HAND"]
-characteristics.attack = "2-6"
+    code = "spear"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    rarities = ["UNCOMMON", "RARE"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Кортик"
-form = "MASCULINE"
+    [object.locales.RU]
+    text = "Копьё"
+    form = "NEUTER"
 
-[object.locales.EN]
-text = "Cutlass"
-form = "WITHOUT"
-
-[[object]]
-code = "stick"
-slots = ["MAIN_HAND"]
-characteristics.attack = "2-6"
-
-[object.locales.RU]
-text = "Палка"
-form = "FEMININE"
-
-[object.locales.EN]
-text = "Stick"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Spear"
+    form = "WITHOUT"
 
 [[object]]
-code = "saber"
-slots = ["MAIN_HAND"]
-characteristics.attack = "2-6"
+    code = "dagger"
+    slots = ["OFF_HAND"]
+    rarities = ["UNCOMMON", "RARE"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Сабля"
-form = "FEMININE"
+    [object.locales.RU]
+    text = "Кинжал"
+    form = "MASCULINE"
 
-[object.locales.EN]
-text = "Saber"
-form = "WITHOUT"
-
-[[object]]
-code = "shield"
-slots = ["OFF_HAND"]
-characteristics.defense = "1-5"
-
-[object.locales.RU]
-text = "Щит"
-form = "MASCULINE"
-
-[object.locales.EN]
-text = "Shield"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Dagger"
+    form = "WITHOUT"
 
 [[object]]
-code = "vest"
-slots = ["BODY"]
-characteristics.defense = "1-5"
-characteristics.health = "10-20"
+    code = "cutlass"
+    slots = ["OFF_HAND"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Жилетка"
-form = "FEMININE"
+    [object.locales.RU]
+    text = "Кортик"
+    form = "MASCULINE"
 
-[object.locales.EN]
-text = "Vest"
-form = "WITHOUT"
-
-[[object]]
-code = "cuirass"
-slots = ["BODY"]
-characteristics.defense = "4-10"
-characteristics.health = "20-40"
-
-[object.locales.RU]
-text = "Кираса"
-form = "FEMININE"
-
-[object.locales.EN]
-text = "Cuirass"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Cutlass"
+    form = "WITHOUT"
 
 [[object]]
-code = "chain-mail"
-slots = ["BODY"]
-characteristics.defense = "5-13"
-characteristics.health = "15-30"
+    code = "stick"
+    slots = ["MAIN_HAND"]
+    rarities = ["COMMON", "LEGENDARY"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Кольчуга"
-form = "FEMININE"
+    [object.locales.RU]
+    text = "Палка"
+    form = "FEMININE"
 
-[object.locales.EN]
-text = "Mail"
-form = "WITHOUT"
-
-[[object]]
-code = "pants"
-slots = ["PANTS"]
-characteristics.defense = "1-10"
-characteristics.health = "10-40"
-
-[object.locales.RU]
-text = "Штаны"
-form = "PLURAL"
-
-[object.locales.EN]
-text = "Pants"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Stick"
+    form = "WITHOUT"
 
 [[object]]
-code = "socks"
-slots = ["SHOES"]
-characteristics.defense = "1-3"
-characteristics.health = "5-10"
+    code = "saber"
+    slots = ["MAIN_HAND"]
+    rarities = ["UNCOMMON", "RARE", "EPIC"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Носки"
-form = "PLURAL"
+    [object.locales.RU]
+    text = "Сабля"
+    form = "FEMININE"
 
-[object.locales.EN]
-text = "Socks"
-form = "WITHOUT"
-
-[[object]]
-code = "boots"
-slots = ["SHOES"]
-characteristics.defense = "2-8"
-characteristics.health = "10-20"
-
-[object.locales.RU]
-text = "Сапоги"
-form = "PLURAL"
-
-[object.locales.EN]
-text = "Boots"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Saber"
+    form = "WITHOUT"
 
 [[object]]
-code = "hat"
-slots = ["HELMET"]
-characteristics.defense = "2-6"
-characteristics.health = "5-20"
+    code = "greatsword"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["ATTACK"]
 
-[object.locales.RU]
-text = "Шляпа"
-form = "FEMININE"
+    [object.locales.RU]
+    text = "Двуручник"
+    form = "MASCULINE"
 
-[object.locales.EN]
-text = "Hat"
-form = "WITHOUT"
-
-[[object]]
-code = "helmet"
-slots = ["HELMET"]
-characteristics.defense = "5-10"
-characteristics.health = "10-25"
-
-[object.locales.RU]
-text = "Шлем"
-form = "MASCULINE"
-
-[object.locales.EN]
-text = "Helmet"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Greatsword"
+    form = "WITHOUT"
 
 [[object]]
-code = "gloves"
-slots = ["GLOVES"]
-characteristics.defense = "5-10"
-characteristics.health = "10-25"
+    code = "shield"
+    slots = ["OFF_HAND"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE"]
 
-[object.locales.RU]
-text = "Перчатки"
-form = "PLURAL"
+    [object.locales.RU]
+    text = "Щит"
+    form = "MASCULINE"
 
-[object.locales.EN]
-text = "Gloves"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Shield"
+    form = "WITHOUT"
 
 [[object]]
-code = "boxers"
-slots = ["PANTS"]
-characteristics.defense = "1-5"
-characteristics.health = "5-25"
+    code = "scutum"
+    slots = ["OFF_HAND"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE"]
 
-[object.locales.RU]
-text = "Семейники"
-form = "PLURAL"
+    [object.locales.RU]
+    text = "Скутум"
+    form = "MASCULINE"
 
-[object.locales.EN]
-text = "Boxers"
-form = "WITHOUT"
+    [object.locales.EN]
+    text = "Scutum"
+    form = "WITHOUT"
+
+[[object]]
+    code = "buckler"
+    slots = ["OFF_HAND"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE"]
+
+    [object.locales.RU]
+    text = "Баклер"
+    form = "MASCULINE"
+
+    [object.locales.EN]
+    text = "Buckler"
+    form = "WITHOUT"
+
+[[object]]
+    code = "vest"
+    slots = ["BODY"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Жилетка"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Vest"
+    form = "WITHOUT"
+
+[[object]]
+    code = "breastplate"
+    slots = ["BODY"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Нагрудник"
+    form = "MASCULINE"
+
+    [object.locales.EN]
+    text = "Breastplate"
+    form = "WITHOUT"
+
+[[object]]
+    code = "cuirass"
+    slots = ["BODY"]
+    rarities = ["RARE", "EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Кираса"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Cuirass"
+    form = "WITHOUT"
+
+[[object]]
+    code = "chain-mail"
+    slots = ["BODY"]
+    rarities = ["UNCOMMON", "RARE"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Кольчуга"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Mail"
+    form = "WITHOUT"
+
+[[object]]
+    code = "mantle"
+    slots = ["BODY"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Мантия"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Mantle"
+    form = "WITHOUT"
+
+[[object]]
+    code = "pants"
+    slots = ["PANTS"]
+    rarities = ["UNCOMMON", "RARE"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Штаны"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Pants"
+    form = "WITHOUT"
+
+[[object]]
+    code = "socks"
+    slots = ["SHOES"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Носки"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Socks"
+    form = "WITHOUT"
+
+[[object]]
+    code = "boots"
+    slots = ["SHOES"]
+    rarities = ["RARE", "EPIC"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Сапоги"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Boots"
+    form = "WITHOUT"
+
+[[object]]
+    code = "valenki"
+    slots = ["SHOES"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Валенки"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Valenki"
+    form = "WITHOUT"
+
+[[object]]
+    code = "sandals"
+    slots = ["SHOES"]
+    rarities = ["COMMON", "UNCOMMON", "RARE"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Сандали"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Sandals"
+    form = "WITHOUT"
+
+[[object]]
+    code = "traction"
+    slots = ["SHOES"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Тяги"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Traction" # перевод отсюда https://www.reddit.com/r/russian/comments/11z6v82/comment/jdc38r3/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+    form = "WITHOUT"
+
+[[object]]
+    code = "hat"
+    slots = ["HELMET"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Шляпа"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Hat"
+    form = "WITHOUT"
+
+[[object]]
+    code = "helmet"
+    slots = ["HELMET"]
+    rarities = ["RARE", "EPIC"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Шлем"
+    form = "MASCULINE"
+
+    [object.locales.EN]
+    text = "Helmet"
+    form = "WITHOUT"
+
+[[object]]
+    code = "helmet"
+    slots = ["HELMET"]
+    rarities = ["RARE", "EPIC"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Шлем"
+    form = "MASCULINE"
+
+    [object.locales.EN]
+    text = "Helmet"
+    form = "WITHOUT"
+
+[[object]]
+    code = "kolpak"
+    slots = ["HELMET"]
+    rarities = ["COMMON", "UNCOMMON", "RARE"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Колпак"
+    form = "MASCULINE"
+
+    [object.locales.EN]
+    text = "Kolpak"
+    form = "WITHOUT"
+
+[[object]]
+    code = "bandana"
+    slots = ["HELMET"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Бандана"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Bandana"
+    form = "WITHOUT"
+
+[[object]]
+    code = "diadem"
+    slots = ["HELMET"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Диадема"
+    form = "FEMININE"
+
+    [object.locales.EN]
+    text = "Diadem"
+    form = "WITHOUT"
+
+[[object]]
+    code = "gloves"
+    slots = ["GLOVES"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Перчатки"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Gloves"
+    form = "WITHOUT"
+
+[[object]]
+    code = "mitten"
+    slots = ["GLOVES"]
+    rarities = ["RARE", "EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Варежки"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Mitten"
+    form = "WITHOUT"
+
+[[object]]
+    code = "krags"
+    slots = ["GLOVES"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Краги"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Krags"
+    form = "WITHOUT"
+
+[[object]]
+    code = "sleeves"
+    slots = ["GLOVES"]
+    rarities = ["COMMON", "UNCOMMON", "RARE"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Книтенки"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Sleeves"
+    form = "WITHOUT"
+
+[[object]]
+    code = "boxers"
+    slots = ["PANTS"]
+    rarities = ["COMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Семейники"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Boxers"
+    form = "WITHOUT"
+
+[[object]]
+    code = "sirwal"
+    slots = ["PANTS"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Шаровары"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Sirwal"
+    form = "WITHOUT"
+
+[[object]]
+    code = "shorts"
+    slots = ["PANTS"]
+    rarities = ["COMMON", "UNCOMMON"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Шорты"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Sirwal"
+    form = "WITHOUT"
+
+[[object]]
+    code = "leggings"
+    slots = ["PANTS"]
+    rarities = ["RARE", "EPIC"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Лосины"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Leggings"
+    form = "WITHOUT"
+
+[[object]]
+    code = "trainers"
+    slots = ["PANTS"]
+    rarities = ["EPIC", "LEGENDARY"]
+    characteristics.types = ["DEFENSE", "HEALTH"]
+
+    [object.locales.RU]
+    text = "Треники"
+    form = "PLURAL"
+
+    [object.locales.EN]
+    text = "Trainers"
+    form = "WITHOUT"

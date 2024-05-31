@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.game.item.models;
 
 import java.util.Map;
+
+import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
 
@@ -8,7 +10,7 @@ public record GenerateModifier(
     int id,
     String code,
     ModifierType type,
-    ItemGenerateCharacteristics characteristics,
+    ModifierGenerateCharacteristics characteristics,
     Map<Language, ModifierLocale> locales
 ) implements Localized<ModifierLocale> {
     public Modifier toModifier() {

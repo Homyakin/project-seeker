@@ -7,25 +7,24 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.item.characteristics.ItemCharacteristicService;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
-import ru.homyakin.seeker.game.item.models.DropItemError;
-import ru.homyakin.seeker.game.item.models.GenerateItemError;
-import ru.homyakin.seeker.game.item.models.GenerateItemObject;
+import ru.homyakin.seeker.game.item.errors.DropItemError;
+import ru.homyakin.seeker.game.item.errors.GenerateItemError;
+import ru.homyakin.seeker.game.item.errors.PutOnItemError;
+import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ModifierType;
-import ru.homyakin.seeker.game.item.models.PutOnItemError;
-import ru.homyakin.seeker.game.item.models.TakeOffItemError;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
+import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.rarity.ItemRarityService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.utils.RandomUtils;
-import ru.homyakin.seeker.utils.models.DoubleRange;
-import ru.homyakin.seeker.utils.models.IntRange;
 
 @Service
 public class ItemService {
@@ -33,11 +32,21 @@ public class ItemService {
     private final ItemObjectDao itemObjectDao;
     private final ItemModifierDao itemModifierDao;
     private final ItemDao itemDao;
+    private final ItemCharacteristicService characteristicService;
+    private final ItemRarityService rarityService;
 
-    public ItemService(ItemObjectDao itemObjectDao, ItemModifierDao itemModifierDao, ItemDao itemDao) {
+    public ItemService(
+        ItemObjectDao itemObjectDao,
+        ItemModifierDao itemModifierDao,
+        ItemDao itemDao,
+        ItemCharacteristicService characteristicService,
+        ItemRarityService rarityService
+    ) {
         this.itemObjectDao = itemObjectDao;
         this.itemModifierDao = itemModifierDao;
         this.itemDao = itemDao;
+        this.characteristicService = characteristicService;
+        this.rarityService = rarityService;
     }
 
     public void saveObjects(ItemObjects objects) {
@@ -49,27 +58,29 @@ public class ItemService {
     }
 
     public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage) {
-        final var object = itemObjectDao.getRandomObject();
+        final var itemRarity = rarityService.generateItemRarity();
+        final var object = itemObjectDao.getRandomObject(itemRarity);
         final var modifiers = new ArrayList<GenerateModifier>();
         if (RandomUtils.bool()) {
-            final var modifier = itemModifierDao.getRandomModifier();
+            final var modifier = itemModifierDao.getRandomModifier(itemRarity);
             modifiers.add(modifier);
             if (RandomUtils.bool()) {
                 // Может быть либо 2 префиксных, либо 1 суффикс и 1 префикс
                 if (modifier.type() == ModifierType.SUFFIX) {
-                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX));
+                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX, itemRarity));
                 } else {
-                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id()));
+                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id(), itemRarity));
                 }
             }
         }
         final var tempItem = new Item(
             0L,
             object.toItemObject(),
+            itemRarity,
             modifiers.stream().map(GenerateModifier::toModifier).toList(),
             Optional.of(personage.id()),
             false,
-            createCharacteristics(object, modifiers)
+            characteristicService.createCharacteristics(itemRarity, object, modifiers)
         );
 
         if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
@@ -136,25 +147,8 @@ public class ItemService {
             .map(_ -> itemDao.getById(itemId).orElseThrow());
     }
 
-    private Characteristics createCharacteristics(GenerateItemObject object, List<GenerateModifier> modifiers) {
-        int attack = object.characteristics().attack().map(IntRange::value).orElse(0);
-        int defense = object.characteristics().defense().map(IntRange::value).orElse(0);
-        int health = object.characteristics().health().map(IntRange::value).orElse(0);
-        double multiplier = object.characteristics().multiplier().map(DoubleRange::value).orElse(1.0);
-        for (final var modifier: modifiers) {
-            attack += modifier.characteristics().attack().map(IntRange::value).orElse(0);
-            defense += modifier.characteristics().defense().map(IntRange::value).orElse(0);
-            health += modifier.characteristics().health().map(IntRange::value).orElse(0);
-            multiplier *= modifier.characteristics().multiplier().map(DoubleRange::value).orElse(1.0);
-        }
-
-        return new Characteristics(
-            /*health*/ (int) Math.round(health * multiplier),
-            /*attack*/ (int) Math.round(attack * multiplier),
-            /*defense*/ (int) Math.round(defense * multiplier),
-            /*strength*/ 0,
-            /*agility*/ 0,
-            /*wisdom*/ 0
-        );
+    private ItemRarity calculateRandomRarity() {
+        int probability = RandomUtils.getInInterval(0, 100);
+        return ItemRarity.COMMON;
     }
 }
