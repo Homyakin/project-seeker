@@ -1,11 +1,9 @@
 package ru.homyakin.seeker.game.item.rarity;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-@Configuration
 @ConfigurationProperties("homyakin.seeker.item.rarity")
 public class ItemRarityConfig implements Validator {
     private int commonProbability;

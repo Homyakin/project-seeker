@@ -1,9 +1,7 @@
 package ru.homyakin.seeker.telegram;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 @ConfigurationProperties(prefix = "homyakin.seeker.telegram")
 public class TelegramBotConfig {
     private String token;

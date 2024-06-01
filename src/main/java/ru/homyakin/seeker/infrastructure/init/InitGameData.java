@@ -9,9 +9,8 @@ import java.io.InputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
@@ -32,8 +31,7 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 import ru.homyakin.seeker.locale.LocalizationCoverage;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
-@Configuration
-@ConfigurationProperties("homyakin.seeker.init-game-data")
+@Component
 public class InitGameData {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper mapper = TomlMapper.builder()
@@ -45,20 +43,22 @@ public class InitGameData {
     private final RumorService rumorService;
     private final BadgeService badgeService;
     private final ItemService itemService;
-    private InitGameDataType type;
+    private final InitGameDataConfig config;
 
     public InitGameData(
         EventService eventService,
         MenuService menuService,
         RumorService rumorService,
         BadgeService badgeService,
-        ItemService itemService
+        ItemService itemService,
+        InitGameDataConfig config
     ) {
         this.eventService = eventService;
         this.menuService = menuService;
         this.rumorService = rumorService;
         this.badgeService = badgeService;
         this.itemService = itemService;
+        this.config = config;
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -155,19 +155,15 @@ public class InitGameData {
     }
 
     private String eventsPath() {
-        return DATA_FOLDER + type.folder() + EVENTS;
+        return DATA_FOLDER + config.type().folder() + EVENTS;
     }
 
     private String menuItemsPath() {
-        return DATA_FOLDER + type.folder() + MENU_ITEMS;
+        return DATA_FOLDER + config.type().folder() + MENU_ITEMS;
     }
 
     private String rumorsPath() {
-        return DATA_FOLDER + type.folder() + RUMORS;
-    }
-
-    public void setType(InitGameDataType type) {
-        this.type = type;
+        return DATA_FOLDER + config.type().folder() + RUMORS;
     }
 
     private static final String DATA_FOLDER = "game-data" + File.separator;

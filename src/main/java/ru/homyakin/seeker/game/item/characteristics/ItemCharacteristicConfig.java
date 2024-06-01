@@ -2,13 +2,11 @@ package ru.homyakin.seeker.game.item.characteristics;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import ru.homyakin.seeker.utils.models.DoubleRange;
 import ru.homyakin.seeker.utils.models.IntRange;
 
 @Validated
-@Configuration
 @ConfigurationProperties("homyakin.seeker.item.characteristic")
 public class ItemCharacteristicConfig {
     @NotNull

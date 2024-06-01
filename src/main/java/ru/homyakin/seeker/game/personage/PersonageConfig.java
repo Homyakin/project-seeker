@@ -2,9 +2,7 @@ package ru.homyakin.seeker.game.personage;
 
 import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 @ConfigurationProperties("homyakin.seeker.personage")
 public class PersonageConfig {
     private Duration energyFullRecovery;
