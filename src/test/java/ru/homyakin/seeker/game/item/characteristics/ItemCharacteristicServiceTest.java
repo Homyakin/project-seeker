@@ -159,4 +159,29 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.agility());
         Assertions.assertEquals(0, result.wisdom());
     }
+
+    @Test
+    void Given_SmallAttackAndObjectWithAttackAndOneSlotAndOneModifierWithMultiplier_When_CreateCharacteristics_Then_ModifierImpactIsOne() {
+        config.setBaseAttack("1-1");
+        config.setModifierImpact("0.1-0.1");
+        final var rarity = Mockito.mock(ItemRarity.class);
+        final var object = Mockito.mock(GenerateItemObject.class);
+        final var modifier1 = Mockito.mock(GenerateModifier.class);
+        final var objectCharacteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
+        final var modifierCharacteristics = new ModifierGenerateCharacteristics(List.of(ModifierCharacteristicType.MULTIPLIER));
+
+        Mockito.when(rarity.multiplier()).thenReturn(1.0);
+        Mockito.when(object.characteristics()).thenReturn(objectCharacteristics);
+        Mockito.when(object.slots()).thenReturn(Set.of(PersonageSlot.MAIN_HAND));
+        Mockito.when(modifier1.characteristics()).thenReturn(modifierCharacteristics);
+
+        final var result = service.createCharacteristics(rarity, object, List.of(modifier1));
+
+        Assertions.assertEquals(0, result.health());
+        Assertions.assertEquals(2, result.attack());
+        Assertions.assertEquals(0, result.defense());
+        Assertions.assertEquals(0, result.strength());
+        Assertions.assertEquals(0, result.agility());
+        Assertions.assertEquals(0, result.wisdom());
+    }
 }

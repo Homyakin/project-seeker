@@ -47,13 +47,20 @@ public class ItemCharacteristicService {
         }
 
         return new Characteristics(
-            /*health*/ (int) Math.round(Math.max(health + 1, health * multiplier) * rarity.multiplier()),
-            /*attack*/ (int) Math.round(Math.max(attack + 1, attack * multiplier) * rarity.multiplier()),
-            /*defense*/ (int) Math.round(Math.max(defense + 1, defense * multiplier) * rarity.multiplier()),
+            /*health*/ (int) Math.round(resultCharacteristic(health, multiplier) * rarity.multiplier()),
+            /*attack*/ (int) Math.round(resultCharacteristic(attack, multiplier) * rarity.multiplier()),
+            /*defense*/ (int) Math.round(resultCharacteristic(defense, multiplier) * rarity.multiplier()),
             /*strength*/ 0,
             /*agility*/ 0,
             /*wisdom*/ 0
         );
+    }
+
+    private double resultCharacteristic(double baseCharacteristic, double multiplier) {
+        if (baseCharacteristic == 0 || multiplier == 1.0) {
+            return baseCharacteristic;
+        }
+        return Math.max(baseCharacteristic + 1, baseCharacteristic * multiplier);
     }
 
     private double calcModifierCharacteristic(IntRange range, int typesCount, double modifierImpact) {
