@@ -28,14 +28,4 @@ public class MathUtils {
         }
         return 0;
     }
-
-    /**
-     * Описывает функцию вида k*(x+n)
-     * @param x - переменная функции
-     * @param multiplier - влияет на растянутость графика
-     * @param offset - смещение графика по оси переменной
-     */
-    public static double calcLinearFunc(double x, double multiplier, double offset) {
-        return multiplier * (x - offset);
-    }
 }

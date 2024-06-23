@@ -86,9 +86,6 @@ public class BattlePersonage implements Cloneable {
             * (1 / (1 - dodgeChance / 100));
     }
 
-    /**
-     * Считаем абстрактную мощь персонажа относительно персонажа с характеристиками 5/5/5
-     */
     public double calculateHealthForTargetPower(double targetPower) {
         final var critChance = calculateCritChance(5);
         final var dodgeChance = calculateDodgeChance(5);
@@ -193,7 +190,6 @@ public class BattlePersonage implements Cloneable {
     private static final double baseCritChance = 5;
     private static final double baseCritMultiplier = 2;
     private static final int attackDeviation = 10;
-    private static final double minAttack = 0.3;
 
     @Override
     @SuppressWarnings("super")
