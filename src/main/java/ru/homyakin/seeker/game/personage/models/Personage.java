@@ -225,7 +225,7 @@ public record Personage(
             Characteristics.createDefault(),
             Energy.createDefault(),
             BadgeView.STANDARD,
-            Characteristics.createZero()
+            Characteristics.ZERO
         );
     }
 

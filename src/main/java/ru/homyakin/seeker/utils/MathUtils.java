@@ -14,4 +14,28 @@ public class MathUtils {
     public static double log(double base, double value) {
         return Math.log(value) / Math.log(base);
     }
+
+    /**
+     * Описывает функцию вида 1/x => MAX(multiplier / (x + offset) + max, 0)
+     * @param x - переменная функции
+     * @param multiplier - влияет на растянутость графика
+     * @param offset - смещение графика по оси переменной
+     * @param max - число к которому стремится функция
+     */
+    public static double calcOneDivideXFunc(double x, double multiplier, double offset, double max) {
+        if (x > offset) {
+            return Math.max(multiplier / (x - offset) + max, 0);
+        }
+        return 0;
+    }
+
+    /**
+     * Описывает функцию вида k*(x+n)
+     * @param x - переменная функции
+     * @param multiplier - влияет на растянутость графика
+     * @param offset - смещение графика по оси переменной
+     */
+    public static double calcLinearFunc(double x, double multiplier, double offset) {
+        return multiplier * (x - offset);
+    }
 }

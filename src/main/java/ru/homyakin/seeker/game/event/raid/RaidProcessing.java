@@ -44,9 +44,10 @@ public class RaidProcessing {
         final var raid = raidDao.getByEventId(event.id())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
 
+        final var personages = participants.stream().map(Personage::toBattlePersonage).toList();
         final var result = twoPersonageTeamsBattle.battle(
-            raid.template().generate(participants.size()).stream().map(Personage::toBattlePersonage).toList(),
-            participants.stream().map(Personage::toBattlePersonage).toList()
+            raid.template().generate(personages),
+            personages
         );
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
 

@@ -16,10 +16,6 @@ public record Characteristics(
         return new Characteristics(500, 50, 20, 5, 5, 5);
     }
 
-    public static Characteristics createZero() {
-        return new Characteristics(0, 0, 0, 0, 0, 0);
-    }
-
     public Characteristics reset() {
         return new Characteristics(health, attack, defense, 1, 1, 1);
     }
@@ -89,11 +85,18 @@ public record Characteristics(
         if (advantage <= 0) {
             return 1;
         }
-        return -8 / (advantage + 8) + 2;
+        return 1 + (-4.125 / (advantage + 8.25) + 0.5);
     }
 
-    public int sumCharacteristics() {
-        return health + attack + defense + strength + agility + wisdom;
+    public Characteristics copyWithHealth(int health) {
+        return new Characteristics(
+            health,
+            attack,
+            defense,
+            strength,
+            agility,
+            wisdom
+        );
     }
 
     @Override
@@ -153,4 +156,5 @@ public record Characteristics(
 
     private static final int MAX_LEVELING_POINTS = 12;
     private static final double ADVANTAGE_MULTIPLIER = 2;
+    public static final Characteristics ZERO = new Characteristics(0, 0, 0, 0, 0, 0);
 }

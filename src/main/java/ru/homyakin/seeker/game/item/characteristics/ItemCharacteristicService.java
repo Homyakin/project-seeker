@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.utils.models.IntRange;
 
 import java.util.List;
 
@@ -37,21 +38,25 @@ public class ItemCharacteristicService {
             final var modifierImpact = RandomUtils.getCharacteristic(config.modifierImpact());
             for (final var type: modifierTypes) {
                 switch (type) {
-                    case HEALTH -> health += RandomUtils.getCharacteristic(config.baseHealth()) / modifierTypes.size() * modifierImpact;
-                    case ATTACK -> attack += RandomUtils.getCharacteristic(config.baseAttack()) / modifierTypes.size() * modifierImpact;
-                    case DEFENSE -> defense += RandomUtils.getCharacteristic(config.baseDefense()) / modifierTypes.size() * modifierImpact;
+                    case HEALTH -> health += calcModifierCharacteristic(config.baseHealth(), modifierTypes.size(), modifierImpact);
+                    case ATTACK -> attack += calcModifierCharacteristic(config.baseAttack(), modifierTypes.size(), modifierImpact);
+                    case DEFENSE -> defense += calcModifierCharacteristic(config.baseDefense(), modifierTypes.size(), modifierImpact);
                     case MULTIPLIER -> multiplier += modifierImpact / modifierTypes.size();
                 }
             }
         }
 
         return new Characteristics(
-            /*health*/ (int) Math.round(health * multiplier * rarity.multiplier()),
-            /*attack*/ (int) Math.round(attack * multiplier * rarity.multiplier()),
-            /*defense*/ (int) Math.round(defense * multiplier * rarity.multiplier()),
+            /*health*/ (int) Math.round(Math.max(health + 1, health * multiplier) * rarity.multiplier()),
+            /*attack*/ (int) Math.round(Math.max(attack + 1, attack * multiplier) * rarity.multiplier()),
+            /*defense*/ (int) Math.round(Math.max(defense + 1, defense * multiplier) * rarity.multiplier()),
             /*strength*/ 0,
             /*agility*/ 0,
             /*wisdom*/ 0
         );
+    }
+
+    private double calcModifierCharacteristic(IntRange range, int typesCount, double modifierImpact) {
+        return Math.max(RandomUtils.getCharacteristic(range) / typesCount * modifierImpact, 1);
     }
 }

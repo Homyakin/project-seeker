@@ -1,8 +1,9 @@
 package ru.homyakin.seeker.game.event.raid.generator;
 
 import java.util.List;
-import ru.homyakin.seeker.game.personage.models.Personage;
+
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 
 public interface RaidBattleGenerator {
-    List<Personage> generate(int personagesCount);
+    List<BattlePersonage> generate(List<BattlePersonage> personages);
 }

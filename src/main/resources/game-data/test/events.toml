@@ -18,7 +18,7 @@ description = "An ugly stuffed straw man appeared in the middle of the square. D
 [[event]]
 id = 2
 duration = "PT1M"
-isEnabled = false
+isEnabled = true
 
 [event.raid]
 template = "ENEMY_GROUP"

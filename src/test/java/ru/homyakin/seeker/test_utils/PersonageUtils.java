@@ -30,7 +30,7 @@ public class PersonageUtils {
             Characteristics.random(),
             Energy.createDefault(),
             BadgeView.STANDARD,
-            Characteristics.random()
+            Characteristics.ZERO
         );
     }
 
@@ -42,7 +42,7 @@ public class PersonageUtils {
             Characteristics.random(),
             Energy.createZero(TimeUtils.moscowTime()),
             BadgeView.STANDARD,
-            Characteristics.random()
+            Characteristics.ZERO
         );
     }
 
@@ -54,7 +54,14 @@ public class PersonageUtils {
             Characteristics.random(),
             Energy.createDefault(),
             BadgeView.STANDARD,
-            Characteristics.random()
+            new Characteristics(
+                ru.homyakin.seeker.utils.RandomUtils.getInInterval(50, 100),
+                ru.homyakin.seeker.utils.RandomUtils.getInInterval(30, 60),
+                ru.homyakin.seeker.utils.RandomUtils.getInInterval(10, 40),
+                0,
+                0,
+                0
+            )
         );
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "homyakin.seeker.telegram")
 public class TelegramBotConfig {
     private String token;
+    // username without '@'
     private static String username;
 
     public String token() {

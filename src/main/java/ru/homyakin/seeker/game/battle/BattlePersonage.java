@@ -4,13 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.models.Pair;
 
 public class BattlePersonage implements Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
-    private int health;
+    private final BattleHealth health;
     private final BattleStats battleStats = new BattleStats();
     private final Characteristics characteristics;
     private final Personage personage;
@@ -21,7 +22,7 @@ public class BattlePersonage implements Cloneable {
         Personage personage
     ) {
         this.id = id;
-        this.health = characteristics.health();
+        this.health = new BattleHealth(characteristics);
         this.characteristics = characteristics;
         this.personage = personage;
     }
@@ -30,12 +31,8 @@ public class BattlePersonage implements Cloneable {
         return id;
     }
 
-    public int health() {
-        return health;
-    }
-
     public boolean isDead() {
-        return health <= 0;
+        return !health.isAlive();
     }
 
     public Personage personage() {
@@ -44,15 +41,13 @@ public class BattlePersonage implements Cloneable {
 
     public void dealDamageToPersonage(BattlePersonage enemy) {
         final var critMultiplier = critMultiplier(enemy);
-        final var attack = (int) Math.max(
+        final var attack = (int) (
             this.characteristics.attack()
                 * this.characteristics.advantage(enemy.characteristics)
-                * this.attackBonus(enemy)
+                * this.randomizeAttackBonus(enemy.characteristics.strength())
                 * critMultiplier.second()
-                - enemy.characteristics.defense(),
-            this.characteristics.attack() * minAttack
         );
-        if (enemy.dodge(this)) {
+        if (enemy.isDodge(this)) {
             enemy.battleStats.incrementDodgesCount();
             enemy.battleStats.increaseDamageDodged(attack);
             this.battleStats.incrementMissesCount();
@@ -68,61 +63,117 @@ public class BattlePersonage implements Cloneable {
         }
         enemy.battleStats.increaseDamageBlocked(attack);
         enemy.battleStats.incrementBlocksCount();
-        if (enemy.health() <= attack) {
-            enemy.health = 0;
-        } else {
-            enemy.health -= attack;
-        }
+        enemy.health.takeDamage(attack);
     }
 
-    private boolean dodge(BattlePersonage enemy) {
-        final var diff = this.characteristics.agility() - enemy.characteristics.agility();
-        final var offsetX = -28;
-        var chance = baseDodgeChance;
-        if (diff > offsetX) {
-            chance += Math.max(-1960.0 / (diff - offsetX) + 70, 0);
-        }
-        return RandomUtils.getInInterval(1, 100) <= chance;
+    /**
+     * Считаем абстрактную мощь персонажа относительно персонажа с характеристиками 5/5/5
+     */
+    public double power() {
+        final var critChance = calculateCritChance(5);
+        final var dodgeChance = calculateDodgeChance(5);
+        final var attackBonus = 1 + calculateAttackBonus(5);
+        final var advantage = this.characteristics.advantage(new Characteristics(0, 0, 0, 5, 5, 5));
+        // Описание формулы
+        // Мощность это ЗДОРОВЬЕ * АТАКУ
+        // атака складывается из атаки, бонуса и среднего крита
+        // (1 / (1 - dodgeChance)) - атака противника умножается на (1 - dodgeChance), следовательно при переносе будет деление
+        return health.totalHealth()
+            * (1 - (critChance - baseCritMultiplier * critChance) / 100)
+            * advantage
+            * attackBonus
+            * characteristics.attack()
+            * (1 / (1 - dodgeChance / 100));
+    }
+
+    /**
+     * Считаем абстрактную мощь персонажа относительно персонажа с характеристиками 5/5/5
+     */
+    public double calculateHealthForTargetPower(double targetPower) {
+        final var critChance = calculateCritChance(5);
+        final var dodgeChance = calculateDodgeChance(5);
+        final var attackBonus = 1 + calculateAttackBonus(5);
+        final var advantage = this.characteristics.advantage(new Characteristics(0, 0, 0, 5, 5, 5));
+        return targetPower
+            / (1 - (critChance - baseCritMultiplier * critChance) / 100)
+            / attackBonus
+            / characteristics.attack()
+            / (1 / (1 - dodgeChance / 100))
+            / advantage
+            - health.defense();
+    }
+
+    private boolean isDodge(BattlePersonage enemy) {
+        return RandomUtils.getInInterval(1, 100) <= calculateDodgeChance(enemy.characteristics.agility());
+    }
+
+    /**
+     * Примерные значения шансов при разнице ловкостей:
+     * 0 -> 5
+     * 5 -> 11.3
+     * 12 -> 17.9
+     */
+    private double calculateDodgeChance(int enemyAgility) {
+        return baseDodgeChance + MathUtils.calcOneDivideXFunc(
+            this.characteristics.agility() - enemyAgility,
+            -1707.69,
+            -34.15,
+            50
+        );
     }
 
     private Pair<Boolean, Double> critMultiplier(BattlePersonage enemy) {
-        final var diff = this.characteristics.wisdom() - enemy.characteristics.wisdom();
-        if (!isCrit(diff)) {
+        final var isDodge = RandomUtils.getInInterval(1, 100) <= calculateCritChance(enemy.characteristics.wisdom());
+        if (!isDodge) {
             return Pair.of(false, 1.0);
         }
-        var multiplier = baseCritMultiplier;
-        final var offsetX = -6;
-        if (diff > offsetX) {
-            multiplier += Math.max(-9.0 / (diff - offsetX) + 1.5, 0);
-        }
-        return Pair.of(true, multiplier);
+        return Pair.of(true, baseCritMultiplier);
     }
 
-    private boolean isCrit(int wisdomDiff) {
-        var chance = baseCritChance;
-        final var offsetX = -37.4;
-        if (wisdomDiff > offsetX) {
-            chance += Math.max(-2618.0 / (wisdomDiff - offsetX) + 70, 0);
-        }
-        return RandomUtils.getInInterval(1, 100) <= chance;
+    /**
+     * Примерные значения шансов при разнице мудростей:
+     * 0 -> 5
+     * 5 -> 13.8
+     * 12 -> 21.9
+     */
+    private double calculateCritChance(int enemyWisdom) {
+        return baseCritChance + MathUtils.calcOneDivideXFunc(
+            this.characteristics.wisdom() - enemyWisdom,
+            -1164.7,
+            -23.29,
+            50
+        );
     }
 
-    private double attackBonus(BattlePersonage enemy) {
-        var bonus = 0.0;
-        final var offsetX = -12;
-        final var diff = this.characteristics.strength() - enemy.characteristics.strength();
-        if (diff > offsetX) {
-            bonus += Math.max(-1.44 / (diff - offsetX) + 0.12, 0);
-        }
+    /**
+     * @return возвращает значение > 1
+     */
+    private double randomizeAttackBonus(int enemyStrength) {
+        final var bonus = calculateAttackBonus(enemyStrength);
         final double randomAttack = RandomUtils.getInInterval(100 - attackDeviation, 100 + attackDeviation) / 100.0;
         return randomAttack + bonus;
+    }
+
+    /**
+     * Примерные значения бонусов при разнице сил:
+     * 0 -> 0
+     * 5 -> 0.1
+     * 12 -> 0.17(7)
+     */
+    private double calculateAttackBonus(int enemyStrength) {
+        return MathUtils.calcOneDivideXFunc(
+            this.characteristics.strength() - enemyStrength,
+            -6.0,
+            -15.0,
+            0.4
+        );
     }
 
     public PersonageBattleResult toResult() {
         return new PersonageBattleResult(
             personage,
             new PersonageBattleStats(
-                health,
+                health.remainingHealth(),
                 battleStats.normalDamageDealt(),
                 battleStats.normalAttackCount(),
                 battleStats.critDamageDealt(),
@@ -138,8 +189,8 @@ public class BattlePersonage implements Cloneable {
     }
 
     // TODO вынести в базу
-    private static final double baseDodgeChance = 10;
-    private static final double baseCritChance = 10;
+    private static final double baseDodgeChance = 5;
+    private static final double baseCritChance = 5;
     private static final double baseCritMultiplier = 2;
     private static final int attackDeviation = 10;
     private static final double minAttack = 0.3;
@@ -150,7 +201,7 @@ public class BattlePersonage implements Cloneable {
         return new BattlePersonage(
             id,
             health,
-            characteristics.clone(),
+            characteristics,
             personage
         );
     }
@@ -165,13 +216,13 @@ public class BattlePersonage implements Cloneable {
 
     private BattlePersonage(
         long id,
-        int health,
+        BattleHealth health,
         Characteristics characteristics,
         Personage personage
     ) {
         this.id = id;
-        this.health = health;
-        this.characteristics = characteristics;
+        this.health = health.clone();
+        this.characteristics = characteristics.clone();
         this.personage = personage;
     }
 }
