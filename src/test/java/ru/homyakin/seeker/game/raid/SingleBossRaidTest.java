@@ -1,12 +1,10 @@
 package ru.homyakin.seeker.game.raid;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.test_utils.CommonUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.test_utils.battle.TwoPersonageTeamsBattleUtility;
 
@@ -22,7 +20,7 @@ public class SingleBossRaidTest {
             double sumPercent = 0;
             for (int i = 0; i < repeat; ++i) {
                 final var personages = PersonageUtils.randomList(personageCount).stream().map(Personage::toBattlePersonage).toList();
-                final var enemies = generator.generate(personages);
+                final var enemies = generator.generate(personages, 1);
 
                 sumPercent += TwoPersonageTeamsBattleUtility.probabilityOfFirstTeamWin(
                     enemies,

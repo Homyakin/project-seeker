@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +9,8 @@ import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.Event;
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.item.ItemService;
@@ -28,25 +29,34 @@ public class RaidProcessing {
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
     private final RaidDao raidDao;
     private final ItemService itemService;
+    private final RaidGenerator raidGenerator;
 
     public RaidProcessing(
         PersonageService personageService,
         TwoPersonageTeamsBattle twoPersonageTeamsBattle,
-        RaidDao raidDao, ItemService itemService
+        RaidDao raidDao,
+        ItemService itemService,
+        RaidGenerator raidGenerator
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
         this.raidDao = raidDao;
         this.itemService = itemService;
+        this.raidGenerator = raidGenerator;
     }
 
-    public RaidResult process(Event event, List<Personage> participants) {
+    public Optional<RaidResult> process(Event event, LaunchedEvent launchedEvent) {
         final var raid = raidDao.getByEventId(event.id())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
 
+        final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
+        if (participants.isEmpty()) {
+            return Optional.empty();
+        }
+
         final var personages = participants.stream().map(Personage::toBattlePersonage).toList();
         final var result = twoPersonageTeamsBattle.battle(
-            raid.template().generate(personages),
+            raidGenerator.generate(raid, launchedEvent, personages),
             personages
         );
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
@@ -77,12 +87,14 @@ public class RaidProcessing {
             })
             .toList();
 
-        return new RaidResult(
+        final var raidResult = new RaidResult(
             doesParticipantsWin,
             result.firstTeamResults(),
             raidResults,
             generatedItems
         );
+        personageService.saveRaidResults(raidResult.personageResults(), launchedEvent);
+        return Optional.of(raidResult);
     }
 
     private int calculateReward(boolean doesParticipantsWin, PersonageBattleResult result) {

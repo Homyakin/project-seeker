@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.event.database.GroupTgLaunchedEventDao;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 @Service
 public class GroupEventService {
@@ -27,5 +28,9 @@ public class GroupEventService {
 
     public List<GroupLaunchedEvent> getByLaunchedEventId(Long launchedEventId) {
         return groupTgLaunchedEventDao.getByLaunchedEventId(launchedEventId);
+    }
+
+    public int countFailedEventsFromLastSuccessInGroup(GroupId groupId) {
+        return groupTgLaunchedEventDao.countFailedEventsFromLastSuccessInGroup(groupId);
     }
 }

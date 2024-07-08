@@ -8,10 +8,10 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import java.util.Collections;
 import java.util.List;
 
-public class SingleBossGenerator implements RaidBattleGenerator {
+public class SingleBossGenerator implements RaidBattlePersonageGenerator {
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages) {
-        final var totalPower = personages.stream().mapToDouble(BattlePersonage::power).sum();
+    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
+        final var totalPower = personages.stream().mapToDouble(BattlePersonage::power).sum() * powerPercent;
         final var tempCharacteristics = Characteristics.random();
 
         final var tempPersonage = new BattlePersonage(

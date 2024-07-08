@@ -10,11 +10,11 @@ import ru.homyakin.seeker.utils.RandomUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupGenerator implements RaidBattleGenerator {
+public class GroupGenerator implements RaidBattlePersonageGenerator {
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages) {
+    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
         final var totalPower = personages.stream().mapToDouble(BattlePersonage::power).sum()
-            / calcPowerPenalty(personages.size());
+            / calcPowerPenalty(personages.size()) * powerPercent;
         final var group = new ArrayList<BattlePersonage>();
         final var baseCount = personages.size() * 3;
         final int totalCount = RandomUtils.getInInterval((int) (baseCount * 0.9), (int) (baseCount * 1.1));

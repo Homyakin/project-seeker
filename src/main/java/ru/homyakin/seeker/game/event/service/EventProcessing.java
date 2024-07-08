@@ -22,17 +22,9 @@ public class EventProcessing {
     public Optional<RaidResult> processEvent(LaunchedEvent launchedEvent) {
         final var event = eventService.getEventById(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Can't finish unknown event " + launchedEvent.eventId()));
-        final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
 
-        if (participants.isEmpty()) {
-            return Optional.empty();
-        }
         return switch (event.type()) {
-            case RAID -> {
-                final var results = raidProcessing.process(event, participants);
-                personageService.saveRaidResults(results.personageResults(), launchedEvent);
-                yield Optional.of(results);
-            }
+            case RAID -> raidProcessing.process(event, launchedEvent);
         };
     }
 }

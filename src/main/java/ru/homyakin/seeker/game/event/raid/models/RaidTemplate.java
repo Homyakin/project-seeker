@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
-import ru.homyakin.seeker.game.event.raid.generator.RaidBattleGenerator;
+import ru.homyakin.seeker.game.event.raid.generator.RaidBattlePersonageGenerator;
 import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
 
 public enum RaidTemplate {
@@ -17,9 +17,9 @@ public enum RaidTemplate {
     ;
 
     private final int id;
-    private final RaidBattleGenerator generator;
+    private final RaidBattlePersonageGenerator generator;
 
-    RaidTemplate(int id, RaidBattleGenerator generator) {
+    RaidTemplate(int id, RaidBattlePersonageGenerator generator) {
         this.id = id;
         this.generator = generator;
     }
@@ -37,7 +37,7 @@ public enum RaidTemplate {
             .orElseThrow(() -> new IllegalStateException("Unexpected raid template id: " + id));
     }
 
-    public List<BattlePersonage> generate(List<BattlePersonage> personages) {
-        return generator.generate(personages);
+    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
+        return generator.generate(personages, powerPercent);
     }
 }
