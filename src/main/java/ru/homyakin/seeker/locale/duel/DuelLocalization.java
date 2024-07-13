@@ -115,9 +115,13 @@ public class DuelLocalization {
         params.put("winner_or_loser_icon", isWinner ? Icons.DUEL_WINNER : Icons.DUEL_LOSER);
         params.put("personage_badge_with_name", result.personage().badgeWithName());
         params.put("damage_dealt", result.stats().damageDealt());
-        params.put("damage_taken", result.stats().damageTaken());
+        params.put("remain_health", result.stats().remainHealth());
         params.put("crits_count", result.stats().critsCount());
         params.put("dodges_count", result.stats().dodgesCount());
+        params.put("health_icon", Icons.HEALTH);
+        params.put("attack_icon", Icons.ATTACK);
+        params.put("crit_icon", Icons.CRIT_ATTACK);
+        params.put("dodge_icon", Icons.DODGE);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, DuelResource::personageDuelResult),
             params
