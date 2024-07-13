@@ -64,7 +64,7 @@ public class GroupDao {
             .param("is_active", group.isActive())
             .param("language_id", group.language().id())
             .param("init_date", now)
-            .param("next_event_date", now.plusMinutes(RandomUtils.getInInterval(20, 60)))
+            .param("next_event_date", now)
             .param("next_rumor_date", now.plusMinutes(RandomUtils.getInInterval(120, 240)))
             .param("event_intervals_setting", jsonUtils.mapToPostgresJson(group.settings().eventIntervals()))
             .param("time_zone_setting", group.settings().timeZone().getId())
