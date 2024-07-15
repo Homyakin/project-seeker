@@ -19,6 +19,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
+import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -97,12 +98,21 @@ public class RaidProcessing {
         return Optional.of(raidResult);
     }
 
+    /**
+     * Считает награду за рейд.
+     * В случае поражения - награда равна базовой, в случае победы - награда зависит от нанесённого и полученного урона.
+     * Бонус за урон считается по формуле log(1.1, урон / 10) - 43. При 1000 бонус примерно равен 5, при 3000 - 16
+     */
     private int calculateReward(boolean doesParticipantsWin, PersonageBattleResult result) {
         final int reward;
         if (!doesParticipantsWin) {
-            reward = BASE_LOSE_REWARD;
+            reward = BASE_REWARD;
         } else {
-            reward = (int) (BASE_WIN_REWARD + result.stats().damageDealtAndTaken() / 200);
+            var bonusMoney = MathUtils.log(1.1, (double) result.stats().damageDealtAndTaken() / 10) - 43;
+            if (bonusMoney < 0) {
+                bonusMoney = 0;
+            }
+            reward = (int) Math.round(BASE_REWARD + bonusMoney);
         }
         return reward;
     }
@@ -139,6 +149,5 @@ public class RaidProcessing {
         return Optional.empty();
     }
 
-    private static final int BASE_WIN_REWARD = 10;
-    private static final int BASE_LOSE_REWARD = 5;
+    private static final int BASE_REWARD = 5;
 }
