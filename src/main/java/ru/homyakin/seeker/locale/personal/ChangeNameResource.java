@@ -3,6 +3,8 @@ package ru.homyakin.seeker.locale.personal;
 public record ChangeNameResource(
     String changeNameWithoutName,
     String initChangeName,
+    String notEnoughMoney,
+    String repeatChangeName,
     String cancelChangeName,
     String confirmName,
     String cancelButton,

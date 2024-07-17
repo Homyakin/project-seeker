@@ -177,4 +177,15 @@ public class PersonageService {
             .resetStats()
             .peek(personageDao::update);
     }
+
+    /**
+     * @return Either.Left если денег недостаточно, Either.Right - количество успешно списанных денег
+     */
+    public Either<NotEnoughMoney, Money> initChangeName(PersonageId id) {
+        return getByIdForce(id).initChangeName().peek(personageDao::update).map(_ -> Personage.CHANGE_NAME_COST);
+    }
+
+    public void cancelChangeName(PersonageId id) {
+        getByIdForce(id).cancelChangeName().peek(personageDao::update);
+    }
 }

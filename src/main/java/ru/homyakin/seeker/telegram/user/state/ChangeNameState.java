@@ -27,7 +27,7 @@ public sealed interface ChangeNameState extends UserState {
                 .getFromString(message.getText())
                 .map(command -> switch (command) {
                     case CONFIRM -> ru.homyakin.seeker.telegram.command.user.change_name.ConfirmChangeName.from(message, name);
-                    case REPEAT -> ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName.from(message);
+                    case REPEAT -> ru.homyakin.seeker.telegram.command.user.change_name.RepeatChangeName.from(message);
                     case CANCEL -> CancelChangeName.from(message);
                 })
                 .orElseGet(() -> InputName.from(message));

@@ -30,7 +30,7 @@ public class ResetCharacteristicsExecutor extends CommandExecutor<ResetCharacter
     public void execute(ResetCharacteristics command) {
         final var user = userService.getOrCreateFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
-        if (personage.money().lessThan(Personage.RESET_STATS_COST)) {
+        if (personage.money().lessThan(Personage.RESET_STATS_COST)) { // TODO вынести проверку в сервис
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(user.id())
                 .text(CharacteristicLocalization.notEnoughMoney(user.language(), Personage.RESET_STATS_COST))

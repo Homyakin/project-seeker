@@ -2,6 +2,9 @@ package ru.homyakin.seeker.locale.personal;
 
 import java.util.Collections;
 import java.util.HashMap;
+
+import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -17,8 +20,28 @@ public class ChangeNameLocalization {
         return resources.getOrDefault(language, ChangeNameResource::changeNameWithoutName);
     }
 
-    public static String initChangeName(Language language) {
-        return resources.getOrDefault(language, ChangeNameResource::initChangeName);
+    public static String initChangeName(Language language, Money cost) {
+        final var params = new HashMap<String, Object>();
+        params.put("change_name_cost", cost.value());
+        params.put("money_icon", Icons.MONEY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ChangeNameResource::initChangeName),
+            params
+        );
+    }
+
+    public static String notEnoughMoney(Language language, Money cost) {
+        final var params = new HashMap<String, Object>();
+        params.put("change_name_cost", cost.value());
+        params.put("money_icon", Icons.MONEY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ChangeNameResource::notEnoughMoney),
+            params
+        );
+    }
+
+    public static String repeatChangeName(Language language) {
+        return resources.getOrDefault(language, ChangeNameResource::repeatChangeName);
     }
 
     public static String cancelChangeName(Language language) {

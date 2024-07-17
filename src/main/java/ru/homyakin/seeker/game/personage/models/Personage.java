@@ -112,6 +112,18 @@ public record Personage(
         );
     }
 
+    public Either<NotEnoughMoney, Personage> initChangeName() {
+        if (money.lessThan(CHANGE_NAME_COST)) {
+            return Either.left(new NotEnoughMoney(CHANGE_NAME_COST));
+        }
+
+        return Either.right(addMoney(CHANGE_NAME_COST.negative()));
+    }
+
+    public Either<NotEnoughMoney, Personage> cancelChangeName() {
+        return Either.right(addMoney(CHANGE_NAME_COST));
+    }
+
     public Either<PersonageEventError, Success> hasEnoughEnergyForEvent(int requiredEnergy) {
         if (energy.isGreaterOrEqual(requiredEnergy)) {
             return Either.right(Success.INSTANCE);
@@ -238,6 +250,7 @@ public record Personage(
     private static final String SPECIAL = "_\\-\\.#№ ";
     private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
     public static final Money RESET_STATS_COST = new Money(50);
+    public static final Money CHANGE_NAME_COST = new Money(20);
     private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{
         put(PersonageSlot.MAIN_HAND, 1);
         put(PersonageSlot.OFF_HAND, 1);
