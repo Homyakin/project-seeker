@@ -27,6 +27,3 @@ groupStats = """\
 # TODO перенести куда-нибудь
 welcomeUser = "Welcome to the tavern, Seeker!"
 receptionDesk = "Hello! How can I help you?"
-mainMenu = [
-    "Make yourself comfortable, take your time"
-]

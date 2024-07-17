@@ -80,10 +80,6 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::receptionDesk);
     }
 
-    public static String mainMenu(Language language) {
-        return resources.getOrDefaultRandom(language, CommonResource::mainMenu);
-    }
-
     public static String groupStats(Language language, GroupStats groupStats) {
         final var params = new HashMap<String, Object>();
         params.put("raids_count", groupStats.raidsComplete());

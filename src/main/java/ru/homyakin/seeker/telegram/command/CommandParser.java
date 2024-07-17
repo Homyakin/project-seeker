@@ -45,7 +45,6 @@ import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.ConfirmDropItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.DropItem;
 import ru.homyakin.seeker.telegram.command.user.item.drop.RejectDropItem;
-import ru.homyakin.seeker.telegram.command.user.navigation.Back;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
@@ -125,11 +124,10 @@ public class CommandParser {
             .map(commandType -> switch (commandType) {
                 case CHANGE_LANGUAGE -> UserChangeLanguage.from(message);
                 case START -> StartUser.from(message);
-                case GET_PROFILE -> GetProfileInPrivate.from(message);
+                case GET_PROFILE, BACK -> GetProfileInPrivate.from(message);
                 case SHOW_HELP -> ShowHelp.from(message);
                 case LEVEL_UP -> LevelUp.from(message);
                 case RECEPTION_DESK -> ReceptionDesk.from(message);
-                case BACK -> Back.from(message);
                 case RESET_CHARACTERISTICS -> ResetCharacteristics.from(message);
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);

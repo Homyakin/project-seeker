@@ -9,7 +9,6 @@ public record CommonResource(
     String fullProfile,
     String shortProfile,
     String receptionDesk,
-    String[] mainMenu,
     String groupStats,
     String personageGroupStats,
     String migrateGroup
