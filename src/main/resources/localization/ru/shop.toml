@@ -6,7 +6,7 @@ ${buying_items}
 ${selling_items}
 """
 
-sellingItem = "${short_item_name} ${price_value}${money_icon} ${sell_command}"
+sellingItem = "<code>${short_item_name}</code> ${price_value}${money_icon} ${sell_command}"
 buyingItem = "${shop_item_icon}${shop_item_name} ${price_value}${money_icon} ${buy_command}"
 
 common = "Обычная"
