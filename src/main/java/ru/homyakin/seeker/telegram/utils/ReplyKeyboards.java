@@ -14,6 +14,8 @@ public class ReplyKeyboards {
             .addButton(button(MenuLocalization.profileButton(language)))
             .addButton(button(MenuLocalization.inventoryButton(language)))
             .addRow()
+            .addButton(button(MenuLocalization.shopButton(language)))
+            .addRow()
             .addButton(button(MenuLocalization.receptionDeskButton(language)))
             .build();
     }

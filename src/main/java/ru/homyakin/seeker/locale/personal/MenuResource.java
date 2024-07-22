@@ -8,6 +8,7 @@ public record MenuResource(
     String resetCharacteristicsButton,
     String changeNameButton,
     String showBadgesButton,
-    String inventoryButton
+    String inventoryButton,
+    String shopButton
 ) {
 }

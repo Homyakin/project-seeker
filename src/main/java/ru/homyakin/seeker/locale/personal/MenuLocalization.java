@@ -41,4 +41,8 @@ public class MenuLocalization {
     public static String inventoryButton(Language language) {
         return resources.getOrDefault(language, MenuResource::inventoryButton);
     }
+
+    public static String shopButton(Language language) {
+        return resources.getOrDefault(language, MenuResource::shopButton);
+    }
 }

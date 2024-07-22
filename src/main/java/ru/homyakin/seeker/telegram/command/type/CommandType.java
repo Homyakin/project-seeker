@@ -41,8 +41,10 @@ public enum CommandType {
     TOP_RAID_WEEK("/top_raid_week", CheckType.EQUALS),
     TOP_RAID_WEEK_GROUP("/top_raid_week_group", CheckType.EQUALS),
     TOP("/top", CheckType.EQUALS),
-    // RANDOM_ITEM("/gen", CheckType.EQUALS), // Для тестов
     INVENTORY(null, CheckType.MAP),
+    OPEN_SHOP(null, CheckType.MAP),
+    SELL_ITEM("/sell", CheckType.STARTS_WITH),
+    BUY_ITEM("/buy", CheckType.STARTS_WITH),
     PUT_ON("/on", CheckType.STARTS_WITH),
     TAKE_OFF("/off", CheckType.STARTS_WITH),
     DROP_ITEM("/drop", CheckType.STARTS_WITH),
@@ -85,6 +87,7 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.changeNameButton(), CommandType.INIT_CHANGE_NAME);
         CommonUtils.putIfKeyPresents(textToType, resource.showBadgesButton(), CommandType.SHOW_BADGES);
         CommonUtils.putIfKeyPresents(textToType, resource.inventoryButton(), CommandType.INVENTORY);
+        CommonUtils.putIfKeyPresents(textToType, resource.shopButton(), CommandType.OPEN_SHOP);
     }
 
     private boolean check(String text) {

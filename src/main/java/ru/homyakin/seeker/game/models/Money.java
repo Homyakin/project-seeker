@@ -39,6 +39,10 @@ public record Money(
         return new Money(-value);
     }
 
+    public Money divide(int divider) {
+        return new Money(value / divider);
+    }
+
     @Override
     public int compareTo(Money other) {
         return Integer.compare(value, other.value);

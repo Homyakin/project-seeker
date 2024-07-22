@@ -1,0 +1,24 @@
+menu = """\
+📦Случайные коробки:
+${buying_items}
+
+🎒Ваши предметы:
+${selling_items}
+"""
+
+sellingItem = "${short_item_name} ${price_value}${money_icon} ${sell_command}"
+buyingItem = "${shop_item_icon}${shop_item_name} ${price_value}${money_icon} ${buy_command}"
+
+common = "Обычная"
+uncommon = "Необычная"
+rare = "Редкая"
+epic = "Эпическая"
+legendary = "Легендарная"
+random = "Случайная"
+
+incorrectBuyingItem = "В магазине нет такого предмета."
+incorrectSellingItem = "У вас нет такого предмета."
+notEnoughMoney = "Недостаточно денег."
+notEnoughSpaceInBag = "В рюкзаке недостаточно места, чтобы купить предмет."
+successBuy = "Поздравляем с покупкой! <code>${full_item_name}</code>"
+successSell = "Продано! <code>${full_item_name}</code> +${price_value}${money_icon}"

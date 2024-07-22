@@ -7,6 +7,7 @@ resetCharacteristicsButton = "📖Книга забвения"
 changeNameButton = "🔮Сменить имя"
 showBadgesButton = "🔰Жетоны"
 inventoryButton = "🎒Инвентарь"
+shopButton = "⚖️Чёрный рынок"
 
 [changeName]
 changeNameWithoutName="Имя не может быть пустым!"

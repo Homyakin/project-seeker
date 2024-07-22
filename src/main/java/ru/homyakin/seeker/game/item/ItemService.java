@@ -59,28 +59,32 @@ public class ItemService {
 
     public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage) {
         final var itemRarity = rarityService.generateItemRarity();
-        final var object = itemObjectDao.getRandomObject(itemRarity);
+        return generateItemWithRarity(personage, itemRarity);
+    }
+
+    public Either<GenerateItemError, Item> generateItemWithRarity(Personage personage, ItemRarity rarity) {
+        final var object = itemObjectDao.getRandomObject(rarity);
         final var modifiers = new ArrayList<GenerateModifier>();
         if (RandomUtils.bool()) {
-            final var modifier = itemModifierDao.getRandomModifier(itemRarity);
+            final var modifier = itemModifierDao.getRandomModifier(rarity);
             modifiers.add(modifier);
             if (RandomUtils.bool()) {
                 // Может быть либо 2 префиксных, либо 1 суффикс и 1 префикс
                 if (modifier.type() == ModifierType.SUFFIX) {
-                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX, itemRarity));
+                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX, rarity));
                 } else {
-                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id(), itemRarity));
+                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id(), rarity));
                 }
             }
         }
         final var tempItem = new Item(
             0L,
             object.toItemObject(),
-            itemRarity,
+            rarity,
             modifiers.stream().map(GenerateModifier::toModifier).toList(),
             Optional.of(personage.id()),
             false,
-            characteristicService.createCharacteristics(itemRarity, object, modifiers)
+            characteristicService.createCharacteristics(rarity, object, modifiers)
         );
 
         if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {

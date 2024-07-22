@@ -54,6 +54,9 @@ import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
+import ru.homyakin.seeker.telegram.command.user.shop.BuyItem;
+import ru.homyakin.seeker.telegram.command.user.shop.OpenShop;
+import ru.homyakin.seeker.telegram.command.user.shop.SellItem;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
@@ -132,11 +135,13 @@ public class CommandParser {
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
                 case SHOW_BADGES -> ShowBadges.from(message);
-                //case RANDOM_ITEM -> RandomItem.from(message); // Для тестов
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
                 case TAKE_OFF -> TakeOffItem.from(message);
                 case DROP_ITEM -> DropItem.from(message);
+                case OPEN_SHOP -> OpenShop.from(message);
+                case BUY_ITEM -> BuyItem.from(message);
+                case SELL_ITEM -> SellItem.from(message);
                 default -> null;
             });
     }

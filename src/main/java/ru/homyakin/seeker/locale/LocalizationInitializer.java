@@ -23,6 +23,8 @@ import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
+import ru.homyakin.seeker.locale.shop.ShopLocalization;
+import ru.homyakin.seeker.locale.shop.ShopResource;
 import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
 import ru.homyakin.seeker.locale.spin.EverydaySpinResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
@@ -46,6 +48,7 @@ public class LocalizationInitializer {
     private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
     private static final String TOP_PATH = File.separator + "top.toml";
     private static final String ITEM_PATH = File.separator + "item.toml";
+    private static final String SHOP_PATH = File.separator + "shop.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -111,6 +114,11 @@ public class LocalizationInitializer {
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + ITEM_PATH,
                 it -> ItemLocalization.add(language, extractClass(mapper, it, ItemResource.class))
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + SHOP_PATH,
+                it -> ShopLocalization.add(language, extractClass(mapper, it, ShopResource.class))
             );
         }
         logger.info("Localization loaded");
