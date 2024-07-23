@@ -29,7 +29,7 @@ ${mention_acceptor_icon_with_name}!""",
     "${mention_initiator_icon_with_name} явно намеревается дать по щам ${mention_acceptor_icon_with_name}!",
     """\
 Гоп стоп! ${mention_acceptor_icon_with_name} стопанули за углом таверны! ${mention_initiator_icon_with_name} \
-- серьезная персона и не собирается церемониться на дуэли! """,
+- серьезная персона и не собирается церемониться на дуэли!""",
 ]
 notDuelAcceptingPersonage = "Это не вас вызвали на дуэль!"
 expiredDuel = [
@@ -43,9 +43,7 @@ declinedDuel = [
     "Ха! ${mention_initiator_icon_with_name}, ищи дурака для дуэли в другом месте!"
 ]
 finishedDuel = [
-    """\
-Искатель ${mention_winner_icon_with_name} одержал верх над \
-${mention_loser_icon_with_name}""",
+    "Искатель ${mention_winner_icon_with_name} одержал верх над ${mention_loser_icon_with_name}",
     "${mention_loser_icon_with_name} размазали тонким слоем по брущатке!",
     "Бой окончен! ${mention_winner_icon_with_name} явно сильнее ${mention_loser_icon_with_name}!",
     "Во время дуэли ${mention_winner_icon_with_name} легким движением руки отправляет спать ${mention_loser_icon_with_name}!",
