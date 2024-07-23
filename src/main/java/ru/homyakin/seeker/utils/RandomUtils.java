@@ -11,8 +11,6 @@ import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.homyakin.seeker.utils.models.DoubleRange;
-import ru.homyakin.seeker.utils.models.IntRange;
 
 public class RandomUtils {
     private static final Logger logger = LoggerFactory.getLogger(RandomUtils.class);
@@ -67,12 +65,13 @@ public class RandomUtils {
         return list.get(random.nextInt(0, list.size()));
     }
 
-    public static double getCharacteristic(IntRange range) {
-        return getCharacteristic(range.min(), range.max());
-    }
-
-    public static double getCharacteristic(DoubleRange range) {
-        return getCharacteristic(range.min(), range.max());
+    /**
+     * @param  value     базовое значение характеристики
+     * @param  deviation отклонение. Возможные значения 0..1
+     * @return           характеристика с отклонением
+     */
+    public static double getCharacteristicWithDeviation(double value, double deviation) {
+        return getCharacteristic(value * (1 - deviation), value * (1 + deviation));
     }
 
     private static double getCharacteristic(double min, double max) {

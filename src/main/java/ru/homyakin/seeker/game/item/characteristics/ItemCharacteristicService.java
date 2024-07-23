@@ -6,7 +6,6 @@ import ru.homyakin.seeker.game.item.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.utils.RandomUtils;
-import ru.homyakin.seeker.utils.models.IntRange;
 
 import java.util.List;
 
@@ -27,15 +26,15 @@ public class ItemCharacteristicService {
         final var objectTypes = object.characteristics().types();
         for (final var type: objectTypes) {
             switch (type) {
-                case HEALTH -> health += RandomUtils.getCharacteristic(config.baseHealth()) / objectTypes.size() * object.slots().size();
-                case ATTACK -> attack += RandomUtils.getCharacteristic(config.baseAttack()) / objectTypes.size() * object.slots().size();
-                case DEFENSE -> defense += RandomUtils.getCharacteristic(config.baseDefense()) / objectTypes.size() * object.slots().size();
+                case HEALTH -> health += (double) config.baseHealth() / objectTypes.size() * object.slots().size();
+                case ATTACK -> attack += (double) config.baseAttack() / objectTypes.size() * object.slots().size();
+                case DEFENSE -> defense += (double) config.baseDefense() / objectTypes.size() * object.slots().size();
             }
         }
 
         for (final var modifier: modifiers) {
             final var modifierTypes = modifier.characteristics().types();
-            final var modifierImpact = RandomUtils.getCharacteristic(config.modifierImpact());
+            final var modifierImpact = config.modifierImpact();
             for (final var type: modifierTypes) {
                 switch (type) {
                     case HEALTH -> health += calcModifierCharacteristic(config.baseHealth(), modifierTypes.size(), modifierImpact);
@@ -57,13 +56,16 @@ public class ItemCharacteristicService {
     }
 
     private double resultCharacteristic(double baseCharacteristic, double multiplier) {
+        final double result;
         if (baseCharacteristic == 0 || multiplier == 1.0) {
-            return baseCharacteristic;
+            result = baseCharacteristic;
+        } else {
+            result = Math.max(baseCharacteristic + 1, baseCharacteristic * multiplier);
         }
-        return Math.max(baseCharacteristic + 1, baseCharacteristic * multiplier);
+        return RandomUtils.getCharacteristicWithDeviation(result, config.deviation());
     }
 
-    private double calcModifierCharacteristic(IntRange range, int typesCount, double modifierImpact) {
-        return Math.max(RandomUtils.getCharacteristic(range) / typesCount * modifierImpact, 1);
+    private double calcModifierCharacteristic(Integer value, int typesCount, double modifierImpact) {
+        return Math.max((double) value / typesCount * modifierImpact, 1);
     }
 }

@@ -23,10 +23,11 @@ public class ItemCharacteristicServiceTest {
 
     @BeforeEach
     public void init() {
-        config.setBaseAttack("12-12");
-        config.setBaseDefense("12-12");
-        config.setBaseHealth("12-12");
-        config.setModifierImpact("0.5-0.5");
+        config.setBaseAttack(12);
+        config.setBaseDefense(12);
+        config.setBaseHealth(12);
+        config.setModifierImpact(0.5);
+        config.setDeviation(0.0);
     }
 
     @Test
@@ -162,8 +163,8 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_SmallAttackAndObjectWithAttackAndOneSlotAndOneModifierWithMultiplier_When_CreateCharacteristics_Then_ModifierImpactIsOne() {
-        config.setBaseAttack("1-1");
-        config.setModifierImpact("0.1-0.1");
+        config.setBaseAttack(1);
+        config.setModifierImpact(0.1);
         final var rarity = Mockito.mock(ItemRarity.class);
         final var object = Mockito.mock(GenerateItemObject.class);
         final var modifier1 = Mockito.mock(GenerateModifier.class);

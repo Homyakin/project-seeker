@@ -3,50 +3,58 @@ package ru.homyakin.seeker.game.item.characteristics;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-import ru.homyakin.seeker.utils.models.DoubleRange;
-import ru.homyakin.seeker.utils.models.IntRange;
 
 @Validated
 @ConfigurationProperties("homyakin.seeker.item.characteristic")
 public class ItemCharacteristicConfig {
     @NotNull
-    private IntRange baseAttack;
+    private Integer baseAttack;
     @NotNull
-    private IntRange baseDefense;
+    private Integer baseDefense;
     @NotNull
-    private IntRange baseHealth;
+    private Integer baseHealth;
     @NotNull
-    private DoubleRange modifierImpact;
+    private Double modifierImpact;
+    @NotNull
+    private Double deviation;
 
-    public IntRange baseAttack() {
+    public Integer baseAttack() {
         return baseAttack;
     }
 
-    public IntRange baseDefense() {
+    public Integer baseDefense() {
         return baseDefense;
     }
 
-    public IntRange baseHealth() {
+    public Integer baseHealth() {
         return baseHealth;
     }
 
-    public DoubleRange modifierImpact() {
+    public Double modifierImpact() {
         return modifierImpact;
     }
 
-    public void setBaseAttack(String baseAttack) {
-        this.baseAttack = IntRange.fromString(baseAttack);
+    public Double deviation() {
+        return deviation;
     }
 
-    public void setBaseDefense(String baseDefense) {
-        this.baseDefense = IntRange.fromString(baseDefense);
+    public void setBaseAttack(Integer baseAttack) {
+        this.baseAttack = baseAttack;
     }
 
-    public void setBaseHealth(String baseHealth) {
-        this.baseHealth = IntRange.fromString(baseHealth);
+    public void setBaseDefense(Integer baseDefense) {
+        this.baseDefense = baseDefense;
     }
 
-    public void setModifierImpact(String modifierImpact) {
-        this.modifierImpact = DoubleRange.fromString(modifierImpact);
+    public void setBaseHealth(Integer baseHealth) {
+        this.baseHealth = baseHealth;
+    }
+
+    public void setModifierImpact(Double modifierImpact) {
+        this.modifierImpact = modifierImpact;
+    }
+
+    public void setDeviation(Double deviation) {
+        this.deviation = deviation;
     }
 }
