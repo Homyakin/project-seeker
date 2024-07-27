@@ -36,13 +36,13 @@ public class ShopLocalization {
             .toList();
         for (int i = 0; i < buyingItems.size(); ++i) {
             buying.append(buyingItem(language, buyingItems.get(i)));
-            if (i <= buyingItems.size() - 1) {
+            if (i < buyingItems.size() - 1) {
                 buying.append("\n");
             }
         }
         for (int i = 0; i < sellingItems.size(); ++i) {
             selling.append(sellingItem(language, sellingItems.get(i)));
-            if (i <= sellingItems.size() - 1) {
+            if (i < sellingItems.size() - 1) {
                 selling.append("\n");
             }
         }
