@@ -1,6 +1,6 @@
 [[item]]
 code = "beer"
-price = 3
+price = 5
 isAvailable = true
 category = "DRINK"
 
@@ -22,7 +22,7 @@ consumeTemplate = [
 
 [[item]]
 code = "slime_nastoyka"
-price = 5
+price = 15
 isAvailable = true
 category = "DRINK"
 
@@ -42,7 +42,7 @@ consumeTemplate = [
 
 [[item]]
 code = "grechka_tea"
-price = 2
+price = 5
 isAvailable = true
 category = "DRINK"
 
@@ -62,7 +62,7 @@ consumeTemplate = [
 
 [[item]]
 code = "monastery_wine"
-price = 7
+price = 10
 isAvailable = true
 category = "DRINK"
 
@@ -82,7 +82,7 @@ consumeTemplate = [
 
 [[item]]
 code = "gorgon"
-price = 5
+price = 10
 isAvailable = true
 category = "DRINK"
 
@@ -102,7 +102,7 @@ consumeTemplate = [
 
 [[item]]
 code = "cat_soup"
-price = 6
+price = 10
 isAvailable = true
 category = "MAIN_DISH"
 
@@ -120,7 +120,7 @@ consumeTemplate = [
 
 [[item]]
 code = "roast_maggoose"
-price = 8
+price = 15
 isAvailable = true
 category = "MAIN_DISH"
 
