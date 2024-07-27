@@ -119,8 +119,12 @@ public class RaidLocalization {
             params.put("from_new_line_items_for_personages", "");
         } else {
             final var builder = new StringBuilder("\n\n");
-            for (final var result: raidResult.generatedItemResults()) {
-                builder.append(itemResult(language, result)).append("\n");
+            final var items = raidResult.generatedItemResults();
+            for (int i = 0; i < items.size(); ++i) {
+                builder.append(itemResult(language, items.get(i)));
+                if (i < items.size() - 1) {
+                    builder.append("\n");
+                }
             }
             params.put("from_new_line_items_for_personages", builder.toString());
         }
