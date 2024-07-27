@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.item.database;
+package ru.homyakin.seeker.game.item.modifier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,8 +7,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.models.GenerateModifier;
-import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
+import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.infrastructure.database.ManyToManyUpdater;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;

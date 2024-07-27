@@ -13,6 +13,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
@@ -43,6 +44,7 @@ public class InitGameData {
     private final RumorService rumorService;
     private final BadgeService badgeService;
     private final ItemService itemService;
+    private final ItemModifierService itemModifierService;
     private final InitGameDataConfig config;
 
     public InitGameData(
@@ -51,6 +53,7 @@ public class InitGameData {
         RumorService rumorService,
         BadgeService badgeService,
         ItemService itemService,
+        ItemModifierService itemModifierService,
         InitGameDataConfig config
     ) {
         this.eventService = eventService;
@@ -58,6 +61,7 @@ public class InitGameData {
         this.rumorService = rumorService;
         this.badgeService = badgeService;
         this.itemService = itemService;
+        this.itemModifierService = itemModifierService;
         this.config = config;
     }
 
@@ -140,7 +144,7 @@ public class InitGameData {
                 LocalizationCoverage.addIteModifiersInfo(itemModifiers);
                 itemModifiers.modifier().forEach(SavingModifier::validateLocale);
                 itemModifiers.modifier().forEach(SavingModifier::validateWordForms);
-                itemService.saveModifiers(itemModifiers);
+                itemModifierService.saveModifiers(itemModifiers);
             }
         );
         logger.info("loaded items");

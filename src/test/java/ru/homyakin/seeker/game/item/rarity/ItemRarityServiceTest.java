@@ -55,7 +55,7 @@ public class ItemRarityServiceTest {
     }
 
     @Test
-    public void When_ProbabilityIsLegendaryPlusEpicPlusRarePlusUncommon_Then_RarityIsRare() {
+    public void When_ProbabilityIsLegendaryPlusEpicPlusRarePlusUncommon_Then_RarityIsUncommon() {
         ItemRarity rarity;
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.getInInterval(1, 100)).thenReturn(
@@ -68,7 +68,7 @@ public class ItemRarityServiceTest {
     }
 
     @Test
-    public void When_ProbabilityIsLegendaryPlusEpicPlusRarePlusUncommonPlusCommon_Then_RarityIsRare() {
+    public void When_ProbabilityIsLegendaryPlusEpicPlusRarePlusUncommonPlusCommon_Then_RarityIsCommon() {
         ItemRarity rarity;
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.getInInterval(1, 100)).thenReturn(

@@ -64,8 +64,8 @@ public class ItemRarityConfig implements Validator {
                 + config.epicProbability + config.legendaryProbability;
             if (probabilitySum != 100) {
                 errors.reject(
-                    "item.probability.error",
-                    "Item probability sum should be 100, but is " + probabilitySum
+                    "item.rarity.probability.error",
+                    "Item rarity probability sum should be 100, but is " + probabilitySum
                 );
             }
         }

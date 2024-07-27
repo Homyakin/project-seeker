@@ -12,13 +12,13 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.item.characteristics.ItemCharacteristicService;
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.database.ItemDao;
-import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
-import ru.homyakin.seeker.game.item.models.GenerateModifier;
+import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.models.ModifierType;
+import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.item.rarity.ItemRarityService;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -29,13 +29,13 @@ import ru.homyakin.seeker.utils.RandomUtils;
 
 public class ItemServiceGenerateItemTest {
     private final ItemObjectDao itemObjectDao = Mockito.mock(ItemObjectDao.class);
-    private final ItemModifierDao itemModifierDao = Mockito.mock(ItemModifierDao.class);
+    private final ItemModifierService itemModifierService = Mockito.mock(ItemModifierService.class);
     private final ItemDao itemDao = Mockito.mock(ItemDao.class);
     private final ItemRarityService rarityService = Mockito.mock(ItemRarityService.class);
     private final ItemCharacteristicService characteristicService = Mockito.mock(ItemCharacteristicService.class);
     private final ItemService service = new ItemService(
         itemObjectDao,
-        itemModifierDao,
+        itemModifierService,
         itemDao,
         characteristicService,
         rarityService
@@ -47,7 +47,7 @@ public class ItemServiceGenerateItemTest {
     }
 
     @Test
-    public void When_RandomUtilsReturnFalse_Then_GenerateItemWithoutModifiers() {
+    public void When_ModifierServiceReturnEmptyList_And_RarityServiceReturnCommon_Then_GenerateCommonItemWithoutModifiers() {
 
         Mockito.when(itemDao.getByPersonageId(Mockito.any())).thenReturn(List.of());
         final var item = new Item(
@@ -78,41 +78,11 @@ public class ItemServiceGenerateItemTest {
     }
 
     @Test
-    public void When_RandomUtilsReturnTrueAndFalse_Then_GenerateItemWithOneModifier() {
+    public void When_ModifierServiceReturnTwoModifiers_And_RarityServiceReturnCommon_Then_GenerateCommonItemWithTwoModifiers() {
         Mockito.when(itemDao.getByPersonageId(Mockito.any())).thenReturn(List.of());
-        Mockito.when(itemModifierDao.getRandomModifier(ItemRarity.COMMON)).thenReturn(modifier1);
-        final var item = new Item(
-            0L,
-            object.toItemObject(),
-            ItemRarity.COMMON,
-            List.of(modifier1.toModifier()),
-            Optional.of(personageId),
-            false,
-            characteristics
+        Mockito.when(itemModifierService.generateModifiersForRarity(ItemRarity.COMMON)).thenReturn(
+            List.of(modifier1, modifier2)
         );
-
-        Mockito.when(itemDao.getById(Mockito.any())).thenReturn(Optional.of(item));
-        Mockito.when(rarityService.generateItemRarity()).thenReturn(ItemRarity.COMMON);
-        Mockito.when(characteristicService.createCharacteristics(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(
-            characteristics
-        );
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(RandomUtils::bool).thenReturn(true, false);
-            service.generateItemForPersonage(PersonageUtils.withId(personageId));
-        }
-
-        final var captor = ArgumentCaptor.forClass(Item.class);
-        Mockito.verify(itemDao).saveItem(captor.capture());
-
-
-        Assertions.assertEquals(item, captor.getValue());
-    }
-
-    @Test
-    public void When_RandomUtilsReturnTrue_Then_GenerateItemWithTwoModifiers() {
-        Mockito.when(itemDao.getByPersonageId(Mockito.any())).thenReturn(List.of());
-        Mockito.when(itemModifierDao.getRandomModifier(ItemRarity.COMMON)).thenReturn(modifier1);
-        Mockito.when(itemModifierDao.getRandomModifierExcludeId(modifier1.id(), ItemRarity.COMMON)).thenReturn(modifier2);
         final var item = new Item(
             0L,
             object.toItemObject(),
@@ -128,10 +98,8 @@ public class ItemServiceGenerateItemTest {
         Mockito.when(characteristicService.createCharacteristics(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(
             characteristics
         );
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(RandomUtils::bool).thenReturn(true);
-            service.generateItemForPersonage(PersonageUtils.withId(personageId));
-        }
+
+        service.generateItemForPersonage(PersonageUtils.withId(personageId));
 
         final var captor = ArgumentCaptor.forClass(Item.class);
         Mockito.verify(itemDao).saveItem(captor.capture());

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.item.models;
+package ru.homyakin.seeker.game.item.modifier.models;
 
 public enum ModifierType {
     PREFIX(1),

@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.item.models;
 import java.util.List;
 import java.util.Optional;
 
+import ru.homyakin.seeker.game.item.modifier.models.Modifier;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;

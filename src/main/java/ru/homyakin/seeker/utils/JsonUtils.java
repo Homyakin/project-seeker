@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
-import ru.homyakin.seeker.game.item.models.ModifierLocale;
+import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
 import ru.homyakin.seeker.locale.Language;
 
 @Component
