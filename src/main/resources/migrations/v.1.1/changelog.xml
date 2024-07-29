@@ -18,4 +18,5 @@
     <include file="changes/2024-04-21_01_add-event-intervals-mechanic.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-05-04_01_add-item-to-raid-result.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-05-19_add-rarity-to-items.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-07-28_01_wipe.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
