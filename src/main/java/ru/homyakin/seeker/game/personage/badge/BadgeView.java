@@ -1,11 +1,12 @@
 package ru.homyakin.seeker.game.personage.badge;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import ru.homyakin.seeker.infrastructure.Icons;
+import net.fellbaum.jemoji.EmojiManager;
 
 public enum BadgeView {
-    STANDARD("standard", Icons.PERSONAGE_STANDARD),
-    FIRST_PERSONAGES("first-personages", Icons.PERSONAGE_FIRST),
+    STANDARD("standard", EmojiManager.getByAlias(":beginner:").orElseThrow().getEmoji()),
+    FIRST_PERSONAGES("first-personages", EmojiManager.getByAlias(":reminder_ribbon:").orElseThrow().getEmoji()),
+    FIRST_SEASON("first-season", EmojiManager.getByAlias(":otter:").orElseThrow().getEmoji()),
     ;
 
     private final String code;

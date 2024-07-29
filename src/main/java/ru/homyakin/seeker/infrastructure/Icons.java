@@ -3,8 +3,6 @@ package ru.homyakin.seeker.infrastructure;
 import net.fellbaum.jemoji.EmojiManager;
 
 public class Icons {
-    public static final String PERSONAGE_STANDARD = EmojiManager.getByAlias(":beginner:").orElseThrow().getEmoji();
-    public static final String PERSONAGE_FIRST = EmojiManager.getByAlias(":reminder_ribbon:").orElseThrow().getEmoji();
     public static final String MONEY = EmojiManager.getByAlias(":moneybag:").orElseThrow().getEmoji();
     public static final String STRENGTH = EmojiManager.getByAlias(":fist:").orElseThrow().getEmoji();
     public static final String AGILITY = EmojiManager.getByAlias(":athletic_shoe:").orElseThrow().getEmoji();

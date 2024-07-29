@@ -9,3 +9,9 @@ code = "first-personages"
 
 [badge.locales.RU]
 description = "Первые Искатели"
+
+[[badge]]
+code = "first-season"
+
+[badge.locales.RU]
+description = "Первый Сезон"
