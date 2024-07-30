@@ -6,7 +6,7 @@ chooseLanguage = "Choose language:"
 onlyAdminAction = "This action is available only for administrators"
 internalError = "Unexpected error, try again later"
 fullProfile = """\
-${personage_badge}${personage_name}
+${personage_badge_with_name}
 ${money_icon}Gold: ${personage_money}
 ${energy_icon}Energy: ${energy_value}%
 ${health_icon}Health: ${health_value}
