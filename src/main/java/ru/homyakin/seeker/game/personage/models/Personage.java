@@ -233,7 +233,7 @@ public record Personage(
         return new Personage(
             PersonageId.from(0L),
             name,
-            Money.from(10),
+            Money.from(50),
             Characteristics.createDefault(),
             Energy.createDefault(),
             BadgeView.STANDARD,
