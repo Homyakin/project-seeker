@@ -20,6 +20,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class PersonageService {
@@ -99,7 +100,7 @@ public class PersonageService {
     public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
             .map(personage ->
-                personage.regenEnergyIfNeed(personageConfig.energyFullRecovery())
+                personage.regenEnergyIfNeed(personageConfig.energyFullRecovery(), TimeUtils.moscowTime())
                     .peek(personageDao::update)
                     .getOrElse(personage)
             );
@@ -111,11 +112,12 @@ public class PersonageService {
     }
 
     public List<Personage> getByLaunchedEvent(long launchedEventId) {
+        final var now = TimeUtils.moscowTime();
         return personageDao
             .getByLaunchedEvent(launchedEventId)
             .stream()
             .map(
-                personage -> personage.regenEnergyIfNeed(personageConfig.energyFullRecovery())
+                personage -> personage.regenEnergyIfNeed(personageConfig.energyFullRecovery(), now)
                     .peek(personageDao::update)
                     .getOrElse(personage)
             )

@@ -25,12 +25,11 @@ public record Energy(
         return new Energy(0, changeTime);
     }
 
-    public Either<EnergyStillSame, Energy> regenIfNeeded(Duration timeForFullRegen) {
+    public Either<EnergyStillSame, Energy> regenIfNeeded(Duration timeForFullRegen, LocalDateTime now) {
         if (value >= MAX_ENERGY) {
             return Either.left(EnergyStillSame.INSTANCE);
         }
-        final var time = TimeUtils.moscowTime();
-        final var minutesPass = Duration.between(lastChange, time).toMinutes();
+        final var minutesPass = Duration.between(lastChange, now).toMinutes();
         final var increaseEnergy = MathUtils.doubleToIntWithMinMaxValues(
             ((double) MAX_ENERGY) / timeForFullRegen.toMinutes() * minutesPass
         );

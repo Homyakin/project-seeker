@@ -87,9 +87,9 @@ public record Personage(
         return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
-    public Either<EnergyStillSame, Personage> regenEnergyIfNeed(Duration timeForFullRegen) {
+    public Either<EnergyStillSame, Personage> regenEnergyIfNeed(Duration timeForFullRegen, LocalDateTime now) {
         return energy
-            .regenIfNeeded(timeForFullRegen)
+            .regenIfNeeded(timeForFullRegen, now)
             .map(this::copyWithEnergy);
     }
 
