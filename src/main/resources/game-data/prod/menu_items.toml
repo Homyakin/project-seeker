@@ -1,6 +1,6 @@
 [[item]]
 code = "beer"
-price = 5
+rarity = "COMMON"
 isAvailable = true
 category = "DRINK"
 
@@ -22,7 +22,7 @@ consumeTemplate = [
 
 [[item]]
 code = "slime_nastoyka"
-price = 15
+rarity = "RARE"
 isAvailable = true
 category = "DRINK"
 
@@ -42,7 +42,7 @@ consumeTemplate = [
 
 [[item]]
 code = "grechka_tea"
-price = 5
+rarity = "COMMON"
 isAvailable = true
 category = "DRINK"
 
@@ -62,7 +62,7 @@ consumeTemplate = [
 
 [[item]]
 code = "monastery_wine"
-price = 10
+rarity = "UNCOMMON"
 isAvailable = true
 category = "DRINK"
 
@@ -82,7 +82,7 @@ consumeTemplate = [
 
 [[item]]
 code = "gorgon"
-price = 10
+rarity = "UNCOMMON"
 isAvailable = true
 category = "DRINK"
 
@@ -102,7 +102,7 @@ consumeTemplate = [
 
 [[item]]
 code = "cat_soup"
-price = 10
+rarity = "UNCOMMON"
 isAvailable = true
 category = "MAIN_DISH"
 
@@ -120,7 +120,7 @@ consumeTemplate = [
 
 [[item]]
 code = "roast_maggoose"
-price = 15
+rarity = "RARE"
 isAvailable = true
 category = "MAIN_DISH"
 
@@ -134,7 +134,7 @@ consumeTemplate = [ "Roast of fresh maggoose! Increases magical potency" ]
 
 [[item]]
 code = "fried_potato"
-price = 5
+rarity = "COMMON"
 isAvailable = true
 category = "MAIN_DISH"
 

@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItemRarity;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 import ru.homyakin.seeker.locale.Language;
 
@@ -24,10 +25,10 @@ public class MenuDao {
 
     private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
     private static final String SAVE_ITEM = """
-        INSERT INTO menu_item (price, is_available, category_id, code)
-        VALUES (:price, :is_available, :category_id, :code)
+        INSERT INTO menu_item (is_available, category_id, code, rarity_id)
+        VALUES (:is_available, :category_id, :code, :rarity_id)
         ON CONFLICT (code)
-        DO UPDATE SET price = :price, is_available = :is_available, category_id = :category_id
+        DO UPDATE SET rarity_id = :rarity_id, is_available = :is_available, category_id = :category_id
         RETURNING id
         """;
     private static final String SAVE_LOCALE = """
@@ -38,9 +39,11 @@ public class MenuDao {
         """;
 
     private final JdbcClient jdbcClient;
+    private final MenuItemConfig config;
 
-    public MenuDao(DataSource dataSource) {
+    public MenuDao(DataSource dataSource, MenuItemConfig config) {
         this.jdbcClient = JdbcClient.create(dataSource);
+        this.config = config;
     }
 
     public List<MenuItem> getAvailableMenu() {
@@ -71,7 +74,7 @@ public class MenuDao {
     @Transactional
     public void saveItem(SavingMenuItem menuItem) {
         final int id = jdbcClient.sql(SAVE_ITEM)
-            .param("price", menuItem.price().value())
+            .param("rarity_id", menuItem.rarity().id())
             .param("is_available", menuItem.isAvailable())
             .param("category_id", menuItem.category().id())
             .param("code", menuItem.code())
@@ -104,7 +107,7 @@ public class MenuDao {
         return new MenuItemWithoutLocale(
             rs.getInt("id"),
             rs.getString("code"),
-            rs.getInt("price"),
+            config.priceByRarity(MenuItemRarity.findById(rs.getInt("rarity_id"))),
             rs.getBoolean("is_available"),
             Category.getById(rs.getInt("category_id"))
         );
@@ -123,7 +126,7 @@ public class MenuDao {
     private record MenuItemWithoutLocale(
         int id,
         String code,
-        int price,
+        Money price,
         boolean isAvailable,
         Category category
     ) {
@@ -131,7 +134,7 @@ public class MenuDao {
             return new MenuItem(
                 id,
                 code,
-                new Money(price),
+                price,
                 isAvailable,
                 category,
                 locales

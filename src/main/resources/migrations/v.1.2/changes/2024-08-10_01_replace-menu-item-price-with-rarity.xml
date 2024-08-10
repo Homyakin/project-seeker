@@ -1,0 +1,16 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-rarity-to-menu-item">
+        <addColumn tableName="menu_item">
+            <!--По этой id не будет никаких поисков и т.д. Пока что нет смысла добавлять в базу ещё одну таблицу-->
+            <column name="rarity_id" type="INT" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <dropColumn tableName="menu_item" columnName="price"/>
+    </changeSet>
+</databaseChangeLog>

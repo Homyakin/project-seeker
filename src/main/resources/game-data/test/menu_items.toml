@@ -1,6 +1,6 @@
 [[item]]
 code = "water"
-price = 2
+rarity = "COMMON"
 isAvailable = true
 category = "DRINK"
 
@@ -18,7 +18,7 @@ consumeTemplate = [
 
 [[item]]
 code = "glass_water"
-price = 10
+rarity = "UNCOMMON"
 isAvailable = true
 category = "DRINK"
 
@@ -38,7 +38,7 @@ consumeTemplate = [
 
 [[item]]
 code = "cat_soup"
-price = 5
+rarity = "RARE"
 isAvailable = true
 category = "MAIN_DISH"
 
