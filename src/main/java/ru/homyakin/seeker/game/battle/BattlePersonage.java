@@ -11,9 +11,14 @@ import ru.homyakin.seeker.utils.models.Pair;
 public class BattlePersonage implements Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(BattlePersonage.class);
     private final long id;
-    private final BattleHealth health;
     private final BattleStats battleStats = new BattleStats();
-    private final Characteristics characteristics;
+    /**
+     * АХТУНГ!!! При расчете мощи персонажа, характеристику учитываются без эффектов
+     * Это нужно, чтобы повысить винрейт при использовании эффектов
+     */
+    private final double power;
+    private BattleHealth health;
+    private Characteristics characteristics;
     private final Personage personage;
 
     public BattlePersonage(
@@ -22,9 +27,15 @@ public class BattlePersonage implements Cloneable {
         Personage personage
     ) {
         this.id = id;
-        this.health = new BattleHealth(characteristics);
         this.characteristics = characteristics;
+        this.health = new BattleHealth(this.characteristics);
+        this.power = calculatePower();
+        if (personage != null) { // TODO это костылище, когда генерируем рейды, персонажа нет
+            this.characteristics = this.characteristics.apply(personage.effects());
+            this.health = new BattleHealth(this.characteristics);
+        }
         this.personage = personage;
+
     }
 
     public long id() {
@@ -69,7 +80,7 @@ public class BattlePersonage implements Cloneable {
     /**
      * Считаем абстрактную мощь персонажа относительно персонажа с характеристиками 5/5/5
      */
-    public double power() {
+    private double calculatePower() {
         final var critChance = calculateCritChance(5);
         final var dodgeChance = calculateDodgeChance(5);
         final var attackBonus = 1 + calculateAttackBonus(5);
@@ -84,6 +95,10 @@ public class BattlePersonage implements Cloneable {
             * attackBonus
             * characteristics.attack()
             * (1 / (1 - dodgeChance / 100));
+    }
+
+    public double power() {
+        return power;
     }
 
     public double calculateHealthForTargetPower(double targetPower) {
@@ -197,6 +212,7 @@ public class BattlePersonage implements Cloneable {
         return new BattlePersonage(
             id,
             health,
+            power,
             characteristics,
             personage
         );
@@ -213,11 +229,13 @@ public class BattlePersonage implements Cloneable {
     private BattlePersonage(
         long id,
         BattleHealth health,
+        double power,
         Characteristics characteristics,
         Personage personage
     ) {
         this.id = id;
         this.health = health.clone();
+        this.power = power;
         this.characteristics = characteristics.clone();
         this.personage = personage;
     }

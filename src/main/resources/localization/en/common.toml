@@ -13,6 +13,9 @@ ${health_icon}Health: ${health_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
 
+hoursShort = "hh"
+minutesShort = "mm"
+
 #текста для группы
 groupStats = """\
 📊<b>Group statistics:</b>

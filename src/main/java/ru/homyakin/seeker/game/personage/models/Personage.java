@@ -14,11 +14,12 @@ import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
-import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
+import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -32,7 +33,8 @@ public record Personage(
     Characteristics characteristics,
     Energy energy,
     BadgeView badge,
-    Characteristics itemCharacteristics
+    Characteristics itemCharacteristics,
+    PersonageEffects effects
 ) {
     public Personage addMoney(Money money) {
         return new Personage(
@@ -42,7 +44,8 @@ public record Personage(
             characteristics,
             energy,
             badge,
-            itemCharacteristics
+            itemCharacteristics,
+            effects
         );
     }
 
@@ -75,6 +78,10 @@ public record Personage(
         return characteristics.add(itemCharacteristics);
     }
 
+    public Characteristics calcTotalCharacteristicsWithEffects() {
+        return characteristics.add(itemCharacteristics).apply(effects);
+    }
+
     public Either<NotEnoughLevelingPoints, Personage> incrementStrength() {
         return characteristics.incrementStrength().map(this::copyWithCharacteristics);
     }
@@ -87,10 +94,25 @@ public record Personage(
         return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
-    public Either<EnergyStillSame, Personage> regenEnergyIfNeed(Duration timeForFullRegen, LocalDateTime now) {
-        return energy
-            .regenIfNeeded(timeForFullRegen, now)
-            .map(this::copyWithEnergy);
+    public Either<StillSame, Personage> updateStateIfNeed(Duration timeForFullEnergyRegen, LocalDateTime now) {
+        final var energyResult = energy.regenIfNeeded(timeForFullEnergyRegen, now);
+        final var effectsResult = effects.expireIfNeeded(now);
+
+        if (energyResult.isLeft() && effectsResult.isLeft()) {
+            return Either.left(StillSame.INSTANCE);
+        }
+
+        final var personage = new Personage(
+            id,
+            name,
+            money,
+            characteristics,
+            energyResult.getOrElse(energy),
+            badge,
+            itemCharacteristics,
+            effectsResult.getOrElse(effects)
+        );
+        return Either.right(personage);
     }
 
     public Personage reduceEnergy(LocalDateTime energyChangeTime, int energyToReduce) {
@@ -225,6 +247,19 @@ public record Personage(
         return result;
     }
 
+    public Personage addMenuItemEffect(MenuItemEffect effect) {
+        return new Personage(
+            id,
+            name,
+            money,
+            characteristics,
+            energy,
+            badge,
+            itemCharacteristics,
+            effects.addMenuItemEffect(effect)
+        );
+    }
+
     public static Personage createDefault() {
         return createDefault(TextConstants.DEFAULT_NAME);
     }
@@ -237,7 +272,8 @@ public record Personage(
             Characteristics.createDefault(),
             Energy.createDefault(),
             BadgeView.STANDARD,
-            Characteristics.ZERO
+            Characteristics.ZERO,
+            PersonageEffects.EMPTY
         );
     }
 
@@ -269,7 +305,8 @@ public record Personage(
             characteristics,
             energy,
             badge,
-            itemCharacteristics
+            itemCharacteristics,
+            effects
         );
     }
 
@@ -281,7 +318,8 @@ public record Personage(
             characteristics,
             energy,
             badge,
-            itemCharacteristics
+            itemCharacteristics,
+            effects
         );
     }
 
@@ -293,7 +331,8 @@ public record Personage(
             characteristics,
             energy,
             badge,
-            itemCharacteristics
+            itemCharacteristics,
+            effects
         );
     }
 }

@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-effects-from-menu-items">
+        <addColumn tableName="personage">
+            <column name="effects" type="JSON" defaultValue='{"menuItemEffect":null}'>
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="menu_item">
+            <column name="effect_characteristic" type="TEXT" defaultValue="HEALTH">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

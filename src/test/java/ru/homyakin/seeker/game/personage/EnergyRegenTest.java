@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.personage.models.Energy;
-import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
+import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -21,7 +21,7 @@ public class EnergyRegenTest {
         final var result = energy.regenIfNeeded(regenDuration, TimeUtils.moscowTime());
         // then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(EnergyStillSame.INSTANCE, result.getLeft());
+        Assertions.assertEquals(StillSame.INSTANCE, result.getLeft());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class EnergyRegenTest {
         final var result = energy.regenIfNeeded(regenDuration, time);
         // then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(EnergyStillSame.INSTANCE, result.getLeft());
+        Assertions.assertEquals(StillSame.INSTANCE, result.getLeft());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class EnergyRegenTest {
         final var result = energy.regenIfNeeded(regenDuration, regenTime);
         // then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(EnergyStillSame.INSTANCE, result.getLeft());
+        Assertions.assertEquals(StillSame.INSTANCE, result.getLeft());
     }
 
     @Test

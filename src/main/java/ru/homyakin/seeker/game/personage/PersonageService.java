@@ -20,6 +20,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -100,7 +101,7 @@ public class PersonageService {
     public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
             .map(personage ->
-                personage.regenEnergyIfNeed(personageConfig.energyFullRecovery(), TimeUtils.moscowTime())
+                personage.updateStateIfNeed(personageConfig.energyFullRecovery(), TimeUtils.moscowTime())
                     .peek(personageDao::update)
                     .getOrElse(personage)
             );
@@ -117,7 +118,7 @@ public class PersonageService {
             .getByLaunchedEvent(launchedEventId)
             .stream()
             .map(
-                personage -> personage.regenEnergyIfNeed(personageConfig.energyFullRecovery(), now)
+                personage -> personage.updateStateIfNeed(personageConfig.energyFullRecovery(), now)
                     .peek(personageDao::update)
                     .getOrElse(personage)
             )
@@ -189,5 +190,9 @@ public class PersonageService {
 
     public void cancelChangeName(PersonageId id) {
         getByIdForce(id).cancelChangeName().peek(personageDao::update);
+    }
+
+    public void addMenuItemEffect(Personage personage, MenuItemEffect effect) {
+        personageDao.update(personage.addMenuItemEffect(effect));
     }
 }

@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.raid.generator;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -41,7 +42,8 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
                     characteristics,
                     null,
                     null,
-                    Characteristics.ZERO
+                    Characteristics.ZERO,
+                    PersonageEffects.EMPTY
                 ).toBattlePersonage()
             );
         }

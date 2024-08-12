@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.raid.generator;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.util.Collections;
@@ -29,7 +30,8 @@ public class SingleBossGenerator implements RaidBattlePersonageGenerator {
             characteristics,
             null,
             null,
-            Characteristics.ZERO
+            Characteristics.ZERO,
+            PersonageEffects.EMPTY
         ).toBattlePersonage();
         return Collections.singletonList(boss);
     }

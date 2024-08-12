@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -30,7 +31,8 @@ public class PersonageUtils {
             Characteristics.random(),
             Energy.createDefault(),
             BadgeView.STANDARD,
-            Characteristics.ZERO
+            Characteristics.ZERO,
+            PersonageEffects.EMPTY
         );
     }
 
@@ -42,7 +44,8 @@ public class PersonageUtils {
             Characteristics.random(),
             Energy.createZero(TimeUtils.moscowTime()),
             BadgeView.STANDARD,
-            Characteristics.ZERO
+            Characteristics.ZERO,
+            PersonageEffects.EMPTY
         );
     }
 
@@ -61,7 +64,8 @@ public class PersonageUtils {
                 0,
                 0,
                 0
-            )
+            ),
+            PersonageEffects.EMPTY
         );
     }
 }

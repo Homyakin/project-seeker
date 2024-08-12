@@ -4,4 +4,5 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <include file="changes/2024-08-10_01_replace-menu-item-price-with-rarity.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-08-10_02_add-effects-from-menu-items.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

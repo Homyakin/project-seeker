@@ -2,6 +2,8 @@ package ru.homyakin.seeker.game.tavern_menu.models;
 
 import java.util.Collections;
 import java.util.Map;
+
+import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -18,7 +20,8 @@ public record MenuItem(
     Money price,
     boolean isAvailable,
     Category category,
-    Map<Language, MenuItemLocale> locales
+    Map<Language, MenuItemLocale> locales,
+    Effect effect
 ) implements Localized<MenuItemLocale> {
     // TODO в локализацию
     public String menuPositionText(Language language) {

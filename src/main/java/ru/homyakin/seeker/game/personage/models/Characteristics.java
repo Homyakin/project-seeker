@@ -1,7 +1,9 @@
 package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
+import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
@@ -99,6 +101,10 @@ public record Characteristics(
         );
     }
 
+    public Characteristics apply(PersonageEffects effects) {
+        return new EditableCharacteristics(this).apply(effects).toFinal();
+    }
+
     @Override
     public Characteristics clone() {
         try {
@@ -152,6 +158,64 @@ public record Characteristics(
             agility,
             wisdom
         );
+    }
+
+    private class EditableCharacteristics {
+        private int health;
+        private int attack;
+        private int defense;
+        private int strength;
+        private int agility;
+        private int wisdom;
+
+        public EditableCharacteristics(Characteristics characteristics) {
+            health = characteristics.health();
+            attack = characteristics.attack();
+            defense = characteristics.defense();
+            strength = characteristics.strength();
+            agility = characteristics.agility();
+            wisdom = characteristics.wisdom();
+        }
+
+        public EditableCharacteristics apply(PersonageEffects effects) {
+            effects.menuItemEffect().map(MenuItemEffect::effect).ifPresent(this::apply);
+            return this;
+        }
+
+        private void apply(Effect effect) {
+            switch (effect) {
+                case Effect.Add add -> {
+                    switch (add.characteristic()) {
+                        case HEALTH -> health = health + add.value();
+                        case ATTACK -> attack = attack + add.value();
+                        case STRENGTH -> strength = strength + add.value();
+                        case AGILITY -> agility = agility + add.value();
+                        case WISDOM -> wisdom = wisdom + add.value();
+                    }
+                }
+                case Effect.Multiplier multiplier -> {
+                    final var value = 1 + multiplier.percent() / 100.0;
+                    switch (multiplier.characteristic()) {
+                        case HEALTH -> health = (int) (health * value);
+                        case ATTACK -> attack = (int) (attack * value);
+                        case STRENGTH -> strength = (int) (strength * value);
+                        case AGILITY -> agility = (int) (agility * value);
+                        case WISDOM -> wisdom = (int) (wisdom * value);
+                    }
+                }
+            }
+        }
+
+        public Characteristics toFinal() {
+            return new Characteristics(
+                health,
+                attack,
+                defense,
+                strength,
+                agility,
+                wisdom
+            );
+        }
     }
 
     private static final int MAX_LEVELING_POINTS = 12;

@@ -1,7 +1,5 @@
 joinRaidEvent = "Join raid🗡"
 raidStartsPrefix = "The battle will begin in"
-hoursShort = "h"
-minutesShort = "m"
 userAlreadyInThisEvent = "You are already participating in this event!"
 userAlreadyInOtherEvent = "You are already participating in another event!"
 expiredRaid = "This event is over!"

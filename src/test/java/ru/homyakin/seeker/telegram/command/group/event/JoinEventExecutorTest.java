@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -74,8 +75,7 @@ public class JoinEventExecutorTest {
         Mockito.when(eventService.getEventById(launchedEvent.eventId())).thenReturn(Optional.of(event));
 
         final var participantsText = RandomStringUtils.random(30);
-        final var hours = RandomStringUtils.random(2);
-        final var minutes = RandomStringUtils.random(2);
+        final var duration = RandomStringUtils.random(10);
         final var timePrefix = RandomStringUtils.random(10);
         final var keyboard = InlineKeyboardBuilder
             .builder()
@@ -89,12 +89,12 @@ public class JoinEventExecutorTest {
         // when
         try (
             final var raid = Mockito.mockStatic(RaidLocalization.class);
-            final var keyboardMock = Mockito.mockStatic(InlineKeyboards.class)
+            final var keyboardMock = Mockito.mockStatic(InlineKeyboards.class);
+            final var common = Mockito.mockStatic(CommonLocalization.class)
         ) {
             raid.when(() -> RaidLocalization.raidParticipants(group.language(), participants)).thenReturn(participantsText);
-            raid.when(() -> RaidLocalization.hoursShort(group.language())).thenReturn(hours);
-            raid.when(() -> RaidLocalization.minutesShort(group.language())).thenReturn(minutes);
             raid.when(() -> RaidLocalization.raidStartsPrefix(group.language())).thenReturn(timePrefix);
+            common.when(() -> CommonLocalization.duration(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(duration);
             keyboardMock.when(() -> InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id())).thenReturn(keyboard);
             executor.execute(command);
         }
@@ -103,9 +103,7 @@ public class JoinEventExecutorTest {
         final var captor = ArgumentCaptor.forClass(EditMessageText.class);
         Mockito.verify(telegramSender).send(captor.capture());
 
-        final var timeText = timePrefix + " "
-            + event.duration().toHours() + " " + hours + " "
-            + event.duration().toMinutesPart() + " " + minutes;
+        final var timeText = timePrefix + " " + duration;
         final var expectedText = "<b>%s</b>%n%n%s".formatted(
             event.getLocaleOrDefault(group.language()).intro(),
             event.getLocaleOrDefault(group.language()).description()

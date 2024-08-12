@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 
 public record Event(
@@ -26,7 +27,7 @@ public record Event(
 ) implements Localized<EventLocale> {
     private String toBaseMessage(Language language) {
         final var locale = getLocaleOrDefault(language);
-
+        // TODO в локализацию
         return "<b>%s</b>%n%n%s".formatted(
             locale.intro(),
             locale.description()
@@ -55,24 +56,16 @@ public record Event(
     }
 
     private Optional<String> endDateText(Language language, LocalDateTime startDate, LocalDateTime endDate) {
-        if (endDate.isBefore(startDate)) {
+        final String duration;
+        if (startDate.isBefore(endDate)) {
+            duration = CommonLocalization.duration(language, startDate, endDate);
+        } else {
             return Optional.empty();
-        }
-        final var diff = Duration.between(startDate, endDate);
-        var hours = "";
-        if (diff.toHours() > 0) {
-            hours = diff.toHours() + " " + RaidLocalization.hoursShort(language);
-        }
-        var minutes = "";
-        if (diff.toMinutesPart() > 0) {
-            minutes = diff.toMinutesPart() + " " + RaidLocalization.minutesShort(language);
-        } else if (diff.toHours() == 0) {
-            minutes = "1 " + RaidLocalization.minutesShort(language);
         }
         final var prefix = switch (type) {
             case RAID -> RaidLocalization.raidStartsPrefix(language);
         };
-        return Optional.of(prefix + " " + hours + " " + minutes);
+        return Optional.of(prefix + " " + duration);
     }
 
     private String raidEndMessage(Language language, RaidResult raidResult) {

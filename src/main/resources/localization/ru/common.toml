@@ -12,13 +12,25 @@ ${energy_icon}Энергия: ${energy_value}%
 ${health_icon}Здоровье: ${health_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
-
+${personage_effects}
 👤Снаряжение: ${item_characteristics}"""
 shortProfile = """\
 ${personage_badge_with_name}
 ${money_icon}${personage_money} ${energy_icon}${energy_value}%
 ${health_icon}${health_value} ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
+
+# Отступы нужны, чтобы нормально отображалось в fullProfile
+personageEffects = """\
+\nЭффекты:
+${personage_effects}
+"""
+menuItemEffect = "<code>-🍻Таверна: ${effect} ⏳${duration}</code>"
+addValueEffect = "+${value}${characteristic_icon}"
+multiplyPercentEffect = "+${value}%${characteristic_icon}"
+
+hoursShort = "ч."
+minutesShort = "мин."
 
 # текста для группы
 groupStats = """\

@@ -36,14 +36,6 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::raidStartsPrefix);
     }
 
-    public static String hoursShort(Language language) {
-        return resources.getOrDefault(language, RaidResource::hoursShort);
-    }
-
-    public static String minutesShort(Language language) {
-        return resources.getOrDefault(language, RaidResource::minutesShort);
-    }
-
     public static String userAlreadyInThisEvent(Language language) {
         return resources.getOrDefault(language, RaidResource::userAlreadyInThisEvent);
     }

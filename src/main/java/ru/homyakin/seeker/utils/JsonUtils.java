@@ -5,8 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import java.sql.SQLException;
-import java.util.Map;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +14,14 @@ import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
 import ru.homyakin.seeker.locale.Language;
 
+import java.sql.SQLException;
+import java.util.Map;
+
 @Component
 public class JsonUtils {
     private static final ObjectMapper objectMapper = JsonMapper.builder()
         .addModule(new Jdk8Module())
+        .addModule(new JavaTimeModule())
         .build();
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 

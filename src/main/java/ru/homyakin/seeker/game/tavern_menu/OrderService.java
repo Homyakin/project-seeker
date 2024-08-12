@@ -4,8 +4,10 @@ import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemOrderError;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemOrder;
@@ -28,17 +30,20 @@ public class OrderService {
     private final MenuItemOrderDao menuItemOrderDao;
     private final MenuService menuService;
     private final LockService lockService;
+    private final MenuItemConfig config;
 
     public OrderService(
         PersonageService personageService,
         MenuItemOrderDao menuItemOrderDao,
         MenuService menuService,
-        LockService lockService
+        LockService lockService,
+        MenuItemConfig config
     ) {
         this.personageService = personageService;
         this.menuItemOrderDao = menuItemOrderDao;
         this.menuService = menuService;
         this.lockService = lockService;
+        this.config = config;
     }
 
     public Either<OrderError, Long> orderMenuItem(Personage giver, Personage acceptor, MenuItem menuItem) {
@@ -64,6 +69,7 @@ public class OrderService {
         return menuItemOrderDao.getById(orderId);
     }
 
+    @Transactional
     public Either<MenuItemOrderError, MenuItem> consume(long orderId, Personage consumer) {
         return lockService.tryLockAndCalc(
             lockOrderKey(orderId),
@@ -74,6 +80,7 @@ public class OrderService {
         );
     }
 
+    @Transactional
     public void techCancelOrder(long orderId) {
         final var order = getById(orderId)
             .orElseThrow(() -> new IllegalStateException("No order to cancel; id=" + orderId));
@@ -88,7 +95,7 @@ public class OrderService {
         return lockService.tryLockAndExecute(
             lockOrderKey(orderId),
             () -> menuItemOrderDao.updateStatus(orderId, OrderStatus.EXPIRED)
-        ).mapLeft(error -> MenuItemOrderError.OrderLocked.INSTANCE);
+        ).mapLeft(_ -> MenuItemOrderError.OrderLocked.INSTANCE);
     }
 
     private Either<MenuItemOrderError, MenuItem> consumeLogic(long orderId, Personage consumer) {
@@ -101,9 +108,13 @@ public class OrderService {
         if (!order.acceptingPersonageId().equals(consumer.id())) {
             return Either.left(MenuItemOrderError.WrongConsumer.INSTANCE);
         }
-
+        final var item = menuService.getMenuItem(order.menuItemId()).orElseThrow();
         menuItemOrderDao.updateStatus(order.id(), OrderStatus.ACCEPTED);
-        return Either.right(menuService.getMenuItem(order.menuItemId()).orElseThrow());
+        personageService.addMenuItemEffect(
+            consumer,
+            new MenuItemEffect(item.effect(), TimeUtils.moscowTime().plus(config.effectDuration()))
+        );
+        return Either.right(item);
     }
 
     private String lockOrderKey(long orderId) {

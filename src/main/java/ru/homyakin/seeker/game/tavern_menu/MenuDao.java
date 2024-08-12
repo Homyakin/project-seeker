@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
@@ -25,10 +27,11 @@ public class MenuDao {
 
     private static final String GET_MENU_ITEM_LOCALES = "SELECT * FROM menu_item_locale WHERE menu_item_id = :menu_item_id";
     private static final String SAVE_ITEM = """
-        INSERT INTO menu_item (is_available, category_id, code, rarity_id)
-        VALUES (:is_available, :category_id, :code, :rarity_id)
+        INSERT INTO menu_item (is_available, category_id, code, rarity_id, effect_characteristic)
+        VALUES (:is_available, :category_id, :code, :rarity_id, :effect_characteristic)
         ON CONFLICT (code)
-        DO UPDATE SET rarity_id = :rarity_id, is_available = :is_available, category_id = :category_id
+        DO UPDATE SET rarity_id = :rarity_id, is_available = :is_available, category_id = :category_id,
+              effect_characteristic = :effect_characteristic
         RETURNING id
         """;
     private static final String SAVE_LOCALE = """
@@ -78,7 +81,8 @@ public class MenuDao {
             .param("is_available", menuItem.isAvailable())
             .param("category_id", menuItem.category().id())
             .param("code", menuItem.code())
-            .query((rs, rowNum) -> rs.getInt("id"))
+            .param("effect_characteristic", menuItem.effectCharacteristic().name())
+            .query((rs, _) -> rs.getInt("id"))
             .single();
         menuItem.locales().forEach(
             (language, locale) -> saveLocale(id, language, locale)
@@ -104,12 +108,19 @@ public class MenuDao {
     }
 
     private MenuItemWithoutLocale mapMenuItem(ResultSet rs, int rowNum) throws SQLException {
+        final var effectCharacteristic = EffectCharacteristic.valueOf(rs.getString("effect_characteristic"));
+        final var rarity = MenuItemRarity.findById(rs.getInt("rarity_id"));
+        final Effect effect = switch (effectCharacteristic) {
+            case ATTACK, HEALTH -> new Effect.Multiplier(config.multiplyPercentByRarity(rarity), effectCharacteristic);
+            case STRENGTH, WISDOM, AGILITY -> new Effect.Add(config.addValueByRarity(rarity), effectCharacteristic);
+        };
         return new MenuItemWithoutLocale(
             rs.getInt("id"),
             rs.getString("code"),
-            config.priceByRarity(MenuItemRarity.findById(rs.getInt("rarity_id"))),
+            config.priceByRarity(rarity),
             rs.getBoolean("is_available"),
-            Category.getById(rs.getInt("category_id"))
+            Category.getById(rs.getInt("category_id")),
+            effect
         );
     }
 
@@ -128,7 +139,8 @@ public class MenuDao {
         String code,
         Money price,
         boolean isAvailable,
-        Category category
+        Category category,
+        Effect effect
     ) {
         public MenuItem toMenuItem(Map<Language, MenuItemLocale> locales) {
             return new MenuItem(
@@ -137,7 +149,8 @@ public class MenuDao {
                 price,
                 isAvailable,
                 category,
-                locales
+                locales,
+                effect
             );
         }
     }

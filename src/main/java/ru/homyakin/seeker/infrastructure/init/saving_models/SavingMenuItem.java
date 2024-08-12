@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.infrastructure.init.saving_models;
 
 import java.util.Map;
+
+import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.tavern_menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemRarity;
@@ -12,6 +14,7 @@ public record SavingMenuItem(
     MenuItemRarity rarity,
     boolean isAvailable,
     Category category,
-    Map<Language, MenuItemLocale> locales
+    Map<Language, MenuItemLocale> locales,
+    EffectCharacteristic effectCharacteristic
 ) implements Localized<MenuItemLocale> {
 }

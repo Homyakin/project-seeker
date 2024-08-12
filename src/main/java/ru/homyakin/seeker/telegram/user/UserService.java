@@ -96,7 +96,7 @@ public class UserService {
                 name -> personageService
                     .createPersonage(name)
                     .fold(
-                        error -> personageService.createPersonage(),
+                        _ -> personageService.createPersonage(),
                         success -> success
                     )
             )

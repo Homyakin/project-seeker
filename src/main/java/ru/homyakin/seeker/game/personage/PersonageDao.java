@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 import ru.homyakin.seeker.utils.DatabaseUtils;
+import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
 public class PersonageDao {
@@ -50,14 +52,15 @@ public class PersonageDao {
         UPDATE personage
         SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
         health = :health, last_energy_change = :last_energy_change, money = :money,
-        energy = :energy
+        energy = :energy, effects = :effects
         WHERE id = :id
         """;
 
     private final SimpleJdbcInsert jdbcInsert;
     private final JdbcClient jdbcClient;
+    private final JsonUtils jsonUtils;
 
-    public PersonageDao(DataSource dataSource) {
+    public PersonageDao(DataSource dataSource, JsonUtils jsonUtils) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("personage")
             .usingColumns(
@@ -70,8 +73,10 @@ public class PersonageDao {
                 "agility",
                 "wisdom",
                 "last_energy_change",
-                "energy"
+                "energy",
+                "effects"
             );
+        this.jsonUtils = jsonUtils;
         jdbcInsert.setGeneratedKeyName("id");
 
         this.jdbcClient = JdbcClient.create(dataSource);
@@ -89,6 +94,7 @@ public class PersonageDao {
         params.put("wisdom", personage.characteristics().wisdom());
         params.put("last_energy_change", personage.energy().lastChange());
         params.put("energy", personage.energy().value());
+        params.put("effects", jsonUtils.mapToPostgresJson(personage.effects()));
 
         return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
     }
@@ -104,6 +110,7 @@ public class PersonageDao {
             .param("last_energy_change", personage.energy().lastChange())
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
+            .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
             .update();
     }
 
@@ -158,7 +165,8 @@ public class PersonageDao {
                 0,
                 0,
                 0
-            )
+            ),
+            jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class)
         );
     }
 }

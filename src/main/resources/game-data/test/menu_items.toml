@@ -1,55 +1,58 @@
 [[item]]
-code = "water"
-rarity = "COMMON"
-isAvailable = true
-category = "DRINK"
+    code = "water"
+    rarity = "COMMON"
+    isAvailable = true
+    category = "DRINK"
+    effectCharacteristic = "ATTACK"
 
-[item.locales.RU]
-name = "Вода"
-consumeTemplate = [
-    "Свежая водичка специально для <b>${personage_badge_with_name}</b>"
-]
+    [item.locales.RU]
+    name = "Вода"
+    consumeTemplate = [
+        "Свежая водичка специально для <b>${personage_badge_with_name}</b>"
+    ]
 
-[item.locales.EN]
-name = "Water"
-consumeTemplate = [
-    "Fresh water specially for <b>${personage_badge_with_name}</b>"
-]
-
-[[item]]
-code = "glass_water"
-rarity = "UNCOMMON"
-isAvailable = true
-category = "DRINK"
-
-[item.locales.RU]
-name = "Вода в стекле"
-consumeTemplate = [
-    "У <b>${personage_badge_with_name}</b> много денег, раз он может позволить себе воду в стекле",
-    "Похоже сегодня у <b>${personage_badge_with_name}</b> праздник! Прохладная вода в стекле уже на столе"
-]
-
-[item.locales.EN]
-name = "Water in glass"
-consumeTemplate = [
-    "<b>${personage_badge_with_name}</b> has a lot of money, since he can afford water in the glass",
-    "It looks like <b>${personage_badge_with_name}</b> is having a holiday today! Cool water in the glass is already on the table"
-]
+    [item.locales.EN]
+    name = "Water"
+    consumeTemplate = [
+        "Fresh water specially for <b>${personage_badge_with_name}</b>"
+    ]
 
 [[item]]
-code = "cat_soup"
-rarity = "RARE"
-isAvailable = true
-category = "MAIN_DISH"
+    code = "glass_water"
+    rarity = "UNCOMMON"
+    isAvailable = true
+    category = "DRINK"
+    effectCharacteristic = "WISDOM"
 
-[item.locales.RU]
-name = "Суп с котом"
-consumeTemplate = [
-    "Суп с котом для <b>${personage_badge_with_name}</b>! Мяукал ещё 15 минут назад"
-]
+    [item.locales.RU]
+    name = "Вода в стекле"
+    consumeTemplate = [
+        "У <b>${personage_badge_with_name}</b> много денег, раз он может позволить себе воду в стекле",
+        "Похоже сегодня у <b>${personage_badge_with_name}</b> праздник! Прохладная вода в стекле уже на столе"
+    ]
 
-[item.locales.EN]
-name = "Cat soup"
-consumeTemplate = [
-    "Cat soup for <b>${personage_badge_with_name}</b>! Meowed 15 minutes ago"
-]
+    [item.locales.EN]
+    name = "Water in glass"
+    consumeTemplate = [
+        "<b>${personage_badge_with_name}</b> has a lot of money, since he can afford water in the glass",
+        "It looks like <b>${personage_badge_with_name}</b> is having a holiday today! Cool water in the glass is already on the table"
+    ]
+
+[[item]]
+    code = "cat_soup"
+    rarity = "RARE"
+    isAvailable = true
+    category = "MAIN_DISH"
+    effectCharacteristic = "HEALTH"
+
+    [item.locales.RU]
+    name = "Суп с котом"
+    consumeTemplate = [
+        "Суп с котом для <b>${personage_badge_with_name}</b>! Мяукал ещё 15 минут назад"
+    ]
+
+    [item.locales.EN]
+    name = "Cat soup"
+    consumeTemplate = [
+        "Cat soup for <b>${personage_badge_with_name}</b>! Meowed 15 minutes ago"
+    ]

@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.personage.models;
 import io.vavr.control.Either;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import ru.homyakin.seeker.game.personage.models.errors.EnergyStillSame;
+import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -25,9 +25,9 @@ public record Energy(
         return new Energy(0, changeTime);
     }
 
-    public Either<EnergyStillSame, Energy> regenIfNeeded(Duration timeForFullRegen, LocalDateTime now) {
+    public Either<StillSame, Energy> regenIfNeeded(Duration timeForFullRegen, LocalDateTime now) {
         if (value >= MAX_ENERGY) {
-            return Either.left(EnergyStillSame.INSTANCE);
+            return Either.left(StillSame.INSTANCE);
         }
         final var minutesPass = Duration.between(lastChange, now).toMinutes();
         final var increaseEnergy = MathUtils.doubleToIntWithMinMaxValues(
@@ -37,7 +37,7 @@ public record Energy(
             final int newHealth = Math.min(value + increaseEnergy, MAX_ENERGY);
             return Either.right(new Energy(newHealth, lastChange.plusMinutes(minutesPass)));
         }
-        return Either.left(EnergyStillSame.INSTANCE);
+        return Either.left(StillSame.INSTANCE);
     }
 
     public boolean isGreaterOrEqual(int energyValue) {

@@ -8,7 +8,13 @@ public record CommonResource(
     String internalError,
     String fullProfile,
     String shortProfile,
+    String personageEffects,
+    String menuItemEffect,
+    String addValueEffect,
+    String multiplyPercentEffect,
     String receptionDesk,
+    String hoursShort,
+    String minutesShort,
     String groupStats,
     String personageGroupStats,
     String migrateGroup
