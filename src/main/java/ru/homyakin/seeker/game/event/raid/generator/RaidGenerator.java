@@ -33,17 +33,7 @@ public class RaidGenerator {
 
         final var failedRaidsCount = groupEventService.countFailedEventsFromLastSuccessInGroup(group.groupId());
 
-        /*
-         * Сначала сила равна 100%, потом 98%, дальше 95. Потом уменьшается на 5% за каждый провал
-         */
-        if (failedRaidsCount == 0) {
-            return 1.0;
-        }
-        if (failedRaidsCount == 1) {
-            return 0.98;
-        }
-
-        return 1.0 - 0.05 * (failedRaidsCount - 1);
+        return 1.0 - 0.05 * failedRaidsCount;
     }
 
 }
