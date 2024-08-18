@@ -44,11 +44,16 @@ public record Energy(
         return value >= energyValue;
     }
 
-    public Energy reduce(int energyValue, LocalDateTime changeTime) {
-        if (value <= energyValue) {
+    public Energy reduce(int energyValue, LocalDateTime changeTime, Duration timeForFullRegen) {
+        final var regenerated = regenIfNeeded(timeForFullRegen, changeTime)
+            .fold(
+                _ -> this,
+                energy -> energy
+            );
+        if (regenerated.value <= energyValue) {
             return Energy.createZero(changeTime);
         } else {
-            return new Energy(value - energyValue, changeTime);
+            return new Energy(regenerated.value - energyValue, changeTime);
         }
     }
 

@@ -134,7 +134,7 @@ public class PersonageService {
     public Personage addMoneyAndReduceEnergyForEvent(Personage personage, Money money, LocalDateTime energyChangeTime) {
         final var updatedPersonage = personage
             .addMoney(money)
-            .reduceEnergy(energyChangeTime, personageConfig.raidEnergyCost());
+            .reduceEnergy(energyChangeTime, personageConfig.raidEnergyCost(), personageConfig.energyFullRecovery());
         personageDao.update(updatedPersonage);
         return updatedPersonage;
     }

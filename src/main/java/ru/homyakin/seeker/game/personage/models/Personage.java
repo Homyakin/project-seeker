@@ -115,8 +115,8 @@ public record Personage(
         return Either.right(personage);
     }
 
-    public Personage reduceEnergy(LocalDateTime energyChangeTime, int energyToReduce) {
-        return copyWithEnergy(energy.reduce(energyToReduce, energyChangeTime));
+    public Personage reduceEnergy(LocalDateTime energyChangeTime, int energyToReduce, Duration timeForFullEnergyRegen) {
+        return copyWithEnergy(energy.reduce(energyToReduce, energyChangeTime, timeForFullEnergyRegen));
     }
 
     public String badgeWithName() {
