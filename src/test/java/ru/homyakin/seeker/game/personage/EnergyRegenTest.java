@@ -119,5 +119,20 @@ public class EnergyRegenTest {
         Assertions.assertEquals(regenTime.minusSeconds(30), result.get().lastChange());
     }
 
+    @Test
+    public void Given_NotFullEnergy_And_OneEnergyRegenFor123SecondsAnd2Millis_When_RegenAfter150Seconds_Then_EnergyValueWasIncreasedBy1AndLastChangeIncreasedBy123SecondsAnd2Millis() {
+        // given
+        final var fullRegenDuration = Duration.ofSeconds(12300).plusMillis(200);
+        final var time = TimeUtils.moscowTime();
+        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time);
+        // when
+        final var regenTime = time.plusSeconds(150);
+        final var result = energy.regenIfNeeded(fullRegenDuration, regenTime);
+        // then
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertEquals(energy.value() + 1, result.get().value());
+        Assertions.assertEquals(time.plusSeconds(123).plus(2, ChronoUnit.MILLIS), result.get().lastChange());
+    }
+
     private static final int MAX_ENERGY = 100;
 }
