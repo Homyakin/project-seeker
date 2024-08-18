@@ -35,6 +35,9 @@ public class TelegramSender {
             if (e.getMessage().contains("group chat was upgraded to a supergroup chat")) {
                 logger.error("group chat was upgraded to a supergroup chat {}", sendMessage.getChatId());
                 groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+            } else if (e.getMessage().contains("[403] Forbidden: the group chat was deleted")) {
+                logger.error("group chat was deleted {}", sendMessage.getChatId());
+                groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
             } else {
                 logger.error(
                     "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e
