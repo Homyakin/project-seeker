@@ -56,10 +56,10 @@ public record Energy(
                 _ -> this,
                 energy -> energy
             );
-        if (regenerated.value <= energyValue) {
-            return Energy.createZero(changeTime);
-        } else {
+        if (regenerated.value == MAX_ENERGY) {
             return new Energy(regenerated.value - energyValue, changeTime);
+        } else {
+            return new Energy(Math.max(regenerated.value - energyValue, 0), regenerated.lastChange);
         }
     }
 

@@ -13,7 +13,7 @@ public class EnergyReduceTest {
     private final Duration regenDuration = Duration.of(200, ChronoUnit.MINUTES);
 
     @Test
-    public void Given_FullEnergy_When_ReduceEnergy_Then_ReducedOnValue() {
+    public void Given_FullEnergy_When_ReduceEnergy_Then_ReducedOnValueAndChangeTime() {
         // given
         final var energy = new Energy(100, LocalDateTime.of(2020, 12, 31, 0, 0));
         // when
@@ -25,7 +25,7 @@ public class EnergyReduceTest {
     }
 
     @Test
-    public void Given_EmptyEnergy_And_TimeLessThenRegen_When_ReduceEnergy_Then_EnergyStillEmpty() {
+    public void Given_EmptyEnergy_And_TimeLessThenRegen_When_ReduceEnergy_Then_EnergyStillEmptyAndTimeWasNotChanged() {
         // given
         final var time = LocalDateTime.of(2020, 12, 31, 0, 0);
         final var energy = new Energy(0, LocalDateTime.of(2020, 12, 31, 0, 0));
@@ -34,7 +34,7 @@ public class EnergyReduceTest {
         final var result = energy.reduce(10, reduceTime, regenDuration);
         // then
         Assertions.assertEquals(0, result.value());
-        Assertions.assertEquals(reduceTime, result.lastChange());
+        Assertions.assertEquals(energy.lastChange(), result.lastChange());
     }
 
     @Test
