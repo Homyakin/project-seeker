@@ -16,6 +16,7 @@ import ru.homyakin.seeker.test_utils.event.EventUtils;
 import ru.homyakin.seeker.test_utils.event.LaunchedEventUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
+import java.time.Duration;
 import java.util.Optional;
 
 public class PersonageServiceAddEventTest {
@@ -39,6 +40,7 @@ public class PersonageServiceAddEventTest {
         personage = PersonageUtils.random();
         event = EventUtils.randomEvent();
         Mockito.when(config.raidEnergyCost()).thenReturn(33);
+        Mockito.when(config.energyFullRecovery()).thenReturn(Duration.ofHours(100));
     }
 
     @Test

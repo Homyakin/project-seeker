@@ -35,9 +35,13 @@ public record Energy(
         final var millisToRegen1Energy = timeForFullRegen.toMillis() / MAX_ENERGY;
         final var increaseEnergy = MathUtils.doubleToIntWithMinMaxValues((double) millisPassed / millisToRegen1Energy);
         if (increaseEnergy > 0) {
-            final int newHealth = Math.min(value + increaseEnergy, MAX_ENERGY);
-            final var millisToRegenIncreasedEnergy = increaseEnergy * millisToRegen1Energy;
-            return Either.right(new Energy(newHealth, lastChange.plus(millisToRegenIncreasedEnergy, ChronoUnit.MILLIS)));
+            if (value + increaseEnergy >= MAX_ENERGY) {
+                return Either.right(new Energy(MAX_ENERGY, now));
+            } else {
+                final int newHealth = value + increaseEnergy;
+                final var millisToRegenIncreasedEnergy = increaseEnergy * millisToRegen1Energy;
+                return Either.right(new Energy(newHealth, lastChange.plus(millisToRegenIncreasedEnergy, ChronoUnit.MILLIS)));
+            }
         }
         return Either.left(StillSame.INSTANCE);
     }
