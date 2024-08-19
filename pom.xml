@@ -34,6 +34,7 @@
         <checkstyle.version>10.12.4</checkstyle.version>
         <dependency-versions-check-maven-plugin.version>4.0.1</dependency-versions-check-maven-plugin.version>
         <duplicate-finder-maven-plugin.version>2.0.1</duplicate-finder-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
 
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
@@ -300,6 +301,25 @@
                         <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
