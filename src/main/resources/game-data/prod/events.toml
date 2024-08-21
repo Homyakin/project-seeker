@@ -35,6 +35,7 @@ id = 3
 isEnabled = true
 
 [event.raid]
+template = "SINGLE_BOSS"
 name = "Гарпия-ворона"
 
 [event.locales.RU]
