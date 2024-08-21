@@ -120,7 +120,7 @@ public class EventManager {
 
     private void launchEventInGroup(Group group, Event event) {
         logger.info("Creating event " + event.id() + " for group " + group.id());
-        final var launchedEvent = launchedEventService.createLaunchedEvent(event);
+        final var launchedEvent = launchedEventService.createLaunchedEvent(event, TimeUtils.moscowTime());
         var result = telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(group.id())

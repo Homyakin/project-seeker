@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.infrastructure.init.saving_models;
 
-import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 import ru.homyakin.seeker.game.event.models.EventLocale;
@@ -11,7 +10,6 @@ import ru.homyakin.seeker.locale.Localized;
 
 public record SavingEvent(
     int id,
-    Duration duration,
     boolean isEnabled,
     Map<Language, EventLocale> locales,
     Optional<SavingRaid> raid

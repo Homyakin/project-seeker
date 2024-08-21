@@ -15,7 +15,6 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class LaunchedEventDao {
@@ -60,12 +59,11 @@ public class LaunchedEventDao {
         jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public long save(Event event) {
-        final var startDate = TimeUtils.moscowTime();
+    public long save(Event event, LocalDateTime start, LocalDateTime end) {
         final var params = new HashMap<String, Object>();
         params.put("event_id", event.id());
-        params.put("start_date", startDate);
-        params.put("end_date", startDate.plus(event.duration()).plus(event.period()));
+        params.put("start_date", start);
+        params.put("end_date", end);
         params.put("status_id", EventStatus.LAUNCHED.id());
         return jdbcInsert.executeAndReturnKey(
             params

@@ -5,4 +5,5 @@
 >
     <include file="changes/2024-08-10_01_replace-menu-item-price-with-rarity.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-08-10_02_add-effects-from-menu-items.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-08-21_01_drop-duration-from-event.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

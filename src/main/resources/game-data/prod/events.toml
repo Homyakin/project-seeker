@@ -1,6 +1,5 @@
 [[event]]
 id = 1
-duration = "PT15M"
 isEnabled = true
 
 [event.raid]
@@ -17,7 +16,6 @@ description = "The water in rivers and wells has become salty, and cows have bec
 
 [[event]]
 id = 2
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -34,11 +32,9 @@ description = "They say that he was not paid for the vivisection of mustachioed 
 
 [[event]]
 id = 3
-duration = "PT20M"
 isEnabled = true
 
 [event.raid]
-template = "SINGLE_BOSS"
 name = "Гарпия-ворона"
 
 [event.locales.RU]
@@ -51,7 +47,6 @@ description = "The noble ladies were stunned: there were no brooches and gold-em
 
 [[event]]
 id = 4
-duration = "PT45M"
 isEnabled = true
 
 [event.raid]
@@ -68,7 +63,6 @@ description = "After the dubious tincture became popular in the cities, the wine
 
 [[event]]
 id = 5
-duration = "PT35M"
 isEnabled = true
 
 [event.raid]
@@ -85,7 +79,6 @@ description = "Mushroom pickers are in danger! The Myconids act cunningly: first
 
 [[event]]
 id = 6
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -106,7 +99,6 @@ Perhaps it's worth lying in wait for the “husband for an hour" and solve every
 
 [[event]]
 id = 7
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -123,7 +115,6 @@ description = "In a city near the capital, two drunken zombies attacked a tortil
 
 [[event]]
 id = 8
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -140,7 +131,6 @@ description = "The city madwoman has finally gone crazy. Not only is she getting
 
 [[event]]
 id = 9
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -157,7 +147,6 @@ description = "Ashann and his henchmen threaten everyone with a retrograde Moon 
 
 [[event]]
 id = 10
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -174,7 +163,6 @@ description = "I urgently need to protect the tower from an ogre attack! Their d
 
 [[event]]
 id = 11
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -195,7 +183,6 @@ By the way, the Krezar taverns, will gladly pay you for fresh maggoose carcasses
 
 [[event]]
 id = 12
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -212,7 +199,6 @@ description = "An ugly stuffed straw man appeared in the middle of the square. I
 
 [[event]]
 id = 13
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -229,7 +215,6 @@ description = "Recently, hunters who have returned from the forest have been beh
 
 [[event]]
 id = 14
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -246,7 +231,6 @@ description = 'The latrine is no longer safe! As soon as a citizen sits down, th
 
 [[event]]
 id = 15
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -263,7 +247,6 @@ description = "A sudden attack struck the villages south of Krezar: almost the e
 
 [[event]]
 id = 16
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]
@@ -284,7 +267,6 @@ Recently, scouts from one of the guilds discovered a new settlement to the west 
 
 [[event]]
 id = 17
-duration = "PT30M"
 isEnabled = true
 
 [event.raid]

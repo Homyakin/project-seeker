@@ -1,6 +1,5 @@
 [[event]]
 id = 1
-duration = "PT1M"
 isEnabled = true
 
 [event.raid]
@@ -17,7 +16,6 @@ description = "An ugly stuffed straw man appeared in the middle of the square. D
 
 [[event]]
 id = 2
-duration = "PT1M"
 isEnabled = true
 
 [event.raid]

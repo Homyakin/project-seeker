@@ -1,8 +1,6 @@
 package ru.homyakin.seeker.game.event.models;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,10 +14,6 @@ import ru.homyakin.seeker.locale.raid.RaidLocalization;
 
 public record Event(
     int id,
-    @NotNull
-    Period period, // для годов-месяцев-дней
-    @NotNull
-    Duration duration, // для часов-минут-секунд
     @NotNull
     EventType type,
     @NotNull

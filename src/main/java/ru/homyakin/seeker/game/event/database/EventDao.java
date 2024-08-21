@@ -2,13 +2,9 @@ package ru.homyakin.seeker.game.event.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Period;
-import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
-import org.postgresql.util.PGInterval;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
@@ -24,10 +20,10 @@ public class EventDao {
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String GET_EVENT_LOCALES = "SELECT * FROM event_locale WHERE event_id = :event_id";
     private static final String SAVE_EVENT = """
-        INSERT INTO event (id, type_id, duration, is_enabled)
-        VALUES (:id, :type_id, :duration, :is_enabled)
+        INSERT INTO event (id, type_id, is_enabled)
+        VALUES (:id, :type_id, :is_enabled)
         ON CONFLICT (id)
-        DO UPDATE SET type_id = :type_id, duration = :duration, is_enabled = :is_enabled
+        DO UPDATE SET type_id = :type_id, is_enabled = :is_enabled
         """;
     private static final String SAVE_LOCALES = """
         INSERT INTO event_locale (event_id, language_id, intro, description) 
@@ -70,7 +66,6 @@ public class EventDao {
         jdbcClient.sql(SAVE_EVENT)
             .param("id", event.id())
             .param("type_id", event.type().id())
-            .param("duration", fromDuration(event.duration()))
             .param("is_enabled", event.isEnabled())
             .update();
         saveLocales(event);
@@ -97,16 +92,8 @@ public class EventDao {
     }
 
     private EventWithoutLocale mapEvent(ResultSet rs, int rowNum) throws SQLException {
-        final var pgInterval = (PGInterval) rs.getObject("duration");
-        final var period = Period.of(pgInterval.getYears(), pgInterval.getMonths(), pgInterval.getDays());
-        final var duration = Duration.ofHours(pgInterval.getHours())
-            .plus(pgInterval.getMinutes(), ChronoUnit.MINUTES)
-            .plus(pgInterval.getWholeSeconds(), ChronoUnit.SECONDS)
-            .plus(pgInterval.getMicroSeconds(), ChronoUnit.MICROS);
         return new EventWithoutLocale(
             rs.getInt("id"),
-            period,
-            duration,
             EventType.get(rs.getInt("type_id"))
         );
     }
@@ -121,25 +108,13 @@ public class EventDao {
         );
     }
 
-    private PGInterval fromDuration(Duration duration) {
-        final var interval = new PGInterval();
-        interval.setHours(duration.toHoursPart());
-        interval.setMinutes(duration.toMinutesPart());
-        interval.setSeconds(duration.toSecondsPart());
-        return interval;
-    }
-
     private record EventWithoutLocale(
         Integer id,
-        Period period,
-        Duration duration,
         EventType type
     ) {
         public Event toEvent(Map<Language, EventLocale> locales) {
             return new Event(
                 id,
-                period,
-                duration,
                 type,
                 locales
             );

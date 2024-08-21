@@ -1,10 +1,12 @@
 package ru.homyakin.seeker.game.event.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.database.PersonageEventDao;
 import ru.homyakin.seeker.game.event.models.EventLocked;
 import ru.homyakin.seeker.game.event.models.EventStatus;
@@ -27,21 +29,24 @@ public class LaunchedEventService {
     private final PersonageEventDao personageEventDao;
     private final GroupEventService groupEventService;
     private final LockService lockService;
+    private final EventConfig config;
 
     public LaunchedEventService(
         LaunchedEventDao launchedEventDao,
         PersonageEventDao personageEventDao,
         GroupEventService groupEventService,
-        LockService lockService
+        LockService lockService,
+        EventConfig config
     ) {
         this.launchedEventDao = launchedEventDao;
         this.personageEventDao = personageEventDao;
         this.groupEventService = groupEventService;
         this.lockService = lockService;
+        this.config = config;
     }
 
-    public LaunchedEvent createLaunchedEvent(Event event) {
-        final var id = launchedEventDao.save(event);
+    public LaunchedEvent createLaunchedEvent(Event event, LocalDateTime start) {
+        final var id = launchedEventDao.save(event, start, start.plus(config.raidDuration()));
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 

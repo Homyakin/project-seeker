@@ -9,8 +9,6 @@ import ru.homyakin.seeker.game.event.models.EventLocale;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.locale.Language;
 
-import java.time.Duration;
-import java.time.Period;
 import java.util.Arrays;
 
 public class EventUtils {
@@ -23,8 +21,6 @@ public class EventUtils {
             ));
         return new Event(
             RandomUtils.nextInt(),
-            Period.ZERO,
-            Duration.ofSeconds(RandomUtils.nextInt(3601, 7199)),
             EventType.RAID,
             locale
         );
