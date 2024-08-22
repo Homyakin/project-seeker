@@ -29,10 +29,7 @@ public class EventService {
     public void save(SavingEvent event) {
         eventDao.save(event);
         switch (event.type()) {
-            case RAID -> {
-                final var raid = event.raid().orElseThrow();
-                raidDao.save(event.id(), raid.template(), raid.name());
-            }
+            case RAID -> raidDao.save(event.id(), event.raid());
         }
     }
 

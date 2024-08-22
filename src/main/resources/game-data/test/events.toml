@@ -6,11 +6,11 @@ isEnabled = true
 template = "SINGLE_BOSS"
 name = "Соломенное чучело"
 
-[event.locales.RU]
+[event.raid.locales.RU]
 intro = "Появилось соломенное чучело!"
 description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
 
-[event.locales.EN]
+[event.raid.locales.EN]
 intro = "A straw scarecrow appeared!"
 description = "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
 
@@ -22,14 +22,14 @@ isEnabled = true
 template = "ENEMY_GROUP"
 name = "Мудрый волк"
 
-[event.locales.RU]
+[event.raid.locales.RU]
 intro = "Мудрый волк снова мудрит"
 description = """\
 С недавних пор охотники, вернувшиеся из леса, ведут себя странно. \
 Постоянно бормочат себе под нос, что сила в силе и почему-то очень бояться цирка. \
 Расправьтесь с причиной этого безумства!"""
 
-[event.locales.EN]
+[event.raid.locales.EN]
 intro = "Wise wolf is wise again"
 description = """\
 Recently, hunters who have returned from the forest have been behaving strangely. \

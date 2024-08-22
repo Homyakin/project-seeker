@@ -10,9 +10,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.event.raid.RaidService;
+import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
@@ -36,25 +36,25 @@ public class JoinEventExecutorTest {
     private final GroupUserService groupUserService = Mockito.mock(GroupUserService.class);
     private final PersonageService personageService = Mockito.mock(PersonageService.class);
     private final TelegramSender telegramSender = Mockito.mock(TelegramSender.class);
-    private final EventService eventService = Mockito.mock(EventService.class);
+    private final RaidService raidService = Mockito.mock(RaidService.class);
     private final JoinEventExecutor executor = new JoinEventExecutor(
         groupUserService,
         personageService,
         telegramSender,
-        eventService
+        raidService
     );
     private Group group;
     private User user;
     private JoinEvent command;
-    private Event event;
+    private Raid raid;
     private LaunchedEvent launchedEvent;
 
     @BeforeEach
     public void init() {
         group = GroupUtils.randomGroup();
         user = UserUtils.randomUser();
-        event = EventUtils.randomEvent();
-        launchedEvent = LaunchedEventUtils.fromEvent(event);
+        raid = EventUtils.randomRaid();
+        launchedEvent = LaunchedEventUtils.withEventId(1);
         command = new JoinEvent(
             RandomStringUtils.randomNumeric(10),
             group.id(),
@@ -72,7 +72,7 @@ public class JoinEventExecutorTest {
         final var participants = List.of(PersonageUtils.random(), PersonageUtils.withId(user.personageId()));
         Mockito.when(personageService.getByLaunchedEvent(launchedEvent.id()))
             .thenReturn(participants);
-        Mockito.when(eventService.getEventById(launchedEvent.eventId())).thenReturn(Optional.of(event));
+        Mockito.when(raidService.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
 
         final var participantsText = RandomStringUtils.random(30);
         final var duration = RandomStringUtils.random(10);
@@ -105,8 +105,8 @@ public class JoinEventExecutorTest {
 
         final var timeText = timePrefix + " " + duration;
         final var expectedText = "<b>%s</b>%n%n%s".formatted(
-            event.getLocaleOrDefault(group.language()).intro(),
-            event.getLocaleOrDefault(group.language()).description()
+            raid.getLocaleOrDefault(group.language()).intro(),
+            raid.getLocaleOrDefault(group.language()).description()
         ) + "\n\n" + timeText + "\n\n" + participantsText;
 
         final var expected = EditMessageText.builder()

@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -29,7 +29,7 @@ public class PersonageService {
     private final PersonageDao personageDao;
     private final LaunchedEventService launchedEventService;
     private final PersonageRaidResultDao personageRaidResultDao;
-    private final EventService eventService;
+    private final RaidService raidService;
     private final BadgeService badgeService;
     private final PersonageConfig personageConfig;
 
@@ -37,14 +37,14 @@ public class PersonageService {
         PersonageDao personageDao,
         LaunchedEventService launchedEventService,
         PersonageRaidResultDao personageRaidResultDao,
-        EventService eventService,
+        RaidService raidService,
         BadgeService badgeService,
         PersonageConfig personageConfig
     ) {
         this.personageDao = personageDao;
         this.launchedEventService = launchedEventService;
         this.personageRaidResultDao = personageRaidResultDao;
-        this.eventService = eventService;
+        this.raidService = raidService;
         this.badgeService = badgeService;
         this.personageConfig = personageConfig;
     }
@@ -73,7 +73,7 @@ public class PersonageService {
             .orElse(Either.left(PersonageEventError.EventNotExist.INSTANCE))
             .filterOrElse(
                 LaunchedEvent::isNotInFinalStatus,
-                requestedEvent -> eventService.getEventById(requestedEvent.eventId())
+                requestedEvent -> raidService.getByEventId(requestedEvent.eventId())
                     .<PersonageEventError>map(PersonageEventError.ExpiredEvent::new)
                     .orElse(PersonageEventError.EventNotExist.INSTANCE)
             )

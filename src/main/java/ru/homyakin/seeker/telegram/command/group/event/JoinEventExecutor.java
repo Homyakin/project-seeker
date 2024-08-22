@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.event;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.event.service.EventService;
+import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -19,18 +19,18 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
     private final GroupUserService groupUserService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
-    private final EventService eventService;
+    private final RaidService raidService;
 
     public JoinEventExecutor(
         GroupUserService groupUserService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        EventService eventService
+        RaidService raidService
     ) {
         this.groupUserService = groupUserService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
-        this.eventService = eventService;
+        this.raidService = raidService;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
             error -> mapErrorToUserMessage(error, group, command),
             launchedEvent -> {
                 final var participants = personageService.getByLaunchedEvent(command.launchedEventId());
-                return eventService.getEventById(launchedEvent.eventId())
+                return raidService.getByEventId(launchedEvent.eventId())
                     .map(it -> it.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
                     .map(it -> it + "\n\n" + RaidLocalization.raidParticipants(group.language(), participants))
                     .orElseThrow();
@@ -75,7 +75,7 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
                 telegramSender.send(EditMessageTextBuilder.builder()
                     .chatId(command.groupId())
                     .messageId(command.messageId())
-                    .text(expiredEvent.event().toEndMessage(
+                    .text(expiredEvent.raid().toEndMessage(
                         group.language(),  personageService.getByLaunchedEvent(command.launchedEventId())
                     ))
                     .build()

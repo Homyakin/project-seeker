@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -28,6 +29,7 @@ public class EventManager {
     private final EventProcessing eventProcessing;
     private final GroupStatsService groupStatsService;
     private final LockService lockService;
+    private final RaidService raidService;
 
     public EventManager(
         GroupService groupService,
@@ -36,7 +38,8 @@ public class EventManager {
         LaunchedEventService launchedEventService,
         EventProcessing eventProcessing,
         GroupStatsService groupStatsService,
-        LockService lockService
+        LockService lockService,
+        RaidService raidService
     ) {
         this.groupService = groupService;
         this.eventService = eventService;
@@ -45,6 +48,7 @@ public class EventManager {
         this.eventProcessing = eventProcessing;
         this.groupStatsService = groupStatsService;
         this.lockService = lockService;
+        this.raidService = raidService;
     }
 
     public void launchEventsInGroups() {
@@ -88,7 +92,7 @@ public class EventManager {
                     () -> launchedEventService.expireEvent(launchedEvent)
                 );
                 final var group = groupService.getOrCreate(groupEvent.groupId());
-                final var event = eventService.getEventById(launchedEvent.eventId())
+                final var event = raidService.getByEventId(launchedEvent.eventId())
                     .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
                 if (result.isEmpty()) {
                     telegramSender.send(EditMessageTextBuilder.builder()
@@ -121,10 +125,11 @@ public class EventManager {
     private void launchEventInGroup(Group group, Event event) {
         logger.info("Creating event " + event.id() + " for group " + group.id());
         final var launchedEvent = launchedEventService.createLaunchedEvent(event, TimeUtils.moscowTime());
+        final var raid = raidService.getByEventId(launchedEvent.eventId()).orElseThrow();
         var result = telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(group.id())
-                .text(event.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
+                .text(raid.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
                 .keyboard(InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id()))
                 .build()
         );

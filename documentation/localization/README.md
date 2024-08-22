@@ -7,11 +7,11 @@
 5. Добавить к каждой записи объект со своим переводом. 
 Пример для events.toml:
 ```toml
-[event.locales.RU]
+[event.raid.locales.RU]
 intro = "Появилось соломенное чучело!"
 description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
 
-[event.locales.КОД_ЯЗЫКА]
+[event.raid.locales.КОД_ЯЗЫКА]
 intro = "ПЕРЕВОД"
 description = "ПЕРЕВОД"
 ```
@@ -24,11 +24,11 @@ description = "ПЕРЕВОД"
 4. Go to [folder with game data](../../src/main/resources/game-data)
 5. Add your translation to each object. Example for events.toml:
 ```toml
-[event.locales.RU]
+[event.raid.locales.RU]
 intro = "Появилось соломенное чучело!"
 description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
 
-[event.locales.LANGUAGE_CODE]
+[event.raid.locales.LANGUAGE_CODE]
 intro = "YOUR_TRANSLATE"
 description = "YOUR_TRANSLATE"
 ```
