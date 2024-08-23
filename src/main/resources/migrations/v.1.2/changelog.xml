@@ -7,4 +7,5 @@
     <include file="changes/2024-08-10_02_add-effects-from-menu-items.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-08-21_01_drop-duration-from-event.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-08-22_01_move-raid-locale-to-raid-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-08-23_01_add-code-to-event-and-drop-raid-name.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

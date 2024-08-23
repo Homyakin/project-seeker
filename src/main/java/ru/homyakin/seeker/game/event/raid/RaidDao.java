@@ -16,10 +16,10 @@ import ru.homyakin.seeker.utils.JsonUtils;
 public class RaidDao {
     private static final String GET_BY_ID = "SELECT * FROM raid WHERE event_id = :event_id";
     private static final String SAVE = """
-        INSERT INTO raid (event_id, template_id, name, locale)
-        VALUES (:event_id, :template_id, :name, :locale)
+        INSERT INTO raid (event_id, template_id, locale)
+        VALUES (:event_id, :template_id, :locale)
         ON CONFLICT (event_id)
-        DO UPDATE SET template_id = :template_id, name = :name, locale = :locale
+        DO UPDATE SET template_id = :template_id, locale = :locale
         """;
     private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
@@ -40,7 +40,6 @@ public class RaidDao {
         jdbcClient.sql(SAVE)
             .param("event_id", eventId)
             .param("template_id", raid.template().id())
-            .param("name", raid.name())
             .param("locale", jsonUtils.mapToPostgresJson(raid.locales()))
             .update();
     }

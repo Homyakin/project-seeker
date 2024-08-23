@@ -16,10 +16,10 @@ public class EventDao {
     private static final String GET_RANDOM_EVENT = "SELECT * FROM event WHERE is_enabled = true ORDER BY random() LIMIT 1";
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String SAVE_EVENT = """
-        INSERT INTO event (id, type_id, is_enabled)
-        VALUES (:id, :type_id, :is_enabled)
+        INSERT INTO event (id, type_id, is_enabled, code)
+        VALUES (:id, :type_id, :is_enabled, :code)
         ON CONFLICT (id)
-        DO UPDATE SET type_id = :type_id, is_enabled = :is_enabled
+        DO UPDATE SET type_id = :type_id, is_enabled = :is_enabled, code = :code
         """;
     private final JdbcClient jdbcClient;
 
@@ -45,13 +45,15 @@ public class EventDao {
             .param("id", event.id())
             .param("type_id", event.type().id())
             .param("is_enabled", event.isEnabled())
+            .param("code", event.code())
             .update();
     }
 
     private Event mapEvent(ResultSet rs, int rowNum) throws SQLException {
         return new Event(
             rs.getInt("id"),
-            EventType.get(rs.getInt("type_id"))
+            EventType.get(rs.getInt("type_id")),
+            rs.getString("code")
         );
     }
 }

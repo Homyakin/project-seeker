@@ -10,6 +10,7 @@ import ru.homyakin.seeker.locale.Localized;
 public record SavingEvent(
     int id,
     boolean isEnabled,
+    String code,
     SavingRaid raid
 ) {
     public void validateLocale() {
@@ -21,7 +22,6 @@ public record SavingEvent(
     }
 
     public record SavingRaid(
-        String name,
         RaidTemplate template,
         Map<Language, RaidLocale> locales
     ) implements Localized<RaidLocale> {}

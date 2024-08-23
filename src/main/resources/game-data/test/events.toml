@@ -1,10 +1,10 @@
 [[event]]
 id = 1
 isEnabled = true
+code = "straw_crow"
 
 [event.raid]
 template = "SINGLE_BOSS"
-name = "Соломенное чучело"
 
 [event.raid.locales.RU]
 intro = "Появилось соломенное чучело!"
@@ -17,10 +17,10 @@ description = "An ugly stuffed straw man appeared in the middle of the square. D
 [[event]]
 id = 2
 isEnabled = true
+code = "wise_wolf"
 
 [event.raid]
 template = "ENEMY_GROUP"
-name = "Мудрый волк"
 
 [event.raid.locales.RU]
 intro = "Мудрый волк снова мудрит"

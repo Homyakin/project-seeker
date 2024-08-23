@@ -123,7 +123,7 @@ public class EventManager {
     }
 
     private void launchEventInGroup(Group group, Event event) {
-        logger.info("Creating event " + event.id() + " for group " + group.id());
+        logger.info("Creating event " + event.code() + " for group " + group.id());
         final var launchedEvent = launchedEventService.createLaunchedEvent(event, TimeUtils.moscowTime());
         final var raid = raidService.getByEventId(launchedEvent.eventId()).orElseThrow();
         var result = telegramSender.send(
