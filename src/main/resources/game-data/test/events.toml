@@ -1,5 +1,4 @@
 [[event]]
-id = 1
 isEnabled = true
 code = "straw_crow"
 
@@ -15,7 +14,6 @@ intro = "A straw scarecrow appeared!"
 description = "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
 
 [[event]]
-id = 2
 isEnabled = true
 code = "wise_wolf"
 

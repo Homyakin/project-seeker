@@ -27,9 +27,9 @@ public class EventService {
 
     @Transactional
     public void save(SavingEvent event) {
-        eventDao.save(event);
+        final var id = eventDao.save(event);
         switch (event.type()) {
-            case RAID -> raidDao.save(event.id(), event.raid());
+            case RAID -> raidDao.save(id, event.raid());
         }
     }
 

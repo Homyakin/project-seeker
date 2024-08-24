@@ -8,7 +8,6 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
 
 public record SavingEvent(
-    int id,
     boolean isEnabled,
     String code,
     SavingRaid raid

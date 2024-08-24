@@ -1,5 +1,4 @@
 [[event]]
-id = 1
 isEnabled = true
 code = "grumpy_fairy"
 
@@ -15,7 +14,6 @@ intro = "Oh no, another village has suffered from the pranks of a Grumpy fairy!"
 description = "The water in rivers and wells has become salty, and cows have become intelligent and are now rebelling against milking. We need to help the peasants and defeat the ugly winged hooligan!"
 
 [[event]]
-id = 2
 isEnabled = true
 code = "pied_piper"
 
@@ -31,7 +29,6 @@ intro = "With the birth rate and is bad, so also the Piper-piper took all the ch
 description = "They say that he was not paid for the vivisection of mustachioed pests, so he severely punished the locals — and started his sullen trill, charming all the children. The flutist has taken the poor things away, and the desperate parents are begging the heroes for help!"
 
 [[event]]
-id = 3
 isEnabled = true
 code = "crow_harpy"
 
@@ -47,7 +44,6 @@ intro = "A crow harpy? The harpy crow! Looks like a plucked chicken, loves every
 description = "The noble ladies were stunned: there were no brooches and gold-embroidered hats left in the capital. How, one may ask, to lead the usual life of living rooms? The noblewomen filed a collective complaint, so the mayor had to look for brave kuroschupov."
 
 [[event]]
-id = 4
 isEnabled = true
 code = "krotokraken"
 
@@ -63,7 +59,6 @@ intro = "Unsuccessful experiments with the krotovuha woke up the Krotokraken!"
 description = "After the dubious tincture became popular in the cities, the wine industry changed its shoes and began actively plundering the lands of the Krotokraken, destroying its people, for which the beast rebelled and began its subversive activities. Stop the Mole, and then you'll kick people!"
 
 [[event]]
-id = 5
 isEnabled = true
 code = "myconid"
 
@@ -79,7 +74,6 @@ intro = "Prickly myconids! Where did they get their mind from?!"
 description = "Mushroom pickers are in danger! The Myconids act cunningly: first they reward mushroom pickers with a pungent smell on their feet, and then they move into their vacant houses! 6 families have already died from the fetid smell of feet! Help, kind people!"
 
 [[event]]
-id = 6
 isEnabled = true
 code = "mimic_inseminator"
 
@@ -99,7 +93,6 @@ The husbands of the city are in despair! Wives don't stop giving birth! Happines
 Perhaps it's worth lying in wait for the “husband for an hour" and solve everything on the spot!"""
 
 [[event]]
-id = 7
 isEnabled = true
 code = "necromancer"
 
@@ -115,7 +108,6 @@ intro = "Crime and punishment and zombies"
 description = "In a city near the capital, two drunken zombies attacked a tortilla vendor. The incident occurred late at night, who fed the zombie meat with wine and why he needed it is not established. Local authorities are calling on the brave souls to catch the scoundrel!"
 
 [[event]]
-id = 8
 isEnabled = true
 code = "bridesmaid"
 
@@ -131,7 +123,6 @@ intro = "The bridesmaid is... a monster!"
 description = "The city madwoman has finally gone crazy. Not only is she getting married to a stump, but she chose a monster for her girlfriend! Stop the wedding before the voracious plant devours both the bride and the city!"
 
 [[event]]
-id = 9
 isEnabled = true
 code = "ashann_cult"
 
@@ -147,7 +138,6 @@ intro = "Stop Ashann!"
 description = "Ashann and his henchmen threaten everyone with a retrograde Moon of Bad Omens and if people want to be saved, then they need to deposit a certain amount to the cult account and then their troubles will pass. Poor people! Gather people and fight!"
 
 [[event]]
-id = 10
 isEnabled = true
 code = "valdemar"
 
@@ -163,7 +153,6 @@ intro = "An order from the wizard Valdemar"
 description = "I urgently need to protect the tower from an ogre attack! Their drums, dogs and thieves don't let me sleep! They're always trying to shake my tower! Stop them! The reward will be invaluable experience and a little gold"
 
 [[event]]
-id = 11
 isEnabled = true
 code = "maggeese"
 
@@ -183,7 +172,6 @@ An overabundance of magic has driven some geese crazy! They get together in pack
 By the way, the Krezar taverns, will gladly pay you for fresh maggoose carcasses."""
 
 [[event]]
-id = 12
 isEnabled = true
 code = "straw_crow"
 
@@ -199,7 +187,6 @@ intro = "A straw scarecrow appeared!"
 description = "An ugly stuffed straw man appeared in the middle of the square. It causes a straw crow hurricane, straw and crows everywhere! In the noses, ears, less fortunate people die from multiple straw wounds. Help the city and return the scarecrow to the garden hell!"
 
 [[event]]
-id = 13
 isEnabled = true
 code = "wise_wolf"
 
@@ -215,7 +202,6 @@ intro = "The wise wolf is wise again."
 description = "Recently, hunters who have returned from the forest have been behaving strangely. They claim that they do not perform in the circus and torment the townspeople with advice: \"It doesn't matter who, it's important who!\", \"It's better to try than not to try\", \"They love quietly, loudly only betray\". Deal with the cause of this madness!"
 
 [[event]]
-id = 14
 isEnabled = true
 code = "whirlpools"
 
@@ -231,7 +217,6 @@ intro = "Whirlpools in the latrine!"
 description = 'The latrine is no longer safe! As soon as a citizen sits down, the hole in the floor expands dramatically and he falls into the abyss. The only survivor is in a state of shock and repeats one phrase: "I will not die in the toilet!". The situation is urgent! Save people from a terrible monster that has encroached on the holy!'
 
 [[event]]
-id = 15
 isEnabled = true
 code = "weevil"
 
@@ -247,7 +232,6 @@ intro = "Our harvest was devoured by a weevil!"
 description = "A sudden attack struck the villages south of Krezar: almost the entire crop was destroyed by weevils. The peasants cope with the usual pests on their own, but these individuals were the size of a whole cow! Perhaps not only the harvest suffered, but no one wants to find out. Sort out the problem, Seekers!"
 
 [[event]]
-id = 16
 isEnabled = true
 code = "goblin-hunting"
 
@@ -267,7 +251,6 @@ Seekers are urgently needed to help protect the outskirts of Krezar from the gro
 Recently, scouts from one of the guilds discovered a new settlement to the west of the city. Destroy them before they breed strongly enough and become a serious threat to the locals."""
 
 [[event]]
-id = 17
 isEnabled = true
 code = "crab-rave"
 

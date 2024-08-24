@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="make-code-and-type-at-events-unique">
+        <addUniqueConstraint
+                columnNames="type_id, code"
+                constraintName="event-type-code_pk"
+                tableName="event"
+        />
+        <createSequence sequenceName="event_id_seq"/>
+        <sql>SELECT setval('event_id_seq', (SELECT MAX(id) FROM event));</sql>
+        <addDefaultValue
+                tableName="event"
+                columnName="id"
+                defaultValueSequenceNext="event_id_seq" />
+        <sql>ALTER SEQUENCE event_id_seq OWNED BY event.id;</sql>
+    </changeSet>
+</databaseChangeLog>
