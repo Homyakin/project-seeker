@@ -8,8 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
-import ru.homyakin.seeker.infrastructure.init.saving_models.Events;
-import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
@@ -59,8 +58,8 @@ public class LocalizationCoverage {
         );
     }
 
-    public static void addEventsInfo(Events events) {
-        addLocalizedInfo(events.event().stream().map(SavingEvent::raid).toList(), TranslateType.EVENTS);
+    public static void addRaidsInfo(Raids raids) {
+        addLocalizedInfo(raids.raid(), TranslateType.EVENTS);
     }
 
     public static void addRumorsInfo(Rumors rumors) {

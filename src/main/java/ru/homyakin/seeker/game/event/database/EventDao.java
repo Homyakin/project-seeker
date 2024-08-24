@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventType;
-import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 
 @Component
 public class EventDao {
@@ -41,11 +41,11 @@ public class EventDao {
             .optional();
     }
 
-    public int save(SavingEvent event) {
+    public int save(SavingRaid raid) {
         return jdbcClient.sql(SAVE_EVENT)
-            .param("type_id", event.type().id())
-            .param("is_enabled", event.isEnabled())
-            .param("code", event.code())
+            .param("type_id", EventType.RAID.id())
+            .param("is_enabled", raid.isEnabled())
+            .param("code", raid.code())
             .query((rs, _) -> rs.getInt("id"))
             .single();
     }

@@ -24,10 +24,10 @@ import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.MenuService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
-import ru.homyakin.seeker.infrastructure.init.saving_models.Events;
+import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
-import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 import ru.homyakin.seeker.locale.LocalizationCoverage;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -71,10 +71,10 @@ public class InitGameData {
         ResourceUtils.doAction(
             eventsPath(),
             stream -> {
-                final var events = extractClass(stream, Events.class);
-                LocalizationCoverage.addEventsInfo(events);
-                events.event().forEach(SavingEvent::validateLocale);
-                events.event().forEach(eventService::save);
+                final var raids = extractClass(stream, Raids.class);
+                LocalizationCoverage.addRaidsInfo(raids);
+                raids.raid().forEach(SavingRaid::validateLocale);
+                raids.raid().forEach(eventService::saveRaid);
             }
         );
         logger.info("loaded events");
@@ -171,7 +171,7 @@ public class InitGameData {
     }
 
     private static final String DATA_FOLDER = "game-data" + File.separator;
-    private static final String EVENTS = File.separator + "events.toml";
+    private static final String EVENTS = File.separator + "raids.toml";
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";
     private static final String BADGES = DATA_FOLDER + "badges.toml";

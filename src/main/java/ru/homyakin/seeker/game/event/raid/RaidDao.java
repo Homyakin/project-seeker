@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.raid.models.RaidTemplate;
-import ru.homyakin.seeker.infrastructure.init.saving_models.SavingEvent;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
@@ -36,7 +36,7 @@ public class RaidDao {
             .optional();
     }
 
-    public void save(int eventId, SavingEvent.SavingRaid raid) {
+    public void save(int eventId, SavingRaid raid) {
         jdbcClient.sql(SAVE)
             .param("event_id", eventId)
             .param("template_id", raid.template().id())
