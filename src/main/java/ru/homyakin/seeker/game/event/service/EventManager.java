@@ -3,15 +3,14 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.raid.RaidService;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
-import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
@@ -23,7 +22,6 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public class EventManager {
     private static final Logger logger = LoggerFactory.getLogger(EventManager.class);
     private final GroupService groupService;
-    private final EventService eventService;
     private final TelegramSender telegramSender;
     private final LaunchedEventService launchedEventService;
     private final EventProcessing eventProcessing;
@@ -33,7 +31,6 @@ public class EventManager {
 
     public EventManager(
         GroupService groupService,
-        EventService eventService,
         TelegramSender telegramSender,
         LaunchedEventService launchedEventService,
         EventProcessing eventProcessing,
@@ -42,7 +39,6 @@ public class EventManager {
         RaidService raidService
     ) {
         this.groupService = groupService;
-        this.eventService = eventService;
         this.telegramSender = telegramSender;
         this.launchedEventService = launchedEventService;
         this.eventProcessing = eventProcessing;
@@ -60,10 +56,10 @@ public class EventManager {
                 final var key = LockPrefixes.GROUP_EVENT.name() + group.id().value();
                 lockService.tryLockAndExecute(
                     key,
-                    () -> eventService.getRandomEvent()
+                    () -> raidService.getRandomRaid()
                         .ifPresentOrElse(
-                            event -> launchEventInGroup(group, event),
-                            () -> logger.warn("No events in database")
+                            event -> launchRaidInGroup(group, event),
+                            () -> logger.warn("No raids in database")
                         )
                 );
             });
@@ -81,51 +77,41 @@ public class EventManager {
     private void stopLaunchedEvent(LaunchedEvent launchedEvent) {
         logger.info("Stopping event " + launchedEvent.id());
         final var result = eventProcessing.processEvent(launchedEvent);
-
-        launchedEventService.getGroupEvents(launchedEvent)
-            .forEach(groupEvent -> {
-                result.ifPresentOrElse(
-                    raidResult -> {
-                        launchedEventService.updateResult(launchedEvent, raidResult);
-                        groupStatsService.updateRaidStats(groupEvent.groupId(), raidResult);
-                    },
-                    () -> launchedEventService.expireEvent(launchedEvent)
-                );
-                final var group = groupService.getOrCreate(groupEvent.groupId());
-                final var event = raidService.getByEventId(launchedEvent.eventId())
-                    .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
-                if (result.isEmpty()) {
-                    telegramSender.send(EditMessageTextBuilder.builder()
-                        .chatId(groupEvent.groupId())
-                        .messageId(groupEvent.messageId())
-                        .text(RaidLocalization.zeroParticipants(group.language()))
-                        .build()
-                    );
-                } else {
-                    final var participants = result.get().personageResults().stream()
-                        .map(PersonageRaidResult::personage)
-                        .toList();
-                    telegramSender.send(EditMessageTextBuilder.builder()
-                        .chatId(groupEvent.groupId())
-                        .messageId(groupEvent.messageId())
-                        .text(event.toEndMessage(group.language(), participants))
-                        .build()
-                    );
-                    telegramSender.send(SendMessageBuilder.builder()
-                        .chatId(groupEvent.groupId())
-                        .text(event.endMessage(group.language(), result.get()))
-                        .replyMessageId(groupEvent.messageId())
-                        .build()
-                    );
-                }
-            });
-
+        switch (result) {
+            case EventResult.Raid raidResult -> stopRaid(launchedEvent, raidResult);
+        }
     }
 
-    private void launchEventInGroup(Group group, Event event) {
-        logger.info("Creating event " + event.code() + " for group " + group.id());
-        final var launchedEvent = launchedEventService.createLaunchedEvent(event, TimeUtils.moscowTime());
-        final var raid = raidService.getByEventId(launchedEvent.eventId()).orElseThrow();
+    private void stopRaid(LaunchedEvent launchedEvent, EventResult.Raid result) {
+        launchedEventService.getGroupEvents(launchedEvent)
+            .forEach(
+                groupEvent -> {
+                    launchedEventService.updateResult(launchedEvent, result);
+                    groupStatsService.updateRaidStats(groupEvent.groupId(), result);
+                    final var group = groupService.getOrCreate(groupEvent.groupId());
+                    final var event = raidService.getByEventId(launchedEvent.eventId())
+                        .orElseThrow(() -> new IllegalStateException("Can't end nonexistent event"));
+                    telegramSender.send(EditMessageTextBuilder.builder()
+                        .chatId(groupEvent.groupId())
+                        .messageId(groupEvent.messageId())
+                        .text(event.toEndMessage(result, group.language()))
+                        .build()
+                    );
+                    if (!result.isExpired()) {
+                        telegramSender.send(SendMessageBuilder.builder()
+                            .chatId(groupEvent.groupId())
+                            .text(event.endMessage(group.language(), result))
+                            .replyMessageId(groupEvent.messageId())
+                            .build()
+                        );
+                    }
+                }
+            );
+    }
+
+    private void launchRaidInGroup(Group group, Raid raid) {
+        logger.info("Creating raid " + raid.code() + " for group " + group.id());
+        final var launchedEvent = launchedEventService.createLaunchedEventFromRaid(raid, TimeUtils.moscowTime());
         var result = telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(group.id())

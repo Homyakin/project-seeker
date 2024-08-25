@@ -1,13 +1,15 @@
 package ru.homyakin.seeker.game.event.service;
 
-import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidProcessing;
-import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 
 @Service
 public class EventProcessing {
+    private static final Logger logger = LoggerFactory.getLogger(EventProcessing.class);
     private final EventService eventService;
     private final RaidProcessing raidProcessing;
 
@@ -16,7 +18,10 @@ public class EventProcessing {
         this.raidProcessing = raidProcessing;
     }
 
-    public Optional<RaidResult> processEvent(LaunchedEvent launchedEvent) {
+    public EventResult processEvent(LaunchedEvent launchedEvent) {
+        if (launchedEvent.isInFinalStatus()) {
+            logger.error("Processing launched event that is in final status " + launchedEvent.id());
+        }
         final var event = eventService.getEventById(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Can't finish unknown event " + launchedEvent.eventId()));
 

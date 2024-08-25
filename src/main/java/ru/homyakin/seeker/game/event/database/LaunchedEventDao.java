@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -59,9 +58,9 @@ public class LaunchedEventDao {
         jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public long save(Event event, LocalDateTime start, LocalDateTime end) {
+    public long save(int eventId, LocalDateTime start, LocalDateTime end) {
         final var params = new HashMap<String, Object>();
-        params.put("event_id", event.id());
+        params.put("event_id", eventId);
         params.put("start_date", start);
         params.put("end_date", end);
         params.put("status_id", EventStatus.LAUNCHED.id());

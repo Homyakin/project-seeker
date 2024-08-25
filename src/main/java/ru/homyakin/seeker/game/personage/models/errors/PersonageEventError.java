@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.personage.models.errors;
 
+import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 
 public sealed interface PersonageEventError {
@@ -12,6 +13,7 @@ public sealed interface PersonageEventError {
     enum PersonageInThisEvent implements PersonageEventError { INSTANCE }
 
     record ExpiredEvent(
+        LaunchedEvent launchedEvent,
         Raid raid
     ) implements PersonageEventError {
     }

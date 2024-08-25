@@ -12,8 +12,7 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 
 @Component
 public class EventDao {
-    // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
-    private static final String GET_RANDOM_EVENT = "SELECT * FROM event WHERE is_enabled = true ORDER BY random() LIMIT 1";
+
     private static final String GET_EVENT_BY_ID = "SELECT * FROM event WHERE id = :id";
     private static final String SAVE_EVENT = """
         INSERT INTO event (type_id, is_enabled, code)
@@ -26,12 +25,6 @@ public class EventDao {
 
     public EventDao(DataSource dataSource) {
         jdbcClient = JdbcClient.create(dataSource);
-    }
-
-    public Optional<Event> getRandomEvent() {
-        return jdbcClient.sql(GET_RANDOM_EVENT)
-            .query(this::mapEvent)
-            .optional();
     }
 
     public Optional<Event> getById(Integer eventId) {

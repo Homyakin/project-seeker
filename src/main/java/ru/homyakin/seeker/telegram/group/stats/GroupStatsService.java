@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.group.stats;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.raid.models.RaidResult;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
@@ -25,7 +25,7 @@ public class GroupStatsService {
         return groupStatsDao.getById(groupId);
     }
 
-    public void updateRaidStats(GroupId groupId, RaidResult raidResult) {
+    public void updateRaidStats(GroupId groupId, EventResult.Raid raidResult) {
         if (raidResult.isSuccess()) {
             groupStatsDao.increaseRaidsComplete(groupId, 1);
         }

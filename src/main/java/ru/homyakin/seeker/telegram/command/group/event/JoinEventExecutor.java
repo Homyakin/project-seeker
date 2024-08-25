@@ -14,6 +14,8 @@ import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
+import java.util.Optional;
+
 @Component
 public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
     private final GroupUserService groupUserService;
@@ -68,23 +70,35 @@ public class JoinEventExecutor extends CommandExecutor<JoinEvent> {
 
     private String mapErrorToUserMessage(PersonageEventError error, Group group, JoinEvent command) {
         return switch (error) {
-            case PersonageEventError.PersonageInOtherEvent _ -> RaidLocalization.userAlreadyInOtherEvent(group.language());
+            case PersonageEventError.PersonageInOtherEvent _ ->
+                RaidLocalization.userAlreadyInOtherEvent(group.language());
             case PersonageEventError.EventNotExist _ -> CommonLocalization.internalError(group.language());
             case PersonageEventError.ExpiredEvent expiredEvent -> {
                 //TODO может вынести в евент менеджер
-                telegramSender.send(EditMessageTextBuilder.builder()
+                final var editText = Optional.ofNullable(
+                    switch (expiredEvent.launchedEvent().status()) {
+                        case LAUNCHED -> null; // по идее сюда мы не должны никогда попасть
+                        case EXPIRED -> RaidLocalization.expiredRaid(group.language());
+                        case FAILED, SUCCESS -> expiredEvent.raid().toEndMessageWithParticipants(
+                            personageService.getByLaunchedEvent(command.launchedEventId()),
+                            group.language()
+                        );
+                        case CREATION_ERROR -> CommonLocalization.internalError(group.language());
+                    }
+                );
+                editText.ifPresent(text -> telegramSender.send(EditMessageTextBuilder.builder()
                     .chatId(command.groupId())
                     .messageId(command.messageId())
-                    .text(expiredEvent.raid().toEndMessage(
-                        group.language(),  personageService.getByLaunchedEvent(command.launchedEventId())
-                    ))
+                    .text(text)
                     .build()
-                );
+                ));
                 yield RaidLocalization.expiredRaid(group.language());
             }
-            case PersonageEventError.PersonageInThisEvent _ -> RaidLocalization.userAlreadyInThisEvent(group.language());
+            case PersonageEventError.PersonageInThisEvent _ ->
+                RaidLocalization.userAlreadyInThisEvent(group.language());
             case PersonageEventError.EventInProcess _ -> RaidLocalization.raidInProcess(group.language());
-            case PersonageEventError.NotEnoughEnergy notEnoughEnergy -> RaidLocalization.notEnoughEnergy(group.language(), notEnoughEnergy);
+            case PersonageEventError.NotEnoughEnergy notEnoughEnergy ->
+                RaidLocalization.notEnoughEnergy(group.language(), notEnoughEnergy);
         };
     }
 }

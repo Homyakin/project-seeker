@@ -20,6 +20,7 @@ public class EventUtils {
             ));
         return new Raid(
             RandomUtils.nextInt(),
+            RandomStringUtils.randomAlphanumeric(10),
             RaidTemplate.ENEMY_GROUP,
             locale
         );

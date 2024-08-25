@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.database.PersonageEventDao;
 import ru.homyakin.seeker.game.event.models.EventLocked;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
-import ru.homyakin.seeker.game.event.raid.models.RaidResult;
+import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
@@ -45,8 +45,8 @@ public class LaunchedEventService {
         this.config = config;
     }
 
-    public LaunchedEvent createLaunchedEvent(Event event, LocalDateTime start) {
-        final var id = launchedEventDao.save(event, start, start.plus(config.raidDuration()));
+    public LaunchedEvent createLaunchedEventFromRaid(Raid raid, LocalDateTime start) {
+        final var id = launchedEventDao.save(raid.eventId(), start, start.plus(config.raidDuration()));
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 
@@ -58,13 +58,15 @@ public class LaunchedEventService {
         return groupEventService.createGroupEvent(launchedEvent, group, messageId);
     }
 
-    public void updateResult(LaunchedEvent launchedEvent, RaidResult raidResult) {
-        if (raidResult.isSuccess()) {
-            launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.SUCCESS);
-        } else {
-            launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.FAILED);
-        }
-
+    public void updateResult(LaunchedEvent launchedEvent, EventResult.Raid raidResult) {
+        launchedEventDao.updateStatus(
+            launchedEvent.id(),
+            switch (raidResult.status()) {
+                case SUCCESS -> EventStatus.SUCCESS;
+                case FAILURE -> EventStatus.FAILED;
+                case EXPIRED -> EventStatus.EXPIRED;
+            }
+        );
     }
 
     public void expireEvent(LaunchedEvent launchedEvent) {

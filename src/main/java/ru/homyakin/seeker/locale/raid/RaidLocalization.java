@@ -6,10 +6,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
@@ -64,7 +65,7 @@ public class RaidLocalization {
         return resources.getOrDefaultRandom(language, RaidResource::zeroParticipants);
     }
 
-    public static String raidResult(Language language, RaidResult raidResult) {
+    public static String raidResult(Language language, EventResult.Raid raidResult) {
         final var sortedPersonages = new ArrayList<>(raidResult.personageResults());
         sortedPersonages.sort(resultComparator);
         final var topPersonages = new StringBuilder();
@@ -87,7 +88,7 @@ public class RaidLocalization {
 
     private static HashMap<String, Object> paramsForRaidResult(
         Language language,
-        RaidResult raidResult,
+        EventResult.Raid raidResult,
         StringBuilder topPersonages
     ) {
         long totalEnemiesHealth = 0;

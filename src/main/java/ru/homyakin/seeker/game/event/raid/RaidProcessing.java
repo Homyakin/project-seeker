@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +10,10 @@ import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.Event;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
-import ru.homyakin.seeker.game.event.raid.models.RaidResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.models.Money;
@@ -46,13 +47,18 @@ public class RaidProcessing {
         this.raidGenerator = raidGenerator;
     }
 
-    public Optional<RaidResult> process(Event event, LaunchedEvent launchedEvent) {
+    public EventResult.Raid process(Event event, LaunchedEvent launchedEvent) {
         final var raid = raidDao.getByEventId(event.id())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
 
         final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
         if (participants.isEmpty()) {
-            return Optional.empty();
+            return new EventResult.Raid(
+                EventResult.Raid.Status.EXPIRED,
+                List.of(),
+                List.of(),
+                List.of()
+            );
         }
 
         final var personages = participants.stream().map(Personage::toBattlePersonage).toList();
@@ -88,14 +94,14 @@ public class RaidProcessing {
             })
             .toList();
 
-        final var raidResult = new RaidResult(
-            doesParticipantsWin,
+        final var raidResult = new EventResult.Raid(
+            doesParticipantsWin ? EventResult.Raid.Status.SUCCESS : EventResult.Raid.Status.FAILURE,
             result.firstTeamResults(),
             raidResults,
             generatedItems
         );
         personageService.saveRaidResults(raidResult.personageResults(), launchedEvent);
-        return Optional.of(raidResult);
+        return raidResult;
     }
 
     /**

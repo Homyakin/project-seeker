@@ -87,7 +87,7 @@ public class PersonageServiceAddEventTest {
 
         // then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(new PersonageEventError.ExpiredEvent(raid), result.getLeft());
+        Assertions.assertEquals(new PersonageEventError.ExpiredEvent(launchedEvent, raid), result.getLeft());
     }
 
     @Test

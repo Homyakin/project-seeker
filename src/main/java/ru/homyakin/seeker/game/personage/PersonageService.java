@@ -74,7 +74,9 @@ public class PersonageService {
             .filterOrElse(
                 LaunchedEvent::isNotInFinalStatus,
                 requestedEvent -> raidService.getByEventId(requestedEvent.eventId())
-                    .<PersonageEventError>map(PersonageEventError.ExpiredEvent::new)
+                    .<PersonageEventError>map(
+                        it -> new PersonageEventError.ExpiredEvent(requestedEvent, it)
+                    )
                     .orElse(PersonageEventError.EventNotExist.INSTANCE)
             )
             .flatMap(requestedEvent -> getByIdForce(personageId)

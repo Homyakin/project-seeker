@@ -1,7 +1,8 @@
 package ru.homyakin.seeker.game.event.raid.models;
 
-import jakarta.validation.constraints.NotNull;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -14,8 +15,8 @@ import java.util.Optional;
 
 public record Raid(
     int eventId,
+    String code,
     RaidTemplate template,
-    @NotNull
     Map<Language, RaidLocale> locales
 ) implements Localized<RaidLocale> {
     private String toBaseMessage(Language language) {
@@ -27,12 +28,19 @@ public record Raid(
         );
     }
 
-    public String toEndMessage(Language language, List<Personage> participants) {
-        if (participants.isEmpty()) {
-            return toBaseMessage(language);
+    public String toEndMessage(EventResult.Raid result, Language language) {
+        if (result.isExpired() || result.personageResults().isEmpty()) {
+            return RaidLocalization.zeroParticipants(language);
         } else {
-            return toBaseMessage(language) + "\n\n" + RaidLocalization.raidParticipants(language, participants);
+            final var participants = result.personageResults().stream()
+                .map(PersonageRaidResult::personage)
+                .toList();
+            return toEndMessageWithParticipants(participants, language);
         }
+    }
+
+    public String toEndMessageWithParticipants(List<Personage> participants, Language language) {
+        return toBaseMessage(language) + "\n\n" + RaidLocalization.raidParticipants(language, participants);
     }
 
     public String toStartMessage(Language language, LocalDateTime startDate, LocalDateTime endDate) {
@@ -42,11 +50,11 @@ public record Raid(
             .orElseGet(() -> toBaseMessage(language));
     }
 
-    public String endMessage(Language language, RaidResult raidResult) {
-        if (raidResult.isSuccess()) {
-            return RaidLocalization.successRaid(language) + "\n\n" + RaidLocalization.raidResult(language, raidResult);
+    public String endMessage(Language language, EventResult.Raid result) {
+        if (result.isSuccess()) {
+            return RaidLocalization.successRaid(language) + "\n\n" + RaidLocalization.raidResult(language, result);
         } else {
-            return RaidLocalization.failureRaid(language) + "\n\n" + RaidLocalization.raidResult(language, raidResult);
+            return RaidLocalization.failureRaid(language) + "\n\n" + RaidLocalization.raidResult(language, result);
         }
     }
 

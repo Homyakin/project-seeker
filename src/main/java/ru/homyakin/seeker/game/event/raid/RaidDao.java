@@ -14,7 +14,17 @@ import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
 public class RaidDao {
-    private static final String GET_BY_ID = "SELECT * FROM raid WHERE event_id = :event_id";
+    // На маленьких данных работает быстро. Если понадобится ускорить - https://habr.com/ru/post/242999/
+    private static final String GET_RANDOM_RAID = """
+        SELECT r.*, e.code FROM raid r
+         LEFT JOIN event e ON e.id = r.event_id
+         WHERE is_enabled = true ORDER BY random() LIMIT 1
+        """;
+    private static final String GET_BY_ID = """
+        SELECT r.*, e.code FROM raid r
+         LEFT JOIN event e ON e.id = r.event_id
+         WHERE event_id = :event_id
+        """;
     private static final String SAVE = """
         INSERT INTO raid (event_id, template_id, locale)
         VALUES (:event_id, :template_id, :locale)
@@ -27,6 +37,12 @@ public class RaidDao {
     public RaidDao(DataSource dataSource, JsonUtils jsonUtils) {
         jdbcClient = JdbcClient.create(dataSource);
         this.jsonUtils = jsonUtils;
+    }
+
+    public Optional<Raid> getRandomRaid() {
+        return jdbcClient.sql(GET_RANDOM_RAID)
+            .query(this::mapRow)
+            .optional();
     }
 
     public Optional<Raid> getByEventId(int eventId) {
@@ -47,6 +63,7 @@ public class RaidDao {
     private Raid mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Raid(
             rs.getInt("event_id"),
+            rs.getString("code"),
             RaidTemplate.get(rs.getInt("template_id")),
             jsonUtils.fromString(rs.getString("locale"), JsonUtils.RAID_LOCALE)
         );
