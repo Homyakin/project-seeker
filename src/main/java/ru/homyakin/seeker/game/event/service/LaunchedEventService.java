@@ -69,10 +69,6 @@ public class LaunchedEventService {
         );
     }
 
-    public void expireEvent(LaunchedEvent launchedEvent) {
-        launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.EXPIRED);
-    }
-
     public void creationError(LaunchedEvent launchedEvent) {
         launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.CREATION_ERROR);
     }

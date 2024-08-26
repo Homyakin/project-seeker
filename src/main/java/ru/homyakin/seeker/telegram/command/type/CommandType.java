@@ -14,6 +14,7 @@ public enum CommandType {
     SELECT_LANGUAGE("selectLanguage", CheckType.EQUALS),
     START("/start", CheckType.EQUALS),
     JOIN_EVENT("joinEvent", CheckType.EQUALS),
+    JOIN_RAID("joinRaid", CheckType.EQUALS),
     GET_PROFILE("/me", CheckType.EQUALS),
     SHOW_HELP("/help", CheckType.EQUALS),
     SELECT_HELP("help", CheckType.EQUALS),

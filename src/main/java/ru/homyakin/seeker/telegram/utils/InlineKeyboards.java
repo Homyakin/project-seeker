@@ -43,13 +43,13 @@ public class InlineKeyboards {
         return builder.build();
     }
 
-    public static InlineKeyboardMarkup joinRaidEventKeyboard(Language language, long chatEventId) {
+    public static InlineKeyboardMarkup joinRaidKeyboard(Language language, long chatEventId) {
         return InlineKeyboardBuilder
             .builder()
             .addRow()
             .addButton(
                 RaidLocalization.joinRaidEvent(language),
-                CommandType.JOIN_EVENT.getText() + TextConstants.CALLBACK_DELIMITER + chatEventId
+                CommandType.JOIN_RAID.getText() + TextConstants.CALLBACK_DELIMITER + chatEventId
             )
             .build();
     }

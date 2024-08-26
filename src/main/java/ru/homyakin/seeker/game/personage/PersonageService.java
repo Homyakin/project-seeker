@@ -1,25 +1,30 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.control.Either;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.personage.models.JoinToRaidResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidService;
+import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
+import ru.homyakin.seeker.game.personage.models.errors.AddPersonageToRaidError;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -67,37 +72,48 @@ public class PersonageService {
             .peekLeft(error -> logger.warn("Can't create personage with name " + name));
     }
 
-    public Either<PersonageEventError, LaunchedEvent> addEvent(PersonageId personageId, long launchedEventId) {
-        return launchedEventService.getById(launchedEventId)
-            .<Either<PersonageEventError, LaunchedEvent>>map(Either::right)
-            .orElse(Either.left(PersonageEventError.EventNotExist.INSTANCE))
-            .filterOrElse(
-                LaunchedEvent::isNotInFinalStatus,
-                requestedEvent -> raidService.getByEventId(requestedEvent.eventId())
-                    .<PersonageEventError>map(
-                        it -> new PersonageEventError.ExpiredEvent(requestedEvent, it)
-                    )
-                    .orElse(PersonageEventError.EventNotExist.INSTANCE)
-            )
-            .flatMap(requestedEvent -> getByIdForce(personageId)
-                .hasEnoughEnergyForEvent(personageConfig.raidEnergyCost())
-                .map(_ -> requestedEvent)
-            )
-            .flatMap(requestedEvent -> launchedEventService
-                .getActiveEventByPersonageId(personageId)
-                .<Either<PersonageEventError, LaunchedEvent>>map(activeEvent -> {
-                    if (activeEvent.id() == launchedEventId) {
-                        return Either.left(PersonageEventError.PersonageInThisEvent.INSTANCE);
-                    } else {
-                        return Either.left(PersonageEventError.PersonageInOtherEvent.INSTANCE);
-                    }
-                })
-                .orElseGet(() -> launchedEventService
-                    .addPersonageToLaunchedEvent(personageId, launchedEventId)
-                    .map(_ -> requestedEvent)
-                    .mapLeft(_ -> PersonageEventError.EventInProcess.INSTANCE)
-                )
+    @Transactional
+    public Either<AddPersonageToRaidError, JoinToRaidResult> joinRaid(PersonageId personageId, long launchedEventId) {
+        final var launchedEvent = launchedEventService.getById(launchedEventId);
+        if (launchedEvent.isEmpty()) {
+            logger.warn("Personage {} tried to join to not created event {}", personageId, launchedEventId);
+            return Either.left(AddPersonageToRaidError.RaidNotExist.INSTANCE);
+        }
+        final var raid = raidService.getByEventId(launchedEvent.get().eventId());
+        if (raid.isEmpty()) {
+            logger.warn("Personage {} tried to join to not raid event {}", personageId, launchedEventId);
+            return Either.left(AddPersonageToRaidError.RaidNotExist.INSTANCE);
+        }
+        if (launchedEvent.get().isInFinalStatus()) {
+            logger.warn("Personage {} tried to join to ended event {}", personageId, launchedEventId);
+            return Either.left(new AddPersonageToRaidError.EndedRaid(launchedEvent.get(), raid.get()));
+        }
+
+        final var presentEvent = launchedEventService.getActiveEventByPersonageId(personageId);
+        if (presentEvent.isPresent()) {
+            if (Objects.equals(launchedEvent.get().id(), presentEvent.get().id())) {
+                return Either.left(AddPersonageToRaidError.PersonageInThisRaid.INSTANCE);
+            }
+            return Either.left(AddPersonageToRaidError.PersonageInOtherEvent.INSTANCE);
+        }
+
+        final var reduceEnergyResult = getByIdForce(personageId)
+            .reduceEnergy(
+                TimeUtils.moscowTime(),
+                personageConfig.raidEnergyCost(),
+                personageConfig.energyFullRecovery()
             );
+
+        if (reduceEnergyResult.isLeft()) {
+            return Either.left(new AddPersonageToRaidError.NotEnoughEnergy(personageConfig.raidEnergyCost()));
+        }
+
+        return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
+            .<AddPersonageToRaidError>mapLeft(_ -> AddPersonageToRaidError.RaidInProcess.INSTANCE)
+            .map(_ -> {
+                personageDao.update(reduceEnergyResult.get());
+                return new JoinToRaidResult(launchedEvent.get(), raid.get(), getByLaunchedEvent(launchedEventId));
+            });
     }
 
     public Optional<Personage> getById(PersonageId personageId) {
@@ -133,10 +149,9 @@ public class PersonageService {
         return updatedPersonage;
     }
 
-    public Personage addMoneyAndReduceEnergyForEvent(Personage personage, Money money, LocalDateTime energyChangeTime) {
+    public Personage addMoney(Personage personage, Money money, LocalDateTime energyChangeTime) {
         final var updatedPersonage = personage
-            .addMoney(money)
-            .reduceEnergy(energyChangeTime, personageConfig.raidEnergyCost(), personageConfig.energyFullRecovery());
+            .addMoney(money);
         personageDao.update(updatedPersonage);
         return updatedPersonage;
     }

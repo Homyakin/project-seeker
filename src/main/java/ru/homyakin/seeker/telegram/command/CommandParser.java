@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
+import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.settings.GetGroupSettings;
 import ru.homyakin.seeker.telegram.command.group.settings.SetTimeZone;
@@ -50,7 +51,6 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
-import ru.homyakin.seeker.telegram.command.group.event.JoinEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
@@ -200,7 +200,7 @@ public class CommandParser {
         return CommandType.getFromString(text)
             .map(commandType -> switch (commandType) {
                 case SELECT_LANGUAGE -> GroupSelectLanguage.from(callback);
-                case JOIN_EVENT -> JoinEvent.from(callback);
+                case JOIN_EVENT, JOIN_RAID -> JoinRaid.from(callback);
                 case DECLINE_DUEL -> DeclineDuel.from(callback);
                 case ACCEPT_DUEL -> AcceptDuel.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);

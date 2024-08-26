@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -50,16 +51,22 @@ public record Energy(
         return value >= energyValue;
     }
 
-    public Energy reduce(int energyValue, LocalDateTime changeTime, Duration timeForFullRegen) {
+    public Either<NotEnoughEnergy, Energy> reduce(int energyValue, LocalDateTime changeTime, Duration timeForFullRegen) {
         final var regenerated = regenIfNeeded(timeForFullRegen, changeTime)
             .fold(
                 _ -> this,
                 energy -> energy
             );
+        /*
+          Если энергия была максимальной, тогда дата изменения равна текущей дате, чтобы при следующей регенерации
+          не восполнилось слишком много энергии
+         */
         if (regenerated.value == MAX_ENERGY) {
-            return new Energy(regenerated.value - energyValue, changeTime);
+            return Either.right(new Energy(regenerated.value - energyValue, changeTime));
+        } else if (regenerated.value < energyValue) {
+            return Either.left(NotEnoughEnergy.INSTANCE);
         } else {
-            return new Energy(Math.max(regenerated.value - energyValue, 0), regenerated.lastChange);
+            return Either.right(new Energy(regenerated.value - energyValue, regenerated.lastChange));
         }
     }
 

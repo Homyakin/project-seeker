@@ -6,6 +6,7 @@ import java.time.Duration;
 
 @ConfigurationProperties("homyakin.seeker.event")
 public record EventConfig(
-    Duration raidDuration
+    Duration raidDuration,
+    int raidEnergyCost
 ) {
 }

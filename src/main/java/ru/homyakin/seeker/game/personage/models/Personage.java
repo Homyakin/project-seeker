@@ -14,11 +14,11 @@ import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -115,8 +115,13 @@ public record Personage(
         return Either.right(personage);
     }
 
-    public Personage reduceEnergy(LocalDateTime energyChangeTime, int energyToReduce, Duration timeForFullEnergyRegen) {
-        return copyWithEnergy(energy.reduce(energyToReduce, energyChangeTime, timeForFullEnergyRegen));
+    public Either<NotEnoughEnergy, Personage> reduceEnergy(
+        LocalDateTime energyChangeTime,
+        int energyToReduce,
+        Duration timeForFullEnergyRegen
+    ) {
+        return energy.reduce(energyToReduce, energyChangeTime, timeForFullEnergyRegen)
+            .map(this::copyWithEnergy);
     }
 
     public String badgeWithName() {
@@ -146,11 +151,8 @@ public record Personage(
         return Either.right(addMoney(CHANGE_NAME_COST));
     }
 
-    public Either<PersonageEventError, Success> hasEnoughEnergyForEvent(int requiredEnergy) {
-        if (energy.isGreaterOrEqual(requiredEnergy)) {
-            return Either.right(Success.INSTANCE);
-        }
-        return Either.left(new PersonageEventError.NotEnoughEnergy(requiredEnergy));
+    public boolean hasEnoughEnergy(int requiredEnergy) {
+        return energy.isGreaterOrEqual(requiredEnergy);
     }
 
     public int maxBagSize() {

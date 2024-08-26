@@ -74,7 +74,7 @@ public class RaidProcessing {
         final var raidResults = result.secondTeamResults().stream()
             .map(battleResult -> {
                 final var reward = new Money(calculateReward(doesParticipantsWin, battleResult));
-                personageService.addMoneyAndReduceEnergyForEvent(
+                personageService.addMoney(
                     battleResult.personage(),
                     reward,
                     endTime

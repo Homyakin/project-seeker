@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
-import ru.homyakin.seeker.game.personage.models.errors.PersonageEventError;
+import ru.homyakin.seeker.game.personage.models.errors.AddPersonageToRaidError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
@@ -37,8 +37,8 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::raidStartsPrefix);
     }
 
-    public static String userAlreadyInThisEvent(Language language) {
-        return resources.getOrDefault(language, RaidResource::userAlreadyInThisEvent);
+    public static String userAlreadyInThisRaid(Language language) {
+        return resources.getOrDefault(language, RaidResource::userAlreadyInThisRaid);
     }
 
     public static String userAlreadyInOtherEvent(Language language) {
@@ -165,7 +165,7 @@ public class RaidLocalization {
         );
     }
 
-    public static String notEnoughEnergy(Language language, PersonageEventError.NotEnoughEnergy notEnoughEnergy) {
+    public static String notEnoughEnergy(Language language, AddPersonageToRaidError.NotEnoughEnergy notEnoughEnergy) {
         final var params = new HashMap<String, Object>();
         params.put("energy_icon", Icons.ENERGY);
         params.put("required_energy", notEnoughEnergy.requiredEnergy());

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.command.group.event;
+package ru.homyakin.seeker.telegram.command.group.raid;
 
 import io.vavr.control.Either;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -11,9 +11,9 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.JoinToRaidResult;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -30,22 +30,19 @@ import ru.homyakin.seeker.test_utils.telegram.UserUtils;
 import ru.homyakin.seeker.utils.models.Pair;
 
 import java.util.List;
-import java.util.Optional;
 
-public class JoinEventExecutorTest {
+public class JoinRaidExecutorTest {
     private final GroupUserService groupUserService = Mockito.mock(GroupUserService.class);
     private final PersonageService personageService = Mockito.mock(PersonageService.class);
     private final TelegramSender telegramSender = Mockito.mock(TelegramSender.class);
-    private final RaidService raidService = Mockito.mock(RaidService.class);
-    private final JoinEventExecutor executor = new JoinEventExecutor(
+    private final JoinRaidExecutor executor = new JoinRaidExecutor(
         groupUserService,
         personageService,
-        telegramSender,
-        raidService
+        telegramSender
     );
     private Group group;
     private User user;
-    private JoinEvent command;
+    private JoinRaid command;
     private Raid raid;
     private LaunchedEvent launchedEvent;
 
@@ -55,7 +52,7 @@ public class JoinEventExecutorTest {
         user = UserUtils.randomUser();
         raid = EventUtils.randomRaid();
         launchedEvent = LaunchedEventUtils.withEventId(1);
-        command = new JoinEvent(
+        command = new JoinRaid(
             RandomStringUtils.randomNumeric(10),
             group.id(),
             RandomUtils.nextInt(),
@@ -68,11 +65,10 @@ public class JoinEventExecutorTest {
     @Test
     public void When_JoinEventIsSuccess_Then_EditTelegramMessage() {
         // given
-        Mockito.when(personageService.addEvent(user.personageId(), launchedEvent.id())).thenReturn(Either.right(launchedEvent));
         final var participants = List.of(PersonageUtils.random(), PersonageUtils.withId(user.personageId()));
-        Mockito.when(personageService.getByLaunchedEvent(launchedEvent.id()))
-            .thenReturn(participants);
-        Mockito.when(raidService.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
+        Mockito.when(personageService.joinRaid(user.personageId(), launchedEvent.id())).thenReturn(
+            Either.right(new JoinToRaidResult(launchedEvent, raid, participants))
+        );
 
         final var participantsText = RandomStringUtils.random(30);
         final var duration = RandomStringUtils.random(10);
@@ -95,7 +91,7 @@ public class JoinEventExecutorTest {
             raid.when(() -> RaidLocalization.raidParticipants(group.language(), participants)).thenReturn(participantsText);
             raid.when(() -> RaidLocalization.raidStartsPrefix(group.language())).thenReturn(timePrefix);
             common.when(() -> CommonLocalization.duration(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(duration);
-            keyboardMock.when(() -> InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id())).thenReturn(keyboard);
+            keyboardMock.when(() -> InlineKeyboards.joinRaidKeyboard(group.language(), launchedEvent.id())).thenReturn(keyboard);
             executor.execute(command);
         }
 

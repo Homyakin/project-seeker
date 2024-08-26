@@ -5,7 +5,7 @@ public record RaidResource(
     String raidStartsPrefix,
     String hoursShort,
     String minutesShort,
-    String userAlreadyInThisEvent,
+    String userAlreadyInThisRaid,
     String userAlreadyInOtherEvent,
     String expiredRaid,
     String raidInProcess,

@@ -116,7 +116,7 @@ public class EventManager {
             SendMessageBuilder.builder()
                 .chatId(group.id())
                 .text(raid.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
-                .keyboard(InlineKeyboards.joinRaidEventKeyboard(group.language(), launchedEvent.id()))
+                .keyboard(InlineKeyboards.joinRaidKeyboard(group.language(), launchedEvent.id()))
                 .build()
         );
         if (result.isLeft()) {
