@@ -9,5 +9,5 @@ eventIntervalButton = "${start_hour} — ${end_hour} ${enabled_icon}"
 incorrectTimeZone = "Неправильно указан часовой пояс, это должно быть целое число от ${min_time_zone} до ${max_time_zone}"
 zeroEnabledEventIntervals = "Хотя бы один интервал должен быть включён"
 incorrectSetTimeZoneCommand = """\
-Команда вводится в формате: <code>${set_time_zone_command} [часовой_пояс]</code>. Часовое пояс является целым числом."""
+Команда вводится в формате: <code>${set_time_zone_command} [часовой_пояс]</code>. Часовой пояс является целым числом."""
 successChangeTimeZone = "Часовой пояс изменён."
