@@ -56,21 +56,30 @@ public class GroupMigrateDao {
         jdbcClient.sql(migrateGroupPersonageStats)
             .params(fromToParams)
             .update();
-        final var selectOldLanguage = """
-            SELECT language_id FROM grouptg WHERE id = :from_grouptg_id
-            """;
-        final var language = jdbcClient.sql(selectOldLanguage)
-            .param("from_grouptg_id", from.value())
-            .query((rs, _) -> rs.getInt("language_id"))
-            .single();
         final var updateNewGroup = """
-            UPDATE grouptg SET migrated_from_grouptg_id = :from_grouptg_id,
-            language_id = :language_id
-            WHERE id = :to_grouptg_id
+            UPDATE grouptg AS target
+            SET
+                language_id = source.language_id,
+                init_date = source.init_date,
+                next_event_date = source.next_event_date,
+                next_rumor_date = source.next_rumor_date,
+                event_intervals_setting = source.event_intervals_setting,
+                time_zone_setting = source.time_zone_setting
+            FROM (
+                SELECT
+                    language_id,
+                    init_date,
+                    next_event_date,
+                    next_rumor_date,
+                    event_intervals_setting,
+                    time_zone_setting
+                FROM grouptg
+                WHERE id = :from_grouptg_id
+            ) AS source
+            WHERE target.id = :to_grouptg_id;
             """;
         jdbcClient.sql(updateNewGroup)
             .params(fromToParams)
-            .param("language_id", language)
             .update();
     }
 }

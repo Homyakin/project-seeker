@@ -66,8 +66,10 @@ public class GroupService {
         groupDao.updateNextRumorDate(group.id(), nextRumorDate);
     }
 
-    public void migrateGroupDate(GroupId from, GroupId to) {
+    public void migrateGroupData(GroupId from, GroupId to) {
+        getOrCreate(to);
         groupMigrateDao.migrate(from, to);
+        setNotActive(from);
     }
 
     public Either<ZeroEnabledEventIntervalsError, Group> toggleEventInterval(Group group, int intervalIndex) {

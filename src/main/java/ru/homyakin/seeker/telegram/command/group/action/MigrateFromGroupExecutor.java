@@ -19,9 +19,7 @@ class MigrateFromGroupExecutor extends CommandExecutor<MigrateFromGroup> {
 
     @Override
     public void execute(MigrateFromGroup command) {
-        groupService.getOrCreate(command.to());
-        groupService.setNotActive(command.from());
-        groupService.migrateGroupDate(command.from(), command.to());
+        groupService.migrateGroupData(command.from(), command.to());
         final var updatedGroup = groupService.getOrCreate(command.to());
         telegramSender.send(
             SendMessageBuilder
