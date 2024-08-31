@@ -125,7 +125,7 @@ public class CommonLocalization {
         if (diff.toMinutesPart() > 0) {
             minutes = diff.toMinutesPart() + " " + minutesShort(language);
         } else if (diff.toHours() == 0) {
-            minutes = "<1 " + minutesShort(language);
+            minutes = "0 " + minutesShort(language);
         }
         if (hours.isBlank()) {
             return minutes;
