@@ -51,6 +51,8 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
+import ru.homyakin.seeker.telegram.command.user.personal_quest.GetBulletinBoard;
+import ru.homyakin.seeker.telegram.command.user.personal_quest.TakePersonalQuest;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
@@ -142,6 +144,8 @@ public class CommandParser {
                 case OPEN_SHOP -> OpenShop.from(message);
                 case BUY_ITEM -> BuyItem.from(message);
                 case SELL_ITEM -> SellItem.from(message);
+                case BULLETIN_BOARD -> GetBulletinBoard.from(message);
+                case TAKE_PERSONAL_QUEST -> TakePersonalQuest.from(message);
                 default -> null;
             });
     }

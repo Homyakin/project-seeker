@@ -11,6 +11,7 @@ import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.homyakin.seeker.utils.models.IntRange;
 
 public class RandomUtils {
     private static final Logger logger = LoggerFactory.getLogger(RandomUtils.class);
@@ -19,6 +20,10 @@ public class RandomUtils {
 
     public static Duration getRandomDuration(Duration minimum, Duration maximum) {
         return Duration.ofMillis(getInInterval(minimum.toMillis(), maximum.toMillis()));
+    }
+
+    public static int getInInterval(IntRange range) {
+        return getInInterval(range.min(), range.max());
     }
 
     public static long getInInterval(long start, long end) {

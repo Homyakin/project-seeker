@@ -9,6 +9,8 @@ public record MenuResource(
     String changeNameButton,
     String showBadgesButton,
     String inventoryButton,
-    String shopButton
+    String shopButton,
+    String bulletinBoardButton,
+    String takePersonalQuestButton
 ) {
 }

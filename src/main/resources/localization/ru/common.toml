@@ -25,7 +25,7 @@ personageEffects = """\
 \nЭффекты:
 ${personage_effects}
 """
-menuItemEffect = "<code>-🍻Таверна: ${effect} ⏳${duration}</code>"
+menuItemEffect = "<code>-🍻Таверна: ${effect} ${time_icon}${duration}</code>"
 addValueEffect = "+${value}${characteristic_icon}"
 multiplyPercentEffect = "+${value}%${characteristic_icon}"
 

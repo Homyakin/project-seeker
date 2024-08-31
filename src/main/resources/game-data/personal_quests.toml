@@ -1,0 +1,8 @@
+[[quest]]
+    code = "cat-search"
+    isEnabled = true
+
+    [quest.locales.RU]
+    intro = "Поиски кота"
+    success = "Поиски кота завершены"
+    failure = "Поиски кота не завершены"

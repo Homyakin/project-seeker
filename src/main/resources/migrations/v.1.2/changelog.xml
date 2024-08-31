@@ -9,4 +9,5 @@
     <include file="changes/2024-08-22_01_move-raid-locale-to-raid-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-08-23_01_add-code-to-event-and-drop-raid-name.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-08-23_01_make-code-and-type-at-events-unique.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-08-29_01_add-personal-quests.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

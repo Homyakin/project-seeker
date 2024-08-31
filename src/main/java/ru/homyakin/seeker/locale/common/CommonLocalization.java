@@ -117,14 +117,18 @@ public class CommonLocalization {
             return "0 " + minutesShort(language);
         }
         final var diff = Duration.between(start, end);
+        return duration(language, diff);
+    }
+
+    public static String duration(Language language, Duration duration) {
         var hours = "";
-        if (diff.toHours() > 0) {
-            hours = diff.toHours() + " " + hoursShort(language);
+        if (duration.toHours() > 0) {
+            hours = duration.toHours() + " " + hoursShort(language);
         }
         var minutes = "";
-        if (diff.toMinutesPart() > 0) {
-            minutes = diff.toMinutesPart() + " " + minutesShort(language);
-        } else if (diff.toHours() == 0) {
+        if (duration.toMinutesPart() > 0) {
+            minutes = duration.toMinutesPart() + " " + minutesShort(language);
+        } else if (duration.toHours() == 0) {
             minutes = "0 " + minutesShort(language);
         }
         if (hours.isBlank()) {

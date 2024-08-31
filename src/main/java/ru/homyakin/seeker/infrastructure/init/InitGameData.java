@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
@@ -66,10 +68,10 @@ public class InitGameData {
     }
 
     @EventListener(ApplicationStartedEvent.class)
-    public void loadEvents() {
-        logger.info("loading events");
+    public void loadRaids() {
+        logger.info("loading raids");
         ResourceUtils.doAction(
-            eventsPath(),
+            raidsPath(),
             stream -> {
                 final var raids = extractClass(stream, Raids.class);
                 LocalizationCoverage.addRaidsInfo(raids);
@@ -77,7 +79,22 @@ public class InitGameData {
                 raids.raid().forEach(eventService::saveRaid);
             }
         );
-        logger.info("loaded events");
+        logger.info("loaded raids");
+    }
+
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadPersonalQuests() {
+        logger.info("loading personal quests");
+        ResourceUtils.doAction(
+            personalQuestsPath(),
+            stream -> {
+                final var personalQuests = extractClass(stream, PersonalQuests.class);
+                LocalizationCoverage.addPersonalQuestsInfo(personalQuests);
+                personalQuests.quest().forEach(SavingPersonalQuest::validateLocale);
+                personalQuests.quest().forEach(eventService::savePersonalQuest);
+            }
+        );
+        logger.info("loaded personal quests");
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -158,8 +175,12 @@ public class InitGameData {
         }
     }
 
-    private String eventsPath() {
-        return DATA_FOLDER + config.type().folder() + EVENTS;
+    private String raidsPath() {
+        return DATA_FOLDER + config.type().folder() + RAIDS;
+    }
+
+    private String personalQuestsPath() {
+        return PERSONAL_QUESTS;
     }
 
     private String menuItemsPath() {
@@ -171,7 +192,8 @@ public class InitGameData {
     }
 
     private static final String DATA_FOLDER = "game-data" + File.separator;
-    private static final String EVENTS = File.separator + "raids.toml";
+    private static final String RAIDS = File.separator + "raids.toml";
+    private static final String PERSONAL_QUESTS = DATA_FOLDER + "personal_quests.toml";
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";
     private static final String BADGES = DATA_FOLDER + "badges.toml";

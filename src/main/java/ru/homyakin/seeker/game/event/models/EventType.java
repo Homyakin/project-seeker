@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public enum EventType {
     RAID(1),
+    PERSONAL_QUEST(2),
     ;
 
     private final int id;

@@ -25,9 +25,9 @@ public class InitGameDataTest {
 
     @ParameterizedTest
     @EnumSource(InitGameDataType.class)
-    public void When_LoadEvents_Then_NoErrors(InitGameDataType type) {
+    public void When_LoadRaids_Then_NoErrors(InitGameDataType type) {
         config.setType(type);
-        Assertions.assertDoesNotThrow(initGameData::loadEvents);
+        Assertions.assertDoesNotThrow(initGameData::loadRaids);
     }
 
     @ParameterizedTest

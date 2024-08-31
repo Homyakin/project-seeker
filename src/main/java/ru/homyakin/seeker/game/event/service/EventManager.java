@@ -8,11 +8,13 @@ import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
+import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
@@ -28,6 +30,7 @@ public class EventManager {
     private final GroupStatsService groupStatsService;
     private final LockService lockService;
     private final RaidService raidService;
+    private final UserService userService;
 
     public EventManager(
         GroupService groupService,
@@ -36,7 +39,7 @@ public class EventManager {
         EventProcessing eventProcessing,
         GroupStatsService groupStatsService,
         LockService lockService,
-        RaidService raidService
+        RaidService raidService, UserService userService
     ) {
         this.groupService = groupService;
         this.telegramSender = telegramSender;
@@ -45,6 +48,7 @@ public class EventManager {
         this.groupStatsService = groupStatsService;
         this.lockService = lockService;
         this.raidService = raidService;
+        this.userService = userService;
     }
 
     public void launchEventsInGroups() {
@@ -79,7 +83,28 @@ public class EventManager {
         final var result = eventProcessing.processEvent(launchedEvent);
         switch (result) {
             case EventResult.Raid raidResult -> stopRaid(launchedEvent, raidResult);
+            case EventResult.PersonalQuestResult personalQuestResult -> processPersonalQuestResult(personalQuestResult);
         }
+    }
+
+    private void processPersonalQuestResult(EventResult.PersonalQuestResult result) {
+        final var message = SendMessageBuilder.builder();
+        switch (result) {
+            case EventResult.PersonalQuestResult.Error _ -> {
+                return;
+            }
+            case EventResult.PersonalQuestResult.Failure failure -> {
+                final var user = userService.getByPersonageIdForce(failure.personage().id());
+                message.chatId(user.id());
+                message.text(PersonalQuestLocalization.failedQuest(user.language(), failure));
+            }
+            case EventResult.PersonalQuestResult.Success success -> {
+                final var user = userService.getByPersonageIdForce(success.personage().id());
+                message.chatId(user.id());
+                message.text(PersonalQuestLocalization.successQuest(user.language(), success));
+            }
+        }
+        telegramSender.send(message.build());
     }
 
     private void stopRaid(LaunchedEvent launchedEvent, EventResult.Raid result) {

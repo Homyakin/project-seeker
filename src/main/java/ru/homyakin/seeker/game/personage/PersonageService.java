@@ -23,6 +23,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.game.personage.models.errors.AddPersonageToRaidError;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
@@ -97,12 +98,11 @@ public class PersonageService {
             return Either.left(AddPersonageToRaidError.PersonageInOtherEvent.INSTANCE);
         }
 
-        final var reduceEnergyResult = getByIdForce(personageId)
-            .reduceEnergy(
-                TimeUtils.moscowTime(),
-                personageConfig.raidEnergyCost(),
-                personageConfig.energyFullRecovery()
-            );
+        final var reduceEnergyResult = reduceEnergy(
+            getByIdForce(personageId),
+            personageConfig.raidEnergyCost(),
+            TimeUtils.moscowTime()
+        );
 
         if (reduceEnergyResult.isLeft()) {
             return Either.left(new AddPersonageToRaidError.NotEnoughEnergy(personageConfig.raidEnergyCost()));
@@ -211,5 +211,17 @@ public class PersonageService {
 
     public void addMenuItemEffect(Personage personage, MenuItemEffect effect) {
         personageDao.update(personage.addMenuItemEffect(effect));
+    }
+
+    public Either<NotEnoughEnergy, Personage> checkPersonageEnergy(PersonageId personageId, int requiredEnergy) {
+        final var personage = getByIdForce(personageId);
+        if (!personage.hasEnoughEnergy(requiredEnergy)) {
+            return Either.left(NotEnoughEnergy.INSTANCE);
+        }
+        return Either.right(personage);
+    }
+
+    public Either<NotEnoughEnergy, Personage> reduceEnergy(Personage personage, int requiredEnergy, LocalDateTime time) {
+        return personage.reduceEnergy(time, requiredEnergy, personageConfig.energyFullRecovery()).peek(personageDao::update);
     }
 }

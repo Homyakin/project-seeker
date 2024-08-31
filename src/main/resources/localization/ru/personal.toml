@@ -8,6 +8,8 @@ changeNameButton = "🔮Сменить имя"
 showBadgesButton = "🔰Жетоны"
 inventoryButton = "🎒Инвентарь"
 shopButton = "⚖️Чёрный рынок"
+bulletinBoardButton = "📣Доска объявлений"
+takePersonalQuestButton = "📝Взять квест"
 
 [changeName]
 changeNameWithoutName="Имя не может быть пустым!"
@@ -60,3 +62,20 @@ ${badge_list}"""
 badge = """\
 ${badge_icon} ${badge_description}"""
 badgeIsNotAvailable = "Данный жетон недоступен"
+
+[personalQuest]
+bulletinBoard = """\
+На доске висит множество объявлений от жителей Крезера. Выбери одно, и в случае успеха получишь награду.
+
+Затраты: ${energy_icon}${required_energy}% ${time_icon}${duration}"""
+notEnoughEnergy = "Для начала квеста необходимо: ${energy_icon}${required_energy}%"
+personageInAnotherEvent = "Ты уже занят в другом событии."
+startedQuest = """\
+${quest_intro}
+
+Ты вернёшься через ${time_icon}${duration}"""
+failedQuest = "${quest_failure}"
+successQuest = """\
+${quest_success}
+
+Ты получил +${money_icon}${money_value}"""

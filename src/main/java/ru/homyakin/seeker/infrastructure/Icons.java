@@ -22,6 +22,7 @@ public class Icons {
     public static final String ENABLED = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
     public static final String DISABLED = EmojiManager.getByAlias(":x:").orElseThrow().getEmoji();
     public static final String RANDOM = EmojiManager.getByAlias(":game_die:").orElseThrow().getEmoji();
+    public static final String TIME = EmojiManager.getByAlias(":hourglass_flowing_sand:").orElseThrow().getEmoji();
 
     // PersonageSlots
     public static final String MAIN_HAND = EmojiManager.getByAlias(":raised_hand:").orElseThrow().getEmoji();

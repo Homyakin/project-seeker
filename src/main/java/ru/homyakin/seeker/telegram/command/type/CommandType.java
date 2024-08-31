@@ -44,6 +44,8 @@ public enum CommandType {
     TOP("/top", CheckType.EQUALS),
     INVENTORY(null, CheckType.MAP),
     OPEN_SHOP(null, CheckType.MAP),
+    BULLETIN_BOARD(null, CheckType.MAP),
+    TAKE_PERSONAL_QUEST(null, CheckType.MAP),
     SELL_ITEM("/sell", CheckType.STARTS_WITH),
     BUY_ITEM("/buy", CheckType.STARTS_WITH),
     PUT_ON("/on", CheckType.STARTS_WITH),
@@ -89,6 +91,8 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.showBadgesButton(), CommandType.SHOW_BADGES);
         CommonUtils.putIfKeyPresents(textToType, resource.inventoryButton(), CommandType.INVENTORY);
         CommonUtils.putIfKeyPresents(textToType, resource.shopButton(), CommandType.OPEN_SHOP);
+        CommonUtils.putIfKeyPresents(textToType, resource.bulletinBoardButton(), CommandType.BULLETIN_BOARD);
+        CommonUtils.putIfKeyPresents(textToType, resource.takePersonalQuestButton(), CommandType.TAKE_PERSONAL_QUEST);
     }
 
     private boolean check(String text) {

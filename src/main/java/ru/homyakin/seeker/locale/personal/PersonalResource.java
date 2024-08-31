@@ -4,6 +4,7 @@ public record PersonalResource(
     MenuResource menu,
     ChangeNameResource changeName,
     CharacteristicResource characteristics,
-    BadgeResource badges
+    BadgeResource badges,
+    PersonalQuestResource personalQuest
 ) {
 }

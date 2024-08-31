@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 
 @Component
@@ -39,6 +40,15 @@ public class EventDao {
             .param("type_id", EventType.RAID.id())
             .param("is_enabled", raid.isEnabled())
             .param("code", raid.code())
+            .query((rs, _) -> rs.getInt("id"))
+            .single();
+    }
+
+    public int save(SavingPersonalQuest quest) {
+        return jdbcClient.sql(SAVE_EVENT)
+            .param("type_id", EventType.PERSONAL_QUEST.id())
+            .param("is_enabled", quest.isEnabled())
+            .param("code", quest.code())
             .query((rs, _) -> rs.getInt("id"))
             .single();
     }

@@ -20,6 +20,7 @@ import ru.homyakin.seeker.locale.personal.BadgeLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
+import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
@@ -76,6 +77,7 @@ public class LocalizationInitializer {
                     CharacteristicLocalization.add(language, resource.characteristics());
                     MenuLocalization.add(language, resource.menu());
                     BadgeLocalization.add(language, resource.badges());
+                    PersonalQuestLocalization.add(language, resource.personalQuest());
                     CommandType.fillLocaleMap(resource.menu());
                     ChangeNameCommandType.fillLocaleMap(resource.changeName());
                 }

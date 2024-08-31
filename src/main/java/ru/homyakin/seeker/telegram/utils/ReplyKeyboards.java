@@ -14,6 +14,7 @@ public class ReplyKeyboards {
             .addButton(button(MenuLocalization.profileButton(language)))
             .addButton(button(MenuLocalization.inventoryButton(language)))
             .addRow()
+            .addButton(button(MenuLocalization.bulletinBoardButton(language)))
             .addButton(button(MenuLocalization.shopButton(language)))
             .addRow()
             .addButton(button(MenuLocalization.receptionDeskButton(language)))
@@ -47,6 +48,15 @@ public class ReplyKeyboards {
             .addButton(button(ChangeNameLocalization.confirmButton(language)))
             .addRow()
             .addButton(button(ChangeNameLocalization.cancelButton(language)))
+            .build();
+    }
+
+    public static ReplyKeyboardMarkup bulletinBoardKeyboard(Language language) {
+        return ReplyKeyboardBuilder.builder()
+            .addRow()
+            .addButton(button(MenuLocalization.takePersonalQuestButton(language)))
+            .addRow()
+            .addButton(button(MenuLocalization.backButton(language)))
             .build();
     }
 

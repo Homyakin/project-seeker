@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
+import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
@@ -59,7 +60,11 @@ public class LocalizationCoverage {
     }
 
     public static void addRaidsInfo(Raids raids) {
-        addLocalizedInfo(raids.raid(), TranslateType.EVENTS);
+        addLocalizedInfo(raids.raid(), TranslateType.RAIDS);
+    }
+
+    public static void addPersonalQuestsInfo(PersonalQuests personalQuests) {
+        addLocalizedInfo(personalQuests.quest(), TranslateType.PERSONAL_QUESTS);
     }
 
     public static void addRumorsInfo(Rumors rumors) {
@@ -83,10 +88,10 @@ public class LocalizationCoverage {
     }
 
     private static <T extends Localized<?>> void addLocalizedInfo(List<T> locales, TranslateType type) {
-        final var count = locales.size();
+        final var count = locales.size(); // Считаем общее количество переведённых объектов
         final var translatedLocales = new HashMap<Language, Integer>();
         locales.forEach(
-            // Считаем по каждому объекту на какие языки он был переведён
+            // Считаем по каждому объекту на какие языки он был переведён и добавляем к общей сумме языка
             localized -> localized.locales().forEach(
                 (language, _) -> translatedLocales.merge(language, 1, Integer::sum)
             )
@@ -128,7 +133,8 @@ public class LocalizationCoverage {
 
     private enum TranslateType {
         COMMON,
-        EVENTS,
+        RAIDS,
+        PERSONAL_QUESTS,
         RUMORS,
         MENU_ITEMS,
         BADGES,

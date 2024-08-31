@@ -45,4 +45,12 @@ public class MenuLocalization {
     public static String shopButton(Language language) {
         return resources.getOrDefault(language, MenuResource::shopButton);
     }
+
+    public static String bulletinBoardButton(Language language) {
+        return resources.getOrDefault(language, MenuResource::bulletinBoardButton);
+    }
+
+    public static String takePersonalQuestButton(Language language) {
+        return resources.getOrDefault(language, MenuResource::takePersonalQuestButton);
+    }
 }

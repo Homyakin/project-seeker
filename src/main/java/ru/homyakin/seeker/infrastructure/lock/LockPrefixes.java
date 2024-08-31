@@ -6,4 +6,5 @@ public enum LockPrefixes {
     RUMOR,
     DUEL,
     MENU_ITEM_ORDER,
+    PERSONAGE,
 }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
 import ru.homyakin.seeker.game.event.raid.RaidProcessing;
 
 @Service
@@ -12,10 +13,16 @@ public class EventProcessing {
     private static final Logger logger = LoggerFactory.getLogger(EventProcessing.class);
     private final EventService eventService;
     private final RaidProcessing raidProcessing;
+    private final PersonalQuestService personalQuestService;
 
-    public EventProcessing(EventService eventService, RaidProcessing raidProcessing) {
+    public EventProcessing(
+        EventService eventService,
+        RaidProcessing raidProcessing,
+        PersonalQuestService personalQuestService
+    ) {
         this.eventService = eventService;
         this.raidProcessing = raidProcessing;
+        this.personalQuestService = personalQuestService;
     }
 
     public EventResult processEvent(LaunchedEvent launchedEvent) {
@@ -27,6 +34,7 @@ public class EventProcessing {
 
         return switch (event.type()) {
             case RAID -> raidProcessing.process(event, launchedEvent);
+            case PERSONAL_QUEST -> personalQuestService.stopQuest(launchedEvent);
         };
     }
 }

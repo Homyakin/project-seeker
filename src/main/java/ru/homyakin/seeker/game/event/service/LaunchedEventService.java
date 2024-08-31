@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.database.PersonageEventDao;
 import ru.homyakin.seeker.game.event.models.EventLocked;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
@@ -50,6 +51,15 @@ public class LaunchedEventService {
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 
+    public LaunchedEvent createFromPersonalQuest(
+        PersonalQuest quest,
+        LocalDateTime start,
+        LocalDateTime end
+    ) {
+        final var id = launchedEventDao.save(quest.eventId(), start, end);
+        return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
+    }
+
     public Optional<LaunchedEvent> getById(Long launchedEventId) {
         return launchedEventDao.getById(launchedEventId);
     }
@@ -65,6 +75,17 @@ public class LaunchedEventService {
                 case SUCCESS -> EventStatus.SUCCESS;
                 case FAILURE -> EventStatus.FAILED;
                 case EXPIRED -> EventStatus.EXPIRED;
+            }
+        );
+    }
+
+    public void updateResult(LaunchedEvent launchedEvent, EventResult.PersonalQuestResult personalQuestResult) {
+        launchedEventDao.updateStatus(
+            launchedEvent.id(),
+            switch (personalQuestResult) {
+                case EventResult.PersonalQuestResult.Error _ -> EventStatus.CREATION_ERROR;
+                case EventResult.PersonalQuestResult.Failure _ -> EventStatus.FAILED;
+                case EventResult.PersonalQuestResult.Success _ -> EventStatus.SUCCESS;
             }
         );
     }
