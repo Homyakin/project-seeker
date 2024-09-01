@@ -120,12 +120,12 @@ public class PersonalQuestService {
         final var isSuccess = RandomUtils.processChance(config.successProbability());
         final EventResult.PersonalQuestResult result;
         if (isSuccess) {
-            logger.info("Quest {} succeeded", launchedEvent.eventId());
+            logger.info("Quest {} succeeded", launchedEvent.id());
             final var reward = Money.from(RandomUtils.getInInterval(config.reward()));
             personageService.addMoney(personage, reward);
             result = new EventResult.PersonalQuestResult.Success(quest, personage, reward);
         } else {
-            logger.info("Quest {} failed", launchedEvent.eventId());
+            logger.info("Quest {} failed", launchedEvent.id());
             result = new EventResult.PersonalQuestResult.Failure(quest, personage);
         }
 
