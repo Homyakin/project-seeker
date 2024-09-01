@@ -98,20 +98,27 @@ public class PersonageService {
             return Either.left(AddPersonageToRaidError.PersonageInOtherEvent.INSTANCE);
         }
 
-        final var reduceEnergyResult = reduceEnergy(
-            getByIdForce(personageId),
-            personageConfig.raidEnergyCost(),
-            TimeUtils.moscowTime()
+        final var checkEnergyResult = checkPersonageEnergy(
+            personageId,
+            personageConfig.raidEnergyCost()
         );
 
-        if (reduceEnergyResult.isLeft()) {
+        if (checkEnergyResult.isLeft()) {
             return Either.left(new AddPersonageToRaidError.NotEnoughEnergy(personageConfig.raidEnergyCost()));
         }
 
         return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
             .<AddPersonageToRaidError>mapLeft(_ -> AddPersonageToRaidError.RaidInProcess.INSTANCE)
             .map(_ -> {
-                personageDao.update(reduceEnergyResult.get());
+                final var reduceResult = reduceEnergy(
+                    checkEnergyResult.get(),
+                    personageConfig.raidEnergyCost(),
+                    TimeUtils.moscowTime()
+                );
+                if (reduceResult.isLeft()) {
+                    logger.error("Personage {} has not enough energy for raid after checking", personageId);
+                    throw new IllegalStateException("Personage has not enough energy for raid after checking");
+                }
                 return new JoinToRaidResult(launchedEvent.get(), raid.get(), getByLaunchedEvent(launchedEventId));
             });
     }
