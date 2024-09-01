@@ -101,12 +101,12 @@ public class OrderService {
     private Either<MenuItemOrderError, MenuItem> consumeLogic(long orderId, Personage consumer) {
         final var order = getById(orderId)
             .orElseThrow(() -> new IllegalStateException("Order " + orderId + " must present for consume"));
+        if (!order.acceptingPersonageId().equals(consumer.id())) {
+            return Either.left(MenuItemOrderError.WrongConsumer.INSTANCE);
+        }
         if (order.status().isFinal()) {
             logger.error("Final status in consuming order: " + orderId);
             return Either.left(MenuItemOrderError.AlreadyFinalStatus.INSTANCE);
-        }
-        if (!order.acceptingPersonageId().equals(consumer.id())) {
-            return Either.left(MenuItemOrderError.WrongConsumer.INSTANCE);
         }
         final var item = menuService.getMenuItem(order.menuItemId()).orElseThrow();
         menuItemOrderDao.updateStatus(order.id(), OrderStatus.ACCEPTED);
