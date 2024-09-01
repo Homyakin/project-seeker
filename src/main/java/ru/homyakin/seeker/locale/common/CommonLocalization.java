@@ -105,6 +105,7 @@ public class CommonLocalization {
     private static String menuItemEffect(Language language, MenuItemEffect effect) {
         final var params = new HashMap<String, Object>();
         params.put("effect", effect(language, effect.effect()));
+        params.put("time_icon", Icons.TIME);
         params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::menuItemEffect),
