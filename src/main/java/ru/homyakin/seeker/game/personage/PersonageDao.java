@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.game.personage;
 
 import io.vavr.CheckedFunction0;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,7 @@ import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
 public class PersonageDao {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String GET_BY_ID = """
         WITH item_characteristics AS (
             SELECT personage_id,
@@ -45,9 +48,10 @@ public class PersonageDao {
         LEFT JOIN badge b ON pab.badge_id = b.id
         LEFT JOIN item_characteristics ic on p.id = ic.personage_id
         LEFT JOIN personage_to_event pte ON p.id = pte.personage_id
-        LEFT JOIN launched_event le ON pte.launched_event_id = le.id AND le.status_id = :active_status_id
+        LEFT JOIN launched_event le ON pte.launched_event_id = le.id
         LEFT JOIN event e ON le.event_id = e.id
         WHERE p.id in (:id_list)
+        AND (le.status_id = :active_status_id OR pte.personage_id IS NULL)
         """;
 
     private static final String UPDATE = """
