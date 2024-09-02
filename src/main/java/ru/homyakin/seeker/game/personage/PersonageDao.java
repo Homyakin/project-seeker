@@ -44,9 +44,9 @@ public class PersonageDao {
                 e.type_id as event_type,
                 ROW_NUMBER() OVER (PARTITION BY pte.personage_id) AS rn
             FROM personage_to_event pte
-                LEFT JOIN launched_event le ON pte.launched_event_id = le.id AND le.status_id = :active_status_id
+                LEFT JOIN launched_event le ON pte.launched_event_id = le.id
                 LEFT JOIN event e ON le.event_id = e.id
-            WHERE personage_id in (:id_list)
+            WHERE le.status_id = :active_status_id AND personage_id in (:id_list)
         )
         SELECT p.*,
             b.code as badge_code,
