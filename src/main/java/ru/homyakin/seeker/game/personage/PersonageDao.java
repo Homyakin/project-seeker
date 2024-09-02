@@ -131,6 +131,7 @@ public class PersonageDao {
     public List<Personage> getByLaunchedEvent(Long launchedEventId) {
         // TODO Эффективность неизвестна, данный запрос написан просто чтобы работали предметы.
         // на 02.09.24 проблем с производительностью нет
+        final var now = System.currentTimeMillis();
         final var personageIdByLaunchedEvent = """
             SELECT * FROM personage_to_event WHERE launched_event_id = :launched_event_id
             """;
@@ -141,11 +142,15 @@ public class PersonageDao {
         if (idList.isEmpty()) {
             return List.of();
         }
-        return jdbcClient.sql(GET_BY_ID)
+        final var result = jdbcClient.sql(GET_BY_ID)
             .param("id_list", idList)
             .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .list();
+        if (logger.isDebugEnabled()) {
+            logger.debug("Finished getting {} personages by launched event in {} ms", result.size(), System.currentTimeMillis() - now);
+        }
+        return result;
     }
 
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
