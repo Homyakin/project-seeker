@@ -51,7 +51,8 @@ public class BattlePersonagePowerTest {
                 null,
                 null,
                 Characteristics.ZERO,
-                new PersonageEffects(Optional.of(new MenuItemEffect(new Effect.Add(100, EffectCharacteristic.ATTACK), null)))
+                new PersonageEffects(Optional.of(new MenuItemEffect(new Effect.Add(100, EffectCharacteristic.ATTACK), null))),
+                Optional.empty()
             )
         );
 

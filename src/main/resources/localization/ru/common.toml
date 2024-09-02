@@ -12,8 +12,9 @@ ${energy_icon}Энергия: ${energy_value}%
 ${health_icon}Здоровье: ${health_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
-${personage_effects}
+${current_event}${personage_effects}
 👤Снаряжение: ${item_characteristics}"""
+
 shortProfile = """\
 ${personage_badge_with_name}
 ${money_icon}${personage_money} ${energy_icon}${energy_value}%
@@ -28,6 +29,9 @@ ${personage_effects}
 menuItemEffect = "<code>-🍻Таверна: ${effect} ${time_icon}${duration}</code>"
 addValueEffect = "+${value}${characteristic_icon}"
 multiplyPercentEffect = "+${value}%${characteristic_icon}"
+
+personageInRaid = "\nВ рейде ${time_icon}${duration}\n"
+personageInQuest = "\nВ квесте ${time_icon}${duration}\n"
 
 hoursShort = "ч."
 minutesShort = "мин."

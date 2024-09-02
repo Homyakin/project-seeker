@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class SingleBossGenerator implements RaidBattlePersonageGenerator {
     @Override
@@ -31,7 +32,8 @@ public class SingleBossGenerator implements RaidBattlePersonageGenerator {
             null,
             null,
             Characteristics.ZERO,
-            PersonageEffects.EMPTY
+            PersonageEffects.EMPTY,
+            Optional.empty()
         ).toBattlePersonage();
         return Collections.singletonList(boss);
     }

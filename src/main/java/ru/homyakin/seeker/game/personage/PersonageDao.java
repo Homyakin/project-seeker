@@ -1,11 +1,15 @@
 package ru.homyakin.seeker.game.personage;
 
+import io.vavr.CheckedFunction0;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.models.CurrentEvent;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageEffects;
@@ -31,21 +35,19 @@ public class PersonageDao {
             FROM item WHERE personage_id in (:id_list) AND is_equipped = true
             GROUP BY personage_id
         )
-        SELECT p.*, b.code as badge_code, ic.* FROM personage p
-        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
+        SELECT p.*,
+            b.code as badge_code,
+            ic.*,
+            le.end_date as launched_event_end_date,
+            e.type_id as event_type
+        FROM personage p
+        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id AND pab.is_active = true
         LEFT JOIN badge b ON pab.badge_id = b.id
         LEFT JOIN item_characteristics ic on p.id = ic.personage_id
+        LEFT JOIN personage_to_event pte ON p.id = pte.personage_id
+        LEFT JOIN launched_event le ON pte.launched_event_id = le.id AND le.status_id = :active_status_id
+        LEFT JOIN event e ON le.event_id = e.id
         WHERE p.id in (:id_list)
-        AND pab.is_active = true
-        """;
-
-    private static final String GET_BY_LAUNCHED_EVENT = """
-        SELECT p.*, b.code as badge_code FROM personage_to_event le
-        LEFT JOIN personage p on p.id = le.personage_id
-        LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id
-        LEFT JOIN badge b on pab.badge_id = b.id
-        WHERE le.launched_event_id = :launched_event_id
-        AND pab.is_active = true
         """;
 
     private static final String UPDATE = """
@@ -117,30 +119,33 @@ public class PersonageDao {
     public Optional<Personage> getById(PersonageId id) {
         return jdbcClient.sql(GET_BY_ID)
             .param("id_list", List.of(id.value()))
+            .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .optional();
     }
 
     public List<Personage> getByLaunchedEvent(Long launchedEventId) {
         // TODO Эффективность неизвестна, данный запрос написан просто чтобы работали предметы.
-        // TODO Надо протестировать запросы на проде
+        // на 02.09.24 проблем с производительностью нет
         final var personageIdByLaunchedEvent = """
             SELECT * FROM personage_to_event WHERE launched_event_id = :launched_event_id
             """;
         final var idList = jdbcClient.sql(personageIdByLaunchedEvent)
             .param("launched_event_id", launchedEventId)
-            .query((rs, rowNum) -> rs.getLong("personage_id"))
+            .query((rs, _) -> rs.getLong("personage_id"))
             .list();
         if (idList.isEmpty()) {
             return List.of();
         }
         return jdbcClient.sql(GET_BY_ID)
             .param("id_list", idList)
+            .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .list();
     }
 
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
+        final var eventType = Optional.ofNullable(DatabaseUtils.getIntOrNull(rs, "event_type")).map(EventType::get);
         return new Personage(
             PersonageId.from(rs.getLong("id")),
             rs.getString("name"),
@@ -166,7 +171,12 @@ public class PersonageDao {
                 0,
                 0
             ),
-            jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class)
+            jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class),
+            eventType.map(
+                it -> CheckedFunction0.of(
+                    () -> new CurrentEvent(it, rs.getTimestamp("launched_event_end_date").toLocalDateTime())
+                ).unchecked().apply()
+            )
         );
     }
 }

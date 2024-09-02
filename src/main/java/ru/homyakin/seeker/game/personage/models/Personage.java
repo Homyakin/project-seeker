@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -34,7 +35,8 @@ public record Personage(
     Energy energy,
     BadgeView badge,
     Characteristics itemCharacteristics,
-    PersonageEffects effects
+    PersonageEffects effects,
+    Optional<CurrentEvent> currentEvent
 ) {
     public Personage addMoney(Money money) {
         return new Personage(
@@ -45,7 +47,8 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects
+            effects,
+            currentEvent
         );
     }
 
@@ -110,7 +113,8 @@ public record Personage(
             energyResult.getOrElse(energy),
             badge,
             itemCharacteristics,
-            effectsResult.getOrElse(effects)
+            effectsResult.getOrElse(effects),
+            currentEvent
         );
         return Either.right(personage);
     }
@@ -258,7 +262,8 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects.addMenuItemEffect(effect)
+            effects.addMenuItemEffect(effect),
+            currentEvent
         );
     }
 
@@ -275,7 +280,8 @@ public record Personage(
             Energy.createDefault(),
             BadgeView.STANDARD,
             Characteristics.ZERO,
-            PersonageEffects.EMPTY
+            PersonageEffects.EMPTY,
+            Optional.empty()
         );
     }
 
@@ -308,7 +314,8 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects
+            effects,
+            currentEvent
         );
     }
 
@@ -321,7 +328,8 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects
+            effects,
+            currentEvent
         );
     }
 
@@ -334,7 +342,8 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects
+            effects,
+            currentEvent
         );
     }
 }

@@ -10,6 +10,7 @@ import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class GroupGenerator implements RaidBattlePersonageGenerator {
     @Override
@@ -43,7 +44,8 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
                     null,
                     null,
                     Characteristics.ZERO,
-                    PersonageEffects.EMPTY
+                    PersonageEffects.EMPTY,
+                    Optional.empty()
                 ).toBattlePersonage()
             );
         }

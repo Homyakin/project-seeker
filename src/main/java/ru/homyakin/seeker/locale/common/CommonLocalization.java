@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale.common;
 
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.personage.models.CurrentEvent;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
@@ -47,7 +48,18 @@ public class CommonLocalization {
 
     public static String fullProfile(Language language, Personage personage) {
         final var params = profileParams(language, personage);
+
         params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
+        if (personage.effects().isEmpty()) {
+            params.put("personage_effects", "");
+        } else {
+            params.put("personage_effects", personageEffects(language, personage.effects()));
+        }
+        if (personage.currentEvent().isEmpty()) {
+            params.put("current_event", "");
+        } else {
+            params.put("current_event", personageInEvent(language, personage.currentEvent().get()));
+        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::fullProfile),
             params
@@ -81,12 +93,6 @@ public class CommonLocalization {
         params.put("wisdom_value", characteristics.wisdom());
         params.put("health_icon", Icons.HEALTH);
         params.put("health_value", characteristics.health());
-
-        if (personage.effects().isEmpty()) {
-            params.put("personage_effects", "");
-        } else {
-            params.put("personage_effects", personageEffects(language, personage.effects()));
-        }
 
         return params;
     }
@@ -167,6 +173,33 @@ public class CommonLocalization {
                 );
             }
         };
+    }
+
+    private static String personageInEvent(Language language, CurrentEvent event) {
+        return switch (event.type()) {
+            case RAID -> personageInRaid(language, event.endDate());
+            case PERSONAL_QUEST -> personageInQuest(language, event.endDate());
+        };
+    }
+
+    private static String personageInRaid(Language language, LocalDateTime end) {
+        final var params = new HashMap<String, Object>();
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInRaid),
+            params
+        );
+    }
+
+    private static String personageInQuest(Language language, LocalDateTime end) {
+        final var params = new HashMap<String, Object>();
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInQuest),
+            params
+        );
     }
 
     public static String receptionDesk(Language language) {

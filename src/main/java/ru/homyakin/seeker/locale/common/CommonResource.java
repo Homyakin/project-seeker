@@ -12,6 +12,8 @@ public record CommonResource(
     String menuItemEffect,
     String addValueEffect,
     String multiplyPercentEffect,
+    String personageInRaid,
+    String personageInQuest,
     String receptionDesk,
     String hoursShort,
     String minutesShort,
