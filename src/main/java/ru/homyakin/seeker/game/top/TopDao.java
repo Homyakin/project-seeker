@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
@@ -29,6 +30,7 @@ public class TopDao {
             .param("fail_id", EventStatus.FAILED.id())
             .param("start_date", start)
             .param("end_date", end)
+            .param("raid_id", EventType.RAID.id())
             .query(this::mapRaidPosition)
             .list();
     }
@@ -41,6 +43,7 @@ public class TopDao {
             .param("start_date", start)
             .param("end_date", end)
             .param("grouptg_id", groupId.value())
+            .param("raid_id", EventType.RAID.id())
             .query(this::mapRaidPosition)
             .list();
     }
@@ -79,6 +82,7 @@ public class TopDao {
             SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count
         FROM personage_to_event pte
         LEFT JOIN launched_event le on le.id = pte.launched_event_id
+        INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
         WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date
         GROUP BY pte.personage_id
         )""";
@@ -92,6 +96,7 @@ public class TopDao {
         FROM personage_to_event pte
         LEFT JOIN launched_event le on le.id = pte.launched_event_id
         LEFT JOIN grouptg_to_launched_event gtle on le.id = gtle.launched_event_id
+        INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
         WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date
         AND gtle.grouptg_id = :grouptg_id
         GROUP BY pte.personage_id
