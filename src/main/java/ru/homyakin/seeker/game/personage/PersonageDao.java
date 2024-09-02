@@ -37,21 +37,28 @@ public class PersonageDao {
                 SUM(defense) item_defense
             FROM item WHERE personage_id in (:id_list) AND is_equipped = true
             GROUP BY personage_id
+        ),
+        active_launched_event AS (
+            SELECT pte.personage_id,
+                le.end_date as launched_event_end_date,
+                e.type_id as event_type,
+                ROW_NUMBER() OVER (PARTITION BY pte.personage_id) AS rn
+            FROM personage_to_event pte
+                LEFT JOIN launched_event le ON pte.launched_event_id = le.id AND le.status_id = :active_status_id
+                LEFT JOIN event e ON le.event_id = e.id
+            WHERE personage_id in (:id_list)
         )
         SELECT p.*,
             b.code as badge_code,
             ic.*,
-            le.end_date as launched_event_end_date,
-            e.type_id as event_type
+            ale.launched_event_end_date,
+            ale.event_type
         FROM personage p
         LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id AND pab.is_active = true
         LEFT JOIN badge b ON pab.badge_id = b.id
         LEFT JOIN item_characteristics ic on p.id = ic.personage_id
-        LEFT JOIN personage_to_event pte ON p.id = pte.personage_id
-        LEFT JOIN launched_event le ON pte.launched_event_id = le.id
-        LEFT JOIN event e ON le.event_id = e.id
+        LEFT JOIN active_launched_event ale ON p.id = ale.personage_id AND ale.rn = 1
         WHERE p.id in (:id_list)
-        AND (le.status_id = :active_status_id OR pte.personage_id IS NULL)
         """;
 
     private static final String UPDATE = """
