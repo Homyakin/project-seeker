@@ -31,7 +31,7 @@ public class RaidGenerator {
 
         final var group = groups.getFirst();
 
-        final var failedRaidsCount = groupEventService.countFailedEventsFromLastSuccessInGroup(group.groupId());
+        final var failedRaidsCount = groupEventService.countFailedRaidsFromLastSuccessInGroup(group.groupId());
 
         return 1.0 - 0.05 * failedRaidsCount;
     }

@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 
@@ -39,26 +40,31 @@ public class GroupTgLaunchedEventDao {
             .list();
     }
 
-    public int countFailedEventsFromLastSuccessInGroup(GroupId groupId) {
+    public int countFailedRaidsFromLastSuccessInGroup(GroupId groupId) {
         final var sql = """
             WITH last_success_raid AS (
                 SELECT MAX(launched_event_id) AS last_success_raid -- could be null
                 FROM grouptg_to_launched_event gtle
                 LEFT JOIN public.launched_event le on gtle.launched_event_id = le.id
+                LEFT JOIN event e on le.event_id = e.id
                 WHERE gtle.grouptg_id = :grouptg_id
                 AND le.status_id = :success_id
+                AND e.type_id = :raid_id
             )
             SELECT count(*) as raids_count FROM grouptg_to_launched_event gtle2
-                LEFT JOIN launched_event ON gtle2.launched_event_id = launched_event.id
+                LEFT JOIN launched_event le ON gtle2.launched_event_id = le.id
+                LEFT JOIN event e ON le.event_id = e.id
                 WHERE grouptg_id = :grouptg_id
                 AND launched_event_id > -- more id => newer event
                     COALESCE((SELECT last_success_raid FROM last_success_raid), -1) -- all events id > 0
-                AND launched_event.status_id = :fail_id
+                AND le.status_id = :fail_id
+                AND e.type_id = :raid_id
             """;
         return jdbcClient.sql(sql)
             .param("grouptg_id", groupId.value())
             .param("success_id", EventStatus.SUCCESS.id())
             .param("fail_id", EventStatus.FAILED.id())
+            .param("raid_id", EventType.RAID.id())
             .query((rs, _) -> rs.getInt("raids_count"))
             .single();
     }

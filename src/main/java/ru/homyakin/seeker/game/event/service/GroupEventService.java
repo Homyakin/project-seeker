@@ -30,7 +30,7 @@ public class GroupEventService {
         return groupTgLaunchedEventDao.getByLaunchedEventId(launchedEventId);
     }
 
-    public int countFailedEventsFromLastSuccessInGroup(GroupId groupId) {
-        return groupTgLaunchedEventDao.countFailedEventsFromLastSuccessInGroup(groupId);
+    public int countFailedRaidsFromLastSuccessInGroup(GroupId groupId) {
+        return groupTgLaunchedEventDao.countFailedRaidsFromLastSuccessInGroup(groupId);
     }
 }
