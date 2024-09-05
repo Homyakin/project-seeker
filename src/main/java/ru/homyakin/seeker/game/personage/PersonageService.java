@@ -56,15 +56,17 @@ public class PersonageService {
     }
 
     public Personage createPersonage() {
-        final var personage = personageDao.createDefault();
-        badgeService.createDefaultPersonageBadge(personage.id());
-        return personage;
+        final var id = personageDao.createDefault();
+        badgeService.createDefaultPersonageBadge(id);
+        return personageDao.getById(id)
+            .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }
 
     public Either<NameError, Personage> createPersonage(String name) {
         return Personage.validateName(name)
             .map(personageDao::createDefault)
-            .peek(personage -> badgeService.createDefaultPersonageBadge(personage.id()))
+            .peek(badgeService::createDefaultPersonageBadge)
+            .map(id -> personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create")))
             .peekLeft(_ -> logger.warn("Can't create personage with name " + name));
     }
 

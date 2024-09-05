@@ -100,7 +100,7 @@ public class PersonageDao {
         this.jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public Personage createDefault(String name) {
+    public PersonageId createDefault(String name) {
         final var params = new HashMap<String, Object>();
         final var defaultCharacteristics = Characteristics.createDefault();
         params.put("name", name);
@@ -115,10 +115,10 @@ public class PersonageDao {
         params.put("energy", config.defaultEnergy());
         params.put("effects", jsonUtils.mapToPostgresJson(PersonageEffects.EMPTY));
 
-        return getById(PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue())).orElseThrow();
+        return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
     }
 
-    public Personage createDefault() {
+    public PersonageId createDefault() {
         return createDefault(TextConstants.DEFAULT_PERSONAGE_NAME);
     }
 
