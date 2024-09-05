@@ -50,6 +50,16 @@ public class CommonLocalization {
         final var params = profileParams(language, personage);
 
         params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
+        if (personage.energy().isFull()) {
+            params.put("time_icon", "");
+            params.put("remain_duration_for_full_regen", "");
+        } else {
+            params.put("time_icon", Icons.TIME);
+            params.put(
+                "remain_duration_for_full_regen",
+                duration(language, personage.energy().remainTimeForFullRegen(TimeUtils.moscowTime()))
+            );
+        }
         if (personage.effects().isEmpty()) {
             params.put("personage_effects", "");
         } else {

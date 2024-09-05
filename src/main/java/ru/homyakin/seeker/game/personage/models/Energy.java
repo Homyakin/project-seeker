@@ -12,7 +12,7 @@ import ru.homyakin.seeker.utils.MathUtils;
 public record Energy(
     int value,
     LocalDateTime lastChange,
-    Duration fullRegenDuration
+    Duration totalFullRegenDuration
 ) {
     public Energy {
         if (value < 0) {
@@ -25,20 +25,34 @@ public record Energy(
             return Either.left(StillSame.INSTANCE);
         }
         final var millisPassed = Duration.between(lastChange, now).toMillis();
-        final var millisToRegen1Energy = fullRegenDuration.toMillis() / MAX_ENERGY;
+        final var millisToRegen1Energy = millisToRegen1Energy();
         final var increaseEnergy = MathUtils.doubleToIntWithMinMaxValues((double) millisPassed / millisToRegen1Energy);
         if (increaseEnergy > 0) {
             if (value + increaseEnergy >= MAX_ENERGY) {
-                return Either.right(new Energy(MAX_ENERGY, now, fullRegenDuration));
+                return Either.right(new Energy(MAX_ENERGY, now, totalFullRegenDuration));
             } else {
                 final int newHealth = value + increaseEnergy;
                 final var millisToRegenIncreasedEnergy = increaseEnergy * millisToRegen1Energy;
                 return Either.right(
-                    new Energy(newHealth, lastChange.plus(millisToRegenIncreasedEnergy, ChronoUnit.MILLIS), fullRegenDuration)
+                    new Energy(newHealth, lastChange.plus(millisToRegenIncreasedEnergy, ChronoUnit.MILLIS), totalFullRegenDuration)
                 );
             }
         }
         return Either.left(StillSame.INSTANCE);
+    }
+
+    public Duration remainTimeForFullRegen(LocalDateTime now) {
+        final var passedMillis = Duration.between(lastChange, now).toMillis();
+        final var requiredMillis = (MAX_ENERGY - value) * millisToRegen1Energy() - passedMillis;
+        return Duration.ofMillis(Math.max(requiredMillis, 0));
+    }
+
+    public boolean isFull() {
+        return value == MAX_ENERGY;
+    }
+
+    private long millisToRegen1Energy() {
+        return totalFullRegenDuration.toMillis() / MAX_ENERGY;
     }
 
     public boolean isGreaterOrEqual(int energyValue) {
@@ -56,11 +70,11 @@ public record Energy(
           не восполнилось слишком много энергии
          */
         if (regenerated.value == MAX_ENERGY) {
-            return Either.right(new Energy(regenerated.value - energyValue, changeTime, fullRegenDuration));
+            return Either.right(new Energy(regenerated.value - energyValue, changeTime, totalFullRegenDuration));
         } else if (regenerated.value < energyValue) {
             return Either.left(NotEnoughEnergy.INSTANCE);
         } else {
-            return Either.right(new Energy(regenerated.value - energyValue, regenerated.lastChange, fullRegenDuration));
+            return Either.right(new Energy(regenerated.value - energyValue, regenerated.lastChange, totalFullRegenDuration));
         }
     }
 
