@@ -5,13 +5,13 @@
 3. Перевести все `.toml` файлы из других папок
 4. Зайти в [папку с игровыми данными](../../src/main/resources/game-data)
 5. Добавить к каждой записи объект со своим переводом. 
-Пример для events.toml:
+Пример для raids.toml:
 ```toml
-[event.raid.locales.RU]
+[raid.locales.RU]
 intro = "Появилось соломенное чучело!"
 description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
 
-[event.raid.locales.КОД_ЯЗЫКА]
+[raid.locales.КОД_ЯЗЫКА]
 intro = "ПЕРЕВОД"
 description = "ПЕРЕВОД"
 ```
@@ -22,13 +22,13 @@ description = "ПЕРЕВОД"
 2. Add a folder with your language code.
 3. Translate all `.toml` files from other folders
 4. Go to [folder with game data](../../src/main/resources/game-data)
-5. Add your translation to each object. Example for events.toml:
+5. Add your translation to each object. Example for raids.toml:
 ```toml
-[event.raid.locales.RU]
+[raid.locales.RU]
 intro = "Появилось соломенное чучело!"
 description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
 
-[event.raid.locales.LANGUAGE_CODE]
+[raid.locales.LANGUAGE_CODE]
 intro = "YOUR_TRANSLATE"
 description = "YOUR_TRANSLATE"
 ```
