@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,6 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
-import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -97,8 +95,8 @@ public record Personage(
         return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
-    public Either<StillSame, Personage> updateStateIfNeed(Duration timeForFullEnergyRegen, LocalDateTime now) {
-        final var energyResult = energy.regenIfNeeded(timeForFullEnergyRegen, now);
+    public Either<StillSame, Personage> updateStateIfNeed(LocalDateTime now) {
+        final var energyResult = energy.regenIfNeeded(now);
         final var effectsResult = effects.expireIfNeeded(now);
 
         if (energyResult.isLeft() && effectsResult.isLeft()) {
@@ -121,10 +119,9 @@ public record Personage(
 
     public Either<NotEnoughEnergy, Personage> reduceEnergy(
         LocalDateTime energyChangeTime,
-        int energyToReduce,
-        Duration timeForFullEnergyRegen
+        int energyToReduce
     ) {
-        return energy.reduce(energyToReduce, energyChangeTime, timeForFullEnergyRegen)
+        return energy.reduce(energyToReduce, energyChangeTime)
             .map(this::copyWithEnergy);
     }
 
@@ -264,24 +261,6 @@ public record Personage(
             itemCharacteristics,
             effects.addMenuItemEffect(effect),
             currentEvent
-        );
-    }
-
-    public static Personage createDefault() {
-        return createDefault(TextConstants.DEFAULT_NAME);
-    }
-
-    public static Personage createDefault(String name) {
-        return new Personage(
-            PersonageId.from(0L),
-            name,
-            Money.from(50),
-            Characteristics.createDefault(),
-            Energy.createDefault(),
-            BadgeView.STANDARD,
-            Characteristics.ZERO,
-            PersonageEffects.EMPTY,
-            Optional.empty()
         );
     }
 

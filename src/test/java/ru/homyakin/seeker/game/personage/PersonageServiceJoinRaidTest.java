@@ -144,7 +144,7 @@ public class PersonageServiceJoinRaidTest {
     public void Given_PersonageWithZeroEnergy_When_JoinRaid_Then_ReturnNotEnoughEnergyError() {
         // given
         final var launchedEvent = LaunchedEventUtils.withEventId(1);
-        personage = PersonageUtils.randomZeroEnergy();
+        personage = PersonageUtils.randomZeroEnergy(config.energyFullRecovery());
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(raidService.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
         Mockito.when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.empty());

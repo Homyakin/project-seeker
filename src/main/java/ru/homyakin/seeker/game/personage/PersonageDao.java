@@ -23,8 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 import ru.homyakin.seeker.utils.JsonUtils;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
 public class PersonageDao {
@@ -72,8 +75,9 @@ public class PersonageDao {
     private final SimpleJdbcInsert jdbcInsert;
     private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
+    private final PersonageConfig config;
 
-    public PersonageDao(DataSource dataSource, JsonUtils jsonUtils) {
+    public PersonageDao(DataSource dataSource, JsonUtils jsonUtils, PersonageConfig config) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("personage")
             .usingColumns(
@@ -90,26 +94,32 @@ public class PersonageDao {
                 "effects"
             );
         this.jsonUtils = jsonUtils;
+        this.config = config;
         jdbcInsert.setGeneratedKeyName("id");
 
         this.jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public PersonageId save(Personage personage) {
+    public Personage createDefault(String name) {
         final var params = new HashMap<String, Object>();
-        params.put("name", personage.name());
-        params.put("money", personage.money().value());
-        params.put("attack", personage.characteristics().attack());
-        params.put("defense", personage.characteristics().defense());
-        params.put("health", personage.characteristics().health());
-        params.put("strength", personage.characteristics().strength());
-        params.put("agility", personage.characteristics().agility());
-        params.put("wisdom", personage.characteristics().wisdom());
-        params.put("last_energy_change", personage.energy().lastChange());
-        params.put("energy", personage.energy().value());
-        params.put("effects", jsonUtils.mapToPostgresJson(personage.effects()));
+        final var defaultCharacteristics = Characteristics.createDefault();
+        params.put("name", name);
+        params.put("money", config.defaultMoney());
+        params.put("attack", defaultCharacteristics.attack());
+        params.put("defense", defaultCharacteristics.defense());
+        params.put("health", defaultCharacteristics.health());
+        params.put("strength", defaultCharacteristics.strength());
+        params.put("agility", defaultCharacteristics.agility());
+        params.put("wisdom", defaultCharacteristics.wisdom());
+        params.put("last_energy_change", TimeUtils.moscowTime());
+        params.put("energy", config.defaultEnergy());
+        params.put("effects", jsonUtils.mapToPostgresJson(PersonageEffects.EMPTY));
 
-        return PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue());
+        return getById(PersonageId.from(jdbcInsert.executeAndReturnKey(params).longValue())).orElseThrow();
+    }
+
+    public Personage createDefault() {
+        return createDefault(TextConstants.DEFAULT_PERSONAGE_NAME);
     }
 
     public void update(Personage personage) {
@@ -176,7 +186,8 @@ public class PersonageDao {
             ),
             new Energy(
                 rs.getInt("energy"),
-                rs.getTimestamp("last_energy_change").toLocalDateTime()
+                rs.getTimestamp("last_energy_change").toLocalDateTime(),
+                config.energyFullRecovery()
             ),
             BadgeView.findByCode(rs.getString("badge_code")),
             new Characteristics(

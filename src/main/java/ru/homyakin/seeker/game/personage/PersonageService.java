@@ -56,21 +56,16 @@ public class PersonageService {
     }
 
     public Personage createPersonage() {
-        final var id = personageDao.save(Personage.createDefault());
-        badgeService.createDefaultPersonageBadge(id);
-        return personageDao.getById(id)
-            .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
+        final var personage = personageDao.createDefault();
+        badgeService.createDefaultPersonageBadge(personage.id());
+        return personage;
     }
 
     public Either<NameError, Personage> createPersonage(String name) {
         return Personage.validateName(name)
-            .map(Personage::createDefault)
-            .map(personageDao::save)
-            .map(id -> {
-                badgeService.createDefaultPersonageBadge(id);
-                return personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
-            })
-            .peekLeft(error -> logger.warn("Can't create personage with name " + name));
+            .map(personageDao::createDefault)
+            .peek(personage -> badgeService.createDefaultPersonageBadge(personage.id()))
+            .peekLeft(_ -> logger.warn("Can't create personage with name " + name));
     }
 
     @Transactional
@@ -126,7 +121,7 @@ public class PersonageService {
     public Optional<Personage> getById(PersonageId personageId) {
         return personageDao.getById(personageId)
             .map(personage ->
-                personage.updateStateIfNeed(personageConfig.energyFullRecovery(), TimeUtils.moscowTime())
+                personage.updateStateIfNeed(TimeUtils.moscowTime())
                     .peek(personageDao::update)
                     .getOrElse(personage)
             );
@@ -143,7 +138,7 @@ public class PersonageService {
             .getByLaunchedEvent(launchedEventId)
             .stream()
             .map(
-                personage -> personage.updateStateIfNeed(personageConfig.energyFullRecovery(), now)
+                personage -> personage.updateStateIfNeed(now)
                     .peek(personageDao::update)
                     .getOrElse(personage)
             )
@@ -229,6 +224,6 @@ public class PersonageService {
     }
 
     public Either<NotEnoughEnergy, Personage> reduceEnergy(Personage personage, int requiredEnergy, LocalDateTime time) {
-        return personage.reduceEnergy(time, requiredEnergy, personageConfig.energyFullRecovery()).peek(personageDao::update);
+        return personage.reduceEnergy(time, requiredEnergy).peek(personageDao::update);
     }
 }

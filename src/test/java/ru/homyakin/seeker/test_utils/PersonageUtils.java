@@ -1,13 +1,12 @@
 package ru.homyakin.seeker.test_utils;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
-import ru.homyakin.seeker.game.effect.Effect;
-import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -15,7 +14,6 @@ import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public class PersonageUtils {
@@ -33,7 +31,7 @@ public class PersonageUtils {
             RandomStringUtils.randomAlphanumeric(5),
             Money.zero(),
             Characteristics.random(),
-            Energy.createDefault(),
+            new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
             Characteristics.ZERO,
             PersonageEffects.EMPTY,
@@ -41,13 +39,13 @@ public class PersonageUtils {
         );
     }
 
-    public static Personage randomZeroEnergy() {
+    public static Personage randomZeroEnergy(Duration timeToRegen) {
         return new Personage(
             PersonageId.from(RandomUtils.nextLong()),
             RandomStringUtils.randomAlphanumeric(5),
             Money.zero(),
             Characteristics.random(),
-            Energy.createZero(TimeUtils.moscowTime()),
+            new Energy(0, TimeUtils.moscowTime(), timeToRegen),
             BadgeView.STANDARD,
             Characteristics.ZERO,
             PersonageEffects.EMPTY,
@@ -61,7 +59,7 @@ public class PersonageUtils {
             RandomStringUtils.randomAlphanumeric(5),
             Money.zero(),
             Characteristics.random(),
-            Energy.createDefault(),
+            new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
             new Characteristics(
                 ru.homyakin.seeker.utils.RandomUtils.getInInterval(50, 100),

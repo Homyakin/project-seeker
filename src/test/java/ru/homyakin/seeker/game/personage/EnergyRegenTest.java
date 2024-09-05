@@ -16,9 +16,13 @@ public class EnergyRegenTest {
     @Test
     public void Given_FullEnergy_When_RegenEnergy_Then_EnergyStillSame() {
         // given
-        final var energy = new Energy(100, LocalDateTime.of(2020, 12, 31, 0, 0));
+        final var energy = new Energy(
+            100,
+            LocalDateTime.of(2020, 12, 31, 0, 0),
+            regenDuration
+        );
         // when
-        final var result = energy.regenIfNeeded(regenDuration, TimeUtils.moscowTime());
+        final var result = energy.regenIfNeeded(TimeUtils.moscowTime());
         // then
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(StillSame.INSTANCE, result.getLeft());
@@ -28,9 +32,9 @@ public class EnergyRegenTest {
     public void Given_EmptyEnergy_When_RegenAtSameTime_Then_EnergyStillSame() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(0, time);
+        final var energy = new Energy(0, time, regenDuration);
         // when
-        final var result = energy.regenIfNeeded(regenDuration, time);
+        final var result = energy.regenIfNeeded(time);
         // then
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(StillSame.INSTANCE, result.getLeft());
@@ -40,10 +44,10 @@ public class EnergyRegenTest {
     public void Given_EmptyEnergy_When_RegenAfter1Minute_Then_EnergyStillSame() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(0, time);
+        final var energy = new Energy(0, time, regenDuration);
         // when
         final var regenTime = time.plusMinutes(1);
-        final var result = energy.regenIfNeeded(regenDuration, regenTime);
+        final var result = energy.regenIfNeeded(regenTime);
         // then
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(StillSame.INSTANCE, result.getLeft());
@@ -53,10 +57,10 @@ public class EnergyRegenTest {
     public void Given_EmptyEnergy_When_RegenAfter2Minutes_Then_EnergyValueIs1AndLastChangeIsAtRegenTime() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(0, time);
+        final var energy = new Energy(0, time, regenDuration);
         // when
         final var regenTime = time.plusMinutes(2);
-        final var result = energy.regenIfNeeded(regenDuration, regenTime);
+        final var result = energy.regenIfNeeded(regenTime);
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(1, result.get().value());
@@ -67,10 +71,10 @@ public class EnergyRegenTest {
     public void Given_EmptyEnergy_When_RegenAfter200Minutes_Then_EnergyValueIsMaxAndLastChangeIsAtRegenTime() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(0, time);
+        final var energy = new Energy(0, time, regenDuration);
         // when
         final var regenTime = time.plusMinutes(200);
-        final var result = energy.regenIfNeeded(regenDuration, regenTime);
+        final var result = energy.regenIfNeeded(regenTime);
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(MAX_ENERGY, result.get().value());
@@ -81,10 +85,10 @@ public class EnergyRegenTest {
     public void Given_EmptyEnergy_When_RegenAfterMoreThan200Minutes_Then_EnergyValueIsMaxAndLastChangeIsAtRegenTime() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(0, time);
+        final var energy = new Energy(0, time, regenDuration);
         // when
         final var regenTime = time.plusMinutes(RandomUtils.getInInterval(201, Integer.MAX_VALUE - 1));
-        final var result = energy.regenIfNeeded(regenDuration, regenTime);
+        final var result = energy.regenIfNeeded(regenTime);
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(MAX_ENERGY, result.get().value());
@@ -95,10 +99,10 @@ public class EnergyRegenTest {
     public void Given_NotFullEnergy_When_RegenAfterMoreThan2Minutes_Then_EnergyValueWasIncreasedBy1AndLastChangeIsAtRegenTime() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time);
+        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time, regenDuration);
         // when
         final var regenTime = time.plusMinutes(2);
-        final var result = energy.regenIfNeeded(regenDuration, regenTime);
+        final var result = energy.regenIfNeeded(regenTime);
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(energy.value() + 1, result.get().value());
@@ -109,10 +113,10 @@ public class EnergyRegenTest {
     public void Given_NotFullEnergy_When_RegenAfter2MinutesAnd30Seconds_Then_EnergyValueWasIncreasedBy1AndLastChangeIncreasedBy2Minutes() {
         // given
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time);
+        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time, regenDuration);
         // when
         final var regenTime = time.plusMinutes(2).plusSeconds(30);
-        final var result = energy.regenIfNeeded(regenDuration, regenTime);
+        final var result = energy.regenIfNeeded(regenTime);
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(energy.value() + 1, result.get().value());
@@ -124,10 +128,10 @@ public class EnergyRegenTest {
         // given
         final var fullRegenDuration = Duration.ofSeconds(12300).plusMillis(200);
         final var time = TimeUtils.moscowTime();
-        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time);
+        final var energy = new Energy(RandomUtils.getInInterval(10, 90), time, fullRegenDuration);
         // when
         final var regenTime = time.plusSeconds(150);
-        final var result = energy.regenIfNeeded(fullRegenDuration, regenTime);
+        final var result = energy.regenIfNeeded( regenTime);
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(energy.value() + 1, result.get().value());
