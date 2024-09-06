@@ -170,6 +170,14 @@ public class PersonageDao {
         return result;
     }
 
+    public boolean toggleIsHidden(PersonageId id) {
+        final var sql = "UPDATE personage SET is_hidden = NOT is_hidden WHERE id = :id RETURNING is_hidden";
+        return jdbcClient.sql(sql)
+            .param("id", id.value())
+            .query((rs, _) -> rs.getBoolean("is_hidden"))
+            .single();
+    }
+
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var eventType = Optional.ofNullable(DatabaseUtils.getIntOrNull(rs, "event_type")).map(EventType::get);
         return new Personage(

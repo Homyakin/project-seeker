@@ -56,6 +56,7 @@ public enum CommandType {
     SETTINGS("/settings", CheckType.EQUALS),
     TOGGLE_EVENT_INTERVAL("toggleEventInterval", CheckType.STARTS_WITH),
     SET_TIME_ZONE("/set_time_zone", CheckType.STARTS_WITH),
+    TOGGLE_HIDE_PERSONAGE("/hide_me", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

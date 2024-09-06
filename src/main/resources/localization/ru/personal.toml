@@ -79,3 +79,7 @@ successQuest = """\
 ${quest_success}
 
 Ты получил +${money_icon}${money_value}"""
+
+[settings]
+personageIsHidden = "Ты был скрыт из глобальных рейтингов и статистики. Оставайся в тени."
+personageIsUnhidden = "Твои достижения вновь доступны для всех искателей."

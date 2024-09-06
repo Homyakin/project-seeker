@@ -24,7 +24,7 @@ public class TopDao {
     }
 
     public List<TopRaidPosition> getUnsortedTopRaid(LocalDate start, LocalDate end) {
-        final var sql = GLOBAL_RAIDS_COUNT + RAIDS_PERSONAGE_INFO;
+        final var sql = GLOBAL_RAIDS_COUNT + RAIDS_PERSONAGE_INFO + " AND p.is_hidden = false";
         return jdbcClient.sql(sql)
             .param("success_id", EventStatus.SUCCESS.id())
             .param("fail_id", EventStatus.FAILED.id())

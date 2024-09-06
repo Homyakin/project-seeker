@@ -5,6 +5,7 @@ public record PersonalResource(
     ChangeNameResource changeName,
     CharacteristicResource characteristics,
     BadgeResource badges,
-    PersonalQuestResource personalQuest
+    PersonalQuestResource personalQuest,
+    SettingsResource settings
 ) {
 }

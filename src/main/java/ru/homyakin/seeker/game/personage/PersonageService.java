@@ -228,4 +228,8 @@ public class PersonageService {
     public Either<NotEnoughEnergy, Personage> reduceEnergy(Personage personage, int requiredEnergy, LocalDateTime time) {
         return personage.reduceEnergy(time, requiredEnergy).peek(personageDao::update);
     }
+
+    public boolean toggleIsHidden(PersonageId personageId) {
+        return personageDao.toggleIsHidden(personageId);
+    }
 }
