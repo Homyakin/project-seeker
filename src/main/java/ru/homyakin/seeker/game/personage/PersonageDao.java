@@ -19,6 +19,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -175,6 +176,18 @@ public class PersonageDao {
         return jdbcClient.sql(sql)
             .param("id", id.value())
             .query((rs, _) -> rs.getBoolean("is_hidden"))
+            .single();
+    }
+
+    public long getActivePersonagesCount(LocalDateTime start) {
+        final var sql = """
+            SELECT COUNT(*) FROM personage
+            WHERE is_hidden = FALSE
+            AND last_energy_change >= :start
+            """;
+        return jdbcClient.sql(sql)
+            .param("start", start)
+            .query((rs, _) -> rs.getLong(1))
             .single();
     }
 

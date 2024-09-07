@@ -116,6 +116,12 @@ public class GroupDao {
             .update();
     }
 
+    public long getActiveGroupsCount() {
+        return jdbcClient.sql("SELECT count(*) FROM grouptg WHERE is_active = true")
+            .query((rs, _) -> rs.getLong(1))
+            .single();
+    }
+
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Group(
             GroupId.from(rs.getLong("id")),

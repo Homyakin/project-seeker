@@ -11,6 +11,7 @@ import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
 import ru.homyakin.seeker.telegram.group.stats.GroupStats;
+import ru.homyakin.seeker.telegram.statistic.Statistic;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -212,8 +213,14 @@ public class CommonLocalization {
         );
     }
 
-    public static String receptionDesk(Language language) {
-        return resources.getOrDefault(language, CommonResource::receptionDesk);
+    public static String receptionDesk(Language language, Statistic statistic) {
+        final var params = new HashMap<String, Object>();
+        params.put("active_personages_count", statistic.activePersonages());
+        params.put("active_groups_count", statistic.activeGroups());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::receptionDesk),
+            params
+        );
     }
 
     public static String groupStats(Language language, GroupStats groupStats) {

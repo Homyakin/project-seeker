@@ -232,4 +232,8 @@ public class PersonageService {
     public boolean toggleIsHidden(PersonageId personageId) {
         return personageDao.toggleIsHidden(personageId);
     }
+
+    public long getActivePersonagesCount(LocalDateTime start) {
+        return personageDao.getActivePersonagesCount(start);
+    }
 }

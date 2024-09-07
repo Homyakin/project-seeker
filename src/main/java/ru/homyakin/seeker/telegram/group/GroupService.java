@@ -82,6 +82,10 @@ public class GroupService {
             .peek(groupDao::update);
     }
 
+    public long getActiveGroupsCount() {
+        return groupDao.getActiveGroupsCount();
+    }
+
     private Optional<Group> getGroup(GroupId group) {
         return groupDao.getById(group);
     }
