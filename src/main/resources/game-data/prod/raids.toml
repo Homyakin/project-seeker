@@ -230,3 +230,15 @@
     [raid.locales.EN]
     intro = "Danger on the beach"
     description = "Peasants report that they can't walk to their boats and go to the sea for fish. Giant crabs have decided to have a wild rave right on the beach! Assemble a group of Seekers to help the residents get back to work. If successful, each participant gets a crab salad on the house!"
+
+[[raid]]
+    isEnabled = true
+    code = "zlich"
+    template = "ENEMY_GROUP"
+
+    [raid.locales.RU]
+    intro = "Злобный Злич и его двойники устраивают хаос!"
+    description = """\
+    Печально известный в узких кругах Злич бушует в тавернах Крезара. Он обзавёлся армией двойников и не даёт спокойно жить \
+    обычным работягам. Выпиваёт всё пиво в таверне, забирает золото и лут с рейдов. Нужны добровольцы, \
+    чтобы поставить его на место!"""
