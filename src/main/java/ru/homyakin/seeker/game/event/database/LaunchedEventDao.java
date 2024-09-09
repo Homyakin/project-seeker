@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
@@ -105,6 +106,36 @@ public class LaunchedEventDao {
             .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .optional();
+    }
+
+    public int countFailedPersonalQuestsRowForPersonage(PersonageId personageId) {
+        final var sql = """
+            WITH last_success AS (
+                SELECT MAX(launched_event_id) AS last_success_raid -- could be null
+                FROM personage_to_event pte
+                LEFT JOIN public.launched_event le on pte.launched_event_id = le.id
+                LEFT JOIN event e on le.event_id = e.id
+                WHERE pte.personage_id = :personage_id
+                AND le.status_id = :success_id
+                AND e.type_id = :quest_id
+            )
+            SELECT COUNT(*) AS failed_quests_count
+            FROM personage_to_event pte
+            LEFT JOIN public.launched_event le on pte.launched_event_id = le.id
+            LEFT JOIN event e on le.event_id = e.id
+            WHERE pte.personage_id = :personage_id
+            AND le.status_id = :fail_id
+            AND e.type_id = :quest_id
+            AND le.id > -- more id => newer event
+                COALESCE((SELECT last_success_raid FROM last_success), -1) -- all events id > 0
+        """;
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .param("success_id", EventStatus.SUCCESS.id())
+            .param("fail_id", EventStatus.FAILED.id())
+            .param("quest_id", EventType.PERSONAL_QUEST.id())
+            .query((rs, _) -> rs.getInt("failed_quests_count"))
+            .single();
     }
 
     private LaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {

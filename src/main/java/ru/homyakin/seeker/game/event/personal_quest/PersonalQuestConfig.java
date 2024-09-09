@@ -9,7 +9,7 @@ import java.time.Duration;
 public record PersonalQuestConfig(
     int requiredEnergy,
     Duration requiredTime,
-    int successProbability,
+    int baseSuccessProbability,
     IntRange reward
 ) {
 }

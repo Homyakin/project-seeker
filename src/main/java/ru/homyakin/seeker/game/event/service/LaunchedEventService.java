@@ -116,4 +116,8 @@ public class LaunchedEventService {
     public Optional<LaunchedEvent> getLastEndedEventInGroup(GroupId groupId) {
         return launchedEventDao.lastEndedEventInGroup(groupId);
     }
+
+    public int countFailedPersonalQuestsRowForPersonage(PersonageId personageId) {
+        return launchedEventDao.countFailedPersonalQuestsRowForPersonage(personageId);
+    }
 }

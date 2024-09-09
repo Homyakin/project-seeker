@@ -44,7 +44,7 @@ public class PersonalQuestServiceStopQuestTest {
         // when
         final EventResult.PersonalQuestResult result;
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(() -> RandomUtils.processChance(config.successProbability())).thenReturn(true);
+            mock.when(() -> RandomUtils.processChance(config.baseSuccessProbability())).thenReturn(true);
             mock.when(() -> RandomUtils.getInInterval(config.reward())).thenReturn(REWARD.value());
             when(personalQuestDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(quest));
             when(personageService.getByLaunchedEvent(launchedEvent.id())).thenReturn(List.of(personage));
@@ -65,7 +65,7 @@ public class PersonalQuestServiceStopQuestTest {
         // when
         final EventResult.PersonalQuestResult result;
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(() -> RandomUtils.processChance(config.successProbability())).thenReturn(false);
+            mock.when(() -> RandomUtils.processChance(config.baseSuccessProbability())).thenReturn(false);
             mock.when(() -> RandomUtils.getInInterval(config.reward())).thenReturn(REWARD.value());
             when(personalQuestDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(quest));
             when(personageService.getByLaunchedEvent(launchedEvent.id())).thenReturn(List.of(personage));

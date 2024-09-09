@@ -117,7 +117,11 @@ public class PersonalQuestService {
         }
         final var personage = personages.getFirst();
 
-        final var isSuccess = RandomUtils.processChance(config.successProbability());
+        final var failedRow = launchedEventService.countFailedPersonalQuestsRowForPersonage(personage.id());
+        // За каждый неуспешный квест подряд, добавляется 10% шанс удачной попытки
+        // При базовой вероятности 80%, не может быть более двух неуспешных подряд
+        // При базовой вероятности 80% итоговая вероятность равна примерно 82%
+        final var isSuccess = RandomUtils.processChance(config.baseSuccessProbability() + failedRow * 10);
         final EventResult.PersonalQuestResult result;
         if (isSuccess) {
             logger.info("Quest {} succeeded", launchedEvent.id());
