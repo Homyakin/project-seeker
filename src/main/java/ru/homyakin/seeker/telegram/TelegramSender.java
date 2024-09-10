@@ -38,6 +38,9 @@ public class TelegramSender {
             } else if (e.getMessage().contains("[403] Forbidden: the group chat was deleted")) {
                 logger.error("group chat was deleted {}", sendMessage.getChatId());
                 groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+            } else if (e.getMessage().contains("[403] Forbidden: bot is not a member of the supergroup chat")) {
+                logger.error("Bot is not a member of the supergroup {}", sendMessage.getChatId());
+                groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
             } else {
                 logger.error(
                     "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e
