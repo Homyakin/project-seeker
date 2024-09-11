@@ -70,15 +70,19 @@
 
     [raid.locales.RU]
     intro = "Спасите! От Мимика! Он же Гоша, он же Гога, он же муж!"
-    description = """
-    Мужья города в отчаянии! Жёны не перестают рожать! Счастье для демографии обернулось загадочной трагедией для семей города. Женщины утверждают, что проводят ночь с мужьями, а мужья утверждают, что спят с пивом, — где же правда?
-    Возможно, стоит подстеречь “мужа на час” и решить всё на месте!"""
+    description = """\
+    Мужья города в отчаянии! Жёны не перестают рожать! \
+    Счастье для демографии обернулось загадочной трагедией для семей города. \
+    Женщины утверждают, что проводят ночь с мужьями, а мужья утверждают, что спят с пивом, — где же правда?\
+    \nВозможно, стоит подстеречь “мужа на час” и решить всё на месте!"""
 
     [raid.locales.EN]
     intro = "Save me! From the Mimic! He's Gosha, he's Goga, he's a husband!"
-    description = """
-    The husbands of the city are in despair! Wives don't stop giving birth! Happiness for the demography turned into a mysterious tragedy for the families of the city. Women claim to spend the night with their husbands, and husbands claim to sleep with beer — where is the truth?
-    Perhaps it's worth lying in wait for the “husband for an hour" and solve everything on the spot!"""
+    description = """\
+    The husbands of the city are in despair! Wives don't stop giving birth! \
+    Happiness for the demography turned into a mysterious tragedy for the families of the city. \
+    Women claim to spend the night with their husbands, and husbands claim to sleep with beer — where is the truth?\
+    \nPerhaps it's worth lying in wait for the “husband for an hour" and solve everything on the spot!"""
 
 [[raid]]
     isEnabled = true
@@ -139,15 +143,19 @@
 
     [raid.locales.RU]
     intro = "Караул! Маггуси терроризируют деревню!"
-    description = """
-    Переизбыток магии свёл некоторых гусей с ума! Они сбиваются в стаи и нападают на всех подряд. Периодически жертвами становятся даже другие гуси! Крестьяне боятся за свою жизнь и отказываются выходить работать в поля. Остановите этих тварей!
-    Кстати, таверны Крезара с радостью заплатят вам за свежие маггусиные тушки."""
+    description = """\
+    Переизбыток магии свёл некоторых гусей с ума! Они сбиваются в стаи и нападают на всех подряд. \
+    Периодически жертвами становятся даже другие гуси! Крестьяне боятся за свою жизнь и \
+    отказываются выходить работать в поля. Остановите этих тварей!\
+    \nКстати, таверны Крезара с радостью заплатят вам за свежие маггусиные тушки."""
 
     [raid.locales.EN]
     intro = "Help! Maggeese are terrorizing the village!"
-    description = """
-    An overabundance of magic has driven some geese crazy! They get together in packs and attack everyone. Periodically, even other geese become victims! The peasants are afraid for their lives and refuse to go out to work in the fields. Stop these creatures!
-    By the way, the Krezar taverns, will gladly pay you for fresh maggoose carcasses."""
+    description = """\
+    An overabundance of magic has driven some geese crazy! \
+    They get together in packs and attack everyone. Periodically, even other geese become victims! \
+    The peasants are afraid for their lives and refuse to go out to work in the fields. Stop these creatures!\
+    \nBy the way, the Krezar taverns, will gladly pay you for fresh maggoose carcasses."""
 
 [[raid]]
     isEnabled = true
@@ -208,15 +216,19 @@
 
     [raid.locales.RU]
     intro = "Охота на гоблинов"
-    description = """
-    Срочно требуются искатели, чтобы помочь защитить окраины Крезара от растущей угрозы со стороны гоблинов. Эти твари уже не раз совершали набеги на близлежащие фермы, крали домашний скот и сеяли хаос в округе.
-    Недавно разведчики одной из гильдий обнаружили новое поселение к западу от города. Уничтожьте их, пока они не расплодились достаточно сильно и не стали серьёзной угрозой для местных."""
+    description = """\
+    Срочно требуются искатели, чтобы помочь защитить окраины Крезара от растущей угрозы со стороны гоблинов. \
+    Эти твари уже не раз совершали набеги на близлежащие фермы, крали домашний скот и сеяли хаос в округе.\
+    \nНедавно разведчики одной из гильдий обнаружили новое поселение к западу от города. \
+    Уничтожьте их, пока они не расплодились достаточно сильно и не стали серьёзной угрозой для местных."""
 
     [raid.locales.EN]
     intro = "Goblin Hunting"
-    description = """
-    Seekers are urgently needed to help protect the outskirts of Krezar from the growing threat from goblins. These creatures have repeatedly raided nearby farms, stole livestock and wreaked havoc in the area.
-    Recently, scouts from one of the guilds discovered a new settlement to the west of the city. Destroy them before they breed strongly enough and become a serious threat to the locals."""
+    description = """\
+    Seekers are urgently needed to help protect the outskirts of Krezar from the growing threat from goblins. \
+    These creatures have repeatedly raided nearby farms, stole livestock and wreaked havoc in the area.\
+    \nRecently, scouts from one of the guilds discovered a new settlement to the west of the city. \
+    Destroy them before they breed strongly enough and become a serious threat to the locals."""
 
 [[raid]]
     isEnabled = true
