@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.utils;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.feedback.FeedbackLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 
@@ -55,6 +56,26 @@ public class ReplyKeyboards {
         return ReplyKeyboardBuilder.builder()
             .addRow()
             .addButton(button(MenuLocalization.takePersonalQuestButton(language)))
+            .addRow()
+            .addButton(button(MenuLocalization.backButton(language)))
+            .build();
+    }
+
+    public static ReplyKeyboardMarkup chooseFeedbackThemeKeyboard(Language language) {
+        return ReplyKeyboardBuilder.builder()
+            .addRow()
+            .addButton(button(FeedbackLocalization.errorButton(language)))
+            .addButton(button(FeedbackLocalization.improvementButton(language)))
+            .addRow()
+            .addButton(button(FeedbackLocalization.textButton(language)))
+            .addButton(button(FeedbackLocalization.otherButton(language)))
+            .addRow()
+            .addButton(button(MenuLocalization.backButton(language)))
+            .build();
+    }
+
+    public static ReplyKeyboardMarkup inputFeedbackKeyboard(Language language) {
+        return ReplyKeyboardBuilder.builder()
             .addRow()
             .addButton(button(MenuLocalization.backButton(language)))
             .build();

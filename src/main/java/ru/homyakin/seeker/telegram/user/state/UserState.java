@@ -5,6 +5,6 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-public sealed interface UserState permits ChangeNameState {
+public sealed interface UserState permits ChangeNameState, FeedbackState {
     Command nextCommand(Message message);
 }

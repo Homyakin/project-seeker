@@ -10,6 +10,8 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.common.CommonResource;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.duel.DuelResource;
+import ru.homyakin.seeker.locale.feedback.FeedbackLocalization;
+import ru.homyakin.seeker.locale.feedback.FeedbackResource;
 import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.group_settings.GroupSettingsResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
@@ -35,6 +37,7 @@ import ru.homyakin.seeker.locale.top.TopLocalization;
 import ru.homyakin.seeker.locale.top.TopResource;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.command.type.FeedbackCommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 public class LocalizationInitializer {
@@ -51,6 +54,7 @@ public class LocalizationInitializer {
     private static final String TOP_PATH = File.separator + "top.toml";
     private static final String ITEM_PATH = File.separator + "item.toml";
     private static final String SHOP_PATH = File.separator + "shop.toml";
+    private static final String FEEDBACK_PATH = File.separator + "feedback.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -123,6 +127,15 @@ public class LocalizationInitializer {
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + SHOP_PATH,
                 it -> ShopLocalization.add(language, extractClass(mapper, it, ShopResource.class))
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + FEEDBACK_PATH,
+                it -> {
+                    final var resource = extractClass(mapper, it, FeedbackResource.class);
+                    FeedbackLocalization.add(language, resource);
+                    FeedbackCommandType.fillLocaleMap(resource);
+                }
             );
         }
         logger.info("Localization loaded");

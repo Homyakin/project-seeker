@@ -40,6 +40,7 @@ import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
+import ru.homyakin.seeker.telegram.command.user.feedback.InitFeedback;
 import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
 import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
@@ -148,6 +149,7 @@ public class CommandParser {
                 case BULLETIN_BOARD -> GetBulletinBoard.from(message);
                 case TAKE_PERSONAL_QUEST -> TakePersonalQuest.from(message);
                 case TOGGLE_HIDE_PERSONAGE -> ToggleHidePersonage.from(message);
+                case INIT_FEEDBACK -> InitFeedback.from(message);
                 default -> null;
             });
     }

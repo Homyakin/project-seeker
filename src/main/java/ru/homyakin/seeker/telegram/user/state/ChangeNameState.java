@@ -12,7 +12,7 @@ public sealed interface ChangeNameState extends UserState {
         public Command nextCommand(Message message) {
             return ChangeNameCommandType
                 .getFromString(message.getText())
-                .map(command -> (Command) switch (command) {
+                .<Command>map(command -> switch (command) {
                     case CANCEL -> CancelChangeName.from(message);
                     default -> null;
                 })

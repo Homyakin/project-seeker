@@ -6,4 +6,5 @@ public class TextConstants {
     public static final String TELEGRAM_CHANNEL_USERNAME = "@krezar_news";
     public static final String CALLBACK_DELIMITER = "~";
     public static final String TG_COMMAND_DELIMITER = "_";
+    public static final String FEEDBACK_TG_CHANNEL = "@krezar";
 }
