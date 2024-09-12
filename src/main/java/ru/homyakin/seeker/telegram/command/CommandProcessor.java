@@ -24,7 +24,12 @@ public final class CommandProcessor {
         executorMap = new HashMap<>();
 
         for (final CommandExecutor executor: executorList) {
-            executorMap.put(executor.getCommandType(), executor);
+            final var commandType = executor.getCommandType();
+            if (executorMap.get(commandType) != null) {
+                logger.error("Duplicate executor for {}", commandType);
+                throw new IllegalArgumentException("Duplicate executor for " + commandType);
+            }
+            executorMap.put(commandType, executor);
         }
     }
 
