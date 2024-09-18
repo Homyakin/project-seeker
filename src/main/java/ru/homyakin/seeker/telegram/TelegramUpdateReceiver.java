@@ -35,6 +35,7 @@ public class TelegramUpdateReceiver implements LongPollingSingleThreadUpdateCons
     public void consume(Update update) {
         logger.debug("New update: {}", update.toString());
         try {
+            // TODO подумать как лучше обновлять username у пользователя
             userService.updateUserInfoFromUpdate(update);
             if (TelegramUtils.needToProcessUpdate(update, config.username())) {
                 commandParser.parse(update).ifPresent(commandProcessor::process);

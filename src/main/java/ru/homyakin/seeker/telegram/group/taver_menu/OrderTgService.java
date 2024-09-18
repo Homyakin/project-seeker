@@ -53,7 +53,7 @@ public class OrderTgService {
     public Either<OrderError, MenuItemOrderTg> orderMenuItem(Group group, User giver, User acceptor, MenuItem menuItem) {
         final var acceptingPersonage = personageService.getByIdForce(acceptor.personageId());
         final Personage givingPersonage;
-        if (giver == acceptor) {
+        if (giver.id().equals(acceptor.id())) {
             givingPersonage = acceptingPersonage;
         } else {
             givingPersonage = personageService.getByIdForce(giver.personageId());
