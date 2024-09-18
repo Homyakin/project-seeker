@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.models.ChatMemberError;
 import ru.homyakin.seeker.telegram.models.TelegramError;
 
 @Component
@@ -50,17 +51,20 @@ public class TelegramSender {
         }
     }
 
-    public Either<TelegramError, ChatMember> send(GetChatMember getChatMember) {
+    public Either<ChatMemberError, ChatMember> send(GetChatMember getChatMember) {
         try {
             return Either.right(client.execute(getChatMember));
         } catch (Exception e) {
             if (e.getMessage().contains("[400] Bad Request: user not found")) {
-                return Either.left(TelegramError.UserNotFound.INSTANCE);
+                return Either.left(ChatMemberError.UserNotFound.INSTANCE);
+            } else if (e.getMessage().contains("[400] Bad Request: PARTICIPANT_ID_INVALID")) {
+                logger.error("Invalid chat {} participant {}", getChatMember.getChatId(), getChatMember.getUserId());
+                return Either.left(ChatMemberError.InvalidParticipant.INSTANCE);
             } else {
                 logger.error(
                     "Unable get chat %s member %d".formatted(getChatMember.getChatId(), getChatMember.getUserId()), e
                 );
-                return Either.left(new TelegramError.InternalError(e.getMessage()));
+                return Either.left(new ChatMemberError.InternalError(e.getMessage()));
             }
         }
     }

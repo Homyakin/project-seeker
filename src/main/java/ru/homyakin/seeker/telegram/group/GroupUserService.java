@@ -12,6 +12,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
+import ru.homyakin.seeker.telegram.models.ChatMemberError;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 import ru.homyakin.seeker.utils.models.Pair;
@@ -19,7 +20,6 @@ import ru.homyakin.seeker.telegram.group.database.GroupUserDao;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
-import ru.homyakin.seeker.telegram.models.TelegramError;
 
 @Service
 public class GroupUserService {
@@ -68,16 +68,16 @@ public class GroupUserService {
             .map(groupUser -> userService.getOrCreateFromGroup(groupUser.userId()));
     }
 
-    public Either<TelegramError.InternalError, Boolean> isUserStillInGroup(GroupId groupId, UserId userId) {
+    public Either<ChatMemberError.InternalError, Boolean> isUserStillInGroup(GroupId groupId, UserId userId) {
         final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId));
         if (result.isLeft()) {
             return switch (result.getLeft()) {
-                case TelegramError.UserNotFound _ -> {
+                case ChatMemberError.UserNotFound _, ChatMemberError.InvalidParticipant _ -> {
                     logger.warn("User {} is no longer in group {}", userId.value(), groupId.value());
                     deactivateGroupUser(groupId, userId);
                     yield Either.right(false);
                 }
-                case TelegramError.InternalError internalError -> Either.left(internalError);
+                case ChatMemberError.InternalError internalError -> Either.left(internalError);
             };
         }
         return Either.right(true);
