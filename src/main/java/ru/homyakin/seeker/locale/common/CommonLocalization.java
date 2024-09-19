@@ -253,4 +253,8 @@ public class CommonLocalization {
     public static String migrateGroup(Language language) {
         return resources.getOrDefault(language, CommonResource::migrateGroup);
     }
+
+    public static String energyRecovered(Language language) {
+        return resources.getOrDefaultRandom(language, CommonResource::energyRecovered);
+    }
 }

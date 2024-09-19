@@ -11,6 +11,7 @@ import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.user.models.User;
 
+import java.util.List;
 import java.util.Optional;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -70,6 +71,10 @@ public class UserService {
                 updateUserInfoFromUser(update.getChatMember().getNewChatMember().getUser());
             }
         }
+    }
+
+    public List<User> getUsersWithRecoveredEnergy() {
+        return userDao.getUsersWithRecoveredEnergy();
     }
 
     private void updateUserInfoFromUser(org.telegram.telegrambots.meta.api.objects.User user) {

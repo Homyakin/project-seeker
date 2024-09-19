@@ -69,7 +69,7 @@ public class PersonageDao {
         UPDATE personage
         SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
         health = :health, last_energy_change = :last_energy_change, money = :money,
-        energy = :energy, effects = :effects
+        energy = :energy, effects = :effects, energy_recovery_notification_time = :energy_recovery_notification_time
         WHERE id = :id
         """;
 
@@ -135,6 +135,7 @@ public class PersonageDao {
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
+            .param("energy_recovery_notification_time", personage.energy().energyRecoveryNotificationTime().orElse(null))
             .update();
     }
 

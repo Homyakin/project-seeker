@@ -4,10 +4,12 @@ import io.vavr.control.Either;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.utils.MathUtils;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Energy(
     int value,
@@ -45,6 +47,13 @@ public record Energy(
         final var passedMillis = Duration.between(lastChange, now).toMillis();
         final var requiredMillis = (MAX_ENERGY - value) * millisToRegen1Energy() - passedMillis;
         return Duration.ofMillis(Math.max(requiredMillis, 0));
+    }
+
+    public Optional<LocalDateTime> energyRecoveryNotificationTime() {
+        if (isFull()) {
+            return Optional.empty();
+        }
+        return Optional.of(lastChange.plus(remainTimeForFullRegen(TimeUtils.moscowTime())));
     }
 
     public boolean isFull() {

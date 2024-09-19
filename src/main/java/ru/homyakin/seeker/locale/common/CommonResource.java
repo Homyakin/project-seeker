@@ -19,6 +19,7 @@ public record CommonResource(
     String minutesShort,
     String groupStats,
     String personageGroupStats,
-    String migrateGroup
+    String migrateGroup,
+    String[] energyRecovered
 ) {
 }
