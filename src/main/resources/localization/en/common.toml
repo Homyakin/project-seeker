@@ -21,5 +21,4 @@ groupStats = """\
 
 # текста для лички
 # TODO перенести куда-нибудь
-welcomeUser = "Welcome to the tavern, Seeker!"
 receptionDesk = "Hello! How can I help you?"

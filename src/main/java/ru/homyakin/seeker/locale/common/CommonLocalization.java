@@ -6,9 +6,11 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageEffects;
 import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.infrastructure.Icons;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
 import ru.homyakin.seeker.telegram.group.stats.GroupStats;
 import ru.homyakin.seeker.telegram.statistic.Statistic;
@@ -32,7 +34,13 @@ public class CommonLocalization {
     }
 
     public static String welcomeUser(Language language) {
-        return resources.getOrDefault(language, CommonResource::welcomeUser);
+        final var params = new HashMap<String, Object>();
+        params.put("help_command", CommandType.SHOW_HELP.getText());
+        params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::welcomeUser),
+            params
+        );
     }
 
     public static String chooseLanguage(Language language) {
