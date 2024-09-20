@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.telegram.command.group.raid;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.personage.models.errors.AddPersonageToRaidError;
+import ru.homyakin.seeker.game.event.raid.RaidService;
+import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -13,21 +13,19 @@ import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
-import java.util.Optional;
-
 @Component
 public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
     private final GroupUserService groupUserService;
-    private final PersonageService personageService;
+    private final RaidService raidService;
     private final TelegramSender telegramSender;
 
     public JoinRaidExecutor(
         GroupUserService groupUserService,
-        PersonageService personageService,
+        RaidService raidService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
-        this.personageService = personageService;
+        this.raidService = raidService;
         this.telegramSender = telegramSender;
     }
 
@@ -39,7 +37,7 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
         );
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
-        final var result = personageService.joinRaid(user.personageId(), command.launchedEventId());
+        final var result = raidService.addPersonage(user.personageId(), command.launchedEventId());
         final var text = result.fold(
             error -> mapErrorToUserMessage(error, group, command),
             joinToRaidResult -> joinToRaidResult.toMessage(group.language())
@@ -63,32 +61,31 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
             case AddPersonageToRaidError.PersonageInOtherEvent _ ->
                 RaidLocalization.userAlreadyInOtherEvent(group.language());
             case AddPersonageToRaidError.RaidNotExist _ -> CommonLocalization.internalError(group.language());
-            case AddPersonageToRaidError.EndedRaid expiredEvent -> {
-                //TODO может вынести в евент менеджер
-                final var editText = Optional.ofNullable(
-                    switch (expiredEvent.launchedEvent().status()) {
-                        case LAUNCHED -> null; // по идее сюда мы не должны никогда попасть
-                        case EXPIRED -> RaidLocalization.expiredRaid(group.language());
-                        case FAILED, SUCCESS -> expiredEvent.raid().toEndMessageWithParticipants(
-                            personageService.getByLaunchedEvent(command.launchedEventId()),
-                            group.language()
-                        );
-                        case CREATION_ERROR -> CommonLocalization.internalError(group.language());
-                    }
-                );
-                editText.ifPresent(text -> telegramSender.send(EditMessageTextBuilder.builder()
-                    .chatId(command.groupId())
-                    .messageId(command.messageId())
-                    .text(text)
-                    .build()
-                ));
-                yield RaidLocalization.expiredRaid(group.language());
-            }
             case AddPersonageToRaidError.PersonageInThisRaid _ ->
                 RaidLocalization.userAlreadyInThisRaid(group.language());
             case AddPersonageToRaidError.RaidInProcess _ -> RaidLocalization.raidInProcess(group.language());
             case AddPersonageToRaidError.NotEnoughEnergy notEnoughEnergy ->
                 RaidLocalization.notEnoughEnergy(group.language(), notEnoughEnergy);
+            case AddPersonageToRaidError.RaidInFinalStatus raidInFinalStatus -> {
+                final var editText = switch (raidInFinalStatus) {
+                    case AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid completedRaid ->
+                        completedRaid.raid().toEndMessageWithParticipants(
+                            completedRaid.personages(),
+                            group.language()
+                        );
+                    case AddPersonageToRaidError.RaidInFinalStatus.CreationErrorRaid _ ->
+                        CommonLocalization.internalError(group.language());
+                    case AddPersonageToRaidError.RaidInFinalStatus.ExpiredRaid _ ->
+                        RaidLocalization.expiredRaid(group.language());
+                };
+                telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(command.groupId())
+                    .messageId(command.messageId())
+                    .text(editText)
+                    .build()
+                );
+                yield RaidLocalization.expiredRaid(group.language());
+            }
         };
     }
 }

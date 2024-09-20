@@ -1,7 +1,7 @@
-package ru.homyakin.seeker.game.personage.models;
+package ru.homyakin.seeker.game.event.raid.models;
 
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.game.event.raid.models.Raid;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 

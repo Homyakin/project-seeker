@@ -4,24 +4,18 @@ import io.vavr.control.Either;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.personage.models.JoinToRaidResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.game.event.raid.RaidService;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
-import ru.homyakin.seeker.game.personage.models.errors.AddPersonageToRaidError;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
@@ -33,26 +27,17 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public class PersonageService {
     private static final Logger logger = LoggerFactory.getLogger(PersonageService.class);
     private final PersonageDao personageDao;
-    private final LaunchedEventService launchedEventService;
     private final PersonageRaidResultDao personageRaidResultDao;
-    private final RaidService raidService;
     private final BadgeService badgeService;
-    private final PersonageConfig personageConfig;
 
     public PersonageService(
         PersonageDao personageDao,
-        LaunchedEventService launchedEventService,
         PersonageRaidResultDao personageRaidResultDao,
-        RaidService raidService,
-        BadgeService badgeService,
-        PersonageConfig personageConfig
+        BadgeService badgeService
     ) {
         this.personageDao = personageDao;
-        this.launchedEventService = launchedEventService;
         this.personageRaidResultDao = personageRaidResultDao;
-        this.raidService = raidService;
         this.badgeService = badgeService;
-        this.personageConfig = personageConfig;
     }
 
     public Personage createPersonage() {
@@ -68,56 +53,6 @@ public class PersonageService {
             .peek(badgeService::createDefaultPersonageBadge)
             .map(id -> personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create")))
             .peekLeft(_ -> logger.warn("Can't create personage with name " + name));
-    }
-
-    @Transactional
-    public Either<AddPersonageToRaidError, JoinToRaidResult> joinRaid(PersonageId personageId, long launchedEventId) {
-        final var launchedEvent = launchedEventService.getById(launchedEventId);
-        if (launchedEvent.isEmpty()) {
-            logger.warn("Personage {} tried to join to not created event {}", personageId, launchedEventId);
-            return Either.left(AddPersonageToRaidError.RaidNotExist.INSTANCE);
-        }
-        final var raid = raidService.getByEventId(launchedEvent.get().eventId());
-        if (raid.isEmpty()) {
-            logger.warn("Personage {} tried to join to not raid event {}", personageId, launchedEventId);
-            return Either.left(AddPersonageToRaidError.RaidNotExist.INSTANCE);
-        }
-        if (launchedEvent.get().isInFinalStatus()) {
-            logger.warn("Personage {} tried to join to ended event {}", personageId, launchedEventId);
-            return Either.left(new AddPersonageToRaidError.EndedRaid(launchedEvent.get(), raid.get()));
-        }
-
-        final var presentEvent = launchedEventService.getActiveEventByPersonageId(personageId);
-        if (presentEvent.isPresent()) {
-            if (Objects.equals(launchedEvent.get().id(), presentEvent.get().id())) {
-                return Either.left(AddPersonageToRaidError.PersonageInThisRaid.INSTANCE);
-            }
-            return Either.left(AddPersonageToRaidError.PersonageInOtherEvent.INSTANCE);
-        }
-
-        final var checkEnergyResult = checkPersonageEnergy(
-            personageId,
-            personageConfig.raidEnergyCost()
-        );
-
-        if (checkEnergyResult.isLeft()) {
-            return Either.left(new AddPersonageToRaidError.NotEnoughEnergy(personageConfig.raidEnergyCost()));
-        }
-
-        return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
-            .<AddPersonageToRaidError>mapLeft(_ -> AddPersonageToRaidError.RaidInProcess.INSTANCE)
-            .map(_ -> {
-                final var reduceResult = reduceEnergy(
-                    checkEnergyResult.get(),
-                    personageConfig.raidEnergyCost(),
-                    TimeUtils.moscowTime()
-                );
-                if (reduceResult.isLeft()) {
-                    logger.error("Personage {} has not enough energy for raid after checking", personageId);
-                    throw new IllegalStateException("Personage has not enough energy for raid after checking");
-                }
-                return new JoinToRaidResult(launchedEvent.get(), raid.get(), getByLaunchedEvent(launchedEventId));
-            });
     }
 
     public Optional<Personage> getById(PersonageId personageId) {
