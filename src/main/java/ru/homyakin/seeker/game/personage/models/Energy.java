@@ -9,7 +9,6 @@ import java.util.Optional;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.utils.MathUtils;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 public record Energy(
     int value,
@@ -49,11 +48,12 @@ public record Energy(
         return Duration.ofMillis(Math.max(requiredMillis, 0));
     }
 
-    public Optional<LocalDateTime> energyRecoveryNotificationTime() {
+    public Optional<LocalDateTime> energyRecoveryTime() {
         if (isFull()) {
             return Optional.empty();
         }
-        return Optional.of(lastChange.plus(remainTimeForFullRegen(TimeUtils.moscowTime())));
+        final var requiredDuration = Duration.ofMillis((MAX_ENERGY - value) * millisToRegen1Energy());
+        return Optional.of(lastChange.plus(requiredDuration));
     }
 
     public boolean isFull() {

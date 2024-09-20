@@ -135,7 +135,7 @@ public class PersonageDao {
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
-            .param("energy_recovery_notification_time", personage.energy().energyRecoveryNotificationTime().orElse(null))
+            .param("energy_recovery_notification_time", personage.energy().energyRecoveryTime().orElse(null))
             .update();
     }
 
