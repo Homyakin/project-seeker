@@ -24,8 +24,8 @@ public class UserScheduledNotifier {
 
     @Scheduled(cron = "0 * * * * *")
     public void notifyUsersAboutEnergyRegen() {
-        userService.getUsersWithRecoveredEnergy().forEach(
-            user -> {
+        for (final var user : userService.getUsersWithRecoveredEnergy()) {
+            if (user.isActivePrivateMessages()) {
                 logger.info("Notify user {} about energy regen", user.id());
                 telegramSender.send(
                     SendMessageBuilder
@@ -35,7 +35,10 @@ public class UserScheduledNotifier {
                         .build()
                 ) // Тут сайд эффект, энергия автоматом регенерируется при получении персонажа
                     .peek(_ -> personageService.getByIdForce(user.personageId()));
+            } else {
+                logger.info("Skip notify user {} about energy regen, disabled in private", user.id());
+                personageService.getByIdForce(user.personageId());
             }
-        );
+        }
     }
 }
