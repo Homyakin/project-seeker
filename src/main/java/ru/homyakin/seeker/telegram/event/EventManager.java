@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.service;
+package ru.homyakin.seeker.telegram.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
+import ru.homyakin.seeker.game.event.service.EventProcessing;
+import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
