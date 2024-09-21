@@ -22,6 +22,7 @@ public class RaidGenerator {
     }
 
     private double calcPowerPercent(LaunchedEvent event) {
+        // TODO убрать зависимость от телеги
         final var groups = groupEventService.getByLaunchedEventId(event.id());
         // Тут костыль. Если одна группа постоянно проигрывает, то мы хотим увеличить вероятность выигрыша
         // Функционал событий/рейдов на несколько групп пока (08.07.2024) не реализован, поэтому пока возвращаем полную силу рейда

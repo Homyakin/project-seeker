@@ -25,13 +25,13 @@ public class GroupStatsService {
         return groupStatsDao.getById(groupId);
     }
 
-    public void updateRaidStats(GroupId groupId, EventResult.Raid raidResult) {
-        if (raidResult.isSuccess()) {
+    public void updateRaidStats(GroupId groupId, EventResult.RaidResult.Completed raidResult) {
+        if (raidResult.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
             groupStatsDao.increaseRaidsComplete(groupId, 1);
         }
         raidResult.personageResults().forEach(
             personageResult -> {
-                if (raidResult.isSuccess()) {
+                if (raidResult.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
                     groupPersonageStatsService.addSuccessRaid(groupId, personageResult.personage().id());
                 } else {
                     groupPersonageStatsService.addFailedRaid(groupId, personageResult.personage().id());

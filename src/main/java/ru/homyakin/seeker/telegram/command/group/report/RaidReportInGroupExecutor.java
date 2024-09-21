@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.report;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -13,18 +13,18 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup> {
     private final GroupUserService groupUserService;
     private final PersonageService personageService;
-    private final LaunchedEventService launchedEventService;
+    private final GroupEventService groupEventService;
     private final TelegramSender telegramSender;
 
     public RaidReportInGroupExecutor(
         GroupUserService groupUserService,
         PersonageService personageService,
-        LaunchedEventService launchedEventService,
+        GroupEventService groupEventService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.personageService = personageService;
-        this.launchedEventService = launchedEventService;
+        this.groupEventService = groupEventService;
         this.telegramSender = telegramSender;
     }
 
@@ -33,8 +33,8 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
         final var groupUserPair = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
-        final var text = launchedEventService.getLastEndedEventInGroup(group.id())
-            .flatMap(launchedEvent -> personageService.getRaidResult(user.personageId(), launchedEvent))
+        final var text = groupEventService.getLastEndedEventInGroup(group.id())
+            .flatMap(groupEvent -> personageService.getRaidResult(user.personageId(), groupEvent.launchedEventId()))
             .map(result -> {
                 final var personage = personageService.getByIdForce(user.personageId());
                 return RaidLocalization.shortPersonageReport(group.language(), result, personage);

@@ -14,7 +14,6 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
 
 @Component
 public class LaunchedEventDao {
@@ -34,14 +33,6 @@ public class LaunchedEventDao {
         update launched_event
         set status_id = :status_id
         where id = :id;
-        """;
-    private static final String LAST_ENDED_EVENT_IN_GROUP = """
-        SELECT le.* FROM launched_event le
-        LEFT JOIN public.grouptg_to_launched_event gtle on le.id = gtle.launched_event_id
-        WHERE gtle.grouptg_id = :grouptg_id
-        AND le.status_id != :active_status_id
-        ORDER BY le.id DESC
-        LIMIT 1
         """;
     private final JdbcClient jdbcClient;
     private final SimpleJdbcInsert jdbcInsert;
@@ -98,14 +89,6 @@ public class LaunchedEventDao {
             .param("id", launchedEventId)
             .param("status_id", status.id())
             .update();
-    }
-
-    public Optional<LaunchedEvent> lastEndedEventInGroup(GroupId groupId) {
-        return jdbcClient.sql(LAST_ENDED_EVENT_IN_GROUP)
-            .param("grouptg_id", groupId.value())
-            .param("active_status_id", EventStatus.LAUNCHED.id())
-            .query(this::mapRow)
-            .optional();
     }
 
     public int countFailedPersonalQuestsRowForPersonage(PersonageId personageId) {

@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
@@ -67,6 +68,25 @@ public class GroupTgLaunchedEventDao {
             .param("raid_id", EventType.RAID.id())
             .query((rs, _) -> rs.getInt("raids_count"))
             .single();
+    }
+
+    public Optional<GroupLaunchedEvent> lastEndedRaidInGroup(GroupId groupId) {
+        final var sql = """
+            SELECT gtle.* FROM grouptg_to_launched_event gtle
+            LEFT JOIN launched_event le ON gtle.launched_event_id = le.id
+            LEFT JOIN event e ON le.event_id = e.id
+            WHERE gtle.grouptg_id = :grouptg_id
+            AND le.status_id != :active_status_id
+            AND e.type_id = :raid_id
+            ORDER BY le.id DESC
+            LIMIT 1
+            """;
+        return jdbcClient.sql(sql)
+            .param("grouptg_id", groupId.value())
+            .param("active_status_id", EventStatus.LAUNCHED.id())
+            .param("raid_id", EventType.RAID.id())
+            .query(this::mapRow)
+            .optional();
     }
 
     private GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {

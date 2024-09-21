@@ -16,11 +16,8 @@ import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
-import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.game.event.database.LaunchedEventDao;
-import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
@@ -28,20 +25,17 @@ import ru.homyakin.seeker.utils.models.Success;
 public class LaunchedEventService {
     private final LaunchedEventDao launchedEventDao;
     private final PersonageEventDao personageEventDao;
-    private final GroupEventService groupEventService;
     private final LockService lockService;
     private final EventConfig config;
 
     public LaunchedEventService(
         LaunchedEventDao launchedEventDao,
         PersonageEventDao personageEventDao,
-        GroupEventService groupEventService,
         LockService lockService,
         EventConfig config
     ) {
         this.launchedEventDao = launchedEventDao;
         this.personageEventDao = personageEventDao;
-        this.groupEventService = groupEventService;
         this.lockService = lockService;
         this.config = config;
     }
@@ -64,17 +58,15 @@ public class LaunchedEventService {
         return launchedEventDao.getById(launchedEventId);
     }
 
-    public GroupLaunchedEvent addGroupMessage(LaunchedEvent launchedEvent, Group group, Integer messageId) {
-        return groupEventService.createGroupEvent(launchedEvent, group, messageId);
-    }
-
-    public void updateResult(LaunchedEvent launchedEvent, EventResult.Raid raidResult) {
+    public void updateResult(LaunchedEvent launchedEvent, EventResult.RaidResult raidResult) {
         launchedEventDao.updateStatus(
             launchedEvent.id(),
-            switch (raidResult.status()) {
-                case SUCCESS -> EventStatus.SUCCESS;
-                case FAILURE -> EventStatus.FAILED;
-                case EXPIRED -> EventStatus.EXPIRED;
+            switch (raidResult) {
+                case EventResult.RaidResult.Completed completed -> switch (completed.status()) {
+                    case SUCCESS -> EventStatus.SUCCESS;
+                    case FAILURE -> EventStatus.FAILED;
+                };
+                case EventResult.RaidResult.Expired _ -> EventStatus.EXPIRED;
             }
         );
     }
@@ -107,14 +99,6 @@ public class LaunchedEventService {
 
     public List<LaunchedEvent> getExpiredActiveEvents() {
         return launchedEventDao.getActiveEventsWithLessEndDate(TimeUtils.moscowTime());
-    }
-
-    public List<GroupLaunchedEvent> getGroupEvents(LaunchedEvent launchedEvent) {
-        return groupEventService.getByLaunchedEventId(launchedEvent.id());
-    }
-
-    public Optional<LaunchedEvent> getLastEndedEventInGroup(GroupId groupId) {
-        return launchedEventDao.lastEndedEventInGroup(groupId);
     }
 
     public int countFailedPersonalQuestsRowForPersonage(PersonageId personageId) {

@@ -33,7 +33,7 @@ public class EventProcessing {
             .orElseThrow(() -> new IllegalStateException("Can't finish unknown event " + launchedEvent.eventId()));
 
         return switch (event.type()) {
-            case RAID -> raidProcessing.process(event, launchedEvent);
+            case RAID -> raidProcessing.process(launchedEvent);
             case PERSONAL_QUEST -> personalQuestService.stopQuest(launchedEvent);
         };
     }

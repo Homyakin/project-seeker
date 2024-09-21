@@ -5,21 +5,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EventScheduler {
-    private final EventManager eventManager;
+    private final TgEventLauncher eventLauncher;
+    private final TgEventStopper eventStopper;
 
-    public EventScheduler(EventManager eventManager) {
-        this.eventManager = eventManager;
+    public EventScheduler(TgEventLauncher eventLauncher, TgEventStopper eventStopper) {
+        this.eventLauncher = eventLauncher;
+        this.eventStopper = eventStopper;
     }
 
     // Если шедулер запускается моментально, то приложение не успевает инициализировать локализацию
     // пока забагфикшено кроном, но это выглядит плохим решением
     @Scheduled(cron = "0 * * * * *")
     public void scheduledEventsLaunch() {
-        eventManager.launchEventsInGroups();
+        eventLauncher.launchRaidsInGroups();
     }
 
     @Scheduled(cron = "0 * * * * *")
     public void scheduledStopEvents() {
-        eventManager.stopEvents();
+        eventStopper.stopEvents();
     }
 }

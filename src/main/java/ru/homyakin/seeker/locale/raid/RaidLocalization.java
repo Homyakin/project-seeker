@@ -65,8 +65,8 @@ public class RaidLocalization {
         return resources.getOrDefaultRandom(language, RaidResource::zeroParticipants);
     }
 
-    public static String raidResult(Language language, EventResult.Raid raidResult) {
-        final var sortedPersonages = new ArrayList<>(raidResult.personageResults());
+    public static String raidResult(Language language, EventResult.RaidResult.Completed result) {
+        final var sortedPersonages = new ArrayList<>(result.personageResults());
         sortedPersonages.sort(resultComparator);
         final var topPersonages = new StringBuilder();
         final int topCount = Math.min(5, sortedPersonages.size());
@@ -79,7 +79,7 @@ public class RaidLocalization {
                 topPersonages.append("\n");
             }
         }
-        final var params = paramsForRaidResult(language, raidResult, topPersonages);
+        final var params = paramsForRaidResult(language, result, topPersonages);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::raidResult),
             params
@@ -88,7 +88,7 @@ public class RaidLocalization {
 
     private static HashMap<String, Object> paramsForRaidResult(
         Language language,
-        EventResult.Raid raidResult,
+        EventResult.RaidResult.Completed raidResult,
         StringBuilder topPersonages
     ) {
         long totalEnemiesHealth = 0;

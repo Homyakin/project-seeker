@@ -54,10 +54,10 @@ public class PersonageRaidResultDao {
             .optional();
     }
 
-    public Optional<PersonageRaidSavedResult> getByPersonageAndEvent(PersonageId personageId, LaunchedEvent launchedEvent) {
+    public Optional<PersonageRaidSavedResult> getByPersonageAndEvent(PersonageId personageId, long launchedEventId) {
         return jdbcClient.sql(SELECT_BY_PERSONAGE_AND_EVENT)
             .param("personage_id", personageId.value())
-            .param("launched_event_id", launchedEvent.id())
+            .param("launched_event_id", launchedEventId)
             .query(this::mapRow)
             .optional();
     }

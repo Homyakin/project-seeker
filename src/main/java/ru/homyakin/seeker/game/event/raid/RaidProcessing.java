@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,11 +8,11 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
-import ru.homyakin.seeker.game.event.models.Event;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
+import ru.homyakin.seeker.game.event.service.LaunchedEventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.models.Money;
@@ -29,36 +28,37 @@ public class RaidProcessing {
     private static final Logger logger = LoggerFactory.getLogger(RaidProcessing.class);
     private final PersonageService personageService;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
-    private final RaidDao raidDao;
+    private final RaidService raidService;
     private final ItemService itemService;
     private final RaidGenerator raidGenerator;
+    private final LaunchedEventService launchedEventService;
 
     public RaidProcessing(
         PersonageService personageService,
         TwoPersonageTeamsBattle twoPersonageTeamsBattle,
-        RaidDao raidDao,
+        RaidService raidService,
         ItemService itemService,
-        RaidGenerator raidGenerator
+        RaidGenerator raidGenerator,
+        LaunchedEventService launchedEventService
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
-        this.raidDao = raidDao;
+        this.raidService = raidService;
         this.itemService = itemService;
         this.raidGenerator = raidGenerator;
+        this.launchedEventService = launchedEventService;
     }
 
-    public EventResult.Raid process(Event event, LaunchedEvent launchedEvent) {
-        final var raid = raidDao.getByEventId(event.id())
+    public EventResult.RaidResult process(LaunchedEvent launchedEvent) {
+        final var raid = raidService.getByEventId(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
 
         final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
         if (participants.isEmpty()) {
-            return new EventResult.Raid(
-                EventResult.Raid.Status.EXPIRED,
-                List.of(),
-                List.of(),
-                List.of()
-            );
+            logger.info("Raid {} is expired", launchedEvent.id());
+            final var result = EventResult.RaidResult.Expired.INSTANCE;
+            launchedEventService.updateResult(launchedEvent, result);
+            return result;
         }
 
         final var personages = participants.stream().map(Personage::toBattlePersonage).toList();
@@ -94,13 +94,16 @@ public class RaidProcessing {
             })
             .toList();
 
-        final var raidResult = new EventResult.Raid(
-            doesParticipantsWin ? EventResult.Raid.Status.SUCCESS : EventResult.Raid.Status.FAILURE,
+        final var raidResult = new EventResult.RaidResult.Completed(
+            doesParticipantsWin ? EventResult.RaidResult.Completed.Status.SUCCESS : EventResult.RaidResult.Completed.Status.FAILURE,
+            raid,
             result.firstTeamResults(),
             raidResults,
             generatedItems
         );
         personageService.saveRaidResults(raidResult.personageResults(), launchedEvent);
+        launchedEventService.updateResult(launchedEvent, raidResult);
+        logger.info("Raid {} status is {}", launchedEvent.id(), raidResult.status());
         return raidResult;
     }
 

@@ -28,15 +28,11 @@ public record Raid(
         );
     }
 
-    public String toEndMessage(EventResult.Raid result, Language language) {
-        if (result.isExpired() || result.personageResults().isEmpty()) {
-            return RaidLocalization.zeroParticipants(language);
-        } else {
-            final var participants = result.personageResults().stream()
-                .map(PersonageRaidResult::personage)
-                .toList();
-            return toEndMessageWithParticipants(participants, language);
-        }
+    public String toEndMessage(EventResult.RaidResult.Completed result, Language language) {
+        final var participants = result.personageResults().stream()
+            .map(PersonageRaidResult::personage)
+            .toList();
+        return toEndMessageWithParticipants(participants, language);
     }
 
     public String toEndMessageWithParticipants(List<Personage> participants, Language language) {
@@ -50,8 +46,8 @@ public record Raid(
             .orElseGet(() -> toBaseMessage(language));
     }
 
-    public String endMessage(Language language, EventResult.Raid result) {
-        if (result.isSuccess()) {
+    public String endMessage(Language language, EventResult.RaidResult.Completed result) {
+        if (result.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
             return RaidLocalization.successRaid(language) + "\n\n" + RaidLocalization.raidResult(language, result);
         } else {
             return RaidLocalization.failureRaid(language) + "\n\n" + RaidLocalization.raidResult(language, result);
