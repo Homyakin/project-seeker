@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -20,7 +22,6 @@ import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -148,8 +149,10 @@ public class PersonageService {
         getByIdForce(id).cancelChangeName().peek(personageDao::update);
     }
 
-    public void addMenuItemEffect(Personage personage, MenuItemEffect effect) {
-        personageDao.update(personage.addMenuItemEffect(effect));
+    public Personage addEffect(Personage personage, PersonageEffectType type, PersonageEffect effect) {
+        final var updatedPersonage = personage.addEffect(type, effect);
+        personageDao.update(updatedPersonage);
+        return updatedPersonage;
     }
 
     public Either<NotEnoughEnergy, Personage> checkPersonageEnergy(PersonageId personageId, int requiredEnergy) {

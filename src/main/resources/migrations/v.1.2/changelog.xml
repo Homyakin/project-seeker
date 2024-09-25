@@ -12,4 +12,5 @@
     <include file="changes/2024-08-29_01_add-personal-quests.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-09-06_01_add-hidden-parameter-to-personage.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-09-19_01_add-energy-recovery-notification-time-to-personage.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-09-22_01_add-new-order-data-to-throw-orders.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

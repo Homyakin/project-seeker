@@ -14,12 +14,14 @@ import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.game.personage.models.errors.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -250,7 +252,11 @@ public record Personage(
         return result;
     }
 
-    public Personage addMenuItemEffect(MenuItemEffect effect) {
+    public Personage addEffect(PersonageEffectType type, PersonageEffect effect) {
+        return copyWithEffects(effects.addEffect(type, effect));
+    }
+
+    private Personage copyWithEffects(PersonageEffects effects) {
         return new Personage(
             id,
             name,
@@ -259,7 +265,7 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects.addMenuItemEffect(effect),
+            effects,
             currentEvent
         );
     }

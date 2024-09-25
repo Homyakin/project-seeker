@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.tavern_menu;
+package ru.homyakin.seeker.game.tavern_menu.menu;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.tavern_menu.models.Category;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemRarity;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItemLocale;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItemRarity;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 import ru.homyakin.seeker.locale.Language;
 
@@ -42,9 +42,9 @@ public class MenuDao {
         """;
 
     private final JdbcClient jdbcClient;
-    private final MenuItemConfig config;
+    private final MenuConfig config;
 
-    public MenuDao(DataSource dataSource, MenuItemConfig config) {
+    public MenuDao(DataSource dataSource, MenuConfig config) {
         this.jdbcClient = JdbcClient.create(dataSource);
         this.config = config;
     }

@@ -23,12 +23,13 @@ ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}
 
 # Отступы нужны, чтобы нормально отображалось в fullProfile
 personageEffects = """\
-\nЭффекты:
-${personage_effects}
-"""
-menuItemEffect = "<code>-🍻Таверна: ${effect} ${time_icon}${duration}</code>"
+\nЭффекты:${personage_effects}
+""" # здесь нужен перенос, чтобы была строчка до снаряжения
+menuItemEffect = "\n<code>-🍻Таверна: ${effect} ${time_icon}${duration}</code>"
+throwOrderEffect = "\n<code>-⭕️Метание заказов: ${effect} ${time_icon}${duration}</code>"
 addValueEffect = "+${value}${characteristic_icon}"
 multiplyPercentEffect = "+${value}%${characteristic_icon}"
+minusMultiplyPercentEffect = "-${value}%${characteristic_icon}"
 
 personageInRaid = "\nВ рейде ${time_icon}${duration}\n"
 personageInQuest = "\nВ квесте ${time_icon}${duration}\n"

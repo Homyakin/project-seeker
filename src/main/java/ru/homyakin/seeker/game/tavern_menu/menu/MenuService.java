@@ -1,13 +1,13 @@
-package ru.homyakin.seeker.game.tavern_menu;
+package ru.homyakin.seeker.game.tavern_menu.menu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.tavern_menu.models.Category;
-import ru.homyakin.seeker.game.tavern_menu.models.TavernMenu;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.TavernMenu;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingMenuItem;
 
 @Component

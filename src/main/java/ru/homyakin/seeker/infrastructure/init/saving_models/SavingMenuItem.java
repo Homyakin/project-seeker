@@ -3,9 +3,9 @@ package ru.homyakin.seeker.infrastructure.init.saving_models;
 import java.util.Map;
 
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
-import ru.homyakin.seeker.game.tavern_menu.models.Category;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemLocale;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemRarity;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItemLocale;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItemRarity;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
 

@@ -24,7 +24,7 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
-import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;

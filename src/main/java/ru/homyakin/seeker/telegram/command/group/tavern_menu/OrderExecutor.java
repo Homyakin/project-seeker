@@ -4,7 +4,7 @@ import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;

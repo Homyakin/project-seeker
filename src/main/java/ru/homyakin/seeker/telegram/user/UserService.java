@@ -9,6 +9,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
+import ru.homyakin.seeker.telegram.models.UserType;
 import ru.homyakin.seeker.telegram.user.models.User;
 
 import java.util.List;
@@ -36,6 +37,8 @@ public class UserService {
     }
 
     public Optional<User> tryGetOrCreateByMention(MentionInfo mentionInfo, GroupId groupId) {
+        assert mentionInfo.userType() == UserType.USER;
+
         return switch (mentionInfo) {
             case MentionInfo.Id id -> Optional.of(getOrCreateFromGroup(id.userId()));
             case MentionInfo.Username username -> userDao.getByUsernameInGroup(username.username(), groupId);

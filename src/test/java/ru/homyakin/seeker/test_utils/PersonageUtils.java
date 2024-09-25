@@ -12,7 +12,7 @@ import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageEffects;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
 

@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.event.raid.generator;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageEffects;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.util.Collections;

@@ -17,6 +17,20 @@ public record TavernMenuResource(
     String wrongConsumer,
     String[] expiredOrder,
     String[] orderToUnknownUser,
-    String orderIsLocked
+    String orderIsLocked,
+    String userNotFoundToThrow,
+    String noOrdersToThrow,
+    String[] onlyCreatedDish,
+    String[] onlyCreatedDrink,
+    String[] notEnoughMoneyToThrow,
+    String throwResult,
+    String throwEffect,
+    String[] throwDishToNone,
+    String[] throwDrinkToNone,
+    String[] throwDishToPersonage,
+    String[] throwDrinkToPersonage,
+    String[] selfThrowDish,
+    String[] selfThrowDrink,
+    String[] throwToStaff
 ) {
 }

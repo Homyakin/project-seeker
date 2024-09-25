@@ -14,7 +14,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.CurrentEvent;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageEffects;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.sql.ResultSet;

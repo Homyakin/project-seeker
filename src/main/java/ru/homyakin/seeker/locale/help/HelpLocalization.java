@@ -43,6 +43,7 @@ public class HelpLocalization {
         final var params = new HashMap<String, Object>();
         params.put("menu_command", CommandType.TAVERN_MENU.getText());
         params.put("order_command", CommandType.ORDER.getText());
+        params.put("throw_command", CommandType.THROW_ORDER.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::menu),
             params

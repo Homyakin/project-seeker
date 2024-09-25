@@ -1,19 +1,16 @@
-package ru.homyakin.seeker.game.tavern_menu;
+package ru.homyakin.seeker.game.tavern_menu.menu;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemRarity;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItemRarity;
 
-import java.time.Duration;
-
-@ConfigurationProperties("homyakin.seeker.tavern-menu")
-public class MenuItemConfig {
+@ConfigurationProperties("homyakin.seeker.tavern-menu.menu")
+public class MenuConfig {
     private Money commonPrice;
     private Money uncommonPrice;
     private Money rarePrice;
     private int addEffectBaseValue;
     private int multiplyPercentEffectBaseValue;
-    private Duration effectDuration;
 
     public Money priceByRarity(MenuItemRarity rarity) {
         return switch (rarity) {
@@ -29,10 +26,6 @@ public class MenuItemConfig {
 
     public int multiplyPercentByRarity(MenuItemRarity rarity) {
         return (int) (multiplyPercentEffectBaseValue * rarity.effectMultiplier());
-    }
-
-    public Duration effectDuration() {
-        return effectDuration;
     }
 
     public void setCommonPrice(int commonPrice) {
@@ -55,7 +48,4 @@ public class MenuItemConfig {
         this.multiplyPercentEffectBaseValue = multiplyPercentEffectBaseValue;
     }
 
-    public void setEffectDuration(Duration effectDuration) {
-        this.effectDuration = effectDuration;
-    }
 }

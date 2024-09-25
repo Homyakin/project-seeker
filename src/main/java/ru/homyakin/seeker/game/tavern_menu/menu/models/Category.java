@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.tavern_menu.models;
+package ru.homyakin.seeker.game.tavern_menu.menu.models;
 
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;

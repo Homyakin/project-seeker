@@ -1,6 +1,7 @@
-package ru.homyakin.seeker.game.tavern_menu.models;
+package ru.homyakin.seeker.game.tavern_menu.order.models;
 
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 

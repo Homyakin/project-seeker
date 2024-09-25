@@ -9,7 +9,7 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.rumor.RumorService;
-import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 
 public class InitGameDataTest {
     private final InitGameDataConfig config = new InitGameDataConfig();

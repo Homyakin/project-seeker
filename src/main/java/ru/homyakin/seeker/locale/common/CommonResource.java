@@ -20,6 +20,8 @@ public record CommonResource(
     String groupStats,
     String personageGroupStats,
     String migrateGroup,
-    String[] energyRecovered
+    String[] energyRecovered,
+    String minusMultiplyPercentEffect,
+    String throwOrderEffect
 ) {
 }

@@ -6,9 +6,12 @@ import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageEffects;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
+import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemEffect;
 
+import java.util.Collections;
 import java.util.Optional;
 
 public class BattlePersonagePowerTest {
@@ -51,7 +54,12 @@ public class BattlePersonagePowerTest {
                 null,
                 null,
                 Characteristics.ZERO,
-                new PersonageEffects(Optional.of(new MenuItemEffect(new Effect.Add(100, EffectCharacteristic.ATTACK), null))),
+                new PersonageEffects(
+                    Collections.singletonMap(
+                        PersonageEffectType.MENU_ITEM_EFFECT,
+                        new PersonageEffect(new Effect.Add(100, EffectCharacteristic.ATTACK), null)
+                    )
+                ),
                 Optional.empty()
             )
         );

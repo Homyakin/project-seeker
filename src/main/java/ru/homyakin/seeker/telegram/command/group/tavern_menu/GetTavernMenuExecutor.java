@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.tavern_menu;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.tavern_menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupService;

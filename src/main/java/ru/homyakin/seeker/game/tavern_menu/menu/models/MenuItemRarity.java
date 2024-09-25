@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.tavern_menu.models;
+package ru.homyakin.seeker.game.tavern_menu.menu.models;
 
 public enum MenuItemRarity {
     COMMON(1, 1.0),

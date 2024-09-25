@@ -11,12 +11,18 @@ import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.tavern_menu.models.Category;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemOrder;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemOrderError;
-import ru.homyakin.seeker.game.tavern_menu.models.OrderStatus;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
+import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.order.OrderConfig;
+import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemEffect;
+import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemOrder;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeOrderError;
+import ru.homyakin.seeker.game.tavern_menu.order.models.OrderStatus;
+import ru.homyakin.seeker.game.tavern_menu.order.MenuItemOrderDao;
+import ru.homyakin.seeker.game.tavern_menu.order.OrderService;
 import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
@@ -31,7 +37,7 @@ public class OrderServiceConsumeTest {
     private final MenuItemOrderDao menuItemOrderDao = Mockito.mock(MenuItemOrderDao.class);
     private final MenuService menuService = Mockito.mock(MenuService.class);
     private final LockService lockService = new InMemoryLockService();
-    private final MenuItemConfig config = Mockito.mock(MenuItemConfig.class);
+    private final OrderConfig config = Mockito.mock(OrderConfig.class);
     private final OrderService orderService = new OrderService(
         personageService,
         menuItemOrderDao,
@@ -43,6 +49,7 @@ public class OrderServiceConsumeTest {
     @BeforeEach
     public void init() {
         Mockito.when(config.effectDuration()).thenReturn(Duration.ofMinutes(1));
+        Mockito.when(config.timeToThrowOrder()).thenReturn(Duration.ofMinutes(1));
     }
 
     @Test
@@ -63,22 +70,38 @@ public class OrderServiceConsumeTest {
         Mockito.when(menuService.getMenuItem(order.menuItemId())).thenReturn(Optional.of(item));
 
         // when
-        Either<MenuItemOrderError, MenuItem> result = orderService.consume(orderId, consumer);
-        final var captor = ArgumentCaptor.forClass(MenuItemEffect.class);
+        final Either<ConsumeOrderError, MenuItem> result;
+        final var now = TimeUtils.moscowTime();
+        try (final var mock = Mockito.mockStatic(TimeUtils.class)) {
+            mock.when(TimeUtils::moscowTime).thenReturn(now);
+            result = orderService.consume(orderId, consumer);
+        }
+        final var type = ArgumentCaptor.forClass(PersonageEffectType.class);
+        final var effect = ArgumentCaptor.forClass(PersonageEffect.class);
         Mockito
             .verify(personageService, Mockito.times(1))
-            .addMenuItemEffect(Mockito.eq(consumer), captor.capture());
+            .addEffect(Mockito.eq(consumer), type.capture(), effect.capture());
 
         // then
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(item, result.get());
-        Assertions.assertEquals(item.effect(), captor.getValue().effect());
-        Mockito.verify(menuItemOrderDao, Mockito.times(1)).updateStatus(orderId, OrderStatus.ACCEPTED);
+        Assertions.assertEquals(PersonageEffectType.MENU_ITEM_EFFECT, type.getValue());
+        Assertions.assertEquals(item.effect(), effect.getValue().effect());
+
+        final var expected = new MenuItemOrder(
+            order.id(),
+            order.menuItemId(),
+            order.orderingPersonageId(),
+            order.acceptingPersonageId(),
+            now.plus(config.timeToThrowOrder()),
+            OrderStatus.CONSUMED
+        );
+        Mockito.verify(menuItemOrderDao, Mockito.times(1)).update(expected);
     }
 
     @Test
     public void Given_NonExistOrder_When_Consume_Then_ThrowException() {
-        // Arrange
+        // Given
         long orderId = 1L;
         final var consumer = PersonageUtils.random();
 
@@ -102,21 +125,21 @@ public class OrderServiceConsumeTest {
             PersonageId.from(1),
             PersonageId.from(2),
             TimeUtils.moscowTime(),
-            OrderStatus.ACCEPTED
+            OrderStatus.CONSUMED
         );
         Mockito.when(menuItemOrderDao.getById(orderId)).thenReturn(Optional.of(order));
 
         // when
-        Either<MenuItemOrderError, MenuItem> result = orderService.consume(orderId, consumer);
+        Either<ConsumeOrderError, MenuItem> result = orderService.consume(orderId, consumer);
 
         // then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(MenuItemOrderError.WrongConsumer.INSTANCE, result.getLeft());
+        Assertions.assertEquals(ConsumeOrderError.WrongConsumer.INSTANCE, result.getLeft());
     }
 
     @Test
     public void Given_OrderIsFinalStatus_When_Consume_Then_ReturnAlreadyFinalStatus() {
-        // Arrange
+        // Given
         long orderId = 1L;
         final var consumer = PersonageUtils.random();
         final var order = new MenuItemOrder(
@@ -125,17 +148,17 @@ public class OrderServiceConsumeTest {
             PersonageId.from(1),
             consumer.id(),
             TimeUtils.moscowTime(),
-            OrderStatus.ACCEPTED
+            OrderStatus.CONSUMED
         );
 
         Mockito.when(menuItemOrderDao.getById(orderId)).thenReturn(Optional.of(order));
 
-        // Act
-        Either<MenuItemOrderError, MenuItem> result = orderService.consume(orderId, consumer);
+        // When
+        Either<ConsumeOrderError, MenuItem> result = orderService.consume(orderId, consumer);
 
-        // Assert
+        // Then
         Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(MenuItemOrderError.AlreadyFinalStatus.INSTANCE, result.getLeft());
+        Assertions.assertEquals(ConsumeOrderError.AlreadyFinalStatus.INSTANCE, result.getLeft());
     }
 
     private final MenuItem item = new MenuItem(

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.tavern_menu.models;
+package ru.homyakin.seeker.game.tavern_menu.menu.models;
 
 import java.util.Collections;
 import java.util.Map;

@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-new-order-data-to-throw-orders">
+        <insert tableName="menu_item_order_status">
+            <column name="id" value="5"/>
+            <column name="name" value="Потреблён и просрочен"/>
+        </insert>
+
+        <insert tableName="menu_item_order_status">
+            <column name="id" value="6"/>
+            <column name="name" value="Брошен"/>
+        </insert>
+
+        <update tableName="menu_item_order_status">
+            <column name="name" value="Потреблён"/>
+            <where>id = 4</where>
+        </update>
+
+        <sql>
+            UPDATE menu_item_order SET status_id = 5 WHERE status_id = 4;
+        </sql>
+
+        <addColumn tableName="menu_item_order">
+            <column name="throw_target_personage_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="menu_item_order">
+            <column name="is_throw_target_staff" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE personage SET effects = '{"effects":{}}';
+        </sql>
+
+        <dropDefaultValue tableName="personage" columnName="effects"/>
+    </changeSet>
+</databaseChangeLog>

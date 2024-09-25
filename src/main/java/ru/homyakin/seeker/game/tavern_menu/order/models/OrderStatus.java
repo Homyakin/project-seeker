@@ -1,10 +1,12 @@
-package ru.homyakin.seeker.game.tavern_menu.models;
+package ru.homyakin.seeker.game.tavern_menu.order.models;
 
 public enum OrderStatus {
     CREATED(1),
     EXPIRED(2),
     TECH_CANCEL(3),
-    ACCEPTED(4),
+    CONSUMED(4),
+    CONSUMED_AND_EXPIRED(5),
+    THROWN(6),
     ;
 
     private final int id;
@@ -24,9 +26,5 @@ public enum OrderStatus {
             }
         }
         throw new IllegalArgumentException("Invalid OrderStatus ID: " + id);
-    }
-
-    public boolean isFinal() {
-        return this != CREATED;
     }
 }

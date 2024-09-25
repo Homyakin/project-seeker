@@ -2,8 +2,10 @@ package ru.homyakin.seeker.game.personage.models;
 
 import io.vavr.control.Either;
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.effect.EffectCharacteristic;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
@@ -160,7 +162,7 @@ public record Characteristics(
         );
     }
 
-    private class EditableCharacteristics {
+    private static class EditableCharacteristics {
         private int health;
         private int attack;
         private int defense;
@@ -178,7 +180,7 @@ public record Characteristics(
         }
 
         public EditableCharacteristics apply(PersonageEffects effects) {
-            effects.menuItemEffect().map(MenuItemEffect::effect).ifPresent(this::apply);
+            effects.effects().values().stream().map(PersonageEffect::effect).forEach(this::apply);
             return this;
         }
 
@@ -195,14 +197,22 @@ public record Characteristics(
                 }
                 case Effect.Multiplier multiplier -> {
                     final var value = 1 + multiplier.percent() / 100.0;
-                    switch (multiplier.characteristic()) {
-                        case HEALTH -> health = (int) (health * value);
-                        case ATTACK -> attack = (int) (attack * value);
-                        case STRENGTH -> strength = (int) (strength * value);
-                        case AGILITY -> agility = (int) (agility * value);
-                        case WISDOM -> wisdom = (int) (wisdom * value);
-                    }
+                    multiplyCharacteristic(value, multiplier.characteristic());
                 }
+                case Effect.MinusMultiplier multiplier -> {
+                    final var value = 1 - multiplier.percent() / 100.0;
+                    multiplyCharacteristic(value, multiplier.characteristic());
+                }
+            }
+        }
+
+        private void multiplyCharacteristic(double value, EffectCharacteristic characteristic) {
+            switch (characteristic) {
+                case HEALTH -> health = (int) (health * value);
+                case ATTACK -> attack = (int) (attack * value);
+                case STRENGTH -> strength = (int) (strength * value);
+                case AGILITY -> agility = (int) (agility * value);
+                case WISDOM -> wisdom = (int) (wisdom * value);
             }
         }
 

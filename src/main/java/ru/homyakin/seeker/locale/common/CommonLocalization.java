@@ -3,8 +3,8 @@ package ru.homyakin.seeker.locale.common;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.personage.models.CurrentEvent;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageEffects;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItemEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -117,23 +117,41 @@ public class CommonLocalization {
     }
 
     private static String personageEffects(Language language, PersonageEffects effects) {
-        if (effects.menuItemEffect().isEmpty()) {
+        if (effects.isEmpty()) {
             return "";
         }
-        final var effect = effects.menuItemEffect().get();
+        final var effectsText = new StringBuilder();
+        for (final var effect : effects.effects().entrySet()) {
+            final var text = switch (effect.getKey()) {
+                case MENU_ITEM_EFFECT -> menuItemEffect(language, effect.getValue());
+                case THROW_DAMAGE_EFFECT -> throwOrderEffect(language, effect.getValue());
+            };
+            effectsText.append(text);
+        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageEffects),
-            Collections.singletonMap("personage_effects", menuItemEffect(language, effect))
+            Collections.singletonMap("personage_effects", effectsText.toString())
         );
     }
 
-    private static String menuItemEffect(Language language, MenuItemEffect effect) {
+    private static String menuItemEffect(Language language, PersonageEffect effect) {
         final var params = new HashMap<String, Object>();
         params.put("effect", effect(language, effect.effect()));
         params.put("time_icon", Icons.TIME);
         params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::menuItemEffect),
+            params
+        );
+    }
+
+    private static String throwOrderEffect(Language language, PersonageEffect effect) {
+        final var params = new HashMap<String, Object>();
+        params.put("effect", effect(language, effect.effect()));
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::throwOrderEffect),
             params
         );
     }
@@ -171,7 +189,7 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::minutesShort);
     }
 
-    private static String effect(Language language, Effect effect) {
+    public static String effect(Language language, Effect effect) {
         return switch (effect) {
             case Effect.Add add -> {
                 final var params = new HashMap<String, Object>();
@@ -188,6 +206,15 @@ public class CommonLocalization {
                 params.put("characteristic_icon", multiplier.characteristic().icon());
                 yield StringNamedTemplate.format(
                     resources.getOrDefault(language, CommonResource::multiplyPercentEffect),
+                    params
+                );
+            }
+            case Effect.MinusMultiplier minusMultiplier -> {
+                final var params = new HashMap<String, Object>();
+                params.put("value", minusMultiplier.percent());
+                params.put("characteristic_icon", minusMultiplier.characteristic().icon());
+                yield StringNamedTemplate.format(
+                    resources.getOrDefault(language, CommonResource::minusMultiplyPercentEffect),
                     params
                 );
             }

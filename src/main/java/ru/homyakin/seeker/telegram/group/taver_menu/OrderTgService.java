@@ -7,22 +7,28 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.tavern_menu.models.OrderError;
-import ru.homyakin.seeker.game.tavern_menu.OrderService;
-import ru.homyakin.seeker.game.tavern_menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ExpiredOrder;
+import ru.homyakin.seeker.game.tavern_menu.order.models.OrderError;
+import ru.homyakin.seeker.game.tavern_menu.order.OrderService;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowResult;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowTarget;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
-import ru.homyakin.seeker.telegram.group.models.MenuItemOrderTg;
+import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
+import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.TimeUtils;
+
+import java.util.Optional;
 
 @Service
 public class OrderTgService {
@@ -33,6 +39,7 @@ public class OrderTgService {
     private final TelegramSender telegramSender;
     private final PersonageService personageService;
     private final GroupService groupService;
+    private final UserService userService;
 
     public OrderTgService(
         MenuItemOrderTgDao menuItemOrderTgDao,
@@ -40,7 +47,8 @@ public class OrderTgService {
         GroupStatsService groupStatsService,
         TelegramSender telegramSender,
         PersonageService personageService,
-        GroupService groupService
+        GroupService groupService,
+        UserService userService
     ) {
         this.menuItemOrderTgDao = menuItemOrderTgDao;
         this.orderService = orderService;
@@ -48,6 +56,7 @@ public class OrderTgService {
         this.telegramSender = telegramSender;
         this.personageService = personageService;
         this.groupService = groupService;
+        this.userService = userService;
     }
 
     public Either<OrderError, MenuItemOrderTg> orderMenuItem(Group group, User giver, User acceptor, MenuItem menuItem) {
@@ -84,6 +93,58 @@ public class OrderTgService {
             );
     }
 
+    public Either<ThrowOrderTgError, ThrowResultTg> throwOrder(
+        User throwing,
+        Optional<MentionInfo> target,
+        GroupId groupId
+    ) {
+        final ThrowTarget throwTarget;
+        if (target.isEmpty()) {
+            throwTarget = ThrowTarget.None.INSTANCE;
+        } else {
+            final Optional<ThrowTarget> optional = switch (target.get().userType()) {
+                case USER -> {
+                    final var user = userService.tryGetOrCreateByMention(target.get(), groupId);
+                    if (user.isEmpty()) {
+                        yield Optional.empty();
+                    }
+                    yield Optional.of(
+                        new ThrowTarget.PersonageTarget(personageService.getByIdForce(user.get().personageId()))
+                    );
+                }
+                case THIS_BOT -> Optional.of(ThrowTarget.TavernStaff.INSTANCE);
+                case DIFFERENT_BOT -> Optional.of(ThrowTarget.None.INSTANCE);
+            };
+            if (optional.isEmpty()) {
+                return Either.left(ThrowOrderTgError.UserNotFound.INSTANCE);
+            }
+            throwTarget = optional.get();
+        }
+        final var personage = personageService.getByIdForce(throwing.personageId());
+        final var orders = menuItemOrderTgDao.findNotFinalForPersonageInGroup(personage.id(), groupId);
+
+        return orderService.throwOrder(orders, personage, throwTarget)
+            .<ThrowOrderTgError>mapLeft(ThrowOrderTgError.Domain::new)
+            .map(this::mapThrowResultToTg);
+    }
+
+    private ThrowResultTg mapThrowResultToTg(ThrowResult throwResult) {
+        return switch (throwResult) {
+            case ThrowResult.SelfThrow selfThrow -> new ThrowResultTg.SelfThrow(selfThrow);
+            case ThrowResult.ThrowToNone throwToNone -> new ThrowResultTg.ThrowToNone(throwToNone);
+            case ThrowResult.ThrowToOtherPersonage throwToOtherPersonage -> new ThrowResultTg.ThrowToOtherPersonage(
+                throwToOtherPersonage.cost(),
+                TgPersonageMention.of(
+                    throwToOtherPersonage.personage(),
+                    userService.getByPersonageIdForce(throwToOtherPersonage.personage().id()).id()
+                ),
+                throwToOtherPersonage.effect(),
+                throwToOtherPersonage.category()
+            );
+            case ThrowResult.ThrowToStaff throwToStaff -> new ThrowResultTg.ThrowToStaff(throwToStaff);
+        };
+    }
+
     @Scheduled(cron = "0 * * * * *")
     public void expireOldOrders() {
         logger.debug("Expiring orders");
@@ -91,15 +152,17 @@ public class OrderTgService {
             order -> {
                 logger.info("Order " + order.menuItemOrderId() + " expired");
                 orderService.expireOrder(order.menuItemOrderId())
-                    .peek(success -> {
-                        final var group = groupService.getOrCreate(order.groupTgId());
-                        telegramSender.send(
-                            EditMessageTextBuilder.builder()
-                                .text(TavernMenuLocalization.expiredOrder(group.language()))
-                                .messageId(order.messageId())
-                                .chatId(order.groupTgId())
-                                .build()
-                        );
+                    .peek(expiredOrder -> {
+                        if (expiredOrder.status() == ExpiredOrder.Status.EXPIRED) {
+                            final var group = groupService.getOrCreate(order.groupTgId());
+                            telegramSender.send(
+                                EditMessageTextBuilder.builder()
+                                    .text(TavernMenuLocalization.expiredOrder(group.language()))
+                                    .messageId(order.messageId())
+                                    .chatId(order.groupTgId())
+                                    .build()
+                            );
+                        }
                     });
             }
         );

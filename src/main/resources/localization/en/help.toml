@@ -12,11 +12,6 @@ Just reply to the abuser's message with ${duel_command}.
 
 However, know that the arena is not a free pleasure! Someone has to wash her blood off afterwards and remove the knocked-out teeth."""
 
-menu = """\
-As in any self-respecting tavern, you can have a drink and a delicious meal here.
-
-Get acquainted with the list of available positions via ${menu_command} and order what you liked!"""
-
 personage = """\
 By going to ${bot_username}, you can use the registration desk.
 
