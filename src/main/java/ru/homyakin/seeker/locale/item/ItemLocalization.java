@@ -58,11 +58,12 @@ public class ItemLocalization {
 
     public static String inventory(Language language, Personage personage, List<Item> items) {
         final var params = new HashMap<String, Object>();
-        params.put("max_items_in_bag", personage.maxBagSize()); // TODO вынести
+        params.put("max_items_in_bag", personage.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
         final var equippedItemsBuilder = new StringBuilder();
         int itemsInBagCount = 0;
-        for (final var item : items) {
+        final var sortedItems = items.stream().sorted(Comparator.comparingInt(ItemLocalization::itemPriority)).toList();
+        for (final var item : sortedItems) {
             if (item.isEquipped()) {
                 if (!equippedItemsBuilder.isEmpty()) {
                     equippedItemsBuilder.append("\n");
@@ -73,8 +74,9 @@ public class ItemLocalization {
                 ++itemsInBagCount;
             }
         }
-        final var freeSlots = personage.getFreeSlots(items)
+        final var freeSlots = personage.getFreeSlots(sortedItems)
             .stream()
+            .sorted(Comparator.comparingInt(ItemLocalization::slotPriority))
             .map(slot -> personageFreeSlot(language, slot))
             .collect(Collectors.joining("\n"));
         if (equippedItemsBuilder.isEmpty()) {
@@ -319,5 +321,21 @@ public class ItemLocalization {
             }
         }
         return itemWithoutModifiers(itemLanguage, item);
+    }
+
+    private static int itemPriority(Item item) {
+        return item.object().slots().stream().mapToInt(ItemLocalization::slotPriority).min().orElse(Integer.MAX_VALUE);
+    }
+
+    private static int slotPriority(PersonageSlot slot) {
+        return switch (slot) {
+            case MAIN_HAND -> 1;
+            case OFF_HAND -> 2;
+            case HELMET -> 3;
+            case BODY -> 4;
+            case GLOVES -> 5;
+            case PANTS -> 6;
+            case SHOES -> 7;
+        };
     }
 }
