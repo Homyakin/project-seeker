@@ -152,5 +152,5 @@ public class DuelService {
         return LockPrefixes.DUEL.name() + "-" + duelId;
     }
 
-    private static final Money DUEL_PRICE = new Money(5);
+    private static final Money DUEL_PRICE = new Money(2);
 }
