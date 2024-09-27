@@ -22,7 +22,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class CommonLocalization {
     private static final Resources<CommonResource> resources = new Resources<>();
