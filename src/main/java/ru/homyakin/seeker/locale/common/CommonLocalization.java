@@ -10,6 +10,7 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
+import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStats;
 import ru.homyakin.seeker.telegram.group.stats.GroupStats;
@@ -21,6 +22,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommonLocalization {
     private static final Resources<CommonResource> resources = new Resources<>();
@@ -30,7 +32,19 @@ public class CommonLocalization {
     }
 
     public static String welcomeGroup(Language language) {
-        return resources.getOrDefault(language, CommonResource::welcomeGroup);
+        final var params = new HashMap<String, Object>();
+        params.put("settings_command", CommandType.SETTINGS.getText());
+        params.put("menu_command", CommandType.TAVERN_MENU.getText());
+        params.put("help_command", CommandType.SHOW_HELP.getText());
+        params.put("duel_command", CommandType.START_DUEL.getText());
+        params.put("spin_command", CommandType.SPIN.getText());
+        params.put("top_command", CommandType.TOP.getText());
+        params.put("bot_username", TelegramBotConfig.username());
+        params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::welcomeGroup),
+            params
+        );
     }
 
     public static String welcomeUser(Language language) {
