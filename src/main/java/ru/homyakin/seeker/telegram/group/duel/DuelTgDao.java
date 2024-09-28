@@ -18,7 +18,7 @@ public class DuelTgDao {
         jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public DuelTg insert(DuelTg duelTg) {
+    public DuelTg save(DuelTg duelTg) {
         jdbcClient.sql(INSERT)
             .param("duel_id", duelTg.duelId())
             .param("grouptg_id", duelTg.groupTgId().value())

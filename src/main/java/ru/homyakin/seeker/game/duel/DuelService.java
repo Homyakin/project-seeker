@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
+import ru.homyakin.seeker.game.duel.models.CreateDuelResult;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
@@ -42,7 +43,7 @@ public class DuelService {
     }
 
     //TODO прочитать про transactional
-    public Either<CreateDuelError, Duel> createDuel(
+    public Either<CreateDuelError, CreateDuelResult> createDuel(
         Personage initiatingPersonage,
         Personage acceptingPersonage
     ) {
@@ -56,7 +57,9 @@ public class DuelService {
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
 
         final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), duelLifeTime);
-        return Either.right(getByIdForce(id));
+        return Either.right(
+            new CreateDuelResult(id, initiatingPersonage, acceptingPersonage, DUEL_PRICE)
+        );
     }
 
     public Duel getByIdForce(long duelId) {
@@ -76,7 +79,7 @@ public class DuelService {
                 return Either.right(Success.INSTANCE);
             }
         ).fold(
-            error -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
+            _ -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
             either -> either
         );
     }
@@ -96,7 +99,7 @@ public class DuelService {
                 return Either.right(Success.INSTANCE);
             }
         ).fold(
-            error -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
+            _ -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
             either -> either
         );
     }
@@ -109,7 +112,7 @@ public class DuelService {
             duelLockKey(duel.id()),
             () -> finishDuelLogic(duel)
         ).fold(
-            error -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
+            _ -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
             either -> either
         );
     }

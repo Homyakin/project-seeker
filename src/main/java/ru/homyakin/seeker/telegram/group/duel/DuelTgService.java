@@ -7,10 +7,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.game.duel.DuelService;
-import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupService;
@@ -51,7 +49,7 @@ public class DuelTgService {
         this.userService = userService;
     }
 
-    public Either<CreateDuelError, DuelTg> createDuel(
+    public Either<CreateDuelError, CreateDuelTgResult> createDuel(
         User initiatingUser,
         User acceptingUser,
         Group group
@@ -59,15 +57,20 @@ public class DuelTgService {
         final var initiatingPersonage = personageService.getByIdForce(initiatingUser.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
         return duelService.createDuel(initiatingPersonage, acceptingPersonage)
-            .flatMap(duel -> sendMessage(
-                    TgPersonageMention.of(initiatingPersonage, initiatingUser.id()),
-                    TgPersonageMention.of(acceptingPersonage, acceptingUser.id()),
-                    group,
-                    duel
-                ).map(
-                    message -> linkDuelToMessage(duel.id(), group.id(), message.getMessageId())
-                ).mapLeft(
+            .map(result ->
+                new CreateDuelTgResult(
+                    result.duelId(),
+                    TgPersonageMention.of(result.initiatingPersonage(), initiatingUser.id()),
+                    TgPersonageMention.of(result.acceptingPersonage(), acceptingUser.id()),
+                    result.cost()
+                )
+            )
+            .flatMap(result -> sendMessage(result, group)
+                .peek(message -> linkDuelToMessage(result.duelId(), group.id(), message.getMessageId()))
+                .map(_ -> result)
+                .mapLeft(
                     error -> {
+                        duelService.expireDuel(result.duelId());
                         logger.warn("Can't send message to telegram: " + error.toString());
                         return new CreateDuelError.InternalError();
                     }
@@ -99,23 +102,18 @@ public class DuelTgService {
         );
     }
 
-    private Either<TelegramError, Message> sendMessage(
-        PersonageMention initiatorMention,
-        PersonageMention acceptorMention,
-        Group group,
-        Duel duel
-    ) {
+    private Either<TelegramError, Message> sendMessage(CreateDuelTgResult result, Group group) {
         return telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(group.id())
-                .text(DuelLocalization.initDuel(group.language(), initiatorMention, acceptorMention))
-                .keyboard(InlineKeyboards.duelKeyboard(group.language(), duel.id()))
+                .text(DuelLocalization.initDuel(group.language(), result))
+                .keyboard(InlineKeyboards.duelKeyboard(group.language(), result.duelId()))
                 .build()
         );
     }
 
-    private DuelTg linkDuelToMessage(long duelId, GroupId groupId, int messageId) {
-        return duelTgDao.insert(
+    private void linkDuelToMessage(long duelId, GroupId groupId, int messageId) {
+        duelTgDao.save(
             new DuelTg(
                 duelId,
                 groupId,

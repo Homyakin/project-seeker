@@ -16,12 +16,11 @@ duelWithInitiatorNotEnoughMoney = [
     "Кажется, этот бой тебе не по карману! Необходимо ${money_icon}${money_count}."
 ]
 personageAlreadyStartDuel = "Вы уже начали другую дуэль! Дождитесь ей окончания."
-initDuel = [
-    """\
-Искатель ${mention_initiator_icon_with_name} вызывает на дуэль \
-искателя ${mention_acceptor_icon_with_name}.
-
-Каким будет его ответ?""",
+initDuel = """\
+${init_duel_variation}
+-${duel_cost}${money_icon}"""
+initDuelVariation = [
+    "Искатель ${mention_initiator_icon_with_name} вызывает на дуэль ${mention_acceptor_icon_with_name}.",
     """\
 От ${mention_initiator_icon_with_name} прилетела перчатка в лицо \
 ${mention_acceptor_icon_with_name}!""",

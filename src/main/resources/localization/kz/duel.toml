@@ -16,13 +16,6 @@ duelWithInitiatorNotEnoughMoney = [
     "Бұл жекпе-жекті көтере алмайтын сияқтысың! ${money_icon}${money_count} табуың керек."
 ]
 personageAlreadyStartDuel = "Сіз басқа дуэльді бастадыңыз! Оның аяқталуын күтіңіз."
-initDuel = [
-    """\
-Іздеуші ${mention_initiator_icon_with_name} дуэльге\
-Іздеуші ${mention_acceptor_icon_with_name}-ні шақырады.
-
-Онын жауабы қандай болады екен?""",
-]
 notDuelAcceptingPersonage = "Дуэльге сізді шақырған жоқ!"
 expiredDuel = [
     "Дуэльге шақыру еленбеді",

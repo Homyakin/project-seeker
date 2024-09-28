@@ -11,13 +11,6 @@ duelWithInitiatorNotEnoughMoney = [
 Whoa! To use the arena, you need at least ${money_icon}${money_count}. Go work for a start"""
 ]
 personageAlreadyStartDuel = "You have already started another duel! Wait for it to finish."
-initDuel = [
-    """\
-The seeker ${mention_initiator_icon_with_name} challenges \
-the seeker ${mention_acceptor_icon_with_name}.
-
-What will be his answer?"""
-]
 notDuelAcceptingPersonage = "It wasn't you who was challenged to a duel!"
 expiredDuel = [
     "The challenge to the duel was ignored"

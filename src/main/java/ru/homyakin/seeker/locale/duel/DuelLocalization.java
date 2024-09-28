@@ -9,6 +9,7 @@ import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.telegram.group.duel.CreateDuelTgResult;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class DuelLocalization {
@@ -52,12 +53,23 @@ public class DuelLocalization {
         return resources.getOrDefault(language, DuelResource::personageAlreadyStartDuel);
     }
 
-    public static String initDuel(Language language, PersonageMention initiatorMention, PersonageMention acceptorMention) {
+    public static String initDuel(Language language, CreateDuelTgResult result) {
         final var params = new HashMap<String, Object>();
-        params.put("mention_initiator_icon_with_name", initiatorMention.value());
-        params.put("mention_acceptor_icon_with_name", acceptorMention.value());
+        params.put("init_duel_variation", initDuelVariation(language, result.initiator(), result.acceptor()));
+        params.put("duel_cost", result.cost().value());
+        params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
-            resources.getOrDefaultRandom(language, DuelResource::initDuel),
+            resources.getOrDefault(language, DuelResource::initDuel),
+            params
+        );
+    }
+
+    private static String initDuelVariation(Language language, PersonageMention initiator, PersonageMention acceptor) {
+        final var params = new HashMap<String, Object>();
+        params.put("mention_initiator_icon_with_name", initiator.value());
+        params.put("mention_acceptor_icon_with_name", acceptor.value());
+        return StringNamedTemplate.format(
+            resources.getOrDefaultRandom(language, DuelResource::initDuelVariation),
             params
         );
     }
