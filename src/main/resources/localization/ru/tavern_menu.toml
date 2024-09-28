@@ -55,7 +55,7 @@ notEnoughMoneyToThrow = [
 throwResult = """\
 ${throw_text}
 
-Потрачено: -${money_value}${money_icon}${optional_effect}"""
+<i>Потрачено: -${money_value}${money_icon}${optional_effect}</i>"""
 throwEffect = "\nЭффект: ${effect}"
 
 throwDishToNone = [
