@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.tavern_menu.order.OrderService;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeOrderError;
+import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -36,9 +37,9 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
         final var consumer = personageService.getByIdForce(groupUser.second().personageId());
         orderService.consume(command.orderId(), consumer)
             .peek(
-                item -> telegramSender.send(
+                result -> telegramSender.send(
                     EditMessageTextBuilder.builder()
-                        .text(item.consumeText(group.language(), consumer))
+                        .text(TavernMenuLocalization.consumed(group.language(), result))
                         .messageId(command.messageId())
                         .chatId(command.groupId())
                         .build()

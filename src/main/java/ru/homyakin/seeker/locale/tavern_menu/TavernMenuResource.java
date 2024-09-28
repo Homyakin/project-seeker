@@ -14,6 +14,7 @@ public record TavernMenuResource(
     String consumeDrinkButton,
     String consumeMainDishButton,
     String consumeAlreadyInFinalStatus,
+    String consumed,
     String wrongConsumer,
     String[] expiredOrder,
     String[] orderToUnknownUser,

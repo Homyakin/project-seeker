@@ -28,6 +28,9 @@ expiredOrder = [
 consumeDrinkButton = "🍺Выпить"
 consumeMainDishButton = "🍽Съесть"
 consumeAlreadyInFinalStatus = "Заказ куда-то испарился... Возможно его утащил бабайка"
+consumed = """\
+${consumed_item_text}
+<i>Эффект: ${effect}</i>"""
 wrongConsumer = "Это не твой заказ!"
 orderToUnknownUser = [
     """\

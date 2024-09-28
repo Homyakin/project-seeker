@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.order.OrderConfig;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemEffect;
 import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemOrder;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeOrderError;
@@ -70,7 +71,7 @@ public class OrderServiceConsumeTest {
         Mockito.when(menuService.getMenuItem(order.menuItemId())).thenReturn(Optional.of(item));
 
         // when
-        final Either<ConsumeOrderError, MenuItem> result;
+        final Either<ConsumeOrderError, ConsumeResult> result;
         final var now = TimeUtils.moscowTime();
         try (final var mock = Mockito.mockStatic(TimeUtils.class)) {
             mock.when(TimeUtils::moscowTime).thenReturn(now);
@@ -84,7 +85,7 @@ public class OrderServiceConsumeTest {
 
         // then
         Assertions.assertTrue(result.isRight());
-        Assertions.assertEquals(item, result.get());
+        Assertions.assertEquals(item, result.get().item());
         Assertions.assertEquals(PersonageEffectType.MENU_ITEM_EFFECT, type.getValue());
         Assertions.assertEquals(item.effect(), effect.getValue().effect());
 
@@ -130,7 +131,7 @@ public class OrderServiceConsumeTest {
         Mockito.when(menuItemOrderDao.getById(orderId)).thenReturn(Optional.of(order));
 
         // when
-        Either<ConsumeOrderError, MenuItem> result = orderService.consume(orderId, consumer);
+        final var result = orderService.consume(orderId, consumer);
 
         // then
         Assertions.assertTrue(result.isLeft());
@@ -154,7 +155,7 @@ public class OrderServiceConsumeTest {
         Mockito.when(menuItemOrderDao.getById(orderId)).thenReturn(Optional.of(order));
 
         // When
-        Either<ConsumeOrderError, MenuItem> result = orderService.consume(orderId, consumer);
+        final var result = orderService.consume(orderId, consumer);
 
         // Then
         Assertions.assertTrue(result.isLeft());

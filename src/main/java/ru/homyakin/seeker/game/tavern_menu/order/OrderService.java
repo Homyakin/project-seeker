@@ -9,6 +9,7 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ExpireOrderError;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ExpiredOrder;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeOrderError;
@@ -71,7 +72,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Either<ConsumeOrderError, MenuItem> consume(long orderId, Personage consumer) {
+    public Either<ConsumeOrderError, ConsumeResult> consume(long orderId, Personage consumer) {
         return lockService.tryLockAndCalc(
             lockOrderKey(orderId),
             () -> consumeLogic(orderId, consumer)
@@ -196,7 +197,7 @@ public class OrderService {
         }
     }
 
-    private Either<ConsumeOrderError, MenuItem> consumeLogic(long orderId, Personage consumer) {
+    private Either<ConsumeOrderError, ConsumeResult> consumeLogic(long orderId, Personage consumer) {
         final var consumeResult = getById(orderId)
             .orElseThrow(() -> new IllegalStateException("Order " + orderId + " must present for consume"))
             .consume(consumer, TimeUtils.moscowTime(), config.timeToThrowOrder());
@@ -206,12 +207,9 @@ public class OrderService {
         final var order = consumeResult.get();
         final var item = menuService.getMenuItem(order.menuItemId()).orElseThrow();
         menuItemOrderDao.update(order);
-        personageService.addEffect(
-            consumer,
-            PersonageEffectType.MENU_ITEM_EFFECT,
-            new PersonageEffect(item.effect(), TimeUtils.moscowTime().plus(config.effectDuration()))
-        );
-        return Either.right(item);
+        final var effect = new PersonageEffect(item.effect(), TimeUtils.moscowTime().plus(config.effectDuration()));
+        final var updatedPersonage = personageService.addEffect(consumer, PersonageEffectType.MENU_ITEM_EFFECT, effect);
+        return Either.right(new ConsumeResult(item, effect, updatedPersonage));
     }
 
     private Either<ExpireOrderError, ExpiredOrder> expireOrderLogic(long orderId) {

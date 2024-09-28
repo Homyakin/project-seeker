@@ -7,6 +7,7 @@ import java.util.Optional;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowOrderError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
@@ -104,6 +105,17 @@ public class TavernMenuLocalization {
 
     public static String consumeAlreadyInFinalStatus(Language language) {
         return resources.getOrDefault(language, TavernMenuResource::consumeAlreadyInFinalStatus);
+    }
+
+    public static String consumed(Language language, ConsumeResult result) {
+        final var params = new HashMap<String, Object>();
+        params.put("consumed_item_text", result.item().consumeText(language, result.personage()));
+        params.put("effect", CommonLocalization.effect(language, result.effect().effect()));
+
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TavernMenuResource::consumed),
+            params
+        );
     }
 
     public static String expiredOrder(Language language) {
