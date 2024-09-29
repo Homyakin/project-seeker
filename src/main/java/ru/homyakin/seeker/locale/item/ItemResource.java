@@ -8,6 +8,7 @@ public record ItemResource(
     String itemWithTwoPrefixModifiers,
     String fullItem,
     String shortItem,
+    String shortItemWithoutCharacteristics,
     String characteristics,
     String attack,
     String health,

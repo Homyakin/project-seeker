@@ -56,6 +56,17 @@ public class ItemLocalization {
         );
     }
 
+    public static String shortItemWithoutCharacteristics(Language requestedlanguage, Item item) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon);
+        params.put("item", itemText(itemLanguage, item));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::shortItemWithoutCharacteristics),
+            params
+        );
+    }
+
     public static String inventory(Language language, Personage personage, List<Item> items) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", personage.maxBagSize());

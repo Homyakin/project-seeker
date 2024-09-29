@@ -19,6 +19,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
+import ru.homyakin.seeker.utils.DatabaseUtils;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
@@ -110,7 +111,8 @@ public class PersonageRaidResultDao {
             PersonageId.from(rs.getLong("personage_id")),
             rs.getLong("launched_event_id"),
             jsonUtils.fromString(rs.getString("stats"), PersonageBattleStats.class),
-            Money.from(rs.getInt("reward"))
+            Money.from(rs.getInt("reward")),
+            Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_item_id"))
         );
     }
 }

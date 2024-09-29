@@ -46,6 +46,10 @@ public class ItemService {
         this.rarityService = rarityService;
     }
 
+    public Optional<Item> getById(long id) {
+        return itemDao.getById(id);
+    }
+
     public void saveObjects(ItemObjects objects) {
         objects.object().forEach(itemObjectDao::saveObject);
     }
@@ -75,7 +79,7 @@ public class ItemService {
         }
 
         final var id = itemDao.saveItem(tempItem);
-        return Either.right(itemDao.getById(id).orElseThrow());
+        return Either.right(getById(id).orElseThrow());
     }
 
     public List<Item> getPersonageItems(PersonageId personageId) {

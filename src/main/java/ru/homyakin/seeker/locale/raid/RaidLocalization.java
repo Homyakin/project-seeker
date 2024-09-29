@@ -5,11 +5,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
@@ -175,18 +177,41 @@ public class RaidLocalization {
         );
     }
 
-    public static String report(Language language, PersonageRaidSavedResult result, LaunchedEvent event) {
+    public static String report(
+        Language language,
+        PersonageRaidSavedResult result,
+        LaunchedEvent event,
+        Optional<Item> item
+    ) {
         final var params = paramsForRaidReport(result);
         params.put("raid_date_time", TimeUtils.toString(event.endDate()));
+        if (item.isEmpty()) {
+            params.put("optional_full_item", "");
+        } else {
+            params.put("optional_full_item", ItemLocalization.fullItem(language, item.get()));
+        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::report),
             params
         );
     }
 
-    public static String shortPersonageReport(Language language, PersonageRaidSavedResult result, Personage personage) {
+    public static String shortPersonageReport(
+        Language language,
+        PersonageRaidSavedResult result,
+        Personage personage,
+        Optional<Item> item
+    ) {
         final var params = paramsForRaidReport(result);
         params.put("personage_badge_with_name", personage.badgeWithName());
+        if (item.isEmpty()) {
+            params.put("optional_short_item_without_characteristics", "");
+        } else {
+            params.put(
+                "optional_short_item_without_characteristics",
+                ItemLocalization.shortItemWithoutCharacteristics(language, item.get())
+            );
+        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::shortPersonageReport),
             params

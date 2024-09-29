@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.report;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -14,17 +15,20 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
     private final UserService userService;
     private final PersonageService personageService;
     private final LaunchedEventService launchedEventService;
+    private final ItemService itemService;
     private final TelegramSender telegramSender;
 
     public RaidReportExecutor(
         UserService userService,
         PersonageService personageService,
         LaunchedEventService launchedEventService,
+        ItemService itemService,
         TelegramSender telegramSender
     ) {
         this.userService = userService;
         this.personageService = personageService;
         this.launchedEventService = launchedEventService;
+        this.itemService = itemService;
         this.telegramSender = telegramSender;
     }
 
@@ -35,7 +39,12 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
             .map(
                 result -> {
                     final var event = launchedEventService.getById(result.launchedEventId()).orElseThrow();
-                    return RaidLocalization.report(user.language(), result, event);
+                    return RaidLocalization.report(
+                        user.language(),
+                        result,
+                        event,
+                        result.generatedItemId().flatMap(itemService::getById)
+                    );
                 }
             )
             .orElseGet(() -> RaidLocalization.reportNotPresentForPersonage(user.language()));
