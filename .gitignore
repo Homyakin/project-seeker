@@ -5,6 +5,7 @@ target/
 **/venv/
 __pycache__/
 **.DS_Store
+**/.obsidian
 
 src/main/resources/application-dev.properties
 
