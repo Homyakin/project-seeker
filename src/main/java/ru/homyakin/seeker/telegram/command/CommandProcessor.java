@@ -41,5 +41,6 @@ public final class CommandProcessor {
                 commandExecutor -> commandExecutor.execute(command),
                 () -> logger.error("No executor for command " + command.getClass())
             );
+        logger.info("Executed " + command.getClass().getSimpleName());
     }
 }
