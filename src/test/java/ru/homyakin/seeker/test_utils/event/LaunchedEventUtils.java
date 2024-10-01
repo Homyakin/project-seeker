@@ -1,9 +1,8 @@
 package ru.homyakin.seeker.test_utils.event;
 
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.math3.random.UniformRandomGenerator;
 import ru.homyakin.seeker.game.event.models.EventStatus;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 import java.time.Duration;

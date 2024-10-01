@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.event.raid.models;
 
 import ru.homyakin.seeker.game.event.models.EventResult;
-import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
@@ -30,12 +30,12 @@ public record Raid(
 
     public String toEndMessage(EventResult.RaidResult.Completed result, Language language) {
         final var participants = result.personageResults().stream()
-            .map(PersonageRaidResult::personage)
+            .map(PersonageRaidResult::participant)
             .toList();
         return toEndMessageWithParticipants(participants, language);
     }
 
-    public String toEndMessageWithParticipants(List<Personage> participants, Language language) {
+    public String toEndMessageWithParticipants(List<RaidParticipant> participants, Language language) {
         return toBaseMessage(language) + "\n\n" + RaidLocalization.raidParticipants(language, participants);
     }
 

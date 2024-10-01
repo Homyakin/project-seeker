@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.report;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;

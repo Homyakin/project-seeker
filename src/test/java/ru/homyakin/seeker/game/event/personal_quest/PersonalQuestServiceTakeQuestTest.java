@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import ru.homyakin.seeker.game.event.models.EventStatus;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
+import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
@@ -31,16 +33,18 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 public class PersonalQuestServiceTakeQuestTest {
-    private final PersonalQuestDao personalQuestDao = Mockito.mock(PersonalQuestDao.class);
-    private final PersonageService personageService = Mockito.mock(PersonageService.class);
+    private final PersonalQuestDao personalQuestDao = Mockito.mock();
+    private final PersonageService personageService = Mockito.mock();
     private final LockService lockService = new InMemoryLockService();
-    private final LaunchedEventService launchedEventService = Mockito.mock(LaunchedEventService.class);
-    private final PersonalQuestConfig config = Mockito.mock(PersonalQuestConfig.class);
+    private final LaunchedEventService launchedEventService = Mockito.mock();
+    private final PersonalQuestConfig config = Mockito.mock();
+    private final PersonageEventService personageEventService = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
         lockService,
         launchedEventService,
+        personageEventService,
         config
     );
 
@@ -73,7 +77,11 @@ public class PersonalQuestServiceTakeQuestTest {
         when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.empty());
         when(personalQuestDao.getRandomQuest()).thenReturn(Optional.of(quest));
         when(launchedEventService.createFromPersonalQuest(eq(quest), any(), any())).thenReturn(launchedEvent);
-        when(launchedEventService.addPersonageToLaunchedEvent(personage.id(), launchedEvent.id())).thenReturn(Either.right(Success.INSTANCE));
+        when(
+            personageEventService.addPersonageToLaunchedEvent(
+                new AddPersonageToEventRequest(launchedEvent.id(), personage.id(), Optional.empty())
+            )
+        ).thenReturn(Either.right(Success.INSTANCE));
         when(personageService.reduceEnergy(eq(personage), eq(REQUIRED_ENERGY), any())).thenReturn(Either.right(personage));
 
         final var result = personalQuestService.takeQuest(personage.id());

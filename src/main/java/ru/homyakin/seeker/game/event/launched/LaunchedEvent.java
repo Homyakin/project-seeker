@@ -1,4 +1,6 @@
-package ru.homyakin.seeker.game.event.models;
+package ru.homyakin.seeker.game.event.launched;
+
+import ru.homyakin.seeker.game.event.models.EventStatus;
 
 import java.time.LocalDateTime;
 
@@ -11,9 +13,5 @@ public record LaunchedEvent(
 ) {
     public boolean isInFinalStatus() {
         return status.isFinal();
-    }
-
-    public boolean isNotInFinalStatus() {
-        return !isInFinalStatus();
     }
 }

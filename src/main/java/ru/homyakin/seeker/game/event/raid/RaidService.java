@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidResult;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.raid.models.RaidPersonageParams;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.event.raid.models.JoinToRaidResult;
+import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
@@ -24,17 +27,20 @@ public class RaidService {
     private final RaidDao raidDao;
     private final PersonageService personageService;
     private final LaunchedEventService launchedEventService;
+    private final PersonageEventService personageEventService;
     private final RaidConfig config;
 
     public RaidService(
         RaidDao raidDao,
         PersonageService personageService,
         LaunchedEventService launchedEventService,
+        PersonageEventService personageEventService,
         RaidConfig config
     ) {
         this.raidDao = raidDao;
         this.personageService = personageService;
         this.launchedEventService = launchedEventService;
+        this.personageEventService = personageEventService;
         this.config = config;
     }
 
@@ -75,7 +81,7 @@ public class RaidService {
                 case EXPIRED -> AddPersonageToRaidError.RaidInFinalStatus.ExpiredRaid.INSTANCE;
                 case FAILED, SUCCESS -> new AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid(
                     raid.get(),
-                    personageService.getByLaunchedEvent(launchedEventId)
+                    personageEventService.getRaidParticipants(launchedEventId)
                 );
                 case CREATION_ERROR -> AddPersonageToRaidError.RaidInFinalStatus.CreationErrorRaid.INSTANCE;
             };
@@ -90,28 +96,34 @@ public class RaidService {
             return Either.left(AddPersonageToRaidError.PersonageInOtherEvent.INSTANCE);
         }
 
-        final var checkEnergyResult = personageService.checkPersonageEnergy(
+        final var checkEnergyResult = personageService.checkPersonageEnergy(personageId, config.energyCost());
+
+        final var request = new AddPersonageToEventRequest(
+            launchedEventId,
             personageId,
-            config.energyCost()
+            Optional.of(new RaidPersonageParams(checkEnergyResult.isLeft()))
         );
 
-        if (checkEnergyResult.isLeft()) {
-            return Either.left(new AddPersonageToRaidError.NotEnoughEnergy(config.energyCost()));
-        }
-
-        return launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEventId)
+        return personageEventService.addPersonageToLaunchedEvent(request)
             .<AddPersonageToRaidError>mapLeft(_ -> AddPersonageToRaidError.RaidInProcess.INSTANCE)
             .map(_ -> {
-                final var reduceResult = personageService.reduceEnergy(
-                    checkEnergyResult.get(),
-                    config.energyCost(),
-                    TimeUtils.moscowTime()
-                );
-                if (reduceResult.isLeft()) {
-                    logger.error("Personage {} has not enough energy for raid after checking", personageId);
-                    throw new IllegalStateException("Personage has not enough energy for raid after checking");
+                if (checkEnergyResult.isRight()) {
+                    final var reduceResult = personageService.reduceEnergy(
+                        checkEnergyResult.get(),
+                        config.energyCost(),
+                        TimeUtils.moscowTime()
+                    );
+                    if (reduceResult.isLeft()) {
+                        logger.error("Personage {} has not enough energy for raid after checking", personageId);
+                        throw new IllegalStateException("Personage has not enough energy for raid after checking");
+                    }
                 }
-                return new JoinToRaidResult(launchedEvent, raid.get(), personageService.getByLaunchedEvent(launchedEventId));
+                return new JoinToRaidResult(
+                    launchedEvent,
+                    raid.get(),
+                    personageEventService.getRaidParticipants(launchedEvent.id()),
+                    checkEnergyResult.isLeft()
+                );
             });
     }
 }

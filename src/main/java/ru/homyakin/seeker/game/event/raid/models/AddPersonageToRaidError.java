@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.event.raid.models;
 
-import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 
 import java.util.List;
 
@@ -24,10 +24,8 @@ public sealed interface AddPersonageToRaidError {
 
         record CompletedRaid(
             Raid raid,
-            List<Personage> personages
+            List<RaidParticipant> participants
         ) implements RaidInFinalStatus {
         }
     }
-
-    record NotEnoughEnergy(int requiredEnergy) implements AddPersonageToRaidError { }
 }

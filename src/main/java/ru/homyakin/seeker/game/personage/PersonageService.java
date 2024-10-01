@@ -5,11 +5,12 @@ import io.vavr.control.Either;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
@@ -70,10 +71,9 @@ public class PersonageService {
             .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
     }
 
-    public List<Personage> getByLaunchedEvent(long launchedEventId) {
+    public List<Personage> getByIds(Set<PersonageId> ids) {
         final var now = TimeUtils.moscowTime();
-        return personageDao
-            .getByLaunchedEvent(launchedEventId)
+        return personageDao.getByIds(ids)
             .stream()
             .map(
                 personage -> personage.updateStateIfNeed(now)

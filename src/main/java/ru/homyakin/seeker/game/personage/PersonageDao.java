@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import javax.sql.DataSource;
 
 import ru.homyakin.seeker.infrastructure.TextConstants;
@@ -147,27 +148,20 @@ public class PersonageDao {
             .optional();
     }
 
-    public List<Personage> getByLaunchedEvent(Long launchedEventId) {
+    public List<Personage> getByIds(Set<PersonageId> ids) {
         // TODO Эффективность неизвестна, данный запрос написан просто чтобы работали предметы.
         // на 02.09.24 проблем с производительностью нет
         final var now = System.currentTimeMillis();
-        final var personageIdByLaunchedEvent = """
-            SELECT * FROM personage_to_event WHERE launched_event_id = :launched_event_id
-            """;
-        final var idList = jdbcClient.sql(personageIdByLaunchedEvent)
-            .param("launched_event_id", launchedEventId)
-            .query((rs, _) -> rs.getLong("personage_id"))
-            .list();
-        if (idList.isEmpty()) {
+        if (ids.isEmpty()) {
             return List.of();
         }
         final var result = jdbcClient.sql(GET_BY_ID)
-            .param("id_list", idList)
+            .param("id_list", ids.stream().map(PersonageId::value).toList())
             .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .list();
         if (logger.isDebugEnabled()) {
-            logger.debug("Finished getting {} personages by launched event in {} ms", result.size(), System.currentTimeMillis() - now);
+            logger.debug("Finished getting {} participants by ids in {} ms", result.size(), System.currentTimeMillis() - now);
         }
         return result;
     }

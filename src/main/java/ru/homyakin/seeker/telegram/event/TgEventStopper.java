@@ -12,7 +12,7 @@ import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;

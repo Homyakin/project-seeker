@@ -9,13 +9,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ru.homyakin.seeker.game.event.models.EventResult;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
-import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
@@ -41,6 +41,10 @@ public class RaidLocalization {
 
     public static String userAlreadyInThisRaid(Language language) {
         return resources.getOrDefault(language, RaidResource::userAlreadyInThisRaid);
+    }
+
+    public static String exhaustedAlert(Language language) {
+        return resources.getOrDefault(language, RaidResource::exhaustedAlert);
     }
 
     public static String userAlreadyInOtherEvent(Language language) {
@@ -108,7 +112,7 @@ public class RaidLocalization {
         params.put("total_enemies_health", totalEnemiesHealth);
         params.put("remain_enemies_count", remainingEnemies);
         params.put("total_enemies_count", raidResult.raidNpcResults().size());
-        params.put("top_personages_list", topPersonages.toString());
+        params.put("top_participants_list", topPersonages.toString());
         params.put("raid_report_command", CommandType.RAID_REPORT.getText());
         if (raidResult.generatedItemResults().isEmpty()) {
             params.put("from_new_line_items_for_personages", "");
@@ -146,7 +150,7 @@ public class RaidLocalization {
     public static String personageRaidResult(Language language, PersonageRaidResult result) {
         final var params = new HashMap<String, Object>();
         params.put("dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "");
-        params.put("personage_badge_with_name", result.personage().badgeWithName());
+        params.put("raid_participant", raidParticipant(language, result.participant()));
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
         params.put("money", result.reward().value());
@@ -157,22 +161,26 @@ public class RaidLocalization {
         );
     }
 
-    public static String raidParticipants(Language language, List<Personage> participants) {
-        final var iconNames = participants.stream()
-            .map(Personage::badgeWithName)
+    public static String raidParticipants(Language language, List<RaidParticipant> participants) {
+        final var participantsList = participants.stream()
+            .map(it -> raidParticipant(language, it))
             .collect(Collectors.joining(", "));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::raidParticipants),
-            Collections.singletonMap("personage_badge_name_list", iconNames)
+            Collections.singletonMap("raid_participants_list", participantsList)
         );
     }
 
-    public static String notEnoughEnergy(Language language, AddPersonageToRaidError.NotEnoughEnergy notEnoughEnergy) {
+    public static String raidParticipant(Language language, RaidParticipant participant) {
         final var params = new HashMap<String, Object>();
-        params.put("energy_icon", Icons.ENERGY);
-        params.put("required_energy", notEnoughEnergy.requiredEnergy());
+        params.put("personage_badge_with_name", participant.personage().badgeWithName());
+        if (participant.params().isExhausted()) {
+            params.put("exhausted_icon_or_empty", Icons.EXHAUSTED);
+        } else {
+            params.put("exhausted_icon_or_empty", "");
+        }
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, RaidResource::notEnoughEnergy),
+            resources.getOrDefault(language, RaidResource::raidParticipant),
             params
         );
     }

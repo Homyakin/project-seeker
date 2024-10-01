@@ -46,10 +46,6 @@ public class BattlePersonage implements Cloneable {
         return !health.isAlive();
     }
 
-    public Personage personage() {
-        return personage;
-    }
-
     public void dealDamageToPersonage(BattlePersonage enemy) {
         final var critMultiplier = critMultiplier(enemy);
         final var attack = (int) (

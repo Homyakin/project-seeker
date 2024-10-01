@@ -2,6 +2,8 @@ package ru.homyakin.seeker.game.event.raid;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -9,14 +11,16 @@ import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.EventResult;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.event.PersonageEventService;
+import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.utils.MathUtils;
@@ -32,6 +36,7 @@ public class RaidProcessing {
     private final ItemService itemService;
     private final RaidGenerator raidGenerator;
     private final LaunchedEventService launchedEventService;
+    private final PersonageEventService personageEventService;
 
     public RaidProcessing(
         PersonageService personageService,
@@ -39,7 +44,8 @@ public class RaidProcessing {
         RaidService raidService,
         ItemService itemService,
         RaidGenerator raidGenerator,
-        LaunchedEventService launchedEventService
+        LaunchedEventService launchedEventService,
+        PersonageEventService personageEventService
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
@@ -47,21 +53,22 @@ public class RaidProcessing {
         this.itemService = itemService;
         this.raidGenerator = raidGenerator;
         this.launchedEventService = launchedEventService;
+        this.personageEventService = personageEventService;
     }
 
     public EventResult.RaidResult process(LaunchedEvent launchedEvent) {
         final var raid = raidService.getByEventId(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
 
-        final var participants = personageService.getByLaunchedEvent(launchedEvent.id());
+        final var participants = personageEventService.getRaidParticipants(launchedEvent.id());
         if (participants.isEmpty()) {
             logger.info("Raid {} is expired", launchedEvent.id());
             final var result = EventResult.RaidResult.Expired.INSTANCE;
             launchedEventService.updateResult(launchedEvent, result);
             return result;
         }
-
-        final var personages = participants.stream().map(Personage::toBattlePersonage).toList();
+        final var idToParticipant = participants.stream().collect(Collectors.toMap(it -> it.personage().id(), it -> it));
+        final var personages = participants.stream().map(RaidParticipant::personage).map(Personage::toBattlePersonage).toList();
         final var result = twoPersonageTeamsBattle.battle(
             raidGenerator.generate(raid, launchedEvent, personages),
             personages
@@ -73,18 +80,25 @@ public class RaidProcessing {
         final var endTime = TimeUtils.moscowTime();
         final var raidResults = result.secondTeamResults().stream()
             .map(battleResult -> {
-                final var reward = new Money(calculateReward(doesParticipantsWin, battleResult));
+                final var participant = idToParticipant.get(battleResult.personage().id());
+                final var reward = new Money(
+                    calculateReward(
+                        doesParticipantsWin,
+                        battleResult,
+                        participant.params().isExhausted()
+                    )
+                );
                 personageService.addMoney(
-                    battleResult.personage(),
+                    participant.personage(),
                     reward,
                     endTime
                 );
                 final var generatedItem = doesParticipantsWin
-                    ? generateItem(battleResult.personage())
+                    ? generateItem(battleResult.personage(), participant.params().isExhausted())
                     : Optional.<GeneratedItemResult>empty();
                 generatedItem.ifPresent(generatedItems::add);
                 return new PersonageRaidResult(
-                    battleResult.personage(),
+                    participant,
                     battleResult.stats(),
                     reward,
                     generatedItem
@@ -112,7 +126,10 @@ public class RaidProcessing {
      * В случае поражения - награда равна базовой, в случае победы - награда зависит от нанесённого и полученного урона.
      * Бонус за урон считается по формуле log(1.1, урон / 10) - 43. При 1000 бонус примерно равен 5, при 3000 - 16
      */
-    private int calculateReward(boolean doesParticipantsWin, PersonageBattleResult result) {
+    private int calculateReward(boolean doesParticipantsWin, PersonageBattleResult result, boolean isExhausted) {
+        if (isExhausted) {
+            return 0;
+        }
         final int reward;
         if (!doesParticipantsWin) {
             reward = BASE_REWARD;
@@ -135,8 +152,12 @@ public class RaidProcessing {
      * y - вероятность получить предмет в процентах
      */
     private Optional<GeneratedItemResult> generateItem(
-        Personage personage
+        Personage personage,
+        boolean isExhausted
     ) {
+        if (isExhausted) {
+            return Optional.empty();
+        }
         final var raidsWithoutItems = personageService.countSuccessRaidsFromLastItem(personage.id());
         final int chance;
         if (raidsWithoutItems <= 5) {

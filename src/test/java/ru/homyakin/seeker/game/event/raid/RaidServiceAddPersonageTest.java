@@ -7,10 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.raid.models.RaidPersonageParams;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.event.raid.models.JoinToRaidResult;
 import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
+import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
+import ru.homyakin.seeker.game.personage.event.PersonageEventService;
+import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
@@ -20,16 +24,19 @@ import ru.homyakin.seeker.utils.models.Success;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class RaidServiceAddPersonageTest {
     private final RaidDao raidDao = Mockito.mock();
     private final LaunchedEventService launchedEventService = Mockito.mock();
     private final PersonageService personageService = Mockito.mock();
     private final RaidConfig config = Mockito.mock();
+    private final PersonageEventService personageEventService = Mockito.mock();
     private final RaidService service = new RaidService(
         raidDao,
         personageService,
         launchedEventService,
+        personageEventService,
         config
     );
     private PersonageId personageId;
@@ -48,11 +55,15 @@ public class RaidServiceAddPersonageTest {
         final var launchedEvent = LaunchedEventUtils.withEventId(1);
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(launchedEventService.getActiveEventByPersonageId(personageId)).thenReturn(Optional.empty());
-        Mockito.when(launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEvent.id()))
+        Mockito.when(personageEventService.addPersonageToLaunchedEvent(
+            new AddPersonageToEventRequest(launchedEvent.id(), personageId, Optional.of(new RaidPersonageParams(false)))
+            ))
             .thenReturn(Either.right(Success.INSTANCE));
         Mockito.when(raidDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
-        final var personages = List.of(PersonageUtils.random(), PersonageUtils.withId(personageId));
-        Mockito.when(personageService.getByLaunchedEvent(launchedEvent.id())).thenReturn(personages);
+        final var participants = Stream.of(PersonageUtils.random(), PersonageUtils.withId(personageId))
+            .map(it -> new RaidParticipant(it, new RaidPersonageParams(false)))
+            .toList();
+        Mockito.when(personageEventService.getRaidParticipants(launchedEvent.id())).thenReturn(participants);
         final var personage = PersonageUtils.withId(personageId);
         Mockito.when(personageService.checkPersonageEnergy(personageId, 33)).thenReturn(
             Either.right(personage)
@@ -68,7 +79,8 @@ public class RaidServiceAddPersonageTest {
         final var expected = new JoinToRaidResult(
             launchedEvent,
             raid,
-            personages
+            participants,
+            false
         );
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(expected, result.get());
@@ -141,7 +153,7 @@ public class RaidServiceAddPersonageTest {
     }
 
     @Test
-    public void Given_PersonageWithZeroEnergy_When_JoinRaid_Then_ReturnNotEnoughEnergyError() {
+    public void Given_PersonageWithZeroEnergy_When_JoinRaid_Then_JoinExhausted() {
         // given
         final var launchedEvent = LaunchedEventUtils.withEventId(1);
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
@@ -149,12 +161,29 @@ public class RaidServiceAddPersonageTest {
         Mockito.when(launchedEventService.getActiveEventByPersonageId(personageId)).thenReturn(Optional.empty());
         Mockito.when(personageService.checkPersonageEnergy(personageId, 33))
             .thenReturn(Either.left(NotEnoughEnergy.INSTANCE));
+        Mockito.when(personageEventService.addPersonageToLaunchedEvent(
+                new AddPersonageToEventRequest(launchedEvent.id(), personageId, Optional.of(new RaidPersonageParams(true)))
+            ))
+            .thenReturn(Either.right(Success.INSTANCE));
+        final var participants = Stream.of(PersonageUtils.random(), PersonageUtils.withId(personageId))
+            .map(it -> new RaidParticipant(it, new RaidPersonageParams(false)))
+            .toList();
+        Mockito.when(personageEventService.getRaidParticipants(launchedEvent.id())).thenReturn(participants);
 
         // when
         final var result = service.addPersonage(personageId, launchedEvent.id());
 
         // then
-        Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(new AddPersonageToRaidError.NotEnoughEnergy(33), result.getLeft());
+        final var expected = new JoinToRaidResult(
+            launchedEvent,
+            raid,
+            participants,
+            true
+        );
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertEquals(expected, result.get());
+
+        Mockito.verify(personageService, Mockito.times(0))
+            .reduceEnergy(Mockito.any(), Mockito.anyInt(), Mockito.any());
     }
 }

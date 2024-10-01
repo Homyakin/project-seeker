@@ -32,9 +32,9 @@ public class GroupStatsService {
         raidResult.personageResults().forEach(
             personageResult -> {
                 if (raidResult.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
-                    groupPersonageStatsService.addSuccessRaid(groupId, personageResult.personage().id());
+                    groupPersonageStatsService.addSuccessRaid(groupId, personageResult.participant().personage().id());
                 } else {
-                    groupPersonageStatsService.addFailedRaid(groupId, personageResult.personage().id());
+                    groupPersonageStatsService.addFailedRaid(groupId, personageResult.participant().personage().id());
                 }
             }
         );

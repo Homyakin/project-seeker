@@ -5,8 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.database.GroupTgLaunchedEventDao;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 

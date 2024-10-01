@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.database;
+package ru.homyakin.seeker.game.event.launched;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 @Component

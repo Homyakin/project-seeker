@@ -6,19 +6,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.event.models.EventResult;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestRequirements;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
-import ru.homyakin.seeker.game.event.service.LaunchedEventService;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
+import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
+
+import java.util.Optional;
 
 @Service
 public class PersonalQuestService {
@@ -28,12 +32,14 @@ public class PersonalQuestService {
     private final LockService lockService;
     private final LaunchedEventService launchedEventService;
     private final PersonalQuestConfig config;
+    private final PersonageEventService personageEventService;
 
     public PersonalQuestService(
         PersonalQuestDao personalQuestDao,
         PersonageService personageService,
         LockService lockService,
         LaunchedEventService launchedEventService,
+        PersonageEventService personageEventService,
         PersonalQuestConfig config
     ) {
         this.personalQuestDao = personalQuestDao;
@@ -41,6 +47,7 @@ public class PersonalQuestService {
         this.lockService = lockService;
         this.launchedEventService = launchedEventService;
         this.config = config;
+        this.personageEventService = personageEventService;
     }
 
     public void save(int eventId, SavingPersonalQuest quest) {
@@ -89,7 +96,13 @@ public class PersonalQuestService {
 
         final var now = TimeUtils.moscowTime();
         final var launchedEvent = launchedEventService.createFromPersonalQuest(quest.get(), now, now.plus(config.requiredTime()));
-        final var addResult = launchedEventService.addPersonageToLaunchedEvent(personageId, launchedEvent.id());
+        final var addResult = personageEventService.addPersonageToLaunchedEvent(
+            new AddPersonageToEventRequest(
+                launchedEvent.id(),
+                personageId,
+                Optional.empty()
+            )
+        );
         if (addResult.isLeft()) {
             logger.error("Failed to add personage {} to launched quest {}", personageId, launchedEvent.id());
             throw new IllegalStateException("Failed to add personage to launched quest");
@@ -108,14 +121,14 @@ public class PersonalQuestService {
     public EventResult.PersonalQuestResult stopQuest(LaunchedEvent launchedEvent) {
         final var quest = personalQuestDao.getByEventId(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Event " + launchedEvent.eventId() + " is not quest"));
-        final var personages = personageService.getByLaunchedEvent(launchedEvent.id());
-        if (personages.size() != 1) {
-            logger.error("Quest {} has {} personages, expected 1", launchedEvent.eventId(), personages.size());
+        final var participants = personageEventService.getQuestParticipants(launchedEvent.id());
+        if (participants.size() != 1) {
+            logger.error("Quest {} has {} participants, expected 1", launchedEvent.eventId(), participants.size());
             final var result = EventResult.PersonalQuestResult.Error.INSTANCE;
             launchedEventService.updateResult(launchedEvent, result);
             return result;
         }
-        final var personage = personages.getFirst();
+        final var personage = participants.getFirst().personage();
 
         final var failedRow = launchedEventService.countFailedPersonalQuestsRowForPersonage(personage.id());
         // За каждый неуспешный квест подряд, добавляется 10% шанс удачной попытки

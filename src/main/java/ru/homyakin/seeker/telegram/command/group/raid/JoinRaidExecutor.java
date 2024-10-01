@@ -53,6 +53,14 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
                     .keyboard(InlineKeyboards.joinRaidKeyboard(group.language(), command.launchedEventId()))
                     .build()
             );
+            if (result.get().isExhausted()) {
+                telegramSender.send(
+                    TelegramMethods.createAnswerCallbackQuery(
+                        command.callbackId(),
+                        RaidLocalization.exhaustedAlert(group.language())
+                    )
+                );
+            }
         }
     }
 
@@ -64,13 +72,11 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
             case AddPersonageToRaidError.PersonageInThisRaid _ ->
                 RaidLocalization.userAlreadyInThisRaid(group.language());
             case AddPersonageToRaidError.RaidInProcess _ -> RaidLocalization.raidInProcess(group.language());
-            case AddPersonageToRaidError.NotEnoughEnergy notEnoughEnergy ->
-                RaidLocalization.notEnoughEnergy(group.language(), notEnoughEnergy);
             case AddPersonageToRaidError.RaidInFinalStatus raidInFinalStatus -> {
                 final var editText = switch (raidInFinalStatus) {
                     case AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid completedRaid ->
                         completedRaid.raid().toEndMessageWithParticipants(
-                            completedRaid.personages(),
+                            completedRaid.participants(),
                             group.language()
                         );
                     case AddPersonageToRaidError.RaidInFinalStatus.CreationErrorRaid _ ->

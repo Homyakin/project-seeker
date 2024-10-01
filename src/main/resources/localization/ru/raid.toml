@@ -2,6 +2,7 @@ joinRaidEvent = "Присоединиться к рейду🗡"
 raidStartsPrefix = "Битва начнётся через"
 userAlreadyInThisRaid = "Вы уже участвуете в этом рейде!"
 userAlreadyInOtherEvent = "Вы уже участвуете в другом событии!"
+exhaustedAlert = "Вы слишком устали! Вы сможете сразиться в рейде, но без награды."
 expiredRaid = "Рейд завершён!"
 raidInProcess = "Рейд уже начался"
 successRaid = [
@@ -17,12 +18,12 @@ failureRaid = [
 zeroParticipants = [
     "Никто не принял заказ😢 В этот раз денег никто не получит."
 ]
-personageRaidResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
+personageRaidResult = "${dead_icon_or_empty}${raid_participant}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
 raidResult = """\
 Противники: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
 
 Лучшие искатели:
-${top_personages_list}${from_new_line_items_for_personages}
+${top_participants_list}${from_new_line_items_for_personages}
 
 Отчёт о рейде: ${raid_report_command}"""
 successItemForPersonage = [
@@ -31,8 +32,8 @@ successItemForPersonage = [
 notEnoughSpaceInBagForItem = [
     "${personage_badge_with_name} обнаруживает на поле <code>${short_item}</code>, но не может унести из-за полного рюкзака...😢"
 ]
-raidParticipants = "Участники: ${personage_badge_name_list}"
-notEnoughEnergy = "Выглядишь уставшим! Отдохни хотя бы до ${energy_icon}${required_energy}%"
+raidParticipants = "Участники: ${raid_participants_list}"
+raidParticipant = "${personage_badge_with_name}${exhausted_icon_or_empty}"
 report = """\
 📜Ваш отчёт за последний рейд:
 <code>${raid_date_time}</code>

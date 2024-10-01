@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.PersonageBattleStats;
 import ru.homyakin.seeker.game.event.models.EventStatus;
-import ru.homyakin.seeker.game.event.models.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -38,7 +38,7 @@ public class PersonageRaidResultDao {
         final var parameters = new ArrayList<SqlParameterSource>();
         for (PersonageRaidResult result : results) {
             MapSqlParameterSource paramSource = new MapSqlParameterSource()
-                .addValue("personage_id", result.personage().id().value())
+                .addValue("personage_id", result.participant().personage().id().value())
                 .addValue("launched_event_id", launchedEvent.id())
                 .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
                 .addValue("reward", result.reward().value())
@@ -70,11 +70,14 @@ public class PersonageRaidResultDao {
                 FROM personage_raid_result
                 WHERE personage_id = :personage_id AND generated_item_id IS NOT NULL
             )
-            SELECT COUNT(*) AS raids_count
+            SELECT SUM(
+                CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
+            ) AS raids_count
             FROM personage_raid_result prr
-            LEFT JOIN launched_event le on le.id = prr.launched_event_id
-            WHERE personage_id = :personage_id
-            AND launched_event_id > -- more id => newer event
+            LEFT JOIN personage_to_event pte ON pte.launched_event_id = prr.launched_event_id
+            LEFT JOIN launched_event le on le.id = pte.launched_event_id
+            WHERE prr.personage_id = :personage_id
+            AND prr.launched_event_id > -- more id => newer event
                 COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
             AND le.status_id = :success_status_id
             AND generated_item_id IS NULL

@@ -58,7 +58,7 @@ public enum CommandType {
     SET_TIME_ZONE("/set_time_zone", CheckType.STARTS_WITH),
     TOGGLE_HIDE_PERSONAGE("/hide_me", CheckType.EQUALS),
     INIT_FEEDBACK("/feedback", CheckType.EQUALS),
-    THROW_ORDER("/throw", CheckType.STARTS_WITH)
+    THROW_ORDER("/throw", CheckType.EQUALS)
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
