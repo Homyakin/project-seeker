@@ -48,6 +48,7 @@ public class PersonageEventDao {
         return jdbcClient.sql(sql)
             .param("launched_event_id", launchedEventId)
             .query(this::mapRow)
+            .list()
             .stream()
             .collect(Collectors.toMap(Pair::first, Pair::second));
     }
