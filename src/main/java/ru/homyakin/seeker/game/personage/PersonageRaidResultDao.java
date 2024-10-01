@@ -74,7 +74,7 @@ public class PersonageRaidResultDao {
                 CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
             ) AS raids_count
             FROM personage_raid_result prr
-            LEFT JOIN personage_to_event pte ON pte.launched_event_id = prr.launched_event_id
+            LEFT JOIN personage_to_event pte ON pte.personage_id = prr.personage_id AND pte.launched_event_id = prr.launched_event_id
             LEFT JOIN launched_event le on le.id = pte.launched_event_id
             WHERE prr.personage_id = :personage_id
             AND prr.launched_event_id > -- more id => newer event
