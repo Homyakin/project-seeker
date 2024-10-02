@@ -9,7 +9,7 @@
     <version>1.2</version>
 
     <properties>
-        <java.version>22</java.version>
+        <java.version>23</java.version>
         <kotlin.version>1.9.22</kotlin.version>
         <spring.version>3.3.1</spring.version>
         <liquibase.version>4.28.0</liquibase.version>
@@ -23,9 +23,9 @@
         <caffeine.version>3.1.8</caffeine.version>
 
         <!--TEST-->
-        <junit.version>5.10.2</junit.version>
-        <assertj.version>3.24.2</assertj.version>
-        <mockito.version>5.11.0</mockito.version>
+        <junit.version>5.11.1</junit.version>
+        <assertj.version>3.26.3</assertj.version>
+        <mockito.version>5.14.1</mockito.version>
 
 
         <!--PLUGINS-->

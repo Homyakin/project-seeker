@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine:22
+FROM bellsoft/liberica-openjdk-alpine:23
 
 RUN apk update && apk add tzdata
 ENV TZ=Europe/Moscow
