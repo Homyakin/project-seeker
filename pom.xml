@@ -11,16 +11,17 @@
     <properties>
         <java.version>23</java.version>
         <kotlin.version>1.9.22</kotlin.version>
-        <spring.version>3.3.1</spring.version>
-        <liquibase.version>4.28.0</liquibase.version>
-        <postgres.version>42.7.3</postgres.version>
-        <telegram.version>7.4.2</telegram.version>
+        <spring.version>3.3.4</spring.version>
+        <liquibase.version>4.29.2</liquibase.version>
+        <postgres.version>42.7.4</postgres.version>
+        <telegram.version>7.10.0</telegram.version>
         <vavr.version>0.10.4</vavr.version>
-        <jemoji.version>1.4.1</jemoji.version>
-        <jackson.version>2.16.1</jackson.version>
+        <jemoji.version>1.5.2</jemoji.version>
+        <jackson.version>2.18.0</jackson.version>
         <jakarta.validation.version>3.1.0</jakarta.validation.version>
         <commons-math3.version>3.6.1</commons-math3.version>
         <caffeine.version>3.1.8</caffeine.version>
+        <slf4j-api.version>2.0.16</slf4j-api.version>
 
         <!--TEST-->
         <junit.version>5.11.1</junit.version>
@@ -64,25 +65,11 @@
             <artifactId>telegrambots-client</artifactId>
             <version>${telegram.version}</version>
         </dependency>
-        <!--
-        [WARNING] commons-io:commons-io: 2.15.1 (transitive) - scope: compile - strategy: default
-           2.15.1 expected by org.telegram:telegrambots-client
-           2.16.1 expected by org.liquibase:liquibase-core
-         -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.16.1</version>
-        </dependency>
-        <!--
-        [ERROR] org.slf4j:slf4j-api: 2.0.12 (transitive) - scope: compile - strategy: default
-       2.0.12 expected by org.telegram:telegrambots-client, org.telegram:telegrambots-longpolling
-       2.0.13 expected by org.springframework.boot:spring-boot-starter, org.springframework.boot:spring-boot-starter-validation
-        -->
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.13</version>
+            <version>${slf4j-api.version}</version>
         </dependency>
 
         <dependency>
