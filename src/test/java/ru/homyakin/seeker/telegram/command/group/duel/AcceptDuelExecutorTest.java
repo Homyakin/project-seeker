@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
 import io.vavr.control.Either;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,12 +56,12 @@ public class AcceptDuelExecutorTest {
         initiatorPersonage = PersonageUtils.withId(initiator.personageId());
         duel = DuelUtils.withPersonages(initiatorPersonage.id(), acceptorPersonage.id());
         command = new AcceptDuel(
-            RandomStringUtils.randomNumeric(10),
+            TestRandom.randomNumeric(10),
             group.id(),
             acceptor.id(),
             TestRandom.nextInt(),
             duel.id(),
-            RandomStringUtils.randomAlphanumeric(20)
+            TestRandom.randomAlphanumeric(20)
         );
 
         Mockito.when(duelService.getByIdForce(duel.id())).thenReturn(duel);
@@ -80,9 +79,9 @@ public class AcceptDuelExecutorTest {
             )
         );
         Mockito.when(userService.getByPersonageIdForce(initiatorPersonage.id())).thenReturn(initiator);
-        final var finishDuelText = RandomStringUtils.randomAlphanumeric(10);
-        final var winnerResultText = RandomStringUtils.randomAlphanumeric(10);
-        final var loserResultText = RandomStringUtils.randomAlphanumeric(10);
+        final var finishDuelText = TestRandom.randomAlphanumeric(10);
+        final var winnerResultText = TestRandom.randomAlphanumeric(10);
+        final var loserResultText = TestRandom.randomAlphanumeric(10);
 
         // when
         try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {
@@ -142,9 +141,9 @@ public class AcceptDuelExecutorTest {
             )
         );
         Mockito.when(userService.getByPersonageIdForce(initiatorPersonage.id())).thenReturn(initiator);
-        final var finishDuelText = RandomStringUtils.randomAlphanumeric(10);
-        final var winnerResultText = RandomStringUtils.randomAlphanumeric(10);
-        final var loserResultText = RandomStringUtils.randomAlphanumeric(10);
+        final var finishDuelText = TestRandom.randomAlphanumeric(10);
+        final var winnerResultText = TestRandom.randomAlphanumeric(10);
+        final var loserResultText = TestRandom.randomAlphanumeric(10);
 
         // when
         try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {

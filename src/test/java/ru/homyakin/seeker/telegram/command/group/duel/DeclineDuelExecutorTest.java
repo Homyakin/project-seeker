@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
 import io.vavr.control.Either;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -47,19 +46,19 @@ public class DeclineDuelExecutorTest {
         final var initiatorPersonage = PersonageUtils.withId(initiator.personageId());
         final var duel = DuelUtils.withPersonages(initiatorPersonage.id(), acceptorPersonage.id());
         final var command = new DeclineDuel(
-            RandomStringUtils.randomNumeric(10),
+            TestRandom.randomNumeric(10),
             group.id(),
             acceptor.id(),
             TestRandom.nextInt(),
             duel.id(),
-            RandomStringUtils.randomAlphanumeric(20)
+            TestRandom.randomAlphanumeric(20)
         );
 
         Mockito.when(duelService.getByIdForce(duel.id())).thenReturn(duel);
         Mockito.when(duelService.declineDuel(duel, acceptorPersonage.id())).thenReturn(Either.right(Success.INSTANCE));
         Mockito.when(userService.getByPersonageIdForce(initiatorPersonage.id())).thenReturn(initiator);
         Mockito.when(personageService.getByIdForce(duel.initiatingPersonageId())).thenReturn(initiatorPersonage);
-        final var declineDuelText = RandomStringUtils.randomAlphanumeric(10);
+        final var declineDuelText = TestRandom.randomAlphanumeric(10);
 
         // when
         try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {

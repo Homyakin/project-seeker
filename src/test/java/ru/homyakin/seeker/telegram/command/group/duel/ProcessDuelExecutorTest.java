@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -33,15 +32,15 @@ public class ProcessDuelExecutorTest {
         final var group = GroupUtils.randomGroup();
         final var acceptor = UserUtils.randomUser();
         final var command = new AcceptDuel(
-            RandomStringUtils.randomNumeric(10),
+            TestRandom.randomNumeric(10),
             group.id(),
             acceptor.id(),
             TestRandom.nextInt(),
             1,
-            RandomStringUtils.randomAlphanumeric(20)
+            TestRandom.randomAlphanumeric(20)
         );
         Mockito.when(groupUserService.getAndActivateOrCreate(group.id(), acceptor.id())).thenReturn(new Pair<>(group, acceptor));
-        final var localeText = RandomStringUtils.randomAlphanumeric(10);
+        final var localeText = TestRandom.randomAlphanumeric(10);
 
         // when
         try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {
@@ -69,15 +68,15 @@ public class ProcessDuelExecutorTest {
         final var group = GroupUtils.randomGroup();
         final var acceptor = UserUtils.randomUser();
         final var command = new AcceptDuel(
-            RandomStringUtils.randomNumeric(10),
+            TestRandom.randomNumeric(10),
             group.id(),
             acceptor.id(),
             TestRandom.nextInt(),
             2,
-            RandomStringUtils.randomAlphanumeric(20)
+            TestRandom.randomAlphanumeric(20)
         );
         Mockito.when(groupUserService.getAndActivateOrCreate(group.id(), acceptor.id())).thenReturn(new Pair<>(group, acceptor));
-        final var localeText = RandomStringUtils.randomAlphanumeric(10);
+        final var localeText = TestRandom.randomAlphanumeric(10);
 
         // when
         try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {
@@ -117,15 +116,15 @@ public class ProcessDuelExecutorTest {
         final var group = GroupUtils.randomGroup();
         final var acceptor = UserUtils.randomUser();
         final var command = new AcceptDuel(
-            RandomStringUtils.randomNumeric(10),
+            TestRandom.randomNumeric(10),
             group.id(),
             acceptor.id(),
             TestRandom.nextInt(),
             3,
-            RandomStringUtils.randomAlphanumeric(20)
+            TestRandom.randomAlphanumeric(20)
         );
         Mockito.when(groupUserService.getAndActivateOrCreate(group.id(), acceptor.id())).thenReturn(new Pair<>(group, acceptor));
-        final var localeText = RandomStringUtils.randomAlphanumeric(10);
+        final var localeText = TestRandom.randomAlphanumeric(10);
 
         // when
         try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {

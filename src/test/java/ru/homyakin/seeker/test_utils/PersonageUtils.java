@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -28,7 +27,7 @@ public class PersonageUtils {
     public static Personage random() {
         return new Personage(
             PersonageId.from(TestRandom.nextLong()),
-            RandomStringUtils.randomAlphanumeric(5),
+            TestRandom.randomAlphanumeric(5),
             Money.zero(),
             Characteristics.random(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
@@ -42,7 +41,7 @@ public class PersonageUtils {
     public static Personage randomZeroEnergy(Duration timeToRegen) {
         return new Personage(
             PersonageId.from(TestRandom.nextLong()),
-            RandomStringUtils.randomAlphanumeric(5),
+            TestRandom.randomAlphanumeric(5),
             Money.zero(),
             Characteristics.random(),
             new Energy(0, TimeUtils.moscowTime(), timeToRegen),
@@ -56,7 +55,7 @@ public class PersonageUtils {
     public static Personage withId(PersonageId id) {
         return new Personage(
             id,
-            RandomStringUtils.randomAlphanumeric(5),
+            TestRandom.randomAlphanumeric(5),
             Money.zero(),
             Characteristics.random(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
