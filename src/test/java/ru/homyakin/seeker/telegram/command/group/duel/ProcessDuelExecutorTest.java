@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -12,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.test_utils.TestRandom;
 import ru.homyakin.seeker.test_utils.telegram.GroupUtils;
 import ru.homyakin.seeker.test_utils.telegram.UserUtils;
 import ru.homyakin.seeker.utils.models.Pair;
@@ -19,9 +19,9 @@ import ru.homyakin.seeker.utils.models.Pair;
 import java.util.List;
 
 public class ProcessDuelExecutorTest {
-    private GroupUserService groupUserService = Mockito.mock(GroupUserService.class);
-    private TelegramSender telegramSender = Mockito.mock(TelegramSender.class);
-    private ProcessDuelExecutor executor = new TestingProcessDuelExecutor(
+    private final GroupUserService groupUserService = Mockito.mock();
+    private final TelegramSender telegramSender = Mockito.mock();
+    private final ProcessDuelExecutor executor = new TestingProcessDuelExecutor(
         telegramSender,
         groupUserService
     );
@@ -36,7 +36,7 @@ public class ProcessDuelExecutorTest {
             RandomStringUtils.randomNumeric(10),
             group.id(),
             acceptor.id(),
-            RandomUtils.nextInt(),
+            TestRandom.nextInt(),
             1,
             RandomStringUtils.randomAlphanumeric(20)
         );
@@ -72,7 +72,7 @@ public class ProcessDuelExecutorTest {
             RandomStringUtils.randomNumeric(10),
             group.id(),
             acceptor.id(),
-            RandomUtils.nextInt(),
+            TestRandom.nextInt(),
             2,
             RandomStringUtils.randomAlphanumeric(20)
         );
@@ -120,7 +120,7 @@ public class ProcessDuelExecutorTest {
             RandomStringUtils.randomNumeric(10),
             group.id(),
             acceptor.id(),
-            RandomUtils.nextInt(),
+            TestRandom.nextInt(),
             3,
             RandomStringUtils.randomAlphanumeric(20)
         );

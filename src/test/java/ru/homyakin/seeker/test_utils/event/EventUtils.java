@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.raid.models.RaidLocale;
 import ru.homyakin.seeker.game.event.raid.models.RaidTemplate;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.test_utils.TestRandom;
 
 public class EventUtils {
     public static Raid randomRaid() {
@@ -19,7 +19,7 @@ public class EventUtils {
                 Map.Entry::getValue
             ));
         return new Raid(
-            RandomUtils.nextInt(),
+            TestRandom.nextInt(),
             RandomStringUtils.randomAlphanumeric(10),
             RaidTemplate.ENEMY_GROUP,
             locale

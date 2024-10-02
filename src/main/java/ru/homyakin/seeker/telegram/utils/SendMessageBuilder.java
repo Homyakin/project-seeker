@@ -10,6 +10,7 @@ import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public class SendMessageBuilder {
+    @SuppressWarnings("rawtypes")
     private final SendMessage.SendMessageBuilder builder = SendMessage.builder();
     private final List<MessageEntity> entities = new ArrayList<>();
 

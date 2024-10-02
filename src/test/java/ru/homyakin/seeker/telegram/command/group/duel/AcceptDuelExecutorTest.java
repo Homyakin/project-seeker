@@ -2,7 +2,6 @@ package ru.homyakin.seeker.telegram.command.group.duel;
 
 import io.vavr.control.Either;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.models.Group;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
@@ -24,18 +22,19 @@ import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.test_utils.DuelUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
+import ru.homyakin.seeker.test_utils.TestRandom;
 import ru.homyakin.seeker.test_utils.telegram.GroupUtils;
 import ru.homyakin.seeker.test_utils.telegram.UserUtils;
 
 import java.util.List;
 
 public class AcceptDuelExecutorTest {
-    private DuelService duelService = Mockito.mock(DuelService.class);
-    private TelegramSender telegramSender = Mockito.mock(TelegramSender.class);
-    private GroupStatsService groupStatsService = Mockito.mock(GroupStatsService.class);
-    private UserService userService = Mockito.mock(UserService.class);
-    private AcceptDuelExecutor executor = new AcceptDuelExecutor(
-        Mockito.mock(GroupUserService.class),
+    private final DuelService duelService = Mockito.mock();
+    private final TelegramSender telegramSender = Mockito.mock();
+    private final GroupStatsService groupStatsService = Mockito.mock();
+    private final UserService userService = Mockito.mock();
+    private final AcceptDuelExecutor executor = new AcceptDuelExecutor(
+        Mockito.mock(),
         duelService,
         telegramSender,
         groupStatsService,
@@ -61,7 +60,7 @@ public class AcceptDuelExecutorTest {
             RandomStringUtils.randomNumeric(10),
             group.id(),
             acceptor.id(),
-            RandomUtils.nextInt(),
+            TestRandom.nextInt(),
             duel.id(),
             RandomStringUtils.randomAlphanumeric(20)
         );

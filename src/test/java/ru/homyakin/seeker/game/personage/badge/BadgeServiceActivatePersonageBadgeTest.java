@@ -2,11 +2,11 @@ package ru.homyakin.seeker.game.personage.badge;
 
 import java.util.Collections;
 import java.util.List;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.test_utils.TestRandom;
 
 public class BadgeServiceActivatePersonageBadgeTest {
     private final BadgeDao badgeDao = Mockito.mock(BadgeDao.class);
@@ -18,7 +18,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
         final var activeAvailableBadge = new PersonageAvailableBadge(
             personageId,
             new Badge(
-                RandomUtils.nextInt(),
+                TestRandom.nextInt(),
                 BadgeView.FIRST_PERSONAGES,
                 Collections.emptyMap()
             ),
@@ -27,7 +27,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
         final var disabledAvailableBadge = new PersonageAvailableBadge(
             personageId,
             new Badge(
-                RandomUtils.nextInt(),
+                TestRandom.nextInt(),
                 BadgeView.STANDARD,
                 Collections.emptyMap()
             ),
@@ -49,7 +49,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
         final var activeAvailableBadge = new PersonageAvailableBadge(
             personageId,
             new Badge(
-                RandomUtils.nextInt(),
+                TestRandom.nextInt(),
                 BadgeView.FIRST_PERSONAGES,
                 Collections.emptyMap()
             ),
@@ -69,7 +69,7 @@ public class BadgeServiceActivatePersonageBadgeTest {
         final var activeAvailableBadge = new PersonageAvailableBadge(
             personageId,
             new Badge(
-                RandomUtils.nextInt(),
+                TestRandom.nextInt(),
                 BadgeView.FIRST_PERSONAGES,
                 Collections.emptyMap()
             ),
@@ -79,13 +79,13 @@ public class BadgeServiceActivatePersonageBadgeTest {
             .thenReturn(List.of(activeAvailableBadge));
 
         final var result = service.activatePersonageBadge(
-            personageId, new Badge(RandomUtils.nextInt(), BadgeView.STANDARD, Collections.emptyMap())
+            personageId, new Badge(TestRandom.nextInt(), BadgeView.STANDARD, Collections.emptyMap())
         );
 
         Assertions.assertEquals(ActivatePersonageBadgeError.BadgeIsNotAvailable.INSTANCE, result.getLeft());
     }
 
     private PersonageId randomPersonageId() {
-        return PersonageId.from(RandomUtils.nextLong());
+        return PersonageId.from(TestRandom.nextLong());
     }
 }
