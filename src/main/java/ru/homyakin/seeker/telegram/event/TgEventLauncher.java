@@ -64,7 +64,7 @@ public class TgEventLauncher {
             SendMessageBuilder.builder()
                 .chatId(group.id())
                 .text(raid.toStartMessage(group.language(), launchedEvent.startDate(), launchedEvent.endDate()))
-                .keyboard(InlineKeyboards.joinRaidKeyboard(group.language(), launchedEvent.id()))
+                .keyboard(InlineKeyboards.joinRaidKeyboard(group.language(), launchedEvent.id(), launchedRaidResult.energyCost()))
                 .build()
         );
         if (result.isLeft()) {

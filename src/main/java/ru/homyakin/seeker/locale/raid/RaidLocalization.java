@@ -31,8 +31,11 @@ public class RaidLocalization {
         resources.add(language, resource);
     }
 
-    public static String joinRaidEvent(Language language) {
-        return resources.getOrDefault(language, RaidResource::joinRaidEvent);
+    public static String joinRaidEvent(Language language, int energyCost) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, RaidResource::joinRaidEvent),
+            Collections.singletonMap("energy_cost", energyCost)
+        );
     }
 
     public static String raidStartsPrefix(Language language) {

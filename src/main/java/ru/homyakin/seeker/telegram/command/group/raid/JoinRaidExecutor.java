@@ -50,7 +50,13 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
                     .chatId(command.groupId())
                     .messageId(command.messageId())
                     .text(text)
-                    .keyboard(InlineKeyboards.joinRaidKeyboard(group.language(), command.launchedEventId()))
+                    .keyboard(
+                        InlineKeyboards.joinRaidKeyboard(
+                            group.language(),
+                            command.launchedEventId(),
+                            result.get().raidEnergyCost()
+                        )
+                    )
                     .build()
             );
             if (result.get().isExhausted()) {

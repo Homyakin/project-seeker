@@ -80,7 +80,8 @@ public class RaidServiceAddPersonageTest {
             launchedEvent,
             raid,
             participants,
-            false
+            false,
+            config.energyCost()
         );
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(expected, result.get());
@@ -178,7 +179,8 @@ public class RaidServiceAddPersonageTest {
             launchedEvent,
             raid,
             participants,
-            true
+            true,
+            config.energyCost()
         );
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(expected, result.get());

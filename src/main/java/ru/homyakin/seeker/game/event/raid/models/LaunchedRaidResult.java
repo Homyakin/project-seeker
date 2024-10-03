@@ -4,6 +4,7 @@ import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 
 public record LaunchedRaidResult(
     Raid raid,
-    LaunchedEvent launchedEvent
+    LaunchedEvent launchedEvent,
+    int energyCost
 ) {
 }

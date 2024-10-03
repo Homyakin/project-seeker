@@ -11,7 +11,8 @@ public record JoinToRaidResult(
     LaunchedEvent launchedEvent,
     Raid raid,
     List<RaidParticipant> participants,
-    boolean isExhausted
+    boolean isExhausted,
+    int raidEnergyCost
 ) {
     public String toMessage(Language language) {
         return raid.toStartMessage(language, launchedEvent.startDate(), launchedEvent.endDate())

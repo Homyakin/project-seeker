@@ -58,7 +58,7 @@ public class RaidService {
 
     public LaunchedRaidResult launchRaid(Raid raid) {
         final var launchedEvent = launchedEventService.createLaunchedEventFromRaid(raid, TimeUtils.moscowTime());
-        return new LaunchedRaidResult(raid, launchedEvent);
+        return new LaunchedRaidResult(raid, launchedEvent, config.energyCost());
     }
 
     @Transactional
@@ -122,7 +122,8 @@ public class RaidService {
                     launchedEvent,
                     raid.get(),
                     personageEventService.getRaidParticipants(launchedEvent.id()),
-                    checkEnergyResult.isLeft()
+                    checkEnergyResult.isLeft(),
+                    config.energyCost()
                 );
             });
     }
