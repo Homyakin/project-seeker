@@ -1,4 +1,4 @@
-joinRaidEvent = "Рейдке қосылу🗡(🔋${energy_cost}%)"
+joinRaidEvent = "Рейдке қосылу🗡(${energy_icon}${energy_cost}%)"
 raidStartsPrefix = "Шайқас басталады:"
 userAlreadyInOtherEvent = "Сіз басқа шараға қатысып жатырсыз!"
 expiredRaid = "Рейд аяқталды!"

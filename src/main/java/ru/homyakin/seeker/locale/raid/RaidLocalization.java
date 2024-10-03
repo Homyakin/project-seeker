@@ -32,9 +32,12 @@ public class RaidLocalization {
     }
 
     public static String joinRaidEvent(Language language, int energyCost) {
+        final var params = new HashMap<String, Object>();
+        params.put("energy_cost", energyCost);
+        params.put("energy_icon", Icons.ENERGY);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::joinRaidEvent),
-            Collections.singletonMap("energy_cost", energyCost)
+            params
         );
     }
 

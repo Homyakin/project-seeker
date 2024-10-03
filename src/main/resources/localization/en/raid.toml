@@ -1,4 +1,4 @@
-joinRaidEvent = "Join raid🗡(🔋${energy_cost}%)"
+joinRaidEvent = "Join raid🗡(${energy_icon}${energy_cost}%)"
 raidStartsPrefix = "The battle will begin in"
 userAlreadyInOtherEvent = "You are already participating in another event!"
 expiredRaid = "This event is over!"
