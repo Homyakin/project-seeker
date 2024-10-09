@@ -20,7 +20,7 @@ public class EventScheduler {
         eventLauncher.launchRaidsInGroups();
     }
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(fixedRate = 1000)
     public void scheduledStopEvents() {
         eventStopper.stopEvents();
     }

@@ -1,30 +1,25 @@
-package ru.homyakin.seeker.game.event.raid;
+package ru.homyakin.seeker.game.event.raid.processing;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
-import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.utils.MathUtils;
-import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -33,8 +28,9 @@ public class RaidProcessing {
     private final PersonageService personageService;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
     private final RaidService raidService;
-    private final ItemService itemService;
+    private final RaidItemGenerator raidItemGenerator;
     private final RaidGenerator raidGenerator;
+    private final RaidRewardGenerator raidRewardGenerator;
     private final LaunchedEventService launchedEventService;
     private final PersonageEventService personageEventService;
 
@@ -42,16 +38,18 @@ public class RaidProcessing {
         PersonageService personageService,
         TwoPersonageTeamsBattle twoPersonageTeamsBattle,
         RaidService raidService,
-        ItemService itemService,
+        RaidItemGenerator raidItemGenerator,
         RaidGenerator raidGenerator,
+        RaidRewardGenerator raidRewardGenerator,
         LaunchedEventService launchedEventService,
         PersonageEventService personageEventService
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
         this.raidService = raidService;
-        this.itemService = itemService;
+        this.raidItemGenerator = raidItemGenerator;
         this.raidGenerator = raidGenerator;
+        this.raidRewardGenerator = raidRewardGenerator;
         this.launchedEventService = launchedEventService;
         this.personageEventService = personageEventService;
     }
@@ -82,7 +80,7 @@ public class RaidProcessing {
             .map(battleResult -> {
                 final var participant = idToParticipant.get(battleResult.personage().id());
                 final var reward = new Money(
-                    calculateReward(
+                    raidRewardGenerator.calculateReward(
                         doesParticipantsWin,
                         battleResult,
                         participant.params().isExhausted()
@@ -93,9 +91,11 @@ public class RaidProcessing {
                     reward,
                     endTime
                 );
-                final var generatedItem = doesParticipantsWin
-                    ? generateItem(battleResult.personage(), participant.params().isExhausted())
-                    : Optional.<GeneratedItemResult>empty();
+                final var generatedItem = raidItemGenerator.generateItem(
+                    doesParticipantsWin,
+                    battleResult.personage(),
+                    participant.params().isExhausted()
+                );
                 generatedItem.ifPresent(generatedItems::add);
                 return new PersonageRaidResult(
                     participant,
@@ -120,64 +120,4 @@ public class RaidProcessing {
         logger.info("Raid {} status is {}", launchedEvent.id(), raidResult.status());
         return raidResult;
     }
-
-    /**
-     * Считает награду за рейд.
-     * В случае поражения - награда равна базовой, в случае победы - награда зависит от нанесённого и полученного урона.
-     * Бонус за урон считается по формуле log(1.1, урон / 10) - 43. При 1000 бонус примерно равен 5, при 3000 - 16
-     */
-    private int calculateReward(boolean doesParticipantsWin, PersonageBattleResult result, boolean isExhausted) {
-        if (isExhausted) {
-            return 0;
-        }
-        final int reward;
-        if (!doesParticipantsWin) {
-            reward = BASE_REWARD;
-        } else {
-            var bonusMoney = MathUtils.log(1.1, (double) result.stats().damageDealtAndTaken() / 10) - 43;
-            if (bonusMoney < 0) {
-                bonusMoney = 0;
-            }
-            reward = (int) Math.round(BASE_REWARD + bonusMoney);
-        }
-        return reward;
-    }
-
-    /**
-     * Функция генерации предметов для персонажа
-     * В основе лежит функция:
-     * Если x <= 5 => y = 2*x (нужно, потому что степенные функции в начале растут очень медленно)
-     * Если x > 5 => y = 10 + ((x - 5)^2) / 2.5
-     * x - количество рейдов подряд без предметов
-     * y - вероятность получить предмет в процентах
-     */
-    private Optional<GeneratedItemResult> generateItem(
-        Personage personage,
-        boolean isExhausted
-    ) {
-        if (isExhausted) {
-            return Optional.empty();
-        }
-        final var raidsWithoutItems = personageService.countSuccessRaidsFromLastItem(personage.id());
-        final int chance;
-        if (raidsWithoutItems <= 5) {
-            chance = raidsWithoutItems * 2;
-        } else {
-            chance = (int) (10 + Math.pow(raidsWithoutItems - 5, 2) / 2.5);
-        }
-        if (RandomUtils.processChance(chance)) {
-            final var result = itemService.generateItemForPersonage(personage)
-                .fold(
-                    error -> switch (error) {
-                        case GenerateItemError.NotEnoughSpace notEnoughSpace ->
-                            new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
-                    },
-                    item -> new GeneratedItemResult.Success(personage, item)
-                );
-            return Optional.of(result);
-        }
-        return Optional.empty();
-    }
-
-    private static final int BASE_REWARD = 5;
 }

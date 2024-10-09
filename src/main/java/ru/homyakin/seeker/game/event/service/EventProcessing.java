@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
-import ru.homyakin.seeker.game.event.raid.RaidProcessing;
+import ru.homyakin.seeker.game.event.raid.processing.RaidProcessing;
 
 @Service
 public class EventProcessing {

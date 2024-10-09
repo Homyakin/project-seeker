@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.item.errors.DropItemError;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
+import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -57,6 +58,29 @@ public class ItemService {
     public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage) {
         final var itemRarity = rarityService.generateItemRarity();
         return generateItemWithRarity(personage, itemRarity);
+    }
+
+    public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage, GenerateItemParams params) {
+        final var object = itemObjectDao.getRandomObject(params.rarity(), params.slot());
+        final var modifiers = itemModifierService.generate(params.rarity(), params.modifierCount());
+        final var tempItem = new Item(
+            0L,
+            object.toItemObject(),
+            params.rarity(),
+            modifiers.stream().map(GenerateModifier::toModifier).toList(),
+            Optional.of(personage.id()),
+            false,
+            characteristicService.createCharacteristics(params.rarity(), object, modifiers)
+        );
+
+        if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
+            // TODO возможно стоит сохранять неудачные предметы в базу
+            logger.info("Personage '{}' has no space in bag", personage.id().value());
+            return Either.left(new GenerateItemError.NotEnoughSpace(tempItem));
+        }
+
+        final var id = itemDao.saveItem(tempItem);
+        return Either.right(getById(id).orElseThrow());
     }
 
     public Either<GenerateItemError, Item> generateItemWithRarity(Personage personage, ItemRarity rarity) {

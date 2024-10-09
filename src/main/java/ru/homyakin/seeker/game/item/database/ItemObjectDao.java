@@ -69,6 +69,26 @@ public class ItemObjectDao {
             .query(this::extractSingleObject);
     }
 
+    public GenerateItemObject getRandomObject(ItemRarity rarity, PersonageSlot slot) {
+        final var sql = """
+            WITH random_object AS (
+               SELECT id FROM item_object io
+                LEFT JOIN item_object_to_item_rarity iotir on io.id = iotir.item_object_id
+                LEFT JOIN item_object_to_personage_slot iotps on io.id = iotps.item_object_id
+                WHERE iotir.item_rarity_id = :item_rarity_id AND iotps.personage_slot_id = :slot_id
+               ORDER BY random() LIMIT 1
+            )
+            SELECT * FROM random_object ro
+            LEFT JOIN item_object io ON io.id = ro.id
+            LEFT JOIN item_object_to_personage_slot iotps on io.id = iotps.item_object_id
+            WHERE io.id = ro.id
+            """;
+        return jdbcClient.sql(sql)
+            .param("item_rarity_id", rarity.id)
+            .param("slot_id", slot.id)
+            .query(this::extractSingleObject);
+    }
+
     private void saveObjectSlots(int id, Set<PersonageSlot> slots) {
         updater.update(
             "item_object_to_personage_slot",

@@ -1,0 +1,24 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-personage-random-table">
+        <createTable tableName="personage_random">
+            <column name="personage_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="raid_item_random_pool" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="personage_id"
+                baseTableName="personage_random"
+                constraintName="fk-personage_id-personage"
+                referencedColumnNames="id"
+                referencedTableName="personage"
+        />
+    </changeSet>
+</databaseChangeLog>

@@ -149,4 +149,8 @@ public class PersonalQuestService {
         launchedEventService.updateResult(launchedEvent, result);
         return result;
     }
+
+    private boolean isQuestSuccess() {
+        return RandomUtils.processChance(80);
+    }
 }

@@ -23,21 +23,32 @@ public class ItemModifierService {
     public List<GenerateModifier> generateModifiersForRarity(ItemRarity rarity) {
         int probability = RandomUtils.getInInterval(1, 100);
         if (probability <= config.zeroProbability()) {
-            return List.of();
+            return generate(rarity, 0);
         } else if (probability <= config.zeroProbability() + config.oneProbability()) {
-            return List.of(itemModifierDao.getRandomModifier(rarity));
+            return generate(rarity, 1);
         } else {
-            final var modifiers = new ArrayList<GenerateModifier>();
-            final var modifier = itemModifierDao.getRandomModifier(rarity);
-            modifiers.add(modifier);
-            // Может быть либо 2 префиксных, либо 1 суффикс и 1 префикс
-            if (modifier.type() == ModifierType.SUFFIX) {
-                modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX, rarity));
-            } else {
-                modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id(), rarity));
-            }
-            return modifiers;
+            return generate(rarity, 2);
         }
+    }
+
+    public List<GenerateModifier> generate(ItemRarity rarity, int modifiersCount) {
+        return switch (modifiersCount) {
+            case 0 -> List.of();
+            case 1 -> List.of(itemModifierDao.getRandomModifier(rarity));
+            case 2 -> {
+                final var modifiers = new ArrayList<GenerateModifier>();
+                final var modifier = itemModifierDao.getRandomModifier(rarity);
+                modifiers.add(modifier);
+                // Может быть либо 2 префиксных, либо 1 суффикс и 1 префикс
+                if (modifier.type() == ModifierType.SUFFIX) {
+                    modifiers.add(itemModifierDao.getRandomModifierWithType(ModifierType.PREFIX, rarity));
+                } else {
+                    modifiers.add(itemModifierDao.getRandomModifierExcludeId(modifier.id(), rarity));
+                }
+                yield modifiers;
+            }
+            default -> throw new IllegalArgumentException("There can be only 0-2 modifiers. Got " + modifiersCount);
+        };
     }
 
     public void saveModifiers(ItemModifiers modifiers) {
