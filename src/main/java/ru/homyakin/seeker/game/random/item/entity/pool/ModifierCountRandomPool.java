@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.random.item.entity;
+package ru.homyakin.seeker.game.random.item.entity.pool;
 
 import java.util.Collections;
 import java.util.LinkedList;

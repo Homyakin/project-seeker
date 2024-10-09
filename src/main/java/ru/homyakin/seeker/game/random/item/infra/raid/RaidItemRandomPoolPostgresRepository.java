@@ -1,15 +1,15 @@
-package ru.homyakin.seeker.game.random.item.infra;
+package ru.homyakin.seeker.game.random.item.infra.raid;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
-import ru.homyakin.seeker.game.random.item.entity.FullItemRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.ModifierCountRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.RaidItemRandomPoolRepository;
-import ru.homyakin.seeker.game.random.item.entity.RarityRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.SlotRandomPool;
+import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
+import ru.homyakin.seeker.game.random.item.entity.pool.ModifierCountRandomPool;
+import ru.homyakin.seeker.game.random.item.entity.raid.RaidItemRandomPoolRepository;
+import ru.homyakin.seeker.game.random.item.entity.pool.RarityRandomPool;
+import ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPool;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 import javax.sql.DataSource;

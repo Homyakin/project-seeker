@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.random.item.entity;
+package ru.homyakin.seeker.game.random.item.entity.pool;
 
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;

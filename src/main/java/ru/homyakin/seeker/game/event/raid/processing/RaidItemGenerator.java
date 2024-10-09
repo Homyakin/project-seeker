@@ -7,7 +7,7 @@ import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
+import ru.homyakin.seeker.game.random.item.action.raid.PersonageNextRaidItemParams;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.Optional;

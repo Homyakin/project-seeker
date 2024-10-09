@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.random.item.entity;
+package ru.homyakin.seeker.game.random.item.entity.pool;
 
 public record FullItemRandomPool(
     RarityRandomPool rarityRandomPool,

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.random.item.entity;
+package ru.homyakin.seeker.game.random.item.entity.pool;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
