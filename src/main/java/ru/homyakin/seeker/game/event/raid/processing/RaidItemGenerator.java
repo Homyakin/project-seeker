@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class RaidItemGenerator {
         } else {
             chance = (int) (10 + Math.pow(raidsWithoutItems - 5, 2) / 2.5);
         }
-        if (true) {
+        if (RandomUtils.processChance(chance)) {
             final var itemParams = personageNextRaidItemParams.get(personage.id());
             final var result = itemService
                 .generateItemForPersonage(
