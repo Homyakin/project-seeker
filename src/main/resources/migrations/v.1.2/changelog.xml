@@ -15,4 +15,5 @@
     <include file="changes/2024-09-22_01_add-new-order-data-to-throw-orders.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-09-29_01_add-personage-params-to-launched-event.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-07_01_add-personage-random-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-10-10_01_add-personage-random-shop-pool.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

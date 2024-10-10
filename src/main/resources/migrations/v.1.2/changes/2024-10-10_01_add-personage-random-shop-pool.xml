@@ -1,0 +1,42 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-personage-random-shop-pool">
+        <addDefaultValue
+                tableName="personage_random"
+                columnName="raid_item_random_pool"
+                defaultValue="{}" />
+        <addColumn tableName="personage_random">
+            <column name="shop_random_item_random_pool" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="personage_random">
+            <column name="shop_common_item_random_pool" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="personage_random">
+            <column name="shop_uncommon_item_random_pool" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="personage_random">
+            <column name="shop_rare_item_random_pool" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="personage_random">
+            <column name="shop_epic_item_random_pool" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="personage_random">
+            <column name="shop_legendary_item_random_pool" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

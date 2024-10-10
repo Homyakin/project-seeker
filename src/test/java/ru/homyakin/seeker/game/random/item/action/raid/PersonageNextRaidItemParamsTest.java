@@ -38,7 +38,7 @@ public class PersonageNextRaidItemParamsTest {
 
         // when
         Mockito.when(raidItemRandomPoolRepository.get(personageId)).thenReturn(pool);
-        Mockito.when(randomPoolRenew.renewIfEmpty(pool)).thenReturn(pool);
+        Mockito.when(randomPoolRenew.fullRenewIfEmpty(pool)).thenReturn(pool);
         final var result = action.get(personageId);
         final var captor = ArgumentCaptor.forClass(FullItemRandomPool.class);
         Mockito.verify(raidItemRandomPoolRepository, Mockito.times(1))

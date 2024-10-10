@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.random.item.action.pool;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomConfig;
+import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPoolWithoutRarity;
 import ru.homyakin.seeker.game.random.item.entity.pool.ModifierCountRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.RarityRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPool;
@@ -15,11 +16,18 @@ public class ItemRandomPoolRenew {
         this.config = config;
     }
 
-    public FullItemRandomPool renewIfEmpty(FullItemRandomPool fullItemRandomPool) {
+    public FullItemRandomPool fullRenewIfEmpty(FullItemRandomPool fullItemRandomPool) {
         return new FullItemRandomPool(
             renewRarityRandomPool(fullItemRandomPool.rarityRandomPool()),
             renewSlotRandomPool(fullItemRandomPool.slotRandomPool()),
             renewModifierCountRandomPool(fullItemRandomPool.modifierCountRandomPool())
+        );
+    }
+
+    public ItemRandomPoolWithoutRarity renewIfEmptyWithoutRarity(ItemRandomPoolWithoutRarity randomPool) {
+        return new ItemRandomPoolWithoutRarity(
+            renewSlotRandomPool(randomPool.slotRandomPool()),
+            renewModifierCountRandomPool(randomPool.modifierCountRandomPool())
         );
     }
 

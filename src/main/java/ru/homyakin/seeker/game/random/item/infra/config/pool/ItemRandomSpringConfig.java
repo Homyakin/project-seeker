@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.random.item.infra.pool;
+package ru.homyakin.seeker.game.random.item.infra.config.pool;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;

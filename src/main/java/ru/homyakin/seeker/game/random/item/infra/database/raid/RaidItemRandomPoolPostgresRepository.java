@@ -1,21 +1,16 @@
-package ru.homyakin.seeker.game.random.item.infra.raid;
+package ru.homyakin.seeker.game.random.item.infra.database.raid;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.pool.ModifierCountRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.raid.RaidItemRandomPoolRepository;
-import ru.homyakin.seeker.game.random.item.entity.pool.RarityRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPool;
+import ru.homyakin.seeker.game.random.item.infra.database.JsonItemRandomPool;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Queue;
 
 @Repository
 public class RaidItemRandomPoolPostgresRepository implements RaidItemRandomPoolRepository {
@@ -29,7 +24,7 @@ public class RaidItemRandomPoolPostgresRepository implements RaidItemRandomPoolR
 
     @Override
     public FullItemRandomPool get(PersonageId personageId) {
-        final var sql = "SELECT * FROM personage_random WHERE personage_id = :personage_id";
+        final var sql = "SELECT raid_item_random_pool FROM personage_random WHERE personage_id = :personage_id";
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
             .query(this::mapRow)
@@ -48,39 +43,13 @@ public class RaidItemRandomPoolPostgresRepository implements RaidItemRandomPoolR
             .param("personage_id", personageId.value())
             .param(
                 "raid_item_random_pool",
-                jsonUtils.mapToPostgresJson(JsonRaidRandomPool.fromDomain(raidItemRandomPool))
+                jsonUtils.mapToPostgresJson(JsonItemRandomPool.fromDomain(raidItemRandomPool))
             )
             .update();
     }
 
     private FullItemRandomPool mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return jsonUtils.fromString(rs.getString("raid_item_random_pool"), JsonRaidRandomPool.class).toDomain();
+        return jsonUtils.fromString(rs.getString("raid_item_random_pool"), JsonItemRandomPool.class).toDomain();
     }
 
-    private record JsonRaidRandomPool(
-        JsonRandomPool<ItemRarity> rarityRandomPool,
-        JsonRandomPool<PersonageSlot> slotRandomPool,
-        JsonRandomPool<Integer> modifierCountRandomPool
-    ) {
-        public FullItemRandomPool toDomain() {
-            return new FullItemRandomPool(
-                new RarityRandomPool(rarityRandomPool.pool),
-                new SlotRandomPool(slotRandomPool.pool),
-                new ModifierCountRandomPool(modifierCountRandomPool.pool)
-            );
-        }
-
-        public static JsonRaidRandomPool fromDomain(FullItemRandomPool fullItemRandomPool) {
-            return new JsonRaidRandomPool(
-                new JsonRandomPool<>(fullItemRandomPool.rarityRandomPool().pool()),
-                new JsonRandomPool<>(fullItemRandomPool.slotRandomPool().pool()),
-                new JsonRandomPool<>(fullItemRandomPool.modifierCountRandomPool().pool())
-            );
-        }
-    }
-
-    private record JsonRandomPool<T>(
-        Queue<T> pool
-    ) {
-    }
 }

@@ -4,10 +4,12 @@ import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.rarity.ItemRarity;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.random.item.action.shop.PersonageNextShopItemParams;
 import ru.homyakin.seeker.game.shop.errors.BuyItemError;
 import ru.homyakin.seeker.game.shop.errors.NoSuchItemAtPersonage;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
@@ -21,11 +23,18 @@ import java.util.List;
 public class ShopService {
     private final ItemService itemService;
     private final PersonageService personageService;
+    private final PersonageNextShopItemParams personageNextShopItemParams;
     private final ShopConfig config;
 
-    public ShopService(ItemService itemService, PersonageService personageService, ShopConfig config) {
+    public ShopService(
+        ItemService itemService,
+        PersonageService personageService,
+        PersonageNextShopItemParams personageNextShopItemParams,
+        ShopConfig config
+    ) {
         this.itemService = itemService;
         this.personageService = personageService;
+        this.personageNextShopItemParams = personageNextShopItemParams;
         this.config = config;
     }
 
@@ -53,12 +62,29 @@ public class ShopService {
         final var personageWithTakenMoney = personageService.takeMoney(personage, price);
 
         final var result = switch (type) {
-            case COMMON -> itemService.generateItemWithRarity(personageWithTakenMoney, ItemRarity.COMMON);
-            case UNCOMMON -> itemService.generateItemWithRarity(personageWithTakenMoney, ItemRarity.UNCOMMON);
-            case RARE -> itemService.generateItemWithRarity(personageWithTakenMoney, ItemRarity.RARE);
-            case EPIC -> itemService.generateItemWithRarity(personageWithTakenMoney, ItemRarity.EPIC);
-            case LEGENDARY -> itemService.generateItemWithRarity(personageWithTakenMoney, ItemRarity.LEGENDARY);
-            case RANDOM -> itemService.generateItemForPersonage(personageWithTakenMoney);
+            case RANDOM -> {
+                final var params = personageNextShopItemParams.getRandom(personageId);
+                yield itemService.generateItemForPersonage(
+                    personageWithTakenMoney,
+                    new GenerateItemParams(
+                        params.rarity(),
+                        params.slot(),
+                        params.modifiersCount()
+                    )
+                );
+            }
+            default -> {
+                final var rarity = typeToRarity(type);
+                final var params = personageNextShopItemParams.getRarity(personageId, rarity);
+                yield itemService.generateItemForPersonage(
+                    personageWithTakenMoney,
+                    new GenerateItemParams(
+                        rarity,
+                        params.slot(),
+                        params.modifiersCount()
+                    )
+                );
+            }
         };
         return result.mapLeft(
             _ -> {
@@ -78,6 +104,17 @@ public class ShopService {
                 personageService.addMoney(personage, price);
                 return new SoldItem(item, price);
             });
+    }
+
+    private ItemRarity typeToRarity(ShopItemType type) {
+        return switch (type) {
+            case COMMON -> ItemRarity.COMMON;
+            case UNCOMMON -> ItemRarity.UNCOMMON;
+            case RARE -> ItemRarity.RARE;
+            case EPIC -> ItemRarity.EPIC;
+            case LEGENDARY -> ItemRarity.LEGENDARY;
+            default -> throw new IllegalArgumentException("Unknown type: " + type);
+        };
     }
 
 }

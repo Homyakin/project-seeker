@@ -19,7 +19,7 @@ public class PersonageNextRaidItemParams {
     public FullItemParams get(PersonageId personageId) {
         final var raidItemRandomPool = repository.get(personageId);
 
-        final var updatedRaidItemRandomPool = randomPoolRenew.renewIfEmpty(raidItemRandomPool);
+        final var updatedRaidItemRandomPool = randomPoolRenew.fullRenewIfEmpty(raidItemRandomPool);
         final var params = updatedRaidItemRandomPool.next();
         repository.save(personageId, updatedRaidItemRandomPool);
 
