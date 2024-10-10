@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.item.rarity;
+package ru.homyakin.seeker.game.item.models;
 
 import net.fellbaum.jemoji.EmojiManager;
 

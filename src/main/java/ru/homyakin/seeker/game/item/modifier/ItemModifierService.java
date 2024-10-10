@@ -3,9 +3,8 @@ package ru.homyakin.seeker.game.item.modifier;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +12,9 @@ import java.util.List;
 @Service
 public class ItemModifierService {
     private final ItemModifierDao itemModifierDao;
-    private final ItemModifierConfig config;
 
-    public ItemModifierService(ItemModifierDao itemModifierDao, ItemModifierConfig config) {
+    public ItemModifierService(ItemModifierDao itemModifierDao) {
         this.itemModifierDao = itemModifierDao;
-        this.config = config;
-    }
-
-    public List<GenerateModifier> generateModifiersForRarity(ItemRarity rarity) {
-        int probability = RandomUtils.getInInterval(1, 100);
-        if (probability <= config.zeroProbability()) {
-            return generate(rarity, 0);
-        } else if (probability <= config.zeroProbability() + config.oneProbability()) {
-            return generate(rarity, 1);
-        } else {
-            return generate(rarity, 2);
-        }
     }
 
     public List<GenerateModifier> generate(ItemRarity rarity, int modifiersCount) {

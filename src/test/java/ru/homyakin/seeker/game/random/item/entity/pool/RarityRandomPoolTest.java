@@ -2,7 +2,7 @@ package ru.homyakin.seeker.game.random.item.entity.pool;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 
 import java.util.HashMap;
 

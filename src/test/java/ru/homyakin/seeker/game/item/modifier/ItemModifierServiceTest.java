@@ -1,66 +1,39 @@
 package ru.homyakin.seeker.game.item.modifier;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
-import ru.homyakin.seeker.game.item.rarity.ItemRarityConfig;
-import ru.homyakin.seeker.game.item.rarity.ItemRarityService;
-import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 
-import java.util.List;
 import java.util.Map;
 
 public class ItemModifierServiceTest {
-    private final ItemModifierConfig config = new ItemModifierConfig();
     private final ItemModifierDao dao = Mockito.mock(ItemModifierDao.class);
-    private final ItemModifierService service = new ItemModifierService(dao, config);
-
-    @BeforeEach
-    public void init() {
-        config.setZeroProbability(60);
-        config.setOneProbability(30);
-        config.setTwoProbability(10);
-    }
+    private final ItemModifierService service = new ItemModifierService(dao);
 
     @Test
-    public void When_ProbabilityIsMaxZero_Then_ReturnEmptyList() {
-        List<GenerateModifier> modifiers;
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(() -> RandomUtils.getInInterval(1, 100)).thenReturn(config.zeroProbability());
-            modifiers = service.generateModifiersForRarity(ItemRarity.COMMON);
-        }
+    public void When_GenerateZeroModifiers_Then_ReturnEmptyList() {
+        final var modifiers = service.generate(ItemRarity.COMMON, 0);
 
         Assertions.assertEquals(0, modifiers.size());
     }
 
     @Test
-    public void When_ProbabilityIsZeroPlusOne_Then_ReturnOneModifier() {
+    public void When_Generate1Modifier_Then_ReturnOneModifier() {
         Mockito.when(dao.getRandomModifier(ItemRarity.COMMON)).thenReturn(prefixModifier);
-        List<GenerateModifier> modifiers;
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(() -> RandomUtils.getInInterval(1, 100)).thenReturn(config.zeroProbability() + config.oneProbability());
-            modifiers = service.generateModifiersForRarity(ItemRarity.COMMON);
-        }
+        final var modifiers = service.generate(ItemRarity.COMMON, 1);
 
         Assertions.assertEquals(1, modifiers.size());
         Assertions.assertEquals(prefixModifier, modifiers.getFirst());}
 
     @Test
-    public void When_ProbabilityIsZeroPlusOnePlusTwo_And_FirstIsPrefix_Then_ReturnTwoPrefixes() {
+    public void When_Generate2Modifiers_And_FirstIsPrefix_Then_ReturnTwoPrefixes() {
         Mockito.when(dao.getRandomModifier(ItemRarity.COMMON)).thenReturn(prefixModifier);
         Mockito.when(dao.getRandomModifierExcludeId(prefixModifier.id(), ItemRarity.COMMON)).thenReturn(prefixModifier);
-        List<GenerateModifier> modifiers;
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(() -> RandomUtils.getInInterval(1, 100)).thenReturn(
-                config.zeroProbability() + config.oneProbability() + config.twoProbability()
-            );
-            modifiers = service.generateModifiersForRarity(ItemRarity.COMMON);
-        }
+        final var modifiers = service.generate(ItemRarity.COMMON, 2);
 
         Assertions.assertEquals(2, modifiers.size());
         Assertions.assertEquals(prefixModifier, modifiers.get(0));
@@ -68,16 +41,10 @@ public class ItemModifierServiceTest {
     }
 
     @Test
-    public void When_ProbabilityIsZeroPlusOnePlusTwo_And_FirstIsSuffix_Then_ReturnOnePrefixAndOneSuffix() {
+    public void When_Generate2Modifiers_And_FirstIsSuffix_Then_ReturnOnePrefixAndOneSuffix() {
         Mockito.when(dao.getRandomModifier(ItemRarity.COMMON)).thenReturn(suffixModifier);
         Mockito.when(dao.getRandomModifierWithType(ModifierType.PREFIX, ItemRarity.COMMON)).thenReturn(prefixModifier);
-        List<GenerateModifier> modifiers;
-        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
-            mock.when(() -> RandomUtils.getInInterval(1, 100)).thenReturn(
-                config.zeroProbability() + config.oneProbability() + config.twoProbability()
-            );
-            modifiers = service.generateModifiersForRarity(ItemRarity.COMMON);
-        }
+        final var modifiers = service.generate(ItemRarity.COMMON, 2);
 
         Assertions.assertEquals(2, modifiers.size());
         Assertions.assertEquals(suffixModifier, modifiers.get(0));

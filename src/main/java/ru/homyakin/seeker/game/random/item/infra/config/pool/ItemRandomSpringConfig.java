@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.random.item.infra.config.pool;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.random.item.entity.pool.ModifierPoolSettings;
 import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomConfig;
 import ru.homyakin.seeker.utils.RandomUtils;

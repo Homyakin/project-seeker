@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
 import ru.homyakin.seeker.game.shop.models.ShopItemType;

@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.random.item.entity.pool;
 
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 
 import java.util.Collections;
 import java.util.LinkedList;

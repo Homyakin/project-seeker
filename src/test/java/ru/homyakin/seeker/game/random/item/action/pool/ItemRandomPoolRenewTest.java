@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.random.item.action.pool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomConfig;

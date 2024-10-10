@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.random.item.entity.shop;
 
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPoolWithoutRarity;

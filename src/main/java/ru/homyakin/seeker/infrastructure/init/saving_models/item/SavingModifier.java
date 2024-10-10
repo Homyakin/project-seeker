@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.locale.WordForm;

@@ -17,12 +17,9 @@ import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
-import ru.homyakin.seeker.game.item.rarity.ItemRarityService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 @Service
 public class ItemService {
@@ -31,20 +28,17 @@ public class ItemService {
     private final ItemModifierService itemModifierService;
     private final ItemDao itemDao;
     private final ItemCharacteristicService characteristicService;
-    private final ItemRarityService rarityService;
 
     public ItemService(
         ItemObjectDao itemObjectDao,
         ItemModifierService itemModifierService,
         ItemDao itemDao,
-        ItemCharacteristicService characteristicService,
-        ItemRarityService rarityService
+        ItemCharacteristicService characteristicService
     ) {
         this.itemObjectDao = itemObjectDao;
         this.itemModifierService = itemModifierService;
         this.itemDao = itemDao;
         this.characteristicService = characteristicService;
-        this.rarityService = rarityService;
     }
 
     public Optional<Item> getById(long id) {
@@ -53,11 +47,6 @@ public class ItemService {
 
     public void saveObjects(ItemObjects objects) {
         objects.object().forEach(itemObjectDao::saveObject);
-    }
-
-    public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage) {
-        final var itemRarity = rarityService.generateItemRarity();
-        return generateItemWithRarity(personage, itemRarity);
     }
 
     public Either<GenerateItemError, Item> generateItemForPersonage(Personage personage, GenerateItemParams params) {
@@ -71,29 +60,6 @@ public class ItemService {
             Optional.of(personage.id()),
             false,
             characteristicService.createCharacteristics(params.rarity(), object, modifiers)
-        );
-
-        if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
-            // TODO возможно стоит сохранять неудачные предметы в базу
-            logger.info("Personage '{}' has no space in bag", personage.id().value());
-            return Either.left(new GenerateItemError.NotEnoughSpace(tempItem));
-        }
-
-        final var id = itemDao.saveItem(tempItem);
-        return Either.right(getById(id).orElseThrow());
-    }
-
-    public Either<GenerateItemError, Item> generateItemWithRarity(Personage personage, ItemRarity rarity) {
-        final var object = itemObjectDao.getRandomObject(rarity);
-        final var modifiers = itemModifierService.generateModifiersForRarity(rarity);
-        final var tempItem = new Item(
-            0L,
-            object.toItemObject(),
-            rarity,
-            modifiers.stream().map(GenerateModifier::toModifier).toList(),
-            Optional.of(personage.id()),
-            false,
-            characteristicService.createCharacteristics(rarity, object, modifiers)
         );
 
         if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
@@ -158,10 +124,5 @@ public class ItemService {
         return canDropItem(personage, itemId)
             .peek(_ -> itemDao.deletePersonageAndMakeEquipFalse(itemId))
             .map(_ -> itemDao.getById(itemId).orElseThrow());
-    }
-
-    private ItemRarity calculateRandomRarity() {
-        int probability = RandomUtils.getInInterval(0, 100);
-        return ItemRarity.COMMON;
     }
 }

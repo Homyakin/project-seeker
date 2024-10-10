@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.random.item.infra.database.shop;
 import org.intellij.lang.annotations.Language;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPoolWithoutRarity;

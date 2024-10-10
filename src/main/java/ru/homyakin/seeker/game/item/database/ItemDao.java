@@ -16,7 +16,7 @@ import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.modifier.models.Modifier;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.infrastructure.database.ManyToManyUpdater;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.utils.JsonUtils;

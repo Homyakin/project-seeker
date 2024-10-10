@@ -10,7 +10,7 @@ import ru.homyakin.seeker.game.item.characteristics.models.ObjectCharacteristicT
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 import java.util.Collections;

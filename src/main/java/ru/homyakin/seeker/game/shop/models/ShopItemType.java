@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.shop.models;
 
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.infrastructure.Icons;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.random.item.action.shop;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.action.pool.ItemRandomPoolRenew;
 import ru.homyakin.seeker.game.random.item.entity.pool.FullItemParams;

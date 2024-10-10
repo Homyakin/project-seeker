@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.action.shop.PersonageNextShopItemParams;

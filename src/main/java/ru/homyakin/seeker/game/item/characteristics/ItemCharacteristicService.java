@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.item.characteristics;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.utils.RandomUtils;
 

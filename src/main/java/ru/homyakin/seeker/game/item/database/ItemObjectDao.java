@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.models.GenerateItemObject;
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.infrastructure.database.ManyToManyUpdater;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -49,24 +49,6 @@ public class ItemObjectDao {
 
         saveObjectSlots(id, object.slots());
         saveObjectRarities(id, object.rarities());
-    }
-
-    public GenerateItemObject getRandomObject(ItemRarity rarity) {
-        final var sql = """
-            WITH random_object AS (
-               SELECT id FROM item_object io
-                LEFT JOIN item_object_to_item_rarity iotir on io.id = iotir.item_object_id
-                WHERE iotir.item_rarity_id = :item_rarity_id
-               ORDER BY random() LIMIT 1
-            )
-            SELECT * FROM item_object io
-            LEFT JOIN item_object_to_personage_slot iotps on io.id = iotps.item_object_id
-            LEFT JOIN random_object ro ON io.id = ro.id
-            WHERE io.id = ro.id
-            """;
-        return jdbcClient.sql(sql)
-            .param("item_rarity_id", rarity.id)
-            .query(this::extractSingleObject);
     }
 
     public GenerateItemObject getRandomObject(ItemRarity rarity, PersonageSlot slot) {

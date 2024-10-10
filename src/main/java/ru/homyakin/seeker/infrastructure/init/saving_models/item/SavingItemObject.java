@@ -6,7 +6,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.rarity.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
