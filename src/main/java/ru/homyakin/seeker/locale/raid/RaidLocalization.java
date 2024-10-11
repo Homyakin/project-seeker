@@ -65,6 +65,10 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::raidInProcess);
     }
 
+    public static String successJoinRaid(Language language) {
+        return resources.getOrDefault(language, RaidResource::successJoinRaid);
+    }
+
     public static String successRaid(Language language) {
         return resources.getOrDefaultRandom(language, RaidResource::successRaid);
     }

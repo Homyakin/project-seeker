@@ -10,6 +10,7 @@ public record RaidResource(
     String exhaustedAlert,
     String expiredRaid,
     String raidInProcess,
+    String successJoinRaid,
     String[] successRaid,
     String[] failureRaid,
     String[] zeroParticipants,

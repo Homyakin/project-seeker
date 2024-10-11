@@ -66,6 +66,13 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
                         RaidLocalization.exhaustedAlert(group.language())
                     )
                 );
+            } else {
+                telegramSender.send(
+                    TelegramMethods.createAnswerCallbackQuery(
+                        command.callbackId(),
+                        RaidLocalization.successJoinRaid(group.language())
+                    )
+                );
             }
         }
     }
