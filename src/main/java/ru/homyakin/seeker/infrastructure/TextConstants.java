@@ -7,4 +7,6 @@ public class TextConstants {
     public static final String CALLBACK_DELIMITER = "~";
     public static final String TG_COMMAND_DELIMITER = "_";
     public static final String FEEDBACK_TG_CHANNEL = "@krezar";
+    public static final String TG_START_REFERER_PARAM = "ref";
+    public static final String TG_START_PARAM_DELIMITER = "=";
 }

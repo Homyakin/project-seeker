@@ -12,7 +12,7 @@ public enum CommandType {
     // TODO разделить личку, группы, коллбэки (или не надо, но хотя бы подумать)
     CHANGE_LANGUAGE("/language", CheckType.EQUALS),
     SELECT_LANGUAGE("selectLanguage", CheckType.EQUALS),
-    START("/start", CheckType.EQUALS),
+    START("/start", CheckType.STARTS_WITH),
     JOIN_EVENT("joinEvent", CheckType.EQUALS),
     JOIN_RAID("joinRaid", CheckType.EQUALS),
     GET_PROFILE("/me", CheckType.EQUALS),
