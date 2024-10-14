@@ -17,16 +17,20 @@ import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.models.GroupId;
 import ru.homyakin.seeker.telegram.models.ChatMemberError;
 import ru.homyakin.seeker.telegram.models.TelegramError;
+import ru.homyakin.seeker.telegram.user.UserService;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Component
 public class TelegramSender {
     private static final Logger logger = LoggerFactory.getLogger(TelegramSender.class);
     private final TelegramClient client;
     private final GroupService groupService;
+    private final UserService userService;
 
-    protected TelegramSender(TelegramBotConfig botConfig, GroupService groupService) {
-         client = new OkHttpTelegramClient(botConfig.token());
+    protected TelegramSender(TelegramBotConfig botConfig, GroupService groupService, UserService userService) {
+        client = new OkHttpTelegramClient(botConfig.token());
         this.groupService = groupService;
+        this.userService = userService;
     }
 
     public Either<TelegramError, Message> send(SendMessage sendMessage) {
@@ -42,6 +46,9 @@ public class TelegramSender {
             } else if (e.getMessage().contains("[403] Forbidden: bot is not a member of the supergroup chat")) {
                 logger.error("Bot is not a member of the supergroup {}", sendMessage.getChatId());
                 groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+            } else if (e.getMessage().contains("[403] Forbidden: bot was blocked by the user")) {
+                logger.error("Bot was blocked by the user {}", sendMessage.getChatId());
+                userService.deactivatePrivateMessages(UserId.from(sendMessage.getChatId()));
             } else {
                 logger.error(
                     "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e

@@ -80,6 +80,10 @@ public class UserService {
         return userDao.getUsersWithRecoveredEnergy();
     }
 
+    public void deactivatePrivateMessages(UserId userId) {
+        userDao.getById(userId).ifPresent(it -> it.deactivatePrivateMessages(userDao));
+    }
+
     private void updateUserInfoFromUser(org.telegram.telegrambots.meta.api.objects.User user) {
         if (user.getIsBot()) {
             return;

@@ -33,6 +33,21 @@ public record User(
         return this;
     }
 
+    public User deactivatePrivateMessages(UserDao userDao) {
+        if (isActivePrivateMessages) {
+            final var user = new User(
+                id,
+                false,
+                language,
+                personageId,
+                username
+            );
+            userDao.update(user);
+            return user;
+        }
+        return this;
+    }
+
     public User activatePrivateMessages(UserDao userDao) {
         if (!isActivePrivateMessages) {
             final var user = new User(
