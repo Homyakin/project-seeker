@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public class TelegramMethods {
@@ -16,7 +16,7 @@ public class TelegramMethods {
             .build();
     }
 
-    public static GetChatMember createGetChatMember(GroupId groupId, UserId userId) {
+    public static GetChatMember createGetChatMember(GroupTgId groupId, UserId userId) {
         return GetChatMember
             .builder()
             .chatId(groupId.value())

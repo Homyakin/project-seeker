@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
 import ru.homyakin.seeker.telegram.models.ChatMemberError;
 import ru.homyakin.seeker.telegram.user.models.UserId;
@@ -24,27 +24,27 @@ import ru.homyakin.seeker.telegram.user.models.User;
 @Service
 public class GroupUserService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final UserService userService;
     private final GroupUserDao groupUserDao;
     private final TelegramSender telegramSender;
     private final GroupPersonageStatsService groupPersonageStatsService;
 
     public GroupUserService(
-        GroupService groupService,
+        GroupTgService groupTgService,
         UserService userService,
         GroupUserDao groupUserDao,
         TelegramSender telegramSender,
         GroupPersonageStatsService groupPersonageStatsService
     ) {
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.userService = userService;
         this.groupUserDao = groupUserDao;
         this.telegramSender = telegramSender;
         this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
-    public boolean isUserAdminInGroup(GroupId groupId, UserId userId) {
+    public boolean isUserAdminInGroup(GroupTgId groupId, UserId userId) {
         return telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId))
             .fold(
                 _ -> false,
@@ -52,8 +52,8 @@ public class GroupUserService {
             );
     }
 
-    public Pair<Group, User> getAndActivateOrCreate(GroupId groupId, UserId userId) {
-        final var group = groupService.getOrCreate(groupId);
+    public Pair<GroupTg, User> getAndActivateOrCreate(GroupTgId groupId, UserId userId) {
+        final var group = groupTgService.getOrCreate(groupId);
         final var user = userService.getOrCreateFromGroup(userId);
         groupUserDao.getByGroupIdAndUserId(groupId, userId)
             .ifPresentOrElse(
@@ -63,12 +63,12 @@ public class GroupUserService {
         return Pair.of(group, user);
     }
 
-    public Optional<User> getRandomUserFromGroup(GroupId groupId) {
+    public Optional<User> getRandomUserFromGroup(GroupTgId groupId) {
         return groupUserDao.getRandomUserByGroup(groupId)
             .map(groupUser -> userService.getOrCreateFromGroup(groupUser.userId()));
     }
 
-    public Either<ChatMemberError.InternalError, Boolean> isUserStillInGroup(GroupId groupId, UserId userId) {
+    public Either<ChatMemberError.InternalError, Boolean> isUserStillInGroup(GroupTgId groupId, UserId userId) {
         final var result =  telegramSender.send(TelegramMethods.createGetChatMember(groupId, userId));
         if (result.isLeft()) {
             return switch (result.getLeft()) {
@@ -83,16 +83,16 @@ public class GroupUserService {
         return Either.right(true);
     }
 
-    public int countUsersInGroup(GroupId groupId) {
+    public int countUsersInGroup(GroupTgId groupId) {
         return groupUserDao.countUsersInGroup(groupId);
     }
 
-    private void deactivateGroupUser(GroupId groupId, UserId userId) {
+    private void deactivateGroupUser(GroupTgId groupId, UserId userId) {
         groupUserDao.getByGroupIdAndUserId(groupId, userId)
             .map(groupUser -> groupUser.deactivate(groupUserDao));
     }
 
-    private void createGroupUser(Group group, User user) {
+    private void createGroupUser(GroupTg group, User user) {
         groupUserDao.save(new GroupUser(group.id(), user.id(), true));
         groupPersonageStatsService.create(group.id(), user.personageId());
     }

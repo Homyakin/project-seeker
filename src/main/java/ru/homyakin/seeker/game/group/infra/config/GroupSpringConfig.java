@@ -1,12 +1,13 @@
-package ru.homyakin.seeker.telegram.group.config;
+package ru.homyakin.seeker.game.group.infra.config;
 
 import java.util.Arrays;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import ru.homyakin.seeker.game.event.models.EventInterval;
-import ru.homyakin.seeker.game.event.models.EventIntervals;
+import ru.homyakin.seeker.game.group.entity.EventInterval;
+import ru.homyakin.seeker.game.group.entity.EventIntervals;
+import ru.homyakin.seeker.game.group.entity.GroupConfig;
 
 @ConfigurationProperties(prefix = "homyakin.seeker.group")
-public class GroupConfig {
+public class GroupSpringConfig implements GroupConfig {
     private EventIntervals defaultEventIntervals;
 
     public EventIntervals defaultEventIntervals() {

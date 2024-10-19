@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.models;
+package ru.homyakin.seeker.game.group.entity;
 
 public record EventInterval(
     int startHour,

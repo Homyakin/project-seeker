@@ -8,7 +8,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.EverydaySpinService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
-import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -56,7 +56,7 @@ public class SpinExecutor extends CommandExecutor<Spin> {
         );
     }
 
-    private String mapSpinErrorToMessage(SpinError error, Group group) {
+    private String mapSpinErrorToMessage(SpinError error, GroupTg group) {
         return switch (error) {
             case SpinError.NotEnoughUsers notEnoughUsers ->
                 EverydaySpinLocalization.notEnoughUsers(group.language(), notEnoughUsers.requiredUsers());

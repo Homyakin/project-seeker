@@ -11,7 +11,7 @@ import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
-import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -21,7 +21,7 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 @Service
 public class TgEventStopper {
     private static final Logger logger = LoggerFactory.getLogger(TgEventStopper.class);
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
     private final GroupEventService groupEventService;
     private final EventProcessing eventProcessing;
@@ -30,7 +30,7 @@ public class TgEventStopper {
     private final UserService userService;
 
     public TgEventStopper(
-        GroupService groupService,
+        GroupTgService groupTgService,
         TelegramSender telegramSender,
         GroupEventService groupEventService,
         EventProcessing eventProcessing,
@@ -38,7 +38,7 @@ public class TgEventStopper {
         LockService lockService,
         UserService userService
     ) {
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
         this.groupEventService = groupEventService;
         this.eventProcessing = eventProcessing;
@@ -89,7 +89,7 @@ public class TgEventStopper {
         groupEventService.getByLaunchedEventId(launchedEvent.id())
             .forEach(
                 groupEvent -> {
-                    final var group = groupService.getOrCreate(groupEvent.groupId());
+                    final var group = groupTgService.getOrCreate(groupEvent.groupId());
                     switch (result) {
                         case EventResult.RaidResult.Completed completed -> {
                             groupStatsService.updateRaidStats(group.id(), completed);

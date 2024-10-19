@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Repository
 public class DuelTgDao {
@@ -39,7 +39,7 @@ public class DuelTgDao {
     private DuelTg mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new DuelTg(
             rs.getLong("duel_id"),
-            GroupId.from(rs.getLong("grouptg_id")),
+            GroupTgId.from(rs.getLong("grouptg_id")),
             rs.getInt("message_id")
         );
     }

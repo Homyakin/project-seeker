@@ -4,9 +4,9 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
@@ -15,12 +15,12 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 @Component
 public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
     private final UserService userService;
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
 
-    public ShowHelpExecutor(UserService userService, GroupService groupService, TelegramSender telegramSender) {
+    public ShowHelpExecutor(UserService userService, GroupTgService groupTgService, TelegramSender telegramSender) {
         this.userService = userService;
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
     }
 
@@ -33,7 +33,7 @@ public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
             builder.chatId(user.id());
             language = user.language();
         } else {
-            final var group = groupService.getOrCreate(GroupId.from(command.chatId()));
+            final var group = groupTgService.getOrCreate(GroupTgId.from(command.chatId()));
             builder.chatId(group.id());
             language = group.language();
         }

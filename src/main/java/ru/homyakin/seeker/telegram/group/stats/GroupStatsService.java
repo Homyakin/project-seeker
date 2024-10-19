@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Service
 public class GroupStatsService {
@@ -17,15 +17,15 @@ public class GroupStatsService {
         this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
-    public void create(GroupId groupId) {
+    public void create(GroupTgId groupId) {
         groupStatsDao.create(groupId);
     }
 
-    public Optional<GroupStats> findById(GroupId groupId) {
+    public Optional<GroupStats> findById(GroupTgId groupId) {
         return groupStatsDao.getById(groupId);
     }
 
-    public void updateRaidStats(GroupId groupId, EventResult.RaidResult.Completed raidResult) {
+    public void updateRaidStats(GroupTgId groupId, EventResult.RaidResult.Completed raidResult) {
         if (raidResult.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
             groupStatsDao.increaseRaidsComplete(groupId, 1);
         }
@@ -40,13 +40,13 @@ public class GroupStatsService {
         );
     }
 
-    public void increaseDuelsComplete(GroupId groupId, PersonageId winner, PersonageId loser) {
+    public void increaseDuelsComplete(GroupTgId groupId, PersonageId winner, PersonageId loser) {
         groupStatsDao.increaseDuelsComplete(groupId, 1);
         groupPersonageStatsService.addWinDuel(groupId, winner);
         groupPersonageStatsService.addLoseDuel(groupId, loser);
     }
 
-    public void increaseTavernMoneySpent(GroupId groupId, PersonageId personageId, Money money) {
+    public void increaseTavernMoneySpent(GroupTgId groupId, PersonageId personageId, Money money) {
         groupStatsDao.increaseTavernMoneySpent(groupId, money.value());
         groupPersonageStatsService.increaseTavernMoneySpent(groupId, personageId, money);
     }

@@ -1,8 +1,9 @@
-package ru.homyakin.seeker.game.event.models;
+package ru.homyakin.seeker.game.group.entity;
 
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.homyakin.seeker.game.group.error.ZeroEnabledEventIntervalsError;
 
 public class EventIntervalsToggleIntervalTest {
     @Test

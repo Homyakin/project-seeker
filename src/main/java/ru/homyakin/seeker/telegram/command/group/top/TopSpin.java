@@ -2,11 +2,11 @@ package ru.homyakin.seeker.telegram.command.group.top;
 
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
-public record TopSpin(GroupId groupId, UserId userId) implements Command {
+public record TopSpin(GroupTgId groupId, UserId userId) implements Command {
     public static TopSpin from(Message message) {
-        return new TopSpin(GroupId.from(message.getChatId()), UserId.from(message.getFrom().getId()));
+        return new TopSpin(GroupTgId.from(message.getChatId()), UserId.from(message.getFrom().getId()));
     }
 }

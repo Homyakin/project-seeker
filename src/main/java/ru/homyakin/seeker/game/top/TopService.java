@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopResult;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinResult;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -27,7 +27,7 @@ public class TopService {
         return new TopRaidResult(start, end, top, TopRaidResult.Type.WEEK);
     }
 
-    public TopResult<TopRaidPosition> getTopRaidWeekGroup(GroupId groupId) {
+    public TopResult<TopRaidPosition> getTopRaidWeekGroup(GroupTgId groupId) {
         final var start = TimeUtils.thisWeekMonday();
         final var end = TimeUtils.thisWeekSunday();
         final var top = topDao.getUnsortedTopRaidGroup(start, end, groupId);
@@ -35,7 +35,7 @@ public class TopService {
         return new TopRaidResult(start, end, top, TopRaidResult.Type.WEEK_GROUP);
     }
 
-    public TopResult<TopSpinPosition> getTopSpinGroup(GroupId groupId) {
+    public TopResult<TopSpinPosition> getTopSpinGroup(GroupTgId groupId) {
         final var top = topDao.getUnsortedTopSpinGroup(groupId);
         top.sort(Comparator.comparingInt(TopPosition::score).reversed());
         return new TopSpinResult(top, TopSpinResult.Type.GROUP);

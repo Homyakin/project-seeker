@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.telegram.group.stats;
 
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 public record GroupStats(
-    GroupId groupId,
+    GroupTgId groupId,
     int raidsComplete,
     int duelsComplete,
     long tavernMoneySpent

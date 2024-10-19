@@ -6,7 +6,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.tavern_menu.order.MenuItemOrderMapper;
 import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemOrder;
 import ru.homyakin.seeker.game.tavern_menu.order.models.OrderStatus;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -40,7 +40,7 @@ public class MenuItemOrderTgDao {
             .list();
     }
 
-    public List<MenuItemOrder> findNotFinalForPersonageInGroup(PersonageId personageId, GroupId groupId) {
+    public List<MenuItemOrder> findNotFinalForPersonageInGroup(PersonageId personageId, GroupTgId groupId) {
         final var sql = """
             SELECT mio.* FROM menu_item_order mio
             LEFT JOIN public.menu_item_order_tg miot ON mio.id = miot.menu_item_order_id
@@ -59,7 +59,7 @@ public class MenuItemOrderTgDao {
     private MenuItemOrderTg mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new MenuItemOrderTg(
             rs.getLong("menu_item_order_id"),
-            GroupId.from(rs.getLong("grouptg_id")),
+            GroupTgId.from(rs.getLong("grouptg_id")),
             rs.getInt("message_id")
         );
     }

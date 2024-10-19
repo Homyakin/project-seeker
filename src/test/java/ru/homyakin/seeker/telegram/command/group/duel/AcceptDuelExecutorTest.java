@@ -14,7 +14,7 @@ import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -39,7 +39,7 @@ public class AcceptDuelExecutorTest {
         groupStatsService,
         userService
     );
-    private Group group;
+    private GroupTg group;
     private User acceptor;
     private User initiator;
     private Personage acceptorPersonage;

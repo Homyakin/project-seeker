@@ -10,7 +10,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.group.taver_menu.OrderTgService;
-import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.models.UserType;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -91,7 +91,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
             );
     }
 
-    private Either<Failure, Success> processUserType(UserType userType, Group group) {
+    private Either<Failure, Success> processUserType(UserType userType, GroupTg group) {
         return switch (userType) {
             case USER -> Either.right(Success.INSTANCE);
             case DIFFERENT_BOT -> {

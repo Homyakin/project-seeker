@@ -3,7 +3,7 @@ package ru.homyakin.seeker.telegram.utils;
 import java.util.List;
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.game.event.models.EventIntervals;
+import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;

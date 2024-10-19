@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Repository
 public class EverydaySpinDao {
@@ -16,7 +16,7 @@ public class EverydaySpinDao {
         jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public void save(GroupId groupId, PersonageId personageId, LocalDate date) {
+    public void save(GroupTgId groupId, PersonageId personageId, LocalDate date) {
         String sql = """
             INSERT INTO everyday_spin_tg (grouptg_id, personage_id, choose_date)
             VALUES (:grouptg_id, :personage_id, :choose_date)""";
@@ -28,7 +28,7 @@ public class EverydaySpinDao {
             .update();
     }
 
-    public Optional<PersonageId> findPersonageIdByGrouptgIdAndDate(GroupId grouptgId, LocalDate chooseDate) {
+    public Optional<PersonageId> findPersonageIdByGrouptgIdAndDate(GroupTgId grouptgId, LocalDate chooseDate) {
         String sql = """
             SELECT personage_id FROM everyday_spin_tg
             WHERE grouptg_id = :grouptg_id AND choose_date = :choose_date""";

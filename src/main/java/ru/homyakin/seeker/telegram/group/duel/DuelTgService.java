@@ -11,9 +11,9 @@ import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.models.TelegramError;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -30,7 +30,7 @@ public class DuelTgService {
     private final DuelService duelService;
     private final TelegramSender telegramSender;
     private final PersonageService personageService;
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final UserService userService;
 
     public DuelTgService(
@@ -38,21 +38,21 @@ public class DuelTgService {
         DuelService duelService,
         TelegramSender telegramSender,
         PersonageService personageService,
-        GroupService groupService,
+        GroupTgService groupTgService,
         UserService userService
     ) {
         this.duelTgDao = duelTgDao;
         this.duelService = duelService;
         this.telegramSender = telegramSender;
         this.personageService = personageService;
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.userService = userService;
     }
 
     public Either<CreateDuelError, CreateDuelTgResult> createDuel(
         User initiatingUser,
         User acceptingUser,
-        Group group
+        GroupTg group
     ) {
         final var initiatingPersonage = personageService.getByIdForce(initiatingUser.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
@@ -87,7 +87,7 @@ public class DuelTgService {
                 duelService.expireDuel(duelTg.duelId())
                     .peek(success -> {
                         final var duel = duelService.getByIdForce(duelTg.duelId());
-                        final var group = groupService.getOrCreate(duelTg.groupTgId());
+                        final var group = groupTgService.getOrCreate(duelTg.groupTgId());
                         final var acceptor = personageService.getByIdForce(duel.acceptingPersonageId());
                         final var user = userService.getByPersonageIdForce(acceptor.id());
                         telegramSender.send(
@@ -102,7 +102,7 @@ public class DuelTgService {
         );
     }
 
-    private Either<TelegramError, Message> sendMessage(CreateDuelTgResult result, Group group) {
+    private Either<TelegramError, Message> sendMessage(CreateDuelTgResult result, GroupTg group) {
         return telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(group.id())
@@ -112,7 +112,7 @@ public class DuelTgService {
         );
     }
 
-    private void linkDuelToMessage(long duelId, GroupId groupId, int messageId) {
+    private void linkDuelToMessage(long duelId, GroupTgId groupId, int messageId) {
         duelTgDao.save(
             new DuelTg(
                 duelId,

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Component
 public class GroupTgLaunchedEventDao {
@@ -41,7 +41,7 @@ public class GroupTgLaunchedEventDao {
             .list();
     }
 
-    public int countFailedRaidsFromLastSuccessInGroup(GroupId groupId) {
+    public int countFailedRaidsFromLastSuccessInGroup(GroupTgId groupId) {
         final var sql = """
             WITH last_success_raid AS (
                 SELECT MAX(launched_event_id) AS last_success_raid -- could be null
@@ -70,7 +70,7 @@ public class GroupTgLaunchedEventDao {
             .single();
     }
 
-    public Optional<GroupLaunchedEvent> lastEndedRaidInGroup(GroupId groupId) {
+    public Optional<GroupLaunchedEvent> lastEndedRaidInGroup(GroupTgId groupId) {
         final var sql = """
             SELECT gtle.* FROM grouptg_to_launched_event gtle
             LEFT JOIN launched_event le ON gtle.launched_event_id = le.id
@@ -92,7 +92,7 @@ public class GroupTgLaunchedEventDao {
     private GroupLaunchedEvent mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupLaunchedEvent(
             rs.getLong("launched_event_id"),
-            GroupId.from(rs.getLong("grouptg_id")),
+            GroupTgId.from(rs.getLong("grouptg_id")),
             rs.getInt("message_id")
         );
     }

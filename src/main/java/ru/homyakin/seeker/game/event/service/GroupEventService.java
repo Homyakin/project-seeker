@@ -8,8 +8,8 @@ import ru.homyakin.seeker.game.event.database.GroupTgLaunchedEventDao;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
-import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Service
 public class GroupEventService {
@@ -21,7 +21,7 @@ public class GroupEventService {
         this.launchedEventService = launchedEventService;
     }
 
-    public GroupLaunchedEvent createGroupEvent(LaunchedEvent launchedEvent, Group group, Integer messageId) {
+    public GroupLaunchedEvent createGroupEvent(LaunchedEvent launchedEvent, GroupTg group, Integer messageId) {
         var groupEvent = new GroupLaunchedEvent(
             launchedEvent.id(),
             group.id(),
@@ -39,7 +39,7 @@ public class GroupEventService {
         launchedEventService.creationError(launchedEvent);
     }
 
-    public Optional<GroupLaunchedEvent> getLastEndedEventInGroup(GroupId groupId) {
+    public Optional<GroupLaunchedEvent> getLastEndedEventInGroup(GroupTgId groupId) {
         return groupTgLaunchedEventDao.lastEndedRaidInGroup(groupId);
     }
 
@@ -47,7 +47,7 @@ public class GroupEventService {
         return groupTgLaunchedEventDao.getByLaunchedEventId(launchedEventId);
     }
 
-    public int countFailedRaidsFromLastSuccessInGroup(GroupId groupId) {
+    public int countFailedRaidsFromLastSuccessInGroup(GroupTgId groupId) {
         return groupTgLaunchedEventDao.countFailedRaidsFromLastSuccessInGroup(groupId);
     }
 }

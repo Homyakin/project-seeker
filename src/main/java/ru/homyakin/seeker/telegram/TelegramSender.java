@@ -13,8 +13,8 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.models.ChatMemberError;
 import ru.homyakin.seeker.telegram.models.TelegramError;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -24,12 +24,12 @@ import ru.homyakin.seeker.telegram.user.models.UserId;
 public class TelegramSender {
     private static final Logger logger = LoggerFactory.getLogger(TelegramSender.class);
     private final TelegramClient client;
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final UserService userService;
 
-    protected TelegramSender(TelegramBotConfig botConfig, GroupService groupService, UserService userService) {
+    protected TelegramSender(TelegramBotConfig botConfig, GroupTgService groupTgService, UserService userService) {
         client = new OkHttpTelegramClient(botConfig.token());
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.userService = userService;
     }
 
@@ -39,13 +39,13 @@ public class TelegramSender {
         } catch (Exception e) {
             if (e.getMessage().contains("group chat was upgraded to a supergroup chat")) {
                 logger.error("group chat was upgraded to a supergroup chat {}", sendMessage.getChatId());
-                groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+                groupTgService.setNotActive(GroupTgId.from(sendMessage.getChatId()));
             } else if (e.getMessage().contains("[403] Forbidden: the group chat was deleted")) {
                 logger.error("group chat was deleted {}", sendMessage.getChatId());
-                groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+                groupTgService.setNotActive(GroupTgId.from(sendMessage.getChatId()));
             } else if (e.getMessage().contains("[403] Forbidden: bot is not a member of the supergroup chat")) {
                 logger.error("Bot is not a member of the supergroup {}", sendMessage.getChatId());
-                groupService.setNotActive(GroupId.from(sendMessage.getChatId()));
+                groupTgService.setNotActive(GroupTgId.from(sendMessage.getChatId()));
             } else if (e.getMessage().contains("[403] Forbidden: bot was blocked by the user")) {
                 logger.error("Bot was blocked by the user {}", sendMessage.getChatId());
                 userService.deactivatePrivateMessages(UserId.from(sendMessage.getChatId()));
@@ -90,7 +90,10 @@ public class TelegramSender {
         try {
             client.execute(editMessageText);
         } catch (Exception e) {
-            if (!e.getMessage().contains("Bad Request: message is not modified")) {
+            if (e.getMessage().contains("[403] Forbidden: bot was kicked from the supergroup chat")) {
+                logger.error("Bot is not a member of the supergroup {}", editMessageText.getChatId());
+                groupTgService.setNotActive(GroupTgId.from(editMessageText.getChatId()));
+            } else if (!e.getMessage().contains("Bad Request: message is not modified")) {
                 logger.error(
                     "Unable edit message %d in chat %s".formatted(
                         editMessageText.getMessageId(), editMessageText.getChatId()

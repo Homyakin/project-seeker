@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Repository
 public class GroupPersonageStatsDao {
@@ -18,7 +18,7 @@ public class GroupPersonageStatsDao {
         this.jdbcClient = JdbcClient.create(dataSource);
     }
 
-    public void create(GroupId groupId, PersonageId personageId) {
+    public void create(GroupTgId groupId, PersonageId personageId) {
         final var sql = "INSERT INTO grouptg_personage_stats (grouptg_id, personage_id) VALUES (:grouptg_id, :personage_id)";
         jdbcClient.sql(sql)
             .param("grouptg_id", groupId.value())
@@ -26,7 +26,7 @@ public class GroupPersonageStatsDao {
             .update();
     }
 
-    public Optional<GroupPersonageStats> get(GroupId groupId, PersonageId personageId) {
+    public Optional<GroupPersonageStats> get(GroupTgId groupId, PersonageId personageId) {
         final var sql = "SELECT * FROM grouptg_personage_stats WHERE grouptg_id = :grouptg_id and personage_id = :personage_id";
         return jdbcClient.sql(sql)
             .param("grouptg_id", groupId.value())
@@ -50,7 +50,7 @@ public class GroupPersonageStatsDao {
 
     private GroupPersonageStats mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupPersonageStats(
-            GroupId.from(rs.getLong("grouptg_id")),
+            GroupTgId.from(rs.getLong("grouptg_id")),
             PersonageId.from(rs.getLong("personage_id")),
             rs.getInt("raids_success"),
             rs.getInt("raids_total"),

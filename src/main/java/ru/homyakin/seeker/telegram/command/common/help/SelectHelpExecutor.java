@@ -5,8 +5,8 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.group.GroupService;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
@@ -15,12 +15,12 @@ import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 @Component
 public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
     private final UserService userService;
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
 
-    public SelectHelpExecutor(UserService userService, GroupService groupService, TelegramSender telegramSender) {
+    public SelectHelpExecutor(UserService userService, GroupTgService groupTgService, TelegramSender telegramSender) {
         this.userService = userService;
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
     }
 
@@ -31,7 +31,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         if (command.isPrivate()) {
             language = userService.getOrCreateFromPrivate(UserId.from(command.chatId())).language();
         } else {
-            language = groupService.getOrCreate(GroupId.from(command.chatId())).language();
+            language = groupTgService.getOrCreate(GroupTgId.from(command.chatId())).language();
         }
         final var section = command.helpSection();
 

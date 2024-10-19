@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.group.models.GroupUser;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -40,7 +40,7 @@ public class GroupUserDao {
             .update();
     }
 
-    public Optional<GroupUser> getByGroupIdAndUserId(GroupId groupId, UserId userId) {
+    public Optional<GroupUser> getByGroupIdAndUserId(GroupTgId groupId, UserId userId) {
         return jdbcClient.sql(GET_GROUP_USER_BY_KEY)
             .param("grouptg_id", groupId.value())
             .param("usertg_id", userId.value())
@@ -49,7 +49,7 @@ public class GroupUserDao {
 
     }
 
-    public int countUsersInGroup(GroupId groupId) {
+    public int countUsersInGroup(GroupTgId groupId) {
         final var sql = """
                     SELECT count(*) as count FROM grouptg_to_usertg
                     WHERE grouptg_id = :grouptg_id and is_active = true""";
@@ -60,7 +60,7 @@ public class GroupUserDao {
             .orElseThrow();
     }
 
-    public Optional<GroupUser> getRandomUserByGroup(GroupId groupId) {
+    public Optional<GroupUser> getRandomUserByGroup(GroupTgId groupId) {
         final var sql = """
                     SELECT * FROM grouptg_to_usertg
                     WHERE grouptg_id = :grouptg_id and is_active = true
@@ -81,7 +81,7 @@ public class GroupUserDao {
 
     private GroupUser mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupUser(
-            GroupId.from(rs.getLong("grouptg_id")),
+            GroupTgId.from(rs.getLong("grouptg_id")),
             UserId.from(rs.getLong("usertg_id")),
             rs.getBoolean("is_active")
         );

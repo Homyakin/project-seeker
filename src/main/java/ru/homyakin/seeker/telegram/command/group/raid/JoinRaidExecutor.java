@@ -8,7 +8,7 @@ import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
-import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -77,7 +77,7 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
         }
     }
 
-    private String mapErrorToUserMessage(AddPersonageToRaidError error, Group group, JoinRaid command) {
+    private String mapErrorToUserMessage(AddPersonageToRaidError error, GroupTg group, JoinRaid command) {
         return switch (error) {
             case AddPersonageToRaidError.PersonageInOtherEvent _ ->
                 RaidLocalization.userAlreadyInOtherEvent(group.language());

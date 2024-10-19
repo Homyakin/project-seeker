@@ -8,7 +8,7 @@ import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
-import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -66,5 +66,5 @@ public abstract class ProcessDuelExecutor<T extends ProcessDuel> extends Command
             );
     }
 
-    protected abstract Either<ProcessDuelError, Success> processDuel(T command, Group group, User acceptor);
+    protected abstract Either<ProcessDuelError, Success> processDuel(T command, GroupTg group, User acceptor);
 }

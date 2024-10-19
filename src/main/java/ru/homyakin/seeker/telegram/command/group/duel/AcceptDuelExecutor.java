@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.models.Group;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
@@ -37,14 +37,14 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
     }
 
     @Override
-    protected Either<ProcessDuelError, Success> processDuel(AcceptDuel command, Group group, User acceptor) {
+    protected Either<ProcessDuelError, Success> processDuel(AcceptDuel command, GroupTg group, User acceptor) {
         final var duel = duelService.getByIdForce(command.duelId());
         return duelService.finishDuel(duel, acceptor.personageId())
             .peek(result -> processDuelResult(result, acceptor, command, group))
             .map(result -> Success.INSTANCE);
     }
 
-    private void processDuelResult(DuelResult result, User acceptor, AcceptDuel command, Group group) {
+    private void processDuelResult(DuelResult result, User acceptor, AcceptDuel command, GroupTg group) {
         final User winnerUser;
         final User loserUser;
         if (result.winner().personage().id().equals(acceptor.personageId())) {

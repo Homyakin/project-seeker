@@ -1,13 +1,13 @@
 package ru.homyakin.seeker.locale.group_settings;
 
 import java.util.HashMap;
-import ru.homyakin.seeker.game.event.models.EventInterval;
+import ru.homyakin.seeker.game.group.entity.EventInterval;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
-import ru.homyakin.seeker.telegram.group.models.GroupSettings;
-import ru.homyakin.seeker.telegram.group.models.IncorrectTimeZone;
+import ru.homyakin.seeker.game.group.entity.GroupSettings;
+import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class GroupSettingsLocalization {

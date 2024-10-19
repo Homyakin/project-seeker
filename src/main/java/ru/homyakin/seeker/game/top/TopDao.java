@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Component
 public class TopDao {
@@ -35,7 +35,7 @@ public class TopDao {
             .list();
     }
 
-    public List<TopRaidPosition> getUnsortedTopRaidGroup(LocalDate start, LocalDate end, GroupId groupId) {
+    public List<TopRaidPosition> getUnsortedTopRaidGroup(LocalDate start, LocalDate end, GroupTgId groupId) {
         final var sql = GROUP_TG_RAIDS_COUNT + RAIDS_PERSONAGE_INFO;
         return jdbcClient.sql(sql)
             .param("success_id", EventStatus.SUCCESS.id())
@@ -48,7 +48,7 @@ public class TopDao {
             .list();
     }
 
-    public List<TopSpinPosition> getUnsortedTopSpinGroup(GroupId groupId) {
+    public List<TopSpinPosition> getUnsortedTopSpinGroup(GroupTgId groupId) {
         return jdbcClient.sql(TOP_SPIN_GROUP)
             .param("grouptg_id", groupId.value())
             .query(this::mapSpinPosition)

@@ -2,11 +2,11 @@ package ru.homyakin.seeker.telegram.command.group.action;
 
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 public record MigrateFromGroup(
-    GroupId from,
-    GroupId to
+    GroupTgId from,
+    GroupTgId to
 ) implements Command {
     public static MigrateFromGroup from(Message message) {
         /*
@@ -17,8 +17,8 @@ public record MigrateFromGroup(
         обрабатывать два апдейта не имеет смысла
          */
         return new MigrateFromGroup(
-            GroupId.from(message.getMigrateFromChatId()),
-            GroupId.from(message.getChatId())
+            GroupTgId.from(message.getMigrateFromChatId()),
+            GroupTgId.from(message.getChatId())
         );
     }
 }

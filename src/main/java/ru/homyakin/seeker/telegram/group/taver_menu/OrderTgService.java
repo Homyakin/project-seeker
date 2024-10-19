@@ -15,10 +15,10 @@ import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowTarget;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
-import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
-import ru.homyakin.seeker.telegram.group.models.Group;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTg;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -38,7 +38,7 @@ public class OrderTgService {
     private final GroupStatsService groupStatsService;
     private final TelegramSender telegramSender;
     private final PersonageService personageService;
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final UserService userService;
 
     public OrderTgService(
@@ -47,7 +47,7 @@ public class OrderTgService {
         GroupStatsService groupStatsService,
         TelegramSender telegramSender,
         PersonageService personageService,
-        GroupService groupService,
+        GroupTgService groupTgService,
         UserService userService
     ) {
         this.menuItemOrderTgDao = menuItemOrderTgDao;
@@ -55,11 +55,11 @@ public class OrderTgService {
         this.groupStatsService = groupStatsService;
         this.telegramSender = telegramSender;
         this.personageService = personageService;
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.userService = userService;
     }
 
-    public Either<OrderError, MenuItemOrderTg> orderMenuItem(Group group, User giver, User acceptor, MenuItem menuItem) {
+    public Either<OrderError, MenuItemOrderTg> orderMenuItem(GroupTg group, User giver, User acceptor, MenuItem menuItem) {
         final var acceptingPersonage = personageService.getByIdForce(acceptor.personageId());
         final Personage givingPersonage;
         if (giver == acceptor) {
@@ -96,7 +96,7 @@ public class OrderTgService {
     public Either<ThrowOrderTgError, ThrowResultTg> throwOrder(
         User throwing,
         Optional<MentionInfo> target,
-        GroupId groupId
+        GroupTgId groupId
     ) {
         final ThrowTarget throwTarget;
         if (target.isEmpty()) {
@@ -154,7 +154,7 @@ public class OrderTgService {
                 orderService.expireOrder(order.menuItemOrderId())
                     .peek(expiredOrder -> {
                         if (expiredOrder.status() == ExpiredOrder.Status.EXPIRED) {
-                            final var group = groupService.getOrCreate(order.groupTgId());
+                            final var group = groupTgService.getOrCreate(order.groupTgId());
                             telegramSender.send(
                                 EditMessageTextBuilder.builder()
                                     .text(TavernMenuLocalization.expiredOrder(group.language()))
@@ -168,7 +168,7 @@ public class OrderTgService {
         );
     }
 
-    private MenuItemOrderTg linkOrderToMessage(long orderId, GroupId groupId, int messageId) {
+    private MenuItemOrderTg linkOrderToMessage(long orderId, GroupTgId groupId, int messageId) {
         return menuItemOrderTgDao.insert(
             new MenuItemOrderTg(
                 orderId,

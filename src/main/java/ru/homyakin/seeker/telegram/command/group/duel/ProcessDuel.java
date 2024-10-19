@@ -1,13 +1,13 @@
 package ru.homyakin.seeker.telegram.command.group.duel;
 
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public interface ProcessDuel extends Command {
     String callbackId();
 
-    GroupId groupId();
+    GroupTgId groupId();
 
     UserId userId();
 

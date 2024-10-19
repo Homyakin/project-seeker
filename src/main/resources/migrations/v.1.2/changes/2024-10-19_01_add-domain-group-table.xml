@@ -1,0 +1,77 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-usertg-referer">
+        <createTable tableName="pgroup">
+            <column name="id" type="BIGSERIAL">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="init_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="next_event_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="next_rumor_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_intervals_setting" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_zone_setting" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="grouptg_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <sql>
+            COMMENT ON TABLE pgroup is 'pgroup - abbreviated personage group'
+        </sql>
+
+        <sql>
+            INSERT INTO pgroup (is_active, init_date, next_event_date, next_rumor_date, event_intervals_setting, time_zone_setting, grouptg_id)
+            SELECT g.is_active, g.init_date, g.next_event_date, g.next_rumor_date, g.event_intervals_setting,
+                   g.time_zone_setting, g.id
+            FROM grouptg g
+            LEFT JOIN grouptg migrated_to ON g.id = migrated_to.migrated_from_grouptg_id
+            WHERE migrated_to.id IS NULL;
+        </sql>
+
+        <dropColumn tableName="grouptg" columnName="event_intervals_setting"/>
+        <dropColumn tableName="grouptg" columnName="time_zone_setting"/>
+        <dropColumn tableName="grouptg" columnName="init_date"/>
+        <dropColumn tableName="grouptg" columnName="next_event_date"/>
+        <dropColumn tableName="grouptg" columnName="next_rumor_date"/>
+        <dropColumn tableName="grouptg" columnName="is_active"/>
+
+        <addColumn tableName="grouptg">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE grouptg
+            SET pgroup_id = pgroup.id
+            FROM pgroup
+            WHERE pgroup.grouptg_id = grouptg.id;
+        </sql>
+
+        <dropColumn tableName="pgroup" columnName="grouptg_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="grouptg"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-pgroup-grouptg"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>

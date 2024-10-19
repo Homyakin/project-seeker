@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.group.models;
+package ru.homyakin.seeker.game.group.error;
 
 public record IncorrectTimeZone(int min, int max) {
 }

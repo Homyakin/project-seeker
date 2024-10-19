@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Component
 public class GroupMigrateDao {
@@ -16,7 +16,7 @@ public class GroupMigrateDao {
     }
 
     @Transactional
-    public void migrate(GroupId from, GroupId to) {
+    public void migrate(GroupTgId from, GroupTgId to) {
         final var fromToParams = new HashMap<String, Object>();
         fromToParams.put("from_grouptg_id", from.value());
         fromToParams.put("to_grouptg_id", to.value());
@@ -59,20 +59,11 @@ public class GroupMigrateDao {
         final var updateNewGroup = """
             UPDATE grouptg AS target
             SET
-                language_id = source.language_id,
-                init_date = source.init_date,
-                next_event_date = source.next_event_date,
-                next_rumor_date = source.next_rumor_date,
-                event_intervals_setting = source.event_intervals_setting,
-                time_zone_setting = source.time_zone_setting
+                migrated_from_grouptg_id = :from_grouptg_id,
+                language_id = source.language_id
             FROM (
                 SELECT
-                    language_id,
-                    init_date,
-                    next_event_date,
-                    next_rumor_date,
-                    event_intervals_setting,
-                    time_zone_setting
+                    language_id
                 FROM grouptg
                 WHERE id = :from_grouptg_id
             ) AS source
@@ -80,6 +71,13 @@ public class GroupMigrateDao {
             """;
         jdbcClient.sql(updateNewGroup)
             .params(fromToParams)
+            .update();
+
+        final var deactivateOldGroup = """
+            UPDATE grouptg SET pgroup_id = NULL WHERE id = :from_grouptg_id
+            """;
+        jdbcClient.sql(deactivateOldGroup)
+            .param("from_grouptg_id", from.value())
             .update();
     }
 }

@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.models;
+package ru.homyakin.seeker.game.group.error;
 
 public enum ZeroEnabledEventIntervalsError {
     INSTANCE;

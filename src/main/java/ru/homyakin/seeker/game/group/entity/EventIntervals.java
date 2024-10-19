@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.models;
+package ru.homyakin.seeker.game.group.entity;
 
 import io.vavr.control.Either;
 import java.time.OffsetDateTime;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.homyakin.seeker.game.group.error.ZeroEnabledEventIntervalsError;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.models.Pair;
 

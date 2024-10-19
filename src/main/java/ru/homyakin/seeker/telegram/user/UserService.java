@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.models.UserType;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -36,7 +36,7 @@ public class UserService {
             .orElseGet(() -> createUser(userId, false));
     }
 
-    public Optional<User> tryGetOrCreateByMention(MentionInfo mentionInfo, GroupId groupId) {
+    public Optional<User> tryGetOrCreateByMention(MentionInfo mentionInfo, GroupTgId groupId) {
         assert mentionInfo.userType() == UserType.USER;
 
         return switch (mentionInfo) {

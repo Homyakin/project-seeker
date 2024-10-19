@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.telegram.group.database.EverydaySpinDao;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.group.models.SpinError;
 import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -32,7 +32,7 @@ public class EverydaySpinService {
         this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
-    public Either<SpinError, User> chooseRandomUser(GroupId groupId) {
+    public Either<SpinError, User> chooseRandomUser(GroupTgId groupId) {
         final var date = TimeUtils.moscowDate();
         final var todayResult = everydaySpinDao.findPersonageIdByGrouptgIdAndDate(groupId, date);
         if (todayResult.isPresent()) {

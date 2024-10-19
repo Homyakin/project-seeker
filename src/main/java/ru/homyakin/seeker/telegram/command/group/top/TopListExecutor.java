@@ -4,25 +4,25 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.group.GroupService;
+import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
 public class TopListExecutor extends CommandExecutor<TopList> {
-    private final GroupService groupService;
+    private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
 
     public TopListExecutor(
-        GroupService groupService,
+        GroupTgService groupTgService,
         TelegramSender telegramSender
     ) {
-        this.groupService = groupService;
+        this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
     }
 
     @Override
     public void execute(TopList command) {
-        final var group = groupService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupId());
         telegramSender.send(
             SendMessageBuilder.builder()
                 .text(TopLocalization.topList(group.language()))

@@ -1,11 +1,12 @@
-package ru.homyakin.seeker.telegram.group.models;
+package ru.homyakin.seeker.game.group.entity;
 
 import io.vavr.control.Either;
 import java.time.DateTimeException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import ru.homyakin.seeker.game.event.models.EventIntervals;
-import ru.homyakin.seeker.game.event.models.ZeroEnabledEventIntervalsError;
+
+import ru.homyakin.seeker.game.group.error.ZeroEnabledEventIntervalsError;
+import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public record GroupSettings(

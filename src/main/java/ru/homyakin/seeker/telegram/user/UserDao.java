@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -47,7 +47,7 @@ public class UserDao {
             .optional();
     }
 
-    public Optional<User> getByUsernameInGroup(String username, GroupId groupId) {
+    public Optional<User> getByUsernameInGroup(String username, GroupTgId groupId) {
         return jdbcClient.sql(GET_BY_USERNAME)
             .param("username", username)
             .param("grouptg_id", groupId.value())

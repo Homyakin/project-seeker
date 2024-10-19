@@ -3,18 +3,18 @@ package ru.homyakin.seeker.telegram.command.group.settings;
 import io.vavr.control.Either;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record SetTimeZone(
-    GroupId groupId,
+    GroupTgId groupId,
     UserId userId,
     Either<IncorrectFormat, Integer> data
 ) implements Command {
     public static SetTimeZone from(Message message) {
 
         return new SetTimeZone(
-            GroupId.from(message.getChatId()),
+            GroupTgId.from(message.getChatId()),
             UserId.from(message.getFrom().getId()),
             timeZoneFromString(message.getText().split(" "))
         );

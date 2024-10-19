@@ -3,11 +3,11 @@ package ru.homyakin.seeker.telegram.command.group.settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.group.action.EditGroupSettings;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.group.GroupService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
@@ -16,16 +16,16 @@ import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 @Component
 public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInterval> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final GroupService groupService;
+    private final EditGroupSettings editGroupSettings;
     private final GroupUserService groupUserService;
     private final TelegramSender telegramSender;
 
     public ToggleEventIntervalExecutor(
-        GroupService groupService,
+        EditGroupSettings editGroupSettings,
         GroupUserService groupUserService,
         TelegramSender telegramSender
     ) {
-        this.groupService = groupService;
+        this.editGroupSettings = editGroupSettings;
         this.groupUserService = groupUserService;
         this.telegramSender = telegramSender;
     }
@@ -46,15 +46,15 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
             return;
         }
 
-        groupService.toggleEventInterval(group, command.intervalIndex())
+        editGroupSettings.toggleEventInterval(group.groupId(), command.intervalIndex())
             .peek(
                 updatedGroup -> telegramSender.send(
                     EditMessageTextBuilder
                         .builder()
                         .chatId(command.groupId())
                         .messageId(command.messageId())
-                        .text(GroupSettingsLocalization.groupSettings(updatedGroup.language(), updatedGroup.settings()))
-                        .keyboard(InlineKeyboards.eventIntervalsKeyboard(updatedGroup.language(), updatedGroup.settings().eventIntervals()))
+                        .text(GroupSettingsLocalization.groupSettings(group.language(), updatedGroup.settings()))
+                        .keyboard(InlineKeyboards.eventIntervalsKeyboard(group.language(), updatedGroup.settings().eventIntervals()))
                         .build()
                 )
             )

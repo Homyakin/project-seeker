@@ -2,12 +2,12 @@ package ru.homyakin.seeker.telegram.command.group.settings;
 
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.group.models.GroupId;
+import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 public record GetGroupSettings(
-    GroupId groupId
+    GroupTgId groupId
 ) implements Command {
     public static GetGroupSettings from(Message message) {
-        return new GetGroupSettings(GroupId.from(message.getChatId()));
+        return new GetGroupSettings(GroupTgId.from(message.getChatId()));
     }
 }
