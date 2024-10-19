@@ -58,7 +58,8 @@ public class GroupDao {
                 SELECT g.id
                 FROM grouptg g
                 JOIN grouptg_to_usertg gu ON g.id = gu.grouptg_id
-                WHERE g.is_active = TRUE
+                INNER JOIN pgroup p ON g.pgroup_id = p.id
+                WHERE p.is_active = TRUE
                     AND gu.is_active = TRUE
                 GROUP BY g.id
                 HAVING COUNT(gu.usertg_id) > 2
