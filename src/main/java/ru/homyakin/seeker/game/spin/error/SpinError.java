@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.group.models;
+package ru.homyakin.seeker.game.spin.error;
 
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 

@@ -18,4 +18,5 @@
     <include file="changes/2024-10-10_01_add-personage-random-shop-pool.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-12_01_add-usertg-referer.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-19_01_add-domain-group-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-10-20_01_add-domain-everyday-spin.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

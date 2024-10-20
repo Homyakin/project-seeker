@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
@@ -33,6 +34,35 @@ public class GroupPersonageStatsDao {
             .param("personage_id", personageId.value())
             .query(this::mapRow)
             .optional();
+    }
+
+    public Optional<GroupPersonageStats> get(GroupId groupId, PersonageId personageId) {
+        final var sql = """
+            SELECT * FROM grouptg_personage_stats gps
+            LEFT JOIN grouptg g ON g.id = gps.grouptg_id
+            WHERE pgroup_id = :pgroup_id AND personage_id = :personage_id
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .query(this::mapRow)
+            .optional();
+    }
+
+    public void create(GroupId groupId, PersonageId personageId) {
+        final var get = """
+            SELECT * FROM grouptg WHERE pgroup_id = :pgroup_id
+            """;
+        final var id = jdbcClient.sql(get)
+            .param("pgroup_id", groupId.value())
+            .query((rs, _) -> rs.getLong("id"))
+            .single();
+
+        final var sql = "INSERT INTO grouptg_personage_stats (grouptg_id, personage_id) VALUES (:grouptg_id, :personage_id)";
+        jdbcClient.sql(sql)
+            .param("grouptg_id", id)
+            .param("personage_id", personageId.value())
+            .update();
     }
 
     public void update(GroupPersonageStats stats) {
