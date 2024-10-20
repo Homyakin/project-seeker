@@ -46,6 +46,9 @@ public class TelegramSender {
             } else if (e.getMessage().contains("[403] Forbidden: bot is not a member of the supergroup chat")) {
                 logger.error("Bot is not a member of the supergroup {}", sendMessage.getChatId());
                 groupTgService.setNotActive(GroupTgId.from(sendMessage.getChatId()));
+            } else if (e.getMessage().contains("[400] Bad Request: not enough rights to send text messages to the chat")) {
+                logger.error("Not enough rights to send text messages to the chat {}", sendMessage.getChatId());
+                groupTgService.setNotActive(GroupTgId.from(sendMessage.getChatId()));
             } else if (e.getMessage().contains("[403] Forbidden: bot was blocked by the user")) {
                 logger.error("Bot was blocked by the user {}", sendMessage.getChatId());
                 userService.deactivatePrivateMessages(UserId.from(sendMessage.getChatId()));
