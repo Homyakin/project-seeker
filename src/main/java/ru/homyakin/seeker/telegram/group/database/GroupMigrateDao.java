@@ -60,10 +60,12 @@ public class GroupMigrateDao {
             UPDATE grouptg AS target
             SET
                 migrated_from_grouptg_id = :from_grouptg_id,
-                language_id = source.language_id
+                language_id = source.language_id,
+                pgroup_id = source.pgroup_id
             FROM (
                 SELECT
-                    language_id
+                    language_id,
+                    pgroup_id
                 FROM grouptg
                 WHERE id = :from_grouptg_id
             ) AS source
