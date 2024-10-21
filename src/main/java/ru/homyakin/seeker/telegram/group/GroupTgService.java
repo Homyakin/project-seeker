@@ -54,9 +54,7 @@ public class GroupTgService {
     }
 
     public void migrateGroupData(GroupTgId from, GroupTgId to) {
-        getOrCreate(to);
         groupMigrateDao.migrate(from, to);
-        setNotActive(from);
     }
 
     public long getActiveGroupsCount() {

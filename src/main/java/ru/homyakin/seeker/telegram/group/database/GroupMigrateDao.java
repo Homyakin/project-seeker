@@ -5,7 +5,9 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
+import ru.homyakin.seeker.utils.DatabaseUtils;
 
 @Component
 public class GroupMigrateDao {
@@ -17,6 +19,15 @@ public class GroupMigrateDao {
 
     @Transactional
     public void migrate(GroupTgId from, GroupTgId to) {
+        final var newDomainGroup = """
+            SELECT pgroup_id FROM grouptg WHERE id = :id
+            """;
+        jdbcClient.sql(newDomainGroup)
+            .param("id", to.value())
+            .query((rs, _) -> GroupId.from(DatabaseUtils.getLongOrNull(rs, "pgroup_id")))
+            .optional()
+            .ifPresent(this::removeGroupData);
+
         final var fromToParams = new HashMap<String, Object>();
         fromToParams.put("from_grouptg_id", from.value());
         fromToParams.put("to_grouptg_id", to.value());
@@ -68,6 +79,18 @@ public class GroupMigrateDao {
             """;
         jdbcClient.sql(deactivateOldGroup)
             .param("from_grouptg_id", from.value())
+            .update();
+    }
+
+    private void removeGroupData(GroupId groupId) {
+        final var deleteGroup = """
+            DELETE FROM everyday_spin WHERE pgroup_id = :id;
+            DELETE FROM pgroup_to_personage WHERE pgroup_id = :id;
+            UPDATE grouptg SET pgroup_id = NULL WHERE pgroup_id = :id;
+            DELETE FROM pgroup WHERE id = :id;
+            """;
+        jdbcClient.sql(deleteGroup)
+            .param("id", groupId.value())
             .update();
     }
 }
