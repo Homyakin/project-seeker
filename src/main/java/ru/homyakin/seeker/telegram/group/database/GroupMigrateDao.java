@@ -32,18 +32,6 @@ public class GroupMigrateDao {
         jdbcClient.sql(migrateGroupStats)
             .params(fromToParams)
             .update();
-        final var deleteNewGroupUsers = """
-            DELETE FROM grouptg_to_usertg WHERE grouptg_id = :to_grouptg_id
-            """;
-        jdbcClient.sql(deleteNewGroupUsers)
-            .param("to_grouptg_id", to.value())
-            .update();
-        final var migrateGroupUsers = """
-            UPDATE grouptg_to_usertg SET grouptg_id = :to_grouptg_id WHERE grouptg_id = :from_grouptg_id
-            """;
-        jdbcClient.sql(migrateGroupUsers)
-            .params(fromToParams)
-            .update();
         final var deleteNewGroupPersonageStats = """
             DELETE FROM grouptg_personage_stats WHERE grouptg_id = :to_grouptg_id
             """;

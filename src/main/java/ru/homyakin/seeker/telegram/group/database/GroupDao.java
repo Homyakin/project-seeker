@@ -58,12 +58,12 @@ public class GroupDao {
             SELECT COUNT(*) FROM (
                 SELECT g.id
                 FROM grouptg g
-                JOIN grouptg_to_usertg gu ON g.id = gu.grouptg_id
                 INNER JOIN pgroup p ON g.pgroup_id = p.id
+                JOIN pgroup_to_personage ptp ON p.id = ptp.pgroup_id
                 WHERE p.is_active = TRUE
-                    AND gu.is_active = TRUE
+                    AND ptp.is_active = TRUE
                 GROUP BY g.id
-                HAVING COUNT(gu.usertg_id) > 2
+                HAVING COUNT(ptp.personage_id) > 2
             ) active_groups;
             """;
         return jdbcClient.sql(sql)

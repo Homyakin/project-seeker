@@ -108,10 +108,11 @@ public class UserDao {
         """;
     private static final String GET_BY_USERNAME = """
         SELECT u.* FROM usertg u
-        LEFT JOIN grouptg_to_usertg gtu on u.id = gtu.usertg_id
+        LEFT JOIN pgroup_to_personage ptp ON u.personage_id = ptp.personage_id
+        LEFT JOIN grouptg g ON ptp.pgroup_id = g.pgroup_id
         WHERE u.username = :username
-        AND gtu.grouptg_id = :grouptg_id
-        AND gtu.is_active = true
+        AND g.id = :grouptg_id
+        AND ptp.is_active = true
         """;
     private static final String UPDATE_USERNAME = "UPDATE usertg SET username = :username WHERE id = :id";
 }
