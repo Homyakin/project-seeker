@@ -46,7 +46,7 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
             return;
         }
 
-        editGroupSettings.toggleEventInterval(group.groupId(), command.intervalIndex())
+        editGroupSettings.toggleEventInterval(group.domainGroupId(), command.intervalIndex())
             .peek(
                 updatedGroup -> telegramSender.send(
                     EditMessageTextBuilder

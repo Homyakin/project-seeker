@@ -40,7 +40,7 @@ public class SpinExecutor extends CommandExecutor<Spin> {
     public void execute(Spin command) {
         final var group = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId()).first();
         final var message = chooseRandomPersonage
-            .chooseInGroup(group.groupId())
+            .chooseInGroup(group.domainGroupId())
             .fold(
                 error -> mapSpinErrorToMessage(error, group),
                 personageId -> {

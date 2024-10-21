@@ -34,7 +34,7 @@ public class GroupDao {
         jdbcClient.sql(SAVE_GROUP)
             .param("id", group.id().value())
             .param("language_id", group.language().id())
-            .param("pgroup_id", group.groupId().value())
+            .param("pgroup_id", group.domainGroupId().value())
             .update();
     }
 

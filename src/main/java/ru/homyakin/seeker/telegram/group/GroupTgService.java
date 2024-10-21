@@ -41,12 +41,12 @@ public class GroupTgService {
 
     public GroupTg getOrCreate(GroupTgId groupId) {
         final var optionalGroup = getGroup(groupId);
-        optionalGroup.ifPresent(group -> changeGroupActivity.activate(group.groupId()));
+        optionalGroup.ifPresent(group -> changeGroupActivity.activate(group.domainGroupId()));
         return optionalGroup.orElseGet(() -> createGroup(groupId));
     }
 
     public void setNotActive(GroupTgId groupId) {
-        getGroup(groupId).ifPresent(group -> changeGroupActivity.deactivate(group.groupId()));
+        getGroup(groupId).ifPresent(group -> changeGroupActivity.deactivate(group.domainGroupId()));
     }
 
     public GroupTg changeLanguage(GroupTg group, Language language) {

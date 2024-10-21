@@ -20,7 +20,10 @@ public class GroupPersonageStatsDao {
     }
 
     public void create(GroupTgId groupId, PersonageId personageId) {
-        final var sql = "INSERT INTO grouptg_personage_stats (grouptg_id, personage_id) VALUES (:grouptg_id, :personage_id)";
+        final var sql = """
+            INSERT INTO grouptg_personage_stats (grouptg_id, personage_id) VALUES (:grouptg_id, :personage_id)
+            ON CONFLICT (grouptg_id, personage_id) DO NOTHING
+            """;
         jdbcClient.sql(sql)
             .param("grouptg_id", groupId.value())
             .param("personage_id", personageId.value())

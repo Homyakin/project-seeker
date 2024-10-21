@@ -54,7 +54,7 @@ public class SetTimeZoneExecutor extends CommandExecutor<SetTimeZone> {
             return;
         }
 
-        final var text = editGroupSettings.changeTimeZone(group.groupId(), timeZone)
+        final var text = editGroupSettings.changeTimeZone(group.domainGroupId(), timeZone)
             .fold(
                 error -> GroupSettingsLocalization.incorrectTimeZone(group.language(), error),
                 _ -> GroupSettingsLocalization.successChangeTimeZone(group.language())

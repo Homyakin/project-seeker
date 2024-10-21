@@ -7,7 +7,7 @@ import ru.homyakin.seeker.telegram.group.database.GroupDao;
 public record GroupTg(
     GroupTgId id,
     Language language,
-    GroupId groupId
+    GroupId domainGroupId
 ) {
     // TODO убрать dao из класса
     public GroupTg changeLanguage(Language newLanguage, GroupDao groupDao) {
@@ -15,7 +15,7 @@ public record GroupTg(
             final var group = new GroupTg(
                 id,
                 newLanguage,
-                groupId
+                domainGroupId
             );
             groupDao.update(group);
             return group;

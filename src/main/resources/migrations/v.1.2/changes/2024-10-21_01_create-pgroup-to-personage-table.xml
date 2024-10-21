@@ -1,0 +1,49 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-domain-everyday-spin">
+        <createTable tableName="pgroup_to_personage">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="pgroup_id, personage_id"
+                constraintName="pk-pgroup_to_personage"
+                tableName="pgroup_to_personage"
+        />
+        <addForeignKeyConstraint
+                baseTableName="pgroup_to_personage"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-pgroup_to_personage-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="pgroup_to_personage"
+                baseColumnNames="personage_id"
+                constraintName="fk-pgroup_to_personage-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+
+        <sql>
+            INSERT INTO pgroup_to_personage (pgroup_id, personage_id, is_active)
+            SELECT g.pgroup_id, u.personage_id, gtu.is_active FROM grouptg_to_usertg gtu
+            INNER JOIN grouptg g ON gtu.grouptg_id = g.id
+            INNER JOIN usertg u ON gtu.usertg_id = u.id
+            WHERE g.pgroup_id IS NOT NULL;
+        </sql>
+
+        <dropTable tableName="grouptg_to_usertg"/>
+    </changeSet>
+</databaseChangeLog>

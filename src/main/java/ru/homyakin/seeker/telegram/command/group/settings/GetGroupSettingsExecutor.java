@@ -27,7 +27,7 @@ public class GetGroupSettingsExecutor extends CommandExecutor<GetGroupSettings> 
     @Override
     public void execute(GetGroupSettings command) {
         final var groupTg = groupTgService.getOrCreate(command.groupId());
-        final var group = getGroup.forceGet(groupTg.groupId());
+        final var group = getGroup.forceGet(groupTg.domainGroupId());
         telegramSender.send(
             SendMessageBuilder
                 .builder()
