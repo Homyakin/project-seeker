@@ -62,4 +62,16 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
             .param("personage_id", personageId.value())
             .update();
     }
+
+    @Override
+    public void create(GroupId groupId, PersonageId personageId) {
+        final var sql = """
+            INSERT INTO pgroup_to_personage (pgroup_id, personage_id, is_active) VALUES (:pgroup_id, :personage_id, false)
+            ON CONFLICT (pgroup_id, personage_id) DO NOTHING
+            """;
+        jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .update();
+    }
 }

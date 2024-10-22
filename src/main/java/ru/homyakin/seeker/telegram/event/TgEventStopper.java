@@ -10,7 +10,7 @@ import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
-import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -92,7 +92,7 @@ public class TgEventStopper {
                     final var group = groupTgService.getOrCreate(groupEvent.groupId());
                     switch (result) {
                         case EventResult.RaidResult.Completed completed -> {
-                            groupStatsService.updateRaidStats(group.id(), completed);
+                            groupStatsService.updateRaidStats(group.domainGroupId(), completed);
                             telegramSender.send(EditMessageTextBuilder.builder()
                                 .chatId(groupEvent.groupId())
                                 .messageId(groupEvent.messageId())

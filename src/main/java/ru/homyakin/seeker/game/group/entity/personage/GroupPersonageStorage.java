@@ -13,4 +13,6 @@ public interface GroupPersonageStorage {
     void deactivatePersonageInGroup(GroupId groupId, PersonageId personageId);
 
     void createOrActivate(GroupId groupId, PersonageId personageId);
+
+    void create(GroupId groupId, PersonageId personageId);
 }

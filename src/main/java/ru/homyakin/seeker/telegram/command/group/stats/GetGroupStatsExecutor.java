@@ -5,7 +5,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
-import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -27,8 +27,7 @@ public class GetGroupStatsExecutor extends CommandExecutor<GetGroupStats> {
     @Override
     public void execute(GetGroupStats command) {
         final var group = groupTgService.getOrCreate(command.groupId());
-        final var groupStats = groupStatsService.findById(command.groupId())
-            .orElseThrow(() -> new IllegalStateException("No stats for group " + command.groupId()));
+        final var groupStats = groupStatsService.get(group.domainGroupId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
             .text(CommonLocalization.groupStats(group.language(), groupStats))

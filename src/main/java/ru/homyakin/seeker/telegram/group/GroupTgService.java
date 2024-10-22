@@ -10,7 +10,6 @@ import ru.homyakin.seeker.telegram.group.database.GroupDao;
 import ru.homyakin.seeker.telegram.group.database.GroupMigrateDao;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
-import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -19,20 +18,17 @@ public class GroupTgService {
     private final ChangeGroupActivity changeGroupActivity;
     private final GroupDao groupDao;
     private final GroupMigrateDao groupMigrateDao;
-    private final GroupStatsService groupStatsService;
 
     public GroupTgService(
         CreateGroup createGroup,
         ChangeGroupActivity changeGroupActivity,
         GroupDao groupDao,
-        GroupMigrateDao groupMigrateDao,
-        GroupStatsService groupStatsService
+        GroupMigrateDao groupMigrateDao
     ) {
         this.createGroup = createGroup;
         this.changeGroupActivity = changeGroupActivity;
         this.groupDao = groupDao;
         this.groupMigrateDao = groupMigrateDao;
-        this.groupStatsService = groupStatsService;
     }
 
     public GroupTg forceGet(GroupId groupId) {
@@ -73,7 +69,6 @@ public class GroupTgService {
             group.id()
         );
         groupDao.save(groupTg);
-        groupStatsService.create(groupId);
         return groupTg;
     }
 }

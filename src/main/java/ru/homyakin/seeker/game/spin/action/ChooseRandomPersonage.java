@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CountPersonagesInGroup;
 import ru.homyakin.seeker.game.group.action.personage.RandomGroupPersonage;
-import ru.homyakin.seeker.game.group.action.personage.SpinStats;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.spin.entity.EverydaySpinConfig;
 import ru.homyakin.seeker.game.spin.entity.EverydaySpinStorage;
+import ru.homyakin.seeker.game.spin.entity.GroupPersonageStatsClient;
 import ru.homyakin.seeker.game.spin.error.SpinError;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -19,20 +19,20 @@ public class ChooseRandomPersonage {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final RandomGroupPersonage randomGroupPersonage;
     private final CountPersonagesInGroup countPersonagesInGroup;
-    private final SpinStats spinStats;
+    private final GroupPersonageStatsClient groupPersonageStatsClient;
     private final EverydaySpinConfig config;
     private final EverydaySpinStorage storage;
 
     public ChooseRandomPersonage(
         RandomGroupPersonage randomGroupPersonage,
         CountPersonagesInGroup countPersonagesInGroup,
-        SpinStats spinStats,
+        GroupPersonageStatsClient groupPersonageStatsClient,
         EverydaySpinConfig config,
         EverydaySpinStorage storage
     ) {
         this.randomGroupPersonage = randomGroupPersonage;
         this.countPersonagesInGroup = countPersonagesInGroup;
-        this.spinStats = spinStats;
+        this.groupPersonageStatsClient = groupPersonageStatsClient;
         this.config = config;
         this.storage = storage;
     }
@@ -58,7 +58,7 @@ public class ChooseRandomPersonage {
         final var personageId = result.get().get();
         logger.info("Personage {} was selected in group {} spin", personageId.value(), groupId.value());
         storage.save(groupId, personageId, date);
-        spinStats.addPersonageSpinWin(groupId, personageId);
+        groupPersonageStatsClient.addPersonageSpinWin(groupId, personageId);
         return Either.right(personageId);
     }
 }

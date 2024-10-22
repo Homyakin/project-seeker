@@ -1,0 +1,69 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="move-stats-to-domain">
+        <addColumn tableName="pgroup">
+            <column name="raids_complete" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_complete" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tavern_money_spent" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE pgroup SET
+                raids_complete = gs.raids_complete,
+                duels_complete = gs.duels_complete,
+                tavern_money_spent = gs.tavern_money_spent
+            FROM grouptg_stats gs
+            INNER JOIN grouptg g ON gs.grouptg_id = g.id
+            WHERE pgroup.id = g.pgroup_id;
+        </sql>
+
+        <dropTable tableName="grouptg_stats"/>
+
+        <addColumn tableName="pgroup_to_personage">
+            <column name="raids_success" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raids_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_wins" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tavern_money_spent" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="spin_wins_count" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE pgroup_to_personage SET
+                raids_success = gps.raids_success,
+                raids_total = gps.raids_total,
+                duels_wins = gps.duels_wins,
+                duels_total = gps.duels_total,
+                tavern_money_spent = gps.tavern_money_spent,
+                spin_wins_count = gps.spin_wins_count
+            FROM grouptg_personage_stats gps
+            INNER JOIN grouptg g ON gps.grouptg_id = g.id
+            WHERE pgroup_to_personage.pgroup_id = g.pgroup_id
+            AND pgroup_to_personage.personage_id = gps.personage_id;
+        </sql>
+
+        <dropTable tableName="grouptg_personage_stats"/>
+
+    </changeSet>
+</databaseChangeLog>

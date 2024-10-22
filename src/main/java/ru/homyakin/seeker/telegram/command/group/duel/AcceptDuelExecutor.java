@@ -9,7 +9,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
-import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -41,7 +41,7 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
         final var duel = duelService.getByIdForce(command.duelId());
         return duelService.finishDuel(duel, acceptor.personageId())
             .peek(result -> processDuelResult(result, acceptor, command, group))
-            .map(result -> Success.INSTANCE);
+            .map(_ -> Success.INSTANCE);
     }
 
     private void processDuelResult(DuelResult result, User acceptor, AcceptDuel command, GroupTg group) {
@@ -54,7 +54,7 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
             winnerUser = userService.getByPersonageIdForce(result.winner().personage().id());
             loserUser = acceptor;
         }
-        groupStatsService.increaseDuelsComplete(command.groupId(), winnerUser.personageId(), loserUser.personageId());
+        groupStatsService.increaseDuelsComplete(group.domainGroupId(), winnerUser.personageId(), loserUser.personageId());
 
         telegramSender.send(
             EditMessageTextBuilder.builder()

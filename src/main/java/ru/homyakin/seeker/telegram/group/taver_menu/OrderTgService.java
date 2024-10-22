@@ -16,7 +16,7 @@ import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowTarget;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
-import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
@@ -69,7 +69,7 @@ public class OrderTgService {
         }
         return orderService.orderMenuItem(givingPersonage, acceptingPersonage, menuItem)
             .map(orderId -> {
-                    groupStatsService.increaseTavernMoneySpent(group.id(), givingPersonage.id(), menuItem.price());
+                    groupStatsService.increaseTavernMoneySpent(group.domainGroupId(), givingPersonage.id(), menuItem.price());
                     return telegramSender.send(SendMessageBuilder.builder()
                             .chatId(group.id())
                             .text(
@@ -85,7 +85,6 @@ public class OrderTgService {
                         )
                         .map(message -> linkOrderToMessage(orderId, group.id(), message.getMessageId()))
                         .getOrElseThrow(() -> {
-                            groupStatsService.increaseTavernMoneySpent(group.id(), givingPersonage.id(), menuItem.price().negative());
                             orderService.techCancelOrder(orderId);
                             return new IllegalStateException("Exception during sending telegram message");
                         });

@@ -5,7 +5,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
-import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
+import ru.homyakin.seeker.game.stats.action.GroupPersonageStatsService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -27,7 +27,10 @@ public class GetPersonageStatsExecutor extends CommandExecutor<GetPersonageStats
     @Override
     public void execute(GetPersonageStats command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
-        final var groupStats = groupPersonageStatsService.getOrCreate(command.groupId(), groupUser.second().personageId());
+        final var groupStats = groupPersonageStatsService.getOrCreate(
+            groupUser.first().domainGroupId(),
+            groupUser.second().personageId()
+        );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
             .replyMessageId(command.messageId())

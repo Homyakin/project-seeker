@@ -1,10 +1,10 @@
-package ru.homyakin.seeker.telegram.group.stats;
+package ru.homyakin.seeker.game.stats.entity;
 
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 public record GroupPersonageStats(
-    GroupTgId groupId,
+    GroupId groupId,
     PersonageId personageId,
     int raidsSuccess,
     int raidsTotal,

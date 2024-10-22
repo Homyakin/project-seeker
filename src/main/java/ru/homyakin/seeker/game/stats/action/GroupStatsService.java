@@ -1,33 +1,30 @@
-package ru.homyakin.seeker.telegram.group.stats;
+package ru.homyakin.seeker.game.stats.action;
 
-import java.util.Optional;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.telegram.group.models.GroupTgId;
+import ru.homyakin.seeker.game.stats.entity.GroupStats;
+import ru.homyakin.seeker.game.stats.entity.GroupStatsStorage;
 
 @Service
 public class GroupStatsService {
-    private final GroupStatsDao groupStatsDao;
+    private final GroupStatsStorage storage;
     private final GroupPersonageStatsService groupPersonageStatsService;
 
-    public GroupStatsService(GroupStatsDao groupStatsDao, GroupPersonageStatsService groupPersonageStatsService) {
-        this.groupStatsDao = groupStatsDao;
+    public GroupStatsService(GroupStatsStorage storage, GroupPersonageStatsService groupPersonageStatsService) {
+        this.storage = storage;
         this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
-    public void create(GroupTgId groupId) {
-        groupStatsDao.create(groupId);
+    public GroupStats get(GroupId groupId) {
+        return storage.get(groupId).orElseThrow(() -> new IllegalArgumentException("Group not found"));
     }
 
-    public Optional<GroupStats> findById(GroupTgId groupId) {
-        return groupStatsDao.getById(groupId);
-    }
-
-    public void updateRaidStats(GroupTgId groupId, EventResult.RaidResult.Completed raidResult) {
+    public void updateRaidStats(GroupId groupId, EventResult.RaidResult.Completed raidResult) {
         if (raidResult.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
-            groupStatsDao.increaseRaidsComplete(groupId, 1);
+            storage.increaseRaidsComplete(groupId, 1);
         }
         raidResult.personageResults().forEach(
             personageResult -> {
@@ -40,14 +37,14 @@ public class GroupStatsService {
         );
     }
 
-    public void increaseDuelsComplete(GroupTgId groupId, PersonageId winner, PersonageId loser) {
-        groupStatsDao.increaseDuelsComplete(groupId, 1);
+    public void increaseDuelsComplete(GroupId groupId, PersonageId winner, PersonageId loser) {
+        storage.increaseDuelsComplete(groupId, 1);
         groupPersonageStatsService.addWinDuel(groupId, winner);
         groupPersonageStatsService.addLoseDuel(groupId, loser);
     }
 
-    public void increaseTavernMoneySpent(GroupTgId groupId, PersonageId personageId, Money money) {
-        groupStatsDao.increaseTavernMoneySpent(groupId, money.value());
+    public void increaseTavernMoneySpent(GroupId groupId, PersonageId personageId, Money money) {
+        storage.increaseTavernMoneySpent(groupId, money.value());
         groupPersonageStatsService.increaseTavernMoneySpent(groupId, personageId, money);
     }
 }

@@ -20,4 +20,5 @@
     <include file="changes/2024-10-19_01_add-domain-group-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-20_01_add-domain-everyday-spin.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-21_01_create-pgroup-to-personage-table.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-10-22_01_move-stats-to-domain.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

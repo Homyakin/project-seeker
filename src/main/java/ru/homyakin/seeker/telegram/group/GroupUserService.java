@@ -15,7 +15,6 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
-import ru.homyakin.seeker.telegram.group.stats.GroupPersonageStatsService;
 import ru.homyakin.seeker.telegram.models.ChatMemberError;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
@@ -29,20 +28,17 @@ public class GroupUserService implements CheckGroupPersonage {
     private final GroupTgService groupTgService;
     private final UserService userService;
     private final TelegramSender telegramSender;
-    private final GroupPersonageStatsService groupPersonageStatsService;
     private final CreateOrActivateGroupPersonageCommand createOrActivateGroupPersonage;
 
     public GroupUserService(
         GroupTgService groupTgService,
         UserService userService,
         TelegramSender telegramSender,
-        GroupPersonageStatsService groupPersonageStatsService,
         CreateOrActivateGroupPersonageCommand createOrActivateGroupPersonage
     ) {
         this.groupTgService = groupTgService;
         this.userService = userService;
         this.telegramSender = telegramSender;
-        this.groupPersonageStatsService = groupPersonageStatsService;
         this.createOrActivateGroupPersonage = createOrActivateGroupPersonage;
     }
 
@@ -58,7 +54,6 @@ public class GroupUserService implements CheckGroupPersonage {
         final var group = groupTgService.getOrCreate(groupId);
         final var user = userService.getOrCreateFromGroup(userId);
         createOrActivateGroupPersonage.execute(group.domainGroupId(), user.personageId());
-        groupPersonageStatsService.create(group.id(), user.personageId());
         return Pair.of(group, user);
     }
 

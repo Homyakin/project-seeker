@@ -15,7 +15,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
-import ru.homyakin.seeker.telegram.group.stats.GroupStatsService;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -113,7 +113,9 @@ public class AcceptDuelExecutorTest {
         }
 
         // then
-        Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(group.id(), initiatorPersonage.id(), acceptorPersonage.id());
+        Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(
+            group.domainGroupId(), initiatorPersonage.id(), acceptorPersonage.id()
+        );
         final var captor = ArgumentCaptor.forClass(EditMessageText.class);
         Mockito.verify(telegramSender).send(captor.capture());
 
@@ -175,7 +177,9 @@ public class AcceptDuelExecutorTest {
         }
 
         // then
-        Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(group.id(), acceptorPersonage.id(), initiatorPersonage.id());
+        Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(
+            group.domainGroupId(), acceptorPersonage.id(), initiatorPersonage.id()
+        );
         final var captor = ArgumentCaptor.forClass(EditMessageText.class);
         Mockito.verify(telegramSender).send(captor.capture());
         System.out.println(captor.getValue());
