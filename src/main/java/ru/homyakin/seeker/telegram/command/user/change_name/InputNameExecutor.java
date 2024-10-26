@@ -1,8 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.change_name;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -15,18 +14,15 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 @Component
 public class InputNameExecutor extends CommandExecutor<InputName> {
     private final UserService userService;
-    private final PersonageService personageService;
     private final UserStateService userStateService;
     private final TelegramSender telegramSender;
 
     public InputNameExecutor(
         UserService userService,
-        PersonageService personageService,
         UserStateService userStateService,
         TelegramSender telegramSender
     ) {
         this.userService = userService;
-        this.personageService = personageService;
         this.userStateService = userStateService;
         this.telegramSender = telegramSender;
     }
@@ -41,7 +37,7 @@ public class InputNameExecutor extends CommandExecutor<InputName> {
             return;
         }
         final var messageBuilder = SendMessageBuilder.builder().chatId(user.id());
-        Personage.validateName(command.name())
+        NameValidator.validateName(command.name())
             .fold(
                 error -> messageBuilder.text(error.toUserMessage(user.language())),
                 name -> {

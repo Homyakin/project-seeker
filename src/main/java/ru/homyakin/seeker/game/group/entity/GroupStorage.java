@@ -20,4 +20,6 @@ public interface GroupStorage {
     void updateNextEventDate(GroupId groupId, LocalDateTime nextEventDate);
 
     void updateNextRumorDate(GroupId groupId, LocalDateTime nextRumorDate);
+
+    void changeGroupName(GroupId groupId, String name);
 }

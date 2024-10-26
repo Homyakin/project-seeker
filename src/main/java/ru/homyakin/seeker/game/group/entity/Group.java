@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 
 public record Group(
     GroupId id,
+    String name,
     boolean isActive,
     GroupSettings settings
 ) {
@@ -28,13 +29,14 @@ public record Group(
     }
 
     private Group copyWithSettings(GroupSettings settings) {
-        return new Group(id, isActive, settings);
+        return new Group(id, name, isActive, settings);
     }
 
     private Either<StillSame, Group> changeActive(boolean newActive) {
         if (isActive != newActive) {
             final var group = new Group(
                 id,
+                name,
                 newActive,
                 settings
             );

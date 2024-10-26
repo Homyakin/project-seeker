@@ -11,6 +11,7 @@ import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
 import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
+import ru.homyakin.seeker.telegram.command.group.settings.ChangeGroupName;
 import ru.homyakin.seeker.telegram.command.group.settings.GetGroupSettings;
 import ru.homyakin.seeker.telegram.command.group.settings.SetTimeZone;
 import ru.homyakin.seeker.telegram.command.group.settings.ToggleEventInterval;
@@ -175,6 +176,7 @@ public class CommandParser {
                 case SETTINGS -> GetGroupSettings.from(message);
                 case SET_TIME_ZONE -> SetTimeZone.from(message);
                 case THROW_ORDER -> ThrowOrder.from(message);
+                case CHANGE_GROUP_NAME -> ChangeGroupName.from(message);
                 default -> null;
             });
     }

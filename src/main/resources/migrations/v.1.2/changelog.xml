@@ -22,4 +22,5 @@
     <include file="changes/2024-10-21_01_create-pgroup-to-personage-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-22_01_move-stats-to-domain.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-26_01_add-domain-group-to-orders-duels-events.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-10-26_02_add-pgroup-name.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

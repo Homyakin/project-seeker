@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.personage.models.errors;
+package ru.homyakin.seeker.game.utils;
 
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;

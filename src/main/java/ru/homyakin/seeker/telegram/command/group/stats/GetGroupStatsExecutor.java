@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.stats;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -12,15 +13,18 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class GetGroupStatsExecutor extends CommandExecutor<GetGroupStats> {
     private final GroupTgService groupTgService;
     private final GroupStatsService groupStatsService;
+    private final GetGroup getGroup;
     private final TelegramSender telegramSender;
 
     public GetGroupStatsExecutor(
         GroupTgService groupTgService,
         GroupStatsService groupStatsService,
+        GetGroup getGroup,
         TelegramSender telegramSender
     ) {
         this.groupTgService = groupTgService;
         this.groupStatsService = groupStatsService;
+        this.getGroup = getGroup;
         this.telegramSender = telegramSender;
     }
 
@@ -30,7 +34,7 @@ public class GetGroupStatsExecutor extends CommandExecutor<GetGroupStats> {
         final var groupStats = groupStatsService.get(group.domainGroupId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
-            .text(CommonLocalization.groupStats(group.language(), groupStats))
+            .text(CommonLocalization.groupStats(group.language(), groupStats, getGroup.forceGet(group.domainGroupId())))
             .build()
         );
     }

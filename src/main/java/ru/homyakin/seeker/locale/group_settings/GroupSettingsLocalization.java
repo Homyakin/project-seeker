@@ -1,12 +1,15 @@
 package ru.homyakin.seeker.locale.group_settings;
 
+import java.util.Collections;
 import java.util.HashMap;
 import ru.homyakin.seeker.game.group.entity.EventInterval;
+import ru.homyakin.seeker.game.group.entity.Group;
+import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
-import ru.homyakin.seeker.game.group.entity.GroupSettings;
 import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
@@ -17,10 +20,12 @@ public class GroupSettingsLocalization {
         resources.add(language, resource);
     }
 
-    public static String groupSettings(Language language, GroupSettings settings) {
+    public static String groupSettings(Language language, Group group) {
         final var params = new HashMap<String, Object>();
-        params.put("time_zone", settings.timeZone());
+        params.put("time_zone", group.settings().timeZone());
         params.put("set_time_zone_command", CommandType.SET_TIME_ZONE.getText());
+        params.put("change_group_name_command", CommandType.CHANGE_GROUP_NAME.getText());
+        params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupSettingsResource::groupSettings),
             params
@@ -63,5 +68,33 @@ public class GroupSettingsLocalization {
 
     public static String successChangeTimeZone(Language language) {
         return resources.getOrDefault(language, GroupSettingsResource::successChangeTimeZone);
+    }
+
+    public static String changeNameInvalidFormat(Language language) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupSettingsResource::changeNameInvalidFormat),
+            Collections.singletonMap("change_group_name_command", CommandType.CHANGE_GROUP_NAME.getText())
+        );
+    }
+
+    public static String changeNameInvalidSymbols(Language language) {
+        return resources.getOrDefault(language, GroupSettingsResource::changeNameInvalidSymbols);
+    }
+
+    public static String changeNameInvalidLength(Language language, NameError.InvalidLength error) {
+        final var params = new HashMap<String, Object>();
+        params.put("min_name_length", error.minLength());
+        params.put("max_name_length", error.maxLength());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupSettingsResource::changeNameInvalidLength),
+            params
+        );
+    }
+
+    public static String successChangeName(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupSettingsResource::successChangeName),
+            Collections.singletonMap("name", name)
+        );
     }
 }

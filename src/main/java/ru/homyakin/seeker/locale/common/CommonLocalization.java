@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale.common;
 
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.personage.models.CurrentEvent;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
@@ -8,6 +9,7 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
@@ -69,7 +71,7 @@ public class CommonLocalization {
     }
 
     public static String fullProfile(Language language, Personage personage) {
-        final var params = profileParams(language, personage);
+        final var params = profileParams(personage);
 
         params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
         if (personage.energy().isFull()) {
@@ -101,11 +103,11 @@ public class CommonLocalization {
     public static String shortProfile(Language language, Personage personage) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::shortProfile),
-            profileParams(language, personage)
+            profileParams(personage)
         );
     }
 
-    private static HashMap<String, Object> profileParams(Language language, Personage personage) {
+    private static HashMap<String, Object> profileParams(Personage personage) {
         final var characteristics = personage.calcTotalCharacteristicsWithEffects();
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
@@ -271,12 +273,13 @@ public class CommonLocalization {
         );
     }
 
-    public static String groupStats(Language language, GroupStats groupStats) {
+    public static String groupStats(Language language, GroupStats groupStats, Group group) {
         final var params = new HashMap<String, Object>();
         params.put("raids_count", groupStats.raidsComplete());
         params.put("duels_count", groupStats.duelsComplete());
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
+        params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::groupStats),
             params

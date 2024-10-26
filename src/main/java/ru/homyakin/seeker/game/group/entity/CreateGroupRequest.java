@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public record CreateGroupRequest(
     boolean isActive,
+    String name,
     LocalDateTime initDate,
     LocalDateTime nextEventDate,
     LocalDateTime nextRumorDate,

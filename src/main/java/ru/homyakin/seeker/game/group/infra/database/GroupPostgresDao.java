@@ -32,8 +32,9 @@ public class GroupPostgresDao implements GroupStorage {
     public GroupId create(CreateGroupRequest request) {
         final var sql = """
             INSERT INTO pgroup (is_active, init_date, next_event_date, next_rumor_date,
-                    event_intervals_setting, time_zone_setting)
-            VALUES (:is_active, :init_date, :next_event_date, :next_rumor_date, :event_intervals_setting, :time_zone_setting)
+                    event_intervals_setting, time_zone_setting, name)
+            VALUES (:is_active, :init_date, :next_event_date, :next_rumor_date, :event_intervals_setting, :time_zone_setting,
+                    :name)
             RETURNING id
             """;
         return jdbcClient.sql(sql)
@@ -43,6 +44,7 @@ public class GroupPostgresDao implements GroupStorage {
             .param("next_rumor_date", request.nextRumorDate())
             .param("event_intervals_setting", jsonUtils.mapToPostgresJson(request.settings().eventIntervals()))
             .param("time_zone_setting", request.settings().timeZone().getId())
+            .param("name", request.name())
             .query((rs, _) -> GroupId.from(rs.getLong("id")))
             .single();
     }
@@ -115,9 +117,21 @@ public class GroupPostgresDao implements GroupStorage {
             .update();
     }
 
+    @Override
+    public void changeGroupName(GroupId groupId, String name) {
+        final var sql = """
+            UPDATE pgroup SET name = :name WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .param("name", name)
+            .update();
+    }
+
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Group(
             GroupId.from(rs.getLong("id")),
+            rs.getString("name"),
             rs.getBoolean("is_active"),
             new GroupSettings(
                 ZoneOffset.of(rs.getString("time_zone_setting")),

@@ -24,6 +24,7 @@ public class Icons {
     public static final String RANDOM = EmojiManager.getByAlias(":game_die:").orElseThrow().getEmoji();
     public static final String TIME = EmojiManager.getByAlias(":hourglass_flowing_sand:").orElseThrow().getEmoji();
     public static final String EXHAUSTED = EmojiManager.getByAlias(":yawning_face:").orElseThrow().getEmoji();
+    public static final String STANDARD_GROUP_BADGE = EmojiManager.getByAlias(":beginner:").orElseThrow().getEmoji();
 
     // PersonageSlots
     public static final String MAIN_HAND = EmojiManager.getByAlias(":raised_hand:").orElseThrow().getEmoji();

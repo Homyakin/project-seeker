@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.ChangeGroupActivity;
-import ru.homyakin.seeker.game.group.action.CreateGroup;
+import ru.homyakin.seeker.game.group.action.CreateGroupCommand;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.database.GroupDao;
 import ru.homyakin.seeker.telegram.group.database.GroupMigrateDao;
@@ -14,18 +14,18 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class GroupTgService {
-    private final CreateGroup createGroup;
+    private final CreateGroupCommand createGroupCommand;
     private final ChangeGroupActivity changeGroupActivity;
     private final GroupDao groupDao;
     private final GroupMigrateDao groupMigrateDao;
 
     public GroupTgService(
-        CreateGroup createGroup,
+        CreateGroupCommand createGroupCommand,
         ChangeGroupActivity changeGroupActivity,
         GroupDao groupDao,
         GroupMigrateDao groupMigrateDao
     ) {
-        this.createGroup = createGroup;
+        this.createGroupCommand = createGroupCommand;
         this.changeGroupActivity = changeGroupActivity;
         this.groupDao = groupDao;
         this.groupMigrateDao = groupMigrateDao;
@@ -62,7 +62,7 @@ public class GroupTgService {
     }
 
     private GroupTg createGroup(GroupTgId groupId) {
-        final var group = createGroup.create(TimeUtils.moscowTime());
+        final var group = createGroupCommand.execute(TimeUtils.moscowTime());
         final var groupTg = new GroupTg(
             groupId,
             Language.DEFAULT,

@@ -32,7 +32,7 @@ public class GetGroupSettingsExecutor extends CommandExecutor<GetGroupSettings> 
             SendMessageBuilder
                 .builder()
                 .chatId(command.groupId())
-                .text(GroupSettingsLocalization.groupSettings(groupTg.language(), group.settings()))
+                .text(GroupSettingsLocalization.groupSettings(groupTg.language(), group))
                 .keyboard(InlineKeyboards.eventIntervalsKeyboard(groupTg.language(), group.settings().eventIntervals()))
                 .build()
         );

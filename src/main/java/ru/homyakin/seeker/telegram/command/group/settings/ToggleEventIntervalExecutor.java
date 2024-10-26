@@ -53,7 +53,7 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
                         .builder()
                         .chatId(command.groupId())
                         .messageId(command.messageId())
-                        .text(GroupSettingsLocalization.groupSettings(group.language(), updatedGroup.settings()))
+                        .text(GroupSettingsLocalization.groupSettings(group.language(), updatedGroup))
                         .keyboard(InlineKeyboards.eventIntervalsKeyboard(group.language(), updatedGroup.settings().eventIntervals()))
                         .build()
                 )

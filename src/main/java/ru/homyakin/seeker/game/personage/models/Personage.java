@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
@@ -19,9 +18,10 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
-import ru.homyakin.seeker.game.personage.models.errors.NameError;
+import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
+import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -53,17 +53,7 @@ public record Personage(
     }
 
     public Either<NameError, Personage> changeName(String name) {
-        return validateName(name).map(this::copyWithName);
-    }
-
-    public static Either<NameError, String> validateName(String name) {
-        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
-            return Either.left(new NameError.InvalidLength(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
-        }
-        if (!NAME_PATTERN.matcher(name).matches()) {
-            return Either.left(new NameError.NotAllowedSymbols());
-        }
-        return Either.right(name);
+        return NameValidator.validateName(name).map(this::copyWithName);
     }
 
     public String shortProfile(Language language) {
@@ -270,14 +260,7 @@ public record Personage(
         );
     }
 
-    private static final int MIN_NAME_LENGTH = 3;
-    private static final int MAX_NAME_LENGTH = 25;
     private static final int MAX_BAG_SIZE = 10;
-    private static final String CYRILLIC = "а-яА-ЯёЁ";
-    private static final String ENGLISH = "a-zA-Z";
-    private static final String NUMBERS = "0-9";
-    private static final String SPECIAL = "_\\-\\.#№ ";
-    private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
     public static final Money RESET_STATS_COST = new Money(50);
     public static final Money CHANGE_NAME_COST = new Money(20);
     private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{

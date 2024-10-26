@@ -19,10 +19,11 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
-import ru.homyakin.seeker.game.personage.models.errors.NameError;
+import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
+import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -50,7 +51,7 @@ public class PersonageService {
     }
 
     public Either<NameError, Personage> createPersonage(String name) {
-        return Personage.validateName(name)
+        return NameValidator.validateName(name)
             .map(personageDao::createDefault)
             .peek(badgeService::createDefaultPersonageBadge)
             .map(id -> personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create")))

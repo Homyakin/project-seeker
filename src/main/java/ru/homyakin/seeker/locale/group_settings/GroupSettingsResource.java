@@ -6,6 +6,10 @@ public record GroupSettingsResource(
     String incorrectTimeZone,
     String zeroEnabledEventIntervals,
     String incorrectSetTimeZoneCommand,
-    String successChangeTimeZone
+    String successChangeTimeZone,
+    String changeNameInvalidFormat,
+    String changeNameInvalidSymbols,
+    String changeNameInvalidLength,
+    String successChangeName
 ) {
 }
