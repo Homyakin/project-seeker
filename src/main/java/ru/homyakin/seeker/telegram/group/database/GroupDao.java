@@ -11,11 +11,10 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
-import ru.homyakin.seeker.utils.JsonUtils;
+import ru.homyakin.seeker.utils.DatabaseUtils;
 
 @Component
 public class GroupDao {
-    private static final String GET_GROUP_BY_ID = "SELECT * FROM grouptg WHERE id = :id";
     private static final String SAVE_GROUP = """
         INSERT INTO grouptg (id, language_id, pgroup_id)
         VALUES (:id, :language_id, :pgroup_id)
@@ -26,7 +25,7 @@ public class GroupDao {
 
     private final JdbcClient jdbcClient;
 
-    public GroupDao(DataSource dataSource, JsonUtils jsonUtils) {
+    public GroupDao(DataSource dataSource) {
         jdbcClient = JdbcClient.create(dataSource);
     }
 
@@ -39,10 +38,30 @@ public class GroupDao {
     }
 
     public Optional<GroupTg> getById(GroupTgId groupId) {
-        return jdbcClient.sql(GET_GROUP_BY_ID)
+        final var getByDirectId = "SELECT * FROM grouptg WHERE id = :id";
+        final var result = jdbcClient.sql(getByDirectId)
             .param("id", groupId.value())
             .query(this::mapRow)
             .optional();
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+        if (result.get().isPresent()) {
+            return result.get();
+        }
+
+        final var getByMigratedId = """
+            SELECT
+                migrated_from_grouptg_id as id,
+                language_id,
+                pgroup_id
+            FROM grouptg WHERE migrated_from_grouptg_id = :group_id
+        """;
+        return jdbcClient.sql(getByMigratedId)
+            .param("group_id", groupId.value())
+            .query(this::mapRow)
+            .optional()
+            .flatMap(it -> it);
     }
 
     public void update(GroupTg group) {
@@ -71,7 +90,7 @@ public class GroupDao {
             .single();
     }
 
-    public Optional<GroupTg> get(GroupId groupId) {
+    public Optional<GroupTg> getByDomainId(GroupId groupId) {
         final var sql = """
             SELECT * FROM grouptg
             WHERE pgroup_id = :id
@@ -79,14 +98,21 @@ public class GroupDao {
         return jdbcClient.sql(sql)
             .param("id", groupId.value())
             .query(this::mapRow)
-            .optional();
+            .optional()
+            .flatMap(it -> it);
     }
 
-    private GroupTg mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new GroupTg(
-            GroupTgId.from(rs.getLong("id")),
-            Language.getOrDefault(rs.getInt("language_id")),
-            GroupId.from(rs.getLong("pgroup_id"))
+    private Optional<GroupTg> mapRow(ResultSet rs, int rowNum) throws SQLException {
+        final var domainGroupId = DatabaseUtils.getLongOrNull(rs, "pgroup_id");
+        if (domainGroupId == null) {
+            return Optional.empty();
+        }
+        return Optional.of(
+            new GroupTg(
+                GroupTgId.from(rs.getLong("id")),
+                Language.getOrDefault(rs.getInt("language_id")),
+                GroupId.from(rs.getLong("pgroup_id"))
+            )
         );
     }
 }

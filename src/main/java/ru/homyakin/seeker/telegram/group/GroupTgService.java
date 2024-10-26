@@ -32,7 +32,7 @@ public class GroupTgService {
     }
 
     public GroupTg forceGet(GroupId groupId) {
-        return groupDao.get(groupId).orElseThrow();
+        return groupDao.getByDomainId(groupId).orElseThrow();
     }
 
     public GroupTg getOrCreate(GroupTgId groupId) {
