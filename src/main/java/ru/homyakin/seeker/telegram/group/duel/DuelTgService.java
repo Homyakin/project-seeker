@@ -56,7 +56,7 @@ public class DuelTgService {
     ) {
         final var initiatingPersonage = personageService.getByIdForce(initiatingUser.personageId());
         final var acceptingPersonage = personageService.getByIdForce(acceptingUser.personageId());
-        return duelService.createDuel(initiatingPersonage, acceptingPersonage)
+        return duelService.createDuel(initiatingPersonage, acceptingPersonage, group.domainGroupId())
             .map(result ->
                 new CreateDuelTgResult(
                     result.duelId(),
@@ -85,7 +85,7 @@ public class DuelTgService {
             duelTg -> {
                 logger.info("Duel " + duelTg.duelId() + " expired");
                 duelService.expireDuel(duelTg.duelId())
-                    .peek(success -> {
+                    .peek(_ -> {
                         final var duel = duelService.getByIdForce(duelTg.duelId());
                         final var group = groupTgService.getOrCreate(duelTg.groupTgId());
                         final var acceptor = personageService.getByIdForce(duel.acceptingPersonageId());

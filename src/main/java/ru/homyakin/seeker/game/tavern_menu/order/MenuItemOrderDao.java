@@ -1,9 +1,8 @@
 package ru.homyakin.seeker.game.tavern_menu.order;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ExpiredOrder;
 import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemOrder;
@@ -17,36 +16,34 @@ import java.util.Optional;
 @Repository
 public class MenuItemOrderDao {
     private final JdbcClient jdbcClient;
-    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public MenuItemOrderDao(DataSource dataSource) {
         jdbcClient = JdbcClient.create(dataSource);
-        simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-            .withTableName("menu_item_order")
-            .usingColumns(
-                "menu_item_id",
-                "ordering_personage_id",
-                "accepting_personage_id",
-                "expire_date_time",
-                "status_id"
-            )
-            .usingGeneratedKeyColumns("id");
     }
 
     public long createOrder(
         int menuItemId,
         PersonageId orderingPersonageId,
         PersonageId acceptingPersonageId,
+        GroupId groupId,
         LocalDateTime expireDateTime
     ) {
-        MapSqlParameterSource parameters = new MapSqlParameterSource()
-            .addValue("menu_item_id", menuItemId)
-            .addValue("ordering_personage_id", orderingPersonageId.value())
-            .addValue("accepting_personage_id", acceptingPersonageId.value())
-            .addValue("expire_date_time", expireDateTime)
-            .addValue("status_id", OrderStatus.CREATED.id());
+        final var sql = """
+            INSERT INTO menu_item_order (menu_item_id, ordering_personage_id, accepting_personage_id,
+                             pgroup_id, expire_date_time, status_id)
+            VALUES (:menu_item_id, :ordering_personage_id, :accepting_personage_id, :pgroup_id, :expire_date_time, :status_id)
+            RETURNING id
+            """;
 
-        return simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+        return jdbcClient.sql(sql)
+            .param("menu_item_id", menuItemId)
+            .param("ordering_personage_id", orderingPersonageId.value())
+            .param("accepting_personage_id", acceptingPersonageId.value())
+            .param("pgroup_id", groupId.value())
+            .param("expire_date_time", expireDateTime)
+            .param("status_id", OrderStatus.CREATED.id())
+            .query((rs, _) -> rs.getLong("id"))
+            .single();
     }
 
     public Optional<MenuItemOrder> getById(long id) {

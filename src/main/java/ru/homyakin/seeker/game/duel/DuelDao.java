@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -36,32 +36,30 @@ public class DuelDao {
         """;
 
     private final JdbcClient jdbcClient;
-    private final SimpleJdbcInsert jdbcInsert;
 
     public DuelDao(DataSource dataSource) {
-        jdbcInsert = new SimpleJdbcInsert(dataSource)
-            .withTableName("duel")
-            .usingColumns(
-                "initiating_personage_id",
-                "accepting_personage_id",
-                "expiring_date",
-                "status_id"
-            )
-            .usingGeneratedKeyColumns("id");
         jdbcClient = JdbcClient.create(dataSource);
     }
 
     public long create(
         PersonageId initiatingPersonageId,
         PersonageId acceptingPersonageId,
+        GroupId groupId,
         Duration lifeTime
     ) {
-        final var params = new HashMap<String, Object>();
-        params.put("initiating_personage_id", initiatingPersonageId.value());
-        params.put("accepting_personage_id", acceptingPersonageId.value());
-        params.put("expiring_date", TimeUtils.moscowTime().plus(lifeTime));
-        params.put("status_id", DuelStatus.WAITING.id());
-        return jdbcInsert.executeAndReturnKey(params).longValue();
+        final var sql = """
+            INSERT INTO duel (initiating_personage_id, accepting_personage_id, pgroupd_id, expiring_date, status_id)
+            VALUES (:initiating_personage_id, :accepting_personage_id, :pgroupd_id, :expiring_date, :status_id)
+            RETURNING id
+            """;
+        return jdbcClient.sql(sql)
+            .param("initiating_personage_id", initiatingPersonageId.value())
+            .param("accepting_personage_id", acceptingPersonageId.value())
+            .param("pgroupd_id", groupId.value())
+            .param("expiring_date", TimeUtils.moscowTime().plus(lifeTime))
+            .param("status_id", DuelStatus.WAITING.id())
+            .query((rs, _) -> rs.getLong(1))
+            .single();
     }
 
     public Optional<Duel> getById(long id) {

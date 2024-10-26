@@ -67,7 +67,7 @@ public class OrderTgService {
         } else {
             givingPersonage = personageService.getByIdForce(giver.personageId());
         }
-        return orderService.orderMenuItem(givingPersonage, acceptingPersonage, menuItem)
+        return orderService.orderMenuItem(givingPersonage, acceptingPersonage, group.domainGroupId(), menuItem)
             .map(orderId -> {
                     groupStatsService.increaseTavernMoneySpent(group.domainGroupId(), givingPersonage.id(), menuItem.price());
                     return telegramSender.send(SendMessageBuilder.builder()

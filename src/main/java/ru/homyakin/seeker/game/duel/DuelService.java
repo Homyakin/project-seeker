@@ -4,6 +4,7 @@ import io.vavr.control.Either;
 import java.time.Duration;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
@@ -45,7 +46,8 @@ public class DuelService {
     //TODO прочитать про transactional
     public Either<CreateDuelError, CreateDuelResult> createDuel(
         Personage initiatingPersonage,
-        Personage acceptingPersonage
+        Personage acceptingPersonage,
+        GroupId groupId
     ) {
         if (duelDao.getWaitingDuelByInitiatingPersonage(initiatingPersonage.id()).isPresent()) {
             return Either.left(new CreateDuelError.PersonageAlreadyHasDuel());
@@ -56,7 +58,7 @@ public class DuelService {
 
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
 
-        final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), duelLifeTime);
+        final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), groupId, duelLifeTime);
         return Either.right(
             new CreateDuelResult(id, initiatingPersonage, acceptingPersonage, DUEL_PRICE)
         );

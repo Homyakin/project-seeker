@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidResult;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
@@ -56,8 +57,8 @@ public class RaidService {
         raidDao.save(eventId, raid);
     }
 
-    public LaunchedRaidResult launchRaid(Raid raid) {
-        final var launchedEvent = launchedEventService.createLaunchedEventFromRaid(raid, TimeUtils.moscowTime());
+    public LaunchedRaidResult launchRaid(Raid raid, GroupId groupId) {
+        final var launchedEvent = launchedEventService.createLaunchedEventFromRaid(raid, TimeUtils.moscowTime(), groupId);
         return new LaunchedRaidResult(raid, launchedEvent, config.energyCost());
     }
 

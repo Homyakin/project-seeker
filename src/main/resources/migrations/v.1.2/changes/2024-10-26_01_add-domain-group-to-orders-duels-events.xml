@@ -1,0 +1,94 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-domain-group-to-orders-duels-events">
+        <addColumn tableName="menu_item_order">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE menu_item_order SET pgroup_id = COALESCE(migrated_to.pgroup_id, g.pgroup_id)
+            FROM menu_item_order_tg miot
+            INNER JOIN grouptg g ON miot.grouptg_id = g.id
+            LEFT JOIN grouptg migrated_to ON g.id = migrated_to.migrated_from_grouptg_id
+            WHERE menu_item_order.id = miot.menu_item_order_id;
+        </sql>
+
+        <addNotNullConstraint tableName="menu_item_order" columnName="pgroup_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-menu_item_order-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+
+        <addColumn tableName="duel">
+            <column name="pgroupd_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE duel SET pgroupd_id = COALESCE(migrated_to.pgroup_id, g.pgroup_id)
+            FROM duel_tg dt
+            INNER JOIN grouptg g ON dt.grouptg_id = g.id
+            LEFT JOIN grouptg migrated_to ON g.id = migrated_to.migrated_from_grouptg_id
+            WHERE duel.id = dt.duel_id;
+        </sql>
+
+        <addNotNullConstraint tableName="duel" columnName="pgroupd_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="duel"
+                baseColumnNames="pgroupd_id"
+                constraintName="fk-duel-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+
+        <createTable tableName="launched_event_to_pgroup">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <addUniqueConstraint
+                tableName="launched_event_to_pgroup"
+                columnNames="pgroup_id, launched_event_id"
+                constraintName="pk-launched_event_to_pgroup"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="launched_event_to_pgroup"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-launched_event_to_pgroup-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="launched_event_to_pgroup"
+                baseColumnNames="launched_event_id"
+                constraintName="fk-launched_event_to_pgroup-launched_event"
+                referencedTableName="launched_event"
+                referencedColumnNames="id"
+        />
+
+        <sql>
+            INSERT INTO launched_event_to_pgroup (pgroup_id, launched_event_id)
+            SELECT COALESCE(migrated_to.pgroup_id, g.pgroup_id) as pgroup_id, launched_event_id
+            FROM grouptg_to_launched_event gtle
+            INNER JOIN grouptg g ON gtle.grouptg_id = g.id
+            LEFT JOIN grouptg migrated_to ON g.id = migrated_to.migrated_from_grouptg_id;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

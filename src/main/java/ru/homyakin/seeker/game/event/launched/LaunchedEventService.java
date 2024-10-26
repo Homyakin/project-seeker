@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
@@ -16,18 +17,22 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Service
 public class LaunchedEventService {
     private final LaunchedEventDao launchedEventDao;
+    private final LaunchedEventGroupDao launchedEventGroupDao;
     private final EventConfig config;
 
     public LaunchedEventService(
         LaunchedEventDao launchedEventDao,
+        LaunchedEventGroupDao launchedEventGroupDao,
         EventConfig config
     ) {
         this.launchedEventDao = launchedEventDao;
+        this.launchedEventGroupDao = launchedEventGroupDao;
         this.config = config;
     }
 
-    public LaunchedEvent createLaunchedEventFromRaid(Raid raid, LocalDateTime start) {
+    public LaunchedEvent createLaunchedEventFromRaid(Raid raid, LocalDateTime start, GroupId groupId) {
         final var id = launchedEventDao.save(raid.eventId(), start, start.plus(config.raidDuration()));
+        launchedEventGroupDao.save(id, groupId);
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 

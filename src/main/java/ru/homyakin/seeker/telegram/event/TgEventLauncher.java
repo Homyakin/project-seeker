@@ -66,7 +66,7 @@ public class TgEventLauncher {
 
     private void launchRaidInGroup(Group group, Raid raid) {
         logger.info("Creating raid " + raid.code() + " for group " + group.id());
-        final var launchedRaidResult = raidService.launchRaid(raid);
+        final var launchedRaidResult = raidService.launchRaid(raid, group.id());
         final var launchedEvent = launchedRaidResult.launchedEvent();
         final var groupTg = groupTgService.forceGet(group.id());
         var result = telegramSender.send(

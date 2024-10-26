@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.tavern_menu.order;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
@@ -48,7 +49,12 @@ public class OrderService {
         this.config = config;
     }
 
-    public Either<OrderError, Long> orderMenuItem(Personage giver, Personage acceptor, MenuItem menuItem) {
+    public Either<OrderError, Long> orderMenuItem(
+        Personage giver,
+        Personage acceptor,
+        GroupId groupId,
+        MenuItem menuItem
+    ) {
         if (!menuItem.isAvailable()) {
             return Either.left(new OrderError.NotAvailableItem());
         }
@@ -62,6 +68,7 @@ public class OrderService {
                 menuItem.id(),
                 giver.id(),
                 acceptor.id(),
+                groupId,
                 TimeUtils.moscowTime().plus(config.orderTtl())
             )
         );
