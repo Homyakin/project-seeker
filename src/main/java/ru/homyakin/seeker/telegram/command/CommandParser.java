@@ -15,6 +15,7 @@ import ru.homyakin.seeker.telegram.command.group.settings.ChangeGroupName;
 import ru.homyakin.seeker.telegram.command.group.settings.GetGroupSettings;
 import ru.homyakin.seeker.telegram.command.group.settings.SetTimeZone;
 import ru.homyakin.seeker.telegram.command.group.settings.ToggleEventInterval;
+import ru.homyakin.seeker.telegram.command.group.settings.ToggleHideGroup;
 import ru.homyakin.seeker.telegram.command.group.spin.Spin;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
@@ -177,6 +178,7 @@ public class CommandParser {
                 case SET_TIME_ZONE -> SetTimeZone.from(message);
                 case THROW_ORDER -> ThrowOrder.from(message);
                 case CHANGE_GROUP_NAME -> ChangeGroupName.from(message);
+                case TOGGLE_HIDE_GROUP -> ToggleHideGroup.from(message);
                 default -> null;
             });
     }

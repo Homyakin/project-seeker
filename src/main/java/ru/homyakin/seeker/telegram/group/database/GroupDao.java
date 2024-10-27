@@ -71,25 +71,6 @@ public class GroupDao {
             .update();
     }
 
-    public long getActiveGroupsCount() {
-        // Считаем <=2 пользователя неактивной группой
-        final var sql = """
-            SELECT COUNT(*) FROM (
-                SELECT g.id
-                FROM grouptg g
-                INNER JOIN pgroup p ON g.pgroup_id = p.id
-                JOIN pgroup_to_personage ptp ON p.id = ptp.pgroup_id
-                WHERE p.is_active = TRUE
-                    AND ptp.is_active = TRUE
-                GROUP BY g.id
-                HAVING COUNT(ptp.personage_id) > 2
-            ) active_groups;
-            """;
-        return jdbcClient.sql(sql)
-            .query((rs, _) -> rs.getLong(1))
-            .single();
-    }
-
     public Optional<GroupTg> getByDomainId(GroupId groupId) {
         final var sql = """
             SELECT * FROM grouptg

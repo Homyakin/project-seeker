@@ -97,4 +97,16 @@ public class GroupSettingsLocalization {
             Collections.singletonMap("name", name)
         );
     }
+
+    public static String groupIsHidden(Language language) {
+        return resources.getOrDefault(language, GroupSettingsResource::groupIsHidden);
+    }
+
+    public static String groupIsNotHidden(Language language) {
+        return resources.getOrDefault(language, GroupSettingsResource::groupIsNotHidden);
+    }
+
+    public static String forbiddenHidden(Language language) {
+        return resources.getOrDefault(language, GroupSettingsResource::forbiddenHidden);
+    }
 }

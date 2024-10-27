@@ -53,10 +53,6 @@ public class GroupTgService {
         groupMigrateDao.migrate(from, to);
     }
 
-    public long getActiveGroupsCount() {
-        return groupDao.getActiveGroupsCount();
-    }
-
     private Optional<GroupTg> getGroup(GroupTgId group) {
         return groupDao.getById(group);
     }

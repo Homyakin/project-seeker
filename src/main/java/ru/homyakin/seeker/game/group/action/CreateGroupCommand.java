@@ -31,7 +31,8 @@ public class CreateGroupCommand {
             initDate.plusMinutes(RandomUtils.getInInterval(120, 240)),
             new GroupSettings(
                 TimeUtils.moscowOffset(),
-                config.defaultEventIntervals()
+                config.defaultEventIntervals(),
+                GroupSettings.DEFAULT_ENABLE_TOGGLE_HIDE
             )
         );
         final var id = storage.create(request);

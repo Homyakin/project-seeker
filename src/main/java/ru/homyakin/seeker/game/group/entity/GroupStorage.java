@@ -9,6 +9,8 @@ import java.util.Optional;
 public interface GroupStorage {
     GroupId create(CreateGroupRequest request);
 
+    long countActiveGroups(int requiredActivePersonages);
+
     Optional<Group> get(GroupId groupId);
 
     List<Group> getGetGroupsWithLessNextEventDate(LocalDateTime maxNextEventDate);
@@ -22,4 +24,9 @@ public interface GroupStorage {
     void updateNextRumorDate(GroupId groupId, LocalDateTime nextRumorDate);
 
     void changeGroupName(GroupId groupId, String name);
+
+    /**
+     * @return возвращает новое значение
+     */
+    boolean toggleIsHidden(GroupId groupId);
 }

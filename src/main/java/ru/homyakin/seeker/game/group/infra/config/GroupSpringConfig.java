@@ -15,7 +15,7 @@ public class GroupSpringConfig implements GroupConfig {
     }
 
     /**
-     * @param intervals строка в формате: "firstStartHour-secondStartHour;....."
+     * @param intervals строка в формате: "firstStartHour-firstEndHour;....."
      */
     public void setDefaultEventIntervals(String intervals) {
         final var eventIntervals = Arrays.stream(intervals.split(";"))

@@ -57,6 +57,7 @@ public enum CommandType {
     TOGGLE_EVENT_INTERVAL("toggleEventInterval", CheckType.STARTS_WITH),
     SET_TIME_ZONE("/set_time_zone", CheckType.STARTS_WITH),
     TOGGLE_HIDE_PERSONAGE("/hide_me", CheckType.EQUALS),
+    TOGGLE_HIDE_GROUP("/hide", CheckType.EQUALS),
     INIT_FEEDBACK("/feedback", CheckType.EQUALS),
     THROW_ORDER("/throw", CheckType.EQUALS),
     CHANGE_GROUP_NAME("/name", CheckType.EQUALS),

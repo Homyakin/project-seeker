@@ -10,6 +10,9 @@ public record GroupSettingsResource(
     String changeNameInvalidFormat,
     String changeNameInvalidSymbols,
     String changeNameInvalidLength,
-    String successChangeName
+    String successChangeName,
+    String groupIsHidden,
+    String groupIsNotHidden,
+    String forbiddenHidden
 ) {
 }

@@ -21,3 +21,7 @@ changeNameInvalidLength = """
 Длина имени группы должна быть от ${min_name_length} до ${max_name_length} символов"""
 successChangeName = "Имя группы изменено на <b>${name}</b>"
 
+groupIsHidden = "Теперь группа скрыта из общих рейтингов и активностей"
+groupIsNotHidden = "Теперь группа видна в общих рейтингах и активностях"
+forbiddenHidden = "Данной группе запрещено менять настройки видимости"
+

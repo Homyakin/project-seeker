@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-domain-group-to-orders-duels-events">
+        <addColumn tableName="pgroup">
+            <column name="is_hidden" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="settings" type="JSONB" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <createIndex tableName="pgroup" indexName="-idx-pgroup_is_hidden">
+            <column name="is_hidden"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
