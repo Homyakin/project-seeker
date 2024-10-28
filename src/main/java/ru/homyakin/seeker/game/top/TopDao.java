@@ -74,7 +74,7 @@ public class TopDao {
         );
     }
 
-    private static String GLOBAL_RAIDS_COUNT = """
+    private static final String GLOBAL_RAIDS_COUNT = """
         WITH event_points AS (
         SELECT
             pte.personage_id,
@@ -83,11 +83,13 @@ public class TopDao {
         FROM personage_to_event pte
         LEFT JOIN launched_event le on le.id = pte.launched_event_id
         INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
-        WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date
+        LEFT JOIN launched_event_to_pgroup letp on le.id = letp.launched_event_id
+        LEFT JOIN pgroup pg on letp.pgroup_id = pg.id
+        WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date AND pg.is_hidden = false
         GROUP BY pte.personage_id
         )""";
 
-    private static String GROUP_TG_RAIDS_COUNT = """
+    private static final String GROUP_TG_RAIDS_COUNT = """
         WITH event_points AS (
         SELECT
             pte.personage_id,
@@ -102,19 +104,20 @@ public class TopDao {
         GROUP BY pte.personage_id
         )""";
 
-    private static String RAIDS_PERSONAGE_INFO = """
-        SELECT p.id personage_id, p.name personage_name, b.code badge_code, success_count, fail_count FROM personage p
+    private static final String RAIDS_PERSONAGE_INFO = """
+        SELECT p.id as personage_id, p.name personage_name, b.code badge_code, success_count, fail_count FROM personage p
         INNER JOIN event_points ep ON p.id = ep.personage_id
         LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
         LEFT JOIN public.badge b on b.id = pab.badge_id
         WHERE pab.is_active = true""";
 
-    private static String TOP_SPIN_GROUP = """
+    private static final String TOP_SPIN_GROUP = """
         WITH personage_count
         AS (
             SELECT personage_id, COUNT(*) as count
-            FROM everyday_spin_tg
-            WHERE grouptg_id = :grouptg_id
+            FROM everyday_spin es
+            LEFT JOIN grouptg g on es.pgroup_id = g.pgroup_id
+            WHERE g.id = :grouptg_id
             GROUP BY personage_id
         )
         SELECT p.id personage_id, p.name personage_name, b.code badge_code, pc.count FROM personage p
