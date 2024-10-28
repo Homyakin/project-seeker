@@ -45,7 +45,7 @@ public class GroupPostgresDao implements GroupStorage {
             .param("event_intervals_setting", jsonUtils.mapToPostgresJson(request.settings().eventIntervals()))
             .param("time_zone_setting", request.settings().timeZone().getId())
             .param("name", request.name())
-            .param("is_hidden", false)
+            .param("is_hidden", request.settings().isHidden())
             .param("settings", jsonUtils.mapToPostgresJson(GroupSettingsPostgresJson.from(request.settings())))
             .query((rs, _) -> GroupId.from(rs.getLong("id")))
             .single();
@@ -166,6 +166,7 @@ public class GroupPostgresDao implements GroupStorage {
             new GroupSettings(
                 ZoneOffset.of(rs.getString("time_zone_setting")),
                 jsonUtils.fromString(rs.getString("event_intervals_setting"), EventIntervals.class),
+                rs.getBoolean("is_hidden"),
                 postgresSettings.enableToggleHide() == null
                     ? GroupSettings.DEFAULT_ENABLE_TOGGLE_HIDE
                     : postgresSettings.enableToggleHide()

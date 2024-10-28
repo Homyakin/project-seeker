@@ -1,11 +1,12 @@
 groupSettings = """\
 ⚙️Настройки группы ${group_name_with_badge}:
-
+${optional_group_is_hidden_description}
 Изменить имя группы: <code>${change_group_name_command} [имя_группы]</code>
 Часовой пояс: ${time_zone}
 Изменение часового пояса: <code>${set_time_zone_command} [часовой_пояс]</code>
 
 Интервалы для рейдов:"""
+groupIsHiddenDescription = "\nГруппа скрыта из рейтингов и активностей. Активности не учитываются в глобальной статистике.\n"
 eventIntervalButton = "${start_hour} — ${end_hour} ${enabled_icon}"
 incorrectTimeZone = "Неправильно указан часовой пояс, это должно быть целое число от ${min_time_zone} до ${max_time_zone}"
 zeroEnabledEventIntervals = "Хотя бы один интервал должен быть включён"

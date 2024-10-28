@@ -32,6 +32,7 @@ public class CreateGroupCommand {
             new GroupSettings(
                 TimeUtils.moscowOffset(),
                 config.defaultEventIntervals(),
+                false,
                 GroupSettings.DEFAULT_ENABLE_TOGGLE_HIDE
             )
         );

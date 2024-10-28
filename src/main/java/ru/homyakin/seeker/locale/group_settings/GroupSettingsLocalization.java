@@ -26,6 +26,10 @@ public class GroupSettingsLocalization {
         params.put("set_time_zone_command", CommandType.SET_TIME_ZONE.getText());
         params.put("change_group_name_command", CommandType.CHANGE_GROUP_NAME.getText());
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
+        params.put(
+            "optional_group_is_hidden_description",
+            groupIsHiddenDescription(language, group.settings().isHidden())
+        );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupSettingsResource::groupSettings),
             params
@@ -108,5 +112,13 @@ public class GroupSettingsLocalization {
 
     public static String forbiddenHidden(Language language) {
         return resources.getOrDefault(language, GroupSettingsResource::forbiddenHidden);
+    }
+
+    private static String groupIsHiddenDescription(Language language, boolean isHidden) {
+        if (isHidden) {
+            return resources.getOrDefault(language, GroupSettingsResource::groupIsHiddenDescription);
+        } else {
+            return "";
+        }
     }
 }

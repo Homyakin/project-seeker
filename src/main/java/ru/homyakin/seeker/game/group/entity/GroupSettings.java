@@ -12,6 +12,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public record GroupSettings(
     ZoneOffset timeZone,
     EventIntervals eventIntervals,
+    boolean isHidden,
     boolean enableToggleHide
 ) {
     public boolean isActiveForEventNow() {
@@ -24,7 +25,7 @@ public record GroupSettings(
 
     public Either<ZeroEnabledEventIntervalsError, GroupSettings> toggleEventInterval(int intervalIndex) {
         return eventIntervals.toggleInterval(intervalIndex)
-            .map(it -> new GroupSettings(timeZone, it, enableToggleHide));
+            .map(it -> new GroupSettings(timeZone, it, isHidden, enableToggleHide));
     }
 
     public Either<IncorrectTimeZone, GroupSettings> changeTimeZone(int timeZone) {
@@ -33,7 +34,7 @@ public record GroupSettings(
         }
 
         try {
-            return Either.right(new GroupSettings(ZoneOffset.ofHours(timeZone), eventIntervals, enableToggleHide));
+            return Either.right(new GroupSettings(ZoneOffset.ofHours(timeZone), eventIntervals, isHidden, enableToggleHide));
         } catch (DateTimeException _) {
             return Either.left(new IncorrectTimeZone(MIN_TIME_ZONE, MAX_TIME_ZONE));
         }

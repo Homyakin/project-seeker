@@ -2,6 +2,7 @@ package ru.homyakin.seeker.locale.group_settings;
 
 public record GroupSettingsResource(
     String groupSettings,
+    String groupIsHiddenDescription,
     String eventIntervalButton,
     String incorrectTimeZone,
     String zeroEnabledEventIntervals,
