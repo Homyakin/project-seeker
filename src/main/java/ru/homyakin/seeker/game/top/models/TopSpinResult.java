@@ -8,7 +8,7 @@ import ru.homyakin.seeker.locale.top.TopLocalization;
 public record TopSpinResult(
     List<TopSpinPosition> positions,
     Type type
-) implements TopResult<TopSpinPosition> {
+) implements PersonageTopResult<TopSpinPosition> {
     @Override
     public String toLocalizedString(Language language, PersonageId requestedPersonageId) {
         if (positions.isEmpty()) {

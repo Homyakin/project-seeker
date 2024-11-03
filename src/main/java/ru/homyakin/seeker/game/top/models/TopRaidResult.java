@@ -11,7 +11,7 @@ public record TopRaidResult(
     LocalDate endDate,
     List<TopRaidPosition> positions,
     Type type
-) implements TopResult<TopRaidPosition> {
+) implements PersonageTopResult<TopRaidPosition> {
     @Override
     public String toLocalizedString(Language language, PersonageId requestedPersonageId) {
         if (positions.isEmpty()) {

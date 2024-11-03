@@ -6,12 +6,12 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 
 public record TopRaidPosition(
-    PersonageId personageId,
+    PersonageId id,
     String personageName,
     BadgeView personageBadge,
     int successRaids,
     int failedRaids
-) implements TopPosition {
+) implements PersonageTopPosition {
     @Override
     public int score() {
         return successRaids * 2 + failedRaids;

@@ -1,15 +1,14 @@
 package ru.homyakin.seeker.locale.top;
 
-import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopPosition;
 import ru.homyakin.seeker.game.top.models.TopResult;
 import ru.homyakin.seeker.locale.Language;
 
 public class TopUtils {
-    public static String createTopList(
+    public static <IdType> String createTopList(
         Language language,
-        PersonageId requestedPersonage,
-        TopResult<? extends TopPosition> result
+        IdType requestedPersonage,
+        TopResult<IdType, ? extends TopPosition<?>> result
     ) {
         final var positions = result.positions();
         final var positionsToShow = Math.min(MAX_TOP_POSITIONS, positions.size());
