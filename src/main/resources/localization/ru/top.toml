@@ -16,7 +16,7 @@ topGroupRaidWeek = """\
 
 ${top_group_list}
 
-Всего участников: ${total_count}"""
+Всего групп: ${total_count}"""
 topGroupRaidPosition = "${position}. ${group_badge_with_name}: ${success_raids}/${all_raids}"
 topRaidEmpty = "Никто не участвовал в рейдах за выбранный период"
 topList = """\
