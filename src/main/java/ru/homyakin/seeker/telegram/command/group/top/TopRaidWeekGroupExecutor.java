@@ -28,7 +28,7 @@ public class TopRaidWeekGroupExecutor extends CommandExecutor<TopRaidWeekGroup> 
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
         final var user = groupUser.second();
-        final var top = topService.getTopRaidWeekGroup(group.id());
+        final var top = topService.getTopRaidWeekGroup(group.domainGroupId());
         telegramSender.send(
             SendMessageBuilder.builder()
                 .text(top.toLocalizedString(group.language(), user.personageId()))

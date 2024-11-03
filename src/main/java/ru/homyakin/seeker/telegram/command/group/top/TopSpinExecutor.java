@@ -28,7 +28,7 @@ public class TopSpinExecutor extends CommandExecutor<TopSpin> {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
         final var user = groupUser.second();
-        final var top = topService.getTopSpinGroup(group.id());
+        final var top = topService.getTopSpinGroup(group.domainGroupId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
             .text(top.toLocalizedString(group.language(), user.personageId()))

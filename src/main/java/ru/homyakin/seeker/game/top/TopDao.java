@@ -7,13 +7,13 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
-import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 
 @Component
 public class TopDao {
@@ -35,22 +35,22 @@ public class TopDao {
             .list();
     }
 
-    public List<TopRaidPosition> getUnsortedTopRaidGroup(LocalDate start, LocalDate end, GroupTgId groupId) {
-        final var sql = GROUP_TG_RAIDS_COUNT + RAIDS_PERSONAGE_INFO;
+    public List<TopRaidPosition> getUnsortedTopRaidGroup(LocalDate start, LocalDate end, GroupId groupId) {
+        final var sql = GROUP_RAIDS_COUNT + RAIDS_PERSONAGE_INFO;
         return jdbcClient.sql(sql)
             .param("success_id", EventStatus.SUCCESS.id())
             .param("fail_id", EventStatus.FAILED.id())
             .param("start_date", start)
             .param("end_date", end)
-            .param("grouptg_id", groupId.value())
+            .param("pgroup_id", groupId.value())
             .param("raid_id", EventType.RAID.id())
             .query(this::mapRaidPosition)
             .list();
     }
 
-    public List<TopSpinPosition> getUnsortedTopSpinGroup(GroupTgId groupId) {
+    public List<TopSpinPosition> getUnsortedTopSpinGroup(GroupId groupId) {
         return jdbcClient.sql(TOP_SPIN_GROUP)
-            .param("grouptg_id", groupId.value())
+            .param("pgroup_id", groupId.value())
             .query(this::mapSpinPosition)
             .list();
     }
@@ -89,7 +89,7 @@ public class TopDao {
         GROUP BY pte.personage_id
         )""";
 
-    private static final String GROUP_TG_RAIDS_COUNT = """
+    private static final String GROUP_RAIDS_COUNT = """
         WITH event_points AS (
         SELECT
             pte.personage_id,
@@ -97,10 +97,10 @@ public class TopDao {
             SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count
         FROM personage_to_event pte
         LEFT JOIN launched_event le on le.id = pte.launched_event_id
-        LEFT JOIN grouptg_to_launched_event gtle on le.id = gtle.launched_event_id
+        LEFT JOIN launched_event_to_pgroup letp on le.id = letp.launched_event_id
         INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
         WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date
-        AND gtle.grouptg_id = :grouptg_id
+        AND letp.pgroup_id = :pgroup_id
         GROUP BY pte.personage_id
         )""";
 
@@ -115,12 +115,11 @@ public class TopDao {
         WITH personage_count
         AS (
             SELECT personage_id, COUNT(*) as count
-            FROM everyday_spin es
-            LEFT JOIN grouptg g on es.pgroup_id = g.pgroup_id
-            WHERE g.id = :grouptg_id
+            FROM everyday_spin
+            WHERE pgroup_id = :pgroup_id
             GROUP BY personage_id
         )
-        SELECT p.id personage_id, p.name personage_name, b.code badge_code, pc.count FROM personage p
+        SELECT p.id as personage_id, p.name personage_name, b.code badge_code, pc.count FROM personage p
         INNER JOIN personage_count pc ON p.id = pc.personage_id
         LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
         LEFT JOIN public.badge b on b.id = pab.badge_id
