@@ -1,12 +1,17 @@
 package ru.homyakin.seeker.locale.top;
 
 import java.util.HashMap;
+
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
+import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinResult;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -64,6 +69,7 @@ public class TopLocalization {
         params.put("top_work_group_command", CommandType.SPIN_TOP.getText());
         params.put("top_raid_week_command", CommandType.TOP_RAID_WEEK.getText());
         params.put("top_raid_week_group_command", CommandType.TOP_RAID_WEEK_GROUP.getText());
+        params.put("top_group_raid_week_command", CommandType.TOP_GROUP_RAID_WEEK.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topList),
             params
@@ -91,5 +97,35 @@ public class TopLocalization {
         params.put("personage_badge_with_name", position.personageBadgeWithName());
         params.put("work_count", position.workCount());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topSpinPosition), params);
+    }
+
+    public static String topGroupRaidWeek(
+        Language language,
+        GroupId requestedGroupId,
+        GroupTopRaidResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("start_date", result.startDate());
+        params.put("end_date", result.endDate());
+        final var topGroupList = TopUtils.createTopList(language, requestedGroupId, result);
+        params.put("top_group_list", topGroupList);
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topGroupRaidWeek),
+            params
+        );
+    }
+
+    public static String topGroupRaidPosition(
+        Language language,
+        int positionNumber,
+        GroupTopRaidPosition position
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("group_badge_with_name", LocaleUtils.groupNameWithBadge(position));
+        params.put("success_raids", position.successRaids());
+        params.put("all_raids", position.successRaids() + position.failedRaids());
+        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topGroupRaidPosition), params);
     }
 }

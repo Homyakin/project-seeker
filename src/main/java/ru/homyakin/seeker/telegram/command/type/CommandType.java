@@ -61,6 +61,7 @@ public enum CommandType {
     INIT_FEEDBACK("/feedback", CheckType.EQUALS),
     THROW_ORDER("/throw", CheckType.EQUALS),
     CHANGE_GROUP_NAME("/name", CheckType.EQUALS),
+    TOP_GROUP_RAID_WEEK("/topg_raid_week", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

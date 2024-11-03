@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
 
@@ -55,6 +56,33 @@ public class TopDao {
             .list();
     }
 
+    public List<GroupTopRaidPosition> getUnsortedGroupTopRaid(LocalDate start, LocalDate end) {
+        final var sql = """
+            WITH event_points AS (
+                SELECT
+                    letp.pgroup_id,
+                    SUM(CASE WHEN le.status_id = :success_id THEN 1 ELSE 0 END) AS success_count,
+                    SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count
+                FROM launched_event_to_pgroup letp
+                INNER JOIN launched_event le on le.id = letp.launched_event_id
+                INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
+                LEFT JOIN pgroup pg on letp.pgroup_id = pg.id
+                WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date AND pg.is_hidden = false
+                GROUP BY letp.pgroup_id
+            )
+            SELECT p.id, p.name, ep.success_count, ep.fail_count FROM event_points ep
+            INNER JOIN pgroup p ON ep.pgroup_id = p.id
+            """;
+        return jdbcClient.sql(sql)
+            .param("success_id", EventStatus.SUCCESS.id())
+            .param("fail_id", EventStatus.FAILED.id())
+            .param("start_date", start)
+            .param("end_date", end)
+            .param("raid_id", EventType.RAID.id())
+            .query(this::mapGroupTopRaidPosition)
+            .list();
+    }
+
     private TopRaidPosition mapRaidPosition(ResultSet rs, int rowNum) throws SQLException {
         return new TopRaidPosition(
             PersonageId.from(rs.getLong("personage_id")),
@@ -71,6 +99,15 @@ public class TopDao {
             rs.getString("personage_name"),
             BadgeView.findByCode(rs.getString("badge_code")),
             rs.getInt("count")
+        );
+    }
+
+    private GroupTopRaidPosition mapGroupTopRaidPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new GroupTopRaidPosition(
+            GroupId.from(rs.getLong("id")),
+            rs.getString("name"),
+            rs.getInt("success_count"),
+            rs.getInt("fail_count")
         );
     }
 

@@ -8,6 +8,8 @@ public record TopResource(
     String topList,
     String topSpinEmpty,
     String topSpinGroup,
-    String topSpinPosition
+    String topSpinPosition,
+    String topGroupRaidWeek,
+    String topGroupRaidPosition
 ) {
 }
