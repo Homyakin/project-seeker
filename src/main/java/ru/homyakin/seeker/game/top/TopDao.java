@@ -72,6 +72,7 @@ public class TopDao {
             )
             SELECT p.id, p.name, ep.success_count, ep.fail_count FROM event_points ep
             INNER JOIN pgroup p ON ep.pgroup_id = p.id
+            WHERE success_count > 0 OR fail_count > 0
             """;
         return jdbcClient.sql(sql)
             .param("success_id", EventStatus.SUCCESS.id())
