@@ -43,7 +43,7 @@ declinedDuel = [
 ]
 finishedDuel = [
     "Искатель ${mention_winner_icon_with_name} одержал верх над ${mention_loser_icon_with_name}",
-    "${mention_loser_icon_with_name} размазали тонким слоем по брущатке!",
+    "${mention_loser_icon_with_name} размазали тонким слоем по брусчатке!",
     "Бой окончен! ${mention_winner_icon_with_name} явно сильнее ${mention_loser_icon_with_name}!",
     "Во время дуэли ${mention_winner_icon_with_name} легким движением руки отправляет спать ${mention_loser_icon_with_name}!",
     "В следующий раз ${mention_loser_icon_with_name} подумает дважды, прежде чем драться с ${mention_winner_icon_with_name}.",
