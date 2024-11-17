@@ -32,7 +32,7 @@ public class DropItemExecutor extends CommandExecutor<DropItem> {
 
     @Override
     public void execute(DropItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var message = itemService.canDropItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> {

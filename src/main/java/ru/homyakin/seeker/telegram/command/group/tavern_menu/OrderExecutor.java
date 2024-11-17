@@ -65,7 +65,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
             if (processUserType(mentionInfo.userType(), group).isLeft()) {
                 return;
             }
-            final var userResult = userService.tryGetOrCreateByMention(mentionInfo, group.id());
+            final var userResult = userService.getByMention(mentionInfo, group.id());
             if (userResult.isEmpty()) {
                 logger.warn("Unknown mention group={}, mention={}", group.id(), mentionInfo);
                 telegramSender.send(SendMessageBuilder.builder()

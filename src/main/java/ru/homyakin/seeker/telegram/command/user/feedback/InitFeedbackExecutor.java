@@ -28,7 +28,7 @@ public class InitFeedbackExecutor extends CommandExecutor<InitFeedback> {
 
     @Override
     public void execute(InitFeedback command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         userStateService.setUserState(user, new FeedbackState.ChooseFeedbackThemeState());
         telegramSender.send(
             SendMessageBuilder

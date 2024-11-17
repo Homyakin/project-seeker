@@ -35,7 +35,7 @@ public class InputFeedbackExecutor extends CommandExecutor<InputFeedback> {
 
     @Override
     public void execute(InputFeedback command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
         final var result = telegramSender.send(
             SendMessageBuilder

@@ -51,7 +51,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             return;
         }
 
-        final var userResult = userService.tryGetOrCreateByMention(validationResult.get(), group.id());
+        final var userResult = userService.getByMention(validationResult.get(), group.id());
         if (userResult.isEmpty()) {
             logger.warn("Unknown mention group={}, mention={}", group.id(), validationResult.get());
             telegramSender.send(

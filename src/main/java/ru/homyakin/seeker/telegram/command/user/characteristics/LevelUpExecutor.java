@@ -28,7 +28,7 @@ public class LevelUpExecutor extends CommandExecutor<LevelUp> {
 
     @Override
     public void execute(LevelUp command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
         if (personage.characteristics().hasUnspentLevelingPoints()) {
             telegramSender.send(SendMessageBuilder.builder()

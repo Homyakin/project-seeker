@@ -23,7 +23,7 @@ public class SellItemExecutor extends CommandExecutor<SellItem> {
 
     @Override
     public void execute(SellItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var text = shopService.sellItem(user.personageId(), command.itemId())
             .fold(
                 _ -> ShopLocalization.incorrectSellingItem(user.language()),

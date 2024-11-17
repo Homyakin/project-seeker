@@ -23,7 +23,7 @@ public class InvalidThemeExecutor extends CommandExecutor<InvalidTheme> {
 
     @Override
     public void execute(InvalidTheme command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         telegramSender.send(
             SendMessageBuilder
                 .builder()

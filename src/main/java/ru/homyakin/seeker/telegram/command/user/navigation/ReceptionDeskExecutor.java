@@ -23,7 +23,7 @@ public class ReceptionDeskExecutor extends CommandExecutor<ReceptionDesk> {
 
     @Override
     public void execute(ReceptionDesk command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var statistic = statisticService.getStatistic();
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

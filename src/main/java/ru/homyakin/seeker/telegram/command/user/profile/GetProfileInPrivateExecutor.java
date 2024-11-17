@@ -26,7 +26,7 @@ public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPri
 
     @Override
     public void execute(GetProfileInPrivate command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

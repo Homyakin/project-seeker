@@ -24,4 +24,5 @@
     <include file="changes/2024-10-26_01_add-domain-group-to-orders-duels-events.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-26_02_add-pgroup-name.xml" relativeToChangelogFile="true"/>
     <include file="changes/2024-10-27_01_add-pgroup-hide-parameter.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2024-11-17_01_map-username-to-lowercase.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

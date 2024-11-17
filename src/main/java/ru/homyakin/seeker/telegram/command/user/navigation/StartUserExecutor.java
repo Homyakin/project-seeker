@@ -33,7 +33,7 @@ public class StartUserExecutor extends CommandExecutor<StartUser> {
 
     @Override
     public void execute(StartUser command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         userStateService.clearUserState(user);
         if (command.params().containsKey(TextConstants.TG_START_REFERER_PARAM)) {
             addUsertgReferer.addReferer(

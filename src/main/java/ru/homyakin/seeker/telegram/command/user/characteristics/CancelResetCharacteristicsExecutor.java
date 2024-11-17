@@ -22,7 +22,7 @@ public class CancelResetCharacteristicsExecutor extends CommandExecutor<CancelRe
 
     @Override
     public void execute(CancelResetCharacteristics command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(command.userId())
             .messageId(command.messageId())

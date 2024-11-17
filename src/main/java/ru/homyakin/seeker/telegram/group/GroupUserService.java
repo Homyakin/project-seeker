@@ -52,7 +52,7 @@ public class GroupUserService implements CheckGroupPersonage {
 
     public Pair<GroupTg, User> getAndActivateOrCreate(GroupTgId groupId, UserId userId) {
         final var group = groupTgService.getOrCreate(groupId);
-        final var user = userService.getOrCreateFromGroup(userId);
+        final var user = userService.forceGetFromGroup(userId);
         createOrActivateGroupPersonage.execute(group.domainGroupId(), user.personageId());
         return Pair.of(group, user);
     }

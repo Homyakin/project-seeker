@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.Optional;
 import ru.homyakin.seeker.telegram.user.models.UserId;
+import ru.homyakin.seeker.telegram.user.entity.Username;
 
 public sealed interface MentionInfo {
     UserType userType();
@@ -17,9 +18,9 @@ public sealed interface MentionInfo {
         private static final String TEXT_MENTION_ENTITY = "text_mention";
     }
 
-    record Username(String username, UserType userType) implements MentionInfo {
-        public static Username from(String username) {
-            return new Username(username, UserType.from(username));
+    record UsernameMention(Username username, UserType userType) implements MentionInfo {
+        public static UsernameMention from(String username) {
+            return new UsernameMention(Username.from(username), UserType.from(username));
         }
 
         private static final String MENTION_ENTITY = "mention";
@@ -28,9 +29,9 @@ public sealed interface MentionInfo {
     static Optional<MentionInfo> from(Message message) {
         if (message.hasEntities()) {
             for (final var entity: message.getEntities()) {
-                if (entity.getType().equals(Username.MENTION_ENTITY)) {
+                if (entity.getType().equals(UsernameMention.MENTION_ENTITY)) {
                     return Optional.of(
-                        Username.from(entity.getText().replace("@", ""))
+                        UsernameMention.from(entity.getText().replace("@", ""))
                     );
                 } else if (entity.getType().equals(Id.TEXT_MENTION_ENTITY)) {
                     return Optional.of(Id.from(entity.getUser()));

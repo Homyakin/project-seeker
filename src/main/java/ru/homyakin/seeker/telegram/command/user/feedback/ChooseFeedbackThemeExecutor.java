@@ -28,7 +28,7 @@ public class ChooseFeedbackThemeExecutor extends CommandExecutor<ChooseFeedbackT
 
     @Override
     public void execute(ChooseFeedbackTheme command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         userStateService.setUserState(user, new FeedbackState.InputFeedbackState(command.themeName()));
         final var text = switch (command.theme()) {
             case SUGGEST_TEXT -> FeedbackLocalization.inputTextSuggestion(user.language());

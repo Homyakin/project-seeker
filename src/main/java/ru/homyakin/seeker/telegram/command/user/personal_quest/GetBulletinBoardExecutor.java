@@ -27,7 +27,7 @@ public class GetBulletinBoardExecutor extends CommandExecutor<GetBulletinBoard> 
 
     @Override
     public void execute(GetBulletinBoard command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var requirements = personalQuestService.getRequirements();
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

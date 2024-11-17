@@ -28,7 +28,7 @@ public class TakePersonalQuestExecutor extends CommandExecutor<TakePersonalQuest
 
     @Override
     public void execute(TakePersonalQuest command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var text = personalQuestService.takeQuest(user.personageId())
             .fold(
                 error -> switch (error) {

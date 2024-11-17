@@ -29,7 +29,7 @@ public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
         final Language language;
         final var builder = SendMessageBuilder.builder();
         if (command.isPrivate()) {
-            final var user = userService.getOrCreateFromPrivate(UserId.from(command.chatId()));
+            final var user = userService.forceGetFromPrivate(UserId.from(command.chatId()));
             builder.chatId(user.id());
             language = user.language();
         } else {

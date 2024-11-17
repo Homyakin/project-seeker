@@ -24,7 +24,7 @@ public class BuyItemExecutor extends CommandExecutor<BuyItem> {
 
     @Override
     public void execute(BuyItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         if (command.type().isEmpty()) {
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(user.id())

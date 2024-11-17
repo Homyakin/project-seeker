@@ -27,7 +27,7 @@ public class ShowBadgesExecutor extends CommandExecutor<ShowBadges> {
 
     @Override
     public void execute(ShowBadges command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var badges = badgeService.getPersonageAvailableBadges(user.personageId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

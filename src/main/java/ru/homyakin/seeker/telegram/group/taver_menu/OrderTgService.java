@@ -103,7 +103,7 @@ public class OrderTgService {
         } else {
             final Optional<ThrowTarget> optional = switch (target.get().userType()) {
                 case USER -> {
-                    final var user = userService.tryGetOrCreateByMention(target.get(), groupId);
+                    final var user = userService.getByMention(target.get(), groupId);
                     if (user.isEmpty()) {
                         yield Optional.empty();
                     }

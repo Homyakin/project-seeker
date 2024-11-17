@@ -23,7 +23,7 @@ public class OpenShopExecutor extends CommandExecutor<OpenShop> {
 
     @Override
     public void execute(OpenShop command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(ShopLocalization.menu(user.language(), shopService.getShopItems(user.personageId())))

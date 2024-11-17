@@ -31,7 +31,7 @@ public class ConfirmDropItemExecutor extends CommandExecutor<ConfirmDropItem> {
 
     @Override
     public void execute(ConfirmDropItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var text = itemService.dropItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {

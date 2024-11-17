@@ -34,7 +34,7 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
 
     @Override
     public void execute(RaidReport command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var text = personageService.getLastRaidResult(user.personageId())
             .map(
                 result -> {

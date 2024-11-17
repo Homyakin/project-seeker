@@ -27,7 +27,7 @@ public class CancelFeedbackExecutor extends CommandExecutor<CancelFeedback> {
 
     @Override
     public void execute(CancelFeedback command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         userStateService.clearUserState(user);
         telegramSender.send(
             SendMessageBuilder

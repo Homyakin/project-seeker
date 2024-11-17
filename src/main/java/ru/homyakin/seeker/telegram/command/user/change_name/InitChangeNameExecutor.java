@@ -32,7 +32,7 @@ public class InitChangeNameExecutor extends CommandExecutor<InitChangeName> {
 
     @Override
     public void execute(InitChangeName command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var builder = SendMessageBuilder.builder().chatId(user.id());
         final var text = personageService.initChangeName(user.personageId())
             .fold(

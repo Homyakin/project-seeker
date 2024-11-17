@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.user.models;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.user.UserDao;
+import ru.homyakin.seeker.telegram.user.entity.Username;
 
 import java.util.Optional;
 
@@ -11,7 +12,7 @@ public record User(
     boolean isActivePrivateMessages,
     Language language,
     PersonageId personageId,
-    Optional<String> username
+    Optional<Username> username
 ) {
     // TODO убрать dao из класса
     public boolean isSameLanguage(Language newLanguage) {

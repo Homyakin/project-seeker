@@ -31,7 +31,7 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
 
     @Override
     public void execute(PutOnItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var text = itemService.putOnItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {

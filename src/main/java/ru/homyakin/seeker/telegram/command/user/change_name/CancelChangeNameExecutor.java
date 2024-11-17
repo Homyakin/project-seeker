@@ -30,7 +30,7 @@ public class CancelChangeNameExecutor extends CommandExecutor<CancelChangeName> 
 
     @Override
     public void execute(CancelChangeName command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         personageService.cancelChangeName(user.personageId());
         userStateService.clearUserState(user);
         telegramSender.send(SendMessageBuilder.builder()

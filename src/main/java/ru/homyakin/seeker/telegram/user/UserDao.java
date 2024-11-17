@@ -13,6 +13,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.user.models.UserId;
+import ru.homyakin.seeker.telegram.user.entity.Username;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -30,6 +31,7 @@ public class UserDao {
             .param("language_id", user.language().id())
             .param("init_date", TimeUtils.moscowTime())
             .param("personage_id", user.personageId().value())
+            .param("username", user.username().map(Username::value).orElse(null))
             .update();
     }
 
@@ -47,17 +49,17 @@ public class UserDao {
             .optional();
     }
 
-    public Optional<User> getByUsernameInGroup(String username, GroupTgId groupId) {
+    public Optional<User> getByUsernameInGroup(Username username, GroupTgId groupId) {
         return jdbcClient.sql(GET_BY_USERNAME)
-            .param("username", username)
+            .param("username", username.value())
             .param("grouptg_id", groupId.value())
             .query(this::mapRow)
             .optional();
     }
 
-    public void updateUsername(UserId userId, String newUsername) {
+    public void updateUsername(UserId userId, Optional<Username> newUsername) {
         jdbcClient.sql(UPDATE_USERNAME)
-            .param("username", newUsername)
+            .param("username", newUsername.map(Username::value).orElse(null))
             .param("id", userId.value())
             .update();
     }
@@ -88,13 +90,13 @@ public class UserDao {
             rs.getBoolean("is_active_private_messages"),
             Language.getOrDefault(rs.getInt("language_id")),
             PersonageId.from(rs.getLong("personage_id")),
-            Optional.ofNullable(rs.getString("username"))
+            Optional.ofNullable(rs.getString("username")).map(Username::from)
         );
     }
 
     private static final String SAVE_USER = """
-        insert into usertg (id, is_active_private_messages, language_id, init_date, personage_id)
-        values (:id, :is_active_private_messages, :language_id, :init_date, :personage_id);
+        insert into usertg (id, is_active_private_messages, language_id, init_date, personage_id, username)
+        values (:id, :is_active_private_messages, :language_id, :init_date, :personage_id, :username);
         """;
     private static final String GET_USER_BY_ID = """
         SELECT * FROM usertg

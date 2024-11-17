@@ -29,7 +29,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         final Language language;
         // TODO подумать над айдишками
         if (command.isPrivate()) {
-            language = userService.getOrCreateFromPrivate(UserId.from(command.chatId())).language();
+            language = userService.forceGetFromPrivate(UserId.from(command.chatId())).language();
         } else {
             language = groupTgService.getOrCreate(GroupTgId.from(command.chatId())).language();
         }

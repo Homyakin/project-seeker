@@ -26,7 +26,7 @@ public class HidePersonageExecutor extends CommandExecutor<ToggleHidePersonage> 
 
     @Override
     public void execute(ToggleHidePersonage command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var result = personageService.toggleIsHidden(user.personageId());
         final String text;
         // TODO переделать на switch когда там будут примитивы

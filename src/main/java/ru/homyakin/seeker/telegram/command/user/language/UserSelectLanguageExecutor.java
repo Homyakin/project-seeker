@@ -23,7 +23,7 @@ public class UserSelectLanguageExecutor extends CommandExecutor<UserSelectLangua
 
     @Override
     public void execute(UserSelectLanguage command) {
-        final var user = userService.changeLanguage(userService.getOrCreateFromPrivate(command.userId()), command.language());
+        final var user = userService.changeLanguage(userService.forceGetFromPrivate(command.userId()), command.language());
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(user.id())
             .messageId(command.messageId())

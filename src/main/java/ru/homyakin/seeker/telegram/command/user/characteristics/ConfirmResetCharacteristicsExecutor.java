@@ -29,7 +29,7 @@ public class ConfirmResetCharacteristicsExecutor extends CommandExecutor<Confirm
 
     @Override
     public void execute(ConfirmResetCharacteristics command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         personageService.resetStats(
                 personageService.getByIdForce(user.personageId())
             )

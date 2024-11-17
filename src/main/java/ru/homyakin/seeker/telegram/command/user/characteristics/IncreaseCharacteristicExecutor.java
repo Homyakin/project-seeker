@@ -31,7 +31,7 @@ public class IncreaseCharacteristicExecutor extends CommandExecutor<IncreaseChar
 
     @Override
     public void execute(IncreaseCharacteristic command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
 
         final var personage = personageService.getByIdForce(user.personageId());
         (

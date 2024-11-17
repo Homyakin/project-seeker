@@ -28,7 +28,7 @@ public class RepeatChangeNameExecutor extends CommandExecutor<RepeatChangeName> 
 
     @Override
     public void execute(RepeatChangeName command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         userStateService.setUserState(user, new ChangeNameState.InitChangeName());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

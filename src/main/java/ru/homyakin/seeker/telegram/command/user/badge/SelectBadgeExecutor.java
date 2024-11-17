@@ -30,7 +30,7 @@ public class SelectBadgeExecutor extends CommandExecutor<SelectBadge> {
 
     @Override
     public void execute(SelectBadge command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var badge = badgeService.getById(command.badgeId());
         if (badge.isEmpty()) {
             sendNotAvailableError(command, user.language());

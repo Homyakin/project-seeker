@@ -31,7 +31,7 @@ public class ConfirmChangeNameExecutor extends CommandExecutor<ConfirmChangeName
 
     @Override
     public void execute(ConfirmChangeName command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var message = personageService.changeName(
             personageService.getByIdForce(user.personageId()),
             command.name()

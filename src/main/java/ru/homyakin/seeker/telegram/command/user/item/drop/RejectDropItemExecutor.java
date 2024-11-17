@@ -22,7 +22,7 @@ public class RejectDropItemExecutor extends CommandExecutor<RejectDropItem> {
 
     @Override
     public void execute(RejectDropItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         telegramSender.send(
             EditMessageTextBuilder.builder()
                 .text(ItemLocalization.rejectedDrop(user.language()))

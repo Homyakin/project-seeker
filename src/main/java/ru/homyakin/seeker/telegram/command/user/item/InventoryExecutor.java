@@ -31,7 +31,7 @@ public class InventoryExecutor extends CommandExecutor<Inventory> {
 
     @Override
     public void execute(Inventory command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var items = itemService.getPersonageItems(user.personageId());
         telegramSender.send(
             SendMessageBuilder.builder()

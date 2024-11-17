@@ -29,7 +29,7 @@ public class InputNameExecutor extends CommandExecutor<InputName> {
 
     @Override
     public void execute(InputName command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         if (command.name().isBlank()) {
             telegramSender.send(
                 SendMessageBuilder.builder().chatId(user.id()).text(ChangeNameLocalization.changeNameWithoutName(user.language())).build()

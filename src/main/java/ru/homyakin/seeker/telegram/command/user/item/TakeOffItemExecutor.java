@@ -31,7 +31,7 @@ public class TakeOffItemExecutor extends CommandExecutor<TakeOffItem> {
 
     @Override
     public void execute(TakeOffItem command) {
-        final var user = userService.getOrCreateFromPrivate(command.userId());
+        final var user = userService.forceGetFromPrivate(command.userId());
         final var text = itemService.takeOffItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {
