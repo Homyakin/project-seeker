@@ -6,8 +6,8 @@ ${buying_items}
 ${selling_items}
 """
 
-sellingItem = "<code>${short_item_name}</code> ${price_value}${money_icon} ${sell_command}"
-buyingItem = "${shop_item_icon}${shop_item_name} ${price_value}${money_icon} ${buy_command}"
+sellingItem = "${full_item} ${money_icon}${price_value} ${sell_command}"
+buyingItem = "${shop_item_icon}${shop_item_name} ${money_icon}${price_value} ${buy_command}"
 
 common = "Обычная"
 uncommon = "Необычная"
@@ -21,4 +21,4 @@ incorrectSellingItem = "У вас нет такого предмета."
 notEnoughMoney = "Недостаточно денег."
 notEnoughSpaceInBag = "В рюкзаке недостаточно места, чтобы купить предмет."
 successBuy = "Поздравляем с покупкой! <code>${full_item_name}</code>"
-successSell = "Продано! <code>${full_item_name}</code> +${price_value}${money_icon}"
+successSell = "Продано! <code>${full_item_name}</code> +${money_icon}${price_value}"

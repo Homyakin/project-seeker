@@ -73,7 +73,7 @@ public class ItemLocalization {
         final var itemsInBagBuilder = new StringBuilder();
         final var equippedItemsBuilder = new StringBuilder();
         int itemsInBagCount = 0;
-        final var sortedItems = items.stream().sorted(Comparator.comparingInt(ItemLocalization::itemPriority)).toList();
+        final var sortedItems = items.stream().sorted(ItemLocalization::itemComparator).toList();
         for (final var item : sortedItems) {
             if (item.isEquipped()) {
                 if (!equippedItemsBuilder.isEmpty()) {
@@ -103,6 +103,10 @@ public class ItemLocalization {
             resources.getOrDefault(language, ItemResource::inventory),
             params
         );
+    }
+
+    public static int itemComparator(Item item1, Item item2) {
+        return itemPriority(item1) - itemPriority(item2);
     }
 
     public static String personageMissingItem(Language language) {

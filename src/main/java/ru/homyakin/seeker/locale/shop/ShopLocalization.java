@@ -33,6 +33,7 @@ public class ShopLocalization {
         final var sellingItems = items.stream()
             .filter(item -> item instanceof ShopItem.Sell)
             .map(item -> (ShopItem.Sell) item)
+            .sorted((item1, item2) -> ItemLocalization.itemComparator(item1.item(), item2.item()))
             .toList();
         for (int i = 0; i < buyingItems.size(); ++i) {
             buying.append(buyingItem(language, buyingItems.get(i)));
@@ -91,7 +92,7 @@ public class ShopLocalization {
 
     private static String sellingItem(Language language, ShopItem.Sell item) {
         final var params = new HashMap<String, Object>();
-        params.put("short_item_name", ItemLocalization.shortItem(language, item.item()));
+        params.put("full_item", ItemLocalization.fullItem(language, item.item()));
         params.put("price_value", item.price().value());
         params.put("money_icon", Icons.MONEY);
         params.put("sell_command", CommandType.SELL_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + item.item().id());
