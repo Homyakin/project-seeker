@@ -24,7 +24,7 @@ initDuelVariation = [
     """\
 От ${mention_initiator_icon_with_name} прилетела перчатка в лицо \
 ${mention_acceptor_icon_with_name}!""",
-    "Возми себя в руки, ${mention_acceptor_icon_with_name}, и прими вызов от ${mention_initiator_icon_with_name}!",
+    "Возьми себя в руки, ${mention_acceptor_icon_with_name}, и прими вызов от ${mention_initiator_icon_with_name}!",
     "${mention_initiator_icon_with_name} явно намеревается дать по щам ${mention_acceptor_icon_with_name}!",
     """\
 Гоп стоп! ${mention_acceptor_icon_with_name} стопанули за углом таверны! ${mention_initiator_icon_with_name} \
