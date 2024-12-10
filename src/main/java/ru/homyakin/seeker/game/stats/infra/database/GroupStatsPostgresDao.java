@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
-public class GroupStatsPostgresRepository implements GroupStatsStorage {
+public class GroupStatsPostgresDao implements GroupStatsStorage {
     private final JdbcClient jdbcClient;
 
-    public GroupStatsPostgresRepository(DataSource dataSource) {
+    public GroupStatsPostgresDao(DataSource dataSource) {
         this.jdbcClient = JdbcClient.create(dataSource);
     }
 

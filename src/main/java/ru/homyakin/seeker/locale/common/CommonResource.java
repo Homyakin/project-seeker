@@ -22,6 +22,7 @@ public record CommonResource(
     String migrateGroup,
     String[] energyRecovered,
     String minusMultiplyPercentEffect,
-    String throwOrderEffect
+    String throwOrderEffect,
+    String personageGlobalStats
 ) {
 }

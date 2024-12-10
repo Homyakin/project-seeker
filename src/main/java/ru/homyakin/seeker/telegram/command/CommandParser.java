@@ -65,6 +65,7 @@ import ru.homyakin.seeker.telegram.command.user.setting.ToggleHidePersonage;
 import ru.homyakin.seeker.telegram.command.user.shop.BuyItem;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenShop;
 import ru.homyakin.seeker.telegram.command.user.shop.SellItem;
+import ru.homyakin.seeker.telegram.command.user.stats.PersonageStatsGlobal;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
@@ -154,6 +155,7 @@ public class CommandParser {
                 case TAKE_PERSONAL_QUEST -> TakePersonalQuest.from(message);
                 case TOGGLE_HIDE_PERSONAGE -> ToggleHidePersonage.from(message);
                 case INIT_FEEDBACK -> InitFeedback.from(message);
+                case PERSONAGE_STATS -> PersonageStatsGlobal.from(message);
                 default -> null;
             });
     }

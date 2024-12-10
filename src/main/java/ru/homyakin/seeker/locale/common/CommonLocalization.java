@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.personage.models.CurrentEvent;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
+import ru.homyakin.seeker.game.stats.entity.PersonageStats;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -307,5 +308,22 @@ public class CommonLocalization {
 
     public static String energyRecovered(Language language) {
         return resources.getOrDefaultRandom(language, CommonResource::energyRecovered);
+    }
+
+    public static String personageGlobalStats(Language language, PersonageStats stats) {
+        final var params = new HashMap<String, Object>();
+        params.put("raids_success", stats.raidsSuccess());
+        params.put("raids_total", stats.raidsTotal());
+        params.put("duels_wins", stats.duelsWins());
+        params.put("duels_total", stats.duelsTotal());
+        params.put("money_icon", Icons.MONEY);
+        params.put("tavern_money_spent", stats.tavernMoneySpent());
+        params.put("spin_wins_count", stats.spinWinsCount());
+        params.put("quests_success", stats.questsSuccess());
+        params.put("quests_total", stats.questsTotal());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageGlobalStats),
+            params
+        );
     }
 }
