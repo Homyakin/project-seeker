@@ -101,9 +101,7 @@ public class RaidProcessing {
                     participant,
                     battleResult.stats(),
                     reward,
-                    generatedItem
-                        .filter(it -> it instanceof GeneratedItemResult.Success)
-                        .map(it -> ((GeneratedItemResult.Success) it).item())
+                    generatedItem.map(GeneratedItemResult::item)
                 );
             })
             .toList();

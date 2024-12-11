@@ -63,9 +63,18 @@ public class ItemService {
         );
 
         if (!personage.hasSpaceInBag(getPersonageItems(personage.id()))) {
-            // TODO возможно стоит сохранять неудачные предметы в базу
             logger.info("Personage '{}' has no space in bag", personage.id().value());
-            return Either.left(new GenerateItemError.NotEnoughSpace(tempItem));
+            final var tempItemWithoutPersonageId = new Item(
+                tempItem.id(),
+                tempItem.object(),
+                tempItem.rarity(),
+                tempItem.modifiers(),
+                Optional.empty(),
+                tempItem.isEquipped(),
+                tempItem.characteristics()
+            );
+            final var id = itemDao.saveItem(tempItemWithoutPersonageId);
+            return Either.left(new GenerateItemError.NotEnoughSpace(getById(id).orElseThrow()));
         }
 
         final var id = itemDao.saveItem(tempItem);
