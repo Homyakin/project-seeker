@@ -6,6 +6,8 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
+import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
+import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
@@ -70,6 +72,7 @@ public class TopLocalization {
         params.put("top_raid_week_command", CommandType.TOP_RAID_WEEK.getText());
         params.put("top_raid_week_group_command", CommandType.TOP_RAID_WEEK_GROUP.getText());
         params.put("top_group_raid_week_command", CommandType.TOP_GROUP_RAID_WEEK.getText());
+        params.put("top_power_personage_command", CommandType.TOP_POWER_GROUP.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topList),
             params
@@ -127,5 +130,36 @@ public class TopLocalization {
         params.put("success_raids", position.successRaids());
         params.put("all_raids", position.successRaids() + position.failedRaids());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topGroupRaidPosition), params);
+    }
+
+    public static String topPowerPersonageGroup(
+        Language language,
+        PersonageId requestedPersonageId,
+        TopPowerPersonageResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, result);
+        params.put("top_personage_list", topPersonageList);
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topPowerPersonageGroup),
+            params
+        );
+    }
+
+    public static String topPowerPersonagePosition(
+        Language language,
+        int positionNumber,
+        TopPowerPersonagePosition position
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
+        params.put("power", position.power() / 100); // делим на 100, так как слишком большие числа (32052 в дефолте)
+        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topPowerPersonagePosition), params);
+    }
+
+    public static String topPersonageEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topPersonageEmpty);
     }
 }

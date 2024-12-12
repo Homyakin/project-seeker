@@ -196,6 +196,10 @@ public class BattlePersonage implements Cloneable {
         );
     }
 
+    public Personage personage() {
+        return personage;
+    }
+
     // TODO вынести в базу
     private static final double baseDodgeChance = 5;
     private static final double baseCritChance = 5;

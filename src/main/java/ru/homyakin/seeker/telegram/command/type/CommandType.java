@@ -41,6 +41,7 @@ public enum CommandType {
     SELECT_BADGE("selectBadge", CheckType.EQUALS),
     TOP_RAID_WEEK("/top_raid_week", CheckType.EQUALS),
     TOP_RAID_WEEK_GROUP("/top_raid_week_group", CheckType.EQUALS),
+    TOP_POWER_GROUP("/top_power_group", CheckType.EQUALS),
     TOP("/top", CheckType.EQUALS),
     INVENTORY(null, CheckType.MAP),
     OPEN_SHOP(null, CheckType.MAP),

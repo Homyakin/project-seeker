@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import javax.sql.DataSource;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class GroupPersonagePostgresDao implements GroupPersonageStorage {
@@ -73,5 +74,16 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
             .param("pgroup_id", groupId.value())
             .param("personage_id", personageId.value())
             .update();
+    }
+
+    @Override
+    public Set<PersonageId> getActiveGroupPersonages(GroupId groupId) {
+        final var sql = """
+            SELECT personage_id FROM pgroup_to_personage WHERE pgroup_id = :pgroup_id AND is_active = true
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .query((rs, _) -> PersonageId.from(rs.getLong("personage_id")))
+            .set();
     }
 }

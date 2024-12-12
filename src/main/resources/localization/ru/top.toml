@@ -26,6 +26,7 @@ topList = """\
 🗡Топ Искателей в рейдах за неделю ${top_raid_week_command}
 🗡Топ Искателей группы в рейдах за неделю ${top_raid_week_group_command}
 ⚒Топ работяг в группе ${top_work_group_command}
+💪 Топ Искателей в группе по мощи ${top_power_personage_command}
 
 👥Топы Групп:
 🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}"""
@@ -38,3 +39,13 @@ ${top_personage_list}
 Всего участников: ${total_count}
 """
 topSpinPosition = "${position}. ${personage_badge_with_name}: ${work_count}"
+
+topPowerPersonageGroup = """\
+💪Топ Искателей в группе по мощи:
+
+${top_personage_list}
+
+Всего участников: ${total_count}
+"""
+topPowerPersonagePosition = "${position}. ${personage_badge_with_name}: ${power}"
+topPersonageEmpty = "Нет участников для отображения"

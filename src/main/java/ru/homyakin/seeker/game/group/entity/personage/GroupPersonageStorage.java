@@ -4,6 +4,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface GroupPersonageStorage {
     Optional<PersonageId> randomPersonage(GroupId groupId);
@@ -15,4 +16,6 @@ public interface GroupPersonageStorage {
     void createOrActivate(GroupId groupId, PersonageId personageId);
 
     void create(GroupId groupId, PersonageId personageId);
+
+    Set<PersonageId> getActiveGroupPersonages(GroupId groupId);
 }
