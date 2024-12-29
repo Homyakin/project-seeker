@@ -156,3 +156,51 @@
     [item.locales.EN]
     name = "Fried potatoes"
     consumeTemplate = [ "Only you are hotter than this potato!" ]
+
+[[item]]
+    code = "olivier"
+    rarity = "RARE"
+    isAvailable = true
+    category = "MAIN_DISH"
+    effectCharacteristic = "HEALTH"
+
+    [item.locales.RU]
+    name = "Оливье"
+    consumeTemplate = [
+        "Домашний салатик, приготовленный с любовью!",
+        "<b>${personage_badge_with_name}</b>, куда делся тазик оливье?",
+        "Такой салат ещё вкуснее рядом с хорошими товарищими. Хорошо, что <b>${personage_badge_with_name}</b> один из них!",
+    ]
+
+[[item]]
+    code = "champagne"
+    rarity = "RARE"
+    isAvailable = true
+    category = "DRINK"
+    effectCharacteristic = "WISDOM"
+
+    [item.locales.RU]
+    name = "Шампанское"
+    consumeTemplate = [
+        "Звон бокалов ласкает слух!",
+        "С Новым Годом, <b>${personage_badge_with_name}</b>!",
+        "С каждым глотком настроение становится более праздничным! Поделись им с друзьями",
+        "Праздник к нам приходит, праздник к нам приходит! А вместе с ним и пьяный <b>${personage_badge_with_name}</b>!",
+        "Счастья! Здоровья! Что б меч стоял, и деньги были!"
+    ]
+
+[[item]]
+    code = "gluhwein"
+    rarity = "RARE"
+    isAvailable = true
+    category = "DRINK"
+    effectCharacteristic = "ATTACK"
+
+    [item.locales.RU]
+    name = "Глинтвейн"
+    consumeTemplate = [
+        "Согревает душу и тело <b>${personage_badge_with_name}</b>!",
+        "Лучшее вино, свежие апельсины и секретные специи пострадали, чтобы оказаться в стакане <b>${personage_badge_with_name}</b>.",
+        "Отличный напиток для этой холодной погоды!",
+        "Год был не простым... Но <b>${personage_badge_with_name}</b> был на высоте!",
+    ]
