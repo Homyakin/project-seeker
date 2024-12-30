@@ -15,3 +15,9 @@ code = "first-season"
 
 [badge.locales.RU]
 description = "Первый Сезон"
+
+[[badge]]
+code = "second-season"
+
+[badge.locales.RU]
+description = "Второй Сезон"
