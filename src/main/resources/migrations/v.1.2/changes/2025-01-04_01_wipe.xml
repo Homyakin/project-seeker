@@ -1,0 +1,53 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="2025-01-04_01_wipe">
+        <sql>
+            WITH active_personages AS (
+                SELECT personage_id FROM personage_to_event
+                GROUP BY personage_id
+                HAVING COUNT(*) > 10
+            )
+            INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
+            SELECT p.personage_id, b.id, false
+            FROM active_personages p, badge b
+            WHERE b.code = 'second-season';
+        </sql>
+
+        <sql>
+            -- дуэли
+            DELETE FROM duel_tg;
+            DELETE FROM duel;
+
+            --статистика
+            UPDATE pgroup_to_personage SET raids_success = 0, raids_total = 0, duels_wins = 0, duels_total = 0, tavern_money_spent = 0, spin_wins_count = 0;
+            UPDATE pgroup SET raids_complete = 0, duels_complete = 0, tavern_money_spent = 0;
+
+            -- события
+            DELETE FROM grouptg_to_launched_event;
+            DELETE FROM personage_to_event;
+            DELETE FROM personage_raid_result;
+            DELETE FROM launched_event_to_pgroup;
+            DELETE FROM launched_event;
+
+            -- меню
+            DELETE FROM menu_item_order_tg;
+            DELETE FROM menu_item_order;
+
+            -- предметы
+            DELETE FROM item_to_item_modifier;
+            DELETE FROM item;
+
+            -- работяга
+            DELETE FROM everyday_spin;
+
+            -- рандом
+            DELETE FROM personage_random;
+
+            -- компенсация
+            UPDATE personage SET money = 200, energy=100;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
