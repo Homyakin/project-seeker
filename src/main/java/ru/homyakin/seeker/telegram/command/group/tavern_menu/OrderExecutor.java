@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -62,7 +63,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
             acceptor = giver;
         } else {
             final var mentionInfo = command.mentionInfo().get();
-            if (processUserType(mentionInfo.userType(), group).isLeft()) {
+            if (processUserType(mentionInfo.userType(), group, menuItem).isLeft()) {
                 return;
             }
             final var userResult = userService.getByMention(mentionInfo, group.id());
@@ -91,7 +92,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
             );
     }
 
-    private Either<Failure, Success> processUserType(UserType userType, GroupTg group) {
+    private Either<Failure, Success> processUserType(UserType userType, GroupTg group, MenuItem item) {
         return switch (userType) {
             case USER -> Either.right(Success.INSTANCE);
             case DIFFERENT_BOT -> {
@@ -105,7 +106,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
             case THIS_BOT -> {
                 telegramSender.send(SendMessageBuilder.builder()
                     .chatId(group.id())
-                    .text(TavernMenuLocalization.orderGiftToThisBot(group.language()))
+                    .text(TavernMenuLocalization.orderDrinkToThisBot(group.language(), item.category()))
                     .build()
                 );
                 yield Either.left(new Failure());

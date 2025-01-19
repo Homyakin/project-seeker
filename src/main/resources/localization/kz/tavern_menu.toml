@@ -12,9 +12,6 @@ notEnoughMoneyMainDish = [
 orderGiftToDifferentBot = [
     "Кешіріңіз, бірақ жансыз заттарға тапсырыс қабылданбайды."
 ]
-orderGiftToThisBot = [
-    "Барменге құймаңыз"
-]
 order = [
     "${mention_acceptor_icon_with_name} үшін ${item_name}!"
 ]

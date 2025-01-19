@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowOrderError;
@@ -62,8 +63,11 @@ public class TavernMenuLocalization {
         return resources.getOrDefaultRandom(language, TavernMenuResource::orderGiftToDifferentBot);
     }
 
-    public static String orderGiftToThisBot(Language language) {
-        return resources.getOrDefaultRandom(language, TavernMenuResource::orderGiftToThisBot);
+    public static String orderDrinkToThisBot(Language language, Category category) {
+        return switch (category) {
+            case DRINK -> resources.getOrDefaultRandom(language, TavernMenuResource::orderDrinkToThisBot);
+            case MAIN_DISH -> resources.getOrDefaultRandom(language, TavernMenuResource::orderMainDishToThisBot);
+        };
     }
 
     public static String order(Language language, MenuItem item, TgPersonageMention giver, TgPersonageMention acceptor) {
