@@ -1,0 +1,19 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-new-year-2025-badge">
+        <sql>
+            WITH active_personages AS (
+                SELECT personage_id FROM personage_to_event
+                GROUP BY personage_id
+                HAVING COUNT(*) > 1
+            )
+            INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
+            SELECT p.personage_id, b.id, false
+            FROM active_personages p, badge b
+            WHERE b.code = 'new-year-2025';
+        </sql>
+    </changeSet>
+</databaseChangeLog>
