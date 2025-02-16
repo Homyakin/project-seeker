@@ -46,9 +46,8 @@ public class TelegramBotCommandInitializer {
         new BotCommand(CommandType.TAVERN_MENU.getText(), "Get tavern menu"),
         new BotCommand(CommandType.START_DUEL.getText(), "Start duel with another player. Must be reply"),
         new BotCommand(CommandType.GET_PROFILE.getText(), "Get profile"),
-        new BotCommand(CommandType.GROUP_STATS.getText(), "Get group statistic"),
         new BotCommand(CommandType.PERSONAGE_STATS.getText(), "Get my statistic"),
-        new BotCommand(CommandType.SETTINGS.getText(), "Get group settings"),
+        new BotCommand(CommandType.GROUP_INFO.getText(), "Get group info"),
         new BotCommand(CommandType.SPIN.getText(), "Get worker of the day"),
         new BotCommand(CommandType.TOP.getText(), "Get list of tops")
     );

@@ -1,9 +1,9 @@
-package ru.homyakin.seeker.telegram.command.group.settings;
+package ru.homyakin.seeker.telegram.command.group.management.settings;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.ToggleGroupIsHiddenCommand;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
+import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
@@ -45,10 +45,10 @@ public class ToggleHideGroupExecutor extends CommandExecutor<ToggleHideGroup> {
         }
         final var text = toggleGroupIsHiddenCommand.execute(groupTg.domainGroupId())
             .fold(
-                _ -> GroupSettingsLocalization.forbiddenHidden(groupTg.language()),
+                _ -> GroupManagementLocalization.forbiddenHidden(groupTg.language()),
                 result -> result
-                    ? GroupSettingsLocalization.groupIsHidden(groupTg.language())
-                    : GroupSettingsLocalization.groupIsNotHidden(groupTg.language())
+                    ? GroupManagementLocalization.groupIsHidden(groupTg.language())
+                    : GroupManagementLocalization.groupIsNotHidden(groupTg.language())
             );
         telegramSender.send(
             SendMessageBuilder

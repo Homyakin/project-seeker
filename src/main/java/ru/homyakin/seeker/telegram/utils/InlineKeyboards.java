@@ -10,7 +10,7 @@ import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
+import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -158,7 +158,7 @@ public class InlineKeyboards {
         final var intervals = eventIntervals.intervals();
         final var callbackPrefix = CommandType.TOGGLE_EVENT_INTERVAL.getText() + TextConstants.CALLBACK_DELIMITER;
         for (int i = 0; i < intervals.size(); ++i) {
-            builder.addRow().addButton(GroupSettingsLocalization.eventIntervalButton(language, intervals.get(i)), callbackPrefix + i);
+            builder.addRow().addButton(GroupManagementLocalization.eventIntervalButton(language, intervals.get(i)), callbackPrefix + i);
         }
         return builder.build();
     }

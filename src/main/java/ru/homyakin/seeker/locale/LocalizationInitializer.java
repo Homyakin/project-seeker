@@ -12,8 +12,8 @@ import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.duel.DuelResource;
 import ru.homyakin.seeker.locale.feedback.FeedbackLocalization;
 import ru.homyakin.seeker.locale.feedback.FeedbackResource;
-import ru.homyakin.seeker.locale.group_settings.GroupSettingsLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupSettingsResource;
+import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group_settings.GroupManagementResource;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.help.HelpResource;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
@@ -50,7 +50,7 @@ public class LocalizationInitializer {
     private static final String TAVERN_MENU_PATH = File.separator + "tavern_menu.toml";
     private static final String HELP_PATH = File.separator + "help.toml";
     private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
-    private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
+    private static final String GROUP_MANAGEMENT_PATH = File.separator + "group_management.toml";
     private static final String TOP_PATH = File.separator + "top.toml";
     private static final String ITEM_PATH = File.separator + "item.toml";
     private static final String SHOP_PATH = File.separator + "shop.toml";
@@ -110,8 +110,8 @@ public class LocalizationInitializer {
             );
 
             ResourceUtils.doAction(
-                LOCALIZATION_PATH + language.value() + GROUP_SETTINGS_PATH,
-                it -> GroupSettingsLocalization.add(language, extractClass(mapper, it, GroupSettingsResource.class))
+                LOCALIZATION_PATH + language.value() + GROUP_MANAGEMENT_PATH,
+                it -> GroupManagementLocalization.add(language, extractClass(mapper, it, GroupManagementResource.class))
             );
 
             ResourceUtils.doAction(

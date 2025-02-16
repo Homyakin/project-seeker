@@ -1,3 +1,10 @@
+groupInfo = """\
+<code>${group_name_with_badge}</code>
+
+📊Статистика группы: ${group_stats_command}
+⚙️Настройки: ${group_settings_command}
+"""
+
 groupSettings = """\
 ⚙️Настройки группы ${group_name_with_badge}:
 ${optional_group_is_hidden_description}

@@ -9,13 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
+import ru.homyakin.seeker.telegram.command.group.management.GroupInfo;
 import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
-import ru.homyakin.seeker.telegram.command.group.settings.ChangeGroupName;
-import ru.homyakin.seeker.telegram.command.group.settings.GetGroupSettings;
-import ru.homyakin.seeker.telegram.command.group.settings.SetTimeZone;
-import ru.homyakin.seeker.telegram.command.group.settings.ToggleEventInterval;
-import ru.homyakin.seeker.telegram.command.group.settings.ToggleHideGroup;
+import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupName;
+import ru.homyakin.seeker.telegram.command.group.management.settings.GetGroupSettings;
+import ru.homyakin.seeker.telegram.command.group.management.settings.SetTimeZone;
+import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleEventInterval;
+import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleHideGroup;
 import ru.homyakin.seeker.telegram.command.group.spin.Spin;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
@@ -185,6 +186,7 @@ public class CommandParser {
                 case TOGGLE_HIDE_GROUP -> ToggleHideGroup.from(message);
                 case TOP_GROUP_RAID_WEEK -> TopGroupRaidWeek.from(message);
                 case TOP_POWER_GROUP -> TopPowerGroup.from(message);
+                case GROUP_INFO -> GroupInfo.from(message);
                 default -> null;
             });
     }

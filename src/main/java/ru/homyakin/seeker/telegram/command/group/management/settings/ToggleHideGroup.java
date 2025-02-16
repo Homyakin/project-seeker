@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.command.group.settings;
+package ru.homyakin.seeker.telegram.command.group.management.settings;
 
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;

@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale.group_settings;
 
-public record GroupSettingsResource(
+public record GroupManagementResource(
+    String groupInfo,
     String groupSettings,
     String groupIsHiddenDescription,
     String eventIntervalButton,
