@@ -6,7 +6,6 @@ import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
-import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
