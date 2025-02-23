@@ -27,7 +27,7 @@ public class DonateToGroupCommand {
         PersonageId personageId,
         Money money
     ) {
-        if (money.isNegative()) {
+        if (money.isNegative() || money.isZero()) {
             return Either.left(DonateMoneyToGroupError.InvalidAmount.INSTANCE);
         }
         final var personage = personageService.getByIdForce(personageId);

@@ -47,6 +47,10 @@ public record Money(
         return value < 0;
     }
 
+    public boolean isZero() {
+        return value == 0;
+    }
+
     @Override
     public int compareTo(Money other) {
         return Integer.compare(value, other.value);
