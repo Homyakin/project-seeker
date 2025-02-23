@@ -12,4 +12,8 @@ public sealed interface TakeMoneyFromGroupError {
     enum GroupNotRegistered implements TakeMoneyFromGroupError {
         INSTANCE
     }
+
+    enum InvalidAmount implements TakeMoneyFromGroupError {
+        INSTANCE
+    }
 }

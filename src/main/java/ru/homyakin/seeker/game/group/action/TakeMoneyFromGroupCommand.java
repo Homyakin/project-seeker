@@ -34,6 +34,9 @@ public class TakeMoneyFromGroupCommand {
         PersonageId personageId,
         Money money
     ) {
+        if (money.isNegative()) {
+            return Either.left(TakeMoneyFromGroupError.InvalidAmount.INSTANCE);
+        }
         final var group = groupStorage.getProfile(groupId).orElseThrow();
         if (!group.isRegistered()) {
             return Either.left(TakeMoneyFromGroupError.GroupNotRegistered.INSTANCE);

@@ -53,6 +53,8 @@ public class TakeMoneyFromGroupExecutor extends CommandExecutor<TakeMoneyFromGro
                         GroupManagementLocalization.takeMoneyPersonageNotMember(groupTg.language());
                     case TakeMoneyFromGroupError.GroupNotRegistered _ ->
                         CommonLocalization.onlyForRegisteredGroup(groupTg.language());
+                    case TakeMoneyFromGroupError.InvalidAmount _ ->
+                        GroupManagementLocalization.incorrectAmount(groupTg.language());
                 },
                 personage ->
                     GroupManagementLocalization.successTakeMoney(groupTg.language(), personage, donateMoney)

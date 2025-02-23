@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.group.management;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.DonateToGroupCommand;
+import ru.homyakin.seeker.game.group.error.DonateMoneyToGroupError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -44,8 +45,12 @@ public class DonateToGroupExecutor extends CommandExecutor<DonateToGroup> {
         final var donateMoney = Money.from(command.amount().get());
         final var text = donateToGroupCommand.execute(groupTg.domainGroupId(), user.personageId(), donateMoney)
             .fold(
-                _ ->
-                    GroupManagementLocalization.notEnoughMoneyForDonate(groupTg.language()),
+                error -> switch (error) {
+                    case DonateMoneyToGroupError.InvalidAmount _ ->
+                        GroupManagementLocalization.incorrectAmount(groupTg.language());
+                    case DonateMoneyToGroupError.NotEnoughMoney _ ->
+                        GroupManagementLocalization.notEnoughMoneyForDonate(groupTg.language());
+                },
                 personage ->
                     GroupManagementLocalization.successDonate(groupTg.language(), personage, donateMoney)
             );

@@ -43,6 +43,10 @@ public record Money(
         return new Money(value / divider);
     }
 
+    public boolean isNegative() {
+        return value < 0;
+    }
+
     @Override
     public int compareTo(Money other) {
         return Integer.compare(value, other.value);
