@@ -17,7 +17,7 @@ unregisteredGroupInfo = """\
 
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
-Комманды для группы: ${group_commands_command}
+Вложить деньги: <code>${donate_money_command} [сумма]</code>
 """
 
 groupRegistration = """\
