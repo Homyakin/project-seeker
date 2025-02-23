@@ -6,8 +6,11 @@ import ru.homyakin.seeker.game.group.error.StillSame;
 import ru.homyakin.seeker.game.group.error.ZeroEnabledEventIntervalsError;
 import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 
+import java.util.Optional;
+
 public record Group(
     GroupId id,
+    Optional<String> tag,
     String name,
     boolean isActive,
     GroupSettings settings
@@ -28,14 +31,23 @@ public record Group(
         return changeActive(false);
     }
 
+    public boolean isRegistered() {
+        return tag.isPresent();
+    }
+
+    public boolean isHidden() {
+        return settings.isHidden();
+    }
+
     private Group copyWithSettings(GroupSettings settings) {
-        return new Group(id, name, isActive, settings);
+        return new Group(id, tag, name, isActive, settings);
     }
 
     private Either<StillSame, Group> changeActive(boolean newActive) {
         if (isActive != newActive) {
             final var group = new Group(
                 id,
+                tag,
                 name,
                 newActive,
                 settings

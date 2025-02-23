@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.duel.CreateDuelTgResult;
@@ -125,7 +126,7 @@ public class DuelLocalization {
     public static String personageDuelResult(Language language, PersonageBattleResult result, boolean isWinner) {
         final var params = new HashMap<String, Object>();
         params.put("winner_or_loser_icon", isWinner ? Icons.DUEL_WINNER : Icons.DUEL_LOSER);
-        params.put("personage_badge_with_name", result.personage().badgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(result.personage()));
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("remain_health", result.stats().remainHealth());
         params.put("crits_count", result.stats().critsCount());

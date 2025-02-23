@@ -28,6 +28,7 @@ public class SingleBossGenerator implements RaidBattlePersonageGenerator {
             PersonageId.from(-1),
             null,
             null,
+            null,
             characteristics,
             null,
             null,

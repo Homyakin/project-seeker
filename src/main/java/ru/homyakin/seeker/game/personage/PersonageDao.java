@@ -57,12 +57,14 @@ public class PersonageDao {
             b.code as badge_code,
             ic.*,
             ale.launched_event_end_date,
-            ale.event_type
+            ale.event_type,
+            pg.tag as pgroup_member_tag
         FROM personage p
         LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id AND pab.is_active = true
         LEFT JOIN badge b ON pab.badge_id = b.id
         LEFT JOIN item_characteristics ic on p.id = ic.personage_id
         LEFT JOIN active_launched_event ale ON p.id = ale.personage_id AND ale.rn = 1
+        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE p.id in (:id_list)
         """;
 
@@ -191,6 +193,7 @@ public class PersonageDao {
         return new Personage(
             PersonageId.from(rs.getLong("id")),
             rs.getString("name"),
+            Optional.ofNullable(rs.getString("pgroup_member_tag")),
             new Money(rs.getInt("money")),
             new Characteristics(
                 rs.getInt("health"),

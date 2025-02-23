@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.group.management.settings;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.GetGroup;
-import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
@@ -33,7 +33,7 @@ public class GetGroupSettingsExecutor extends CommandExecutor<GetGroupSettings> 
             SendMessageBuilder
                 .builder()
                 .chatId(command.groupId())
-                .text(GroupManagementLocalization.groupSettings(groupTg.language(), group))
+                .text(GroupSettingsLocalization.groupSettings(groupTg.language(), group))
                 .keyboard(InlineKeyboards.eventIntervalsKeyboard(groupTg.language(), group.settings().eventIntervals()))
                 .build()
         );

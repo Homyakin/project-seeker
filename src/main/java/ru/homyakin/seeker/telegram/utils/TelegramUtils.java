@@ -6,6 +6,8 @@ import org.telegram.telegrambots.meta.api.objects.message.MaybeInaccessibleMessa
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Optional;
+
 public class TelegramUtils {
     public static boolean needToProcessUpdate(Update update, String botUsername) {
         if (update.hasMyChatMember()) {
@@ -44,6 +46,15 @@ public class TelegramUtils {
         }
         final var command = text.split(" ")[0];
         return (!command.contains("@") || command.split("@")[1].equalsIgnoreCase(botUsername));
+    }
+
+    /**
+     * @param text Сообщение в формате '/command argument'
+     * @return 'argument'
+     */
+    public static Optional<String> deleteCommand(String text) {
+        final var split = text.split(" ", 2);
+        return split.length == 2 ? Optional.of(split[1]) : Optional.empty();
     }
 
     public static Message validateCallbackMessage(CallbackQuery callback) {

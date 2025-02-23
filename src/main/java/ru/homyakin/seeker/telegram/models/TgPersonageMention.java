@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.models;
 
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public class TgPersonageMention implements PersonageMention {
@@ -13,7 +14,7 @@ public class TgPersonageMention implements PersonageMention {
 
     public static TgPersonageMention of(Personage personage, UserId userId) {
         return new TgPersonageMention(
-            "<a href=\"tg://user?id=" + userId.value() + "\">" + personage.badgeWithName() + "</a>"
+            "<a href=\"tg://user?id=" + userId.value() + "\">" + LocaleUtils.personageNameWithBadge(personage) + "</a>"
         );
     }
 

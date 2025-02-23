@@ -13,6 +13,9 @@ welcomeGroup = """\
 
 chooseLanguage = "Выберите язык:"
 onlyAdminAction = "Данное действие доступно только администраторам"
+forbiddenForHiddenGroup = "Данное действие недоступно в скрытой группе"
+onlyForRegisteredGroup = "Данное действие доступно только в зарегистрированных гурппах"
+forbiddenAction = "Ты не можешь этого сделать"
 internalError = "Произошла ошибка, попробуйте позже"
 fullProfile = """\
 ${personage_badge_with_name}

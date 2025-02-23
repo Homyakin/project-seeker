@@ -4,4 +4,5 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <include file="changes/2025-01-04_01_add-new-year-2025-badge.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2025-02-16_01_add-register-pgroup.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

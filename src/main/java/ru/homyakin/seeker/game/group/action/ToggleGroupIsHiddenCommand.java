@@ -19,7 +19,7 @@ public class ToggleGroupIsHiddenCommand {
      */
     public Either<ForbiddenToggleHidden, Boolean> execute(GroupId groupId) {
         final var group = storage.get(groupId).orElseThrow();
-        if (!group.settings().enableToggleHide()) {
+        if (!group.settings().enableToggleHide() || group.isRegistered()) {
             return Either.left(ForbiddenToggleHidden.INSTANCE);
         }
         return Either.right(storage.toggleIsHidden(groupId));

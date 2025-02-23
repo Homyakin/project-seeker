@@ -50,6 +50,7 @@ public class BattlePersonagePowerTest {
                 null,
                 null,
                 null,
+                null,
                 new Characteristics(500, 50, 20, 5, 5, 5),
                 null,
                 null,

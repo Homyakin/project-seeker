@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.ChangeGroupNameCommand;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
@@ -38,7 +38,7 @@ public class ChangeGroupNameExecutor extends CommandExecutor<ChangeGroupName> {
                 SendMessageBuilder
                     .builder()
                     .chatId(command.groupTgId())
-                    .text(GroupManagementLocalization.changeNameInvalidFormat(groupTg.language()))
+                    .text(GroupSettingsLocalization.changeNameInvalidFormat(groupTg.language()))
                     .build()
             );
             return;
@@ -57,13 +57,13 @@ public class ChangeGroupNameExecutor extends CommandExecutor<ChangeGroupName> {
         final var text = changeGroupNameCommand.execute(groupTg.domainGroupId(), command.name().get())
             .fold(
                 error -> switch (error) {
-                    case NameError.InvalidLength invalidLength -> GroupManagementLocalization.changeNameInvalidLength(
+                    case NameError.InvalidLength invalidLength -> GroupSettingsLocalization.changeNameInvalidLength(
                         groupTg.language(),
                         invalidLength
                     );
-                    case NameError.NotAllowedSymbols _ -> GroupManagementLocalization.changeNameInvalidSymbols(groupTg.language());
+                    case NameError.NotAllowedSymbols _ -> GroupSettingsLocalization.changeNameInvalidSymbols(groupTg.language());
                 },
-                _ -> GroupManagementLocalization.successChangeName(groupTg.language(), command.name().get())
+                _ -> GroupSettingsLocalization.successChangeName(groupTg.language(), command.name().get())
             );
         telegramSender.send(
             SendMessageBuilder

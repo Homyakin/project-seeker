@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.EditGroupSettings;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -53,7 +53,7 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
                         .builder()
                         .chatId(command.groupId())
                         .messageId(command.messageId())
-                        .text(GroupManagementLocalization.groupSettings(group.language(), updatedGroup))
+                        .text(GroupSettingsLocalization.groupSettings(group.language(), updatedGroup))
                         .keyboard(InlineKeyboards.eventIntervalsKeyboard(group.language(), updatedGroup.settings().eventIntervals()))
                         .build()
                 )
@@ -62,7 +62,7 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
                 _ -> telegramSender.send(
                     TelegramMethods.createAnswerCallbackQuery(
                         command.callbackId(),
-                        GroupManagementLocalization.zeroEnabledEventIntervals(group.language())
+                        GroupSettingsLocalization.zeroEnabledEventIntervals(group.language())
                     )
                 )
             );

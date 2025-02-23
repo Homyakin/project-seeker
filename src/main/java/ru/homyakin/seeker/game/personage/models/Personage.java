@@ -30,6 +30,7 @@ import ru.homyakin.seeker.utils.models.Success;
 public record Personage(
     PersonageId id,
     String name,
+    Optional<String> tag,
     Money money,
     Characteristics characteristics,
     Energy energy,
@@ -42,6 +43,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            tag,
             this.money.add(money),
             characteristics,
             energy,
@@ -98,6 +100,7 @@ public record Personage(
         final var personage = new Personage(
             id,
             name,
+            tag,
             money,
             characteristics,
             energyResult.getOrElse(energy),
@@ -115,10 +118,6 @@ public record Personage(
     ) {
         return energy.reduce(energyToReduce, energyChangeTime)
             .map(this::copyWithEnergy);
-    }
-
-    public String badgeWithName() {
-        return badge().icon() + name;
     }
 
     public Either<NotEnoughMoney, Personage> resetStats() {
@@ -250,6 +249,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            tag,
             money,
             characteristics,
             energy,
@@ -277,6 +277,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            tag,
             money,
             characteristics,
             energy,
@@ -291,6 +292,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            tag,
             money,
             characteristics,
             energy,
@@ -305,6 +307,7 @@ public record Personage(
         return new Personage(
             id,
             name,
+            tag,
             money,
             characteristics,
             energy,

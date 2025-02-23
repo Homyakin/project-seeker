@@ -67,6 +67,18 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::onlyAdminAction);
     }
 
+    public static String forbiddenForHiddenGroup(Language language) {
+        return resources.getOrDefault(language, CommonResource::forbiddenForHiddenGroup);
+    }
+
+    public static String onlyForRegisteredGroup(Language language) {
+        return resources.getOrDefault(language, CommonResource::onlyForRegisteredGroup);
+    }
+
+    public static String forbiddenAction(Language language) {
+        return resources.getOrDefault(language, CommonResource::forbiddenAction);
+    }
+
     public static String internalError(Language language) {
         return resources.getOrDefault(language, CommonResource::internalError);
     }
@@ -113,7 +125,7 @@ public class CommonLocalization {
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);
-        params.put("personage_badge_with_name", personage.badgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("personage_money", personage.money().value());
         params.put("energy_value", personage.energy().value());
         params.put("attack_icon", Icons.ATTACK);

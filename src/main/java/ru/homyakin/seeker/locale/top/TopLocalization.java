@@ -56,7 +56,7 @@ public class TopLocalization {
     public static String topRaidPosition(Language language, int positionNumber, TopRaidPosition position) {
         final var params = new HashMap<String, Object>();
         params.put("position", positionNumber);
-        params.put("personage_badge_with_name", position.personageBadgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
         params.put("success_raids", position.successRaids());
         params.put("all_raids", position.successRaids() + position.failedRaids());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topRaidPosition), params);
@@ -97,7 +97,7 @@ public class TopLocalization {
     public static String topSpinPosition(Language language, int positionNumber, TopSpinPosition position) {
         final var params = new HashMap<String, Object>();
         params.put("position", positionNumber);
-        params.put("personage_badge_with_name", position.personageBadgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
         params.put("work_count", position.workCount());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topSpinPosition), params);
     }

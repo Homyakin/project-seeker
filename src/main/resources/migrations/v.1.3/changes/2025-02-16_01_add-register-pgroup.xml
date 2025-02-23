@@ -1,0 +1,31 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-register-pgroup">
+        <addColumn tableName="pgroup">
+            <column name="tag" type="VARCHAR(4)">
+                <constraints nullable="true" unique="true"/>
+            </column>
+
+            <column name="money" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="personage">
+            <column name="member_pgroup_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint
+                baseTableName="personage"
+                baseColumnNames="member_pgroup_id"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+                constraintName="fk_personage_pgroup"
+        />
+    </changeSet>
+</databaseChangeLog>

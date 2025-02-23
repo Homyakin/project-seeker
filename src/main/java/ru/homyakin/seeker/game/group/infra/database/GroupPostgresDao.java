@@ -6,8 +6,10 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.group.entity.CreateGroupRequest;
 import ru.homyakin.seeker.game.group.entity.Group;
+import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupSettings;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 import javax.sql.DataSource;
@@ -157,10 +159,88 @@ public class GroupPostgresDao implements GroupStorage {
             .single();
     }
 
+    @Override
+    public void setTagAndTakeMoney(GroupId groupId, String tag, Money money) {
+        final var sql = """
+            UPDATE pgroup SET tag = :tag, money = money - :money WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .param("tag", tag)
+            .param("money", money.value())
+            .update();
+    }
+
+    @Override
+    public void addMoney(GroupId groupId, Money money) {
+        final var sql = """
+            UPDATE pgroup SET money = money + :money WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .param("money", money.value())
+            .update();
+    }
+
+    @Override
+    public void takeMoney(GroupId groupId, Money money) {
+        final var sql = """
+            UPDATE pgroup SET money = money - :money WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .param("money", money.value())
+            .update();
+    }
+
+    @Override
+    public int memberCount(GroupId groupId) {
+        final var sql = """
+            SELECT COUNT(*) FROM personage WHERE member_pgroup_id = :id
+            """;
+        return jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .query((rs, _) -> rs.getInt(1))
+            .single();
+    }
+
+    @Override
+    public void deleteTag(GroupId groupId) {
+        final var sql = """
+            UPDATE pgroup SET tag = NULL WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .update();
+    }
+
+    @Override
+    public Optional<GroupProfile> getProfile(GroupId groupId) {
+        final var sql = """
+        WITH member_count AS (
+            SELECT COUNT(*) FROM personage WHERE member_pgroup_id = :id
+        )
+        SELECT
+            pgroup.id,
+            pgroup.name,
+            pgroup.tag,
+            pgroup.money,
+            member_count.count as member_count
+        FROM pgroup
+        JOIN member_count ON true
+        WHERE pgroup.id = :id
+        """;
+        return jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .query(this::mapProfileRow)
+            .optional();
+    }
+
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var postgresSettings = jsonUtils.fromString(rs.getString("settings"), GroupSettingsPostgresJson.class);
         return new Group(
             GroupId.from(rs.getLong("id")),
+            Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
             rs.getBoolean("is_active"),
             new GroupSettings(
@@ -171,6 +251,16 @@ public class GroupPostgresDao implements GroupStorage {
                     ? GroupSettings.DEFAULT_ENABLE_TOGGLE_HIDE
                     : postgresSettings.enableToggleHide()
             )
+        );
+    }
+
+    private GroupProfile mapProfileRow(ResultSet rs, int rowNum) throws SQLException {
+        return new GroupProfile(
+            GroupId.from(rs.getLong("id")),
+            rs.getString("name"),
+            Optional.ofNullable(rs.getString("tag")),
+            Money.from(rs.getInt("money")),
+            rs.getInt("member_count")
         );
     }
 

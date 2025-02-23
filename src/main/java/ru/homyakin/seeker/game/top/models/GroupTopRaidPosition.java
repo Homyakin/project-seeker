@@ -4,8 +4,11 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 
+import java.util.Optional;
+
 public record GroupTopRaidPosition(
     GroupId id,
+    Optional<String> tag,
     String name,
     int successRaids,
     int failedRaids

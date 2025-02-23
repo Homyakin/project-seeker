@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.utils.DatabaseUtils;
 
 import javax.sql.DataSource;
 import java.util.Optional;
@@ -85,5 +86,44 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
             .param("pgroup_id", groupId.value())
             .query((rs, _) -> PersonageId.from(rs.getLong("personage_id")))
             .set();
+    }
+
+    @Override
+    public Optional<GroupId> getPersonageMemberGroup(PersonageId personageId) {
+        final var sql = """
+            SELECT member_pgroup_id FROM personage WHERE id = :personage_id;
+            """;
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .query((rs, _) ->
+                Optional.ofNullable(
+                    DatabaseUtils.getLongOrNull(
+                        rs,
+                        "member_pgroup_id"
+                    )
+                ).map(GroupId::from)
+            )
+            .single();
+    }
+
+    @Override
+    public void setMemberGroup(PersonageId personageId, GroupId groupId) {
+        final var sql = """
+            UPDATE personage SET member_pgroup_id = :member_pgroup_id WHERE id = :personage_id;
+            """;
+        jdbcClient.sql(sql)
+            .param("member_pgroup_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .update();
+    }
+
+    @Override
+    public void clearMemberGroup(PersonageId personageId) {
+        final var sql = """
+            UPDATE personage SET member_pgroup_id = NULL WHERE id = :personage_id;
+            """;
+        jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .update();
     }
 }

@@ -18,6 +18,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -144,12 +145,12 @@ public class RaidLocalization {
         final var params = new HashMap<String, Object>();
         final var text = switch (generatedItemResult) {
             case GeneratedItemResult.Success success -> {
-                params.put("personage_badge_with_name", success.personage().badgeWithName());
+                params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(success.personage()));
                 params.put("short_item", ItemLocalization.shortItem(language, success.item()));
                 yield resources.getOrDefaultRandom(language, RaidResource::successItemForPersonage);
             }
             case GeneratedItemResult.NotEnoughSpaceInBag notEnoughSpaceInBag -> {
-                params.put("personage_badge_with_name", notEnoughSpaceInBag.personage().badgeWithName());
+                params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(notEnoughSpaceInBag.personage()));
                 params.put("short_item", ItemLocalization.shortItem(language, notEnoughSpaceInBag.item()));
                 yield resources.getOrDefaultRandom(language, RaidResource::notEnoughSpaceInBagForItem);
             }
@@ -183,7 +184,7 @@ public class RaidLocalization {
 
     public static String raidParticipant(Language language, RaidParticipant participant) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_badge_with_name", participant.personage().badgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(participant.personage()));
         if (participant.params().isExhausted()) {
             params.put("exhausted_icon_or_empty", Icons.EXHAUSTED);
         } else {
@@ -221,7 +222,7 @@ public class RaidLocalization {
         Optional<Item> item
     ) {
         final var params = paramsForRaidReport(result);
-        params.put("personage_badge_with_name", personage.badgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         if (item.isEmpty()) {
             params.put("optional_short_item_without_characteristics", "");
         } else {

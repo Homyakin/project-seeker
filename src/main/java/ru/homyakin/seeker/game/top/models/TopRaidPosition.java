@@ -5,10 +5,13 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 
+import java.util.Optional;
+
 public record TopRaidPosition(
     PersonageId id,
     String personageName,
     BadgeView personageBadge,
+    Optional<String> tag,
     int successRaids,
     int failedRaids
 ) implements PersonageTopPosition {

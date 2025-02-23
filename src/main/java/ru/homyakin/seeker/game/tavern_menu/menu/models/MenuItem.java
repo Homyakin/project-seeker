@@ -9,6 +9,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Localized;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -37,7 +38,7 @@ public record MenuItem(
         final var locale = getLocaleOrDefault(language);
         return StringNamedTemplate.format(
             RandomUtils.getRandomElement(locale.consumeTemplate()),
-            Collections.singletonMap("personage_badge_with_name", personage.badgeWithName())
+            Collections.singletonMap("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage))
         );
     }
 }

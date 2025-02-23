@@ -3,6 +3,7 @@ package ru.homyakin.seeker.locale.feedback;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.telegram.command.user.feedback.InputFeedback;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -54,7 +55,7 @@ public class FeedbackLocalization {
 
     public static String feedback(Language language, Personage personage, InputFeedback inputFeedback) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_badge_with_name", personage.badgeWithName());
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("personage_id", personage.id().value());
         params.put("feedback_theme", inputFeedback.theme());
         params.put("feedback_text", inputFeedback.feedback());

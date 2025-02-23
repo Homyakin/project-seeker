@@ -71,6 +71,7 @@ public class TopService {
                 it.personage().id(),
                 it.personage().name(),
                 it.personage().badge(),
+                it.personage().tag(),
                 (int) it.power()
             ))
             .toList();

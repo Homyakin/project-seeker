@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.EditGroupSettings;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
+import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -38,7 +39,7 @@ public class SetTimeZoneExecutor extends CommandExecutor<SetTimeZone> {
             telegramSender.send(
                 SendMessageBuilder
                     .builder()
-                    .text(GroupManagementLocalization.incorrectSetTimeZoneCommand(group.language()))
+                    .text(GroupSettingsLocalization.incorrectSetTimeZoneCommand(group.language()))
                     .chatId(group.id())
                     .build()
             );
@@ -56,8 +57,8 @@ public class SetTimeZoneExecutor extends CommandExecutor<SetTimeZone> {
 
         final var text = editGroupSettings.changeTimeZone(group.domainGroupId(), timeZone)
             .fold(
-                error -> GroupManagementLocalization.incorrectTimeZone(group.language(), error),
-                _ -> GroupManagementLocalization.successChangeTimeZone(group.language())
+                error -> GroupSettingsLocalization.incorrectTimeZone(group.language(), error),
+                _ -> GroupSettingsLocalization.successChangeTimeZone(group.language())
             );
 
         telegramSender.send(

@@ -40,6 +40,7 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
                     PersonageId.from(-1 - i),
                     null,
                     null,
+                    null,
                     characteristics,
                     null,
                     null,

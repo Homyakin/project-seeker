@@ -1,0 +1,27 @@
+groupSettings = """\
+⚙️Настройки группы ${group_name_with_badge}:
+${optional_group_is_hidden_description}
+Изменить имя группы: <code>${change_group_name_command} [имя_группы]</code>
+Часовой пояс: ${time_zone}
+Изменение часового пояса: <code>${set_time_zone_command} [часовой_пояс]</code>
+
+Интервалы для рейдов:"""
+groupIsHiddenDescription = "\nГруппа скрыта из рейтингов и активностей. Активности не учитываются в глобальной статистике.\n"
+eventIntervalButton = "${start_hour} — ${end_hour} ${enabled_icon}"
+incorrectTimeZone = "Неправильно указан часовой пояс, это должно быть целое число от ${min_time_zone} до ${max_time_zone}"
+zeroEnabledEventIntervals = "Хотя бы один интервал должен быть включён"
+incorrectSetTimeZoneCommand = """\
+Команда вводится в формате: <code>${set_time_zone_command} [часовой_пояс]</code>. Часовой пояс является целым числом."""
+successChangeTimeZone = "Часовой пояс изменён."
+
+changeNameInvalidFormat = """
+Чтобы изменить имя группы введите команду в следующем формате: <code>${change_group_name_command} [имя_группы]</code>"""
+changeNameInvalidSymbols = """
+В имени группы можно использовать только: <code>кириллицу, латиницу, цифры, символы _-.#№ и пробел</code>"""
+changeNameInvalidLength = """
+Длина имени группы должна быть от ${min_name_length} до ${max_name_length} символов"""
+successChangeName = "Имя группы изменено на <b>${name}</b>"
+
+groupIsHidden = "Теперь группа скрыта из общих рейтингов и активностей"
+groupIsNotHidden = "Теперь группа видна в общих рейтингах и активностях"
+forbiddenHidden = "Данной группе запрещено менять настройки видимости"

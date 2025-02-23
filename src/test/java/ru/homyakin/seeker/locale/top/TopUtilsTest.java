@@ -3,6 +3,8 @@ package ru.homyakin.seeker.locale.top;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -183,6 +185,7 @@ public class TopUtilsTest {
                     PersonageId.from(i),
                     "Тест" + (i + 1),
                     BadgeView.STANDARD,
+                    Optional.empty(),
                     count - i,
                     0
                 )

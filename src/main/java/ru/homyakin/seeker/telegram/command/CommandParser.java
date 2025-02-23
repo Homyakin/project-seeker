@@ -9,7 +9,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
+import ru.homyakin.seeker.telegram.command.group.management.DonateToGroup;
+import ru.homyakin.seeker.telegram.command.group.management.GroupCommands;
 import ru.homyakin.seeker.telegram.command.group.management.GroupInfo;
+import ru.homyakin.seeker.telegram.command.group.management.GroupRegistration;
+import ru.homyakin.seeker.telegram.command.group.management.JoinGroupMember;
+import ru.homyakin.seeker.telegram.command.group.management.LeaveGroupMember;
+import ru.homyakin.seeker.telegram.command.group.management.LeaveGroupMemberCancel;
+import ru.homyakin.seeker.telegram.command.group.management.LeaveGroupMemberConfirm;
+import ru.homyakin.seeker.telegram.command.group.management.TakeMoneyFromGroup;
 import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupName;
@@ -187,6 +195,12 @@ public class CommandParser {
                 case TOP_GROUP_RAID_WEEK -> TopGroupRaidWeek.from(message);
                 case TOP_POWER_GROUP -> TopPowerGroup.from(message);
                 case GROUP_INFO -> GroupInfo.from(message);
+                case REGISTER_GROUP -> GroupRegistration.from(message);
+                case JOIN_GROUP -> JoinGroupMember.from(message);
+                case DONATE_MONEY -> DonateToGroup.from(message);
+                case TAKE_MONEY -> TakeMoneyFromGroup.from(message);
+                case LEAVE_GROUP -> LeaveGroupMember.from(message);
+                case GROUP_COMMANDS -> GroupCommands.from(message);
                 default -> null;
             });
     }
@@ -228,6 +242,8 @@ public class CommandParser {
                 case SELECT_HELP -> SelectHelp.from(callback);
                 case CONSUME_MENU_ITEM_ORDER -> ConsumeOrder.from(callback);
                 case TOGGLE_EVENT_INTERVAL -> ToggleEventInterval.from(callback);
+                case LEAVE_GROUP_CONFIRM -> LeaveGroupMemberConfirm.from(callback);
+                case LEAVE_GROUP_CANCEL -> LeaveGroupMemberCancel.from(callback);
                 default -> null;
             });
     }

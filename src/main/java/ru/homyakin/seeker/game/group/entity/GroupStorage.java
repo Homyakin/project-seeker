@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.group.entity;
 
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.models.Money;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,4 +30,16 @@ public interface GroupStorage {
      * @return возвращает новое значение
      */
     boolean toggleIsHidden(GroupId groupId);
+
+    void setTagAndTakeMoney(GroupId groupId, String tag, Money money);
+
+    void addMoney(GroupId groupId, Money money);
+
+    void takeMoney(GroupId groupId, Money money);
+
+    int memberCount(GroupId groupId);
+
+    void deleteTag(GroupId groupId);
+
+    Optional<GroupProfile> getProfile(GroupId groupId);
 }

@@ -64,6 +64,14 @@ public enum CommandType {
     CHANGE_GROUP_NAME("/name", CheckType.EQUALS),
     TOP_GROUP_RAID_WEEK("/topg_raid_week", CheckType.EQUALS),
     GROUP_INFO("/group_info", CheckType.EQUALS),
+    REGISTER_GROUP("/register", CheckType.STARTS_WITH),
+    DONATE_MONEY("/donate", CheckType.STARTS_WITH),
+    TAKE_MONEY("/take", CheckType.STARTS_WITH),
+    JOIN_GROUP("/group_join", CheckType.EQUALS),
+    LEAVE_GROUP("/group_leave", CheckType.EQUALS),
+    LEAVE_GROUP_CONFIRM("confirmLeaveGroup", CheckType.STARTS_WITH),
+    LEAVE_GROUP_CANCEL("cancelLeaveGroup", CheckType.STARTS_WITH),
+    GROUP_COMMANDS("/group_commands", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

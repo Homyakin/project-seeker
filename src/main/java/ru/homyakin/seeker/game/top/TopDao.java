@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
@@ -70,7 +71,7 @@ public class TopDao {
                 WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date AND pg.is_hidden = false
                 GROUP BY letp.pgroup_id
             )
-            SELECT p.id, p.name, ep.success_count, ep.fail_count FROM event_points ep
+            SELECT p.id, p.name, p.tag, ep.success_count, ep.fail_count FROM event_points ep
             INNER JOIN pgroup p ON ep.pgroup_id = p.id
             WHERE success_count > 0 OR fail_count > 0
             """;
@@ -89,6 +90,7 @@ public class TopDao {
             PersonageId.from(rs.getLong("personage_id")),
             rs.getString("personage_name"),
             BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("pgroup_member_tag")),
             rs.getInt("success_count"),
             rs.getInt("fail_count")
         );
@@ -99,6 +101,7 @@ public class TopDao {
             PersonageId.from(rs.getLong("personage_id")),
             rs.getString("personage_name"),
             BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("pgroup_member_tag")),
             rs.getInt("count")
         );
     }
@@ -106,6 +109,7 @@ public class TopDao {
     private GroupTopRaidPosition mapGroupTopRaidPosition(ResultSet rs, int rowNum) throws SQLException {
         return new GroupTopRaidPosition(
             GroupId.from(rs.getLong("id")),
+            Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
             rs.getInt("success_count"),
             rs.getInt("fail_count")
@@ -143,10 +147,18 @@ public class TopDao {
         )""";
 
     private static final String RAIDS_PERSONAGE_INFO = """
-        SELECT p.id as personage_id, p.name personage_name, b.code badge_code, success_count, fail_count FROM personage p
+        SELECT
+            p.id as personage_id,
+            p.name personage_name,
+            b.code badge_code,
+            success_count,
+            fail_count,
+            pg.tag as pgroup_member_tag
+        FROM personage p
         INNER JOIN event_points ep ON p.id = ep.personage_id
-        LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
-        LEFT JOIN public.badge b on b.id = pab.badge_id
+        LEFT JOIN personage_available_badge pab on p.id = pab.personage_id
+        LEFT JOIN badge b on b.id = pab.badge_id
+        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE pab.is_active = true""";
 
     private static final String TOP_SPIN_GROUP = """
@@ -157,9 +169,16 @@ public class TopDao {
             WHERE pgroup_id = :pgroup_id
             GROUP BY personage_id
         )
-        SELECT p.id as personage_id, p.name personage_name, b.code badge_code, pc.count FROM personage p
+        SELECT 
+            p.id as personage_id,
+            p.name personage_name,
+            b.code badge_code,
+            pc.count,
+            pg.tag as pgroup_member_tag    
+        FROM personage p
         INNER JOIN personage_count pc ON p.id = pc.personage_id
         LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
         LEFT JOIN public.badge b on b.id = pab.badge_id
+        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE pab.is_active = true""";
 }

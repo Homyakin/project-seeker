@@ -18,4 +18,10 @@ public interface GroupPersonageStorage {
     void create(GroupId groupId, PersonageId personageId);
 
     Set<PersonageId> getActiveGroupPersonages(GroupId groupId);
+
+    Optional<GroupId> getPersonageMemberGroup(PersonageId personageId);
+
+    void setMemberGroup(PersonageId personageId, GroupId groupId);
+
+    void clearMemberGroup(PersonageId personageId);
 }

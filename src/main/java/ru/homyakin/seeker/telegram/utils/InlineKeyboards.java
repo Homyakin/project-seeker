@@ -7,10 +7,12 @@ import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
-import ru.homyakin.seeker.locale.group_settings.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
+import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
@@ -158,8 +160,23 @@ public class InlineKeyboards {
         final var intervals = eventIntervals.intervals();
         final var callbackPrefix = CommandType.TOGGLE_EVENT_INTERVAL.getText() + TextConstants.CALLBACK_DELIMITER;
         for (int i = 0; i < intervals.size(); ++i) {
-            builder.addRow().addButton(GroupManagementLocalization.eventIntervalButton(language, intervals.get(i)), callbackPrefix + i);
+            builder.addRow().addButton(GroupSettingsLocalization.eventIntervalButton(language, intervals.get(i)), callbackPrefix + i);
         }
         return builder.build();
+    }
+
+    public static InlineKeyboardMarkup leaveGroupConfirmationKeyboard(Language language, PersonageId personageId) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                GroupManagementLocalization.leaveGroupCancelButton(language),
+                CommandType.LEAVE_GROUP_CANCEL.getText() + TextConstants.CALLBACK_DELIMITER + personageId.value()
+            )
+            .addButton(
+                GroupManagementLocalization.leaveGroupConfirmButton(language),
+                CommandType.LEAVE_GROUP_CONFIRM.getText() + TextConstants.CALLBACK_DELIMITER + personageId.value()
+            )
+            .build();
     }
 }
