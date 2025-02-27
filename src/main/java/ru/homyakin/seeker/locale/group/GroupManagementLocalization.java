@@ -90,6 +90,10 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::incorrectTag);
     }
 
+    public static String tagAlreadyTaken(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::tagAlreadyTaken);
+    }
+
     public static String successGroupRegistration(Language language) {
         return resources.getOrDefault(language, GroupManagementResource::successGroupRegistration);
     }

@@ -8,6 +8,7 @@ public record GroupManagementResource(
     String registrationPersonageInAnotherGroup,
     String notEnoughMoneyForGroupRegistration,
     String incorrectTag,
+    String tagAlreadyTaken,
     String successGroupRegistration,
     String joinPersonageAlreadyInGroup,
     String joinPersonageInAnotherGroup,

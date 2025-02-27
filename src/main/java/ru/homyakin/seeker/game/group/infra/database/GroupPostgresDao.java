@@ -215,6 +215,17 @@ public class GroupPostgresDao implements GroupStorage {
     }
 
     @Override
+    public boolean isTagExists(String tag) {
+        final var sql = """
+            SELECT EXISTS(SELECT 1 FROM pgroup WHERE tag = :tag)
+            """;
+        return jdbcClient.sql(sql)
+            .param("tag", tag)
+            .query((rs, _) -> rs.getBoolean(1))
+            .single();
+    }
+
+    @Override
     public Optional<GroupProfile> getProfile(GroupId groupId) {
         final var sql = """
         WITH member_count AS (

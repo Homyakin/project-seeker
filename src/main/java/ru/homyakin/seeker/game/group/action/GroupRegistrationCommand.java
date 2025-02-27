@@ -50,6 +50,9 @@ public class GroupRegistrationCommand {
         if (!validateTag(tag)) {
             return Either.left(GroupRegistrationError.InvalidTag.INSTANCE);
         }
+        if (groupStorage.isTagExists(tag)) {
+            return Either.left(GroupRegistrationError.TagAlreadyTaken.INSTANCE);
+        }
 
         groupStorage.setTagAndTakeMoney(groupId, tag, config.registrationPrice());
         groupPersonageStorage.setMemberGroup(personageId, groupId);

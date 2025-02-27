@@ -41,5 +41,7 @@ public interface GroupStorage {
 
     void deleteTag(GroupId groupId);
 
+    boolean isTagExists(String tag);
+
     Optional<GroupProfile> getProfile(GroupId groupId);
 }

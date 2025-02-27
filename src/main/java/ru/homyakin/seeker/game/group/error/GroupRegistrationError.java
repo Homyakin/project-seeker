@@ -19,5 +19,9 @@ public sealed interface GroupRegistrationError {
         INSTANCE
     }
 
+    enum TagAlreadyTaken implements GroupRegistrationError {
+        INSTANCE
+    }
+
     record NotEnoughMoney(Money required) implements GroupRegistrationError {}
 }

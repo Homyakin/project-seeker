@@ -82,6 +82,8 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
                     GroupManagementLocalization.notEnoughMoneyForGroupRegistration(groupTg.language(), notEnoughMoney.required());
                 case GroupRegistrationError.PersonageInAnotherGroup _ ->
                     GroupManagementLocalization.registrationPersonageInAnotherGroup(groupTg.language());
+                case GroupRegistrationError.TagAlreadyTaken _ ->
+                    GroupManagementLocalization.tagAlreadyTaken(groupTg.language());
             },
             _ -> GroupManagementLocalization.successGroupRegistration(groupTg.language())
         );
