@@ -29,7 +29,7 @@ registrationPersonageInAnotherGroup = "Регистрирующий персон
 notEnoughMoneyForGroupRegistration = "Для регистрации группы необходимо ${money}${money_icon} в казне группы!"
 incorrectTag = "Неправильно указан тэг, он должен состоять из 3-4 заглавных букв латинского алфавита"
 tagAlreadyTaken = "Такой тэг уже занят"
-successGroupRegistration = "Группа успешно зарегистрирована!"
+successGroupRegistration = "Группа успешно зарегистрирована! Вступить в группу можно с помощью ${group_join_command}"
 
 joinPersonageAlreadyInGroup = "Ты уже состоишь в этой группе!"
 joinPersonageInAnotherGroup = "Ты уже состоишь в другой группе!"

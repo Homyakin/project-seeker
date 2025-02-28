@@ -95,7 +95,10 @@ public class GroupManagementLocalization {
     }
 
     public static String successGroupRegistration(Language language) {
-        return resources.getOrDefault(language, GroupManagementResource::successGroupRegistration);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::successGroupRegistration),
+            Collections.singletonMap("group_join_command", CommandType.JOIN_GROUP.getText())
+        );
     }
 
     public static String joinPersonageAlreadyInGroup(Language language) {
