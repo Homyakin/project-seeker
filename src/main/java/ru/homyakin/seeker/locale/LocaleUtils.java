@@ -46,4 +46,8 @@ public class LocaleUtils {
     private static String tagString(Optional<String> tag) {
         return tag.map(t -> "[" + t + "] ").orElse("");
     }
+
+    public static String enabledIcon(boolean enabled) {
+        return enabled ? Icons.ENABLED : Icons.DISABLED;
+    }
 }

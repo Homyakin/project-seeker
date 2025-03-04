@@ -72,6 +72,7 @@ public enum CommandType {
     LEAVE_GROUP_CONFIRM("confirmLeaveGroup", CheckType.STARTS_WITH),
     LEAVE_GROUP_CANCEL("cancelLeaveGroup", CheckType.STARTS_WITH),
     GROUP_COMMANDS("/group_commands", CheckType.EQUALS),
+    TOGGLE_PERSONAGE_SETTING("tglPersStng", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

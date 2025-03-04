@@ -2,7 +2,6 @@ package ru.homyakin.seeker.telegram.user;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
 
@@ -70,18 +69,6 @@ public class UserDao {
             .param("language_id", user.language().id())
             .param("is_active_private_messages", user.isActivePrivateMessages())
             .update();
-    }
-
-    public List<User> getUsersWithRecoveredEnergy() {
-        final var sql = """
-        SELECT u.* FROM usertg u
-        LEFT JOIN personage p ON u.personage_id = p.id
-        WHERE p.energy_recovery_notification_time < :now
-        """;
-        return jdbcClient.sql(sql)
-            .param("now", TimeUtils.moscowTime())
-            .query(this::mapRow)
-            .list();
     }
 
     private User mapRow(ResultSet rs, int rowNum) throws SQLException {

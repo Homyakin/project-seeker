@@ -8,6 +8,8 @@ import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
+import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
@@ -16,10 +18,12 @@ import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
+import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.command.user.setting.PersonageSettingsCallbackUtils;
 
 public class InlineKeyboards {
     private static final String selectedIcon = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
@@ -178,5 +182,17 @@ public class InlineKeyboards {
                 CommandType.LEAVE_GROUP_CONFIRM.getText() + TextConstants.CALLBACK_DELIMITER + personageId.value()
             )
             .build();
+    }
+
+    public static InlineKeyboardMarkup personageSettingsKeyboard(Language language, PersonageSettings settings) {
+        final var builder = InlineKeyboardBuilder.builder().addRow();
+
+        final var sendNotifications = settings.sendNotifications();
+        builder.addButton(
+            SettingsLocalization.sendNotificationsButton(language, sendNotifications),
+            PersonageSettingsCallbackUtils.createCallback(PersonageSetting.SEND_NOTIFICATIONS, sendNotifications)
+        );
+
+        return builder.build();
     }
 }

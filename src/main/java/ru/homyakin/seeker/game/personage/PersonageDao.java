@@ -188,6 +188,17 @@ public class PersonageDao {
             .single();
     }
 
+    public List<PersonageId> getPersonagesWithRecoveredEnergy() {
+        final var sql = """
+        SELECT p.id FROM personage p
+        WHERE p.energy_recovery_notification_time < :now
+        """;
+        return jdbcClient.sql(sql)
+            .param("now", TimeUtils.moscowTime())
+            .query((rs, _) -> PersonageId.from(rs.getLong("id")))
+            .list();
+    }
+
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var eventType = Optional.ofNullable(DatabaseUtils.getIntOrNull(rs, "event_type")).map(EventType::get);
         return new Personage(

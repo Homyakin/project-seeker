@@ -4,7 +4,6 @@ import ru.homyakin.seeker.game.group.entity.EventInterval;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 import ru.homyakin.seeker.game.utils.NameError;
-import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
@@ -41,7 +40,7 @@ public class GroupSettingsLocalization {
         final var params = new HashMap<String, Object>();
         params.put("start_hour", interval.startHour());
         params.put("end_hour", interval.endHour());
-        params.put("enabled_icon", interval.isEnabled() ? Icons.ENABLED : Icons.DISABLED);
+        params.put("enabled_icon", LocaleUtils.enabledIcon(interval.isEnabled()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupSettingsResource::eventIntervalButton),
             params

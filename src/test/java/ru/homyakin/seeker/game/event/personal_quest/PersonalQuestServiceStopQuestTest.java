@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.QuestParticipant;
+import ru.homyakin.seeker.game.personage.notification.action.QuestResultNotificationCommand;
 import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
@@ -31,17 +32,19 @@ public class PersonalQuestServiceStopQuestTest {
     private final LaunchedEventService launchedEventService = Mockito.mock();
     private final PersonalQuestConfig config = Mockito.mock();
     private final PersonageEventService personageEventService = Mockito.mock();
+    private final QuestResultNotificationCommand questResultNotificationCommand = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
         lockService,
         launchedEventService,
         personageEventService,
-        config
+        config,
+        questResultNotificationCommand
     );
 
     @Test
-    public void Given_LaunchedEvent_When_RandomIsSuccess_Then_ReturnSuccess() {
+    public void Given_LaunchedEvent_When_RandomIsSuccess_Then_ReturnSuccessAndNotify() {
         // given
         final var participant = new QuestParticipant(PersonageUtils.random());
 
@@ -59,10 +62,11 @@ public class PersonalQuestServiceStopQuestTest {
         // then
         final var expected = new EventResult.PersonalQuestResult.Success(quest, participant.personage(), REWARD);
         assertEquals(expected, result);
+        Mockito.verify(questResultNotificationCommand).notifyAboutQuestResult(participant.personage().id(), expected);
     }
 
     @Test
-    public void Given_LaunchedEvent_When_RandomIsNotSuccess_Then_ReturnFailure() {
+    public void Given_LaunchedEvent_When_RandomIsNotSuccess_Then_ReturnFailureAndNotify() {
         // given
         final var participant = new QuestParticipant(PersonageUtils.random());
 
@@ -80,6 +84,7 @@ public class PersonalQuestServiceStopQuestTest {
         // then
         final var expected = new EventResult.PersonalQuestResult.Failure(quest, participant.personage());
         assertEquals(expected, result);
+        Mockito.verify(questResultNotificationCommand).notifyAboutQuestResult(participant.personage().id(), expected);
     }
 
     @Test

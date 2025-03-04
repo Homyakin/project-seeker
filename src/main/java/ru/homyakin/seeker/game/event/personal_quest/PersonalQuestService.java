@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.notification.action.QuestResultNotificationCommand;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -33,6 +34,7 @@ public class PersonalQuestService {
     private final LaunchedEventService launchedEventService;
     private final PersonalQuestConfig config;
     private final PersonageEventService personageEventService;
+    private final QuestResultNotificationCommand questResultNotificationCommand;
 
     public PersonalQuestService(
         PersonalQuestDao personalQuestDao,
@@ -40,7 +42,8 @@ public class PersonalQuestService {
         LockService lockService,
         LaunchedEventService launchedEventService,
         PersonageEventService personageEventService,
-        PersonalQuestConfig config
+        PersonalQuestConfig config,
+        QuestResultNotificationCommand questResultNotificationCommand
     ) {
         this.personalQuestDao = personalQuestDao;
         this.personageService = personageService;
@@ -48,6 +51,7 @@ public class PersonalQuestService {
         this.launchedEventService = launchedEventService;
         this.config = config;
         this.personageEventService = personageEventService;
+        this.questResultNotificationCommand = questResultNotificationCommand;
     }
 
     public void save(int eventId, SavingPersonalQuest quest) {
@@ -137,7 +141,7 @@ public class PersonalQuestService {
         final var isSuccess = RandomUtils.processChance(config.baseSuccessProbability() + failedRow * 10);
         final EventResult.PersonalQuestResult result;
         if (isSuccess) {
-            logger.info("Quest {} succeeded", launchedEvent.id());
+            logger.info("Quest {} succeeded by personage {}", launchedEvent.id(), personage.id());
             final var reward = Money.from(RandomUtils.getInInterval(config.reward()));
             personageService.addMoney(personage, reward);
             result = new EventResult.PersonalQuestResult.Success(quest, personage, reward);
@@ -147,10 +151,7 @@ public class PersonalQuestService {
         }
 
         launchedEventService.updateResult(launchedEvent, result);
+        questResultNotificationCommand.notifyAboutQuestResult(personage.id(), result);
         return result;
-    }
-
-    private boolean isQuestSuccess() {
-        return RandomUtils.processChance(80);
     }
 }

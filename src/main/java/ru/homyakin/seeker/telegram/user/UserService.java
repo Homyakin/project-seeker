@@ -8,7 +8,6 @@ import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.models.UserType;
 import ru.homyakin.seeker.telegram.user.models.User;
 
-import java.util.List;
 import java.util.Optional;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -47,10 +46,6 @@ public class UserService {
     public User getByPersonageIdForce(PersonageId personageId) {
         return userDao.getByPersonageId(personageId)
             .orElseThrow(() -> new IllegalStateException("User must be present at personage " + personageId));
-    }
-
-    public List<User> getUsersWithRecoveredEnergy() {
-        return userDao.getUsersWithRecoveredEnergy();
     }
 
     public void deactivatePrivateMessages(UserId userId) {
