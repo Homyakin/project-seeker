@@ -30,7 +30,7 @@ text = "Recently, a farmer tried to breed maggots on his property. Now it's thei
 
 [[rumor]]
 code = "seeker-update"
-isAvailable = true
+isAvailable = false
 
 [rumor.locales.RU]
 text = """
@@ -46,7 +46,7 @@ text = """
 
 [[rumor]]
 code = "magramming"
-isAvailable = true
+isAvailable = false
 
 [rumor.locales.RU]
 text = '- Говорила мне мама: "иди, дитятко, в маграммисты"... А теперь до конца жизни буду заказы разносить...'
@@ -56,7 +56,7 @@ text = "- My mom told me to go into magramming... Now I'm gonna be delivering or
 
 [[rumor]]
 code = "busy-magisterium"
-isAvailable = true
+isAvailable = false
 
 [rumor.locales.RU]
 text = """
@@ -70,7 +70,7 @@ text = """
 
 [[rumor]]
 code = "rumors"
-isAvailable = true
+isAvailable = false
 
 [rumor.locales.RU]
 text = """
@@ -84,7 +84,7 @@ text = """
 
 [[rumor]]
 code = "cat-soup"
-isAvailable = true
+isAvailable = false
 
 [rumor.locales.RU]
 text = """
@@ -143,4 +143,13 @@ isAvailable = true
 [rumor.locales.RU]
 text = """\
 Однажды Пупа и Лупа пришли покупать коробки. Но на чёрном рынке всё перепутали. \
-В итоге, Лупа получил за Пупу, а Пупа за Лупу!"""
+В итоге, Лупа получил за Пупу, а Пупа — белый кортик без модификаторов!"""
+
+[[rumor]]
+code = "energy-notification"
+isAvailable = true
+
+[rumor.locales.RU]
+text = """\
+- Достаточно отдохнули? Да нихрена не достаточно! Пусть Магистрат засунет себе это уведомление прямо в жо..\
+*звуки боли*"""
