@@ -4,6 +4,7 @@ import java.time.Duration;
 
 public record StartedQuest(
     PersonalQuest quest,
-    Duration duration
+    Duration duration,
+    int takenEnergy
 ) {
 }

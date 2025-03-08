@@ -10,7 +10,8 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.QuestParticipant;
-import ru.homyakin.seeker.game.personage.notification.action.QuestResultNotificationCommand;
+import ru.homyakin.seeker.game.personage.notification.action.SendNotificationToPersonageCommand;
+import ru.homyakin.seeker.game.personage.notification.entity.Notification;
 import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
@@ -32,7 +33,7 @@ public class PersonalQuestServiceStopQuestTest {
     private final LaunchedEventService launchedEventService = Mockito.mock();
     private final PersonalQuestConfig config = Mockito.mock();
     private final PersonageEventService personageEventService = Mockito.mock();
-    private final QuestResultNotificationCommand questResultNotificationCommand = Mockito.mock();
+    private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
@@ -40,7 +41,7 @@ public class PersonalQuestServiceStopQuestTest {
         launchedEventService,
         personageEventService,
         config,
-        questResultNotificationCommand
+        sendNotificationToPersonageCommand
     );
 
     @Test
@@ -62,7 +63,8 @@ public class PersonalQuestServiceStopQuestTest {
         // then
         final var expected = new EventResult.PersonalQuestResult.Success(quest, participant.personage(), REWARD);
         assertEquals(expected, result);
-        Mockito.verify(questResultNotificationCommand).notifyAboutQuestResult(participant.personage().id(), expected);
+        Mockito.verify(sendNotificationToPersonageCommand)
+            .sendNotification(participant.personage().id(), new Notification.SuccessQuestResult(expected));
     }
 
     @Test
@@ -84,7 +86,9 @@ public class PersonalQuestServiceStopQuestTest {
         // then
         final var expected = new EventResult.PersonalQuestResult.Failure(quest, participant.personage());
         assertEquals(expected, result);
-        Mockito.verify(questResultNotificationCommand).notifyAboutQuestResult(participant.personage().id(), expected);
+        Mockito.verify(sendNotificationToPersonageCommand).sendNotification(
+            participant.personage().id(), new Notification.FailureQuestResult(expected)
+        );
     }
 
     @Test

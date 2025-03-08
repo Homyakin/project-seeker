@@ -16,7 +16,8 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.personage.notification.action.QuestResultNotificationCommand;
+import ru.homyakin.seeker.game.personage.notification.action.SendNotificationToPersonageCommand;
+import ru.homyakin.seeker.game.personage.notification.entity.Notification;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -34,7 +35,7 @@ public class PersonalQuestService {
     private final LaunchedEventService launchedEventService;
     private final PersonalQuestConfig config;
     private final PersonageEventService personageEventService;
-    private final QuestResultNotificationCommand questResultNotificationCommand;
+    private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand;
 
     public PersonalQuestService(
         PersonalQuestDao personalQuestDao,
@@ -43,7 +44,7 @@ public class PersonalQuestService {
         LaunchedEventService launchedEventService,
         PersonageEventService personageEventService,
         PersonalQuestConfig config,
-        QuestResultNotificationCommand questResultNotificationCommand
+        SendNotificationToPersonageCommand sendNotificationToPersonageCommand
     ) {
         this.personalQuestDao = personalQuestDao;
         this.personageService = personageService;
@@ -51,7 +52,7 @@ public class PersonalQuestService {
         this.launchedEventService = launchedEventService;
         this.config = config;
         this.personageEventService = personageEventService;
-        this.questResultNotificationCommand = questResultNotificationCommand;
+        this.sendNotificationToPersonageCommand = sendNotificationToPersonageCommand;
     }
 
     public void save(int eventId, SavingPersonalQuest quest) {
@@ -69,7 +70,7 @@ public class PersonalQuestService {
     public Either<TakeQuestError, StartedQuest> takeQuest(PersonageId personageId) {
         return lockService.tryLockAndCalc(
             LockPrefixes.PERSONAGE.name() + "-" + personageId.value(),
-            () -> takeQuestLogic(personageId)
+            () -> takeQuestLogic(personageId, config.requiredEnergy())
         )
             .fold(
                 _ -> {
@@ -80,10 +81,24 @@ public class PersonalQuestService {
             );
     }
 
-    private Either<TakeQuestError, StartedQuest> takeQuestLogic(PersonageId personageId) {
-        final var checkEnergyResult = personageService.checkPersonageEnergy(personageId, config.requiredEnergy());
+    @Transactional
+    public Either<TakeQuestError, StartedQuest> autoStartQuest(PersonageId personageId) {
+        return lockService.tryLockAndCalc(
+            LockPrefixes.PERSONAGE.name() + "-" + personageId.value(),
+            () -> takeQuestLogic(personageId, config.requiredEnergyForAutoStart())
+        ).fold(
+            _ -> {
+                logger.warn("Failed to take quest for personage {}, locked", personageId);
+                return Either.left(TakeQuestError.PersonageLocked.INSTANCE);
+            },
+            success -> success
+        );
+    }
+
+    private Either<TakeQuestError, StartedQuest> takeQuestLogic(PersonageId personageId, int requiredEnergy) {
+        final var checkEnergyResult = personageService.checkPersonageEnergy(personageId, requiredEnergy);
         if (checkEnergyResult.isLeft()) {
-            return Either.left(new TakeQuestError.NotEnoughEnergy(config.requiredEnergy()));
+            return Either.left(new TakeQuestError.NotEnoughEnergy(requiredEnergy));
         }
         final var personage = checkEnergyResult.get();
 
@@ -112,14 +127,14 @@ public class PersonalQuestService {
             throw new IllegalStateException("Failed to add personage to launched quest");
         }
 
-        final var reduceEnergyResult = personageService.reduceEnergy(personage, config.requiredEnergy(), now);
+        final var reduceEnergyResult = personageService.reduceEnergy(personage, requiredEnergy, now);
         if (reduceEnergyResult.isLeft()) {
             logger.error("Personage {} has not enough energy for quest after checking", personageId);
             throw new IllegalStateException("Personage has not enough energy for quest after checking");
         }
 
         logger.info("Started quest {}", quest.get().code());
-        return Either.right(new StartedQuest(quest.get(), config.requiredTime()));
+        return Either.right(new StartedQuest(quest.get(), config.requiredTime(), requiredEnergy));
     }
 
     public EventResult.PersonalQuestResult stopQuest(LaunchedEvent launchedEvent) {
@@ -144,14 +159,19 @@ public class PersonalQuestService {
             logger.info("Quest {} succeeded by personage {}", launchedEvent.id(), personage.id());
             final var reward = Money.from(RandomUtils.getInInterval(config.reward()));
             personageService.addMoney(personage, reward);
-            result = new EventResult.PersonalQuestResult.Success(quest, personage, reward);
+            final var success = new EventResult.PersonalQuestResult.Success(quest, personage, reward);
+            sendNotificationToPersonageCommand
+                .sendNotification(personage.id(), new Notification.SuccessQuestResult(success));
+            result = success;
         } else {
-            logger.info("Quest {} failed", launchedEvent.id());
-            result = new EventResult.PersonalQuestResult.Failure(quest, personage);
+            logger.info("Quest {} failed by personage {}", launchedEvent.id(), personage.id());
+            final var failure = new EventResult.PersonalQuestResult.Failure(quest, personage);
+            sendNotificationToPersonageCommand
+                .sendNotification(personage.id(), new Notification.FailureQuestResult(failure));
+            result = failure;
         }
 
         launchedEventService.updateResult(launchedEvent, result);
-        questResultNotificationCommand.notifyAboutQuestResult(personage.id(), result);
         return result;
     }
 }

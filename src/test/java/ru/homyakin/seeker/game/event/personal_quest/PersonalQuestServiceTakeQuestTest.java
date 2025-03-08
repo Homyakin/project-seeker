@@ -16,7 +16,7 @@ import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
-import ru.homyakin.seeker.game.personage.notification.action.QuestResultNotificationCommand;
+import ru.homyakin.seeker.game.personage.notification.action.SendNotificationToPersonageCommand;
 import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -40,7 +40,7 @@ public class PersonalQuestServiceTakeQuestTest {
     private final LaunchedEventService launchedEventService = Mockito.mock();
     private final PersonalQuestConfig config = Mockito.mock();
     private final PersonageEventService personageEventService = Mockito.mock();
-    private final QuestResultNotificationCommand questResultNotificationCommand = Mockito.mock();
+    private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
@@ -48,7 +48,7 @@ public class PersonalQuestServiceTakeQuestTest {
         launchedEventService,
         personageEventService,
         config,
-        questResultNotificationCommand
+        sendNotificationToPersonageCommand
     );
 
     @BeforeEach
@@ -90,7 +90,7 @@ public class PersonalQuestServiceTakeQuestTest {
         final var result = personalQuestService.takeQuest(personage.id());
 
         // then
-        final var expected = new StartedQuest(quest, config.requiredTime());
+        final var expected = new StartedQuest(quest, config.requiredTime(), config.requiredEnergy());
         assertTrue(result.isRight());
         assertEquals(expected, result.get());
     }

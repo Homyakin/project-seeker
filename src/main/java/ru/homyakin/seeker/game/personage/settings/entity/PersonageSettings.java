@@ -16,6 +16,10 @@ public record PersonageSettings(
         return getOrDefault(PersonageSetting.SEND_NOTIFICATIONS);
     }
 
+    public boolean autoQuesting() {
+        return getOrDefault(PersonageSetting.AUTO_QUESTING);
+    }
+
     private boolean getOrDefault(PersonageSetting setting) {
         return settings.getOrDefault(setting, setting.defaultValue());
     }

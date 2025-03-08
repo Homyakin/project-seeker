@@ -50,8 +50,20 @@ public class PersonalQuestLocalization {
         params.put("quest_intro", startedQuest.quest().getLocaleOrDefault(language).intro());
         params.put("time_icon", Icons.TIME);
         params.put("duration", CommonLocalization.duration(language, startedQuest.duration()));
+        params.put("energy_icon", Icons.ENERGY);
+        params.put("energy", startedQuest.takenEnergy());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, PersonalQuestResource::startedQuest),
+            params
+        );
+    }
+
+    public static String autoStartedQuest(Language language, StartedQuest startedQuest) {
+        final var params = new HashMap<String, Object>();
+        params.put("energy_recovered", CommonLocalization.energyRecovered(language));
+        params.put("started_quest", startedQuest(language, startedQuest));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, PersonalQuestResource::autoStartedQuest),
             params
         );
     }

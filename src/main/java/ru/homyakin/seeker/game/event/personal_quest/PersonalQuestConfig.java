@@ -8,6 +8,7 @@ import java.time.Duration;
 @ConfigurationProperties("homyakin.seeker.event.personal-quest")
 public record PersonalQuestConfig(
     int requiredEnergy,
+    int requiredEnergyForAutoStart,
     Duration requiredTime,
     int baseSuccessProbability,
     IntRange reward

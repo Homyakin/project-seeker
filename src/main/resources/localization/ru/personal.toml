@@ -73,7 +73,12 @@ personageInAnotherEvent = "Ты уже занят в другом событии
 startedQuest = """\
 ${quest_intro}
 
-Ты вернёшься через ${time_icon}${duration}"""
+Ты потратишь ${energy_icon}${energy}% и вернёшься через ${time_icon}${duration}"""
+autoStartedQuest = """\
+${energy_recovered}
+
+${started_quest}
+"""
 failedQuest = "${quest_failure}"
 successQuest = """\
 ${quest_success}
@@ -87,5 +92,6 @@ settings = """\
 ⚙️Настройки:
 
 Уведомления — присылать уведомления о фоновых событиях: восстановление энергии, квесты и т.д.
-"""
+Автоматические квесты — автоматически отправляться в квест при полной энергии. Это отнимает больше энергии."""
 sendNotificationsButton = "${enabled_icon}Уведомления"
+autoQuestingButton = "${enabled_icon}Автоматические квесты"

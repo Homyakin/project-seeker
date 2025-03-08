@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import java.util.List;
+
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
@@ -188,10 +189,17 @@ public class InlineKeyboards {
         final var builder = InlineKeyboardBuilder.builder().addRow();
 
         final var sendNotifications = settings.sendNotifications();
-        builder.addButton(
-            SettingsLocalization.sendNotificationsButton(language, sendNotifications),
-            PersonageSettingsCallbackUtils.createCallback(PersonageSetting.SEND_NOTIFICATIONS, sendNotifications)
-        );
+        final var autoQuesting = settings.autoQuesting();
+        builder
+            .addButton(
+                SettingsLocalization.sendNotificationsButton(language, sendNotifications),
+                PersonageSettingsCallbackUtils.createCallback(PersonageSetting.SEND_NOTIFICATIONS, sendNotifications)
+            )
+            .addRow()
+            .addButton(
+                SettingsLocalization.autoQuestingButton(language, autoQuesting),
+                PersonageSettingsCallbackUtils.createCallback(PersonageSetting.AUTO_QUESTING, autoQuesting)
+            );
 
         return builder.build();
     }

@@ -5,6 +5,7 @@ public record PersonalQuestResource(
     String notEnoughEnergy,
     String personageInAnotherEvent,
     String startedQuest,
+    String autoStartedQuest,
     String failedQuest,
     String successQuest
 ) {

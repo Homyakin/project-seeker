@@ -32,4 +32,11 @@ public class SettingsLocalization {
             Collections.singletonMap("enabled_icon", LocaleUtils.enabledIcon(isEnabled))
         );
     }
+
+    public static String autoQuestingButton(Language language, boolean isEnabled) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, SettingsResource::autoQuestingButton),
+            Collections.singletonMap("enabled_icon", LocaleUtils.enabledIcon(isEnabled))
+        );
+    }
 }
