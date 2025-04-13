@@ -10,6 +10,7 @@ ${world_raid_intro}
 Фонд: ${money_icon}${fund_value}
 
 Битва начнётся через: ${duration}
+Пока все собираются, вы можете спокойно участвовать в других событиях.
 
 ${optional_participants}"""
 endedWorldRaidBattle = """\
