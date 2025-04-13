@@ -90,7 +90,7 @@ worldRaidResearch = """\
 Прогресс поиска рейда: ${progress}%
 Фонд: ${money_icon}${fund_value}
 
-Увелить прогресс:
+Увеличить прогресс:
 • Сходить в квест
 • Сделать пожертвование ${money_icon}${donate_value} ${donate_world_raid_command}
 
