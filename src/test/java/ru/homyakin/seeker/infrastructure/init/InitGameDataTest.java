@@ -64,4 +64,11 @@ public class InitGameDataTest {
         config.setType(type);
         Assertions.assertDoesNotThrow(initGameData::loadPersonalQuests);
     }
+
+    @ParameterizedTest
+    @EnumSource(InitGameDataType.class)
+    public void When_LoadWorldRaids_Then_NoErrors(InitGameDataType type) {
+        config.setType(type);
+        Assertions.assertDoesNotThrow(initGameData::loadWorldRaids);
+    }
 }
