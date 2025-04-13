@@ -196,6 +196,14 @@ public class BattlePersonage implements Cloneable {
         );
     }
 
+    public BattleStats stats() {
+        return battleStats;
+    }
+
+    public BattleHealth health() {
+        return health;
+    }
+
     public Personage personage() {
         return personage;
     }

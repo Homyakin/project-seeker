@@ -37,8 +37,7 @@ class DonateToGroupCommandTest {
             null,
             null,
             null,
-            null,
-            Optional.empty()
+            null
         );
     }
 
@@ -76,8 +75,7 @@ class DonateToGroupCommandTest {
                 null,
                 null,
                 null,
-                null,
-                Optional.empty()
+                null
             )
         );
 

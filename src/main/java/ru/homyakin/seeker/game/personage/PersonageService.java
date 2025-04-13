@@ -4,42 +4,48 @@ import io.vavr.control.Either;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.badge.BadgeService;
+import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.utils.TimeUtils;
+import ru.homyakin.seeker.utils.models.Success;
 
 @Service
 public class PersonageService {
     private static final Logger logger = LoggerFactory.getLogger(PersonageService.class);
     private final PersonageDao personageDao;
-    private final PersonageRaidResultDao personageRaidResultDao;
+    private final PersonageBattleResultDao personageBattleResultDao;
     private final BadgeService badgeService;
 
     public PersonageService(
         PersonageDao personageDao,
-        PersonageRaidResultDao personageRaidResultDao,
+        PersonageBattleResultDao personageBattleResultDao,
         BadgeService badgeService
     ) {
         this.personageDao = personageDao;
-        this.personageRaidResultDao = personageRaidResultDao;
+        this.personageBattleResultDao = personageBattleResultDao;
         this.badgeService = badgeService;
     }
 
@@ -90,23 +96,62 @@ public class PersonageService {
         return updatedPersonage;
     }
 
-    public Personage addMoney(Personage personage, Money money, LocalDateTime energyChangeTime) {
-        final var updatedPersonage = personage
-            .addMoney(money);
-        personageDao.update(updatedPersonage);
-        return updatedPersonage;
+    public void addMoneyBatch(Map<PersonageId, Money> moneyMap) {
+        personageDao.addMoney(moneyMap);
     }
 
     public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
-        personageRaidResultDao.saveBatch(results, launchedEvent);
+        personageBattleResultDao.saveBatch(
+            results.stream()
+                .map(result -> new PersonageBattleResult(
+                    result.participant().personage().id(),
+                    launchedEvent.id(),
+                    result.stats(),
+                    result.reward(),
+                    result.generatedItem().map(Item::id)
+                ))
+                .toList()
+        );
     }
 
-    public Optional<PersonageRaidSavedResult> getLastRaidResult(PersonageId personageId) {
-        return personageRaidResultDao.getLastByPersonage(personageId);
+    public void saveWorldRaidResults(List<PersonageWorldRaidBattleResult> results, LaunchedEvent launchedEvent) {
+        personageDao.addMoney(
+            results.stream()
+                .collect(
+                    Collectors.toMap(
+                        PersonageWorldRaidBattleResult::personageId,
+                        PersonageWorldRaidBattleResult::reward
+                    )
+                )
+        );
+        personageBattleResultDao.saveBatch(
+            results.stream()
+                .map(result -> new PersonageBattleResult(
+                    result.personage().id(),
+                    launchedEvent.id(),
+                    result.stats(),
+                    result.reward(),
+                    result.generatedItem().map(Item::id)
+                ))
+                .toList()
+        );
     }
 
-    public Optional<PersonageRaidSavedResult> getRaidResult(PersonageId personageId, long launchedEventId) {
-        return personageRaidResultDao.getByPersonageAndEvent(personageId, launchedEventId);
+    public Optional<PersonageBattleResult> getLastRaidResult(PersonageId personageId) {
+        return personageBattleResultDao.getLastByPersonage(personageId, BattleType.RAID);
+    }
+
+    public Optional<PersonageBattleResult> getBattleResult(PersonageId personageId, long launchedEventId) {
+        return personageBattleResultDao.getByPersonageAndEvent(personageId, launchedEventId);
+    }
+
+    public Either<NotEnoughMoney, Success> tryTakeMoney(PersonageId personageId, Money money) {
+        final var personage = getByIdForce(personageId);
+        if (personage.money().lessThan(money)) {
+            return Either.left(new NotEnoughMoney(money));
+        }
+        addMoney(personage, money.negative());
+        return Either.right(Success.INSTANCE);
     }
 
     public Personage takeMoney(Personage personage, Money money) {
@@ -130,7 +175,7 @@ public class PersonageService {
     }
 
     public int countSuccessRaidsFromLastItem(PersonageId personageId) {
-        return personageRaidResultDao.countSuccessRaidsFromLastItem(personageId);
+        return personageBattleResultDao.countSuccessRaidsFromLastItem(personageId);
     }
 
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {

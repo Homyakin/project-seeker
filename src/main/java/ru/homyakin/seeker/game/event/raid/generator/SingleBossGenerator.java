@@ -27,14 +27,13 @@ public class SingleBossGenerator implements RaidBattlePersonageGenerator {
         final var boss = new Personage(
             PersonageId.from(-1),
             null,
-            null,
+            Optional.empty(),
             null,
             characteristics,
             null,
             null,
             Characteristics.ZERO,
-            PersonageEffects.EMPTY,
-            Optional.empty()
+            PersonageEffects.EMPTY
         ).toBattlePersonage();
         return Collections.singletonList(boss);
     }

@@ -47,6 +47,10 @@ public class BattleHealth implements Cloneable {
         return health;
     }
 
+    public int maxHealth() {
+        return maxHealth;
+    }
+
     @Override
     @SuppressWarnings("super")
     public BattleHealth clone() {

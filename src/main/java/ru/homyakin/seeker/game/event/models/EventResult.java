@@ -4,6 +4,9 @@ import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;
+import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
+import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
@@ -48,5 +51,13 @@ public sealed interface EventResult {
             Personage personage
         ) implements PersonalQuestResult {
         }
+    }
+
+    record WorldRaidBattleResult(
+        boolean isWin,
+        List<GroupWorldRaidBattleResult> groupResults,
+        List<PersonageWorldRaidBattleResult> personageResults,
+        WorldRaidBattleInfo remainedInfo
+    ) implements EventResult {
     }
 }

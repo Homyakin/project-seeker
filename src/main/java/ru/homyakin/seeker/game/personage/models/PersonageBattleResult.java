@@ -5,7 +5,7 @@ import ru.homyakin.seeker.game.models.Money;
 
 import java.util.Optional;
 
-public record PersonageRaidSavedResult(
+public record PersonageBattleResult(
     PersonageId personageId,
     long launchedEventId,
     PersonageBattleStats stats,

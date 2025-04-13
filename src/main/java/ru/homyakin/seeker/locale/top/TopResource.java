@@ -13,6 +13,10 @@ public record TopResource(
     String topGroupRaidPosition,
     String topPowerPersonageGroup,
     String topPowerPersonagePosition,
-    String topPersonageEmpty
+    String topPersonageEmpty,
+    String topWorldRaidResearch,
+    String topWorldRaidResearchPosition,
+    String topWorldRaidResearchReward,
+    String topWorldRaidResearchEmpty
 ) {
 }

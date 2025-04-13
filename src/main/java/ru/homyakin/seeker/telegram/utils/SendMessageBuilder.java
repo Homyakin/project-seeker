@@ -45,6 +45,11 @@ public class SendMessageBuilder {
         return this;
     }
 
+    public SendMessageBuilder chatId(String chatId) {
+        this.builder.chatId(chatId);
+        return this;
+    }
+
     public SendMessageBuilder chatId(UserId userId) {
         return chatId(userId.value());
     }

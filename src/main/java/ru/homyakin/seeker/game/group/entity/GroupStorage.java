@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.models.Money;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface GroupStorage {
@@ -44,4 +45,8 @@ public interface GroupStorage {
     boolean isTagExists(String tag);
 
     Optional<GroupProfile> getProfile(GroupId groupId);
+
+    List<Group> getByTags(List<String> tags);
+
+    void addMoney(Map<GroupId, Money> map);
 }

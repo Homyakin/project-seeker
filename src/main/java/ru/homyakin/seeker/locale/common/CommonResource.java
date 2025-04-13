@@ -17,6 +17,7 @@ public record CommonResource(
     String multiplyPercentEffect,
     String personageInRaid,
     String personageInQuest,
+    String personageInWorldRaid,
     String receptionDesk,
     String hoursShort,
     String minutesShort,
@@ -26,6 +27,9 @@ public record CommonResource(
     String[] energyRecovered,
     String minusMultiplyPercentEffect,
     String throwOrderEffect,
-    String personageGlobalStats
+    String personageGlobalStats,
+    String personageBattleReport,
+    String shortPersonageBattleReport,
+    String shortGroupBattleReport
 ) {
 }

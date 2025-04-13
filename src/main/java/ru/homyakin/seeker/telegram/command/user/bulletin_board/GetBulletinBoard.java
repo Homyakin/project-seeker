@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.command.user.personal_quest;
+package ru.homyakin.seeker.telegram.command.user.bulletin_board;
 
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;

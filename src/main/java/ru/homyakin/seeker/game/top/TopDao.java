@@ -11,11 +11,15 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidStatus;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
+import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
+import ru.homyakin.seeker.utils.DatabaseUtils;
 
 @Component
 public class TopDao {
@@ -83,6 +87,44 @@ public class TopDao {
             .param("raid_id", EventType.RAID.id())
             .query(this::mapGroupTopRaidPosition)
             .list();
+    }
+
+    public List<TopWorldRaidResearchPosition> getUnsortedTopWorldRaidResearch() {
+        final var sql = """
+            SELECT
+                p.id as personage_id,
+                p.name as personage_name,
+                pg.tag as pgroup_member_tag,
+                b.code as badge_code,
+                wrr.contribution,
+                wrr.reward
+            FROM world_raid_research wrr
+            LEFT JOIN personage p ON wrr.personage_id = p.id
+            LEFT JOIN personage_available_badge pab on p.id = pab.personage_id and pab.is_active
+            LEFT JOIN badge b ON pab.badge_id = b.id
+            LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
+            WHERE world_raid_id = (
+                SELECT id FROM world_raid_launched
+                WHERE status_id in (:research_status_id, :battle_status_id)
+                LIMIT 1
+            )
+            """;
+        return jdbcClient.sql(sql)
+            .param("research_status_id", ActiveWorldRaidStatus.RESEARCH.id())
+            .param("battle_status_id", ActiveWorldRaidStatus.BATTLE.id())
+            .query(this::mapWorldRaidResearchPosition)
+            .list();
+    }
+
+    private TopWorldRaidResearchPosition mapWorldRaidResearchPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new TopWorldRaidResearchPosition(
+            PersonageId.from(rs.getLong("personage_id")),
+            rs.getString("personage_name"),
+            BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("pgroup_member_tag")),
+            rs.getInt("contribution"),
+            DatabaseUtils.getIntOrEmpty(rs, "reward").map(Money::from)
+        );
     }
 
     private TopRaidPosition mapRaidPosition(ResultSet rs, int rowNum) throws SQLException {

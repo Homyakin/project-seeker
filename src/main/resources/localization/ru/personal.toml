@@ -10,6 +10,7 @@ inventoryButton = "🎒Инвентарь"
 shopButton = "⚖️Чёрный рынок"
 bulletinBoardButton = "📣Доска объявлений"
 takePersonalQuestButton = "📝Взять квест"
+worldRaidButton="🔎Мировой рейд"
 
 [changeName]
 changeNameWithoutName="Имя не может быть пустым!"
@@ -63,11 +64,11 @@ badge = """\
 ${badge_icon} ${badge_description}"""
 badgeIsNotAvailable = "Данный жетон недоступен"
 
-[personalQuest]
+[bulletinBoard]
 bulletinBoard = """\
 На доске висит множество объявлений от жителей Крезара. Выбери одно, и в случае успеха получишь награду.
 
-Затраты: ${energy_icon}${required_energy}% ${time_icon}${duration}"""
+Затраты на квест: ${energy_icon}${quest_required_energy}% ${time_icon}${quest_duration}"""
 notEnoughEnergy = "Для начала квеста необходимо: ${energy_icon}${required_energy}%"
 personageInAnotherEvent = "Ты уже занят в другом событии."
 startedQuest = """\
@@ -84,6 +85,25 @@ successQuest = """\
 ${quest_success}
 
 Ты получил +${money_icon}${money_value}"""
+
+worldRaidResearch = """\
+Прогресс поиска рейда: ${progress}%
+Фонд: ${money_icon}${fund_value}
+
+Увелить прогресс:
+• Сходить в квест
+• Сделать пожертвование ${money_icon}${donate_value} ${donate_world_raid_command}
+
+📊Топ Искателей по вкладу: ${world_raid_research_top_command}"""
+worldRaidBattle = """\
+Противник обнаружен! Всем участникам зарегистрированных групп просьба присоединиться к битве ${world_raid_channel}
+
+Фонд: ${money_icon}${fund_value}
+
+📊Топ Искателей по вкладу: ${world_raid_research_top_command}"""
+notEnoughMoneyForDonate = "Недостаточно средств для пожертвования. Нужно ${money_icon}${required_value}"
+worldRaidResearchIsCompleted = "Поиск рейда уже завершён!"
+successWorldRaidDonate = "Пожертвование принято! ${money_icon}${money_value} добавлено к фонду"
 
 [settings]
 personageIsHidden = "Ты был скрыт из глобальных рейтингов и статистики. Оставайся в тени."

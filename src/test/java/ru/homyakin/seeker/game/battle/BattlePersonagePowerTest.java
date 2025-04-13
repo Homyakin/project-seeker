@@ -49,7 +49,7 @@ public class BattlePersonagePowerTest {
             new Personage(
                 null,
                 null,
-                null,
+                Optional.empty(),
                 null,
                 new Characteristics(500, 50, 20, 5, 5, 5),
                 null,
@@ -60,8 +60,7 @@ public class BattlePersonagePowerTest {
                         PersonageEffectType.MENU_ITEM_EFFECT,
                         new PersonageEffect(new Effect.Add(100, EffectCharacteristic.ATTACK), null)
                     )
-                ),
-                Optional.empty()
+                )
             )
         );
 

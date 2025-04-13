@@ -12,6 +12,9 @@ import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopSpinPosition;
 import ru.homyakin.seeker.game.top.models.TopSpinResult;
+import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
+import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
@@ -161,5 +164,53 @@ public class TopLocalization {
 
     public static String topPersonageEmpty(Language language) {
         return resources.getOrDefault(language, TopResource::topPersonageEmpty);
+    }
+
+    public static String topWorldRaidResearch(
+        Language language,
+        PersonageId requestedPersonageId,
+        TopWorldRaidResearchResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, result);
+        params.put("top_personage_list", topPersonageList);
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topWorldRaidResearch),
+            params
+        );
+    }
+
+    public static String topWorldRaidResearchPosition(
+        Language language,
+        int positionNumber,
+        TopWorldRaidResearchPosition position
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
+        params.put("contribution", position.contribution());
+        params.put("optional_reward", topWorldRaidResearchReward(language, position));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topWorldRaidResearchPosition),
+            params
+        );
+    }
+
+    private static String topWorldRaidResearchReward(Language language, TopWorldRaidResearchPosition position) {
+        if (position.reward().isEmpty()) {
+            return "";
+        }
+        final var params = new HashMap<String, Object>();
+        params.put("money_icon", Icons.MONEY);
+        params.put("reward", position.reward().get().value());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topWorldRaidResearchReward),
+            params
+        );
+    }
+
+    public static String topWorldRaidResearchEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topWorldRaidResearchEmpty);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -38,10 +39,10 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
         final var text = groupEventService.getLastEndedEventInGroup(group.id())
-            .flatMap(groupEvent -> personageService.getRaidResult(user.personageId(), groupEvent.launchedEventId()))
+            .flatMap(groupEvent -> personageService.getBattleResult(user.personageId(), groupEvent.launchedEventId()))
             .map(result -> {
                 final var personage = personageService.getByIdForce(user.personageId());
-                return RaidLocalization.shortPersonageReport(
+                return CommonLocalization.shortPersonageBattleReport(
                     group.language(),
                     result,
                     personage,

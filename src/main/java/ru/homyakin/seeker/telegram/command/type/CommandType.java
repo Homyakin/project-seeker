@@ -73,6 +73,11 @@ public enum CommandType {
     LEAVE_GROUP_CANCEL("cancelLeaveGroup", CheckType.STARTS_WITH),
     GROUP_COMMANDS("/group_commands", CheckType.EQUALS),
     TOGGLE_PERSONAGE_SETTING("tglPersStng", CheckType.STARTS_WITH),
+    SHOW_WORLD_RAID_INFO(null, CheckType.MAP),
+    WORLD_RAID_DONATE("/wr_donate", CheckType.EQUALS),
+    WORLD_RAID_RESEARCH_TOP("/top_wr_research", CheckType.EQUALS),
+    JOIN_WORLD_RAID("joinWorldRaid", CheckType.EQUALS),
+    WORLD_RAID_REPORT("/wr_report", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -110,6 +115,7 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.shopButton(), CommandType.OPEN_SHOP);
         CommonUtils.putIfKeyPresents(textToType, resource.bulletinBoardButton(), CommandType.BULLETIN_BOARD);
         CommonUtils.putIfKeyPresents(textToType, resource.takePersonalQuestButton(), CommandType.TAKE_PERSONAL_QUEST);
+        CommonUtils.putIfKeyPresents(textToType, resource.worldRaidButton(), CommandType.SHOW_WORLD_RAID_INFO);
     }
 
     private boolean check(String text) {

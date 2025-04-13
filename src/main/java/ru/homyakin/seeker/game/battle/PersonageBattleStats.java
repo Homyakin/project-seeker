@@ -17,7 +17,7 @@ public record PersonageBattleStats(
     Characteristics characteristics
 ) {
     public long damageDealtAndTaken() {
-        return normalDamageDealt + critDamageDealt + damageBlocked + damageDodged;
+        return damageDealt() + damageTaken();
     }
 
     public long damageDealt() {

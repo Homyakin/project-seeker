@@ -22,7 +22,6 @@ public record RaidResource(
     String raidParticipant,
     String report,
     String reportNotPresentForPersonage,
-    String shortPersonageReport,
     String lastGroupRaidReportNotFound
 ) {
 }

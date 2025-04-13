@@ -34,8 +34,7 @@ public class PersonageUtils {
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
             Characteristics.ZERO,
-            PersonageEffects.EMPTY,
-            Optional.empty()
+            PersonageEffects.EMPTY
         );
     }
 
@@ -49,8 +48,7 @@ public class PersonageUtils {
             new Energy(0, TimeUtils.moscowTime(), timeToRegen),
             BadgeView.STANDARD,
             Characteristics.ZERO,
-            PersonageEffects.EMPTY,
-            Optional.empty()
+            PersonageEffects.EMPTY
         );
     }
 
@@ -71,8 +69,7 @@ public class PersonageUtils {
                 0,
                 0
             ),
-            PersonageEffects.EMPTY,
-            Optional.empty()
+            PersonageEffects.EMPTY
         );
     }
 }

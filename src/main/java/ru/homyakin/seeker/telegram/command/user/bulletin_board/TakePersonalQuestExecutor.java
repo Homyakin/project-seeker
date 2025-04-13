@@ -1,10 +1,10 @@
-package ru.homyakin.seeker.telegram.command.user.personal_quest;
+package ru.homyakin.seeker.telegram.command.user.bulletin_board;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
+import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -35,10 +35,10 @@ public class TakePersonalQuestExecutor extends CommandExecutor<TakePersonalQuest
                     case TakeQuestError.NoQuests _, TakeQuestError.PersonageLocked _
                         -> CommonLocalization.internalError(user.language());
                     case TakeQuestError.NotEnoughEnergy notEnoughEnergy ->
-                        PersonalQuestLocalization.notEnoughEnergy(user.language(), notEnoughEnergy.requiredEnergy());
-                    case TakeQuestError.PersonageInOtherEvent _ -> PersonalQuestLocalization.personageInAnotherEvent(user.language());
+                        BulletinBoardLocalization.notEnoughEnergy(user.language(), notEnoughEnergy.requiredEnergy());
+                    case TakeQuestError.PersonageInOtherEvent _ -> BulletinBoardLocalization.personageInAnotherEvent(user.language());
                 },
-                startedQuest -> PersonalQuestLocalization.startedQuest(user.language(), startedQuest)
+                startedQuest -> BulletinBoardLocalization.startedQuest(user.language(), startedQuest)
             );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

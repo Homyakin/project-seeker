@@ -1,11 +1,10 @@
 package ru.homyakin.seeker.game.battle.two_team;
 
-import java.util.List;
-import ru.homyakin.seeker.game.battle.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.TeamResult;
 
 public record TwoTeamBattleResult(
     TwoTeamBattleWinner winner,
-    List<PersonageBattleResult> firstTeamResults,
-    List<PersonageBattleResult> secondTeamResults
+    TeamResult firstTeamResults,
+    TeamResult secondTeamResults
 ) {
 }

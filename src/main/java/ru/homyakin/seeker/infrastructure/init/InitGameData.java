@@ -16,6 +16,8 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
+import ru.homyakin.seeker.infrastructure.init.saving_models.SavingWorldRaid;
+import ru.homyakin.seeker.infrastructure.init.saving_models.WorldRaids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
@@ -158,13 +160,28 @@ public class InitGameData {
             ITEM_MODIFIERS,
             stream -> {
                 final var itemModifiers = extractClass(stream, ItemModifiers.class);
-                LocalizationCoverage.addIteModifiersInfo(itemModifiers);
+                LocalizationCoverage.addItemModifiersInfo(itemModifiers);
                 itemModifiers.modifier().forEach(SavingModifier::validateLocale);
                 itemModifiers.modifier().forEach(SavingModifier::validateWordForms);
                 itemModifierService.saveModifiers(itemModifiers);
             }
         );
         logger.info("loaded items");
+    }
+
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadWorldRaids() {
+        logger.info("loading world raids");
+        ResourceUtils.doAction(
+            worldRaidsPath(),
+            stream -> {
+                final var raids = extractClass(stream, WorldRaids.class);
+                LocalizationCoverage.addWorldRaidsInfo(raids);
+                raids.raid().forEach(SavingWorldRaid::validateLocale);
+                raids.raid().forEach(eventService::saveWorldRaid);
+            }
+        );
+        logger.info("loaded world raids");
     }
 
     private <T> T extractClass(InputStream stream, Class<T> clazz) {
@@ -177,6 +194,10 @@ public class InitGameData {
 
     private String raidsPath() {
         return DATA_FOLDER + config.type().folder() + RAIDS;
+    }
+
+    private String worldRaidsPath() {
+        return DATA_FOLDER + config.type().folder() + WORLD_RAIDS;
     }
 
     private String personalQuestsPath() {
@@ -193,6 +214,7 @@ public class InitGameData {
 
     private static final String DATA_FOLDER = "game-data" + File.separator;
     private static final String RAIDS = File.separator + "raids.toml";
+    private static final String WORLD_RAIDS = File.separator + "world_raids.toml";
     private static final String PERSONAL_QUESTS = DATA_FOLDER + "personal_quests.toml";
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";

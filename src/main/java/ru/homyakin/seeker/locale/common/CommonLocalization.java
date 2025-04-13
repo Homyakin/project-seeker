@@ -1,9 +1,14 @@
 package ru.homyakin.seeker.locale.common;
 
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.event.launched.CurrentEvents;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.personage.models.CurrentEvent;
+import ru.homyakin.seeker.game.event.launched.CurrentEvent;
+import ru.homyakin.seeker.game.group.entity.SavedGroupBattleResult;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.stats.entity.PersonageStats;
@@ -25,6 +30,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CommonLocalization {
     private static final Resources<CommonResource> resources = new Resources<>();
@@ -83,7 +91,7 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::internalError);
     }
 
-    public static String fullProfile(Language language, Personage personage) {
+    public static String fullProfile(Language language, Personage personage, CurrentEvents currentEvents) {
         final var params = profileParams(personage);
 
         params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
@@ -102,10 +110,18 @@ public class CommonLocalization {
         } else {
             params.put("personage_effects", personageEffects(language, personage.effects()));
         }
-        if (personage.currentEvent().isEmpty()) {
+        if (currentEvents.events().isEmpty()) {
             params.put("current_event", "");
         } else {
-            params.put("current_event", personageInEvent(language, personage.currentEvent().get()));
+            params.put(
+                "current_event",
+                currentEvents
+                    .events()
+                    .stream()
+                    .map(currentEvent -> personageInEvent(language, currentEvent))
+                    .collect(Collectors.joining())
+                    + "\n"
+            );
         }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::fullProfile),
@@ -253,6 +269,7 @@ public class CommonLocalization {
         return switch (event.type()) {
             case RAID -> personageInRaid(language, event.endDate());
             case PERSONAL_QUEST -> personageInQuest(language, event.endDate());
+            case WORLD_RAID -> personageInWorldRaid(language, event.endDate());
         };
     }
 
@@ -272,6 +289,16 @@ public class CommonLocalization {
         params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageInQuest),
+            params
+        );
+    }
+
+    private static String personageInWorldRaid(Language language, LocalDateTime end) {
+        final var params = new HashMap<String, Object>();
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInWorldRaid),
             params
         );
     }
@@ -335,6 +362,112 @@ public class CommonLocalization {
         params.put("quests_total", stats.questsTotal());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageGlobalStats),
+            params
+        );
+    }
+
+    public static String personageBattleReport(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event,
+        Optional<Item> item
+    ) {
+        final var params = paramsForPersonageBattleReport(result);
+        params.put("battle_date_time", TimeUtils.toString(event.endDate()));
+        if (item.isEmpty()) {
+            params.put("optional_full_item", "");
+        } else {
+            params.put("optional_full_item", ItemLocalization.fullItem(language, item.get()));
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageBattleReport),
+            params
+        );
+    }
+
+    public static String shortPersonageBattleReport(
+        Language language,
+        PersonageBattleResult result,
+        Personage personage,
+        Optional<Item> item
+    ) {
+        final var params = paramsForPersonageBattleReport(result);
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        if (item.isEmpty()) {
+            params.put("optional_short_item_without_characteristics", "");
+        } else {
+            params.put(
+                "optional_short_item_without_characteristics",
+                ItemLocalization.shortItemWithoutCharacteristics(language, item.get())
+            );
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::shortPersonageBattleReport),
+            params
+        );
+    }
+
+    private static Map<String, Object> paramsForPersonageBattleReport(PersonageBattleResult result) {
+        final var params = new HashMap<String, Object>();
+        params.put("attack_icon", Icons.ATTACK);
+        params.put("attack_value", result.stats().characteristics().attack());
+        params.put("defense_icon", Icons.DEFENSE);
+        params.put("defense_value", result.stats().characteristics().defense());
+        params.put("strength_icon", Icons.STRENGTH);
+        params.put("strength_value", result.stats().characteristics().strength());
+        params.put("agility_icon", Icons.AGILITY);
+        params.put("agility_value", result.stats().characteristics().agility());
+        params.put("wisdom_icon", Icons.WISDOM);
+        params.put("wisdom_value", result.stats().characteristics().wisdom());
+        params.put("normal_damage_value", result.stats().normalDamageDealt());
+        params.put("normal_damage_count", result.stats().normalAttackCount());
+        params.put("crit_damage_value", result.stats().critDamageDealt());
+        params.put("crit_damage_count", result.stats().critsCount());
+        params.put("misses_count", result.stats().missesCount());
+        params.put("damage_blocked_value", result.stats().damageBlocked());
+        params.put("damage_blocked_count", result.stats().blockCount());
+        params.put("dodged_damage_value", result.stats().damageDodged());
+        params.put("dodged_damage_count", result.stats().dodgesCount());
+        params.put("remain_health", result.stats().remainHealth());
+        params.put("max_health", result.stats().characteristics().health());
+        params.put("money_icon", Icons.MONEY);
+        params.put("reward_value", result.reward().value());
+        params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
+        params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("miss_icon", Icons.MISS);
+        params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
+        params.put("dodge_icon", Icons.DODGE);
+        params.put("health_icon", Icons.HEALTH);
+        return params;
+    }
+
+    public static String shortGroupBattleReport(Language language, SavedGroupBattleResult result, Group group) {
+        final var params = new HashMap<String, Object>();
+        params.put("group_badge_with_name", LocaleUtils.groupNameWithBadge(group));
+        params.put("normal_damage_value", result.stats().normalDamageDealt());
+        params.put("normal_damage_count", result.stats().normalAttackCount());
+        params.put("crit_damage_value", result.stats().critDamageDealt());
+        params.put("crit_damage_count", result.stats().critsCount());
+        params.put("misses_count", result.stats().missesCount());
+        params.put("damage_blocked_value", result.stats().damageBlocked());
+        params.put("damage_blocked_count", result.stats().blockCount());
+        params.put("dodged_damage_value", result.stats().damageDodged());
+        params.put("dodged_damage_count", result.stats().dodgesCount());
+        params.put("money_icon", Icons.MONEY);
+        params.put("reward_value", result.reward().value());
+        params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
+        params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("miss_icon", Icons.MISS);
+        params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
+        params.put("dodge_icon", Icons.DODGE);
+        params.put("remain_health", result.stats().remainHealth());
+        params.put("total_health", result.stats().totalHealth());
+        params.put("health_icon", Icons.HEALTH);
+        params.put("participants_icon", Icons.PARTICIPANTS);
+        params.put("remain_participants", result.stats().remainPersonages());
+        params.put("total_participants", result.stats().totalPersonages());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::shortGroupBattleReport),
             params
         );
     }

@@ -13,49 +13,51 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.PersonageBattleStats;
 import ru.homyakin.seeker.game.event.models.EventStatus;
-import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
-public class PersonageRaidResultDao {
+public class PersonageBattleResultDao {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
 
-    public PersonageRaidResultDao(DataSource dataSource, JsonUtils jsonUtils) {
+    public PersonageBattleResultDao(DataSource dataSource, JsonUtils jsonUtils) {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         jdbcClient = JdbcClient.create(jdbcTemplate);
         this.jsonUtils = jsonUtils;
     }
 
-    public void saveBatch(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
+    public void saveBatch(List<PersonageBattleResult> results) {
         final var parameters = new ArrayList<SqlParameterSource>();
-        for (PersonageRaidResult result : results) {
+        for (final var result : results) {
             MapSqlParameterSource paramSource = new MapSqlParameterSource()
-                .addValue("personage_id", result.participant().personage().id().value())
-                .addValue("launched_event_id", launchedEvent.id())
+                .addValue("personage_id", result.personageId().value())
+                .addValue("launched_event_id", result.launchedEventId())
                 .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
                 .addValue("reward", result.reward().value())
-                .addValue("generated_item_id", result.generatedItem().map(Item::id).orElse(null));
+                .addValue("generated_item_id", result.generatedItemId().orElse(null));
             parameters.add(paramSource);
         }
         jdbcTemplate.batchUpdate(SAVE_RESULT, parameters.toArray(new SqlParameterSource[0]));
     }
 
-    public Optional<PersonageRaidSavedResult> getLastByPersonage(PersonageId personageId) {
+    public Optional<PersonageBattleResult> getLastByPersonage(
+        PersonageId personageId,
+        BattleType battleType
+    ) {
         return jdbcClient.sql(SELECT_LAST_RESULT)
             .param("personage_id", personageId.value())
+            .param("type_id", battleType.id())
             .query(this::mapRow)
             .optional();
     }
 
-    public Optional<PersonageRaidSavedResult> getByPersonageAndEvent(PersonageId personageId, long launchedEventId) {
+    public Optional<PersonageBattleResult> getByPersonageAndEvent(PersonageId personageId, long launchedEventId) {
         return jdbcClient.sql(SELECT_BY_PERSONAGE_AND_EVENT)
             .param("personage_id", personageId.value())
             .param("launched_event_id", launchedEventId)
@@ -76,6 +78,7 @@ public class PersonageRaidResultDao {
             FROM personage_raid_result prr
             LEFT JOIN personage_to_event pte ON pte.personage_id = prr.personage_id AND pte.launched_event_id = prr.launched_event_id
             LEFT JOIN launched_event le on le.id = pte.launched_event_id
+            INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
             WHERE prr.personage_id = :personage_id
             AND prr.launched_event_id > -- more id => newer event
                 COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
@@ -85,6 +88,7 @@ public class PersonageRaidResultDao {
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
             .param("success_status_id", EventStatus.SUCCESS.id())
+            .param("raid_id", BattleType.RAID.id())
             .query((rs, _) -> rs.getInt("raids_count"))
             .single();
     }
@@ -95,8 +99,10 @@ public class PersonageRaidResultDao {
         """;
 
     private static final String SELECT_LAST_RESULT = """
-        SELECT *
-        FROM personage_raid_result
+        SELECT prr.*
+        FROM personage_raid_result prr
+        INNER JOIN launched_event le ON prr.launched_event_id = le.id
+        INNER JOIN event e ON e.id = le.event_id AND e.type_id = :type_id
         WHERE personage_id = :personage_id
         ORDER BY launched_event_id DESC
         LIMIT 1;
@@ -109,8 +115,8 @@ public class PersonageRaidResultDao {
         and launched_event_id = :launched_event_id
         """;
 
-    private PersonageRaidSavedResult mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new PersonageRaidSavedResult(
+    private PersonageBattleResult mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new PersonageBattleResult(
             PersonageId.from(rs.getLong("personage_id")),
             rs.getLong("launched_event_id"),
             jsonUtils.fromString(rs.getString("stats"), PersonageBattleStats.class),

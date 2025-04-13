@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
 import ru.homyakin.seeker.game.event.raid.processing.RaidProcessing;
+import ru.homyakin.seeker.game.event.world_raid.action.ProcessWorldRaidBattleCommand;
 
 @Service
 public class EventProcessing {
@@ -14,15 +15,18 @@ public class EventProcessing {
     private final EventService eventService;
     private final RaidProcessing raidProcessing;
     private final PersonalQuestService personalQuestService;
+    private final ProcessWorldRaidBattleCommand processWorldRaidBattleCommand;
 
     public EventProcessing(
         EventService eventService,
         RaidProcessing raidProcessing,
-        PersonalQuestService personalQuestService
+        PersonalQuestService personalQuestService,
+        ProcessWorldRaidBattleCommand processWorldRaidBattleCommand
     ) {
         this.eventService = eventService;
         this.raidProcessing = raidProcessing;
         this.personalQuestService = personalQuestService;
+        this.processWorldRaidBattleCommand = processWorldRaidBattleCommand;
     }
 
     public EventResult processEvent(LaunchedEvent launchedEvent) {
@@ -35,6 +39,7 @@ public class EventProcessing {
         return switch (event.type()) {
             case RAID -> raidProcessing.process(launchedEvent);
             case PERSONAL_QUEST -> personalQuestService.stopQuest(launchedEvent);
+            case WORLD_RAID -> processWorldRaidBattleCommand.execute(launchedEvent);
         };
     }
 }

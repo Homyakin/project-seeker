@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
+import ru.homyakin.seeker.telegram.command.common.world_raid.JoinWorldRaid;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
 import ru.homyakin.seeker.telegram.command.group.management.DonateToGroup;
 import ru.homyakin.seeker.telegram.command.group.management.GroupCommands;
@@ -47,9 +48,13 @@ import ru.homyakin.seeker.telegram.command.group.top.TopPowerGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeekGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopSpin;
+import ru.homyakin.seeker.telegram.command.group.world_raid.GroupWorldRaidReport;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.badge.SelectBadge;
 import ru.homyakin.seeker.telegram.command.user.badge.ShowBadges;
+import ru.homyakin.seeker.telegram.command.user.bulletin_board.ShowWorldRaidInfo;
+import ru.homyakin.seeker.telegram.command.user.bulletin_board.WorldRaidDonate;
+import ru.homyakin.seeker.telegram.command.user.bulletin_board.WorldRaidResearchTop;
 import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
@@ -66,8 +71,8 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
-import ru.homyakin.seeker.telegram.command.user.personal_quest.GetBulletinBoard;
-import ru.homyakin.seeker.telegram.command.user.personal_quest.TakePersonalQuest;
+import ru.homyakin.seeker.telegram.command.user.bulletin_board.GetBulletinBoard;
+import ru.homyakin.seeker.telegram.command.user.bulletin_board.TakePersonalQuest;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
@@ -78,6 +83,7 @@ import ru.homyakin.seeker.telegram.command.user.shop.BuyItem;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenShop;
 import ru.homyakin.seeker.telegram.command.user.shop.SellItem;
 import ru.homyakin.seeker.telegram.command.user.stats.PersonageStatsGlobal;
+import ru.homyakin.seeker.telegram.command.user.world_raid.UserWorldRaidReport;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
@@ -169,6 +175,10 @@ public class CommandParser {
                 case INIT_FEEDBACK -> InitFeedback.from(message);
                 case PERSONAGE_STATS -> PersonageStatsGlobal.from(message);
                 case SETTINGS -> GetPersonageSettings.from(message);
+                case SHOW_WORLD_RAID_INFO -> ShowWorldRaidInfo.from(message);
+                case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
+                case WORLD_RAID_RESEARCH_TOP -> WorldRaidResearchTop.from(message);
+                case WORLD_RAID_REPORT -> UserWorldRaidReport.from(message);
                 default -> null;
             });
     }
@@ -204,6 +214,7 @@ public class CommandParser {
                 case TAKE_MONEY -> TakeMoneyFromGroup.from(message);
                 case LEAVE_GROUP -> LeaveGroupMember.from(message);
                 case GROUP_COMMANDS -> GroupCommands.from(message);
+                case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);
                 default -> null;
             });
     }
@@ -213,6 +224,8 @@ public class CommandParser {
             return parsePrivateCallback(callback);
         } else if (TelegramUtils.isGroupMessage(callback.getMessage())) {
             return parseGroupCallback(callback);
+        } else if (TelegramUtils.isChannelMessage(callback.getMessage())) {
+            return parseChannelCallback(callback);
         } else {
             return Optional.empty();
         }
@@ -248,6 +261,16 @@ public class CommandParser {
                 case TOGGLE_EVENT_INTERVAL -> ToggleEventInterval.from(callback);
                 case LEAVE_GROUP_CONFIRM -> LeaveGroupMemberConfirm.from(callback);
                 case LEAVE_GROUP_CANCEL -> LeaveGroupMemberCancel.from(callback);
+                case JOIN_WORLD_RAID -> JoinWorldRaid.from(callback);
+                default -> null;
+            });
+    }
+
+    private Optional<Command> parseChannelCallback(CallbackQuery callback) {
+        final var text = callback.getData().split(TextConstants.CALLBACK_DELIMITER)[0];
+        return CommandType.getFromString(text)
+            .map(commandType -> switch (commandType) {
+                case JOIN_WORLD_RAID -> JoinWorldRaid.from(callback);
                 default -> null;
             });
     }

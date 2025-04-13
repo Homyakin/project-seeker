@@ -1,0 +1,14 @@
+[[raid]]
+code = "test_world_raid"
+isEnabled = true
+
+[raid.info]
+health = 1000
+attack = 100
+defense = 300
+strength = 15
+agility = 2
+wisdom = 5
+
+[raid.locales.RU]
+intro = "Вводная для мирового рейда"

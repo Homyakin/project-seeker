@@ -7,6 +7,22 @@ import ru.homyakin.seeker.locale.Language;
 public class TopUtils {
     public static <IdType> String createTopList(
         Language language,
+        TopResult<IdType, ? extends TopPosition<?>> result
+    ) {
+        final var positions = result.positions();
+        final var positionsToShow = Math.min(MAX_TOP_POSITIONS, positions.size());
+        final var list = new StringBuilder();
+        for (int i = 1; i <= positionsToShow; ++i) {
+            list.append(positions.get(i - 1).toLocalizedString(language, i));
+            if (i != positionsToShow) {
+                list.append("\n");
+            }
+        }
+        return list.toString();
+    }
+
+    public static <IdType> String createTopList(
+        Language language,
         IdType requestedId,
         TopResult<IdType, ? extends TopPosition<?>> result
     ) {

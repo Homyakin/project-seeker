@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestRequireme
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.world_raid.action.WorldRaidContributionService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
@@ -36,6 +37,7 @@ public class PersonalQuestService {
     private final PersonalQuestConfig config;
     private final PersonageEventService personageEventService;
     private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand;
+    private final WorldRaidContributionService worldRaidContributionService;
 
     public PersonalQuestService(
         PersonalQuestDao personalQuestDao,
@@ -44,7 +46,8 @@ public class PersonalQuestService {
         LaunchedEventService launchedEventService,
         PersonageEventService personageEventService,
         PersonalQuestConfig config,
-        SendNotificationToPersonageCommand sendNotificationToPersonageCommand
+        SendNotificationToPersonageCommand sendNotificationToPersonageCommand,
+        WorldRaidContributionService worldRaidContributionService
     ) {
         this.personalQuestDao = personalQuestDao;
         this.personageService = personageService;
@@ -53,6 +56,7 @@ public class PersonalQuestService {
         this.config = config;
         this.personageEventService = personageEventService;
         this.sendNotificationToPersonageCommand = sendNotificationToPersonageCommand;
+        this.worldRaidContributionService = worldRaidContributionService;
     }
 
     public void save(int eventId, SavingPersonalQuest quest) {
@@ -102,8 +106,8 @@ public class PersonalQuestService {
         }
         final var personage = checkEnergyResult.get();
 
-        final var presentEvent = launchedEventService.getActiveEventByPersonageId(personageId);
-        if (presentEvent.isPresent()) {
+        final var presentEvents = launchedEventService.getActiveEventsByPersonageId(personageId);
+        if (presentEvents.hasBlockingEvent()) {
             return Either.left(TakeQuestError.PersonageInOtherEvent.INSTANCE);
         }
 
@@ -172,6 +176,7 @@ public class PersonalQuestService {
         }
 
         launchedEventService.updateResult(launchedEvent, result);
+        worldRaidContributionService.questComplete(personage.id());
         return result;
     }
 }

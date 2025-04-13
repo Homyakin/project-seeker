@@ -39,14 +39,13 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
                 new Personage(
                     PersonageId.from(-1 - i),
                     null,
-                    null,
+                    Optional.empty(),
                     null,
                     characteristics,
                     null,
                     null,
                     Characteristics.ZERO,
-                    PersonageEffects.EMPTY,
-                    Optional.empty()
+                    PersonageEffects.EMPTY
                 ).toBattlePersonage()
             );
         }

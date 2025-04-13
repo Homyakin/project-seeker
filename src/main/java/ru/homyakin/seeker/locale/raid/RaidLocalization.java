@@ -14,16 +14,15 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidSavedResult;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 public class RaidLocalization {
     private static final Resources<RaidResource> resources = new Resources<>();
@@ -198,42 +197,16 @@ public class RaidLocalization {
 
     public static String report(
         Language language,
-        PersonageRaidSavedResult result,
+        PersonageBattleResult result,
         LaunchedEvent event,
         Optional<Item> item
     ) {
-        final var params = paramsForRaidReport(result);
-        params.put("raid_date_time", TimeUtils.toString(event.endDate()));
-        if (item.isEmpty()) {
-            params.put("optional_full_item", "");
-        } else {
-            params.put("optional_full_item", ItemLocalization.fullItem(language, item.get()));
-        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::report),
-            params
-        );
-    }
-
-    public static String shortPersonageReport(
-        Language language,
-        PersonageRaidSavedResult result,
-        Personage personage,
-        Optional<Item> item
-    ) {
-        final var params = paramsForRaidReport(result);
-        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
-        if (item.isEmpty()) {
-            params.put("optional_short_item_without_characteristics", "");
-        } else {
-            params.put(
-                "optional_short_item_without_characteristics",
-                ItemLocalization.shortItemWithoutCharacteristics(language, item.get())
-            );
-        }
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, RaidResource::shortPersonageReport),
-            params
+            Collections.singletonMap(
+                "personage_battle_report",
+                CommonLocalization.personageBattleReport(language, result, event, item)
+            )
         );
     }
 
@@ -243,40 +216,6 @@ public class RaidLocalization {
 
     public static String lastGroupRaidReportNotFound(Language language) {
         return resources.getOrDefault(language, RaidResource::lastGroupRaidReportNotFound);
-    }
-
-    private static HashMap<String, Object> paramsForRaidReport(PersonageRaidSavedResult result) {
-        final var params = new HashMap<String, Object>();
-        params.put("attack_icon", Icons.ATTACK);
-        params.put("attack_value", result.stats().characteristics().attack());
-        params.put("defense_icon", Icons.DEFENSE);
-        params.put("defense_value", result.stats().characteristics().defense());
-        params.put("strength_icon", Icons.STRENGTH);
-        params.put("strength_value", result.stats().characteristics().strength());
-        params.put("agility_icon", Icons.AGILITY);
-        params.put("agility_value", result.stats().characteristics().agility());
-        params.put("wisdom_icon", Icons.WISDOM);
-        params.put("wisdom_value", result.stats().characteristics().wisdom());
-        params.put("normal_damage_value", result.stats().normalDamageDealt());
-        params.put("normal_damage_count", result.stats().normalAttackCount());
-        params.put("crit_damage_value", result.stats().critDamageDealt());
-        params.put("crit_damage_count", result.stats().critsCount());
-        params.put("misses_count", result.stats().missesCount());
-        params.put("damage_blocked_value", result.stats().damageBlocked());
-        params.put("damage_blocked_count", result.stats().blockCount());
-        params.put("dodged_damage_value", result.stats().damageDodged());
-        params.put("dodged_damage_count", result.stats().dodgesCount());
-        params.put("remain_health", result.stats().remainHealth());
-        params.put("max_health", result.stats().characteristics().health());
-        params.put("money_icon", Icons.MONEY);
-        params.put("reward_value", result.reward().value());
-        params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
-        params.put("crit_attack_icon", Icons.CRIT_ATTACK);
-        params.put("miss_icon", Icons.MISS);
-        params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
-        params.put("dodge_icon", Icons.DODGE);
-        params.put("health_icon", Icons.HEALTH);
-        return params;
     }
 
     private static final Comparator<PersonageRaidResult> resultComparator = Comparator.<PersonageRaidResult>comparingLong(

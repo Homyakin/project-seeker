@@ -20,7 +20,6 @@ import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class RaidProcessing {
@@ -75,8 +74,7 @@ public class RaidProcessing {
 
         final var generatedItems = new ArrayList<GeneratedItemResult>();
 
-        final var endTime = TimeUtils.moscowTime();
-        final var raidResults = result.secondTeamResults().stream()
+        final var raidResults = result.secondTeamResults().personageResults().stream()
             .map(battleResult -> {
                 final var participant = idToParticipant.get(battleResult.personage().id());
                 final var reward = new Money(
@@ -88,8 +86,7 @@ public class RaidProcessing {
                 );
                 personageService.addMoney(
                     participant.personage(),
-                    reward,
-                    endTime
+                    reward
                 );
                 final var generatedItem = raidItemGenerator.generateItem(
                     doesParticipantsWin,
@@ -109,7 +106,7 @@ public class RaidProcessing {
         final var raidResult = new EventResult.RaidResult.Completed(
             doesParticipantsWin ? EventResult.RaidResult.Completed.Status.SUCCESS : EventResult.RaidResult.Completed.Status.FAILURE,
             raid,
-            result.firstTeamResults(),
+            result.firstTeamResults().personageResults(),
             raidResults,
             generatedItems
         );

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
@@ -36,8 +37,7 @@ public record Personage(
     Energy energy,
     BadgeView badge,
     Characteristics itemCharacteristics,
-    PersonageEffects effects,
-    Optional<CurrentEvent> currentEvent
+    PersonageEffects effects
 ) {
     public Personage addMoney(Money money) {
         return new Personage(
@@ -49,8 +49,7 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects,
-            currentEvent
+            effects
         );
     }
 
@@ -62,8 +61,8 @@ public record Personage(
         return CommonLocalization.shortProfile(language, this);
     }
 
-    public String fullProfile(Language language) {
-        final var profile = CommonLocalization.fullProfile(language, this);
+    public String fullProfile(Language language, CurrentEvents currentEvents) {
+        final var profile = CommonLocalization.fullProfile(language, this, currentEvents);
 
         return characteristics.hasUnspentLevelingPoints()
             ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
@@ -106,8 +105,7 @@ public record Personage(
             energyResult.getOrElse(energy),
             badge,
             itemCharacteristics,
-            effectsResult.getOrElse(effects),
-            currentEvent
+            effectsResult.getOrElse(effects)
         );
         return Either.right(personage);
     }
@@ -255,8 +253,7 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects,
-            currentEvent
+            effects
         );
     }
 
@@ -283,8 +280,7 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects,
-            currentEvent
+            effects
         );
     }
 
@@ -298,8 +294,7 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects,
-            currentEvent
+            effects
         );
     }
 
@@ -313,8 +308,7 @@ public record Personage(
             energy,
             badge,
             itemCharacteristics,
-            effects,
-            currentEvent
+            effects
         );
     }
 }

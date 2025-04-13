@@ -19,12 +19,20 @@ public class LocaleUtils {
         return groupNameWithBadge(position.tag(), position.name());
     }
 
+    public static String groupTagWithBadge(Group group) {
+        return Icons.STANDARD_GROUP_BADGE + tagString(group.tag());
+    }
+
     public static String groupNameWithBadge(GroupProfile profile) {
         return groupNameWithBadge(profile.tag(), profile.name());
     }
 
     private static String groupNameWithBadge(Optional<String> tag, String name) {
-        return Icons.STANDARD_GROUP_BADGE + tagString(tag) + name;
+        var tagString = tagString(tag);
+        if (!tagString.isEmpty()) {
+            tagString += " ";
+        }
+        return Icons.STANDARD_GROUP_BADGE + tagString + name;
     }
 
     public static String personageNameWithBadge(PersonageTopPosition position) {
@@ -40,11 +48,15 @@ public class LocaleUtils {
         Optional<String> tag,
         String name
     ) {
-        return badge.icon() + tagString(tag) + name;
+        var tagString = tagString(tag);
+        if (!tagString.isEmpty()) {
+            tagString += " ";
+        }
+        return badge.icon() + tagString + name;
     }
 
     private static String tagString(Optional<String> tag) {
-        return tag.map(t -> "[" + t + "] ").orElse("");
+        return tag.map(t -> "[" + t + "]").orElse("");
     }
 
     public static String enabledIcon(boolean enabled) {

@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import ru.homyakin.seeker.game.event.launched.CurrentEvent;
+import ru.homyakin.seeker.game.event.launched.CurrentEvents;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.raid.models.RaidPersonageParams;
@@ -20,6 +23,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.test_utils.event.EventUtils;
 import ru.homyakin.seeker.test_utils.event.LaunchedEventUtils;
+import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 import java.util.List;
@@ -54,7 +58,8 @@ public class RaidServiceAddPersonageTest {
         // given
         final var launchedEvent = LaunchedEventUtils.withEventId(1);
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
-        Mockito.when(launchedEventService.getActiveEventByPersonageId(personageId)).thenReturn(Optional.empty());
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(personageId))
+            .thenReturn(new CurrentEvents(List.of()));
         Mockito.when(personageEventService.addPersonageToLaunchedEvent(
             new AddPersonageToEventRequest(launchedEvent.id(), personageId, Optional.of(new RaidPersonageParams(false)))
             ))
@@ -126,7 +131,10 @@ public class RaidServiceAddPersonageTest {
         final var launchedEvent = LaunchedEventUtils.withEventId(1);
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(raidDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
-        Mockito.when(launchedEventService.getActiveEventByPersonageId(personageId)).thenReturn(Optional.of(launchedEvent));
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(personageId))
+            .thenReturn(new CurrentEvents(
+                List.of(new CurrentEvent(launchedEvent.id(), EventType.RAID, TimeUtils.moscowTime()))
+            ));
 
         // when
         final var result = service.addPersonage(personageId, launchedEvent.id());
@@ -142,8 +150,12 @@ public class RaidServiceAddPersonageTest {
         final var launchedEvent = LaunchedEventUtils.withId(1);
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(raidDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
-        Mockito.when(launchedEventService.getActiveEventByPersonageId(personageId))
-            .thenReturn(Optional.of(LaunchedEventUtils.withId(2)));
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(personageId))
+            .thenReturn(
+                new CurrentEvents(
+                    List.of(new CurrentEvent(launchedEvent.id() + 1, EventType.RAID, TimeUtils.moscowTime()))
+                )
+            );
 
         // when
         final var result = service.addPersonage(personageId, launchedEvent.id());
@@ -159,7 +171,8 @@ public class RaidServiceAddPersonageTest {
         final var launchedEvent = LaunchedEventUtils.withEventId(1);
         Mockito.when(launchedEventService.getById(launchedEvent.id())).thenReturn(Optional.of(launchedEvent));
         Mockito.when(raidDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
-        Mockito.when(launchedEventService.getActiveEventByPersonageId(personageId)).thenReturn(Optional.empty());
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(personageId))
+            .thenReturn(new CurrentEvents(List.of()));
         Mockito.when(personageService.checkPersonageEnergy(personageId, 33))
             .thenReturn(Either.left(NotEnoughEnergy.INSTANCE));
         Mockito.when(personageEventService.addPersonageToLaunchedEvent(

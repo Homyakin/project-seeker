@@ -1,5 +1,8 @@
 package ru.homyakin.seeker.game.battle;
 
+/**
+ * Используется для записи статистики персонажей и групп
+ */
 public class BattleStats {
     private long normalDamageDealt = 0L;
     private long normalAttackCount = 0L;
@@ -10,6 +13,11 @@ public class BattleStats {
     private long damageDodged = 0L;
     private long dodgesCount = 0L;
     private long missesCount = 0L;
+    // Ниже только для групп
+    private long remainHealth = 0L;
+    private long totalHealth = 0L;
+    private int totalPersonages = 0;
+    private int remainPersonages = 0;
 
     void increaseDamageBlocked(long damageBlocked) {
         this.damageBlocked = this.damageBlocked + damageBlocked;
@@ -47,6 +55,27 @@ public class BattleStats {
         ++missesCount;
     }
 
+    /**
+     * Считается статистика группы. Передаётся статистика одного персонажа
+     */
+    public void add(BattleStats personageStats, BattleHealth health) {
+        this.normalDamageDealt = this.normalDamageDealt + personageStats.normalDamageDealt();
+        this.normalAttackCount = this.normalAttackCount + personageStats.normalAttackCount();
+        this.critDamageDealt = this.critDamageDealt + personageStats.critDamageDealt();
+        this.critsCount = this.critsCount + personageStats.critsCount();
+        this.damageBlocked = this.damageBlocked + personageStats.damageBlocked();
+        this.blocksCount = this.blocksCount + personageStats.blocksCount();
+        this.damageDodged = this.damageDodged + personageStats.damageDodged();
+        this.dodgesCount = this.dodgesCount + personageStats.dodgesCount();
+        this.missesCount = this.missesCount + personageStats.missesCount();
+        this.remainHealth = this.remainHealth + health.remainingHealth();
+        this.totalHealth = this.totalHealth + health.maxHealth();
+        this.totalPersonages++;
+        if (health.isAlive()) {
+            this.remainPersonages++;
+        }
+    }
+
     public long normalDamageDealt() {
         return normalDamageDealt;
     }
@@ -81,5 +110,21 @@ public class BattleStats {
 
     public long missesCount() {
         return missesCount;
+    }
+
+    public long remainHealth() {
+        return remainHealth;
+    }
+
+    public long totalHealth() {
+        return totalHealth;
+    }
+
+    public int totalPersonages() {
+        return totalPersonages;
+    }
+
+    public int remainPersonages() {
+        return remainPersonages;
     }
 }

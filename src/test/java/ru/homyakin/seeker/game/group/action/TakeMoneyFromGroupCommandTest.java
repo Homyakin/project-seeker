@@ -98,7 +98,7 @@ class TakeMoneyFromGroupCommandTest {
     @Test
     void When_SuccessfullyWithdrawValidAmount_Then_UpdateBalances() {
         Money validAmount = new Money(500);
-        Personage personage = new Personage(personageId, "Test Personage", Optional.empty(), new Money(0), null, null, null, null, null, Optional.empty());
+        Personage personage = new Personage(personageId, "Test Personage", Optional.empty(), new Money(0), null, null, null, null, null);
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(groupProfile()));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId)).thenReturn(Optional.of(groupId));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);

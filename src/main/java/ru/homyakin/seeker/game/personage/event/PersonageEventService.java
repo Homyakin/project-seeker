@@ -49,6 +49,12 @@ public class PersonageEventService {
             .toList();
     }
 
+    public List<WorldRaidParticipant> getWorldRaidParticipants(long launchedEventId) {
+        return getEventParticipants(launchedEventId).stream()
+            .map(it -> new WorldRaidParticipant(it.personage()))
+            .toList();
+    }
+
     private List<EventParticipant> getEventParticipants(long launchedEventId) {
         final var personageParams = personageEventDao.getPersonageParamsByLaunchedEvent(launchedEventId);
         return personageService.getByIds(personageParams.keySet())

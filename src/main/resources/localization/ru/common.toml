@@ -43,8 +43,9 @@ addValueEffect = "+${value}${characteristic_icon}"
 multiplyPercentEffect = "+${value}%${characteristic_icon}"
 minusMultiplyPercentEffect = "-${value}%${characteristic_icon}"
 
-personageInRaid = "\nВ рейде ${time_icon}${duration}\n"
-personageInQuest = "\nВ квесте ${time_icon}${duration}\n"
+personageInRaid = "\nВ рейде ${time_icon}${duration}"
+personageInQuest = "\nВ квесте ${time_icon}${duration}"
+personageInWorldRaid = "\nВ мировом рейде ${time_icon}${duration}"
 
 hoursShort = "ч."
 minutesShort = "мин."
@@ -108,3 +109,35 @@ energyRecovered = [
     "Энергия восстановлена! Иди займись чем-нибудь полезным.",
     "Ты уже достаточно отдохнул и полон сил, хватит отлынивать."
 ]
+personageBattleReport = """\
+<code>${battle_date_time}</code>
+
+Характеристики в бою:
+${attack_icon}${attack_value}${defense_icon}${defense_value}
+${strength_icon}${strength_value}${agility_icon}${agility_value}${wisdom_icon}${wisdom_value}
+
+📊Статистика:
+${normal_attack_icon}Обычные атаки: ${normal_damage_value} (${normal_damage_count})
+${crit_attack_icon}Критические атаки: ${crit_damage_value} (${crit_damage_count})
+${miss_icon}Промахи: ${misses_count}
+
+${damage_blocked_icon}Урона получено: ${damage_blocked_value} (${damage_blocked_count})
+${dodge_icon}Уклонения: ${dodged_damage_value} (${dodged_damage_count})
+
+${health_icon}️Здоровье: ${remain_health}/${max_health}
+
+${money_icon}Награда: ${reward_value}
+<code>${optional_full_item}</code>"""
+shortPersonageBattleReport = """\
+📜${personage_badge_with_name} ${health_icon}${remain_health}
+${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
+${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
++${reward_value}${money_icon} <code>${optional_short_item_without_characteristics}</code>"""
+shortGroupBattleReport = """\
+📜${group_badge_with_name}
+${participants_icon}${remain_participants}/${total_participants}
+${health_icon}${remain_health}/${total_health}
+${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
+${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
++${money_icon}${reward_value}"""
+

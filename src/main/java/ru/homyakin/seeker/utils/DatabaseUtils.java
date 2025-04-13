@@ -2,6 +2,7 @@ package ru.homyakin.seeker.utils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class DatabaseUtils {
     public static Integer getIntOrDefault(ResultSet resultSet, String columnName, Integer defaultValue) throws SQLException {
@@ -14,6 +15,10 @@ public class DatabaseUtils {
 
     public static Integer getIntOrNull(ResultSet resultSet, String columnName) throws SQLException {
         return getIntOrDefault(resultSet, columnName, null);
+    }
+
+    public static Optional<Integer> getIntOrEmpty(ResultSet resultSet, String columnName) throws SQLException {
+        return Optional.ofNullable(getIntOrNull(resultSet, columnName));
     }
 
     public static Long getLongOrDefault(ResultSet resultSet, String columnName, Long defaultValue) throws SQLException {

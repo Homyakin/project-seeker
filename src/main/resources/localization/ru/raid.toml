@@ -37,28 +37,6 @@ raidParticipants = "Участники: ${raid_participants_list}"
 raidParticipant = "${personage_badge_with_name}${exhausted_icon_or_empty}"
 report = """\
 📜Ваш отчёт за последний рейд:
-<code>${raid_date_time}</code>
-
-Характеристики в рейде:
-${attack_icon}${attack_value}${defense_icon}${defense_value}
-${strength_icon}${strength_value}${agility_icon}${agility_value}${wisdom_icon}${wisdom_value}
-
-📊Статистика:
-${normal_attack_icon}Обычные атаки: ${normal_damage_value} (${normal_damage_count})
-${crit_attack_icon}Критические атаки: ${crit_damage_value} (${crit_damage_count})
-${miss_icon}Промахи: ${misses_count}
-
-${damage_blocked_icon}Урона получено: ${damage_blocked_value} (${damage_blocked_count})
-${dodge_icon}Уклонения: ${dodged_damage_value} (${dodged_damage_count})
-
-${health_icon}️Здоровье: ${remain_health}/${max_health}
-
-${money_icon}Награда: ${reward_value}
-<code>${optional_full_item}</code>"""
+${personage_battle_report}"""
 reportNotPresentForPersonage = "Не смогли найти твой отчёт о рейде в архивах"
-shortPersonageReport = """\
-📜${personage_badge_with_name} ${health_icon}${remain_health}
-${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
-${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
-+${reward_value}${money_icon} <code>${optional_short_item_without_characteristics}</code>"""
 lastGroupRaidReportNotFound = "Ты не участвовал в последнем рейде"

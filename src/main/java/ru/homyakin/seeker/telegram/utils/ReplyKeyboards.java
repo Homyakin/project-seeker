@@ -56,6 +56,7 @@ public class ReplyKeyboards {
         return ReplyKeyboardBuilder.builder()
             .addRow()
             .addButton(button(MenuLocalization.takePersonalQuestButton(language)))
+            .addButton(button(MenuLocalization.worldRaidButton(language)))
             .addRow()
             .addButton(button(MenuLocalization.backButton(language)))
             .build();

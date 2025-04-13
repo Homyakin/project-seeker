@@ -53,4 +53,8 @@ public class MenuLocalization {
     public static String takePersonalQuestButton(Language language) {
         return resources.getOrDefault(language, MenuResource::takePersonalQuestButton);
     }
+
+    public static String worldRaidButton(Language language) {
+        return resources.getOrDefault(language, MenuResource::worldRaidButton);
+    }
 }

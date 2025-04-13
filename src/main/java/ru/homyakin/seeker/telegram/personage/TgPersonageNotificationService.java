@@ -11,7 +11,7 @@ import ru.homyakin.seeker.game.personage.notification.entity.NotificationError;
 import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCommand;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
+import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -75,11 +75,11 @@ public class TgPersonageNotificationService implements SendNotificationToPersona
             case Notification.RecoveredEnergy _ ->
                 CommonLocalization.energyRecovered(language);
             case Notification.FailureQuestResult failureQuestResult ->
-                PersonalQuestLocalization.failedQuest(language, failureQuestResult.value());
+                BulletinBoardLocalization.failedQuest(language, failureQuestResult.value());
             case Notification.SuccessQuestResult successQuestResult ->
-                PersonalQuestLocalization.successQuest(language, successQuestResult.value());
+                BulletinBoardLocalization.successQuest(language, successQuestResult.value());
             case Notification.AutoStartQuest autoStartQuest ->
-                PersonalQuestLocalization.autoStartedQuest(language, autoStartQuest.startedQuest());
+                BulletinBoardLocalization.autoStartedQuest(language, autoStartQuest.startedQuest());
         };
     }
 }

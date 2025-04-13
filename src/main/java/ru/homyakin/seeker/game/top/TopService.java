@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopSpinResult;
+import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -76,5 +77,11 @@ public class TopService {
             ))
             .toList();
         return new TopPowerPersonageResult(top);
+    }
+
+    public TopWorldRaidResearchResult getTopWorldRaidResearch() {
+        final var top = topDao.getUnsortedTopWorldRaidResearch();
+        top.sort(Comparator.comparingInt(PersonageTopPosition::score).reversed());
+        return new TopWorldRaidResearchResult(top);
     }
 }

@@ -135,12 +135,12 @@ public class DuelService {
         final PersonageBattleResult loser;
         switch (battleResult.winner()) {
             case FIRST_TEAM -> {
-                winner = battleResult.firstTeamResults().getFirst();
-                loser = battleResult.secondTeamResults().getFirst();
+                winner = battleResult.firstTeamResults().personageResults().getFirst();
+                loser = battleResult.secondTeamResults().personageResults().getFirst();
             }
             case SECOND_TEAM -> {
-                winner = battleResult.secondTeamResults().getFirst();
-                loser = battleResult.firstTeamResults().getFirst();
+                winner = battleResult.secondTeamResults().personageResults().getFirst();
+                loser = battleResult.firstTeamResults().personageResults().getFirst();
             }
             default -> throw new IllegalStateException("Unexpected status");
         }

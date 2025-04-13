@@ -21,7 +21,8 @@ public class TelegramUtils {
         }
         if (update.hasCallbackQuery()) {
             return isGroupMessage(update.getCallbackQuery().getMessage())
-                || update.getCallbackQuery().getMessage().isUserMessage();
+                || update.getCallbackQuery().getMessage().isUserMessage()
+                || isChannelMessage(update.getCallbackQuery().getMessage());
         }
         return false;
     }
@@ -34,6 +35,13 @@ public class TelegramUtils {
         return isGroupMessage(message)
             && message.hasText()
             && isBotCommand(message.getText(), botUsername);
+    }
+
+    public static boolean isChannelMessage(MaybeInaccessibleMessage message) {
+        if (message instanceof Message message1) {
+            return message1.isChannelMessage();
+        }
+        return false;
     }
 
     public static boolean isGroupChat(Chat chat) {

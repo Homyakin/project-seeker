@@ -6,18 +6,25 @@ import java.util.Map;
 import java.util.Optional;
 
 public enum EventType {
-    RAID(1),
-    PERSONAL_QUEST(2),
+    RAID(1, true),
+    PERSONAL_QUEST(2, true),
+    WORLD_RAID(3, false),
     ;
 
     private final int id;
+    private final boolean isBlocking;
 
-    EventType(int id) {
+    EventType(int id, boolean isBlocking) {
         this.id = id;
+        this.isBlocking = isBlocking;
     }
 
     public int id() {
         return id;
+    }
+
+    public boolean isBlocking() {
+        return isBlocking;
     }
 
     private static final Map<Integer, EventType> map = new HashMap<>() {{

@@ -1,0 +1,58 @@
+worldRaidResearchEnd = """\
+Мировой рейд найден! Топ Искателей по вкладу:
+
+${top_personage_list}"""
+worldRaidBattle = """\
+${world_raid_intro}
+
+Противники: ${enemies_health}❤️ ${enemies_count}👹
+
+Фонд: ${money_icon}${fund_value}
+
+Битва начнётся через: ${duration}
+
+${optional_participants}"""
+endedWorldRaidBattle = """\
+${world_raid_intro}
+
+Противники: ${enemies_health}❤️ ${enemies_count}👹
+
+Фонд: ${money_icon}${fund_value}
+
+${optional_participants}
+"""
+worldRaidParticipants = """\
+Группы: ${group_tags}
+Участники: ${participants_count}"""
+joinWorldRaidButton = "Присоединиться🗡 ${energy_icon}${energy_cost}%"
+successJoin = "Теперь ты участвуешь в мировом рейде!"
+alreadyInRaid = "Ты уже участвуешь!"
+notEnoughEnergy = "Недостаточно энергии!"
+mustBeInRegisteredGroup = "Ты должен быть в зарегистрированной группе для участия в мировом рейде!"
+raidNotFound = "Активный мировой рейд не найден!"
+groupNotification = "Мировой рейд уже начался! Подробности здесь: ${channel}"
+successBattle = """\
+Мировой рейд завершён! Противники повержены, время разбирать награды!
+
+${battle_result}
+
+Результат можно посмотреть в профиле с помощью <code>${raid_report_command}</code>"""
+failedBattle = """\
+Мировой рейд завeршён! Искатели потерпели поражение, но у нас ещё есть шанс на реванш...
+
+Оставшиеся противники: ${enemies_health}❤️ ${enemies_count}👹
+
+${battle_result}
+
+Результат можно посмотреть в профиле с помощью <code>${raid_report_command}</code>"""
+battleResult = """\
+Лучшие группы:
+${group_results}
+
+Лучшие Искатели:
+${personage_results}"""
+
+groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+personageResult = "${dead_icon_or_empty}${personage_badge_with_name} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+personageWorldRaidReportNotFound = "Ты не участвовал в последнем мировом рейде"
+groupWorldRaidReportNotFound = "Группа не участвоваала в последнем мировом рейде"

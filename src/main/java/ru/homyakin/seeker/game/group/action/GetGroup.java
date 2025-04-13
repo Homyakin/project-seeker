@@ -32,4 +32,8 @@ public class GetGroup {
     public List<Group> getGetGroupsWithLessNextRumorDate(LocalDateTime maxNextRumorDate) {
         return storage.getGetGroupsWithLessNextRumorDate(maxNextRumorDate);
     }
+
+    public List<Group> getByTags(List<String> tags) {
+        return storage.getByTags(tags);
+    }
 }

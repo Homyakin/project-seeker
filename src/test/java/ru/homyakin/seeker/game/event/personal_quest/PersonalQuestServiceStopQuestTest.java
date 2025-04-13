@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.world_raid.action.WorldRaidContributionService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
@@ -24,6 +25,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 public class PersonalQuestServiceStopQuestTest {
@@ -34,6 +37,7 @@ public class PersonalQuestServiceStopQuestTest {
     private final PersonalQuestConfig config = Mockito.mock();
     private final PersonageEventService personageEventService = Mockito.mock();
     private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand = Mockito.mock();
+    private final WorldRaidContributionService worldRaidContributionService = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
@@ -41,7 +45,8 @@ public class PersonalQuestServiceStopQuestTest {
         launchedEventService,
         personageEventService,
         config,
-        sendNotificationToPersonageCommand
+        sendNotificationToPersonageCommand,
+        worldRaidContributionService
     );
 
     @Test
@@ -65,6 +70,7 @@ public class PersonalQuestServiceStopQuestTest {
         assertEquals(expected, result);
         Mockito.verify(sendNotificationToPersonageCommand)
             .sendNotification(participant.personage().id(), new Notification.SuccessQuestResult(expected));
+        Mockito.verify(worldRaidContributionService).questComplete(participant.personage().id());
     }
 
     @Test
@@ -89,6 +95,7 @@ public class PersonalQuestServiceStopQuestTest {
         Mockito.verify(sendNotificationToPersonageCommand).sendNotification(
             participant.personage().id(), new Notification.FailureQuestResult(expected)
         );
+        Mockito.verify(worldRaidContributionService).questComplete(participant.personage().id());
     }
 
     @Test
@@ -102,6 +109,7 @@ public class PersonalQuestServiceStopQuestTest {
 
         // then
         assertEquals("Event " + launchedEvent.eventId() + " is not quest", exception.getMessage());
+        Mockito.verify(worldRaidContributionService, times(0)).questComplete(any());
     }
 
     @Test
@@ -118,6 +126,7 @@ public class PersonalQuestServiceStopQuestTest {
 
         // then
         assertEquals(EventResult.PersonalQuestResult.Error.INSTANCE, result);
+        Mockito.verify(worldRaidContributionService, times(0)).questComplete(any());
     }
 
     private final LaunchedEvent launchedEvent = LaunchedEventUtils.withEventId(1);

@@ -5,12 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ru.homyakin.seeker.game.event.launched.CurrentEvent;
+import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.world_raid.action.WorldRaidContributionService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
@@ -25,6 +29,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,6 +46,7 @@ public class PersonalQuestServiceTakeQuestTest {
     private final PersonalQuestConfig config = Mockito.mock();
     private final PersonageEventService personageEventService = Mockito.mock();
     private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand = Mockito.mock();
+    private final WorldRaidContributionService worldRaidContributionService = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
@@ -48,7 +54,8 @@ public class PersonalQuestServiceTakeQuestTest {
         launchedEventService,
         personageEventService,
         config,
-        sendNotificationToPersonageCommand
+        sendNotificationToPersonageCommand,
+        worldRaidContributionService
     );
 
     @BeforeEach
@@ -77,7 +84,7 @@ public class PersonalQuestServiceTakeQuestTest {
         // when
         when(personageService.checkPersonageEnergy(personage.id(), config.requiredEnergy()))
             .thenReturn(Either.right(personage));
-        when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.empty());
+        when(launchedEventService.getActiveEventsByPersonageId(personage.id())).thenReturn(new CurrentEvents(List.of()));
         when(personalQuestDao.getRandomQuest()).thenReturn(Optional.of(quest));
         when(launchedEventService.createFromPersonalQuest(eq(quest), any(), any())).thenReturn(launchedEvent);
         when(
@@ -113,7 +120,14 @@ public class PersonalQuestServiceTakeQuestTest {
         // given
         final var personage = PersonageUtils.random();
         when(personageService.checkPersonageEnergy(personage.id(), config.requiredEnergy())).thenReturn(Either.right(personage));
-        when(launchedEventService.getActiveEventByPersonageId(personage.id())).thenReturn(Optional.of(launchedEvent));
+        when(launchedEventService.getActiveEventsByPersonageId(personage.id()))
+            .thenReturn(
+                new CurrentEvents(
+                    List.of(
+                        new CurrentEvent(launchedEvent.id(), EventType.PERSONAL_QUEST, TimeUtils.moscowTime())
+                    )
+                )
+            );
 
         // when
         final var result = personalQuestService.takeQuest(personage.id());
@@ -127,7 +141,7 @@ public class PersonalQuestServiceTakeQuestTest {
         // Arrange
         final var personageId = new PersonageId(1);
         when(personageService.checkPersonageEnergy(personageId, config.requiredEnergy())).thenReturn(Either.right(Mockito.mock()));
-        when(launchedEventService.getActiveEventByPersonageId(personageId)).thenReturn(Optional.empty());
+        when(launchedEventService.getActiveEventsByPersonageId(personageId)).thenReturn(new CurrentEvents(List.of()));
         when(personalQuestDao.getRandomQuest()).thenReturn(Optional.empty());
 
         // Act

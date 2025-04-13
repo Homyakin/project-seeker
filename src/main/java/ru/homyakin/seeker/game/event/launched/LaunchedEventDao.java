@@ -67,12 +67,27 @@ public class LaunchedEventDao {
             .optional();
     }
 
-    public Optional<LaunchedEvent> getActiveByPersonageId(PersonageId personageId) {
-        return jdbcClient.sql(GET_ACTIVE_EVENTS_BY_PERSONAGE_ID)
+    public List<CurrentEvent> getActiveEventsByPersonageId(PersonageId personageId) {
+        final var sql = """
+            SELECT
+                le.id,
+                le.end_date,
+                e.type_id
+             FROM personage_to_event pe
+             LEFT JOIN launched_event le on pe.launched_event_id = le.id
+             LEFT JOIN event e on le.event_id = e.id
+             WHERE pe.personage_id = :personage_id
+             AND le.status_id = :status_id
+            """;
+        return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
             .param("status_id", EventStatus.LAUNCHED.id())
-            .query(this::mapRow)
-            .optional();
+            .query((rs, _) -> new CurrentEvent(
+                rs.getLong("id"),
+                EventType.get(rs.getInt("type_id")),
+                rs.getTimestamp("end_date").toLocalDateTime()
+            ))
+            .list();
     }
 
     public List<LaunchedEvent> getActiveEventsWithLessEndDate(LocalDateTime maxEndDate) {

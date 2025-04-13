@@ -19,7 +19,6 @@ import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 import ru.homyakin.seeker.utils.TimeUtils;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -89,9 +88,9 @@ public class RaidService {
             return Either.left(error);
         }
 
-        final var presentEvent = launchedEventService.getActiveEventByPersonageId(personageId);
-        if (presentEvent.isPresent()) {
-            if (Objects.equals(launchedEvent.id(), presentEvent.get().id())) {
+        final var presentEvents = launchedEventService.getActiveEventsByPersonageId(personageId);
+        if (presentEvents.hasBlockingEvent()) {
+            if (presentEvents.hasId(launchedEventId)) {
                 return Either.left(AddPersonageToRaidError.PersonageInThisRaid.INSTANCE);
             }
             return Either.left(AddPersonageToRaidError.PersonageInOtherEvent.INSTANCE);

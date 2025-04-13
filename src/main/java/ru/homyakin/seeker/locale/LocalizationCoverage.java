@@ -10,6 +10,7 @@ import java.util.Map;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
 import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
+import ru.homyakin.seeker.infrastructure.init.saving_models.WorldRaids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
@@ -79,8 +80,12 @@ public class LocalizationCoverage {
         addLocalizedInfo(itemObjects.object(), TranslateType.ITEM_OBJECTS);
     }
 
-    public static void addIteModifiersInfo(ItemModifiers itemModifiers) {
+    public static void addItemModifiersInfo(ItemModifiers itemModifiers) {
         addLocalizedInfo(itemModifiers.modifier(), TranslateType.ITEM_MODIFIERS);
+    }
+
+    public static void addWorldRaidsInfo(WorldRaids worldRaids) {
+        addLocalizedInfo(worldRaids.raid(), TranslateType.WORLD_RAIDS);
     }
 
     public static void addMenuItemsInfo(Items items) {
@@ -140,5 +145,6 @@ public class LocalizationCoverage {
         BADGES,
         ITEM_OBJECTS,
         ITEM_MODIFIERS,
+        WORLD_RAIDS,
     }
 }

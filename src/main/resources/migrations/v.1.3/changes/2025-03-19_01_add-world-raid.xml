@@ -1,0 +1,259 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-world-raid">
+        <createTable tableName="world_raid_template">
+            <column name="event_id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="info" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="event_id"
+                baseTableName="world_raid_template"
+                constraintName="fk-world_raid_template-event"
+                referencedColumnNames="id"
+                referencedTableName="event"
+        />
+
+        <createTable tableName="world_raid_launched">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="event_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="info" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contribution" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="required_contribution" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fund" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="continued_in_world_raid_id" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="world_raid_launched"
+                baseColumnNames="event_id"
+                constraintName="fk-world_raid_launched-world_raid_template"
+                referencedTableName="world_raid_template"
+                referencedColumnNames="event_id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="world_raid_launched"
+                baseColumnNames="launched_event_id"
+                constraintName="fk-world_raid_launched-launched_event"
+                referencedTableName="launched_event"
+                referencedColumnNames="id"
+        />
+        
+        <createTable tableName="world_raid_research">
+            <column name="world_raid_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contribution" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reward" type="INTEGER">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="world_raid_research"
+                columnNames="world_raid_id, personage_id"
+                constraintName="world_raid_research-pk"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="world_raid_research"
+                baseColumnNames="world_raid_id"
+                constraintName="fk-world_raid_research-world_raid_launched"
+                referencedTableName="world_raid_launched"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="world_raid_research"
+                baseColumnNames="personage_id"
+                constraintName="fk-world_raid_research-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+
+        <createTable tableName="world_raid_status">
+            <column name="id" type="INTEGER">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="world_raid_status">
+            <column name="id" value="1"/>
+            <column name="description" value="Исследование"/>
+        </insert>
+        <insert tableName="world_raid_status">
+            <column name="id" value="2"/>
+            <column name="description" value="Сражение"/>
+        </insert>
+        <insert tableName="world_raid_status">
+            <column name="id" value="3"/>
+            <column name="description" value="Завершено"/>
+        </insert>
+        <insert tableName="world_raid_status">
+            <column name="id" value="4"/>
+            <column name="description" value="Продолжено"/>
+        </insert>
+
+        <addForeignKeyConstraint
+                baseColumnNames="status_id"
+                baseTableName="world_raid_launched"
+                constraintName="fk-world_raid_launched-world_raid_status"
+                referencedTableName="world_raid_status"
+                referencedColumnNames="id"
+        />
+
+        <insert tableName="event_type">
+            <column name="id" value="3"/>
+            <column name="name" value="Мировой рейд"/>
+        </insert>
+
+        <createTable tableName="world_raid_launched_tg">
+            <column name="world_raid_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="channel_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="world_raid_launched_tg"
+                columnNames="world_raid_id, channel_id"
+                constraintName="world_raid_launched_tg-pk"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="world_raid_launched_tg"
+                baseColumnNames="world_raid_id"
+                constraintName="fk-world_raid_launched_tg-world_raid_launched"
+                referencedTableName="world_raid_launched"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="world_raid_launched_tg"
+                baseColumnNames="language_id"
+                constraintName="fk-world_raid_launched_tg-language"
+                referencedTableName="language"
+                referencedColumnNames="id"
+        />
+
+        <createTable tableName="world_raid_launched_pgroup">
+            <column name="world_raid_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_notification" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="world_raid_launched_pgroup"
+                columnNames="world_raid_id, pgroup_id"
+                constraintName="world_raid_launched_pgroup-pk"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="world_raid_launched_pgroup"
+                baseColumnNames="world_raid_id"
+                constraintName="fk-world_raid_launched_pgroup-world_raid_launched"
+                referencedTableName="world_raid_launched"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="world_raid_launched_pgroup"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-world_raid_launched_pgroup-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+
+        <createTable tableName="pgroup_battle_result">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="stats" type="JSON">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reward" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="pgroup_id, launched_event_id"
+                constraintName="pgroup_battle_result-pk"
+                tableName="pgroup_battle_result"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="pgroup_id"
+                baseTableName="pgroup_battle_result"
+                constraintName="fk-pgroup_battle_result-pgroup"
+                referencedColumnNames="id"
+                referencedTableName="pgroup"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="launched_event_id"
+                baseTableName="pgroup_battle_result"
+                constraintName="fk-pgroup_battle_result-launched_event"
+                referencedColumnNames="id"
+                referencedTableName="launched_event"
+        />
+    </changeSet>
+</databaseChangeLog>

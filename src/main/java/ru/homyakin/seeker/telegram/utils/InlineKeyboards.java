@@ -21,6 +21,7 @@ import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
+import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
@@ -202,5 +203,16 @@ public class InlineKeyboards {
             );
 
         return builder.build();
+    }
+
+    public static InlineKeyboardMarkup joinWorldRaidKeyboard(Language language, int energy) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                WorldRaidLocalization.joinWorldRaidButton(language, energy),
+                CommandType.JOIN_WORLD_RAID.getText()
+            )
+            .build();
     }
 }

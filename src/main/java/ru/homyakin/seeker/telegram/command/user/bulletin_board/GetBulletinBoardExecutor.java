@@ -1,8 +1,8 @@
-package ru.homyakin.seeker.telegram.command.user.personal_quest;
+package ru.homyakin.seeker.telegram.command.user.bulletin_board;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
-import ru.homyakin.seeker.locale.personal.PersonalQuestLocalization;
+import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -31,7 +31,7 @@ public class GetBulletinBoardExecutor extends CommandExecutor<GetBulletinBoard> 
         final var requirements = personalQuestService.getRequirements();
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(PersonalQuestLocalization.bulletinBoard(user.language(), requirements))
+            .text(BulletinBoardLocalization.bulletinBoard(user.language(), requirements))
             .keyboard(ReplyKeyboards.bulletinBoardKeyboard(user.language()))
             .build()
         );

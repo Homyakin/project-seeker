@@ -49,3 +49,12 @@ ${top_personage_list}
 """
 topPowerPersonagePosition = "${position}. ${personage_badge_with_name}: ${power}"
 topPersonageEmpty = "Нет участников для отображения"
+topWorldRaidResearch = """\
+🏆Топ Искателей по вкладу поиска мирового рейда:
+
+${top_personage_list}
+
+Всего участников: ${total_count}"""
+topWorldRaidResearchPosition = "${position}. ${personage_badge_with_name}: ${contribution} ${optional_reward}"
+topWorldRaidResearchReward = " +${money_icon}${reward}"
+topWorldRaidResearchEmpty = "Пока никто не сделал вклад в поиск рейда"

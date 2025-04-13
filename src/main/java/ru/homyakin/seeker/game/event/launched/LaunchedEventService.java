@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
+import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaid;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -45,6 +46,15 @@ public class LaunchedEventService {
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 
+    public LaunchedEvent createFromWorldRaid(
+        ActiveWorldRaid raid,
+        LocalDateTime start,
+        LocalDateTime end
+    ) {
+        final var id = launchedEventDao.save(raid.eventId(), start, end);
+        return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
+    }
+
     public Optional<LaunchedEvent> getById(Long launchedEventId) {
         return launchedEventDao.getById(launchedEventId);
     }
@@ -73,12 +83,19 @@ public class LaunchedEventService {
         );
     }
 
+    public void updateResult(LaunchedEvent launchedEvent, EventResult.WorldRaidBattleResult worldRaidBattleResult) {
+        launchedEventDao.updateStatus(
+            launchedEvent.id(),
+            worldRaidBattleResult.isWin() ? EventStatus.SUCCESS : EventStatus.FAILED
+        );
+    }
+
     public void creationError(LaunchedEvent launchedEvent) {
         launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.CREATION_ERROR);
     }
 
-    public Optional<LaunchedEvent> getActiveEventByPersonageId(PersonageId personageId) {
-        return launchedEventDao.getActiveByPersonageId(personageId);
+    public CurrentEvents getActiveEventsByPersonageId(PersonageId personageId) {
+        return new CurrentEvents(launchedEventDao.getActiveEventsByPersonageId(personageId));
     }
 
     public List<LaunchedEvent> getExpiredActiveEvents() {

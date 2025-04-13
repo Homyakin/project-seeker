@@ -40,6 +40,14 @@ public class RandomUtils {
         return random.nextInt(start, end + 1);
     }
 
+    public static int getInPercentRange(int start, double percent) {
+        final var fraction = percent / 100.0;
+        return getInInterval(
+            (int) Math.round(start * (1 - fraction)),
+            (int) Math.round(start * (1 + fraction))
+        );
+    }
+
     public static OffsetDateTime getInInterval(OffsetDateTime start, OffsetDateTime end) {
         final var startSeconds = start.toEpochSecond();
         final var endSeconds = end.toEpochSecond();

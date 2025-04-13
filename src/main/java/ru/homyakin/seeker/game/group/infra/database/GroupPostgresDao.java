@@ -1,5 +1,8 @@
 package ru.homyakin.seeker.game.group.infra.database;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
@@ -17,16 +20,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 public class GroupPostgresDao implements GroupStorage {
+    private final NamedParameterJdbcTemplate jdbcTemplate;
     private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
 
     public GroupPostgresDao(DataSource dataSource, JsonUtils jsonUtils) {
-        this.jdbcClient = JdbcClient.create(dataSource);
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+        this.jdbcClient = JdbcClient.create(jdbcTemplate);
         this.jsonUtils = jsonUtils;
     }
 
@@ -245,6 +253,37 @@ public class GroupPostgresDao implements GroupStorage {
             .param("id", groupId.value())
             .query(this::mapProfileRow)
             .optional();
+    }
+
+    @Override
+    public List<Group> getByTags(List<String> tags) {
+        if (tags.isEmpty()) {
+            return Collections.emptyList();
+        }
+        final var sql = """
+            SELECT * FROM pgroup WHERE tag in (:tags)
+            """;
+        return jdbcClient.sql(sql)
+            .param("tags", tags)
+            .query(this::mapRow)
+            .list();
+    }
+
+    @Override
+    public void addMoney(Map<GroupId, Money> moneyMap) {
+        final var parameters = new ArrayList<SqlParameterSource>();
+        for (final var entry : moneyMap.entrySet()) {
+            MapSqlParameterSource paramSource = new MapSqlParameterSource()
+                .addValue("id", entry.getKey().value())
+                .addValue("money", entry.getValue().value());
+            parameters.add(paramSource);
+        }
+        final var sql = """
+            UPDATE pgroup
+            SET money = money + :money
+            WHERE id = :id
+            """;
+        jdbcTemplate.batchUpdate(sql, parameters.toArray(new SqlParameterSource[0]));
     }
 
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
