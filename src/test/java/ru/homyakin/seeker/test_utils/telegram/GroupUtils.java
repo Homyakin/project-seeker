@@ -8,9 +8,13 @@ import ru.homyakin.seeker.test_utils.TestRandom;
 
 public class GroupUtils {
     public static GroupTg randomGroup() {
+        return randomWithLanguage(Language.RU);
+    }
+
+    public static GroupTg randomWithLanguage(Language language) {
         return new GroupTg(
             new GroupTgId(TestRandom.nextLong()),
-            Language.RU,
+            language,
             new GroupId(TestRandom.nextLong())
         );
     }

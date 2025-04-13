@@ -53,7 +53,7 @@ import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.badge.SelectBadge;
 import ru.homyakin.seeker.telegram.command.user.badge.ShowBadges;
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.ShowWorldRaidInfo;
-import ru.homyakin.seeker.telegram.command.user.bulletin_board.WorldRaidDonate;
+import ru.homyakin.seeker.telegram.command.common.world_raid.WorldRaidDonate;
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.WorldRaidResearchTop;
 import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
 import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
@@ -215,6 +215,7 @@ public class CommandParser {
                 case LEAVE_GROUP -> LeaveGroupMember.from(message);
                 case GROUP_COMMANDS -> GroupCommands.from(message);
                 case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);
+                case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
                 default -> null;
             });
     }
