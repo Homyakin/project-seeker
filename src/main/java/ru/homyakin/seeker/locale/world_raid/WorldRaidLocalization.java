@@ -183,19 +183,37 @@ public class WorldRaidLocalization {
     }
 
     private static String battleResult(Language language, EventResult.WorldRaidBattleResult result) {
-        final var groupResults = result.groupResults().stream()
+        final var topGroups = result.groupResults().stream()
             .sorted(groupComparator)
             .limit(5)
-            .map(it -> groupResult(language, it))
-            .collect(Collectors.joining("\n"));
-        final var personageResults = result.personageResults().stream()
+            .toList();
+        final var groupResults = new StringBuilder();
+        for (int i = 0; i < topGroups.size(); i++) {
+            groupResults
+                .append(i + 1)
+                .append(". ")
+                .append(groupResult(language, topGroups.get(i)));
+            if (i < topGroups.size() - 1) {
+                groupResults.append("\n");
+            }
+        }
+        final var topPersonages = result.personageResults().stream()
             .sorted(personageComparator)
             .limit(5)
-            .map(it -> personageResult(language, it))
-            .collect(Collectors.joining("\n"));
+            .toList();
+        final var personageResults = new StringBuilder();
+        for (int i = 0; i < topPersonages.size(); i++) {
+            personageResults
+                .append(i + 1)
+                .append(". ")
+                .append(personageResult(language, topPersonages.get(i)));
+            if (i < topPersonages.size() - 1) {
+                personageResults.append("\n");
+            }
+        }
         final var params = new HashMap<String, Object>();
         params.put("group_results", groupResults);
-        params.put("personage_results", personageResults);
+        params.put("personage_results", personageResults.toString());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::battleResult),
             params
