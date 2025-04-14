@@ -57,6 +57,7 @@ public class TelegramBotCommandInitializer {
         new BotCommand(CommandType.RAID_REPORT.getText(), "Show last raid report"),
         new BotCommand(CommandType.INIT_FEEDBACK.getText(), "Send feedback to developers"),
         new BotCommand(CommandType.PERSONAGE_STATS.getText(), "Get my global statistic"),
-        new BotCommand(CommandType.SETTINGS.getText(), "Get my settings")
+        new BotCommand(CommandType.SETTINGS.getText(), "Get my settings"),
+        new BotCommand(CommandType.WORLD_RAID_REPORT.getText(), "Show last world raid report")
     );
 }
