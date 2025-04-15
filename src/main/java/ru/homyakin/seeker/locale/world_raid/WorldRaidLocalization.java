@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.JoinWorldRaidError;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.group.entity.Group;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
@@ -164,6 +165,22 @@ public class WorldRaidLocalization {
         final var params = new HashMap<String, Object>();
         params.put("raid_report_command", CommandType.WORLD_RAID_REPORT.getText());
         params.put("battle_result", battleResult(language, result));
+        int epicCount = 0;
+        int legendaryCount = 0;
+        for (final var personageResult : result.personageResults()) {
+            if (personageResult.generatedItem().isEmpty()) {
+                continue;
+            }
+            if (personageResult.generatedItem().get().rarity() == ItemRarity.LEGENDARY) {
+                legendaryCount++;
+            } else if (personageResult.generatedItem().get().rarity() == ItemRarity.EPIC) {
+                epicCount++;
+            }
+        }
+        params.put("epic_count", epicCount);
+        params.put("epic_icon", ItemRarity.EPIC.icon);
+        params.put("legendary_count", legendaryCount);
+        params.put("legendary_icon", ItemRarity.LEGENDARY.icon);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::successBattle),
             params
