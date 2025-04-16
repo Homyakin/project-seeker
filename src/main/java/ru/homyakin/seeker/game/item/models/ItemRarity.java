@@ -3,11 +3,11 @@ package ru.homyakin.seeker.game.item.models;
 import net.fellbaum.jemoji.EmojiManager;
 
 public enum ItemRarity {
-    COMMON(1, EmojiManager.getByAlias(":white_circle:").orElseThrow().getEmoji(), 1.0),
-    UNCOMMON(2, EmojiManager.getByAlias(":green_circle:").orElseThrow().getEmoji(), 1.6),
-    RARE(3, EmojiManager.getByAlias(":blue_circle:").orElseThrow().getEmoji(), 2.2),
-    EPIC(4, EmojiManager.getByAlias(":purple_circle:").orElseThrow().getEmoji(), 2.8),
-    LEGENDARY(5, EmojiManager.getByAlias(":orange_circle:").orElseThrow().getEmoji(), 3.4),
+    COMMON(1, EmojiManager.getByAlias(":white_circle:").orElseThrow().getFirst().getEmoji(), 1.0),
+    UNCOMMON(2, EmojiManager.getByAlias(":green_circle:").orElseThrow().getFirst().getEmoji(), 1.6),
+    RARE(3, EmojiManager.getByAlias(":blue_circle:").orElseThrow().getFirst().getEmoji(), 2.2),
+    EPIC(4, EmojiManager.getByAlias(":purple_circle:").orElseThrow().getFirst().getEmoji(), 2.8),
+    LEGENDARY(5, EmojiManager.getByAlias(":orange_circle:").orElseThrow().getFirst().getEmoji(), 3.4),
     ;
 
     public final int id;

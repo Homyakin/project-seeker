@@ -28,7 +28,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.user.setting.PersonageSettingsCallbackUtils;
 
 public class InlineKeyboards {
-    private static final String selectedIcon = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getEmoji();
+    private static final String selectedIcon = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getFirst().getEmoji();
 
     public static InlineKeyboardMarkup languageKeyboard(Language currentLanguage) {
         final var languages = Language.values();

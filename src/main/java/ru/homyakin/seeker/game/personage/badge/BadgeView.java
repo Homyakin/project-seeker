@@ -4,11 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import net.fellbaum.jemoji.EmojiManager;
 
 public enum BadgeView {
-    STANDARD("standard", EmojiManager.getByAlias(":beginner:").orElseThrow().getEmoji()),
-    FIRST_PERSONAGES("first-personages", EmojiManager.getByAlias(":reminder_ribbon:").orElseThrow().getEmoji()),
-    FIRST_SEASON("first-season", EmojiManager.getByAlias(":otter:").orElseThrow().getEmoji()),
-    SECOND_SEASON("second-season", EmojiManager.getByAlias(":cat2:").orElseThrow().getEmoji()),
-    NEW_YEAR_2025("new-year-2025", EmojiManager.getByAlias(":dizzy:").orElseThrow().getEmoji()),
+    STANDARD("standard", EmojiManager.getByAlias(":beginner:").orElseThrow().getFirst().getEmoji()),
+    FIRST_PERSONAGES("first-personages", EmojiManager.getByAlias(":reminder_ribbon:").orElseThrow().getFirst().getEmoji()),
+    FIRST_SEASON("first-season", EmojiManager.getByAlias(":otter:").orElseThrow().getFirst().getEmoji()),
+    SECOND_SEASON("second-season", EmojiManager.getByAlias(":cat2:").orElseThrow().getFirst().getEmoji()),
+    NEW_YEAR_2025("new-year-2025", EmojiManager.getByAlias(":dizzy:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;

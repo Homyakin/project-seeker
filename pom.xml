@@ -11,34 +11,35 @@
     <properties>
         <java.version>23</java.version>
         <kotlin.version>1.9.22</kotlin.version>
-        <spring.version>3.3.4</spring.version>
-        <liquibase.version>4.29.2</liquibase.version>
-        <postgres.version>42.7.4</postgres.version>
-        <telegram.version>8.0.0</telegram.version>
+        <spring.version>3.4.4</spring.version>
+        <liquibase.version>4.31.1</liquibase.version>
+        <postgres.version>42.7.5</postgres.version>
+        <telegram.version>8.3.0</telegram.version>
         <vavr.version>0.10.4</vavr.version>
-        <jemoji.version>1.5.2</jemoji.version>
-        <jackson.version>2.18.0</jackson.version>
-        <jakarta.validation.version>3.1.0</jakarta.validation.version>
+        <jemoji.version>1.7.3</jemoji.version>
+        <jackson.version>2.18.3</jackson.version>
+        <jakarta.validation.version>3.1.1</jakarta.validation.version>
         <commons-math3.version>3.6.1</commons-math3.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
-        <caffeine.version>3.1.8</caffeine.version>
-        <slf4j-api.version>2.0.16</slf4j-api.version>
+        <commons-io.version>2.18.0</commons-io.version>
+        <caffeine.version>3.2.0</caffeine.version>
+        <slf4j-api.version>2.0.17</slf4j-api.version>
 
         <!--TEST-->
-        <junit.version>5.11.1</junit.version>
-        <assertj.version>3.26.3</assertj.version>
-        <mockito.version>5.14.1</mockito.version>
+        <junit.version>5.12.2</junit.version>
+        <assertj.version>3.27.3</assertj.version>
+        <mockito.version>5.17.0</mockito.version>
         <commons-rng.version>1.6</commons-rng.version>
 
 
         <!--PLUGINS-->
-        <maven-surefire-plugin.version>3.5.0</maven-surefire-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-checkstyle-plugin.version>3.5.0</maven-checkstyle-plugin.version>
-        <checkstyle.version>10.18.2</checkstyle.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+        <checkstyle.version>10.23.0</checkstyle.version>
         <dependency-versions-check-maven-plugin.version>4.0.1</dependency-versions-check-maven-plugin.version>
         <duplicate-finder-maven-plugin.version>2.0.1</duplicate-finder-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>checkstyle-suppression.xml</checkstyle.suppressions.location>
@@ -168,6 +169,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
 
         <!--TEST-->
