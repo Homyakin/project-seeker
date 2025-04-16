@@ -14,7 +14,6 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 public class BulletinBoardLocalization {
