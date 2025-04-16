@@ -74,9 +74,13 @@ public class BulletinBoardLocalization {
     }
 
     public static String failedQuest(Language language, EventResult.PersonalQuestResult.Failure result) {
+        final var params = new HashMap<String, Object>();
+        params.put("quest_failure", result.quest().getLocaleOrDefault(language).failure());
+        params.put("energy_icon", Icons.ENERGY);
+        params.put("current_energy", result.personage().energy().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, BulletinBoardResource::failedQuest),
-            Collections.singletonMap("quest_failure", result.quest().getLocaleOrDefault(language).failure())
+            params
         );
     }
 
@@ -85,6 +89,8 @@ public class BulletinBoardLocalization {
         params.put("quest_success", result.quest().getLocaleOrDefault(language).success());
         params.put("money_icon", Icons.MONEY);
         params.put("money_value", result.reward().value());
+        params.put("current_energy", result.personage().energy().value());
+        params.put("energy_icon", Icons.ENERGY);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, BulletinBoardResource::successQuest),
             params

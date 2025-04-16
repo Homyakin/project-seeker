@@ -80,11 +80,15 @@ ${energy_recovered}
 
 ${started_quest}
 """
-failedQuest = "${quest_failure}"
+failedQuest = """\
+${quest_failure}
+
+Текущая энергия: ${energy_icon}${current_energy}%"""
 successQuest = """\
 ${quest_success}
 
-Ты получил +${money_icon}${money_value}"""
+Ты получаешь +${money_icon}${money_value}
+Текущая энергия: ${energy_icon}${current_energy}%"""
 
 worldRaidResearch = """\
 Прогресс поиска рейда: ${progress}%
