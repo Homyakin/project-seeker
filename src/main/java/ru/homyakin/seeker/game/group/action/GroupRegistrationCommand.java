@@ -40,7 +40,7 @@ public class GroupRegistrationCommand {
         if (group.isHidden()) {
             return Either.left(GroupRegistrationError.HiddenGroup.INSTANCE);
         }
-        if (groupPersonageStorage.getPersonageMemberGroup(personageId).isPresent()) {
+        if (groupPersonageStorage.getPersonageMemberGroup(personageId).hasGroup()) {
             return Either.left(GroupRegistrationError.PersonageInAnotherGroup.INSTANCE);
         }
         final var profile = groupStorage.getProfile(groupId).orElseThrow();

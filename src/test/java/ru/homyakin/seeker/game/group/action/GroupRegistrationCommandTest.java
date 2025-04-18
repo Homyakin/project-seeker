@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
 import ru.homyakin.seeker.utils.models.Success;
 
@@ -69,7 +70,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(group.isRegistered()).thenReturn(false);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
-            .thenReturn(Optional.of(new GroupId(TestRandom.nextLong())));
+            .thenReturn(PersonageMemberGroupUtils.withGroup(new GroupId(TestRandom.nextLong())));
 
         final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
 
@@ -85,6 +86,8 @@ class GroupRegistrationCommandTest {
         final var profile = groupProfile(500);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
 
         final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
 
@@ -100,6 +103,8 @@ class GroupRegistrationCommandTest {
         final var profile = groupProfile(1000);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
 
         final var result = groupRegistrationCommand.execute(groupId, personageId, "фыва");
 
@@ -116,6 +121,8 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(true);
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
 
         final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
 
@@ -132,6 +139,8 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
 
         final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
 

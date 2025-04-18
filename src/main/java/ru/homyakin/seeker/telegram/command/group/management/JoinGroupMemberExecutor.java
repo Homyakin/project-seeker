@@ -44,6 +44,8 @@ public class JoinGroupMemberExecutor extends CommandExecutor<JoinGroupMember> {
                         GroupManagementLocalization.joinPersonageInAnotherGroup(groupTg.language());
                     case JoinGroupMemberError.GroupNotRegistered _ ->
                         GroupManagementLocalization.groupNotRegisteredAtJoin(groupTg.language());
+                    case JoinGroupMemberError.PersonageJoinTimeout personageJoinTimeout ->
+                        GroupManagementLocalization.joinPersonageTimeout(groupTg.language(), personageJoinTimeout);
                 },
                 group -> GroupManagementLocalization.successJoinGroup(
                     groupTg.language(),

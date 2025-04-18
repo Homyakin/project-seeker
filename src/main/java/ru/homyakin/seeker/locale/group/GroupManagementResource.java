@@ -12,6 +12,7 @@ public record GroupManagementResource(
     String successGroupRegistration,
     String joinPersonageAlreadyInGroup,
     String joinPersonageInAnotherGroup,
+    String joinPersonageTimeout,
     String groupNotRegisteredAtJoin,
     String successJoinGroup,
     String leaveGroupSuccess,

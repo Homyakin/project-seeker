@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
 
 import java.util.Optional;
@@ -63,7 +64,8 @@ class TakeMoneyFromGroupCommandTest {
     void When_WithdrawMoreThanAvailableFunds_Then_ReturnNotEnoughMoneyError() {
         final var withdrawalAmount = Money.from(2000);
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(groupProfile()));
-        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId)).thenReturn(Optional.of(groupId));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
 
         final var result = takeMoneyFromGroupCommand.execute(groupId, personageId, withdrawalAmount);
 
@@ -75,7 +77,8 @@ class TakeMoneyFromGroupCommandTest {
     void When_WithdrawFromNonMemberPersonage_Then_ReturnPersonageNotMemberError() {
         final var validAmount = new Money(100);
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(groupProfile()));
-        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId)).thenReturn(Optional.empty());
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
 
         final var result = takeMoneyFromGroupCommand.execute(groupId, personageId, validAmount);
 
@@ -87,7 +90,8 @@ class TakeMoneyFromGroupCommandTest {
     void When_WithdrawFromNotRegisteredGroup_Then_ReturnGroupNotRegisteredError() {
         final var validAmount = new Money(100);
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(groupProfile(Optional.empty())));
-        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId)).thenReturn(Optional.of(groupId));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
 
         final var result = takeMoneyFromGroupCommand.execute(groupId, personageId, validAmount);
 
@@ -100,7 +104,8 @@ class TakeMoneyFromGroupCommandTest {
         Money validAmount = new Money(500);
         Personage personage = new Personage(personageId, "Test Personage", Optional.empty(), new Money(0), null, null, null, null, null);
         Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(groupProfile()));
-        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId)).thenReturn(Optional.of(groupId));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
 
         final var result = takeMoneyFromGroupCommand.execute(groupId, personageId, validAmount);

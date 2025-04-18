@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.group.entity.personage;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,9 +20,9 @@ public interface GroupPersonageStorage {
 
     Set<PersonageId> getActiveGroupPersonages(GroupId groupId);
 
-    Optional<GroupId> getPersonageMemberGroup(PersonageId personageId);
+    PersonageMemberGroup getPersonageMemberGroup(PersonageId personageId);
 
     void setMemberGroup(PersonageId personageId, GroupId groupId);
 
-    void clearMemberGroup(PersonageId personageId);
+    void clearMemberGroup(PersonageId personageId, LocalDateTime now);
 }

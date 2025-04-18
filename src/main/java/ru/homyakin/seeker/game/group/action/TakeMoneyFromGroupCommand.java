@@ -45,7 +45,7 @@ public class TakeMoneyFromGroupCommand {
             return Either.left(TakeMoneyFromGroupError.NotEnoughMoney.INSTANCE);
         }
         final var personageMemberGroup = groupPersonageStorage.getPersonageMemberGroup(personageId);
-        if (personageMemberGroup.isEmpty() || !personageMemberGroup.get().equals(groupId)) {
+        if (!personageMemberGroup.isGroupMember(groupId)) {
             return Either.left(TakeMoneyFromGroupError.PersonageNotMember.INSTANCE);
         }
         final var personage = personageService.getByIdForce(personageId);

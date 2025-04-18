@@ -4,10 +4,13 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
+import ru.homyakin.seeker.game.group.entity.personage.PersonageMemberGroup;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -89,19 +92,22 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
     }
 
     @Override
-    public Optional<GroupId> getPersonageMemberGroup(PersonageId personageId) {
+    public PersonageMemberGroup getPersonageMemberGroup(PersonageId personageId) {
         final var sql = """
-            SELECT member_pgroup_id FROM personage WHERE id = :personage_id;
+            SELECT member_pgroup_id, member_pgroup_leave_date FROM personage WHERE id = :personage_id;
             """;
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
             .query((rs, _) ->
-                Optional.ofNullable(
-                    DatabaseUtils.getLongOrNull(
+                new PersonageMemberGroup(
+                    DatabaseUtils.getLongOrEmpty(
                         rs,
                         "member_pgroup_id"
-                    )
-                ).map(GroupId::from)
+                    ).map(GroupId::from),
+                    Optional.ofNullable(
+                        rs.getTimestamp("member_pgroup_leave_date")
+                    ).map(Timestamp::toLocalDateTime)
+                )
             )
             .single();
     }
@@ -118,12 +124,16 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
     }
 
     @Override
-    public void clearMemberGroup(PersonageId personageId) {
+    public void clearMemberGroup(PersonageId personageId, LocalDateTime now) {
         final var sql = """
-            UPDATE personage SET member_pgroup_id = NULL WHERE id = :personage_id;
+            UPDATE personage SET
+                member_pgroup_id = NULL,
+                member_pgroup_leave_date = :now
+            WHERE id = :personage_id;
             """;
         jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
+            .param("now", now)
             .update();
     }
 }

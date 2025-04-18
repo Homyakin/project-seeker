@@ -1,15 +1,18 @@
 package ru.homyakin.seeker.locale.group;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
+import ru.homyakin.seeker.game.group.error.JoinGroupMemberError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
@@ -116,6 +119,13 @@ public class GroupManagementLocalization {
         );
     }
 
+    public static String joinPersonageTimeout(Language language, JoinGroupMemberError.PersonageJoinTimeout error) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::joinPersonageTimeout),
+            Collections.singletonMap("duration", CommonLocalization.duration(language, error.remain()))
+        );
+    }
+
     public static String successJoinGroup(Language language, Personage personage, Group group) {
         final var params = new HashMap<String, Object>();
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
@@ -126,9 +136,10 @@ public class GroupManagementLocalization {
         );
     }
 
-    public static String leaveGroupSuccess(Language language, Personage personage) {
+    public static String leaveGroupSuccess(Language language, Personage personage, Duration joinTimeout) {
         final var params = new HashMap<String, Object>();
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        params.put("duration", CommonLocalization.duration(language, joinTimeout));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::leaveGroupSuccess),
             params
@@ -151,10 +162,16 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::leaveGroupCancelButton);
     }
 
-    public static String leaveGroupLastMemberSuccess(Language language, Personage personage, Group group) {
+    public static String leaveGroupLastMemberSuccess(
+        Language language,
+        Personage personage,
+        Group group,
+        Duration joinTimeout
+    ) {
         final var params = new HashMap<String, Object>();
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
+        params.put("duration", CommonLocalization.duration(language, joinTimeout));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::leaveGroupLastMemberSuccess),
             params

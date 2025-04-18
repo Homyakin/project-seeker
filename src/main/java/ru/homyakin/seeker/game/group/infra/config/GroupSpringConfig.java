@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.group.infra.config;
 
+import java.time.Duration;
 import java.util.Arrays;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.group.entity.EventInterval;
@@ -10,6 +11,7 @@ import ru.homyakin.seeker.game.models.Money;
 @ConfigurationProperties(prefix = "homyakin.seeker.group")
 public class GroupSpringConfig implements GroupConfig {
     private static final Money REGISTRATION_PRICE = new Money(1000);
+    private static final Duration PERSONAGE_JOIN_GROUP_TIMEOUT = Duration.ofHours(24);
     private EventIntervals defaultEventIntervals;
 
     public EventIntervals defaultEventIntervals() {
@@ -19,6 +21,11 @@ public class GroupSpringConfig implements GroupConfig {
     @Override
     public Money registrationPrice() {
         return REGISTRATION_PRICE;
+    }
+
+    @Override
+    public Duration personageJoinGroupTimeout() {
+        return PERSONAGE_JOIN_GROUP_TIMEOUT;
     }
 
     /**

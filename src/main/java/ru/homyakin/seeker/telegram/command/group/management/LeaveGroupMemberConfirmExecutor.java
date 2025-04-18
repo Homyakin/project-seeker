@@ -53,16 +53,18 @@ public class LeaveGroupMemberConfirmExecutor extends CommandExecutor<LeaveGroupM
         final var text = confirmLeaveGroupMemberCommand.execute(user.personageId(), groupTg.domainGroupId())
             .fold(
                 _ -> GroupManagementLocalization.leaveGroupNotMember(groupTg.language()),
-                result -> switch (result) {
+                result -> switch (result.leaveType()) {
                     case NOT_LAST_MEMBER ->
                         GroupManagementLocalization.leaveGroupSuccess(
                             groupTg.language(),
-                            personageService.getByIdForce(user.personageId())
+                            personageService.getByIdForce(user.personageId()),
+                            result.joinTimeout()
                         );
                     case LAST_MEMBER -> GroupManagementLocalization.leaveGroupLastMemberSuccess(
                         groupTg.language(),
                         personageService.getByIdForce(user.personageId()),
-                        getGroup.forceGet(groupTg.domainGroupId())
+                        getGroup.forceGet(groupTg.domainGroupId()),
+                        result.joinTimeout()
                     );
                 }
             );

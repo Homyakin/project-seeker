@@ -32,4 +32,8 @@ public class DatabaseUtils {
     public static Long getLongOrNull(ResultSet resultSet, String columnName) throws SQLException {
         return getLongOrDefault(resultSet, columnName, null);
     }
+
+    public static Optional<Long> getLongOrEmpty(ResultSet resultSet, String columnName) throws SQLException {
+        return Optional.ofNullable(getLongOrNull(resultSet, columnName));
+    }
 }

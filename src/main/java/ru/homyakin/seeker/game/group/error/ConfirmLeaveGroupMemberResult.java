@@ -1,6 +1,13 @@
 package ru.homyakin.seeker.game.group.error;
 
-public enum ConfirmLeaveGroupMemberResult {
-    NOT_LAST_MEMBER,
-    LAST_MEMBER,
+import java.time.Duration;
+
+public record ConfirmLeaveGroupMemberResult(
+    LeaveType leaveType,
+    Duration joinTimeout
+) {
+    public enum LeaveType {
+        NOT_LAST_MEMBER,
+        LAST_MEMBER,
+    }
 }

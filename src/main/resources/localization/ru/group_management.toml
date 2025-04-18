@@ -33,17 +33,19 @@ successGroupRegistration = "Группа успешно зарегистриро
 
 joinPersonageAlreadyInGroup = "Ты уже состоишь в этой группе!"
 joinPersonageInAnotherGroup = "Ты уже состоишь в другой группе!"
+joinPersonageTimeout = "Ты не можешь вступить в группу в течении ${duration}"
 groupNotRegisteredAtJoin = "Группа должна быть зарегистрирована для вступления: ${register_group_command}"
 successJoinGroup = "<code>${personage_badge_with_name}</code> теперь состоит в группе <code>${group_name_with_badge}</code>!"
 
-leaveGroupSuccess = "<code>${personage_badge_with_name}</code> больше не состоит в группе"
+leaveGroupSuccess = "<code>${personage_badge_with_name}</code> больше не состоит в группе. Вступление заблокировано на ${duration}"
 leaveGroupNotMember = "Ты не состоишь в этой группе"
 leaveGroupLastMemberConfirmation = "После тебя в группе не будет участников, и она будет снята с регистрации"
 leaveGroupConfirmButton = "✅Покинуть"
 leaveGroupCancelButton = "❌Отменить"
 leaveGroupLastMemberSuccess = """
 <code>${personage_badge_with_name}</code> больше не состоит в группе. \
-<code>${group_name_with_badge}</code> снята с регистрации"""
+<code>${group_name_with_badge}</code> снята с регистрации.
+Вступление заблокировано на ${duration}"""
 leaveGroupCancel = "Ты остаёшься в группе"
 
 successDonate = "В группу вложено ${money}${money_icon} от ${personage_badge_with_name}!"

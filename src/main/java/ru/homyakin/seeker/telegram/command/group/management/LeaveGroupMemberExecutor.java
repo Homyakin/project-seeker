@@ -48,9 +48,10 @@ public class LeaveGroupMemberExecutor extends CommandExecutor<LeaveGroupMember> 
                             .text(GroupManagementLocalization.leaveGroupLastMemberConfirmation(groupTg.language()))
                             .keyboard(InlineKeyboards.leaveGroupConfirmationKeyboard(groupTg.language(), user.personageId()));
                 },
-                _ -> builder.text(GroupManagementLocalization.leaveGroupSuccess(
+                joinTimeout -> builder.text(GroupManagementLocalization.leaveGroupSuccess(
                     groupTg.language(),
-                    personageService.getByIdForce(user.personageId())
+                    personageService.getByIdForce(user.personageId()),
+                    joinTimeout
                 ))
             );
         telegramSender.send(builder.build());
