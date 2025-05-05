@@ -60,7 +60,7 @@ ${personage_results}"""
 groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
 personageResult = "${dead_icon_or_empty}${personage_badge_with_name} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
 personageWorldRaidReportNotFound = "Ты не участвовал в последнем мировом рейде"
-groupWorldRaidReportNotFound = "Группа не участвоваала в последнем мировом рейде"
+groupWorldRaidReportNotFound = "Группа не участвовала в последнем мировом рейде"
 personageWorldRaidReport = """\
 📜Ваш отчёт за мировой рейд:
 ${personage_battle_report}"""
