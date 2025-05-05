@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
@@ -24,9 +25,11 @@ class GroupRegistrationCommandTest {
     private final GroupStorage groupStorage = Mockito.mock();
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
     private final GroupConfig groupConfig = Mockito.mock();
+    private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
     private final GroupRegistrationCommand groupRegistrationCommand = new GroupRegistrationCommand(
         groupStorage,
         groupPersonageStorage,
+        checkGroupPersonage,
         groupConfig
     );
     private GroupId groupId;
@@ -131,6 +134,26 @@ class GroupRegistrationCommandTest {
     }
 
     @Test
+    void When_RegisterPersonageNotAdmin_Then_ReturnNotAdminError() {
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isHidden()).thenReturn(false);
+        Mockito.when(group.isRegistered()).thenReturn(false);
+        final var profile = groupProfile(1000);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
+        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
+        Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
+        Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
+            .thenReturn(false);
+
+        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(GroupRegistrationError.NotAdmin.INSTANCE, result.getLeft());
+    }
+
+    @Test
     void When_SuccessfulRegistration_Then_ReturnSuccess() {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isHidden()).thenReturn(false);
@@ -141,6 +164,8 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
+        Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
+            .thenReturn(true);
 
         final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
 

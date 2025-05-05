@@ -73,4 +73,10 @@ public class GroupUserService implements CheckGroupPersonage {
         }
         return Either.right(true);
     }
+
+    @Override
+    public boolean isAdminInGroup(GroupId groupId, PersonageId personageId) {
+        final var groupTg = groupTgService.forceGet(groupId);
+        return isUserAdminInGroup(groupTg.id(), userService.getByPersonageIdForce(personageId).id());
+    }
 }

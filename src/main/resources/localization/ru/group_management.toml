@@ -33,9 +33,18 @@ successGroupRegistration = "Группа успешно зарегистриро
 
 joinPersonageAlreadyInGroup = "Ты уже состоишь в этой группе!"
 joinPersonageInAnotherGroup = "Ты уже состоишь в другой группе!"
-joinPersonageTimeout = "Ты не можешь вступить в группу в течении ${duration}"
+joinPersonageTimeout = "Ты не можешь вступить в группу в течениe ${duration}"
 groupNotRegisteredAtJoin = "Группа должна быть зарегистрирована для вступления: ${register_group_command}"
 successJoinGroup = "<code>${personage_badge_with_name}</code> теперь состоит в группе <code>${group_name_with_badge}</code>!"
+joinPersonageConfirmationRequired = """\
+Для вступления <code>${personage_badge_with_name}</code> в группу необходимо подтверждение администратора"""
+joinGroupConfirmButton = "✅Подтвердить"
+joinGroupCancelButton = "❌Отказать"
+joinPersonageConfirmed = """\
+Разрешение на вступление для <code>${personage_badge_with_name}</code> в группу получено \
+от <code>${admin_badge_with_name}</code>"""
+joinPersonageCanceled = "Вступление в группу <code>${personage_badge_with_name}</code> отменено"
+joinConfirmNotMember = "Для подтверждения надо состоять в группе"
 
 leaveGroupSuccess = "<code>${personage_badge_with_name}</code> больше не состоит в группе. Вступление заблокировано на ${duration}"
 leaveGroupNotMember = "Ты не состоишь в этой группе"
@@ -50,9 +59,16 @@ leaveGroupCancel = "Ты остаёшься в группе"
 
 successDonate = "В группу вложено ${money}${money_icon} от ${personage_badge_with_name}!"
 notEnoughMoneyForDonate = "Недостаточно денег"
-successTakeMoney = "Из группы взято ${money}${money_icon} в пользу ${personage_badge_with_name}!"
-notEnoughMoneyForTake = "Недостаточно денег в казне группы"
-takeMoneyPersonageNotMember = "Нужно состоять в группе, чтобы взять из неё деньги"
+successGiveMoney = "${giver_badge_with_name} выдаёт из группы ${money}${money_icon} для ${acceptor_badge_with_name}!"
+notEnoughMoneyForGive = "Недостаточно денег в казне группы"
+giveMoneyPersonageNotMember = "Получатель должен состоять в группе"
+giverNotMember = "Для выдачи денег необходимо состоять в группе"
+incorrectAcceptor = """\
+Необходимо указать кому выдаются деньги, либо ответом на сообщение либо через упоминание. Например:
+<code>${give_money_command} 100 @user</code>"""
+acceptorNotFound = """\
+К сожалению, мы не смогли найти кому отправить деньги. \
+Возможно твой товарищ ещё не посещал данную таверну или сменил имя."""
 incorrectAmount = "Неправильно указана сумма"
 
 groupCommands = """\
@@ -61,4 +77,4 @@ groupCommands = """\
 <code>${group_join_command}</code> - вступить в группу
 <code>${group_leave_command}</code> - покинуть группу
 <code>${donate_money_command} [сумма]</code> - вложить деньги в группу
-<code>${take_money_command} [сумма]</code> - взять деньги из группы"""
+<code>${give_money_command} [сумма] @user</code> - выдать деньги из группы"""

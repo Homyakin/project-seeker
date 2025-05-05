@@ -66,7 +66,7 @@ public enum CommandType {
     GROUP_INFO("/group_info", CheckType.EQUALS),
     REGISTER_GROUP("/register", CheckType.STARTS_WITH),
     DONATE_MONEY("/donate", CheckType.STARTS_WITH),
-    TAKE_MONEY("/take", CheckType.STARTS_WITH),
+    GIVE_MONEY("/give", CheckType.STARTS_WITH),
     JOIN_GROUP("/group_join", CheckType.EQUALS),
     LEAVE_GROUP("/group_leave", CheckType.EQUALS),
     LEAVE_GROUP_CONFIRM("confirmLeaveGroup", CheckType.STARTS_WITH),
@@ -78,6 +78,8 @@ public enum CommandType {
     WORLD_RAID_RESEARCH_TOP("/top_wr_research", CheckType.EQUALS),
     JOIN_WORLD_RAID("joinWorldRaid", CheckType.EQUALS),
     WORLD_RAID_REPORT("/wr_report", CheckType.EQUALS),
+    CONFIRM_GROUP_JOIN("confirmGroupJoin", CheckType.EQUALS),
+    CANCEL_GROUP_JOIN("cancelGroupJoin", CheckType.EQUALS)
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

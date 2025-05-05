@@ -8,6 +8,7 @@ import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -35,7 +36,8 @@ public class JoinGroupMemberExecutor extends CommandExecutor<JoinGroupMember> {
         final var groupTg = groupUser.first();
         final var user = groupUser.second();
 
-        final var text = joinGroupMemberCommand.execute(groupTg.domainGroupId(), user.personageId())
+        final var builder = SendMessageBuilder.builder().chatId(command.groupTgId());
+        final var text = joinGroupMemberCommand.join(groupTg.domainGroupId(), user.personageId())
             .fold(
                 error -> switch (error) {
                     case JoinGroupMemberError.PersonageAlreadyInGroup _ ->
@@ -46,6 +48,15 @@ public class JoinGroupMemberExecutor extends CommandExecutor<JoinGroupMember> {
                         GroupManagementLocalization.groupNotRegisteredAtJoin(groupTg.language());
                     case JoinGroupMemberError.PersonageJoinTimeout personageJoinTimeout ->
                         GroupManagementLocalization.joinPersonageTimeout(groupTg.language(), personageJoinTimeout);
+                    case JoinGroupMemberError.ConfirmationRequired _ -> {
+                        builder.keyboard(
+                            InlineKeyboards.joinGroupConfirmationKeyboard(groupTg.language(), user.personageId())
+                        );
+                        yield GroupManagementLocalization.joinPersonageConfirmationRequired(
+                            groupTg.language(),
+                            personageService.getByIdForce(user.personageId())
+                        );
+                    }
                 },
                 group -> GroupManagementLocalization.successJoinGroup(
                     groupTg.language(),
@@ -53,11 +64,6 @@ public class JoinGroupMemberExecutor extends CommandExecutor<JoinGroupMember> {
                     group
                 )
             );
-        telegramSender.send(
-            SendMessageBuilder.builder()
-                .chatId(command.groupTgId())
-                .text(text)
-                .build()
-        );
+        telegramSender.send(builder.text(text).build());
     }
 }

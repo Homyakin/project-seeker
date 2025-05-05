@@ -7,4 +7,6 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 public interface CheckGroupPersonage {
     Either<Error, Boolean> stillInGroup(GroupId groupId, PersonageId personageId);
+
+    boolean isAdminInGroup(GroupId groupId, PersonageId personageId);
 }

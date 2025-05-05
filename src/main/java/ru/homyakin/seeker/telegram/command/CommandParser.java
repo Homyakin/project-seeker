@@ -10,6 +10,8 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.common.world_raid.JoinWorldRaid;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
+import ru.homyakin.seeker.telegram.command.group.management.CancelJoinGroupMember;
+import ru.homyakin.seeker.telegram.command.group.management.ConfirmJoinGroupMember;
 import ru.homyakin.seeker.telegram.command.group.management.DonateToGroup;
 import ru.homyakin.seeker.telegram.command.group.management.GroupCommands;
 import ru.homyakin.seeker.telegram.command.group.management.GroupInfo;
@@ -18,7 +20,7 @@ import ru.homyakin.seeker.telegram.command.group.management.JoinGroupMember;
 import ru.homyakin.seeker.telegram.command.group.management.LeaveGroupMember;
 import ru.homyakin.seeker.telegram.command.group.management.LeaveGroupMemberCancel;
 import ru.homyakin.seeker.telegram.command.group.management.LeaveGroupMemberConfirm;
-import ru.homyakin.seeker.telegram.command.group.management.TakeMoneyFromGroup;
+import ru.homyakin.seeker.telegram.command.group.management.GiveMoneyFromGroup;
 import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupName;
@@ -211,7 +213,7 @@ public class CommandParser {
                 case REGISTER_GROUP -> GroupRegistration.from(message);
                 case JOIN_GROUP -> JoinGroupMember.from(message);
                 case DONATE_MONEY -> DonateToGroup.from(message);
-                case TAKE_MONEY -> TakeMoneyFromGroup.from(message);
+                case GIVE_MONEY -> GiveMoneyFromGroup.from(message);
                 case LEAVE_GROUP -> LeaveGroupMember.from(message);
                 case GROUP_COMMANDS -> GroupCommands.from(message);
                 case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);
@@ -263,6 +265,8 @@ public class CommandParser {
                 case LEAVE_GROUP_CONFIRM -> LeaveGroupMemberConfirm.from(callback);
                 case LEAVE_GROUP_CANCEL -> LeaveGroupMemberCancel.from(callback);
                 case JOIN_WORLD_RAID -> JoinWorldRaid.from(callback);
+                case CONFIRM_GROUP_JOIN -> ConfirmJoinGroupMember.from(callback);
+                case CANCEL_GROUP_JOIN -> CancelJoinGroupMember.from(callback);
                 default -> null;
             });
     }

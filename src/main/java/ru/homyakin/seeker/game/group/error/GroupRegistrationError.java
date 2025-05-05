@@ -24,4 +24,8 @@ public sealed interface GroupRegistrationError {
     }
 
     record NotEnoughMoney(Money required) implements GroupRegistrationError {}
+
+    enum NotAdmin implements GroupRegistrationError {
+        INSTANCE
+    }
 }

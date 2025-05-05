@@ -84,6 +84,8 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
                     GroupManagementLocalization.registrationPersonageInAnotherGroup(groupTg.language());
                 case GroupRegistrationError.TagAlreadyTaken _ ->
                     GroupManagementLocalization.tagAlreadyTaken(groupTg.language());
+                case GroupRegistrationError.NotAdmin _ ->
+                    CommonLocalization.onlyAdminAction(groupTg.language());
             },
             _ -> GroupManagementLocalization.successGroupRegistration(groupTg.language())
         );

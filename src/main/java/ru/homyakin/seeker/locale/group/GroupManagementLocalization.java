@@ -136,6 +136,46 @@ public class GroupManagementLocalization {
         );
     }
 
+    public static String joinPersonageConfirmationRequired(Language language, Personage personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::joinPersonageConfirmationRequired),
+            params
+        );
+    }
+
+    public static String joinGroupConfirmButton(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::joinGroupConfirmButton);
+    }
+
+    public static String joinGroupCancelButton(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::joinGroupCancelButton);
+    }
+
+    public static String joinPersonageConfirmed(Language language, Personage personage, Personage admin) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        params.put("admin_badge_with_name", LocaleUtils.personageNameWithBadge(admin));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::joinPersonageConfirmed),
+            params
+        );
+    }
+
+    public static String joinPersonageCanceled(Language language, Personage personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::joinPersonageCanceled),
+            params
+        );
+    }
+
+    public static String joinConfirmNotMember(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::joinConfirmNotMember);
+    }
+
     public static String leaveGroupSuccess(Language language, Personage personage, Duration joinTimeout) {
         final var params = new HashMap<String, Object>();
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
@@ -197,23 +237,46 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::notEnoughMoneyForDonate);
     }
 
-    public static String successTakeMoney(Language language, Personage personage, Money money) {
+    public static String successGiveMoney(
+        Language language,
+        Personage giver,
+        Personage acceptor,
+        Money money
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        params.put("giver_badge_with_name", LocaleUtils.personageNameWithBadge(giver));
+        params.put("acceptor_badge_with_name", LocaleUtils.personageNameWithBadge(acceptor));
         params.put("money", money.value());
         params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, GroupManagementResource::successTakeMoney),
+            resources.getOrDefault(language, GroupManagementResource::successGiveMoney),
             params
         );
     }
 
-    public static String notEnoughMoneyForTake(Language language) {
-        return resources.getOrDefault(language, GroupManagementResource::notEnoughMoneyForTake);
+    public static String notEnoughMoneyForGive(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::notEnoughMoneyForGive);
     }
 
-    public static String takeMoneyPersonageNotMember(Language language) {
-        return resources.getOrDefault(language, GroupManagementResource::takeMoneyPersonageNotMember);
+    public static String giveMoneyPersonageNotMember(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::giveMoneyPersonageNotMember);
+    }
+
+    public static String giverNotMember(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::giverNotMember);
+    }
+
+    public static String incorrectAcceptor(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("give_money_command", CommandType.GIVE_MONEY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::incorrectAcceptor),
+            params
+        );
+    }
+
+    public static String acceptorNotFound(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::acceptorNotFound);
     }
 
     public static String incorrectAmount(Language language) {
@@ -225,7 +288,7 @@ public class GroupManagementLocalization {
         params.put("group_join_command", CommandType.JOIN_GROUP.getText());
         params.put("group_leave_command", CommandType.LEAVE_GROUP.getText());
         params.put("donate_money_command", CommandType.DONATE_MONEY.getText());
-        params.put("take_money_command", CommandType.TAKE_MONEY.getText());
+        params.put("give_money_command", CommandType.GIVE_MONEY.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::groupCommands),
             params

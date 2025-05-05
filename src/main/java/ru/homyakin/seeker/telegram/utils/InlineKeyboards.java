@@ -215,4 +215,20 @@ public class InlineKeyboards {
             )
             .build();
     }
+
+    public static InlineKeyboardMarkup joinGroupConfirmationKeyboard(Language language, PersonageId personageId) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                GroupManagementLocalization.joinGroupCancelButton(language),
+                CommandType.CANCEL_GROUP_JOIN.getText() + TextConstants.CALLBACK_DELIMITER + personageId.value()
+            )
+            .addButton(
+                GroupManagementLocalization.joinGroupConfirmButton(language),
+                CommandType.CONFIRM_GROUP_JOIN.getText() + TextConstants.CALLBACK_DELIMITER + personageId.value()
+            )
+            .build();
+
+    }
 }
