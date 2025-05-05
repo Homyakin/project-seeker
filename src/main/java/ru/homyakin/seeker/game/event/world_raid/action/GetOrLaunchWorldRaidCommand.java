@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaid;
 import ru.homyakin.seeker.game.event.world_raid.entity.ResearchGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
 public class GetOrLaunchWorldRaidCommand {
@@ -32,9 +33,11 @@ public class GetOrLaunchWorldRaidCommand {
         logger.info("Launching world raid {}", template.code());
         storage.saveActive(
             template,
-            Money.zero(),
+            Money.from(RandomUtils.getInPercentRange(INIT_FUND, 10)),
             researchGenerator.generate()
         );
         return storage.getActive().orElseThrow();
     }
+
+    private static final int INIT_FUND = 500;
 }

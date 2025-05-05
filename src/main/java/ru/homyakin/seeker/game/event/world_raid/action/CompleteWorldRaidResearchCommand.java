@@ -81,7 +81,7 @@ public class CompleteWorldRaidResearchCommand {
         Money fund,
         int totalContribution
     ) {
-        final float totalReward = Math.round(fund.value() * 0.2f);
+        final float totalReward = Math.round(fund.value() * 0.15f);
         return contributions.stream()
             .map(contribution ->
                 Map.entry(

@@ -11,6 +11,7 @@ import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.utils.models.IntRange;
 
 public class RandomUtils {
@@ -79,9 +80,9 @@ public class RandomUtils {
     }
 
     /**
-     * @param  value     базовое значение характеристики
-     * @param  deviation отклонение. Возможные значения 0..1
-     * @return           характеристика с отклонением
+     * @param value     базовое значение характеристики
+     * @param deviation отклонение. Возможные значения 0..1
+     * @return характеристика с отклонением
      */
     public static double getCharacteristicWithDeviation(double value, double deviation) {
         return getCharacteristic(value * (1 - deviation), value * (1 + deviation));
