@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.world_raid.action.PersonageWorldRaidBattleResultCommand;
 import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -41,7 +40,7 @@ public class UserWorldRaidReportExecutor extends CommandExecutor<UserWorldRaidRe
         if (result.isEmpty()) {
             text = WorldRaidLocalization.personageWorldRaidReportNotFound(user.language());
         } else {
-            text = CommonLocalization.personageBattleReport(
+            text = WorldRaidLocalization.personageWorldRaidReport(
                 user.language(),
                 result.get(),
                 launchedEventService.getById(result.get().launchedEventId()).orElseThrow(),

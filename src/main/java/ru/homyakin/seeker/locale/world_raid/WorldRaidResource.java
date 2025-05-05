@@ -18,6 +18,7 @@ public record WorldRaidResource(
     String groupResult,
     String personageResult,
     String personageWorldRaidReportNotFound,
+    String personageWorldRaidReport,
     String groupWorldRaidReportNotFound
 ) {
 }

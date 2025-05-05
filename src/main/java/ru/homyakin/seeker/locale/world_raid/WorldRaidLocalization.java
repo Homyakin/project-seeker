@@ -7,7 +7,9 @@ import ru.homyakin.seeker.game.event.world_raid.entity.JoinWorldRaidError;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.group.entity.Group;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
@@ -21,6 +23,7 @@ import ru.homyakin.seeker.utils.StringNamedTemplate;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class WorldRaidLocalization {
@@ -267,6 +270,20 @@ public class WorldRaidLocalization {
 
     public static String personageWorldRaidReportNotFound(Language language) {
         return resources.getOrDefault(language, WorldRaidResource::personageWorldRaidReportNotFound);
+    }
+
+    public static String personageWorldRaidReport(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event,
+        Optional<Item> item
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_battle_report", CommonLocalization.personageBattleReport(language, result, event, item));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, WorldRaidResource::personageWorldRaidReport),
+            params
+        );
     }
 
     public static String groupWorldRaidReportNotFound(Language language) {

@@ -11,7 +11,6 @@ import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.utils.models.IntRange;
 
 public class RandomUtils {
