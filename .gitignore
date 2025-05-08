@@ -6,6 +6,7 @@ target/
 __pycache__/
 **.DS_Store
 **/.obsidian
+.refact/
 
 src/main/resources/application-dev.properties
 

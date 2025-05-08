@@ -1,12 +1,15 @@
 package ru.homyakin.seeker.locale.personal;
 
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestRequirements;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidState;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidResearchDonateError;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidInfo;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
@@ -29,6 +32,7 @@ public class BulletinBoardLocalization {
         params.put("energy_icon", Icons.ENERGY);
         params.put("time_icon", Icons.TIME);
         params.put("quest_duration", CommonLocalization.duration(language, requirements.requiredTime()));
+        params.put("take_quest_command", CommandType.TAKE_PERSONAL_QUEST_COMMAND.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, BulletinBoardResource::bulletinBoard),
             params
@@ -51,7 +55,7 @@ public class BulletinBoardLocalization {
 
     public static String startedQuest(Language language, StartedQuest startedQuest) {
         final var params = new HashMap<String, Object>();
-        params.put("quest_intro", startedQuest.quest().getLocaleOrDefault(language).intro());
+        params.put("quest_intro", questIntro(language, startedQuest));
         params.put("time_icon", Icons.TIME);
         params.put("duration", CommonLocalization.duration(language, startedQuest.duration()));
         params.put("energy_icon", Icons.ENERGY);
@@ -60,6 +64,14 @@ public class BulletinBoardLocalization {
             resources.getOrDefault(language, BulletinBoardResource::startedQuest),
             params
         );
+    }
+
+    private static String questIntro(Language language, StartedQuest startedQuest) {
+        return switch (startedQuest) {
+            case StartedQuest.Single single -> single.quest().getLocaleOrDefault(language).intro();
+            case StartedQuest.Multiple _ ->
+                resources.getOrDefaultRandom(language, BulletinBoardResource::multipleQuestsIntro);
+        };
     }
 
     public static String autoStartedQuest(Language language, StartedQuest startedQuest) {
@@ -72,28 +84,96 @@ public class BulletinBoardLocalization {
         );
     }
 
-    public static String failedQuest(Language language, EventResult.PersonalQuestResult.Failure result) {
+    public static String personalQuestResult(Language language, EventResult.PersonalQuestEventResult result) {
+        return switch (result) {
+            case EventResult.PersonalQuestEventResult.Single single -> singleQuestResult(language, single);
+            case EventResult.PersonalQuestEventResult.Multiple multiple -> multipleQuestsFinished(language, multiple);
+        };
+    }
+
+    private static String singleQuestResult(Language language, EventResult.PersonalQuestEventResult.Single result) {
+        return switch (result.result()) {
+            case PersonalQuestResult.Success success -> successSingleQuest(
+                language,
+                result.quest(),
+                result.personage(),
+                success.reward()
+            );
+            case PersonalQuestResult.Failure _ -> failedSingleQuest(language, result.quest(), result.personage());
+        };
+    }
+
+    private static String failedSingleQuest(
+        Language language,
+        PersonalQuest quest,
+        Personage personage
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("quest_failure", result.quest().getLocaleOrDefault(language).failure());
+        params.put("quest_failure", quest.getLocaleOrDefault(language).failure());
         params.put("energy_icon", Icons.ENERGY);
-        params.put("current_energy", result.personage().energy().value());
+        params.put("current_energy", personage.energy().value());
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, BulletinBoardResource::failedQuest),
+            resources.getOrDefault(language, BulletinBoardResource::failedSingleQuest),
             params
         );
     }
 
-    public static String successQuest(Language language, EventResult.PersonalQuestResult.Success result) {
+    private static String successSingleQuest(
+        Language language,
+        PersonalQuest quest,
+        Personage personage,
+        Money reward
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("quest_success", result.quest().getLocaleOrDefault(language).success());
+        params.put("quest_success", quest.getLocaleOrDefault(language).success());
         params.put("money_icon", Icons.MONEY);
-        params.put("money_value", result.reward().value());
+        params.put("money_value", reward.value());
+        params.put("current_energy", personage.energy().value());
+        params.put("energy_icon", Icons.ENERGY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, BulletinBoardResource::successSingleQuest),
+            params
+        );
+    }
+
+    public static String incorrectQuestCount(Language language) {
+        return resources.getOrDefault(language, BulletinBoardResource::incorrectQuestCount);
+    }
+
+    private static String multipleQuestsFinished(
+        Language language,
+        EventResult.PersonalQuestEventResult.Multiple result
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("multiple_quests_outro", multipleQuestsOutro(language));
+        params.put("money_icon", Icons.MONEY);
+        int reward = 0;
+        final var results = new StringBuilder();
+        for (final var questResult : result.results()) {
+            switch (questResult) {
+                case PersonalQuestResult.Success success -> {
+                    reward += success.reward().value();
+                    results.append(Icons.SUCCESS_QUEST);
+                }
+                case PersonalQuestResult.Failure _ -> results.append(Icons.FAILED_QUEST);
+            }
+        }
+        params.put("quests_results", results.toString());
+        params.put("money_value", reward);
         params.put("current_energy", result.personage().energy().value());
         params.put("energy_icon", Icons.ENERGY);
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, BulletinBoardResource::successQuest),
+            resources.getOrDefault(language, BulletinBoardResource::multipleQuestsFinished),
             params
         );
+    }
+
+    private static String multipleQuestsIntro(Language language) {
+        return resources.getOrDefaultRandom(language, BulletinBoardResource::multipleQuestsIntro);
+    }
+
+    private static String multipleQuestsOutro(Language language) {
+        return resources.getOrDefaultRandom(language, BulletinBoardResource::multipleQuestsOutro);
     }
 
     public static String worldRaidInfo(Language language, WorldRaidInfo info, String channel) {

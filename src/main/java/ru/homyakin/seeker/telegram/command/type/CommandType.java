@@ -47,6 +47,7 @@ public enum CommandType {
     OPEN_SHOP(null, CheckType.MAP),
     BULLETIN_BOARD(null, CheckType.MAP),
     TAKE_PERSONAL_QUEST(null, CheckType.MAP),
+    TAKE_PERSONAL_QUEST_COMMAND("/take_quest", CheckType.STARTS_WITH),
     SELL_ITEM("/sell", CheckType.STARTS_WITH),
     BUY_ITEM("/buy", CheckType.STARTS_WITH),
     PUT_ON("/on", CheckType.STARTS_WITH),

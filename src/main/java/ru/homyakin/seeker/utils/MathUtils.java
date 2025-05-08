@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.utils;
 
+import java.util.Optional;
+
 public class MathUtils {
     public static int doubleToIntWithMinMaxValues(double d) {
         if (d > Integer.MAX_VALUE) {
@@ -27,5 +29,13 @@ public class MathUtils {
             return Math.max(multiplier / (x - offset) + max, 0);
         }
         return 0;
+    }
+
+    public static Optional<Integer> multiply(int a, int b) {
+        try {
+            return Optional.of(Math.multiplyExact(a, b));
+        } catch (ArithmeticException e) {
+            return Optional.empty();
+        }
     }
 }

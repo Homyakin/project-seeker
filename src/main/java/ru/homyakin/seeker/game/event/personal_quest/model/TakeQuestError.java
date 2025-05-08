@@ -15,4 +15,8 @@ public sealed interface TakeQuestError {
     enum NoQuests implements TakeQuestError {
         INSTANCE
     }
+
+    enum NotPositiveCount implements TakeQuestError {
+        INSTANCE
+    }
 }

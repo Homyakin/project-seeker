@@ -6,6 +6,8 @@ import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestPersonageParams;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.world_raid.action.WorldRaidContributionService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -26,6 +28,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
@@ -52,10 +56,10 @@ public class PersonalQuestServiceStopQuestTest {
     @Test
     public void Given_LaunchedEvent_When_RandomIsSuccess_Then_ReturnSuccessAndNotify() {
         // given
-        final var participant = new QuestParticipant(PersonageUtils.random());
+        final var participant = new QuestParticipant(PersonageUtils.random(), new PersonalQuestPersonageParams(1));
 
         // when
-        final EventResult.PersonalQuestResult result;
+        final EventResult.PersonalQuestEventResult result;
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.processChance(config.baseSuccessProbability())).thenReturn(true);
             mock.when(() -> RandomUtils.getInInterval(config.reward())).thenReturn(REWARD.value());
@@ -66,20 +70,24 @@ public class PersonalQuestServiceStopQuestTest {
         }
 
         // then
-        final var expected = new EventResult.PersonalQuestResult.Success(quest, participant.personage(), REWARD);
+        final var expected = new EventResult.PersonalQuestEventResult.Single(
+            quest,
+            participant.personage(),
+            new PersonalQuestResult.Success(REWARD)
+        );
         assertEquals(expected, result);
         Mockito.verify(sendNotificationToPersonageCommand)
-            .sendNotification(participant.personage().id(), new Notification.SuccessQuestResult(expected));
+            .sendNotification(participant.personage().id(), new Notification.QuestResult(expected));
         Mockito.verify(worldRaidContributionService).questComplete(participant.personage().id());
     }
 
     @Test
     public void Given_LaunchedEvent_When_RandomIsNotSuccess_Then_ReturnFailureAndNotify() {
         // given
-        final var participant = new QuestParticipant(PersonageUtils.random());
+        final var participant = new QuestParticipant(PersonageUtils.random(), new PersonalQuestPersonageParams(1));
 
         // when
-        final EventResult.PersonalQuestResult result;
+        final EventResult.PersonalQuestEventResult result;
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.processChance(config.baseSuccessProbability())).thenReturn(false);
             mock.when(() -> RandomUtils.getInInterval(config.reward())).thenReturn(REWARD.value());
@@ -90,12 +98,55 @@ public class PersonalQuestServiceStopQuestTest {
         }
 
         // then
-        final var expected = new EventResult.PersonalQuestResult.Failure(quest, participant.personage());
+        final var expected = new EventResult.PersonalQuestEventResult.Single(
+            quest,
+            participant.personage(),
+            PersonalQuestResult.Failure.INSTANCE
+        );
         assertEquals(expected, result);
         Mockito.verify(sendNotificationToPersonageCommand).sendNotification(
-            participant.personage().id(), new Notification.FailureQuestResult(expected)
+            participant.personage().id(), new Notification.QuestResult(expected)
         );
         Mockito.verify(worldRaidContributionService).questComplete(participant.personage().id());
+    }
+
+    @Test
+    public void Given_QuestCountMoreThanOne_Then_ReturnMultipleResult() {
+        // given
+        final var participant = new QuestParticipant(PersonageUtils.random(), new PersonalQuestPersonageParams(3));
+
+        // when
+        final EventResult.PersonalQuestEventResult result;
+        try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
+            mock.when(() -> RandomUtils.processChance(anyInt()))
+                .thenReturn(true)
+                .thenReturn(false)
+                .thenReturn(true);
+            mock.when(() -> RandomUtils.getInInterval(config.reward())).thenReturn(REWARD.value());
+            when(personalQuestDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(quest));
+            when(personageEventService.getQuestParticipants(launchedEvent.id())).thenReturn(List.of(participant));
+
+            result = personalQuestService.stopQuest(launchedEvent);
+        }
+
+        // then
+        final var expected = new EventResult.PersonalQuestEventResult.Multiple(
+            participant.personage(),
+            List.of(
+                new PersonalQuestResult.Success(REWARD),
+                PersonalQuestResult.Failure.INSTANCE,
+                new PersonalQuestResult.Success(REWARD)
+            )
+        );
+        assertEquals(expected, result);
+        Mockito.verify(sendNotificationToPersonageCommand).sendNotification(
+            participant.personage().id(), new Notification.QuestResult(expected)
+        );
+        Mockito.verify(launchedEventService).updateResult(launchedEvent, expected.results().getFirst());
+        Mockito.verify(launchedEventService).createFinished(eq(quest), any(), eq(expected.results().get(1)));
+        Mockito.verify(launchedEventService).createFinished(eq(quest), any(), eq(expected.results().get(2)));
+        Mockito.verify(launchedEventService, times(2)).createFinished(any(), any(), any());
+        Mockito.verify(worldRaidContributionService).questComplete(participant.personage().id(), 3);
     }
 
     @Test
@@ -113,19 +164,31 @@ public class PersonalQuestServiceStopQuestTest {
     }
 
     @Test
-    public void When_PersonagesCountIsNotOne_Then_ReturnError() {
+    public void When_PersonagesCountIsNotOne_Then_ThrowException() {
         // given
-        final var participant1 = new QuestParticipant(PersonageUtils.random());
-        final var participant2 = new QuestParticipant(PersonageUtils.random());
+        final var participant1 = new QuestParticipant(PersonageUtils.random(), new PersonalQuestPersonageParams(1));
+        final var participant2 = new QuestParticipant(PersonageUtils.random(), new PersonalQuestPersonageParams(1));
 
         when(personalQuestDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(quest));
         when(personageEventService.getQuestParticipants(launchedEvent.id())).thenReturn(List.of(participant1, participant2));
 
-        // when
-        final var result = personalQuestService.stopQuest(launchedEvent);
+        assertThrows(IllegalStateException.class, () -> personalQuestService.stopQuest(launchedEvent));
 
-        // then
-        assertEquals(EventResult.PersonalQuestResult.Error.INSTANCE, result);
+        Mockito.verify(launchedEventService).setError(any());
+        Mockito.verify(worldRaidContributionService, times(0)).questComplete(any());
+    }
+
+    @Test
+    public void When_QuestCountIsLessThanOne_Then_ThrowException() {
+        // given
+        final var participant = new QuestParticipant(PersonageUtils.random(), new PersonalQuestPersonageParams(0));
+
+        when(personalQuestDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(quest));
+        when(personageEventService.getQuestParticipants(launchedEvent.id())).thenReturn(List.of(participant));
+
+        assertThrows(IllegalStateException.class, () -> personalQuestService.stopQuest(launchedEvent));
+
+        Mockito.verify(launchedEventService).setError(any());
         Mockito.verify(worldRaidContributionService, times(0)).questComplete(any());
     }
 

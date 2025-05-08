@@ -8,12 +8,9 @@ public sealed interface Notification {
         INSTANCE
     }
 
-    record SuccessQuestResult(EventResult.PersonalQuestResult.Success value) implements Notification {
+    record QuestResult(EventResult.PersonalQuestEventResult value) implements Notification {
     }
 
-    record FailureQuestResult(EventResult.PersonalQuestResult.Failure value) implements Notification {
-    }
-
-    record AutoStartQuest(StartedQuest startedQuest) implements Notification {
+    record AutoStartQuest(StartedQuest.Single startedQuest) implements Notification {
     }
 }

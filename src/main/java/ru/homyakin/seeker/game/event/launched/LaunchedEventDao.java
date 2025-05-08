@@ -50,11 +50,15 @@ public class LaunchedEventDao {
     }
 
     public long save(int eventId, LocalDateTime start, LocalDateTime end) {
+        return save(eventId, start, end, EventStatus.LAUNCHED);
+    }
+
+    public long save(int eventId, LocalDateTime start, LocalDateTime end, EventStatus status) {
         final var params = new HashMap<String, Object>();
         params.put("event_id", eventId);
         params.put("start_date", start);
         params.put("end_date", end);
-        params.put("status_id", EventStatus.LAUNCHED.id());
+        params.put("status_id", status.id());
         return jdbcInsert.executeAndReturnKey(
             params
         ).longValue();

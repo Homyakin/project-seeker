@@ -29,14 +29,25 @@ public class TakePersonalQuestExecutor extends CommandExecutor<TakePersonalQuest
     @Override
     public void execute(TakePersonalQuest command) {
         final var user = userService.forceGetFromPrivate(command.userId());
-        final var text = personalQuestService.takeQuest(user.personageId())
+        if (command.count().isEmpty()) {
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(BulletinBoardLocalization.incorrectQuestCount(user.language()))
+                .build()
+            );
+            return;
+        }
+        final var text = personalQuestService.takeQuest(user.personageId(), command.count().get())
             .fold(
                 error -> switch (error) {
                     case TakeQuestError.NoQuests _, TakeQuestError.PersonageLocked _
                         -> CommonLocalization.internalError(user.language());
                     case TakeQuestError.NotEnoughEnergy notEnoughEnergy ->
                         BulletinBoardLocalization.notEnoughEnergy(user.language(), notEnoughEnergy.requiredEnergy());
-                    case TakeQuestError.PersonageInOtherEvent _ -> BulletinBoardLocalization.personageInAnotherEvent(user.language());
+                    case TakeQuestError.PersonageInOtherEvent _ ->
+                        BulletinBoardLocalization.personageInAnotherEvent(user.language());
+                    case TakeQuestError.NotPositiveCount _ ->
+                        BulletinBoardLocalization.incorrectQuestCount(user.language());
                 },
                 startedQuest -> BulletinBoardLocalization.startedQuest(user.language(), startedQuest)
             );

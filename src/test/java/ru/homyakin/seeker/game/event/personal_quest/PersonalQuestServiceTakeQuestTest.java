@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestPersonageParams;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
@@ -70,10 +71,58 @@ public class PersonalQuestServiceTakeQuestTest {
         lockService.tryLock(LockPrefixes.PERSONAGE.name() + "-" + personageId.value());
 
         // When
-        final var result = personalQuestService.takeQuest(personageId);
+        final var result = personalQuestService.takeQuest(personageId, 1);
 
         // Then
         assertEquals(Either.left(TakeQuestError.PersonageLocked.INSTANCE), result);
+    }
+
+    @Test
+    public void Given_CountLessThanOne_When_TakeQuest_Then_ReturnNotPositiveCountError() {
+        // Given
+        PersonageId personageId = new PersonageId(1);
+
+        // When
+        final var result = personalQuestService.takeQuest(personageId, 0);
+
+        // Then
+        assertEquals(Either.left(TakeQuestError.NotPositiveCount.INSTANCE), result);
+    }
+
+    @Test
+    public void Given_PersonageWithEnoughEnergy_When_TakeQuests_Then_ReturnStartedQuest() {
+        // given
+        final var personage = PersonageUtils.random();
+        final var count = 3;
+
+        // when
+        when(personageService.checkPersonageEnergy(personage.id(), config.requiredEnergy() * count))
+            .thenReturn(Either.right(personage));
+        when(launchedEventService.getActiveEventsByPersonageId(personage.id())).thenReturn(new CurrentEvents(List.of()));
+        when(personalQuestDao.getRandomQuest()).thenReturn(Optional.of(quest));
+        when(launchedEventService.createFromPersonalQuest(eq(quest), any(), any())).thenReturn(launchedEvent);
+        when(
+            personageEventService.addPersonageToLaunchedEvent(
+                new AddPersonageToEventRequest(
+                    launchedEvent.id(),
+                    personage.id(),
+                    Optional.of(new PersonalQuestPersonageParams(count))
+                )
+            )
+        ).thenReturn(Either.right(Success.INSTANCE));
+        when(personageService.reduceEnergy(eq(personage), eq(REQUIRED_ENERGY * count), any()))
+            .thenReturn(Either.right(personage));
+
+        final var result = personalQuestService.takeQuest(personage.id(), count);
+
+        // then
+        final var expected = new StartedQuest.Multiple(
+            count,
+            config.requiredTime().multipliedBy(count),
+            config.requiredEnergy() * count
+        );
+        assertTrue(result.isRight());
+        assertEquals(expected, result.get());
     }
 
     @Test
@@ -89,15 +138,19 @@ public class PersonalQuestServiceTakeQuestTest {
         when(launchedEventService.createFromPersonalQuest(eq(quest), any(), any())).thenReturn(launchedEvent);
         when(
             personageEventService.addPersonageToLaunchedEvent(
-                new AddPersonageToEventRequest(launchedEvent.id(), personage.id(), Optional.empty())
+                new AddPersonageToEventRequest(
+                    launchedEvent.id(),
+                    personage.id(),
+                    Optional.of(new PersonalQuestPersonageParams(1))
+                )
             )
         ).thenReturn(Either.right(Success.INSTANCE));
         when(personageService.reduceEnergy(eq(personage), eq(REQUIRED_ENERGY), any())).thenReturn(Either.right(personage));
 
-        final var result = personalQuestService.takeQuest(personage.id());
+        final var result = personalQuestService.takeQuest(personage.id(), 1);
 
         // then
-        final var expected = new StartedQuest(quest, config.requiredTime(), config.requiredEnergy());
+        final var expected = new StartedQuest.Single(quest, config.requiredTime(), config.requiredEnergy());
         assertTrue(result.isRight());
         assertEquals(expected, result.get());
     }
@@ -109,7 +162,7 @@ public class PersonalQuestServiceTakeQuestTest {
         when(personageService.checkPersonageEnergy(personageId, config.requiredEnergy())).thenReturn(Either.left(NotEnoughEnergy.INSTANCE));
 
         // when
-        final var result = personalQuestService.takeQuest(personageId);
+        final var result = personalQuestService.takeQuest(personageId, 1);
 
         // then
         assertEquals(Either.left(new TakeQuestError.NotEnoughEnergy(REQUIRED_ENERGY)), result);
@@ -130,7 +183,7 @@ public class PersonalQuestServiceTakeQuestTest {
             );
 
         // when
-        final var result = personalQuestService.takeQuest(personage.id());
+        final var result = personalQuestService.takeQuest(personage.id(), 1);
 
         // then
         assertEquals(Either.left(TakeQuestError.PersonageInOtherEvent.INSTANCE), result);
@@ -145,7 +198,7 @@ public class PersonalQuestServiceTakeQuestTest {
         when(personalQuestDao.getRandomQuest()).thenReturn(Optional.empty());
 
         // Act
-        final var result = personalQuestService.takeQuest(personageId);
+        final var result = personalQuestService.takeQuest(personageId, 1);
 
         // Assert
         assertEquals(Either.left(TakeQuestError.NoQuests.INSTANCE), result);

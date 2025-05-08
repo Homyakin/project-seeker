@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestPersonageParams;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestRequirements;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
@@ -22,9 +24,12 @@ import ru.homyakin.seeker.game.personage.notification.entity.Notification;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
+import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,10 +76,10 @@ public class PersonalQuestService {
     }
 
     @Transactional
-    public Either<TakeQuestError, StartedQuest> takeQuest(PersonageId personageId) {
+    public Either<TakeQuestError, StartedQuest> takeQuest(PersonageId personageId, int count) {
         return lockService.tryLockAndCalc(
             LockPrefixes.PERSONAGE.name() + "-" + personageId.value(),
-            () -> takeQuestLogic(personageId, config.requiredEnergy())
+            () -> takeQuestLogic(personageId, config.requiredEnergy(), count)
         )
             .fold(
                 _ -> {
@@ -86,20 +91,28 @@ public class PersonalQuestService {
     }
 
     @Transactional
-    public Either<TakeQuestError, StartedQuest> autoStartQuest(PersonageId personageId) {
+    public Either<TakeQuestError, StartedQuest.Single> autoStartQuest(PersonageId personageId) {
         return lockService.tryLockAndCalc(
             LockPrefixes.PERSONAGE.name() + "-" + personageId.value(),
-            () -> takeQuestLogic(personageId, config.requiredEnergyForAutoStart())
+            () -> takeQuestLogic(personageId, config.requiredEnergyForAutoStart(), 1)
         ).fold(
             _ -> {
                 logger.warn("Failed to take quest for personage {}, locked", personageId);
                 return Either.left(TakeQuestError.PersonageLocked.INSTANCE);
             },
-            success -> success
+            success -> success.map(it -> (StartedQuest.Single) it)
         );
     }
 
-    private Either<TakeQuestError, StartedQuest> takeQuestLogic(PersonageId personageId, int requiredEnergy) {
+    private Either<TakeQuestError, StartedQuest> takeQuestLogic(
+        PersonageId personageId,
+        int requiredEnergyForOne,
+        int count
+    ) {
+        if (count < 1) {
+            return Either.left(TakeQuestError.NotPositiveCount.INSTANCE);
+        }
+        int requiredEnergy = MathUtils.multiply(requiredEnergyForOne, count).orElse(Integer.MAX_VALUE);
         final var checkEnergyResult = personageService.checkPersonageEnergy(personageId, requiredEnergy);
         if (checkEnergyResult.isLeft()) {
             return Either.left(new TakeQuestError.NotEnoughEnergy(requiredEnergy));
@@ -118,12 +131,13 @@ public class PersonalQuestService {
         }
 
         final var now = TimeUtils.moscowTime();
-        final var launchedEvent = launchedEventService.createFromPersonalQuest(quest.get(), now, now.plus(config.requiredTime()));
+        final var duration = config.requiredTime().multipliedBy(count);
+        final var launchedEvent = launchedEventService.createFromPersonalQuest(quest.get(), now, now.plus(duration));
         final var addResult = personageEventService.addPersonageToLaunchedEvent(
             new AddPersonageToEventRequest(
                 launchedEvent.id(),
                 personageId,
-                Optional.empty()
+                Optional.of(new PersonalQuestPersonageParams(count))
             )
         );
         if (addResult.isLeft()) {
@@ -138,45 +152,89 @@ public class PersonalQuestService {
         }
 
         logger.info("Started quest {}", quest.get().code());
-        return Either.right(new StartedQuest(quest.get(), config.requiredTime(), requiredEnergy));
+        if (count == 1) {
+            return Either.right(new StartedQuest.Single(quest.get(), duration, requiredEnergy));
+        } else {
+            return Either.right(new StartedQuest.Multiple(count, duration, requiredEnergy));
+        }
     }
 
-    public EventResult.PersonalQuestResult stopQuest(LaunchedEvent launchedEvent) {
+    public EventResult.PersonalQuestEventResult stopQuest(LaunchedEvent launchedEvent) {
         final var quest = personalQuestDao.getByEventId(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Event " + launchedEvent.eventId() + " is not quest"));
         final var participants = personageEventService.getQuestParticipants(launchedEvent.id());
         if (participants.size() != 1) {
             logger.error("Quest {} has {} participants, expected 1", launchedEvent.eventId(), participants.size());
-            final var result = EventResult.PersonalQuestResult.Error.INSTANCE;
-            launchedEventService.updateResult(launchedEvent, result);
-            return result;
+            launchedEventService.setError(launchedEvent);
+            throw new IllegalStateException("Quest " + launchedEvent.eventId() + " has more than 1 participant");
         }
-        final var personage = participants.getFirst().personage();
+        final var participant = participants.getFirst();
+        final var personage = participant.personage();
+        final var count = participant.params().count();
+        if (count < 1) {
+            logger.error("Quest {} has not positive count {}", launchedEvent.eventId(), count);
+            launchedEventService.setError(launchedEvent);
+            throw new IllegalStateException("Quest " + launchedEvent.eventId() + " has not positive count");
+        }
 
-        final var failedRow = launchedEventService.countFailedPersonalQuestsRowForPersonage(personage.id());
+        final var results = processQuests(personage.id(), count);
+        if (results.size() == 1) {
+            final var result = results.getFirst();
+            if (result instanceof PersonalQuestResult.Success(Money reward)) {
+                personageService.addMoney(personage, reward);
+            }
+            launchedEventService.updateResult(launchedEvent, result);
+            final var eventResult = new EventResult.PersonalQuestEventResult.Single(quest, personage, result);
+            worldRaidContributionService.questComplete(personage.id());
+            sendNotificationToPersonageCommand.sendNotification(
+                personage.id(),
+                new Notification.QuestResult(eventResult)
+            );
+            return eventResult;
+        } else {
+            final var firstResult = results.getFirst();
+            launchedEventService.updateResult(launchedEvent, firstResult);
+            int reward = 0;
+            if (firstResult instanceof PersonalQuestResult.Success(Money money)) {
+                reward += money.value();
+            }
+            for (int i = 1; i < results.size(); i++) {
+                if (results.get(i) instanceof PersonalQuestResult.Success(Money money)) {
+                    reward += money.value();
+                }
+                launchedEventService.createFinished(quest, TimeUtils.moscowTime(), results.get(i));
+            }
+            personageService.addMoney(personage, Money.from(reward));
+            final var eventResult = new EventResult.PersonalQuestEventResult.Multiple(personage, results);
+            worldRaidContributionService.questComplete(personage.id(), count);
+            sendNotificationToPersonageCommand.sendNotification(
+                personage.id(),
+                new Notification.QuestResult(eventResult)
+            );
+            return eventResult;
+        }
+    }
+
+    private List<PersonalQuestResult> processQuests(
+        PersonageId personageId,
+        int count
+    ) {
+        int failedRow = launchedEventService.countFailedPersonalQuestsRowForPersonage(personageId);
         // За каждый неуспешный квест подряд, добавляется 10% шанс удачной попытки
         // При базовой вероятности 80%, не может быть более двух неуспешных подряд
         // При базовой вероятности 80% итоговая вероятность равна примерно 82%
-        final var isSuccess = RandomUtils.processChance(config.baseSuccessProbability() + failedRow * 10);
-        final EventResult.PersonalQuestResult result;
-        if (isSuccess) {
-            logger.info("Quest {} succeeded by personage {}", launchedEvent.id(), personage.id());
-            final var reward = Money.from(RandomUtils.getInInterval(config.reward()));
-            personageService.addMoney(personage, reward);
-            final var success = new EventResult.PersonalQuestResult.Success(quest, personage, reward);
-            sendNotificationToPersonageCommand
-                .sendNotification(personage.id(), new Notification.SuccessQuestResult(success));
-            result = success;
-        } else {
-            logger.info("Quest {} failed by personage {}", launchedEvent.id(), personage.id());
-            final var failure = new EventResult.PersonalQuestResult.Failure(quest, personage);
-            sendNotificationToPersonageCommand
-                .sendNotification(personage.id(), new Notification.FailureQuestResult(failure));
-            result = failure;
+        final var results = new ArrayList<PersonalQuestResult>();
+        for (int i = 0; i < count; i++) {
+            final var isSuccess = RandomUtils.processChance(config.baseSuccessProbability() + failedRow * 10);
+            if (isSuccess) {
+                failedRow = 0;
+                final var reward = Money.from(RandomUtils.getInInterval(config.reward()));
+                results.add(new PersonalQuestResult.Success(reward));
+            } else {
+                ++failedRow;
+                results.add(PersonalQuestResult.Failure.INSTANCE);
+            }
         }
-
-        launchedEventService.updateResult(launchedEvent, result);
-        worldRaidContributionService.questComplete(personage.id());
-        return result;
+        return results;
     }
 }

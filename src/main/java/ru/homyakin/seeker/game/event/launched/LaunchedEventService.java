@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.event.config.EventConfig;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaid;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -72,15 +73,19 @@ public class LaunchedEventService {
         );
     }
 
-    public void updateResult(LaunchedEvent launchedEvent, EventResult.PersonalQuestResult personalQuestResult) {
+    public void updateResult(LaunchedEvent launchedEvent, PersonalQuestResult result) {
         launchedEventDao.updateStatus(
             launchedEvent.id(),
-            switch (personalQuestResult) {
-                case EventResult.PersonalQuestResult.Error _ -> EventStatus.CREATION_ERROR;
-                case EventResult.PersonalQuestResult.Failure _ -> EventStatus.FAILED;
-                case EventResult.PersonalQuestResult.Success _ -> EventStatus.SUCCESS;
-            }
+            mapResultToStatus(result)
         );
+    }
+
+    public void createFinished(PersonalQuest quest, LocalDateTime end, PersonalQuestResult result) {
+        launchedEventDao.save(quest.eventId(), end, end, mapResultToStatus(result));
+    }
+
+    public void setError(LaunchedEvent launchedEvent) {
+        launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.CREATION_ERROR);
     }
 
     public void updateResult(LaunchedEvent launchedEvent, EventResult.WorldRaidBattleResult worldRaidBattleResult) {
@@ -104,5 +109,12 @@ public class LaunchedEventService {
 
     public int countFailedPersonalQuestsRowForPersonage(PersonageId personageId) {
         return launchedEventDao.countFailedPersonalQuestsRowForPersonage(personageId);
+    }
+
+    private EventStatus mapResultToStatus(PersonalQuestResult result) {
+        return switch (result) {
+            case PersonalQuestResult.Success _ -> EventStatus.SUCCESS;
+            case PersonalQuestResult.Failure _ -> EventStatus.FAILED;
+        };
     }
 }

@@ -172,7 +172,8 @@ public class CommandParser {
                 case BUY_ITEM -> BuyItem.from(message);
                 case SELL_ITEM -> SellItem.from(message);
                 case BULLETIN_BOARD -> GetBulletinBoard.from(message);
-                case TAKE_PERSONAL_QUEST -> TakePersonalQuest.from(message);
+                case TAKE_PERSONAL_QUEST -> TakePersonalQuest.from(message, false);
+                case TAKE_PERSONAL_QUEST_COMMAND -> TakePersonalQuest.from(message, true);
                 case TOGGLE_HIDE_PERSONAGE -> ToggleHidePersonage.from(message);
                 case INIT_FEEDBACK -> InitFeedback.from(message);
                 case PERSONAGE_STATS -> PersonageStatsGlobal.from(message);

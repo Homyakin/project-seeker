@@ -24,10 +24,11 @@ public interface WorldRaidStorage {
         ActiveWorldRaidState.Research research
     );
 
-    void incrementContribution(
+    void addContribution(
         long id,
         PersonageId personageId,
-        Money rewardIncrease
+        Money rewardIncrease,
+        int contribution
     );
 
     void setBattleState(long id, long launchedEventId);

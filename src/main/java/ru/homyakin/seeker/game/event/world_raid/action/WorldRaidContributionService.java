@@ -45,7 +45,7 @@ public class WorldRaidContributionService {
                     new WorldRaidResearchDonateError.NotEnoughMoney(takeMoneyResult.getLeft().neededMoney())
                 );
             }
-            storage.incrementContribution(active.id(), personageId, config.fundFromDonation());
+            storage.addContribution(active.id(), personageId, config.fundFromDonation(), 1);
             return Either.right(config.fundFromDonation());
         }
         return Either.left(WorldRaidResearchDonateError.ResearchCompleted.INSTANCE);
@@ -53,12 +53,18 @@ public class WorldRaidContributionService {
 
     @Transactional
     public void questComplete(PersonageId personageId) {
+        questComplete(personageId, 1);
+    }
+
+    @Transactional
+    public void questComplete(PersonageId personageId, int count) {
         final var active = getOrLaunchWorldRaidCommand.execute();
         if (
             active.state() instanceof ActiveWorldRaidState.Research research &&
                 research.isInProgress()
         ) {
-            storage.incrementContribution(active.id(), personageId, config.fundFromQuest());
+            final var fund = config.fundFromQuest().value() * count;
+            storage.addContribution(active.id(), personageId, Money.from(fund), count);
         }
     }
 }

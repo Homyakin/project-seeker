@@ -68,7 +68,8 @@ badgeIsNotAvailable = "Данный жетон недоступен"
 bulletinBoard = """\
 На доске висит множество объявлений от жителей Крезара. Выбери одно, и в случае успеха получишь награду.
 
-Затраты на квест: ${energy_icon}${quest_required_energy}% ${time_icon}${quest_duration}"""
+Затраты на квест: ${energy_icon}${quest_required_energy}% ${time_icon}${quest_duration}
+Взять несколько квестов: <code>${take_quest_command} N</code>"""
 notEnoughEnergy = "Для начала квеста необходимо: ${energy_icon}${required_energy}%"
 personageInAnotherEvent = "Ты уже занят в другом событии."
 startedQuest = """\
@@ -80,15 +81,33 @@ ${energy_recovered}
 
 ${started_quest}
 """
-failedQuest = """\
+failedSingleQuest = """\
 ${quest_failure}
 
 Текущая энергия: ${energy_icon}${current_energy}%"""
-successQuest = """\
+successSingleQuest = """\
 ${quest_success}
 
 Ты получаешь +${money_icon}${money_value}
 Текущая энергия: ${energy_icon}${current_energy}%"""
+incorrectQuestCount = "Необходимо ввести целое число >=1."
+multipleQuestsIntro = [
+    "Ты срываешь пачку объявлений с доски и отправляешься работать.",
+    "Сильная нужда побуждает работать больше, поэтому ты пихаешь себе в карман сразу несколько объявлений.",
+    "Глядя на доску объявлений, ты понимаешь: если не возьмёшь все квесты сразу, то они могут закончиться!",
+    "Отдохнуть можно и в старости, а сейчас надо сделать побольше квестов, пока их не разобрали.",
+]
+multipleQuestsFinished = """\
+${multiple_quests_outro}
+
+${quests_results}
+
+Ты получаешь +${money_icon}${money_value}
+Текущая энергия: ${energy_icon}${current_energy}%"""
+multipleQuestsOutro = [
+    "После такого количества квестов можно и пивка бахнуть!",
+    "Все задания завершены! Не обязательно успешно, но главное ведь количество?",
+]
 
 worldRaidResearch = """\
 Прогресс поиска рейда: ${progress}%

@@ -56,7 +56,7 @@ public class TgEventStopper {
         final var result = eventProcessing.processEvent(launchedEvent);
         switch (result) {
             case EventResult.RaidResult raidResult -> processRaidResult(launchedEvent, raidResult);
-            case EventResult.PersonalQuestResult _ -> { }
+            case EventResult.PersonalQuestEventResult _ -> { }
             case EventResult.WorldRaidBattleResult _ -> {
             }
         }

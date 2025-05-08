@@ -112,27 +112,29 @@ public class WorldRaidDao implements WorldRaidStorage {
     }
 
     @Override
-    public void incrementContribution(long id, PersonageId personageId, Money fundIncrease) {
+    public void addContribution(long id, PersonageId personageId, Money fundIncrease, int contribution) {
         final var incrementRaidContribution = """
             UPDATE world_raid_launched
-            SET contribution = contribution + 1,
+            SET contribution = contribution + :contribution,
                 fund = fund + :fund_increase
             WHERE id = :id
             """;
         jdbcClient.sql(incrementRaidContribution)
             .param("fund_increase", fundIncrease.value())
             .param("id", id)
+            .param("contribution", contribution)
             .update();
         final var incrementPersonageContribution = """
             INSERT INTO world_raid_research
             (personage_id, contribution, world_raid_id)
-            VALUES (:personage_id, 1, :world_raid_id)
+            VALUES (:personage_id, :contribution, :world_raid_id)
             ON CONFLICT (personage_id, world_raid_id)
-            DO UPDATE SET contribution = world_raid_research.contribution + 1
+            DO UPDATE SET contribution = world_raid_research.contribution + :contribution
             """;
         jdbcClient.sql(incrementPersonageContribution)
             .param("personage_id", personageId.value())
             .param("world_raid_id", id)
+            .param("contribution", contribution)
             .update();
     }
 

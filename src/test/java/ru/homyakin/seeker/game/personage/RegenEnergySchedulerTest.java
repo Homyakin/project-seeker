@@ -79,7 +79,8 @@ class RegenEnergySchedulerTest {
         PersonageId personageId = new PersonageId(1);
         when(personageDao.getPersonagesWithRecoveredEnergy()).thenReturn(List.of(personageId));
         mockEnabledAutoQuest(personageId);
-        when(personalQuestService.autoStartQuest(personageId)).thenReturn(Either.right(mock(StartedQuest.class)));
+        when(personalQuestService.autoStartQuest(personageId))
+            .thenReturn(Either.right(mock(StartedQuest.Single.class)));
 
         // when
         regenEnergyScheduler.notifyUsersAboutEnergyRegen();
@@ -118,7 +119,8 @@ class RegenEnergySchedulerTest {
             .thenReturn(Either.right(Success.INSTANCE));
 
         mockEnabledAutoQuest(personageId1);
-        when(personalQuestService.autoStartQuest(personageId1)).thenReturn(Either.right(mock(StartedQuest.class)));
+        when(personalQuestService.autoStartQuest(personageId1))
+            .thenReturn(Either.right(mock(StartedQuest.Single.class)));
 
         mockDisableAutoQuest(personageId2);
 

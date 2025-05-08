@@ -39,7 +39,7 @@ public class TgPersonageNotificationService implements SendNotificationToPersona
     public Either<NotificationError, Success> sendNotification(PersonageId personageId, Notification notification) {
         final var user = userService.getByPersonageIdForce(personageId);
         logger.info(
-            "Sending notification {} to user {} about energy regen",
+            "Sending notification {} to user {}",
             notification.getClass().getSimpleName(),
             user.id()
         );
@@ -74,10 +74,8 @@ public class TgPersonageNotificationService implements SendNotificationToPersona
         return switch (notification) {
             case Notification.RecoveredEnergy _ ->
                 CommonLocalization.energyRecovered(language);
-            case Notification.FailureQuestResult failureQuestResult ->
-                BulletinBoardLocalization.failedQuest(language, failureQuestResult.value());
-            case Notification.SuccessQuestResult successQuestResult ->
-                BulletinBoardLocalization.successQuest(language, successQuestResult.value());
+            case Notification.QuestResult questResult ->
+                BulletinBoardLocalization.personalQuestResult(language, questResult.value());
             case Notification.AutoStartQuest autoStartQuest ->
                 BulletinBoardLocalization.autoStartedQuest(language, autoStartQuest.startedQuest());
         };

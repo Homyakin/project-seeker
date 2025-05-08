@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.personage.event;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventLocked;
+import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestPersonageParams;
 import ru.homyakin.seeker.game.event.raid.models.RaidPersonageParams;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
@@ -45,7 +46,10 @@ public class PersonageEventService {
 
     public List<QuestParticipant> getQuestParticipants(long launchedEventId) {
         return getEventParticipants(launchedEventId).stream()
-            .map(it -> new QuestParticipant(it.personage()))
+            .map(it -> new QuestParticipant(
+                it.personage(),
+                (PersonalQuestPersonageParams) it.params().orElseGet(() -> new PersonalQuestPersonageParams(1))
+            ))
             .toList();
     }
 
