@@ -1,4 +1,4 @@
-# Project Seeker - социальная RPG в Telegram
+# Krezar Tavern - MMORPG в Telegram
 
 ## Локализация / Localization
 
