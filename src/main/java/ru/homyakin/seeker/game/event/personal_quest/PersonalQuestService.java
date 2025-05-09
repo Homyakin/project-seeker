@@ -202,7 +202,18 @@ public class PersonalQuestService {
                 if (results.get(i) instanceof PersonalQuestResult.Success(Money money)) {
                     reward += money.value();
                 }
-                launchedEventService.createFinished(quest, TimeUtils.moscowTime(), results.get(i));
+                final var launchedEventId = launchedEventService.createFinished(
+                    quest,
+                    TimeUtils.moscowTime(),
+                    results.get(i)
+                );
+                personageEventService.addPersonageToLaunchedEvent(
+                    new AddPersonageToEventRequest(
+                        launchedEventId,
+                        personage.id(),
+                        Optional.of(new PersonalQuestPersonageParams(0))
+                    )
+                );
             }
             personageService.addMoney(personage, Money.from(reward));
             final var eventResult = new EventResult.PersonalQuestEventResult.Multiple(personage, results);

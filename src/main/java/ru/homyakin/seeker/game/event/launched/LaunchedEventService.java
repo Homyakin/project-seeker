@@ -80,8 +80,8 @@ public class LaunchedEventService {
         );
     }
 
-    public void createFinished(PersonalQuest quest, LocalDateTime end, PersonalQuestResult result) {
-        launchedEventDao.save(quest.eventId(), end, end, mapResultToStatus(result));
+    public long createFinished(PersonalQuest quest, LocalDateTime end, PersonalQuestResult result) {
+        return launchedEventDao.save(quest.eventId(), end, end, mapResultToStatus(result));
     }
 
     public void setError(LaunchedEvent launchedEvent) {
