@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.group.action.GroupRegistrationCommand;
+import ru.homyakin.seeker.game.group.action.GroupTagService;
 import ru.homyakin.seeker.game.group.action.InitGroupRegistrationCommand;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -17,18 +17,18 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration> {
     private final GroupUserService groupUserService;
     private final InitGroupRegistrationCommand initGroupRegistrationCommand;
-    private final GroupRegistrationCommand groupRegistrationCommand;
+    private final GroupTagService groupRegistrationCommand;
     private final TelegramSender telegramSender;
 
     public GroupRegistrationExecutor(
         GroupUserService groupUserService,
         InitGroupRegistrationCommand initGroupRegistrationCommand,
-        GroupRegistrationCommand groupRegistrationCommand,
+        GroupTagService groupTagService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.initGroupRegistrationCommand = initGroupRegistrationCommand;
-        this.groupRegistrationCommand = groupRegistrationCommand;
+        this.groupRegistrationCommand = groupTagService;
         this.telegramSender = telegramSender;
     }
 
@@ -67,7 +67,7 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
         PersonageId personageId,
         String tag
     ) {
-        final var result = groupRegistrationCommand.execute(groupTg.domainGroupId(), personageId, tag);
+        final var result = groupRegistrationCommand.register(groupTg.domainGroupId(), personageId, tag);
 
         final var messageBuilder = SendMessageBuilder.builder().chatId(groupTg.id());
         final var text = result.fold(

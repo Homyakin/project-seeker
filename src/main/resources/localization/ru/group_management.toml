@@ -23,13 +23,15 @@ unregisteredGroupInfo = """\
 groupRegistration = """\
 Для регистрации группы необходимо установить тэг группы <code>${register_group_command} тэг</code>. \
 Тэг должен стостоять из 3-4 заглавных букв латинского алфавита.
-Стоимость: ${money}${money_icon}"""
+Стоимость: ${money_icon}${money}"""
 alreadyRegisteredGroup = "Группа уже зарегистрирована"
 registrationPersonageInAnotherGroup = "Регистрирующий персонаж не должен быть участником другой группы!"
-notEnoughMoneyForGroupRegistration = "Для регистрации группы необходимо ${money}${money_icon} в казне группы!"
+notEnoughMoneyForGroupRegistration = "Для регистрации группы необходимо ${money_icon}${money} в казне группы!"
 incorrectTag = "Неправильно указан тэг, он должен состоять из 3-4 заглавных букв латинского алфавита"
 tagAlreadyTaken = "Такой тэг уже занят"
 successGroupRegistration = "Группа успешно зарегистрирована! Вступить в группу можно с помощью ${group_join_command}"
+notEnoughMoneyForChangeTag = "Для смены тэга необходимо иметь ${money_icon}${money} в казне группы"
+successChangeTag = "Тэг успешно изменён на <code>[${tag}]</code>"
 
 joinPersonageAlreadyInGroup = "Ты уже состоишь в этой группе!"
 joinPersonageInAnotherGroup = "Ты уже состоишь в другой группе!"
@@ -73,8 +75,8 @@ incorrectAmount = "Неправильно указана сумма"
 
 groupCommands = """\
 Комманды для группы:
-
 <code>${group_join_command}</code> - вступить в группу
 <code>${group_leave_command}</code> - покинуть группу
 <code>${donate_money_command} [сумма]</code> - вложить деньги в группу
-<code>${give_money_command} [сумма] @user</code> - выдать деньги из группы"""
+<code>${give_money_command} [сумма] @user</code> - выдать деньги из группы
+<code>${change_tag_command} [тэг]</code> - сменить тэг группы (${money_icon}${price})"""

@@ -80,7 +80,8 @@ public enum CommandType {
     JOIN_WORLD_RAID("joinWorldRaid", CheckType.EQUALS),
     WORLD_RAID_REPORT("/wr_report", CheckType.EQUALS),
     CONFIRM_GROUP_JOIN("confirmGroupJoin", CheckType.EQUALS),
-    CANCEL_GROUP_JOIN("cancelGroupJoin", CheckType.EQUALS)
+    CANCEL_GROUP_JOIN("cancelGroupJoin", CheckType.EQUALS),
+    CHANGE_TAG("/change_tag", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

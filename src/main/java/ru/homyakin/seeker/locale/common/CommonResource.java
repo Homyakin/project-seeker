@@ -5,6 +5,7 @@ public record CommonResource(
     String welcomeUser,
     String chooseLanguage,
     String onlyAdminAction,
+    String onlyGroupMemberAction,
     String forbiddenForHiddenGroup,
     String onlyForRegisteredGroup,
     String forbiddenAction,

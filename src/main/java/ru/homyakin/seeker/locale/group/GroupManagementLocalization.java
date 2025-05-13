@@ -104,6 +104,25 @@ public class GroupManagementLocalization {
         );
     }
 
+    public static String notEnoughMoneyForChangeTag(Language language, Money money) {
+        final var params = new HashMap<String, Object>();
+        params.put("money", money.value());
+        params.put("money_icon", Icons.MONEY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::notEnoughMoneyForChangeTag),
+            params
+        );
+    }
+
+    public static String successChangeTag(Language language, String tag) {
+        final var params = new HashMap<String, Object>();
+        params.put("tag", tag);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::successChangeTag),
+            params
+        );
+    }
+
     public static String joinPersonageAlreadyInGroup(Language language) {
         return resources.getOrDefault(language, GroupManagementResource::joinPersonageAlreadyInGroup);
     }
@@ -283,12 +302,15 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::incorrectAmount);
     }
 
-    public static String groupCommands(Language language) {
+    public static String groupCommands(Language language, Money changeTagPrice) {
         final var params = new HashMap<String, Object>();
         params.put("group_join_command", CommandType.JOIN_GROUP.getText());
         params.put("group_leave_command", CommandType.LEAVE_GROUP.getText());
         params.put("donate_money_command", CommandType.DONATE_MONEY.getText());
         params.put("give_money_command", CommandType.GIVE_MONEY.getText());
+        params.put("change_tag_command", CommandType.CHANGE_TAG.getText());
+        params.put("price", changeTagPrice.value());
+        params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::groupCommands),
             params

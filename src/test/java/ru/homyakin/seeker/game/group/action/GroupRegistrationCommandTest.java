@@ -20,13 +20,13 @@ import ru.homyakin.seeker.utils.models.Success;
 
 import java.util.Optional;
 
-class GroupRegistrationCommandTest {
+public class GroupRegistrationCommandTest {
 
     private final GroupStorage groupStorage = Mockito.mock();
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
     private final GroupConfig groupConfig = Mockito.mock();
     private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
-    private final GroupRegistrationCommand groupRegistrationCommand = new GroupRegistrationCommand(
+    private final GroupTagService groupTagService = new GroupTagService(
         groupStorage,
         groupPersonageStorage,
         checkGroupPersonage,
@@ -47,7 +47,7 @@ class GroupRegistrationCommandTest {
         final var group = new Group(groupId, Optional.of("tag"), "Test Group", true, null);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupRegistrationError.GroupAlreadyRegistered.INSTANCE, result.getLeft());
@@ -60,7 +60,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(group.isRegistered()).thenReturn(false);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupRegistrationError.HiddenGroup.INSTANCE, result.getLeft());
@@ -75,7 +75,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(new GroupId(TestRandom.nextLong())));
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupRegistrationError.PersonageInAnotherGroup.INSTANCE, result.getLeft());
@@ -92,7 +92,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(new GroupRegistrationError.NotEnoughMoney(new Money(1000)), result.getLeft());
@@ -109,7 +109,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "фыва");
+        final var result = groupTagService.register(groupId, personageId, "фыва");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupRegistrationError.InvalidTag.INSTANCE, result.getLeft());
@@ -127,7 +127,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupRegistrationError.TagAlreadyTaken.INSTANCE, result.getLeft());
@@ -147,7 +147,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(false);
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupRegistrationError.NotAdmin.INSTANCE, result.getLeft());
@@ -167,7 +167,7 @@ class GroupRegistrationCommandTest {
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(true);
 
-        final var result = groupRegistrationCommand.execute(groupId, personageId, "TAG");
+        final var result = groupTagService.register(groupId, personageId, "TAG");
 
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(Success.INSTANCE, result.get());

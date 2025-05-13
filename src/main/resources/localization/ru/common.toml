@@ -13,6 +13,7 @@ welcomeGroup = """\
 
 chooseLanguage = "Выберите язык:"
 onlyAdminAction = "Данное действие доступно только администраторам"
+onlyGroupMemberAction = "Данное действие доступно только участникам группы"
 forbiddenForHiddenGroup = "Данное действие недоступно в скрытой группе"
 onlyForRegisteredGroup = "Данное действие доступно только в зарегистрированных группах"
 forbiddenAction = "Ты не можешь этого сделать"

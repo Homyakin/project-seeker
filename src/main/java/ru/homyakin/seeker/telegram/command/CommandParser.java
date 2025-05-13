@@ -11,6 +11,7 @@ import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.common.world_raid.JoinWorldRaid;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
 import ru.homyakin.seeker.telegram.command.group.management.CancelJoinGroupMember;
+import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupTag;
 import ru.homyakin.seeker.telegram.command.group.management.ConfirmJoinGroupMember;
 import ru.homyakin.seeker.telegram.command.group.management.DonateToGroup;
 import ru.homyakin.seeker.telegram.command.group.management.GroupCommands;
@@ -219,6 +220,7 @@ public class CommandParser {
                 case GROUP_COMMANDS -> GroupCommands.from(message);
                 case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);
                 case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
+                case CHANGE_TAG -> ChangeGroupTag.from(message);
                 default -> null;
             });
     }

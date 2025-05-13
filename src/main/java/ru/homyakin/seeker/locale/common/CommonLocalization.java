@@ -75,6 +75,10 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::onlyAdminAction);
     }
 
+    public static String onlyGroupMemberAction(Language language) {
+        return resources.getOrDefault(language, CommonResource::onlyGroupMemberAction);
+    }
+
     public static String forbiddenForHiddenGroup(Language language) {
         return resources.getOrDefault(language, CommonResource::forbiddenForHiddenGroup);
     }

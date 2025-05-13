@@ -9,5 +9,7 @@ public interface GroupConfig {
 
     Money registrationPrice();
 
+    Money changeTagPrice();
+
     Duration personageJoinGroupTimeout();
 }

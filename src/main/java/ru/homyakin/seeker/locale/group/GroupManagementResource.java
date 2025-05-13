@@ -10,6 +10,8 @@ public record GroupManagementResource(
     String incorrectTag,
     String tagAlreadyTaken,
     String successGroupRegistration,
+    String notEnoughMoneyForChangeTag,
+    String successChangeTag,
     String joinPersonageAlreadyInGroup,
     String joinPersonageInAnotherGroup,
     String joinPersonageTimeout,
