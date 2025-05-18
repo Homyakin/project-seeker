@@ -11,10 +11,17 @@ public record ShopResource(
     String legendary,
     String random,
     String incorrectBuyingItem,
-    String incorrectSellingItem,
+    String noItemAtPersonage,
     String notEnoughMoney,
     String notEnoughSpaceInBag,
     String successBuy,
-    String successSell
+    String successSell,
+    String enhanceTable,
+    String enhanceItem,
+    String enhanceItemInfo,
+    String addModifier,
+    String maxModifiers,
+    String successAddModifier,
+    String emptyEnhance
 ) {
 }

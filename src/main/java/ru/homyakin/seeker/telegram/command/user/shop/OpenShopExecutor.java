@@ -27,7 +27,7 @@ public class OpenShopExecutor extends CommandExecutor<OpenShop> {
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(ShopLocalization.menu(user.language(), shopService.getShopItems(user.personageId())))
-            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .keyboard(ReplyKeyboards.shopKeyboard(user.language()))
             .build()
         );
     }

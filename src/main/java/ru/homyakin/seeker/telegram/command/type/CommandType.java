@@ -82,6 +82,9 @@ public enum CommandType {
     CONFIRM_GROUP_JOIN("confirmGroupJoin", CheckType.EQUALS),
     CANCEL_GROUP_JOIN("cancelGroupJoin", CheckType.EQUALS),
     CHANGE_TAG("/change_tag", CheckType.STARTS_WITH),
+    ENHANCE_TABLE(null, CheckType.MAP),
+    ENHANCE_INFO("/enhance", CheckType.STARTS_WITH),
+    ADD_MODIFIER("/addmod", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -120,6 +123,7 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.bulletinBoardButton(), CommandType.BULLETIN_BOARD);
         CommonUtils.putIfKeyPresents(textToType, resource.takePersonalQuestButton(), CommandType.TAKE_PERSONAL_QUEST);
         CommonUtils.putIfKeyPresents(textToType, resource.worldRaidButton(), CommandType.SHOW_WORLD_RAID_INFO);
+        CommonUtils.putIfKeyPresents(textToType, resource.enhanceButton(), CommandType.ENHANCE_TABLE);
     }
 
     private boolean check(String text) {

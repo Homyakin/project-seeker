@@ -38,7 +38,8 @@ public class BuyItemExecutor extends CommandExecutor<BuyItem> {
             .fold(
                 error -> switch (error) {
                     case BuyItemError.NotEnoughSpaceInBag _ -> ShopLocalization.notEnoughSpaceInBag(user.language());
-                    case BuyItemError.NotEnoughMoney _ -> ShopLocalization.notEnoughMoney(user.language());
+                    case BuyItemError.NotEnoughMoney notEnoughMoney ->
+                        ShopLocalization.notEnoughMoney(user.language(), notEnoughMoney.required());
                 },
                 item -> ShopLocalization.successBuy(user.language(), item)
             );

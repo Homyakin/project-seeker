@@ -35,17 +35,21 @@ public class ShopConfig {
         return buyingItems;
     }
 
-    public Money priceByRarity(ItemRarity rarity) {
+    public Money sellingPriceByRarity(ItemRarity rarity) {
         return sellingPrices.getOrDefault(rarity, Money.zero());
     }
 
-    public Money priceByType(ShopItemType type) {
+    public Money buyingPriceByType(ShopItemType type) {
         for (final var item: getBuyingItems()) {
             if (item.type() == type) {
                 return item.price();
             }
         }
         throw new IllegalStateException("Can't find price for " + type);
+    }
+
+    public Money buyingPriceByRarity(ItemRarity rarity) {
+        return buyingPriceByType(typeByRarity(rarity));
     }
 
     public void setCommonPrice(Integer commonPrice) {
@@ -106,5 +110,15 @@ public class ShopConfig {
                 }
             }
         );
+    }
+
+    private ShopItemType typeByRarity(ItemRarity rarity) {
+        return switch (rarity) {
+            case COMMON -> ShopItemType.COMMON;
+            case UNCOMMON -> ShopItemType.UNCOMMON;
+            case RARE -> ShopItemType.RARE;
+            case EPIC -> ShopItemType.EPIC;
+            case LEGENDARY -> ShopItemType.LEGENDARY;
+        };
     }
 }

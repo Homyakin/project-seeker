@@ -71,6 +71,17 @@ public class ItemObjectDao {
             .query(this::extractSingleObject);
     }
 
+    public GenerateItemObject getById(int id) {
+        final var sql = """
+            SELECT * FROM item_object io
+            LEFT JOIN item_object_to_personage_slot iotps on io.id = iotps.item_object_id
+             WHERE io.id = :id
+            """;
+        return jdbcClient.sql(sql)
+            .param("id", id)
+            .query(this::extractSingleObject);
+    }
+
     private void saveObjectSlots(int id, Set<PersonageSlot> slots) {
         updater.update(
             "item_object_to_personage_slot",

@@ -95,6 +95,16 @@ public class ItemModifierDao {
             .single();
     }
 
+    public GenerateModifier getById(int id) {
+        final var sql = """
+            SELECT * FROM item_modifier im WHERE im.id = :id
+            """;
+        return jdbcClient.sql(sql)
+            .param("id", id)
+            .query(this::mapRow)
+            .single();
+    }
+
     private void saveModifierRarities(int id, Set<ItemRarity> rarities) {
         updater.update(
             "item_modifier_to_item_rarity",

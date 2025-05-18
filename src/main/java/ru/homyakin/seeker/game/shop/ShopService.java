@@ -44,7 +44,7 @@ public class ShopService {
 
         for (final var item: personageItems) {
             if (!item.isEquipped()) {
-                items.add(new ShopItem.Sell(config.priceByRarity(item.rarity()), item));
+                items.add(new ShopItem.Sell(config.sellingPriceByRarity(item.rarity()), item));
             }
         }
         items.addAll(config.getBuyingItems());
@@ -55,9 +55,9 @@ public class ShopService {
     @Transactional
     public Either<BuyItemError, Item> buyItem(PersonageId personageId, ShopItemType type) {
         final var personage = personageService.getByIdForce(personageId);
-        final var price = config.priceByType(type);
-        if (personage.money().lessThan(config.priceByType(type))) {
-            return Either.left(BuyItemError.NotEnoughMoney.INSTANCE);
+        final var price = config.buyingPriceByType(type);
+        if (personage.money().lessThan(price)) {
+            return Either.left(new BuyItemError.NotEnoughMoney(price));
         }
         final var personageWithTakenMoney = personageService.takeMoney(personage, price);
 
@@ -100,7 +100,7 @@ public class ShopService {
         return itemService.dropItem(personage, itemId)
             .mapLeft(_ -> NoSuchItemAtPersonage.INSTANCE)
             .map(item -> {
-                final var price = config.priceByRarity(item.rarity());
+                final var price = config.sellingPriceByRarity(item.rarity());
                 personageService.addMoney(personage, price);
                 return new SoldItem(item, price);
             });

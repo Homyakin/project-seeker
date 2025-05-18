@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.shop.ShopService;
+import ru.homyakin.seeker.game.shop.EnhanceService;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -10,29 +10,29 @@ import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
-public class SellItemExecutor extends CommandExecutor<SellItem> {
+public class EnhanceInfoExecutor extends CommandExecutor<EnhanceInfo> {
     private final UserService userService;
     private final TelegramSender telegramSender;
-    private final ShopService shopService;
+    private final EnhanceService enhanceService;
 
-    public SellItemExecutor(UserService userService, TelegramSender telegramSender, ShopService shopService) {
+    public EnhanceInfoExecutor(UserService userService, TelegramSender telegramSender, EnhanceService enhanceService) {
         this.userService = userService;
         this.telegramSender = telegramSender;
-        this.shopService = shopService;
+        this.enhanceService = enhanceService;
     }
 
     @Override
-    public void execute(SellItem command) {
+    public void execute(EnhanceInfo command) {
         final var user = userService.forceGetFromPrivate(command.userId());
-        final var text = shopService.sellItem(user.personageId(), command.itemId())
+        final var text = enhanceService.availableAction(user.personageId(), command.itemId())
             .fold(
                 _ -> ShopLocalization.noItemAtPersonage(user.language()),
-                item -> ShopLocalization.successSell(user.language(), item)
+                action -> ShopLocalization.enhanceItemInfo(user.language(), action)
             );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(text)
-            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .keyboard(ReplyKeyboards.shopKeyboard(user.language()))
             .build()
         );
     }

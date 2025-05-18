@@ -63,6 +63,35 @@ public class ItemDao {
         return id;
     }
 
+    @Transactional
+    public void updateItem(long id, Characteristics characteristics, List<Modifier> modifiers) {
+        final var updateItem = """
+            UPDATE item SET
+                attack = :attack,
+                health = :health,
+                defense = :defense
+            WHERE id = :id
+            """;
+        jdbcClient.sql(updateItem)
+            .param("attack", characteristics.attack())
+            .param("health", characteristics.health())
+            .param("defense", characteristics.defense())
+            .param("id", id)
+            .update();
+
+        final var insertModifier = """
+            INSERT INTO item_to_item_modifier (item_id, item_modifier_id)
+            VALUES (:item_id, :item_modifier_id)
+            ON CONFLICT DO NOTHING
+            """;
+        for (final var modifier : modifiers) {
+            jdbcClient.sql(insertModifier)
+                .param("item_id", id)
+                .param("item_modifier_id", modifier.id())
+                .update();
+        }
+    }
+
     public Optional<Item> getById(Long id) {
         final var sql = SELECT_ITEMS + " WHERE i.id = :id";
         final var result = jdbcClient.sql(sql)

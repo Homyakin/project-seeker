@@ -12,6 +12,7 @@ public record MenuResource(
     String shopButton,
     String bulletinBoardButton,
     String takePersonalQuestButton,
-    String worldRaidButton
+    String worldRaidButton,
+    String enhanceButton
 ) {
 }

@@ -96,6 +96,10 @@ public class PersonageService {
         return updatedPersonage;
     }
 
+    public void addMoney(PersonageId personageId, Money money) {
+        addMoney(getByIdForce(personageId), money);
+    }
+
     public void addMoneyBatch(Map<PersonageId, Money> moneyMap) {
         personageDao.addMoney(moneyMap);
     }

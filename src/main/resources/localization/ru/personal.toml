@@ -11,6 +11,7 @@ shopButton = "⚖️Чёрный рынок"
 bulletinBoardButton = "📣Доска объявлений"
 takePersonalQuestButton = "📝Взять квест"
 worldRaidButton="🔎Мировой рейд"
+enhanceButton = "🧿Стол зачарований"
 
 [changeName]
 changeNameWithoutName="Имя не может быть пустым!"

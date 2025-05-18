@@ -229,6 +229,5 @@ public class InlineKeyboards {
                 CommandType.CONFIRM_GROUP_JOIN.getText() + TextConstants.CALLBACK_DELIMITER + personageId.value()
             )
             .build();
-
     }
 }

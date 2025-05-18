@@ -82,6 +82,15 @@ public class ReplyKeyboards {
             .build();
     }
 
+    public static ReplyKeyboardMarkup shopKeyboard(Language language) {
+        return ReplyKeyboardBuilder.builder()
+            .addRow()
+            .addButton(button(MenuLocalization.enhanceButton(language)))
+            .addRow()
+            .addButton(button(MenuLocalization.backButton(language)))
+            .build();
+    }
+
     private static KeyboardButton button(String text) {
         return KeyboardButton.builder().text(text).build();
     }

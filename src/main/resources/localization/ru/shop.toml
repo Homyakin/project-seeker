@@ -17,8 +17,29 @@ legendary = "Легендарная"
 random = "Случайная"
 
 incorrectBuyingItem = "В магазине нет такого предмета."
-incorrectSellingItem = "У вас нет такого предмета."
-notEnoughMoney = "Недостаточно денег."
+noItemAtPersonage = "У вас нет такого предмета."
+notEnoughMoney = "Недостаточно денег. Нужно ${money_icon}${required_value}"
 notEnoughSpaceInBag = "В рюкзаке недостаточно места, чтобы купить предмет."
 successBuy = "Поздравляем с покупкой! <code>${full_item_name}</code>"
 successSell = "Продано! <code>${full_item_name}</code> +${money_icon}${price_value}"
+
+enhanceTable = """\
+На столе зачарований ты можешь улучшить имеющиеся предметы:
+
+${equipped_enhance_times}
+
+🎒Инвентарь:
+${inventory_enhance_times}"""
+enhanceItem = "${full_item} ${enhance_command}"
+enhanceItemInfo = """\
+<code>${full_item}</code>
+
+${available_enhance}
+"""
+addModifier = "Добавить модификатор: ${add_modifier_command} ${money_icon}${price_value}"
+maxModifiers = "У этого предмета уже максимальное количество модификаторов."
+successAddModifier = """\
+Модификатор добавлен!
+
+${enhance_item_info}"""
+emptyEnhance = "Нет доступных улучшений."

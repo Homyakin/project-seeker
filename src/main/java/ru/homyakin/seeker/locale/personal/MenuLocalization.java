@@ -57,4 +57,8 @@ public class MenuLocalization {
     public static String worldRaidButton(Language language) {
         return resources.getOrDefault(language, MenuResource::worldRaidButton);
     }
+
+    public static String enhanceButton(Language language) {
+        return resources.getOrDefault(language, MenuResource::enhanceButton);
+    }
 }

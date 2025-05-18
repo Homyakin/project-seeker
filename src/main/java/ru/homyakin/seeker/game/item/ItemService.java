@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.game.item.modifier.models.AlreadyMaxModifiers;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -81,6 +82,25 @@ public class ItemService {
         return Either.right(getById(id).orElseThrow());
     }
 
+    public Either<AlreadyMaxModifiers, Item> addModifier(Item item) {
+        final var addModifierResult = itemModifierService.addModifier(item.rarity(), item.modifiers());
+        if (addModifierResult.isLeft()) {
+            return Either.left(addModifierResult.getLeft());
+        }
+        final var newModifiers = addModifierResult.get();
+        final var newCharacteristics = characteristicService.createCharacteristics(
+            item.rarity(),
+            itemObjectDao.getById(item.object().id()),
+            newModifiers
+        );
+        itemDao.updateItem(
+            item.id(),
+            newCharacteristics,
+            newModifiers.stream().map(GenerateModifier::toModifier).toList()
+        );
+        return Either.right(getById(item.id()).orElseThrow());
+    }
+
     public List<Item> getPersonageItems(PersonageId personageId) {
         return itemDao.getByPersonageId(personageId);
     }
@@ -127,6 +147,11 @@ public class ItemService {
         }
 
         return Either.right(item);
+    }
+
+    public Optional<Item> getPersonageItem(PersonageId personageId, long itemId) {
+        return itemDao.getById(itemId)
+            .filter(item -> item.personageId().map(it -> it.equals(personageId)).orElse(false));
     }
 
     public Either<DropItemError, Item> dropItem(Personage personage, long itemId) {
