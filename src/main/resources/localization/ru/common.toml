@@ -12,12 +12,12 @@ welcomeGroup = """\
 И заходите в ${news_channel_username}, чтобы не пропустить обновления!"""
 
 chooseLanguage = "Выберите язык:"
-onlyAdminAction = "Данное действие доступно только администраторам"
-onlyGroupMemberAction = "Данное действие доступно только участникам группы"
-forbiddenForHiddenGroup = "Данное действие недоступно в скрытой группе"
-onlyForRegisteredGroup = "Данное действие доступно только в зарегистрированных группах"
-forbiddenAction = "Ты не можешь этого сделать"
-internalError = "Произошла ошибка, попробуйте позже"
+onlyAdminAction = "❌Данное действие доступно только администраторам"
+onlyGroupMemberAction = "❌Данное действие доступно только участникам группы"
+forbiddenForHiddenGroup = "❌Данное действие недоступно в скрытой группе"
+onlyForRegisteredGroup = "❌Данное действие доступно только в зарегистрированных группах"
+forbiddenAction = "❌Ты не можешь этого сделать"
+internalError = "❌Произошла ошибка, попробуйте позже"
 fullProfile = """\
 ${personage_badge_with_name}
 ${money_icon}Золото: ${personage_money}
