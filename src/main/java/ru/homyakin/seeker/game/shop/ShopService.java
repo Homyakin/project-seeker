@@ -42,7 +42,7 @@ public class ShopService {
         final var items = new ArrayList<ShopItem>();
         final var personageItems = itemService.getPersonageItems(personageId);
 
-        for (final var item: personageItems) {
+        for (final var item : personageItems) {
             if (!item.isEquipped()) {
                 items.add(new ShopItem.Sell(config.sellingPriceByRarity(item.rarity()), item));
             }
@@ -96,14 +96,14 @@ public class ShopService {
 
     @Transactional
     public Either<NoSuchItemAtPersonage, SoldItem> sellItem(PersonageId personageId, Long itemId) {
-        final var personage = personageService.getByIdForce(personageId);
-        return itemService.dropItem(personage, itemId)
-            .mapLeft(_ -> NoSuchItemAtPersonage.INSTANCE)
-            .map(item -> {
-                final var price = config.sellingPriceByRarity(item.rarity());
-                personageService.addMoney(personage, price);
-                return new SoldItem(item, price);
-            });
+        final var removeResult = itemService.removeItem(personageId, itemId);
+        if (removeResult.isEmpty()) {
+            return Either.left(NoSuchItemAtPersonage.INSTANCE);
+        }
+        final var item = removeResult.get();
+        final var price = config.sellingPriceByRarity(item.rarity());
+        personageService.addMoney(personageId, price);
+        return Either.right(new SoldItem(item, price));
     }
 
     private ItemRarity typeToRarity(ShopItemType type) {

@@ -11,7 +11,7 @@ characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}"
 attack = "${attack_icon}${attack_value}"
 defense = "${defense_icon}${defense_value}"
 health = "${health_icon}${health_value}"
-itemInBag = "${full_item} ${put_on_command} ${drop_command}"
+itemInBag = "${full_item} ${put_on_command}"
 equippedItem = "${full_item} ${take_off_command}"
 personageFreeSlot = "${slot} <i>Пусто</i>"
 
@@ -29,10 +29,3 @@ notEnoughSpaceInBag = "В рюкзаке недостаточно места, ч
 requiredFreeSlots = "Заняты необходимые слоты: ${busy_slots}"
 successPutOn = "Успешно экипировано: ${item}"
 successTakeOff = "Успешно снято: ${item}"
-
-
-confirmDrop = "Вы точно хотите выкинуть ${item}"
-confirmDropButton = "✅Да"
-rejectDropButton = "❌Нет"
-successDrop = "Вы выкинули ${item}"
-rejectedDrop = "Не в этот раз"

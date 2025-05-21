@@ -5,7 +5,6 @@ import java.util.List;
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -17,7 +16,6 @@ import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
-import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
@@ -142,21 +140,6 @@ public class InlineKeyboards {
             .addButton(
                 menuItem.category().consumeButtonText(language),
                 CommandType.CONSUME_MENU_ITEM_ORDER.getText() + TextConstants.CALLBACK_DELIMITER + orderId
-            )
-            .build();
-    }
-
-    public static InlineKeyboardMarkup confirmDropItemKeyboard(Language language, Item item) {
-        return InlineKeyboardBuilder
-            .builder()
-            .addRow()
-            .addButton(
-                ItemLocalization.rejectDropButton(language),
-                CommandType.REJECT_DROP_ITEM.getText()
-            )
-            .addButton(
-                ItemLocalization.confirmDropButton(language),
-                item.confirmDropCommand()
             )
             .build();
     }

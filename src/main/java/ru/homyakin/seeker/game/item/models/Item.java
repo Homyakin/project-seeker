@@ -49,12 +49,4 @@ public record Item(
     public String takeOffCommand() {
         return CommandType.TAKE_OFF.getText() + TextConstants.TG_COMMAND_DELIMITER + id;
     }
-
-    public String dropCommand() {
-        return CommandType.DROP_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + id;
-    }
-
-    public String confirmDropCommand() {
-        return CommandType.CONFIRM_DROP_ITEM.getText() + TextConstants.CALLBACK_DELIMITER + id;
-    }
 }

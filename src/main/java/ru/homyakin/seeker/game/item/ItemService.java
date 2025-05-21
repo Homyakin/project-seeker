@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.characteristics.ItemCharacteristicService;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
-import ru.homyakin.seeker.game.item.errors.DropItemError;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
@@ -135,28 +134,19 @@ public class ItemService {
             .map(_ -> itemDao.getById(itemId).orElseThrow());
     }
 
-    public Either<DropItemError, Item> canDropItem(Personage personage, long itemId) {
-        final var itemResult = itemDao.getById(itemId);
-        if (itemResult.isEmpty()) {
-            logger.debug("Personage {} tried to drop incorrect item with id {}", personage.id(), itemId);
-            return Either.left(DropItemError.PersonageMissingItem.INSTANCE);
-        }
-        final var item = itemResult.get();
-        if (!item.personageId().map(it -> it.equals(personage.id())).orElse(false)) {
-            return Either.left(DropItemError.PersonageMissingItem.INSTANCE);
-        }
-
-        return Either.right(item);
-    }
-
     public Optional<Item> getPersonageItem(PersonageId personageId, long itemId) {
         return itemDao.getById(itemId)
             .filter(item -> item.personageId().map(it -> it.equals(personageId)).orElse(false));
     }
 
-    public Either<DropItemError, Item> dropItem(Personage personage, long itemId) {
-        return canDropItem(personage, itemId)
-            .peek(_ -> itemDao.deletePersonageAndMakeEquipFalse(itemId))
-            .map(_ -> itemDao.getById(itemId).orElseThrow());
+    /**
+     * @return Optional.empty() если не найден
+     */
+    public Optional<Item> removeItem(PersonageId personageId, long itemId) {
+        return getPersonageItem(personageId, itemId)
+            .map(_ -> {
+                itemDao.deletePersonageAndMakeEquipFalse(itemId);
+                return itemDao.getById(itemId).orElseThrow();
+            });
     }
 }
