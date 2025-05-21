@@ -287,7 +287,7 @@ public class GroupManagementLocalization {
 
     public static String incorrectAcceptor(Language language) {
         final var params = new HashMap<String, Object>();
-        params.put("give_money_command", CommandType.GIVE_MONEY);
+        params.put("give_money_command", CommandType.GIVE_MONEY.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::incorrectAcceptor),
             params
