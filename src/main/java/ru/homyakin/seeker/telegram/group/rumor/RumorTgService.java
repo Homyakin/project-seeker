@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.telegram.group.rumor;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,11 +16,14 @@ import ru.homyakin.seeker.game.rumor.RumorConfig;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.utils.StringNamedTemplate;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -86,7 +91,22 @@ public class RumorTgService {
         return SendMessageBuilder
             .builder()
             .chatId(group.id())
-            .text(rumor.text(group.language()))
+            .text(rumorText(group.language(), rumor))
             .build();
+    }
+
+    private String rumorText(Language language, Rumor rumor) {
+        final var text = rumor.text(language);
+        return switch (rumor.code()) {
+            case "feedback" -> buildFeedbackMessage(text);
+            default -> text;
+        };
+    }
+
+    private String buildFeedbackMessage(String template) {
+        return StringNamedTemplate.format(
+            template,
+            Collections.singletonMap("feedback_command", CommandType.INIT_FEEDBACK.getText())
+        );
     }
 }

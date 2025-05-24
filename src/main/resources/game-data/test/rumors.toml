@@ -17,3 +17,11 @@ text = "Это второй слух. Не такой интересный ка�
 
 [rumor.locales.EN]
 text = "This is second rumor on tavern, but in english"
+
+[[rumor]]
+code = "feedback"
+isAvailable = false
+
+[rumor.locales.RU]
+text = """\
+Говорят, что Магистрат отвечает почти на все вопросы и идеи из <code>${feedback_command}</code>..."""
