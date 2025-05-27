@@ -30,7 +30,7 @@ public class ThrowOrderExecutor extends CommandExecutor<ThrowOrder> {
         final var group = groupUser.first();
         final var throwing = groupUser.second();
 
-        final var text = orderTgService.throwOrder(throwing, command.mentionInfo(), group.id())
+        final var text = orderTgService.throwOrder(throwing, command.mentionInfo(), group)
                 .fold(
                     error -> TavernMenuLocalization.throwOrderError(group.language(), error),
                     result -> TavernMenuLocalization.throwResult(group.language(), result)

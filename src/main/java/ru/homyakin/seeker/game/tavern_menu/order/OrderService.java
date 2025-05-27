@@ -24,7 +24,6 @@ import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.utils.TimeUtils;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -110,13 +109,12 @@ public class OrderService {
         );
     }
 
-    // TODO надо вынести группу телеги и группы игры в разные домены
-    public Either<ThrowOrderError, ThrowResult> throwOrder(List<MenuItemOrder> orders, Personage personage, ThrowTarget target) {
-        final var validateResult = validateThrowingOrders(orders, personage);
-        if (validateResult.isLeft()) {
-            return Either.left(validateResult.getLeft());
+    public Either<ThrowOrderError, ThrowResult> throwOrder(Personage personage, GroupId groupId, ThrowTarget target) {
+        final var findResult = findOrderToThrow(personage, groupId);
+        if (findResult.isLeft()) {
+            return Either.left(findResult.getLeft());
         }
-        final var orderToThrow = validateResult.get();
+        final var orderToThrow = findResult.get();
 
         return lockService.tryLockAndCalc(
             lockOrderKey(orderToThrow.id()),
@@ -127,15 +125,10 @@ public class OrderService {
         );
     }
 
-    private Either<ThrowOrderError, MenuItemOrder> validateThrowingOrders(List<MenuItemOrder> orders, Personage personage) {
+    private Either<ThrowOrderError, MenuItemOrder> findOrderToThrow(Personage personage, GroupId groupId) {
+        final var orders = menuItemOrderDao.findNotFinalForPersonageInGroup(personage.id(), groupId);
         if (orders.isEmpty()) {
             return Either.left(ThrowOrderError.NoOrders.INSTANCE);
-        }
-        //TODO костыль пока не можем обращаться к группе из game
-        for (final var order : orders) {
-            if (!order.acceptingPersonageId().equals(personage.id())) {
-                throw new IllegalArgumentException("order acceptor and thrower not equals");
-            }
         }
         final var orderToThrow = orders
             .stream()

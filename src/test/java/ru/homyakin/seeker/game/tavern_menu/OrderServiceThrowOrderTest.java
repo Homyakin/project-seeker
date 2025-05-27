@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.models.Money;
@@ -35,6 +36,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+
 public class OrderServiceThrowOrderTest {
     private final PersonageService personageService = Mockito.mock();
     private final MenuItemOrderDao menuItemOrderDao = Mockito.mock();
@@ -62,8 +65,10 @@ public class OrderServiceThrowOrderTest {
         final var orders = Collections.<MenuItemOrder>emptyList();
         final var personage = PersonageUtils.random();
         final var target = ThrowTarget.None.INSTANCE;
+        final var groupId = new GroupId(1);
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
-        final var result = orderService.throwOrder(orders, personage, target);
+        final var result = orderService.throwOrder(personage, groupId, target);
 
         Assertions.assertEquals(ThrowOrderError.NoOrders.INSTANCE, result.getLeft());
     }
@@ -82,12 +87,14 @@ public class OrderServiceThrowOrderTest {
         );
         final var orders = List.of(order);
         final var target = ThrowTarget.None.INSTANCE;
+        final var groupId = new GroupId(1);
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
         // When
-        final var result = orderService.throwOrder(orders, personage, target);
+        final var result = orderService.throwOrder(personage, groupId, target);
 
         // Then
         Assertions.assertEquals(new ThrowOrderError.OnlyCreatedOrders(menuItem.category()), result.getLeft());
@@ -107,12 +114,14 @@ public class OrderServiceThrowOrderTest {
         );
         final var orders = List.of(order);
         final var target = ThrowTarget.None.INSTANCE;
+        final var groupId = new GroupId(1);
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
         // When
-        final var result = orderService.throwOrder(orders, personage, target);
+        final var result = orderService.throwOrder(personage, groupId, target);
 
         // Then
         Assertions.assertEquals(new ThrowOrderError.NotEnoughMoney(config.throwCost()), result.getLeft());
@@ -132,12 +141,14 @@ public class OrderServiceThrowOrderTest {
         );
         final var orders = List.of(order);
         final var target = ThrowTarget.None.INSTANCE;
+        final var groupId = new GroupId(1);
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
         // When
-        final var result = orderService.throwOrder(orders, personage, target);
+        final var result = orderService.throwOrder(personage, groupId, target);
 
         // Then
         Assertions.assertEquals(
@@ -164,18 +175,20 @@ public class OrderServiceThrowOrderTest {
         );
         final var orders = List.of(order);
         final var target = new ThrowTarget.PersonageTarget(PersonageUtils.random());
+        final var groupId = new GroupId(1);
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
-        Mockito.when(personageService.addEffect(Mockito.any(), Mockito.any(), Mockito.any()))
+        Mockito.when(personageService.addEffect(any(), any(), any()))
             .thenReturn(target.personage());
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
         // When
         final var now = TimeUtils.moscowTime();
         final Either<ThrowOrderError, ThrowResult> result;
         try (final var mock = Mockito.mockStatic(TimeUtils.class)) {
             mock.when(TimeUtils::moscowTime).thenReturn(now);
-            result = orderService.throwOrder(orders, personage, target);
+            result = orderService.throwOrder(personage, groupId, target);
         }
 
         // Then
@@ -209,18 +222,20 @@ public class OrderServiceThrowOrderTest {
         );
         final var orders = List.of(order);
         final var target = new ThrowTarget.PersonageTarget(personage);
+        final var groupId = new GroupId(1);
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
-        Mockito.when(personageService.addEffect(Mockito.any(), Mockito.any(), Mockito.any()))
+        Mockito.when(personageService.addEffect(any(), any(), any()))
             .thenReturn(target.personage());
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
         // When
         final var now = TimeUtils.moscowTime();
         final Either<ThrowOrderError, ThrowResult> result;
         try (final var mock = Mockito.mockStatic(TimeUtils.class)) {
             mock.when(TimeUtils::moscowTime).thenReturn(now);
-            result = orderService.throwOrder(orders, personage, target);
+            result = orderService.throwOrder(personage, groupId, target);
         }
 
         // Then
@@ -254,18 +269,20 @@ public class OrderServiceThrowOrderTest {
         );
         final var orders = List.of(order);
         final var target = ThrowTarget.TavernStaff.INSTANCE;
+        final var groupId = new GroupId(1);
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
-        Mockito.when(personageService.addEffect(Mockito.any(), Mockito.any(), Mockito.any()))
+        Mockito.when(personageService.addEffect(any(), any(), any()))
             .thenReturn(personage);
+        Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
         // When
         final var now = TimeUtils.moscowTime();
         final Either<ThrowOrderError, ThrowResult> result;
         try (final var mock = Mockito.mockStatic(TimeUtils.class)) {
             mock.when(TimeUtils::moscowTime).thenReturn(now);
-            result = orderService.throwOrder(orders, personage, target);
+            result = orderService.throwOrder(personage, groupId, target);
         }
 
         // Then

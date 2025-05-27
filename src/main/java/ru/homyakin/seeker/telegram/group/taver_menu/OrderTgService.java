@@ -95,7 +95,7 @@ public class OrderTgService {
     public Either<ThrowOrderTgError, ThrowResultTg> throwOrder(
         User throwing,
         Optional<MentionInfo> target,
-        GroupTgId groupId
+        GroupTg groupTg
     ) {
         final ThrowTarget throwTarget;
         if (target.isEmpty()) {
@@ -103,7 +103,7 @@ public class OrderTgService {
         } else {
             final Optional<ThrowTarget> optional = switch (target.get().userType()) {
                 case USER -> {
-                    final var user = userService.getByMention(target.get(), groupId);
+                    final var user = userService.getByMention(target.get(), groupTg.id());
                     if (user.isEmpty()) {
                         yield Optional.empty();
                     }
@@ -120,9 +120,8 @@ public class OrderTgService {
             throwTarget = optional.get();
         }
         final var personage = personageService.getByIdForce(throwing.personageId());
-        final var orders = menuItemOrderTgDao.findNotFinalForPersonageInGroup(personage.id(), groupId);
 
-        return orderService.throwOrder(orders, personage, throwTarget)
+        return orderService.throwOrder(personage, groupTg.domainGroupId(), throwTarget)
             .<ThrowOrderTgError>mapLeft(ThrowOrderTgError.Domain::new)
             .map(this::mapThrowResultToTg);
     }

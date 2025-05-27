@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowResult;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -48,6 +49,21 @@ public class MenuItemOrderDao {
 
     public Optional<MenuItemOrder> getById(long id) {
         return jdbcClient.sql(GET_BY_ID).param("id", id).query(MenuItemOrderMapper::mapRow).optional();
+    }
+
+    public List<MenuItemOrder> findNotFinalForPersonageInGroup(PersonageId personageId, GroupId groupId) {
+        final var sql = """
+            SELECT mio.* FROM menu_item_order mio
+            WHERE accepting_personage_id = :personage_id
+            AND status_id in (:status_ids)
+            AND mio.pgroup_id = :pgroup_id
+            """;
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .param("status_ids", List.of(OrderStatus.CREATED.id(), OrderStatus.CONSUMED.id()))
+            .param("pgroup_id", groupId.value())
+            .query(MenuItemOrderMapper::mapRow)
+            .list();
     }
 
     public void update(MenuItemOrder order) {
