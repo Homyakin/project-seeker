@@ -99,7 +99,7 @@ throwToGroupNotMember = "Ты не состоишь в группе, из кот
 throwToGroupTimeout = "За вашей группой пристально наблюдают после последнего инцидента. Лучше подождать ${duration}"
 throwToGroupTargetTimeout = "Похоже в твою цель недавно прилетело и они настороже. Лучше подождать, если не хочешь тяжкие телесные"
 throwToGroupNoPersonage = "Похоже что в <code>${group}</code> пусто и нет мешени. Так не интересно."
-throwToThisGroup = "Ты не можешь кинуть в свою же группу"
+throwToThisGroup = "Ты не можешь кинуть в эту же группу"
 throwToGroupResult = """\
 ${throw_text}
 
