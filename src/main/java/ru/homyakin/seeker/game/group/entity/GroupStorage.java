@@ -46,6 +46,8 @@ public interface GroupStorage {
 
     Optional<GroupProfile> getProfile(GroupId groupId);
 
+    Optional<Group> getByTag(String tag);
+
     List<Group> getByTags(List<String> tags);
 
     void addMoney(Map<GroupId, Money> map);

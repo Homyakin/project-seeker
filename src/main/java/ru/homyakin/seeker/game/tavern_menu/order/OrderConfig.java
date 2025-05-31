@@ -16,6 +16,8 @@ public class OrderConfig {
     private Duration effectDuration;
     private Duration orderTtl;
     private Duration timeToThrowOrder;
+    private Duration throwGroupTimeout;
+    private Duration throwTargetGroupTimeout;
 
     public Money throwCost() {
         return throwCost;
@@ -45,6 +47,14 @@ public class OrderConfig {
         return timeToThrowOrder;
     }
 
+    public Duration throwGroupTimeout() {
+        return throwGroupTimeout;
+    }
+
+    public Duration throwTargetGroupTimeout() {
+        return throwTargetGroupTimeout;
+    }
+
     public void setThrowDamagePercent(int throwDamagePercent) {
         this.throwDamageEffect = new Effect.MinusMultiplier(throwDamagePercent, EffectCharacteristic.HEALTH);
     }
@@ -71,5 +81,13 @@ public class OrderConfig {
 
     public void setTimeToThrowOrder(Duration timeToThrowOrder) {
         this.timeToThrowOrder = timeToThrowOrder;
+    }
+
+    public void setThrowGroupTimeout(Duration throwGroupTimeout) {
+        this.throwGroupTimeout = throwGroupTimeout;
+    }
+
+    public void setThrowTargetGroupTimeout(Duration throwTargetGroupTimeout) {
+        this.throwTargetGroupTimeout = throwTargetGroupTimeout;
     }
 }

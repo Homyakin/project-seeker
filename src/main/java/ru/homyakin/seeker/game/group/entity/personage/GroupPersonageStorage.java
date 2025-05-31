@@ -10,6 +10,8 @@ import java.util.Set;
 public interface GroupPersonageStorage {
     Optional<PersonageId> randomPersonage(GroupId groupId);
 
+    Optional<PersonageId> randomMember(GroupId groupId);
+
     int countPersonages(GroupId groupId);
 
     void deactivatePersonageInGroup(GroupId groupId, PersonageId personageId);

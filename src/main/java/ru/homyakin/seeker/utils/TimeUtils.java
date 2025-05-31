@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.utils;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -42,6 +43,14 @@ public class TimeUtils {
     public static LocalDate thisWeekSunday() {
         final var today = LocalDate.now();
         return today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+    }
+
+    public static boolean isTimePassed(LocalDateTime time, Duration duration) {
+        return time.plus(duration).isBefore(moscowTime());
+    }
+
+    public static Duration remainingTime(LocalDateTime till) {
+        return Duration.between(moscowTime(), till);
     }
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy ('GMT'+03)");

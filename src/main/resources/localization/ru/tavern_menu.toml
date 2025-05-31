@@ -92,3 +92,52 @@ throwToStaff = [
     "Случайно попал посудой в бармена. Очнулся на улице.",
     "Решил отомстить официанту и кинуть в него чем-нибудь. Тебя жёстко отмудохали толпой.",
 ]
+
+throwToGroupMissingGroup = "Необходимо указать тэг группы <code>${throw_to_group_command} тэг</code>"
+throwToGroupNotExists = "Такой группы не существует"
+throwToGroupNotMember = "Ты не состоишь в группе, из которой собираешься бросить заказ"
+throwToGroupTimeout = "За вашей группой пристально наблюдают после последнего инцидента. Лучше подождать ${duration}"
+throwToGroupTargetTimeout = "Похоже в твою цель недавно прилетело и они настороже. Лучше подождать, если не хочешь тяжкие телесные"
+throwToGroupNoPersonage = "Похоже что в <code>${group}</code> пусто и нет мешени. Так не интересно."
+throwToThisGroup = "Ты не можешь кинуть в свою же группу"
+throwToGroupResult = """\
+${throw_text}
+
+<i>Потрачено: -${money_value}${money_icon}</i>"""
+throwFromGroupResult = """\
+${throw_text}
+
+<i>Эффект: ${effect}</i>"""
+throwDrinkToGroup = [
+    "Ты кидаешь кружку в толпу <code>${to_group}</code> и попадаешь в голову <code>${personage}</code>! Но приходится оплатить ущерб.",
+    "Бросок в <code>${to_group}!</code> Бокал летит.... ГООООООЛ!!!! <code>${personage}</code> в накауте.",
+    "С размахом отправляешь кружку в <code>${to_group}</code> — <code>${personage}</code> теперь знает, что такое боль.",
+    "Твой бокал летит в <code>${to_group}</code> и с грохотом встречается с <code>${personage}</code>! Аплодисменты от бармена.",
+    "Кружка, пущенная тобой в <code>${to_group}</code>, эффектно сбивает с ног <code>${personage}</code>! Публика в восторге.",
+    "С криком «За здоровье!» ты отправляешь бокал в <code>${to_group}</code>, и он точно попадает в <code>${personage}</code>.",
+]
+throwDishToGroup = [
+    "Ты кидаешь тарелку в толпу <code>${to_group}</code> и попадаешь в голову <code>${personage}</code>! Но приходится оплатить ущерб.",
+    "Бросок в <code>${to_group}!</code> Тарелка летит.... ГООООООЛ!!!! <code>${personage}</code> в накауте.",
+    "Тарелка, пущенная тобой в <code>${to_group}</code>, находит свою цель — <code>${personage}</code> теперь украшен остатками ужина.",
+    "Тарелка, запущенная в <code>${to_group}</code>, с треском встречается с <code>${personage}</code>! Официант негодует.",
+    "Ты метко бросаешь тарелку в <code>${to_group}</code> — <code>${personage}</code> теперь знает, каково быть мишенью.",
+    "Твой бросок тарелки в <code>${to_group}</code> вызывает бурю эмоций у <code>${personage}</code> и всей таверны.",
+]
+
+throwDrinkFromGroup = [
+    "Внезапно из <code>${from_group}</code> прилетает бокал прямо в спящего ${mention_personage}!",
+    "Из <code>${from_group}</code> с грохотом прилетает кружка и попадает в ${mention_personage}! Бармен одобряет меткость.",
+    "Бокал из <code>${from_group}</code> пролетает через весь зал и приземляется прямо на голову ${mention_personage}!",
+    "Из <code>${from_group}</code> прилетает кружка — ${mention_personage} теперь знает вкус неожиданности.",
+    "Бокал из <code>${from_group}</code> летит по дуге и смачно приземляется на ${mention_personage}.",
+    "Из <code>${from_group}</code> прилетает бокал — ${mention_personage} получает неожиданное сотрясение.",
+]
+throwDishFromGroup = [
+    "Внезапно из <code>${from_group}</code> прилетает тарелка прямо в спящего ${mention_personage}!",
+    "Из <code>${from_group}</code> прилетает тарелка — ${mention_personage} теперь знает вкус неожиданности.",
+    "Кто-то из <code>${from_group}</code> метко отправляет тарелку прямо в ${mention_personage}!",
+    "Из <code>${from_group}</code> прилетает тарелка — остатки ужина теперь на ${mention_personage}.",
+    "Из <code>${from_group}</code> прилетает тарелка — ${mention_personage} теперь украшен остатками трапезы.",
+    "Тарелка из <code>${from_group}</code> наносит неожиданное сотрясение ${mention_personage}.",
+]

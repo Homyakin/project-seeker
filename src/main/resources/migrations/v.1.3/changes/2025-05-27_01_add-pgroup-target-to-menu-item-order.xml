@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-pgroup-target-to-menu-item-order">
+        <addColumn tableName="menu_item_order">
+            <column name="throw_target_pgroup_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint
+                baseTableName="menu_item_order"
+                baseColumnNames="throw_target_pgroup_id"
+                constraintName="fk-menu_item_order-pgroup-target"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>

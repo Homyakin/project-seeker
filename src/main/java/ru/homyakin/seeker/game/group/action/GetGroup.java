@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.group.entity.GroupStorage;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GetGroup {
@@ -31,6 +32,10 @@ public class GetGroup {
 
     public List<Group> getGetGroupsWithLessNextRumorDate(LocalDateTime maxNextRumorDate) {
         return storage.getGetGroupsWithLessNextRumorDate(maxNextRumorDate);
+    }
+
+    public Optional<Group> getByTag(String tag) {
+        return storage.getByTag(tag);
     }
 
     public List<Group> getByTags(List<String> tags) {

@@ -8,4 +8,5 @@
     <include file="changes/2025-03-02_01_add-personage-settings.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-03-19_01_add-world-raid.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-04-18_01_add-pgroup-leave-date-to-personage.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2025-05-27_01_add-pgroup-target-to-menu-item-order.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

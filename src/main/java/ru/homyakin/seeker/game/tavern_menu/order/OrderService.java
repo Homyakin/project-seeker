@@ -1,11 +1,14 @@
 package ru.homyakin.seeker.game.tavern_menu.order;
 
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
@@ -28,6 +31,7 @@ import java.util.Optional;
 
 @Service
 public class OrderService {
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
     private final PersonageService personageService;
     private final MenuItemOrderDao menuItemOrderDao;
     private final MenuService menuService;
@@ -110,7 +114,7 @@ public class OrderService {
     }
 
     public Either<ThrowOrderError, ThrowResult> throwOrder(Personage personage, GroupId groupId, ThrowTarget target) {
-        final var findResult = findOrderToThrow(personage, groupId);
+        final var findResult = findOrderToThrow(personage.id(), groupId);
         if (findResult.isLeft()) {
             return Either.left(findResult.getLeft());
         }
@@ -125,8 +129,59 @@ public class OrderService {
         );
     }
 
-    private Either<ThrowOrderError, MenuItemOrder> findOrderToThrow(Personage personage, GroupId groupId) {
-        final var orders = menuItemOrderDao.findNotFinalForPersonageInGroup(personage.id(), groupId);
+    @Transactional
+    public Either<ThrowOrderError, ThrowResult.ThrowToOtherPersonage> throwOrder(
+        Personage throwing,
+        GroupId groupId,
+        GroupId targetGroupId,
+        Personage target
+    ) {
+        final var findResult = findOrderToThrow(throwing.id(), groupId);
+        if (findResult.isLeft()) {
+            return Either.left(findResult.getLeft());
+        }
+        final var orderToThrow = findResult.get();
+
+        return lockService.tryLockAndCalc(
+            lockOrderKey(orderToThrow.id()),
+            () -> throwOrderLogic(orderToThrow, throwing, targetGroupId, target)
+        ).fold(
+            _ -> Either.left(ThrowOrderError.OrderLocked.INSTANCE),
+            either -> either
+        );
+    }
+
+    private Either<ThrowOrderError, ThrowResult.ThrowToOtherPersonage> throwOrderLogic(
+        MenuItemOrder order,
+        Personage throwing,
+        GroupId targetGroupId,
+        Personage target
+    ) {
+        final var cost = config.throwCost();
+        final var category = menuService.getMenuItem(order.menuItemId()).orElseThrow().category();
+        if (throwing.money().lessThan(cost)) {
+            return Either.left(new ThrowOrderError.NotEnoughMoney(cost));
+        }
+
+        personageService.takeMoney(throwing, cost);
+
+        final var result = throwToPersonage(
+            order.id(),
+            throwing,
+            target,
+            category
+        );
+
+        if (result instanceof ThrowResult.ThrowToOtherPersonage throwToOtherPersonage) {
+            menuItemOrderDao.updateThrowTargets(order.id(), target.id(), targetGroupId);
+            return Either.right(throwToOtherPersonage);
+        }
+        logger.error("Unexpected throw result {}", result);
+        throw new IllegalStateException("Unexpected throw result " + result);
+    }
+
+    private Either<ThrowOrderError, MenuItemOrder> findOrderToThrow(PersonageId personageId, GroupId groupId) {
+        final var orders = menuItemOrderDao.findNotFinalForPersonageInGroup(personageId, groupId);
         if (orders.isEmpty()) {
             return Either.left(ThrowOrderError.NoOrders.INSTANCE);
         }

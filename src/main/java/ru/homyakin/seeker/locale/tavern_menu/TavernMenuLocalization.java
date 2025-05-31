@@ -5,13 +5,19 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowOrderError;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowToGroupError;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowToGroupResult;
 import ru.homyakin.seeker.infrastructure.Icons;
+import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -179,6 +185,132 @@ public class TavernMenuLocalization {
             resources.getOrDefault(language, TavernMenuResource::throwResult),
             params
         );
+    }
+
+    public static String throwToGroupMissingGroup(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("throw_to_group_command", CommandType.THROW_ORDER_TO_GROUP.getText());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TavernMenuResource::throwToGroupMissingGroup),
+            params
+        );
+    }
+
+    public static String throwToGroupError(Language language, ThrowToGroupError error) {
+        return switch (error) {
+            case ThrowOrderError throwOrderError -> throwOrderError(language, throwOrderError);
+            case ThrowToGroupError.InternalError _ -> CommonLocalization.internalError(language);
+            case ThrowToGroupError.NotGroupMember _ -> throwToGroupNotMember(language);
+            case ThrowToGroupError.NotRegisteredGroup _ -> CommonLocalization.onlyForRegisteredGroup(language);
+            case ThrowToGroupError.TargetGroupIsEmpty _ -> throwToGroupNoPersonage(language);
+            case ThrowToGroupError.TargetGroupNotFound _ -> throwToGroupNotExists(language);
+            case ThrowToGroupError.TargetGroupTimeout _ -> throwToGroupTargetTimeout(language);
+            case ThrowToGroupError.ThrowingGroupTimeout throwingGroupTimeout ->
+                throwToGroupTimeout(language, throwingGroupTimeout);
+            case ThrowToGroupError.ThrowToThisGroup _ -> throwToThisGroup(language);
+        };
+    }
+
+    public static String throwToGroupResult(Language language, ThrowToGroupResult result) {
+        final var throwResult = switch (result.category()) {
+            case DRINK -> throwDrinkToGroup(language, result.targetGroup(), result.target());
+            case MAIN_DISH -> throwDishToGroup(language, result.targetGroup(), result.target());
+        };
+        final var params = new HashMap<String, Object>();
+        params.put("throw_text", throwResult);
+        params.put("money_value", result.cost().value());
+        params.put("money_icon", Icons.MONEY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TavernMenuResource::throwToGroupResult),
+            params
+        );
+    }
+
+    public static String throwFromGroupResult(
+        Language language,
+        Group fromGroup,
+        PersonageMention mention,
+        Effect effect,
+        Category category
+    ) {
+        final var throwResult = switch (category) {
+            case DRINK -> throwDrinkFromGroup(language, fromGroup, mention);
+            case MAIN_DISH -> throwDishFromGroup(language, fromGroup, mention);
+        };
+        final var params = new HashMap<String, Object>();
+        params.put("throw_text", throwResult);
+        params.put("effect", CommonLocalization.effect(language, effect));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TavernMenuResource::throwFromGroupResult),
+            params
+        );
+    }
+
+    private static String throwDrinkToGroup(Language language, Group group, Personage personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("to_group", LocaleUtils.groupNameWithBadge(group));
+        params.put("personage", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefaultRandom(language, TavernMenuResource::throwDrinkToGroup),
+            params
+        );
+    }
+
+    private static String throwDishToGroup(Language language, Group group, Personage personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("to_group", LocaleUtils.groupNameWithBadge(group));
+        params.put("personage", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefaultRandom(language, TavernMenuResource::throwDishToGroup),
+            params
+        );
+    }
+
+    private static String throwDrinkFromGroup(Language language, Group group, PersonageMention mention) {
+        final var params = new HashMap<String, Object>();
+        params.put("from_group", LocaleUtils.groupNameWithBadge(group));
+        params.put("mention_personage", mention.value());
+        return StringNamedTemplate.format(
+            resources.getOrDefaultRandom(language, TavernMenuResource::throwDrinkFromGroup),
+            params
+        );
+    }
+
+    private static String throwDishFromGroup(Language language, Group group, PersonageMention mention) {
+        final var params = new HashMap<String, Object>();
+        params.put("from_group", LocaleUtils.groupNameWithBadge(group));
+        params.put("mention_personage", mention.value());
+        return StringNamedTemplate.format(
+            resources.getOrDefaultRandom(language, TavernMenuResource::throwDishFromGroup),
+            params
+        );
+    }
+
+    private static String throwToGroupNotMember(Language language) {
+        return resources.getOrDefault(language, TavernMenuResource::throwToGroupNotMember);
+    }
+
+    private static String throwToGroupNoPersonage(Language language) {
+        return resources.getOrDefault(language, TavernMenuResource::throwToGroupNoPersonage);
+    }
+
+    private static String throwToGroupNotExists(Language language) {
+        return resources.getOrDefault(language, TavernMenuResource::throwToGroupNotExists);
+    }
+
+    private static String throwToThisGroup(Language language) {
+        return resources.getOrDefault(language, TavernMenuResource::throwToThisGroup);
+    }
+
+    private static String throwToGroupTimeout(Language language, ThrowToGroupError.ThrowingGroupTimeout error) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TavernMenuResource::throwToGroupTimeout),
+            Collections.singletonMap("duration", CommonLocalization.duration(language, error.timeout()))
+        );
+    }
+
+    private static String throwToGroupTargetTimeout(Language language) {
+        return resources.getOrDefault(language, TavernMenuResource::throwToGroupTargetTimeout);
     }
 
     private static String throwResultText(Language language, ThrowResultTg result) {

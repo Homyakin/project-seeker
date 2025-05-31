@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.tavern_menu.order.models;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
 
-public sealed interface ThrowOrderError {
+public sealed interface ThrowOrderError extends ThrowToGroupError {
 
     enum OrderLocked implements ThrowOrderError {
         INSTANCE

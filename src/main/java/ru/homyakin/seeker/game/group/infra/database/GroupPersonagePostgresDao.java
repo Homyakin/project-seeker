@@ -35,6 +35,21 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
     }
 
     @Override
+    public Optional<PersonageId> randomMember(GroupId groupId) {
+        final var sql = """
+            SELECT personage_id FROM pgroup_to_personage
+            LEFT JOIN personage ON personage.id = pgroup_to_personage.personage_id
+            WHERE pgroup_id = :pgroup_id AND is_active = true
+            AND personage.member_pgroup_id = :pgroup_id
+            ORDER BY random() LIMIT 1;
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .query((rs, _) -> PersonageId.from(rs.getLong("personage_id")))
+            .optional();
+    }
+
+    @Override
     public int countPersonages(GroupId groupId) {
         final var sql = """
             SELECT COUNT(*) FROM pgroup_to_personage WHERE pgroup_id = :pgroup_id AND is_active = true;

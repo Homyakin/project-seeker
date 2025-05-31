@@ -33,6 +33,19 @@ public record TavernMenuResource(
     String[] throwDrinkToPersonage,
     String[] selfThrowDish,
     String[] selfThrowDrink,
-    String[] throwToStaff
+    String[] throwToStaff,
+    String throwToGroupMissingGroup,
+    String throwToGroupNotExists,
+    String throwToGroupNotMember,
+    String throwToGroupTimeout,
+    String throwToGroupTargetTimeout,
+    String throwToGroupNoPersonage,
+    String throwToThisGroup,
+    String throwToGroupResult,
+    String throwFromGroupResult,
+    String[] throwDrinkToGroup,
+    String[] throwDishToGroup,
+    String[] throwDrinkFromGroup,
+    String[] throwDishFromGroup
 ) {
 }

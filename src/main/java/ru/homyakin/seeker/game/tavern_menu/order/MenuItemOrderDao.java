@@ -120,6 +120,48 @@ public class MenuItemOrderDao {
             .update();
     }
 
+    public void updateThrowTargets(long orderId, PersonageId targetPersonageId, GroupId targetGroupId) {
+        final var sql = """
+            UPDATE menu_item_order SET throw_target_personage_id = :personage_id,
+             throw_target_pgroup_id = :throw_target_pgroup_id,
+             status_id = :status_id
+            WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", orderId)
+            .param("personage_id", targetPersonageId.value())
+            .param("throw_target_pgroup_id", targetGroupId.value())
+            .param("status_id", OrderStatus.THROWN.id())
+            .update();
+    }
+
+    public Optional<LocalDateTime> lastThrowFromGroup(GroupId groupId) {
+        final var sql = """
+            SELECT expire_date_time FROM menu_item_order mio
+            WHERE mio.pgroup_id = :pgroup_id
+            AND throw_target_pgroup_id is not null
+            ORDER BY expire_date_time DESC
+            LIMIT 1
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .query((rs, _) -> rs.getTimestamp("expire_date_time").toLocalDateTime())
+            .optional();
+    }
+
+    public Optional<LocalDateTime> lastThrowToGroup(GroupId groupId) {
+        final var sql = """
+            SELECT expire_date_time FROM menu_item_order mio
+            WHERE throw_target_pgroup_id = :pgroup_id
+            ORDER BY expire_date_time DESC
+            LIMIT 1
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .query((rs, _) -> rs.getTimestamp("expire_date_time").toLocalDateTime())
+            .optional();
+    }
+
     private static final String GET_BY_ID = "SELECT * FROM menu_item_order WHERE id = :id";
 }
 

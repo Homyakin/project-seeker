@@ -39,6 +39,10 @@ public record Group(
         return settings.isHidden();
     }
 
+    public boolean isSameTag(String tag) {
+        return this.tag.map(tag::equals).orElse(false);
+    }
+
     private Group copyWithSettings(GroupSettings settings) {
         return new Group(id, tag, name, isActive, settings);
     }

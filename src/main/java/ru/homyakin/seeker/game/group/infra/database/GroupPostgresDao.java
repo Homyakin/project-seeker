@@ -256,6 +256,17 @@ public class GroupPostgresDao implements GroupStorage {
     }
 
     @Override
+    public Optional<Group> getByTag(String tag) {
+        final var sql = """
+            SELECT * FROM pgroup WHERE tag = :tag
+            """;
+        return jdbcClient.sql(sql)
+            .param("tag", tag)
+            .query(this::mapRow)
+            .optional();
+    }
+
+    @Override
     public List<Group> getByTags(List<String> tags) {
         if (tags.isEmpty()) {
             return Collections.emptyList();

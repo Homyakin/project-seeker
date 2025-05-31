@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Component
 public class RandomGroupPersonage {
@@ -20,9 +21,20 @@ public class RandomGroupPersonage {
     }
 
     public Either<Error, Optional<PersonageId>> random(GroupId groupId) {
+        return random(groupId, () -> storage.randomPersonage(groupId));
+    }
+
+    public Either<Error, Optional<PersonageId>> randomMember(GroupId groupId) {
+        return random(groupId, () -> storage.randomMember(groupId));
+    }
+
+    private Either<Error, Optional<PersonageId>> random(
+        GroupId groupId,
+        Supplier<Optional<PersonageId>> getPersonage
+    ) {
         PersonageId personageId = null;
         do {
-            final var optionalResult = storage.randomPersonage(groupId);
+            final var optionalResult = getPersonage.get();
             if (optionalResult.isEmpty()) {
                 return Either.right(Optional.empty());
             }

@@ -44,6 +44,7 @@ public class HelpLocalization {
         params.put("menu_command", CommandType.TAVERN_MENU.getText());
         params.put("order_command", CommandType.ORDER.getText());
         params.put("throw_command", CommandType.THROW_ORDER.getText());
+        params.put("throw_to_group_command", CommandType.THROW_ORDER_TO_GROUP.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::menu),
             params

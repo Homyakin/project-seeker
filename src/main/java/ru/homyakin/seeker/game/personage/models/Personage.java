@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
+import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
@@ -241,6 +242,10 @@ public record Personage(
 
     public Personage addEffect(PersonageEffectType type, PersonageEffect effect) {
         return copyWithEffects(effects.addEffect(type, effect));
+    }
+
+    public boolean isGroupMember(Group group) {
+        return tag().isPresent() && group.tag().isPresent() && tag().equals(group.tag());
     }
 
     private Personage copyWithEffects(PersonageEffects effects) {

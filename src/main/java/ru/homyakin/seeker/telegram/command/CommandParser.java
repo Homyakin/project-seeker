@@ -45,6 +45,7 @@ import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ThrowOrder;
+import ru.homyakin.seeker.telegram.command.group.tavern_menu.ThrowOrderToGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopGroupRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopList;
 import ru.homyakin.seeker.telegram.command.group.top.TopPowerGroup;
@@ -223,6 +224,7 @@ public class CommandParser {
                 case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);
                 case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
                 case CHANGE_TAG -> ChangeGroupTag.from(message);
+                case THROW_ORDER_TO_GROUP -> ThrowOrderToGroup.from(message);
                 default -> null;
             });
     }
