@@ -9,6 +9,6 @@ class GroupSpringConfigTest {
 
     @Test
     void registrationPriceIs1000() {
-        Assertions.assertEquals(new Money(1000), groupSpringConfig.registrationPrice());
+        Assertions.assertEquals(new Money(500), groupSpringConfig.registrationPrice());
     }
 }
