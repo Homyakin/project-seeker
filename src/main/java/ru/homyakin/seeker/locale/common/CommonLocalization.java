@@ -310,7 +310,7 @@ public class CommonLocalization {
     public static String receptionDesk(Language language, Statistic statistic) {
         final var params = new HashMap<String, Object>();
         params.put("active_personages_count", statistic.activePersonages());
-        params.put("active_groups_count", statistic.activeGroups());
+        params.put("registered_groups_count", statistic.activeRegisteredGroups());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::receptionDesk),
             params

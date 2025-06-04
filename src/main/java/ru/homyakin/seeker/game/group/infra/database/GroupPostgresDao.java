@@ -62,17 +62,13 @@ public class GroupPostgresDao implements GroupStorage {
     }
 
     @Override
-    public long countActiveGroups(int requiredActivePersonages) {
+    public long countActiveRegisteredGroups() {
         final var sql = """
             SELECT COUNT(*) as active_groups
             FROM pgroup p
-            WHERE is_active = true AND is_hidden = false AND
-            (
-                SELECT COUNT(*) FROM pgroup_to_personage WHERE pgroup_id = p.id AND is_active = true
-            ) >= :required_active_personages
+            WHERE is_active = true AND is_hidden = false AND tag IS NOT NULL
             """;
         return jdbcClient.sql(sql)
-            .param("required_active_personages", requiredActivePersonages)
             .query((rs, _) -> rs.getLong("active_groups"))
             .single();
     }

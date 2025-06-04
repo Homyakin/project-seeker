@@ -4,16 +4,14 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 
 @Component
-public class CountActiveGroupsCommand {
+public class CountActiveRegisteredGroupsCommand {
     private final GroupStorage storage;
 
-    public CountActiveGroupsCommand(GroupStorage storage) {
+    public CountActiveRegisteredGroupsCommand(GroupStorage storage) {
         this.storage = storage;
     }
 
     public long execute() {
-        return storage.countActiveGroups(REQUIRED_ACTIVE_PERSONAGES);
+        return storage.countActiveRegisteredGroups();
     }
-
-    private static final int REQUIRED_ACTIVE_PERSONAGES = 2;
 }

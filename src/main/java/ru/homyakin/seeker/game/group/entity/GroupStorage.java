@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface GroupStorage {
     GroupId create(CreateGroupRequest request);
 
-    long countActiveGroups(int requiredActivePersonages);
+    long countActiveRegisteredGroups();
 
     Optional<Group> get(GroupId groupId);
 
