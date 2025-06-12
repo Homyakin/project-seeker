@@ -52,6 +52,9 @@ public class TelegramSender {
             } else if (e.getMessage().contains("[403] Forbidden: bot was blocked by the user")) {
                 logger.error("Bot was blocked by the user {}", sendMessage.getChatId());
                 userService.deactivatePrivateMessages(UserId.from(sendMessage.getChatId()));
+            } else if (e.getMessage().contains("[403] Forbidden: bot was kicked from the group chat")) {
+                logger.error("Bot was kicked from the group chat {}", sendMessage.getChatId());
+                groupTgService.setNotActive(GroupTgId.from(sendMessage.getChatId()));
             } else {
                 logger.error(
                     "Unable send message with text %s to %s".formatted(sendMessage.getText(), sendMessage.getChatId()), e

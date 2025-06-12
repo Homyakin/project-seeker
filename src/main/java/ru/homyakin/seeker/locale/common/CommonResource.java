@@ -22,6 +22,7 @@ public record CommonResource(
     String receptionDesk,
     String hoursShort,
     String minutesShort,
+    String noStatsForSeason,
     String groupStats,
     String personageGroupStats,
     String migrateGroup,

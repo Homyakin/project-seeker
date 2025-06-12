@@ -52,16 +52,22 @@ hoursShort = "ч."
 minutesShort = "мин."
 
 # текста для группы
+noStatsForSeason = "Статистика за сезон не найдена"
 groupStats = """\
 📊<b>Статистика группы ${group_name_with_badge}:</b>
 
-🗡Успешные рейды: ${raids_count}
+<code>Сезон ${season_number}</code>
+
+🗡Успешные рейды: ${raids_success}/${raids_total}
 🤺Завершено дуэлей: ${duels_count}
+🗡Мировые рейды: ${world_raids_success}/${world_raids_total}
 
 🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
 """
 personageGroupStats = """\
 📊<b>Твоя статистика в группе:</b>
+
+<code>Сезон ${season_number}</code>
 
 🗡Успешные рейды: ${raids_success}/${raids_total}
 🤺Победы в дуэлях: ${duels_wins}/${duels_total}
@@ -72,9 +78,12 @@ personageGroupStats = """\
 personageGlobalStats = """\
 📊<b>Твоя статистика в тавернах Крезара:</b>
 
+<code>Сезон ${season_number}</code>
+
 🗡Успешные рейды: ${raids_success}/${raids_total}
 🤺Победы в дуэлях: ${duels_wins}/${duels_total}
 📝Успешные квесты: ${quests_success}/${quests_total}
+🗡Мировые рейды: ${world_raids_success}/${world_raids_total}
 
 🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
 ⚒Работяга дня: ${spin_wins_count}

@@ -17,6 +17,8 @@ import ru.homyakin.seeker.game.event.world_raid.entity.battle.WorldRaidBattleRes
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
+import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
 
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class ProcessWorldRaidBattleCommand {
     private final WorldRaidBattleResultService worldRaidBattleResultService;
     private final SendWorldRaidBattleResultCommand sendWorldRaidBattleResultCommand;
     private final LaunchedEventService launchedEventService;
+    private final GroupStatsService groupStatsService;
+    private final PersonageStatsService personageStatsService;
 
     public ProcessWorldRaidBattleCommand(
         GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand,
@@ -41,7 +45,9 @@ public class ProcessWorldRaidBattleCommand {
         WorldRaidStorage storage,
         WorldRaidBattleResultService worldRaidBattleResultService,
         SendWorldRaidBattleResultCommand sendWorldRaidBattleResultCommand,
-        LaunchedEventService launchedEventService
+        LaunchedEventService launchedEventService,
+        GroupStatsService groupStatsService,
+        PersonageStatsService personageStatsService
     ) {
         this.getOrLaunchWorldRaidCommand = getOrLaunchWorldRaidCommand;
         this.personageEventService = personageEventService;
@@ -52,6 +58,8 @@ public class ProcessWorldRaidBattleCommand {
         this.worldRaidBattleResultService = worldRaidBattleResultService;
         this.sendWorldRaidBattleResultCommand = sendWorldRaidBattleResultCommand;
         this.launchedEventService = launchedEventService;
+        this.groupStatsService = groupStatsService;
+        this.personageStatsService = personageStatsService;
     }
 
     @Transactional
@@ -91,8 +99,23 @@ public class ProcessWorldRaidBattleCommand {
             launchedEvent,
             remainedInfo
         );
+
         sendWorldRaidBattleResultCommand.sendBattleResult(worldRaidResult, raid);
         launchedEventService.updateResult(launchedEvent, worldRaidResult);
+        for (final var groupResult : worldRaidResult.groupResults()) {
+            if (worldRaidResult.isWin()) {
+                groupStatsService.addSuccessWoldRaid(groupResult.group().id());
+            } else {
+                groupStatsService.addFailedWoldRaid(groupResult.group().id());
+            }
+        }
+        for (final var personageResult : worldRaidResult.personageResults()) {
+            if (worldRaidResult.isWin()) {
+                personageStatsService.addSuccessWorldRaid(personageResult.personage().id());
+            } else {
+                personageStatsService.addFailedWorldRaid(personageResult.personage().id());
+            }
+        }
         return worldRaidResult;
     }
 

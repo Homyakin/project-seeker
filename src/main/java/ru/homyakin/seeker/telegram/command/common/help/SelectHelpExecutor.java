@@ -42,6 +42,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
             case PERSONAGE -> HelpLocalization.personage(language);
             case INFO -> HelpLocalization.info(language);
             case BATTLE_SYSTEM -> HelpLocalization.battleSystem(language);
+            case SEASONS -> HelpLocalization.seasons(language);
         };
 
         telegramSender.send(EditMessageTextBuilder.builder()

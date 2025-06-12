@@ -317,13 +317,21 @@ public class CommonLocalization {
         );
     }
 
+    public static String noStatsForSeason(Language language) {
+        return resources.getOrDefault(language, CommonResource::noStatsForSeason);
+    }
+
     public static String groupStats(Language language, GroupStats groupStats, Group group) {
         final var params = new HashMap<String, Object>();
-        params.put("raids_count", groupStats.raidsComplete());
+        params.put("raids_success", groupStats.raidsSuccess());
+        params.put("raids_total", groupStats.raidsTotal());
         params.put("duels_count", groupStats.duelsComplete());
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", groupStats.tavernMoneySpent());
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
+        params.put("world_raids_success", groupStats.worldRaidsSuccess());
+        params.put("world_raids_total", groupStats.worldRaidsTotal());
+        params.put("season_number", groupStats.seasonNumber().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::groupStats),
             params
@@ -339,6 +347,7 @@ public class CommonLocalization {
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", stats.tavernMoneySpent());
         params.put("spin_wins_count", stats.spinWinsCount());
+        params.put("season_number", stats.seasonNumber().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageGroupStats),
             params
@@ -364,6 +373,9 @@ public class CommonLocalization {
         params.put("spin_wins_count", stats.spinWinsCount());
         params.put("quests_success", stats.questsSuccess());
         params.put("quests_total", stats.questsTotal());
+        params.put("world_raids_success", stats.worldRaidsSuccess());
+        params.put("world_raids_total", stats.worldRaidsTotal());
+        params.put("season_number", stats.seasonNumber().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageGlobalStats),
             params

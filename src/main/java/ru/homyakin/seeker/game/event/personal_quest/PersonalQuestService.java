@@ -21,6 +21,7 @@ import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.notification.action.SendNotificationToPersonageCommand;
 import ru.homyakin.seeker.game.personage.notification.entity.Notification;
+import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -43,6 +44,7 @@ public class PersonalQuestService {
     private final PersonageEventService personageEventService;
     private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand;
     private final WorldRaidContributionService worldRaidContributionService;
+    private final PersonageStatsService personageStatsService;
 
     public PersonalQuestService(
         PersonalQuestDao personalQuestDao,
@@ -52,7 +54,8 @@ public class PersonalQuestService {
         PersonageEventService personageEventService,
         PersonalQuestConfig config,
         SendNotificationToPersonageCommand sendNotificationToPersonageCommand,
-        WorldRaidContributionService worldRaidContributionService
+        WorldRaidContributionService worldRaidContributionService,
+        PersonageStatsService personageStatsService
     ) {
         this.personalQuestDao = personalQuestDao;
         this.personageService = personageService;
@@ -62,6 +65,7 @@ public class PersonalQuestService {
         this.personageEventService = personageEventService;
         this.sendNotificationToPersonageCommand = sendNotificationToPersonageCommand;
         this.worldRaidContributionService = worldRaidContributionService;
+        this.personageStatsService = personageStatsService;
     }
 
     public void save(int eventId, SavingPersonalQuest quest) {
@@ -182,6 +186,9 @@ public class PersonalQuestService {
             final var result = results.getFirst();
             if (result instanceof PersonalQuestResult.Success(Money reward)) {
                 personageService.addMoney(personage, reward);
+                personageStatsService.addSuccessQuest(personage.id());
+            } else {
+                personageStatsService.addFailedQuest(personage.id());
             }
             launchedEventService.updateResult(launchedEvent, result);
             final var eventResult = new EventResult.PersonalQuestEventResult.Single(quest, personage, result);
@@ -195,12 +202,15 @@ public class PersonalQuestService {
             final var firstResult = results.getFirst();
             launchedEventService.updateResult(launchedEvent, firstResult);
             int reward = 0;
+            int successCount = 0;
             if (firstResult instanceof PersonalQuestResult.Success(Money money)) {
                 reward += money.value();
+                successCount++;
             }
             for (int i = 1; i < results.size(); i++) {
                 if (results.get(i) instanceof PersonalQuestResult.Success(Money money)) {
                     reward += money.value();
+                    successCount++;
                 }
                 final var launchedEventId = launchedEventService.createFinished(
                     quest,
@@ -218,6 +228,7 @@ public class PersonalQuestService {
             personageService.addMoney(personage, Money.from(reward));
             final var eventResult = new EventResult.PersonalQuestEventResult.Multiple(personage, results);
             worldRaidContributionService.questComplete(personage.id(), count);
+            personageStatsService.addQuests(personage.id(), successCount, count);
             sendNotificationToPersonageCommand.sendNotification(
                 personage.id(),
                 new Notification.QuestResult(eventResult)

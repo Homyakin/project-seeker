@@ -4,17 +4,3 @@ internalError = "Unexpected error, try again later"
 
 hoursShort = "hh"
 minutesShort = "mm"
-
-#текста для группы
-groupStats = """\
-📊<b>Group statistics:</b>
-
-🗡Successful raids: ${raids_count}
-🤺Completed duels: ${duels_count}
-
-🍻Spent at the tavern: ${money_icon}${tavern_money_spent}
-"""
-
-# текста для лички
-# TODO перенести куда-нибудь
-receptionDesk = "Hello! How can I help you?"

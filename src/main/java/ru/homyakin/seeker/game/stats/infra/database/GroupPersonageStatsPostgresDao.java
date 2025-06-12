@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.season.entity.SeasonNumber;
 import ru.homyakin.seeker.game.stats.entity.GroupPersonageStats;
 import ru.homyakin.seeker.game.stats.entity.GroupPersonageStatsStorage;
 
@@ -21,18 +22,39 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
     }
 
     @Override
-    public void update(GroupPersonageStats groupPersonageStats) {
+    public void add(GroupPersonageStats groupPersonageStats) {
         final var sql = """
-            UPDATE pgroup_to_personage SET
-                raids_success = :raids_success,
-                raids_total = :raids_total,
-                duels_wins = :duels_wins,
-                duels_total = :duels_total,
-                tavern_money_spent = :tavern_money_spent,
-                spin_wins_count = :spin_wins_count
-            WHERE pgroup_id = :pgroup_id AND personage_id = :personage_id
+            INSERT INTO season_pgroup_personage_stats (
+                season_number,
+                pgroup_id,
+                personage_id,
+                raids_success,
+                raids_total,
+                duels_wins,
+                duels_total,
+                tavern_money_spent,
+                spin_wins_count
+            ) VALUES (
+                :season_number,
+                :pgroup_id,
+                :personage_id,
+                :raids_success,
+                :raids_total,
+                :duels_wins,
+                :duels_total,
+                :tavern_money_spent,
+                :spin_wins_count
+            )
+            ON CONFLICT (season_number, pgroup_id, personage_id) DO UPDATE SET
+                raids_success = season_pgroup_personage_stats.raids_success + :raids_success,
+                raids_total = season_pgroup_personage_stats.raids_total + :raids_total,
+                duels_wins = season_pgroup_personage_stats.duels_wins + :duels_wins,
+                duels_total = season_pgroup_personage_stats.duels_total + :duels_total,
+                tavern_money_spent = season_pgroup_personage_stats.tavern_money_spent + :tavern_money_spent,
+                spin_wins_count = season_pgroup_personage_stats.spin_wins_count + :spin_wins_count
             """;
         jdbcClient.sql(sql)
+            .param("season_number", groupPersonageStats.seasonNumber().value())
             .param("pgroup_id", groupPersonageStats.groupId().value())
             .param("personage_id", groupPersonageStats.personageId().value())
             .param("raids_success", groupPersonageStats.raidsSuccess())
@@ -45,19 +67,24 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
     }
 
     @Override
-    public Optional<GroupPersonageStats> get(GroupId groupId, PersonageId personageId) {
+    public Optional<GroupPersonageStats> get(GroupId groupId, PersonageId personageId, SeasonNumber seasonNumber) {
         final var sql = """
-            SELECT * FROM pgroup_to_personage WHERE pgroup_id = :pgroup_id AND personage_id = :personage_id
+            SELECT * FROM season_pgroup_personage_stats
+            WHERE pgroup_id = :pgroup_id
+            AND personage_id = :personage_id
+            AND season_number = :season_number
             """;
         return jdbcClient.sql(sql)
             .param("pgroup_id", groupId.value())
             .param("personage_id", personageId.value())
+            .param("season_number", seasonNumber.value())
             .query(this::mapRow)
             .optional();
     }
 
     private GroupPersonageStats mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new GroupPersonageStats(
+            SeasonNumber.of(rs.getInt("season_number")),
             GroupId.from(rs.getLong("pgroup_id")),
             PersonageId.from(rs.getLong("personage_id")),
             rs.getInt("raids_success"),

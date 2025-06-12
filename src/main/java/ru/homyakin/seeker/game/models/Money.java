@@ -56,5 +56,5 @@ public record Money(
         return Integer.compare(value, other.value);
     }
 
-    private static final Money ZERO = new Money(0);
+    public static final Money ZERO = new Money(0);
 }

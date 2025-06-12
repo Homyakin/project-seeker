@@ -1,0 +1,296 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-seasons">
+        <createTable tableName="season">
+            <column name="number" type="INTEGER">
+                <constraints
+                    primaryKey="true"
+                    nullable="false"
+                />
+            </column>
+            <column name="start_date" type="TIMESTAMPTZ">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="TIMESTAMPTZ">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <insert tableName="season">
+            <column name="number" value="3"/>
+            <column name="start_date" value="2025-01-04 01:00:00"/>
+        </insert>
+
+        <createTable tableName="season_pgroup_stats">
+            <column name="season_number" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raids_success" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raids_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_complete" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tavern_money_spent" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="world_raids_success" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="world_raids_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_stats"
+                baseColumnNames="season_number"
+                constraintName="fk-season_pgroup_stats-season"
+                referencedTableName="season"
+                referencedColumnNames="number"
+        />
+
+        <addForeignKeyConstraint
+            baseTableName="season_pgroup_stats"
+            baseColumnNames="pgroup_id"
+            constraintName="fk-season_pgroup_stats-pgroup"
+            referencedTableName="pgroup"
+            referencedColumnNames="id"
+        />
+
+        <addUniqueConstraint
+                tableName="season_pgroup_stats"
+                columnNames="season_number, pgroup_id"
+                constraintName="season_pgroup_stats-pk"
+        />
+
+        <sql>
+            INSERT INTO season_pgroup_stats
+            (season_number, pgroup_id, raids_success, duels_complete, tavern_money_spent)
+            SELECT
+             3, id, raids_complete, duels_complete, tavern_money_spent
+            FROM pgroup;
+        </sql>
+
+        <createTable tableName="season_personage_stats">
+            <column name="season_number" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quests_success" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quests_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="world_raids_success" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="world_raids_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="season_personage_stats"
+                baseColumnNames="season_number"
+                constraintName="fk-season_personage_stats-season"
+                referencedTableName="season"
+                referencedColumnNames="number"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="season_personage_stats"
+                baseColumnNames="personage_id"
+                constraintName="fk-season_personage_stats-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+
+        <addUniqueConstraint
+                tableName="season_personage_stats"
+                columnNames="season_number, personage_id"
+                constraintName="season_personage_stats-pk"
+        />
+
+        <sql>
+            INSERT INTO season_personage_stats
+            (season_number, personage_id, quests_success, quests_total, world_raids_success, world_raids_total)
+            SELECT
+            3, id, 0, 0, 0, 0
+            FROM personage;
+        </sql>
+
+
+
+        <createTable tableName="season_pgroup_personage_stats">
+            <column name="season_number" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raids_success" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="raids_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_wins" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duels_total" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tavern_money_spent" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="spin_wins_count" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_personage_stats"
+                baseColumnNames="season_number"
+                constraintName="fk-season_pgroup_personage_stats-season"
+                referencedTableName="season"
+                referencedColumnNames="number"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_personage_stats"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-season_pgroup_personage_stats-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_personage_stats"
+                baseColumnNames="personage_id"
+                constraintName="fk-season_pgroup_personage_stats-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+
+        <addUniqueConstraint
+                tableName="season_pgroup_personage_stats"
+                columnNames="season_number, pgroup_id, personage_id"
+                constraintName="season_pgroup_personage_stats-pk"
+        />
+
+        <sql>
+            INSERT INTO season_pgroup_personage_stats
+            (season_number, pgroup_id, personage_id, raids_success, raids_total, duels_wins, duels_total, tavern_money_spent, spin_wins_count)
+            SELECT
+                3, pgroup_id, personage_id, raids_success, raids_total, duels_wins, duels_total, tavern_money_spent, spin_wins_count
+            FROM pgroup_to_personage;
+        </sql>
+
+        <dropColumn tableName="pgroup" columnName="raids_complete"/>
+        <dropColumn tableName="pgroup" columnName="duels_complete"/>
+        <dropColumn tableName="pgroup" columnName="tavern_money_spent"/>
+
+        <dropColumn tableName="pgroup_to_personage" columnName="raids_success"/>
+        <dropColumn tableName="pgroup_to_personage" columnName="raids_total"/>
+        <dropColumn tableName="pgroup_to_personage" columnName="duels_wins"/>
+        <dropColumn tableName="pgroup_to_personage" columnName="duels_total"/>
+        <dropColumn tableName="pgroup_to_personage" columnName="tavern_money_spent"/>
+        <dropColumn tableName="pgroup_to_personage" columnName="spin_wins_count"/>
+
+        <!-- Update season_personage_stats with quest statistics -->
+        <sql>
+            UPDATE season_personage_stats sps
+            SET
+            quests_success = sub.success_count,
+            quests_total = sub.total_count
+            FROM (
+            SELECT
+            pte.personage_id,
+            COALESCE(SUM(CASE WHEN le.status_id = 3 THEN 1 ELSE 0 END), 0) AS success_count,
+            COALESCE(SUM(CASE WHEN le.status_id in (3, 0, 1, 2) THEN 1 ELSE 0 END), 0) AS total_count
+            FROM personage_to_event pte
+            LEFT JOIN launched_event le ON le.id = pte.launched_event_id
+            INNER JOIN event e ON le.event_id = e.id AND e.type_id = 2 -- PERSONAL_QUEST
+            GROUP BY pte.personage_id
+            ) AS sub
+            WHERE sps.personage_id = sub.personage_id
+            AND sps.season_number = 3;
+        </sql>
+
+        <!-- Update season_personage_stats with world raid statistics -->
+        <sql>
+            UPDATE season_personage_stats sps
+            SET
+            world_raids_success = sub.success_count,
+            world_raids_total = sub.total_count
+            FROM (
+            SELECT
+            pte.personage_id,
+            COALESCE(SUM(CASE WHEN le.status_id = 3 THEN 1 ELSE 0 END), 0) AS success_count,
+            COALESCE(SUM(CASE WHEN le.status_id in (3, 0, 1, 2) THEN 1 ELSE 0 END), 0) AS total_count
+            FROM personage_to_event pte
+            LEFT JOIN launched_event le ON le.id = pte.launched_event_id
+            INNER JOIN event e ON le.event_id = e.id AND e.type_id = 3 -- WORLD_RAID
+            GROUP BY pte.personage_id
+            ) AS sub
+            WHERE sps.personage_id = sub.personage_id
+            AND sps.season_number = 3;
+        </sql>
+
+        <!-- Update season_pgroup_stats with world raid statistics -->
+        <sql>
+            UPDATE season_pgroup_stats sps
+            SET
+            world_raids_success = sub.success_count,
+            world_raids_total = sub.total_count
+            FROM (
+            SELECT
+            pte.pgroup_id,
+            COALESCE(SUM(CASE WHEN le.status_id = 3 THEN 1 ELSE 0 END), 0) AS success_count,
+            COALESCE(SUM(CASE WHEN le.status_id in (3, 0, 1, 2) THEN 1 ELSE 0 END), 0) AS total_count
+            FROM pgroup_battle_result pte
+            LEFT JOIN launched_event le ON le.id = pte.launched_event_id
+            INNER JOIN event e ON le.event_id = e.id AND e.type_id = 3 -- WORLD_RAID
+            GROUP BY pte.pgroup_id
+            ) AS sub
+            WHERE sps.pgroup_id = sub.pgroup_id
+            AND sps.season_number = 3;
+        </sql>
+
+        <!-- Update season_pgroup_stats with raid statistics -->
+        <sql>
+            UPDATE season_pgroup_stats sps
+            SET
+            raids_total = sub.total_count
+            FROM (
+            SELECT
+            pte.pgroup_id,
+            COALESCE(SUM(CASE WHEN le.status_id = 3 THEN 1 ELSE 0 END), 0) AS success_count,
+            COALESCE(SUM(CASE WHEN le.status_id in (3, 0, 1, 2) THEN 1 ELSE 0 END), 0) AS total_count
+            FROM launched_event_to_pgroup pte
+            LEFT JOIN launched_event le ON le.id = pte.launched_event_id
+            INNER JOIN event e ON le.event_id = e.id AND e.type_id = 1 -- RAID
+            GROUP BY pte.pgroup_id
+            ) AS sub
+            WHERE sps.pgroup_id = sub.pgroup_id
+            AND sps.season_number = 3;
+        </sql>
+
+    </changeSet>
+</databaseChangeLog>

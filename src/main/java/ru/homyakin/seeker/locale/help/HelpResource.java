@@ -8,11 +8,13 @@ public record HelpResource(
     String personage,
     String info,
     String battleSystem,
+    String seasons,
     String raidsButton,
     String duelsButton,
     String menuButton,
     String personageButton,
     String infoButton,
-    String battleSystemButton
+    String battleSystemButton,
+    String seasonsButton
 ) {
 }

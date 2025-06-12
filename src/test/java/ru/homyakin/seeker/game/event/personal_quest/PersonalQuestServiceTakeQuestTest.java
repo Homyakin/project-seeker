@@ -22,6 +22,7 @@ import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.notification.action.SendNotificationToPersonageCommand;
+import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
 import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -48,6 +49,7 @@ public class PersonalQuestServiceTakeQuestTest {
     private final PersonageEventService personageEventService = Mockito.mock();
     private final SendNotificationToPersonageCommand sendNotificationToPersonageCommand = Mockito.mock();
     private final WorldRaidContributionService worldRaidContributionService = Mockito.mock();
+    private final PersonageStatsService personageStatsService = Mockito.mock();
     private final PersonalQuestService personalQuestService = new PersonalQuestService(
         personalQuestDao,
         personageService,
@@ -56,7 +58,8 @@ public class PersonalQuestServiceTakeQuestTest {
         personageEventService,
         config,
         sendNotificationToPersonageCommand,
-        worldRaidContributionService
+        worldRaidContributionService,
+        personageStatsService
     );
 
     @BeforeEach

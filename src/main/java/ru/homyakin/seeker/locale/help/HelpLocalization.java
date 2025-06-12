@@ -86,6 +86,15 @@ public class HelpLocalization {
         );
     }
 
+    public static String seasons(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, HelpResource::seasons),
+            params
+        );
+    }
+
     public static String raidsButton(Language language) {
         return resources.getOrDefault(language, HelpResource::raidsButton);
     }
@@ -108,5 +117,9 @@ public class HelpLocalization {
 
     public static String battleSystemButton(Language language) {
         return resources.getOrDefault(language, HelpResource::battleSystemButton);
+    }
+
+    public static String seasonsButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::seasonsButton);
     }
 }

@@ -1,9 +1,12 @@
 package ru.homyakin.seeker.game.stats.entity;
 
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.season.entity.SeasonNumber;
 
 public record GroupPersonageStats(
+    SeasonNumber seasonNumber,
     GroupId groupId,
     PersonageId personageId,
     int raidsSuccess,
@@ -13,71 +16,92 @@ public record GroupPersonageStats(
     long tavernMoneySpent,
     int spinWinsCount
 ) {
-    public GroupPersonageStats addSuccessRaid() {
-        return addRaid(true);
-    }
-
-    public GroupPersonageStats addFailedRaid() {
-        return addRaid(false);
-    }
-
-    public GroupPersonageStats addWinDuel() {
-        return addDuel(true);
-    }
-
-    public GroupPersonageStats addLoseDuel() {
-        return addDuel(false);
-    }
-
-    public GroupPersonageStats increaseTavernMoneySpent(long amount) {
+    public static GroupPersonageStats withSuccessRaid(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
+            seasonNumber,
             groupId,
             personageId,
-            raidsSuccess,
-            raidsTotal,
-            duelsWins,
-            duelsTotal,
-            tavernMoneySpent + amount,
-            spinWinsCount
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
         );
     }
 
-    public GroupPersonageStats addSpinWin() {
+    public static GroupPersonageStats withFailedRaid(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
+            seasonNumber,
             groupId,
             personageId,
-            raidsSuccess,
-            raidsTotal,
-            duelsWins,
-            duelsTotal,
-            tavernMoneySpent,
-            spinWinsCount + 1
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
         );
     }
 
-    private GroupPersonageStats addDuel(boolean isWin) {
+    public static GroupPersonageStats withWinDuel(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
+            seasonNumber,
             groupId,
             personageId,
-            raidsSuccess,
-            raidsTotal,
-            isWin ? duelsWins + 1 : duelsWins,
-            duelsTotal + 1,
-            tavernMoneySpent,
-            spinWinsCount
+            0,
+            0,
+            1,
+            1,
+            0,
+            0
         );
     }
 
-    private GroupPersonageStats addRaid(boolean isSuccess) {
+    public static GroupPersonageStats withLoseDuel(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
+            seasonNumber,
             groupId,
             personageId,
-            isSuccess ? raidsSuccess + 1 : raidsSuccess,
-            raidsTotal + 1,
-            duelsWins,
-            duelsTotal,
-            tavernMoneySpent,
-            spinWinsCount
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+        );
+    }
+
+    public static GroupPersonageStats withSpentTavernMoney(
+        SeasonNumber seasonNumber,
+        GroupId groupId,
+        PersonageId personageId,
+        Money money
+    ) {
+        return new GroupPersonageStats(
+            seasonNumber,
+            groupId,
+            personageId,
+            0,
+            0,
+            0,
+            0,
+            money.value(),
+            0
+        );
+    }
+
+    public static GroupPersonageStats withSpinWin(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
+        return new GroupPersonageStats(
+            seasonNumber,
+            groupId,
+            personageId,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
         );
     }
 }

@@ -31,10 +31,16 @@ public class GetGroupStatsExecutor extends CommandExecutor<GetGroupStats> {
     @Override
     public void execute(GetGroupStats command) {
         final var group = groupTgService.getOrCreate(command.groupId());
-        final var groupStats = groupStatsService.get(group.domainGroupId());
+        final var text = groupStatsService.getForCurrentSeason(group.domainGroupId())
+            .map(it -> CommonLocalization.groupStats(
+                group.language(),
+                it,
+                getGroup.forceGet(group.domainGroupId())
+            ))
+            .orElseGet(() -> CommonLocalization.noStatsForSeason(group.language()));
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
-            .text(CommonLocalization.groupStats(group.language(), groupStats, getGroup.forceGet(group.domainGroupId())))
+            .text(text)
             .build()
         );
     }

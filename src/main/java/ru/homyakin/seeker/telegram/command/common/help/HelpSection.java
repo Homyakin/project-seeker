@@ -7,6 +7,7 @@ public enum HelpSection {
     PERSONAGE,
     INFO,
     BATTLE_SYSTEM,
+    SEASONS,
     ;
 
     public static HelpSection findForce(String section) {

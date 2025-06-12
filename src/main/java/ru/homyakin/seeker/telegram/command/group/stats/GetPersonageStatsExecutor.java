@@ -27,14 +27,16 @@ public class GetPersonageStatsExecutor extends CommandExecutor<GetPersonageStats
     @Override
     public void execute(GetPersonageStats command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
-        final var groupStats = groupPersonageStatsService.getOrCreate(
-            groupUser.first().domainGroupId(),
-            groupUser.second().personageId()
-        );
+        final var text = groupPersonageStatsService.getForCurrentSeason(
+                groupUser.first().domainGroupId(),
+                groupUser.second().personageId()
+            )
+            .map(it -> CommonLocalization.personageGroupStats(groupUser.first().language(), it))
+            .orElseGet(() -> CommonLocalization.noStatsForSeason(groupUser.first().language()));
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
             .replyMessageId(command.messageId())
-            .text(CommonLocalization.personageGroupStats(groupUser.first().language(), groupStats))
+            .text(text)
             .build()
         );
     }
