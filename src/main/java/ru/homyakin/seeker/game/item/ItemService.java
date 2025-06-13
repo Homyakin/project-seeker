@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.game.item.modifier.models.AlreadyMaxModifiers;
 import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.modifier.models.NotBrokenItem;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
@@ -59,6 +60,7 @@ public class ItemService {
             modifiers.stream().map(GenerateModifier::toModifier).toList(),
             Optional.of(personage.id()),
             false,
+            false,
             characteristicService.createCharacteristics(params.rarity(), object, modifiers)
         );
 
@@ -71,6 +73,7 @@ public class ItemService {
                 tempItem.modifiers(),
                 Optional.empty(),
                 tempItem.isEquipped(),
+                tempItem.isBroken(),
                 tempItem.characteristics()
             );
             final var id = itemDao.saveItem(tempItemWithoutPersonageId);
@@ -96,6 +99,23 @@ public class ItemService {
             item.id(),
             newCharacteristics,
             newModifiers.stream().map(GenerateModifier::toModifier).toList()
+        );
+        return Either.right(getById(item.id()).orElseThrow());
+    }
+
+    public Either<NotBrokenItem, Item> repair(Item item) {
+        if (!item.isBroken()) {
+            return Either.left(NotBrokenItem.INSTANCE);
+        }
+        final var newCharacteristics = characteristicService.createCharacteristics(
+            item.rarity(),
+            itemObjectDao.getById(item.object().id()),
+            itemModifierService.mapModifiers(item.modifiers())
+        );
+        itemDao.updateItem(
+            item.id(),
+            newCharacteristics,
+            false
         );
         return Either.right(getById(item.id()).orElseThrow());
     }

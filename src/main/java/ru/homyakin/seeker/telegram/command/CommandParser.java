@@ -85,6 +85,7 @@ import ru.homyakin.seeker.telegram.command.user.shop.BuyItem;
 import ru.homyakin.seeker.telegram.command.user.shop.EnhanceInfo;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenEnhanceTable;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenShop;
+import ru.homyakin.seeker.telegram.command.user.shop.Repair;
 import ru.homyakin.seeker.telegram.command.user.shop.SellItem;
 import ru.homyakin.seeker.telegram.command.user.stats.PersonageStatsGlobal;
 import ru.homyakin.seeker.telegram.command.user.world_raid.UserWorldRaidReport;
@@ -186,6 +187,7 @@ public class CommandParser {
                 case ENHANCE_TABLE -> OpenEnhanceTable.from(message);
                 case ENHANCE_INFO -> EnhanceInfo.from(message);
                 case ADD_MODIFIER -> AddModifier.from(message);
+                case REPAIR -> Repair.from(message);
                 default -> null;
             });
     }

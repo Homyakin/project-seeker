@@ -17,6 +17,7 @@ public record Item(
     List<Modifier> modifiers,
     Optional<PersonageId> personageId,
     boolean isEquipped,
+    boolean isBroken,
     Characteristics characteristics
 ) {
     /**

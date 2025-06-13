@@ -55,6 +55,7 @@ public class ItemServiceGenerateItemTest {
             List.of(),
             Optional.of(personageId),
             false,
+            false,
             characteristics
         );
         final var params = new GenerateItemParams(
@@ -91,6 +92,7 @@ public class ItemServiceGenerateItemTest {
             ItemRarity.COMMON,
             List.of(modifier1.toModifier(), modifier2.toModifier()),
             Optional.of(personageId),
+            false,
             false,
             characteristics
         );

@@ -138,6 +138,7 @@ public class ShopLocalization {
         } else {
             availableEnhance = switch (action.action().get()) {
                 case EnhanceAction.AddModifier addModifier -> addModifier(language, action.item(), addModifier.price());
+                case EnhanceAction.Repair repair -> repair(language, action.item(), repair.price());
             };
         }
         params.put("available_enhance", availableEnhance);
@@ -151,6 +152,14 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::maxModifiers);
     }
 
+    public static String brokenItem(Language language) {
+        return resources.getOrDefault(language, ShopResource::brokenItem);
+    }
+
+    public static String notBrokenItem(Language language) {
+        return resources.getOrDefault(language, ShopResource::notBrokenItem);
+    }
+
     public static String successAddModifier(Language language, AvailableAction action) {
         final var params = new HashMap<String, Object>();
         params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
@@ -160,14 +169,33 @@ public class ShopLocalization {
         );
     }
 
+    public static String successRepair(Language language, AvailableAction action) {
+        final var params = new HashMap<String, Object>();
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::successRepair),
+            params
+        );
+    }
+
     private static String addModifier(Language language, Item item, Money price) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItem(language, item));
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
         params.put("add_modifier_command", CommandType.ADD_MODIFIER.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::addModifier),
+            params
+        );
+    }
+
+    private static String repair(Language language, Item item, Money price) {
+        final var params = new HashMap<String, Object>();
+        params.put("price_value", price.value());
+        params.put("money_icon", Icons.MONEY);
+        params.put("repair_command", CommandType.REPAIR.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::repair),
             params
         );
     }

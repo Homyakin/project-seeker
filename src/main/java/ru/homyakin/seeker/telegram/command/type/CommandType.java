@@ -82,6 +82,7 @@ public enum CommandType {
     ENHANCE_TABLE(null, CheckType.MAP),
     ENHANCE_INFO("/enhance", CheckType.STARTS_WITH),
     ADD_MODIFIER("/addmod", CheckType.STARTS_WITH),
+    REPAIR("/repair", CheckType.STARTS_WITH),
     THROW_ORDER_TO_GROUP("/gthrow", CheckType.EQUALS),
     ;
 

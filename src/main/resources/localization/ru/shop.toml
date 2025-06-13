@@ -37,9 +37,16 @@ enhanceItemInfo = """\
 ${available_enhance}
 """
 addModifier = "Добавить модификатор: ${add_modifier_command} ${money_icon}${price_value}"
+repair = "Починить: ${repair_command} ${money_icon}${price_value}"
 maxModifiers = "У этого предмета уже максимальное количество модификаторов."
+brokenItem = "Сначала нужно починить предмет!"
 successAddModifier = """\
 Модификатор добавлен!
+
+${enhance_item_info}"""
+notBrokenItem = "Предмет не нуждается в починке."
+successRepair = """\
+Предмет починен!
 
 ${enhance_item_info}"""
 emptyEnhance = "Нет доступных улучшений."

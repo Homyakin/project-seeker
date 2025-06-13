@@ -9,6 +9,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.shop.errors.AddModifierError;
 import ru.homyakin.seeker.game.shop.errors.NoSuchItemAtPersonage;
+import ru.homyakin.seeker.game.shop.errors.RepairError;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
 
@@ -39,6 +40,9 @@ public class EnhanceService {
         if (item.isEmpty()) {
             return Either.left(AddModifierError.NoSuchItem.INSTANCE);
         }
+        if (item.get().isBroken()) {
+            return Either.left(AddModifierError.ItemIsBroken.INSTANCE);
+        }
         final var price = addModifierPrice(item.get());
         final var takeMoneyResult = personageService.tryTakeMoney(personageId, price);
         if (takeMoneyResult.isLeft()) {
@@ -54,7 +58,33 @@ public class EnhanceService {
             .map(this::availableAction);
     }
 
+    public Either<RepairError, AvailableAction> repair(PersonageId personageId, long itemId) {
+        final var item = itemService.getPersonageItem(personageId, itemId);
+        if (item.isEmpty()) {
+            return Either.left(RepairError.NoSuchItem.INSTANCE);
+        }
+        final var price = addModifierPrice(item.get());
+        final var takeMoneyResult = personageService.tryTakeMoney(personageId, price);
+        if (takeMoneyResult.isLeft()) {
+            return Either.left(new RepairError.NotEnoughMoney(price));
+        }
+        return itemService.repair(item.get())
+            .mapLeft(
+                _ -> {
+                    personageService.addMoney(personageId, price);
+                    return (RepairError) RepairError.NotBroken.INSTANCE;
+                }
+            )
+            .map(this::availableAction);
+    }
+
     private AvailableAction availableAction(Item item) {
+        if (item.isBroken()) {
+            return new AvailableAction(
+                Optional.of(new EnhanceAction.Repair(repairPrice(item))),
+                item
+            );
+        }
         if (item.modifiers().size() == 2) {
             return new AvailableAction(Optional.empty(), item);
         }
@@ -70,5 +100,10 @@ public class EnhanceService {
         final var basePrice = config.buyingPriceByRarity(item.rarity());
         final var multiplier = 1.5 + item.modifiers().size();
         return Money.from((int) (basePrice.value() * multiplier));
+    }
+
+    private Money repairPrice(Item item) {
+        final var basePrice = config.buyingPriceByRarity(item.rarity());
+        return Money.from(basePrice.value() + basePrice.value() * item.modifiers().size());
     }
 }

@@ -92,6 +92,24 @@ public class ItemDao {
         }
     }
 
+    public void updateItem(long id, Characteristics characteristics, boolean isBroken) {
+        final var updateItem = """
+            UPDATE item SET
+                attack = :attack,
+                health = :health,
+                defense = :defense,
+                is_broken = :is_broken
+            WHERE id = :id
+            """;
+        jdbcClient.sql(updateItem)
+            .param("attack", characteristics.attack())
+            .param("health", characteristics.health())
+            .param("defense", characteristics.defense())
+            .param("is_broken", isBroken)
+            .param("id", id)
+            .update();
+    }
+
     public Optional<Item> getById(Long id) {
         final var sql = SELECT_ITEMS + " WHERE i.id = :id";
         final var result = jdbcClient.sql(sql)
@@ -136,6 +154,7 @@ public class ItemDao {
             final var itemObjectId = rs.getInt("item_object_id");
             if (!itemMap.containsKey(itemId)) {
                 final var isEquipped = rs.getBoolean("is_equipped");
+                final var isBroken = rs.getBoolean("is_broken");
                 final var personageId = Optional.ofNullable((Long) rs.getObject("personage_id"))
                     .map(PersonageId::from);
                 final var characteristics = new Characteristics(
@@ -149,7 +168,7 @@ public class ItemDao {
                 final var rarity = ItemRarity.findById(rs.getInt("item_rarity_id"));
                 itemMap.put(
                     itemId,
-                    new Item(itemId, null, rarity, null, personageId, isEquipped, characteristics)
+                    new Item(itemId, null, rarity, null, personageId, isEquipped, isBroken, characteristics)
                 );
                 itemIdToItemObjectId.put(itemId, itemObjectId);
                 if (!objectMap.containsKey(itemObjectId)) {
@@ -198,6 +217,7 @@ public class ItemDao {
                         .orElseGet(List::of),
                     item.personageId(),
                     item.isEquipped(),
+                    item.isBroken(),
                     item.characteristics()
                 )
             );

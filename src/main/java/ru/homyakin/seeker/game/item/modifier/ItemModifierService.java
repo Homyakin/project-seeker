@@ -59,6 +59,13 @@ public class ItemModifierService {
         };
     }
 
+    public List<GenerateModifier> mapModifiers(List<Modifier> modifiers) {
+        if (modifiers.isEmpty()) {
+            return List.of();
+        }
+        return itemModifierDao.getByIds(modifiers.stream().map(Modifier::id).toList());
+    }
+
     public void saveModifiers(ItemModifiers modifiers) {
         modifiers.modifier().forEach(itemModifierDao::saveModifier);
     }

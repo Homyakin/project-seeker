@@ -5,4 +5,7 @@ import ru.homyakin.seeker.game.models.Money;
 public sealed interface EnhanceAction {
     record AddModifier(Money price) implements EnhanceAction {
     }
+
+    record Repair(Money price) implements EnhanceAction {
+    }
 }

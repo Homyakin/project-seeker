@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
@@ -24,6 +25,8 @@ public class ShopConfig {
     private final Map<ItemRarity, Money> sellingPrices = new HashMap<>();
     @NotNull
     private Integer sellDiscountDivider;
+    @NotNull
+    private Integer brokenDiscountDivider;
     private boolean isBuyingItemsSorted = false;
 
     public List<ShopItem.Buy> getBuyingItems() {
@@ -35,8 +38,12 @@ public class ShopConfig {
         return buyingItems;
     }
 
-    public Money sellingPriceByRarity(ItemRarity rarity) {
-        return sellingPrices.getOrDefault(rarity, Money.zero());
+    public Money sellingPriceByItem(Item item) {
+        final var basePrice = sellingPrices.getOrDefault(item.rarity(), Money.zero());
+        if (item.isBroken()) {
+            return basePrice.divide(brokenDiscountDivider);
+        }
+        return basePrice;
     }
 
     public Money buyingPriceByType(ShopItemType type) {
@@ -96,6 +103,10 @@ public class ShopConfig {
         if (!buyingItems.isEmpty()) {
             fillSellingPrices();
         }
+    }
+
+    public void setBrokenDiscountDivider(Integer brokenDiscountDivider) {
+        this.brokenDiscountDivider = brokenDiscountDivider;
     }
 
     private void fillSellingPrices() {

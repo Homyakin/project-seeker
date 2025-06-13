@@ -44,7 +44,7 @@ public class ShopService {
 
         for (final var item : personageItems) {
             if (!item.isEquipped()) {
-                items.add(new ShopItem.Sell(config.sellingPriceByRarity(item.rarity()), item));
+                items.add(new ShopItem.Sell(config.sellingPriceByItem(item), item));
             }
         }
         items.addAll(config.getBuyingItems());
@@ -101,7 +101,7 @@ public class ShopService {
             return Either.left(NoSuchItemAtPersonage.INSTANCE);
         }
         final var item = removeResult.get();
-        final var price = config.sellingPriceByRarity(item.rarity());
+        final var price = config.sellingPriceByItem(item);
         personageService.addMoney(personageId, price);
         return Either.right(new SoldItem(item, price));
     }

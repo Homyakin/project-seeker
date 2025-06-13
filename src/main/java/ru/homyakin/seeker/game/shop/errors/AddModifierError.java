@@ -13,4 +13,8 @@ public sealed interface AddModifierError {
     enum MaxModifiers implements AddModifierError {
         INSTANCE
     }
+
+    enum ItemIsBroken implements AddModifierError {
+        INSTANCE
+    }
 }

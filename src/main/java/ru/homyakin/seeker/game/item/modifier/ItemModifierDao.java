@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.modifier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -103,6 +104,16 @@ public class ItemModifierDao {
             .param("id", id)
             .query(this::mapRow)
             .single();
+    }
+
+    public List<GenerateModifier> getByIds(List<Integer> ids) {
+        final var sql = """
+            SELECT * FROM item_modifier im WHERE im.id in (:ids)
+            """;
+        return jdbcClient.sql(sql)
+            .param("ids", ids)
+            .query(this::mapRow)
+            .list();
     }
 
     private void saveModifierRarities(int id, Set<ItemRarity> rarities) {

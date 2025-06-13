@@ -64,7 +64,6 @@ public class ShopRandomPoolPostgresRepository implements ShopRandomPoolRepositor
 
     @Override
     public void saveRarityPool(PersonageId personageId, ItemRarity rarity, ItemRandomPoolWithoutRarity itemRandomPool) {
-        @Language("SQL")
         final var sql = """
             INSERT INTO personage_random (personage_id, ${column})
             VALUES (:personage_id, :random_pool)

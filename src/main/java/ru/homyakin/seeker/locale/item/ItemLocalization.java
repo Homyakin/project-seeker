@@ -27,6 +27,7 @@ public class ItemLocalization {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon);
+        fillBrokenIcon(params, item);
         params.put("item", itemText(itemLanguage, item));
         params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
         params.put(
@@ -48,6 +49,7 @@ public class ItemLocalization {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon);
+        fillBrokenIcon(params, item);
         params.put("item", itemText(itemLanguage, item));
         params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
         return StringNamedTemplate.format(
@@ -60,6 +62,7 @@ public class ItemLocalization {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon);
+        fillBrokenIcon(params, item);
         params.put("item", itemText(itemLanguage, item));
         return StringNamedTemplate.format(
             resources.getOrDefault(itemLanguage, ItemResource::shortItemWithoutCharacteristics),
@@ -325,5 +328,14 @@ public class ItemLocalization {
             case PANTS -> 6;
             case SHOES -> 7;
         };
+    }
+
+    private static void fillBrokenIcon(HashMap<String, Object> params, Item item) {
+        final var key = "broken_icon";
+        if (item.isBroken()) {
+            params.put(key, Icons.BROKEN_ITEM);
+        } else {
+            params.put(key, "");
+        }
     }
 }

@@ -28,6 +28,7 @@ public class Icons {
     public static final String PARTICIPANTS = EmojiManager.getByAlias(":bust_in_silhouette:").orElseThrow().getFirst().getEmoji();
     public static final String SUCCESS_QUEST = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getFirst().getEmoji();
     public static final String FAILED_QUEST = EmojiManager.getByAlias(":x:").orElseThrow().getFirst().getEmoji();
+    public static final String BROKEN_ITEM = EmojiManager.getByAlias(":broken_chain:").orElseThrow().getFirst().getEmoji();
 
     // PersonageSlots
     public static final String MAIN_HAND = EmojiManager.getByAlias(":raised_hand:").orElseThrow().getFirst().getEmoji();
