@@ -8,12 +8,12 @@ import ru.homyakin.seeker.telegram.group.GroupUserService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
-public class TopSpinExecutor extends CommandExecutor<TopSpin> {
+public class TopWorkerOfDayExecutor extends CommandExecutor<TopWorkerOfDay> {
     private final TopService topService;
     private final GroupUserService groupUserService;
     private final TelegramSender telegramSender;
 
-    public TopSpinExecutor(
+    public TopWorkerOfDayExecutor(
         TopService topService,
         GroupUserService groupUserService,
         TelegramSender telegramSender
@@ -24,11 +24,11 @@ public class TopSpinExecutor extends CommandExecutor<TopSpin> {
     }
 
     @Override
-    public void execute(TopSpin command) {
+    public void execute(TopWorkerOfDay command) {
         final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
         final var group = groupUser.first();
         final var user = groupUser.second();
-        final var top = topService.getTopSpinGroup(group.domainGroupId());
+        final var top = topService.getTopWorkerOfDayGroup(group.domainGroupId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
             .text(top.toLocalizedString(group.language(), user.personageId()))

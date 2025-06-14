@@ -31,8 +31,8 @@ import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.locale.shop.ShopResource;
-import ru.homyakin.seeker.locale.spin.EverydaySpinLocalization;
-import ru.homyakin.seeker.locale.spin.EverydaySpinResource;
+import ru.homyakin.seeker.locale.worker.WorkerOfDayLocalization;
+import ru.homyakin.seeker.locale.worker.WorkerOfDayResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
 import ru.homyakin.seeker.locale.top.TopLocalization;
@@ -53,7 +53,7 @@ public class LocalizationInitializer {
     private static final String RAID_PATH = File.separator + "raid.toml";
     private static final String TAVERN_MENU_PATH = File.separator + "tavern_menu.toml";
     private static final String HELP_PATH = File.separator + "help.toml";
-    private static final String EVERYDAY_SPIN_PATH = File.separator + "everyday_spin.toml";
+    private static final String WORKER_OF_DAY_PATH = File.separator + "worker_of_day.toml";
     private static final String GROUP_SETTINGS_PATH = File.separator + "group_settings.toml";
     private static final String GROUP_MANAGEMENT_PATH = File.separator + "group_management.toml";
     private static final String TOP_PATH = File.separator + "top.toml";
@@ -111,8 +111,8 @@ public class LocalizationInitializer {
             );
 
             ResourceUtils.doAction(
-                LOCALIZATION_PATH + language.value() + EVERYDAY_SPIN_PATH,
-                it -> EverydaySpinLocalization.add(language, extractClass(mapper, it, EverydaySpinResource.class))
+                LOCALIZATION_PATH + language.value() + WORKER_OF_DAY_PATH,
+                it -> WorkerOfDayLocalization.add(language, extractClass(mapper, it, WorkerOfDayResource.class))
             );
 
             ResourceUtils.doAction(

@@ -47,7 +47,7 @@ public class CommonLocalization {
         params.put("menu_command", CommandType.TAVERN_MENU.getText());
         params.put("help_command", CommandType.SHOW_HELP.getText());
         params.put("duel_command", CommandType.START_DUEL.getText());
-        params.put("spin_command", CommandType.SPIN.getText());
+        params.put("worker_of_day_command", CommandType.WORKER_OF_DAY.getText());
         params.put("top_command", CommandType.TOP.getText());
         params.put("bot_username", TelegramBotConfig.username());
         params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
@@ -173,6 +173,7 @@ public class CommonLocalization {
             final var text = switch (effect.getKey()) {
                 case MENU_ITEM_EFFECT -> menuItemEffect(language, effect.getValue());
                 case THROW_DAMAGE_EFFECT -> throwOrderEffect(language, effect.getValue());
+                case WORKER_OF_DAY_EFFECT -> workerOfDayEffect(language, effect.getValue());
             };
             effectsText.append(text);
         }
@@ -200,6 +201,17 @@ public class CommonLocalization {
         params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::throwOrderEffect),
+            params
+        );
+    }
+
+    private static String workerOfDayEffect(Language language, PersonageEffect effect) {
+        final var params = new HashMap<String, Object>();
+        params.put("effect", effect(language, effect.effect()));
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::workerOfDayEffect),
             params
         );
     }
@@ -346,7 +358,7 @@ public class CommonLocalization {
         params.put("duels_total", stats.duelsTotal());
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", stats.tavernMoneySpent());
-        params.put("spin_wins_count", stats.spinWinsCount());
+        params.put("worker_of_day_count", stats.workerOfDayCount());
         params.put("season_number", stats.seasonNumber().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageGroupStats),
@@ -370,7 +382,7 @@ public class CommonLocalization {
         params.put("duels_total", stats.duelsTotal());
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", stats.tavernMoneySpent());
-        params.put("spin_wins_count", stats.spinWinsCount());
+        params.put("worker_of_day_count", stats.workerOfDayCount());
         params.put("quests_success", stats.questsSuccess());
         params.put("quests_total", stats.questsTotal());
         params.put("world_raids_success", stats.worldRaidsSuccess());

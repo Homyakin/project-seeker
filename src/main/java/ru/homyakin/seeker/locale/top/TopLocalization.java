@@ -10,8 +10,8 @@ import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
-import ru.homyakin.seeker.game.top.models.TopSpinPosition;
-import ru.homyakin.seeker.game.top.models.TopSpinResult;
+import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
+import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -71,7 +71,7 @@ public class TopLocalization {
 
     public static String topList(Language language) {
         final var params = new HashMap<String, Object>();
-        params.put("top_work_group_command", CommandType.SPIN_TOP.getText());
+        params.put("top_work_group_command", CommandType.WORKER_OF_DAY_TOP.getText());
         params.put("top_raid_week_command", CommandType.TOP_RAID_WEEK.getText());
         params.put("top_raid_week_group_command", CommandType.TOP_RAID_WEEK_GROUP.getText());
         params.put("top_group_raid_week_command", CommandType.TOP_GROUP_RAID_WEEK.getText());
@@ -82,27 +82,31 @@ public class TopLocalization {
         );
     }
 
-    public static String topSpinEmpty(Language language) {
-        return resources.getOrDefault(language, TopResource::topSpinEmpty);
+    public static String topWorkerOfDayEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topWorkerOfDayEmpty);
     }
 
-    public static String topSpinGroup(Language language, PersonageId requestedPersonageId, TopSpinResult topSpinResult) {
+    public static String topWorkerOfDayGroup(
+        Language language,
+        PersonageId requestedPersonageId,
+        TopWorkerOfDayResult topWorkerOfDayResult
+    ) {
         final var params = new HashMap<String, Object>();
-        final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, topSpinResult);
+        final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, topWorkerOfDayResult);
         params.put("top_personage_list", topPersonageList);
-        params.put("total_count", topSpinResult.positions().size());
+        params.put("total_count", topWorkerOfDayResult.positions().size());
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, TopResource::topSpinGroup),
+            resources.getOrDefault(language, TopResource::topWorkerOfDayGroup),
             params
         );
     }
 
-    public static String topSpinPosition(Language language, int positionNumber, TopSpinPosition position) {
+    public static String topWorkerPosition(Language language, int positionNumber, TopWorkerOfDayPosition position) {
         final var params = new HashMap<String, Object>();
         params.put("position", positionNumber);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
         params.put("work_count", position.workCount());
-        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topSpinPosition), params);
+        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topWorkerPosition), params);
     }
 
     public static String topGroupRaidWeek(

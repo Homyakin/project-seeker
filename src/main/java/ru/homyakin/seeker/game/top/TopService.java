@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.top.models.PersonageTopPosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
-import ru.homyakin.seeker.game.top.models.TopSpinResult;
+import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -49,10 +49,10 @@ public class TopService {
         return new TopRaidResult(start, end, top, TopRaidResult.Type.WEEK_GROUP);
     }
 
-    public TopSpinResult getTopSpinGroup(GroupId groupId) {
-        final var top = topDao.getUnsortedTopSpinGroup(groupId);
+    public TopWorkerOfDayResult getTopWorkerOfDayGroup(GroupId groupId) {
+        final var top = topDao.getUnsortedTopWorkerGroup(groupId);
         top.sort(Comparator.comparingInt(PersonageTopPosition::score).reversed());
-        return new TopSpinResult(top, TopSpinResult.Type.GROUP);
+        return new TopWorkerOfDayResult(top, TopWorkerOfDayResult.Type.GROUP);
     }
 
     public GroupTopRaidResult getGroupRaidWeek() {

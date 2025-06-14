@@ -30,15 +30,15 @@ topList = """\
 
 👥Топы Групп:
 🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}"""
-topSpinEmpty = "Никто ещё не был назначен работягой в этой группе."
-topSpinGroup = """\
+topWorkerOfDayEmpty = "Никто ещё не был назначен работягой в этой группе."
+topWorkerOfDayGroup = """\
 ⚒Топ работяг в группе за всё время:
 
 ${top_personage_list}
 
 Всего участников: ${total_count}
 """
-topSpinPosition = "${position}. ${personage_badge_with_name}: ${work_count}"
+topWorkerPosition = "${position}. ${personage_badge_with_name}: ${work_count}"
 
 topPowerPersonageGroup = """\
 💪Топ Искателей в группе по мощи:

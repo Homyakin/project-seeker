@@ -1,17 +1,17 @@
-package ru.homyakin.seeker.game.spin.infra.database;
+package ru.homyakin.seeker.game.worker.infra.database;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.spin.entity.EverydaySpinStorage;
+import ru.homyakin.seeker.game.worker.entity.WorkerOfDayStorage;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
-public class EverydaySpinPostgresDao implements EverydaySpinStorage {
+public class EverydaySpinPostgresDao implements WorkerOfDayStorage {
     private final JdbcClient jdbcClient;
 
     public EverydaySpinPostgresDao(DataSource dataSource) {

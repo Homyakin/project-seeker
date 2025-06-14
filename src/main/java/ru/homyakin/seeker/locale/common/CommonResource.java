@@ -29,6 +29,7 @@ public record CommonResource(
     String[] energyRecovered,
     String minusMultiplyPercentEffect,
     String throwOrderEffect,
+    String workerOfDayEffect,
     String personageGlobalStats,
     String personageBattleReport,
     String shortPersonageBattleReport,

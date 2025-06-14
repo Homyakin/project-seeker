@@ -13,6 +13,6 @@ public class CountPersonagesInGroup {
     }
 
     public int count(GroupId groupId) {
-        return storage.countPersonages(groupId);
+        return storage.countPersonageMembers(groupId);
     }
 }

@@ -205,6 +205,10 @@ public class PersonageService {
         return updatedPersonage;
     }
 
+    public Personage addEffect(PersonageId personageId, PersonageEffectType type, PersonageEffect effect) {
+        return addEffect(getByIdForce(personageId), type, effect);
+    }
+
     public Either<NotEnoughEnergy, Personage> checkPersonageEnergy(PersonageId personageId, int requiredEnergy) {
         final var personage = getByIdForce(personageId);
         if (!personage.hasEnoughEnergy(requiredEnergy)) {

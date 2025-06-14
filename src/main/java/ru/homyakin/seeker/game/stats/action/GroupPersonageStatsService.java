@@ -53,8 +53,8 @@ public class GroupPersonageStatsService {
         storage.add(GroupPersonageStats.withSpentTavernMoney(season, groupId, personageId, money));
     }
 
-    public void addPersonageSpinWin(GroupId groupId, PersonageId personageId) {
+    public void incrementWorkerOfDay(GroupId groupId, PersonageId personageId) {
         final var season = seasonService.currentSeason();
-        storage.add(GroupPersonageStats.withSpinWin(season, groupId, personageId));
+        storage.add(GroupPersonageStats.withWorkerOfDay(season, groupId, personageId));
     }
 }

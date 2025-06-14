@@ -5,7 +5,11 @@ alreadyChosen = [
     "На сегодня место главного работяги занято ${mention_personage_badge_with_name}",
     "Все работяги уже распределены. Сегодня это ${mention_personage_badge_with_name}. Приходите завтра!"
 ]
-chosenUser = [
+chosenUser = """\
+${chosen_user_text}
+<i>Эффект: ${effect}</i>"""
+
+chosenUserVariations = [
     "Теперь ${mention_personage_badge_with_name} в рядах работяг Крезара, вот лопата, вот могилы!",
     "Работяга дня - ${mention_personage_badge_with_name}! Занимается отшкребыванием зубастых грибов у бабы Зины на даче.",
     """\

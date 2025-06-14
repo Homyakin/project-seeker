@@ -62,7 +62,7 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
             .param("duels_wins", groupPersonageStats.duelsWins())
             .param("duels_total", groupPersonageStats.duelsTotal())
             .param("tavern_money_spent", groupPersonageStats.tavernMoneySpent())
-            .param("spin_wins_count", groupPersonageStats.spinWinsCount())
+            .param("spin_wins_count", groupPersonageStats.workerOfDayCount())
             .update();
     }
 

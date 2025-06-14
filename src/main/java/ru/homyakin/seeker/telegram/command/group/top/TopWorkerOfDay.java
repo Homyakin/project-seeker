@@ -5,8 +5,8 @@ import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
-public record TopSpin(GroupTgId groupId, UserId userId) implements Command {
-    public static TopSpin from(Message message) {
-        return new TopSpin(GroupTgId.from(message.getChatId()), UserId.from(message.getFrom().getId()));
+public record TopWorkerOfDay(GroupTgId groupId, UserId userId) implements Command {
+    public static TopWorkerOfDay from(Message message) {
+        return new TopWorkerOfDay(GroupTgId.from(message.getChatId()), UserId.from(message.getFrom().getId()));
     }
 }

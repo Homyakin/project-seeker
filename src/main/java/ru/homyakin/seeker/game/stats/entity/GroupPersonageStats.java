@@ -14,7 +14,7 @@ public record GroupPersonageStats(
     int duelsWins,
     int duelsTotal,
     long tavernMoneySpent,
-    int spinWinsCount
+    int workerOfDayCount
 ) {
     public static GroupPersonageStats withSuccessRaid(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
@@ -91,7 +91,7 @@ public record GroupPersonageStats(
         );
     }
 
-    public static GroupPersonageStats withSpinWin(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
+    public static GroupPersonageStats withWorkerOfDay(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
             seasonNumber,
             groupId,

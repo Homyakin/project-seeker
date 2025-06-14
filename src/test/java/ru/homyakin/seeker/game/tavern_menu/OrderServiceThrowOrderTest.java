@@ -179,7 +179,7 @@ public class OrderServiceThrowOrderTest {
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
-        Mockito.when(personageService.addEffect(any(), any(), any()))
+        Mockito.when(personageService.addEffect(any(Personage.class), any(), any()))
             .thenReturn(target.personage());
         Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
@@ -226,7 +226,7 @@ public class OrderServiceThrowOrderTest {
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
-        Mockito.when(personageService.addEffect(any(), any(), any()))
+        Mockito.when(personageService.addEffect(any(Personage.class), any(), any()))
             .thenReturn(target.personage());
         Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 
@@ -273,7 +273,7 @@ public class OrderServiceThrowOrderTest {
         final MenuItem menuItem = Mockito.mock();
         Mockito.when(menuItem.category()).thenReturn(Category.DRINK);
         Mockito.when(menuService.getMenuItem(Mockito.anyInt())).thenReturn(Optional.of(menuItem));
-        Mockito.when(personageService.addEffect(any(), any(), any()))
+        Mockito.when(personageService.addEffect(any(Personage.class), any(), any()))
             .thenReturn(personage);
         Mockito.when(menuItemOrderDao.findNotFinalForPersonageInGroup(any(), any())).thenReturn(orders);
 

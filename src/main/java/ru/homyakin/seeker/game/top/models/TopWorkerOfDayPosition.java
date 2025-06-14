@@ -7,7 +7,7 @@ import ru.homyakin.seeker.locale.top.TopLocalization;
 
 import java.util.Optional;
 
-public record TopSpinPosition(
+public record TopWorkerOfDayPosition(
     PersonageId id,
     String personageName,
     BadgeView personageBadge,
@@ -21,6 +21,6 @@ public record TopSpinPosition(
 
     @Override
     public String toLocalizedString(Language language, int positionNumber) {
-        return TopLocalization.topSpinPosition(language, positionNumber, this);
+        return TopLocalization.topWorkerPosition(language, positionNumber, this);
     }
 }

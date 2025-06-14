@@ -17,7 +17,7 @@ import ru.homyakin.seeker.game.personage.badge.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
-import ru.homyakin.seeker.game.top.models.TopSpinPosition;
+import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.utils.DatabaseUtils;
 
@@ -54,10 +54,10 @@ public class TopDao {
             .list();
     }
 
-    public List<TopSpinPosition> getUnsortedTopSpinGroup(GroupId groupId) {
+    public List<TopWorkerOfDayPosition> getUnsortedTopWorkerGroup(GroupId groupId) {
         return jdbcClient.sql(TOP_SPIN_GROUP)
             .param("pgroup_id", groupId.value())
-            .query(this::mapSpinPosition)
+            .query(this::mapWorkerPosition)
             .list();
     }
 
@@ -138,8 +138,8 @@ public class TopDao {
         );
     }
 
-    private TopSpinPosition mapSpinPosition(ResultSet rs, int rowNum) throws SQLException {
-        return new TopSpinPosition(
+    private TopWorkerOfDayPosition mapWorkerPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new TopWorkerOfDayPosition(
             PersonageId.from(rs.getLong("personage_id")),
             rs.getString("personage_name"),
             BadgeView.findByCode(rs.getString("badge_code")),

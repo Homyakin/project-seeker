@@ -11,7 +11,7 @@ public record PersonageStats(
     int duelsWins,
     int duelsTotal,
     long tavernMoneySpent,
-    int spinWinsCount,
+    int workerOfDayCount,
     int questsSuccess,
     int questsTotal,
     int worldRaidsSuccess,

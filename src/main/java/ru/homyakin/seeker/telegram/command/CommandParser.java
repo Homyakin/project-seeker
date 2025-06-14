@@ -29,7 +29,7 @@ import ru.homyakin.seeker.telegram.command.group.management.settings.GetGroupSet
 import ru.homyakin.seeker.telegram.command.group.management.settings.SetTimeZone;
 import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleEventInterval;
 import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleHideGroup;
-import ru.homyakin.seeker.telegram.command.group.spin.Spin;
+import ru.homyakin.seeker.telegram.command.group.worker.WorkerOfDay;
 import ru.homyakin.seeker.telegram.command.group.duel.AcceptDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.DeclineDuel;
 import ru.homyakin.seeker.telegram.command.group.duel.StartDuel;
@@ -51,7 +51,7 @@ import ru.homyakin.seeker.telegram.command.group.top.TopList;
 import ru.homyakin.seeker.telegram.command.group.top.TopPowerGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeekGroup;
-import ru.homyakin.seeker.telegram.command.group.top.TopSpin;
+import ru.homyakin.seeker.telegram.command.group.top.TopWorkerOfDay;
 import ru.homyakin.seeker.telegram.command.group.world_raid.GroupWorldRaidReport;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.badge.SelectBadge;
@@ -202,8 +202,8 @@ public class CommandParser {
                 case TAVERN_MENU -> GetTavernMenu.from(message);
                 case ORDER -> Order.from(message);
                 case GROUP_STATS -> GetGroupStats.from(message);
-                case SPIN -> Spin.from(message);
-                case SPIN_TOP -> TopSpin.from(message);
+                case WORKER_OF_DAY -> WorkerOfDay.from(message);
+                case WORKER_OF_DAY_TOP -> TopWorkerOfDay.from(message);
                 case PERSONAGE_STATS -> GetPersonageStats.from(message);
                 case RAID_REPORT -> RaidReportInGroup.from(message);
                 case TOP_RAID_WEEK -> TopRaidWeek.from(message);
