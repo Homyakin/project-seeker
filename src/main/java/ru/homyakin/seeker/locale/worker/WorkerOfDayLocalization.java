@@ -37,7 +37,7 @@ public class WorkerOfDayLocalization {
 
     public static String chosenMember(Language language, PersonageMention mention, Effect effect) {
         final var params = new HashMap<String, Object>();
-        params.put("chosen_user_text", chosenMemberVariation(language, mention));
+        params.put("chosen_member_text", chosenMemberVariation(language, mention));
         params.put("effect", CommonLocalization.effect(language, effect));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorkerOfDayResource::chosenMember),
