@@ -8,6 +8,7 @@ import ru.homyakin.seeker.infrastructure.PersonageMention;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class WorkerOfDayLocalization {
@@ -17,10 +18,13 @@ public class WorkerOfDayLocalization {
         resources.add(language, resource);
     }
 
-    public static String notEnoughUsers(Language language, int requiredUsers) {
+    public static String notEnoughMembers(Language language, int requiredUsers) {
+        final var params = new HashMap<String, Object>();
+        params.put("required_users", requiredUsers);
+        params.put("group_join_command", CommandType.JOIN_GROUP.getText());
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, WorkerOfDayResource::notEnoughUsers),
-            Collections.singletonMap("required_users", requiredUsers)
+            resources.getOrDefault(language, WorkerOfDayResource::notEnoughMembers),
+            params
         );
     }
 
@@ -31,21 +35,21 @@ public class WorkerOfDayLocalization {
         );
     }
 
-    public static String chosenUser(Language language, PersonageMention mention, Effect effect) {
+    public static String chosenMember(Language language, PersonageMention mention, Effect effect) {
         final var params = new HashMap<String, Object>();
-        params.put("chosen_user_text", chosenUserVariation(language, mention));
+        params.put("chosen_user_text", chosenMemberVariation(language, mention));
         params.put("effect", CommonLocalization.effect(language, effect));
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, WorkerOfDayResource::chosenUser),
+            resources.getOrDefault(language, WorkerOfDayResource::chosenMember),
             params
         );
     }
 
-    private static String chosenUserVariation(Language language, PersonageMention mention) {
+    private static String chosenMemberVariation(Language language, PersonageMention mention) {
         final var params = new HashMap<String, Object>();
         params.put("mention_personage_badge_with_name", mention.value());
         return StringNamedTemplate.format(
-            resources.getOrDefaultRandom(language, WorkerOfDayResource::chosenUserVariations),
+            resources.getOrDefaultRandom(language, WorkerOfDayResource::chosenMemberVariations),
             params
         );
     }

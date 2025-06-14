@@ -1,15 +1,15 @@
-notEnoughUsers = """\
-Для торжественного объявления Работяги дня необходимо собрать хотя бы минимальную группу: ${required_users}! \
-Просто покажите удостоверение через /me"""
+notEnoughMembers = """\
+Для участия группы в общественных работах минимальное количество участников должно быть: ${required_users}! \
+Присоединиться к группе можно через ${group_join_command}"""
 alreadyChosen = [
     "На сегодня место главного работяги занято ${mention_personage_badge_with_name}",
     "Все работяги уже распределены. Сегодня это ${mention_personage_badge_with_name}. Приходите завтра!"
 ]
-chosenUser = """\
-${chosen_user_text}
+chosenMember = """\
+${chosen_member_text}
 <i>Эффект: ${effect}</i>"""
 
-chosenUserVariations = [
+chosenMemberVariations = [
     "Теперь ${mention_personage_badge_with_name} в рядах работяг Крезара, вот лопата, вот могилы!",
     "Работяга дня - ${mention_personage_badge_with_name}! Занимается отшкребыванием зубастых грибов у бабы Зины на даче.",
     """\

@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.locale.worker;
 
 public record WorkerOfDayResource(
-    String notEnoughUsers,
+    String notEnoughMembers,
     String[] alreadyChosen,
-    String chosenUser,
-    String[] chosenUserVariations
+    String chosenMember,
+    String[] chosenMemberVariations
 ) {
 }

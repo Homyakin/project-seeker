@@ -45,7 +45,7 @@ public class WorkerOfDayExecutor extends CommandExecutor<WorkerOfDay> {
                 error -> mapSpinErrorToMessage(error, group),
                 result -> {
                     final var user = userService.getByPersonageIdForce(result.personage().id());
-                    return WorkerOfDayLocalization.chosenUser(
+                    return WorkerOfDayLocalization.chosenMember(
                         group.language(),
                         TgPersonageMention.of(result.personage(), user.id()),
                         result.effect()
@@ -63,7 +63,7 @@ public class WorkerOfDayExecutor extends CommandExecutor<WorkerOfDay> {
     private String mapSpinErrorToMessage(WorkerOfDayError error, GroupTg group) {
         return switch (error) {
             case WorkerOfDayError.NotEnoughUsers notEnoughUsers ->
-                WorkerOfDayLocalization.notEnoughUsers(group.language(), notEnoughUsers.requiredUsers());
+                WorkerOfDayLocalization.notEnoughMembers(group.language(), notEnoughUsers.requiredUsers());
             case WorkerOfDayError.AlreadyChosen alreadyChosen -> {
                 final var personage = personageService.getByIdForce(alreadyChosen.personageId());
                 final var user = userService.getByPersonageIdForce(personage.id());
