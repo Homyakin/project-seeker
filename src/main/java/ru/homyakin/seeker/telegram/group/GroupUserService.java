@@ -5,7 +5,10 @@ import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministrator;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberBanned;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberLeft;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
 import ru.homyakin.seeker.common.models.Error;
 import ru.homyakin.seeker.common.models.GroupId;
@@ -65,11 +68,24 @@ public class GroupUserService implements CheckGroupPersonage {
         if (result.isLeft()) {
             return switch (result.getLeft()) {
                 case ChatMemberError.UserNotFound _, ChatMemberError.InvalidParticipant _ -> {
-                    logger.warn("User {} is no longer in group {}", user.id().value(), groupId.value());
+                    logger.warn(
+                        "User {} is no longer in group {}, reason: {}",
+                        user.id(),
+                        groupId,
+                        result.getLeft().getClass().getSimpleName()
+                    );
                     yield Either.right(false);
                 }
                 case ChatMemberError.InternalError _ -> Either.left(Error.INSTANCE);
             };
+        }
+        if (isChatMemberNotInGroup(result.get())) {
+            logger.warn(
+                "User {} is no longer in group {}, reason: {}",
+                user.id(),
+                groupId,
+                result.get().getClass().getSimpleName()
+            );
         }
         return Either.right(true);
     }
@@ -78,5 +94,12 @@ public class GroupUserService implements CheckGroupPersonage {
     public boolean isAdminInGroup(GroupId groupId, PersonageId personageId) {
         final var groupTg = groupTgService.forceGet(groupId);
         return isUserAdminInGroup(groupTg.id(), userService.getByPersonageIdForce(personageId).id());
+    }
+
+    private boolean isChatMemberNotInGroup(ChatMember chatMember) {
+        if (chatMember instanceof ChatMemberLeft || chatMember instanceof ChatMemberBanned) {
+            return true;
+        }
+        return false;
     }
 }
