@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberAdministr
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberBanned;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberLeft;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberOwner;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberRestricted;
 import ru.homyakin.seeker.common.models.Error;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
@@ -98,6 +99,10 @@ public class GroupUserService implements CheckGroupPersonage {
 
     private boolean isChatMemberNotInGroup(ChatMember chatMember) {
         if (chatMember instanceof ChatMemberLeft || chatMember instanceof ChatMemberBanned) {
+            return true;
+        } else if (chatMember instanceof ChatMemberRestricted chatMemberRestricted
+            && !chatMemberRestricted.getIsMember()
+        ) {
             return true;
         }
         return false;
