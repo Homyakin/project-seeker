@@ -87,6 +87,7 @@ public class GroupUserService implements CheckGroupPersonage {
                 groupId,
                 result.get().getClass().getSimpleName()
             );
+            return Either.right(false);
         }
         return Either.right(true);
     }
