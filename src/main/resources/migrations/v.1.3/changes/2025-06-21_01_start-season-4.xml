@@ -21,7 +21,7 @@
                     is_broken = TRUE;
                 UPDATE personage SET money = money * 0.1;
                 UPDATE pgroup SET money = money * 0.1;
-                UPDATE personage SET energy=99 WHERE energy != 100;
+                UPDATE personage SET energy=100, energy_recovery_notification_time = null WHERE energy != 100;
             END $$;
             /
             ]]>
