@@ -27,3 +27,9 @@ code = "new-year-2025"
 
 [badge.locales.RU]
 description = "Новый Год 2025"
+
+[[badge]]
+code = "thrid-season"
+
+[badge.locales.RU]
+description = "Третий Сезон"

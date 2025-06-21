@@ -9,6 +9,7 @@ public enum BadgeView {
     FIRST_SEASON("first-season", EmojiManager.getByAlias(":otter:").orElseThrow().getFirst().getEmoji()),
     SECOND_SEASON("second-season", EmojiManager.getByAlias(":cat2:").orElseThrow().getFirst().getEmoji()),
     NEW_YEAR_2025("new-year-2025", EmojiManager.getByAlias(":dizzy:").orElseThrow().getFirst().getEmoji()),
+    THIRD_SEASON("third-season", EmojiManager.getByAlias(":rat:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;
