@@ -12,8 +12,6 @@
             BEGIN
                 INSERT INTO season (number, start_date) VALUES (4, ts);
                 UPDATE season SET end_date = ts WHERE number = 3;
-                DELETE FROM item_to_item_modifier WHERE item_id IN (SELECT id FROM item WHERE personage_id IS NULL);
-                DELETE FROM item WHERE personage_id is null;
                 UPDATE item SET
                     attack = attack * 0.1,
                     defense = defense * 0.1,
