@@ -104,6 +104,6 @@ public class EnhanceService {
 
     private Money repairPrice(Item item) {
         final var basePrice = config.buyingPriceByRarity(item.rarity());
-        return Money.from(basePrice.value() + basePrice.value() * item.modifiers().size());
+        return Money.from(basePrice.value() + (int) (basePrice.value() * item.modifiers().size() * 1.5));
     }
 }
