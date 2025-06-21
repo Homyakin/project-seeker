@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.random.item.action.raid.PersonageNextRaidItemParams;
+import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class RaidItemGeneratorTest {

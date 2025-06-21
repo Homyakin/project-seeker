@@ -7,82 +7,99 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
-import ru.homyakin.seeker.game.random.item.action.pool.ItemRandomPoolRenew;
-import ru.homyakin.seeker.game.random.item.entity.pool.FullItemParams;
-import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.pool.ItemParamsWithoutRarity;
-import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPoolWithoutRarity;
-import ru.homyakin.seeker.game.random.item.entity.pool.ModifierCountRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.pool.RarityRandomPool;
+import ru.homyakin.seeker.game.random.item.action.ItemRandomPoolRenew;
+import ru.homyakin.seeker.game.random.item.action.PersonageNextShopItemParams;
+import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
+import ru.homyakin.seeker.game.random.item.entity.ItemRandomConfig;
+import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.shop.ShopRandomPoolRepository;
+import ru.homyakin.seeker.game.random.item.entity.ShopRandomPoolRepository;
+import ru.homyakin.seeker.game.shop.models.ShopItemType;
+import ru.homyakin.seeker.utils.ProbabilityPicker;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class PersonageNextShopItemParamsTest {
     private final ShopRandomPoolRepository shopRandomPoolRepository = Mockito.mock();
     private final ItemRandomPoolRenew randomPoolRenew = Mockito.mock();
+    private final ItemRandomConfig config = Mockito.mock();
     private final PersonageNextShopItemParams action = new PersonageNextShopItemParams(
         shopRandomPoolRepository,
-        randomPoolRenew
+        randomPoolRenew,
+        config
     );
 
     @Test
     public void When_RaidItemRandomPoolNotEmpty_Then_ReturnNextFromPoolAndSave() {
         // given
         final var personageId = PersonageId.from(1);
-        final var pool = new FullItemRandomPool(
-            new RarityRandomPool(new LinkedList<>(List.of(ItemRarity.COMMON, ItemRarity.UNCOMMON))),
-            new SlotRandomPool(new LinkedList<>(List.of(PersonageSlot.HELMET, PersonageSlot.GLOVES))),
-            new ModifierCountRandomPool(new LinkedList<>(List.of(1, 2)))
+        final var pool = new ItemRandomPool(
+            new SlotRandomPool(new LinkedList<>(List.of(PersonageSlot.HELMET, PersonageSlot.GLOVES)))
         );
+        final var itemType = ShopItemType.RANDOM;
 
         // when
-        Mockito.when(shopRandomPoolRepository.getRandomPool(personageId)).thenReturn(pool);
+        Mockito.when(shopRandomPoolRepository.getPool(personageId, itemType)).thenReturn(pool);
         Mockito.when(randomPoolRenew.fullRenewIfEmpty(pool)).thenReturn(pool);
-        final var result = action.getRandom(personageId);
-        final var captor = ArgumentCaptor.forClass(FullItemRandomPool.class);
+        Mockito.when(config.shopRarityPicker()).thenReturn(rarityPicker());
+        Mockito.when(config.shopModifierCountPicker()).thenReturn(modifierPicker());
+        final var result = action.getForShopItemType(personageId, ShopItemType.RANDOM);
+        final var captor = ArgumentCaptor.forClass(ItemRandomPool.class);
         Mockito.verify(shopRandomPoolRepository, Mockito.times(1))
-            .saveRandomPool(Mockito.eq(personageId), captor.capture());
+            .savePool(Mockito.eq(personageId), Mockito.eq(itemType), captor.capture());
 
         // then
-        final var expected = new FullItemParams(
+        final var expected = new ItemParamsFull(
             ItemRarity.COMMON,
             PersonageSlot.HELMET,
             1
         );
         Assertions.assertEquals(expected, result);
-        Assertions.assertEquals(List.of(ItemRarity.UNCOMMON), captor.getValue().rarityRandomPool().pool());
         Assertions.assertEquals(List.of(PersonageSlot.GLOVES), captor.getValue().slotRandomPool().pool());
-        Assertions.assertEquals(List.of(2), captor.getValue().modifierCountRandomPool().pool());
     }
 
     @Test
     public void When_RaidItemRandomPoolWithoutRarityNotEmpty_Then_ReturnNextFromPoolAndSave() {
         // given
         final var personageId = PersonageId.from(1);
-        final var rarity = ItemRarity.COMMON;
-        final var pool = new ItemRandomPoolWithoutRarity(
-            new SlotRandomPool(new LinkedList<>(List.of(PersonageSlot.HELMET, PersonageSlot.GLOVES))),
-            new ModifierCountRandomPool(new LinkedList<>(List.of(1, 2)))
+        final var pool = new ItemRandomPool(
+            new SlotRandomPool(new LinkedList<>(List.of(PersonageSlot.HELMET, PersonageSlot.GLOVES)))
         );
+        final var itemType = ShopItemType.LEGENDARY;
 
         // when
-        Mockito.when(shopRandomPoolRepository.getRarityPool(personageId, rarity)).thenReturn(pool);
-        Mockito.when(randomPoolRenew.renewIfEmptyWithoutRarity(pool)).thenReturn(pool);
-        final var result = action.getRarity(personageId, rarity);
-        final var captor = ArgumentCaptor.forClass(ItemRandomPoolWithoutRarity.class);
+        Mockito.when(shopRandomPoolRepository.getPool(personageId, itemType)).thenReturn(pool);
+        Mockito.when(randomPoolRenew.fullRenewIfEmpty(pool)).thenReturn(pool);
+        Mockito.when(config.shopRarityPicker()).thenReturn(rarityPicker());
+        Mockito.when(config.shopModifierCountPicker()).thenReturn(modifierPicker());
+        final var result = action.getForShopItemType(personageId, itemType);
+        final var captor = ArgumentCaptor.forClass(ItemRandomPool.class);
         Mockito.verify(shopRandomPoolRepository, Mockito.times(1))
-            .saveRarityPool(Mockito.eq(personageId), Mockito.eq(rarity), captor.capture());
+            .savePool(Mockito.eq(personageId), Mockito.eq(itemType), captor.capture());
 
         // then
-        final var expected = new ItemParamsWithoutRarity(
+        final var expected = new ItemParamsFull(
+            ItemRarity.LEGENDARY,
             PersonageSlot.HELMET,
             1
         );
         Assertions.assertEquals(expected, result);
         Assertions.assertEquals(List.of(PersonageSlot.GLOVES), captor.getValue().slotRandomPool().pool());
-        Assertions.assertEquals(List.of(2), captor.getValue().modifierCountRandomPool().pool());
+    }
+
+
+
+    private ProbabilityPicker<ItemRarity> rarityPicker() {
+        return new ProbabilityPicker<>(
+            Map.of(ItemRarity.COMMON, 1)
+        );
+    }
+
+    private ProbabilityPicker<Integer> modifierPicker() {
+        return new ProbabilityPicker<>(
+            Map.of(1, 1)
+        );
     }
 }

@@ -40,6 +40,10 @@ public class RandomUtils {
         return random.nextInt(start, end + 1);
     }
 
+    public static int getWithMax(int max) {
+        return random.nextInt(max);
+    }
+
     public static int getInPercentRange(int start, double percent) {
         final var fraction = percent / 100.0;
         return getInInterval(

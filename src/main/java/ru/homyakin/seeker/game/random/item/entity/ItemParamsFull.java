@@ -1,9 +1,9 @@
-package ru.homyakin.seeker.game.random.item.entity.pool;
+package ru.homyakin.seeker.game.random.item.entity;
 
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
-public record FullItemParams(
+public record ItemParamsFull(
     ItemRarity rarity,
     PersonageSlot slot,
     int modifiersCount

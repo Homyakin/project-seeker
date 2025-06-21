@@ -1,44 +1,31 @@
 package ru.homyakin.seeker.game.random.item.infra.database;
 
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
-import ru.homyakin.seeker.game.random.item.entity.pool.FullItemRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.pool.ModifierCountRandomPool;
-import ru.homyakin.seeker.game.random.item.entity.pool.RarityRandomPool;
+import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPool;
 import ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPool;
 
 import java.util.LinkedList;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record JsonItemRandomPool(
-    JsonRandomPool<ItemRarity> rarityRandomPool,
-    JsonRandomPool<PersonageSlot> slotRandomPool,
-    JsonRandomPool<Integer> modifierCountRandomPool
+    JsonRandomPool<PersonageSlot> slotRandomPool
 ) {
     public JsonItemRandomPool {
-        if (rarityRandomPool == null) {
-            rarityRandomPool = new JsonRandomPool<>(new LinkedList<>());
-        }
         if (slotRandomPool == null) {
             slotRandomPool = new JsonRandomPool<>(new LinkedList<>());
         }
-        if (modifierCountRandomPool == null) {
-            modifierCountRandomPool = new JsonRandomPool<>(new LinkedList<>());
-        }
     }
 
-    public FullItemRandomPool toDomain() {
-        return new FullItemRandomPool(
-            new RarityRandomPool(rarityRandomPool.pool()),
-            new SlotRandomPool(slotRandomPool.pool()),
-            new ModifierCountRandomPool(modifierCountRandomPool.pool())
+    public ItemRandomPool toDomain() {
+        return new ItemRandomPool(
+            new SlotRandomPool(slotRandomPool.pool())
         );
     }
 
-    public static JsonItemRandomPool fromDomain(FullItemRandomPool fullItemRandomPool) {
+    public static JsonItemRandomPool fromDomain(ItemRandomPool fullItemRandomPool) {
         return new JsonItemRandomPool(
-            new JsonRandomPool<>(fullItemRandomPool.rarityRandomPool().pool()),
-            new JsonRandomPool<>(fullItemRandomPool.slotRandomPool().pool()),
-            new JsonRandomPool<>(fullItemRandomPool.modifierCountRandomPool().pool())
+            new JsonRandomPool<>(fullItemRandomPool.slotRandomPool().pool())
         );
     }
 }

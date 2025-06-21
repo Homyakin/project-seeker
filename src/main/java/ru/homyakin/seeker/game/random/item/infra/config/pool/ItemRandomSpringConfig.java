@@ -1,27 +1,61 @@
 package ru.homyakin.seeker.game.random.item.infra.config.pool;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
-import ru.homyakin.seeker.game.random.item.entity.pool.ModifierPoolSettings;
-import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomConfig;
-import ru.homyakin.seeker.utils.RandomUtils;
+import ru.homyakin.seeker.game.random.item.entity.ItemRandomConfig;
+import ru.homyakin.seeker.utils.ProbabilityPicker;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-@ConfigurationProperties(prefix = "homyakin.seeker.random.item")
+@Component
 public class ItemRandomSpringConfig implements ItemRandomConfig {
-    private List<Map<ItemRarity, Integer>> rarityPools;
-    private int sameSlotsInPool;
-    private List<ModifierPoolSettings> modifierPoolSettings;
+    private final int sameSlotsInPool = 2;
+    private final ProbabilityPicker<ItemRarity> shopRarityPicker;
+    private final ProbabilityPicker<ItemRarity> raidRarityPicker;
+    private final ProbabilityPicker<Integer> shopModifierCountPicker;
+    private final ProbabilityPicker<Integer> raidModifierCountPicker;
+    private final ProbabilityPicker<ItemRarity> worldRaidRarityPicker;
+    private final ProbabilityPicker<Integer> worldRaidModifierCountPicker;
 
-    @Override
-    public ModifierPoolSettings modifierPoolSettings() {
-        return RandomUtils.getRandomElement(modifierPoolSettings);
+    public ItemRandomSpringConfig() {
+        final var shopRarityProbabilities = new HashMap<ItemRarity, Integer>();
+        shopRarityProbabilities.put(ItemRarity.COMMON, 44);
+        shopRarityProbabilities.put(ItemRarity.UNCOMMON, 24);
+        shopRarityProbabilities.put(ItemRarity.RARE, 14);
+        shopRarityProbabilities.put(ItemRarity.EPIC, 11);
+        shopRarityProbabilities.put(ItemRarity.LEGENDARY, 7);
+        shopRarityPicker = new ProbabilityPicker<>(shopRarityProbabilities);
+
+        final var raidRarityProbabilities = new HashMap<ItemRarity, Integer>();
+        raidRarityProbabilities.put(ItemRarity.COMMON, 30);
+        raidRarityProbabilities.put(ItemRarity.UNCOMMON, 25);
+        raidRarityProbabilities.put(ItemRarity.RARE, 20);
+        raidRarityProbabilities.put(ItemRarity.EPIC, 15);
+        raidRarityProbabilities.put(ItemRarity.LEGENDARY, 10);
+        raidRarityPicker = new ProbabilityPicker<>(raidRarityProbabilities);
+
+        final var shopModifierCountProbabilities = new HashMap<Integer, Integer>();
+        shopModifierCountProbabilities.put(0, 55);
+        shopModifierCountProbabilities.put(1, 30);
+        shopModifierCountProbabilities.put(2, 15);
+        shopModifierCountPicker = new ProbabilityPicker<>(shopModifierCountProbabilities);
+
+        final var raidModifierCountProbabilities = new HashMap<Integer, Integer>();
+        raidModifierCountProbabilities.put(0, 40);
+        raidModifierCountProbabilities.put(1, 40);
+        raidModifierCountProbabilities.put(2, 20);
+        raidModifierCountPicker = new ProbabilityPicker<>(raidModifierCountProbabilities);
+
+        final var worldRaidRarityProbabilities = new HashMap<ItemRarity, Integer>();
+        worldRaidRarityProbabilities.put(ItemRarity.EPIC, 40);
+        worldRaidRarityProbabilities.put(ItemRarity.LEGENDARY, 60);
+        worldRaidRarityPicker = new ProbabilityPicker<>(worldRaidRarityProbabilities);
+
+        final var worldRaidModifierCountProbabilities = new HashMap<Integer, Integer>();
+        worldRaidModifierCountProbabilities.put(0, 20);
+        worldRaidModifierCountProbabilities.put(1, 30);
+        worldRaidModifierCountProbabilities.put(2, 50);
+        worldRaidModifierCountPicker = new ProbabilityPicker<>(worldRaidModifierCountProbabilities);
     }
 
     @Override
@@ -30,83 +64,32 @@ public class ItemRandomSpringConfig implements ItemRandomConfig {
     }
 
     @Override
-    public Map<ItemRarity, Integer> raritiesInPool() {
-        return RandomUtils.getRandomElement(rarityPools);
+    public ProbabilityPicker<ItemRarity> shopRarityPicker() {
+        return shopRarityPicker;
     }
 
-    public void setSameSlotsInPool(int sameSlotsInPool) {
-        this.sameSlotsInPool = sameSlotsInPool;
+    @Override
+    public ProbabilityPicker<ItemRarity> raidRarityPicker() {
+        return raidRarityPicker;
     }
 
-    public void setRarity(Map<String, String> rarity) {
-        // Собираем сначала всё в мапу где для каждой редкости свой пул
-        final var rarityValuesMap = new HashMap<ItemRarity, List<Integer>>();
-        int poolCount = -1;
-        for (final var entry : rarity.entrySet()) {
-            final var rarityKey = toRarity(entry.getKey());
-            final var intValues = Arrays.stream(entry.getValue().split(";"))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
-            if (poolCount == -1) {
-                poolCount = intValues.size();
-            } else if (poolCount != intValues.size()) {
-                throw new IllegalArgumentException("All rarities pools must have the same size");
-            }
-            rarityValuesMap.put(rarityKey, intValues);
-        }
-
-        // Здесь уже собираем пулы из редкостей
-        final var list = new ArrayList<Map<ItemRarity, Integer>>(poolCount);
-        for (int i = 0; i < poolCount; i++) {
-            final var map = new HashMap<ItemRarity, Integer>();
-            for (final var entry : rarityValuesMap.entrySet()) {
-                final var key = entry.getKey();
-                final var value = entry.getValue().get(i);
-                map.put(key, value);
-            }
-            list.add(map);
-        }
-        rarityPools = list;
+    @Override
+    public ProbabilityPicker<Integer> shopModifierCountPicker() {
+        return shopModifierCountPicker;
     }
 
-    public void setModifier(Map<String, String> rarity) {
-        // Собираем сначала всё в мапу где для каждого количества модификаторов свой пул
-        final var rarityValuesMap = new HashMap<Integer, List<Integer>>();
-        int poolCount = -1;
-        for (final var entry : rarity.entrySet()) {
-            final var modifierKey = Integer.valueOf(entry.getKey());
-            final var intValues = Arrays.stream(entry.getValue().split(";"))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
-            if (poolCount == -1) {
-                poolCount = intValues.size();
-            } else if (poolCount != intValues.size()) {
-                throw new IllegalArgumentException("All rarities pools must have the same size");
-            }
-            rarityValuesMap.put(modifierKey, intValues);
-        }
-
-        // Здесь уже собираем пулы из модификаторов
-        final var list = new ArrayList<ModifierPoolSettings>(poolCount);
-        for (int i = 0; i < poolCount; i++) {
-            final var settings = new ModifierPoolSettings(
-                rarityValuesMap.get(0).get(i),
-                rarityValuesMap.get(1).get(i),
-                rarityValuesMap.get(2).get(i)
-            );
-            list.add(settings);
-        }
-        modifierPoolSettings = list;
+    @Override
+    public ProbabilityPicker<Integer> raidModifierCountPicker() {
+        return raidModifierCountPicker;
     }
 
-    private ItemRarity toRarity(String rarity) {
-        return switch (rarity) {
-            case "common" -> ItemRarity.COMMON;
-            case "uncommon" -> ItemRarity.UNCOMMON;
-            case "rare" -> ItemRarity.RARE;
-            case "epic" -> ItemRarity.EPIC;
-            case "legendary" -> ItemRarity.LEGENDARY;
-            default -> throw new IllegalArgumentException("Unknown rarity: " + rarity);
-        };
+    @Override
+    public ProbabilityPicker<ItemRarity> worldRaidRarityPicker() {
+        return worldRaidRarityPicker;
+    }
+
+    @Override
+    public ProbabilityPicker<Integer> worldRaidModifierCountPicker() {
+        return worldRaidModifierCountPicker;
     }
 }
