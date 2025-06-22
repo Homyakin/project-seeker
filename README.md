@@ -10,7 +10,7 @@
 
 ## Технологии
 
-- Java 23
+- Java 24
 - Docker
 - PostgreSQL 14
 - TOML

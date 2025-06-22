@@ -9,26 +9,26 @@
     <version>1.2</version>
 
     <properties>
-        <java.version>23</java.version>
+        <java.version>24</java.version>
         <kotlin.version>1.9.22</kotlin.version>
-        <spring.version>3.4.4</spring.version>
-        <liquibase.version>4.31.1</liquibase.version>
-        <postgres.version>42.7.5</postgres.version>
-        <telegram.version>8.3.0</telegram.version>
+        <spring.version>3.5.3</spring.version>
+        <liquibase.version>4.32.0</liquibase.version>
+        <postgres.version>42.7.7</postgres.version>
+        <telegram.version>9.0.0</telegram.version>
         <vavr.version>0.10.4</vavr.version>
-        <jemoji.version>1.7.3</jemoji.version>
-        <jackson.version>2.18.3</jackson.version>
+        <jemoji.version>1.7.4</jemoji.version>
+        <jackson.version>2.19.1</jackson.version>
         <jakarta.validation.version>3.1.1</jakarta.validation.version>
         <commons-math3.version>3.6.1</commons-math3.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
-        <commons-io.version>2.18.0</commons-io.version>
-        <caffeine.version>3.2.0</caffeine.version>
+        <commons-io.version>2.19.0</commons-io.version>
+        <caffeine.version>3.2.1</caffeine.version>
         <slf4j-api.version>2.0.17</slf4j-api.version>
 
         <!--TEST-->
-        <junit.version>5.12.2</junit.version>
+        <junit.version>5.13.1</junit.version>
         <assertj.version>3.27.3</assertj.version>
-        <mockito.version>5.17.0</mockito.version>
+        <mockito.version>5.18.0</mockito.version>
         <commons-rng.version>1.6</commons-rng.version>
 
 
@@ -36,7 +36,7 @@
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
-        <checkstyle.version>10.23.0</checkstyle.version>
+        <checkstyle.version>10.25.1</checkstyle.version>
         <dependency-versions-check-maven-plugin.version>4.0.1</dependency-versions-check-maven-plugin.version>
         <duplicate-finder-maven-plugin.version>2.0.1</duplicate-finder-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
