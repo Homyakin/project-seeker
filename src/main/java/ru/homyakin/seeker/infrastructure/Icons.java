@@ -11,6 +11,7 @@ public class Icons {
     public static final String DEFENSE = EmojiManager.getByAlias(":shield:").orElseThrow().getFirst().getEmoji();
     public static final String HEALTH = EmojiManager.getByAlias(":heart:").orElseThrow().getFirst().getEmoji();
     public static final String ENERGY = EmojiManager.getByAlias(":battery:").orElseThrow().getFirst().getEmoji();
+    public static final String POWER = EmojiManager.getByAlias(":muscle:").orElseThrow().getFirst().getEmoji();
     public static final String DEAD = EmojiManager.getByAlias(":dizzy_face:").orElseThrow().getFirst().getEmoji();
     public static final String DUEL_WINNER = EmojiManager.getByAlias(":tada:").orElseThrow().getFirst().getEmoji();
     public static final String DUEL_LOSER = DEAD;

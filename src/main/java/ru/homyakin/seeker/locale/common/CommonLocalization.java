@@ -98,6 +98,8 @@ public class CommonLocalization {
     public static String fullProfile(Language language, Personage personage, CurrentEvents currentEvents) {
         final var params = profileParams(personage);
 
+        params.put("power_icon", Icons.POWER);
+        params.put("power_value", LocaleUtils.power((int) personage.toBattlePersonage().power()));
         params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
         if (personage.energy().isFull()) {
             params.put("time_icon", "");

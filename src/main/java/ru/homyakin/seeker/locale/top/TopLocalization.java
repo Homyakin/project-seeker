@@ -162,7 +162,7 @@ public class TopLocalization {
         final var params = new HashMap<String, Object>();
         params.put("position", positionNumber);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
-        params.put("power", position.power() / 100); // делим на 100, так как слишком большие числа (32052 в дефолте)
+        params.put("power", LocaleUtils.power(position.power()));
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topPowerPersonagePosition), params);
     }
 

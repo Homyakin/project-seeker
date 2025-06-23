@@ -23,6 +23,7 @@ ${personage_badge_with_name}
 ${money_icon}Золото: ${personage_money}
 ${energy_icon}Энергия: ${energy_value}% ${time_icon}${remain_duration_for_full_regen}
 ${health_icon}Здоровье: ${health_value}
+${power_icon}Мощь: ${power_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
 ${current_event}${personage_effects}
