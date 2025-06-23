@@ -63,7 +63,7 @@ public class EnhanceService {
         if (item.isEmpty()) {
             return Either.left(RepairError.NoSuchItem.INSTANCE);
         }
-        final var price = addModifierPrice(item.get());
+        final var price = repairPrice(item.get());
         final var takeMoneyResult = personageService.tryTakeMoney(personageId, price);
         if (takeMoneyResult.isLeft()) {
             return Either.left(new RepairError.NotEnoughMoney(price));
