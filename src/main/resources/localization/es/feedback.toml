@@ -1,0 +1,31 @@
+initFeedback = """\
+Bienvenido al sistema de retroalimentación de la Taberna de Krezar.
+Aquí puedes dejar cualquier sugerencia, reporte de errores u otra cosa relacionada con el juego.
+
+Si tu mensaje es útil, podrías recibir monedas del juego o insignias como recompensa. Por favor, evita el spam.
+
+Elige un tema para tu mensaje:"""
+
+errorButton = "❗️Reportar un error"
+improvementButton = "💡Sugerir una idea"
+textButton = "📝Proponer un texto"
+otherButton = "💬Otro"
+backButton = "⬅️Atrás"
+
+inputTextSuggestion = """\
+Aquí puedes proponer cualquier texto para el juego. Algunos ejemplos:
+Incursiones, misiones, frases de la taberna, finales de asalto, comienzos de duelos, finales de duelos, pedidos expirados, \
+trabajador del día, pedidos en la taberna, regalos... todo lo que veas en forma de texto."""
+inputFeedback = "Escribe tu mensaje:"
+feedbackSent = """\
+Tu mensaje fue enviado al desarrollador. Si es algo que merece atención, \
+recibirás respuesta por el canal ${feedback_channel}."""
+feedback = """\
+<code>${personage_id} ${personage_badge_with_name}</code>
+
+${feedback_theme}
+
+${feedback_text}"""
+cancelFeedback = "Será para otra vez."
+invalidTheme = "Selecciona un tema de la lista:"
+feedbackErrorSent = "No se pudo enviar el mensaje. Intenta más tarde."

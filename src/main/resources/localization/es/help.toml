@@ -1,0 +1,86 @@
+main = """\
+¡Bienvenido a la Taberna de la ciudad de Krezar!
+
+Aquí puedes relajarte, tomarte algo o resolver disputas retando a alguien a un duelo. \
+También puedes ganarte unas monedas participando en incursiones.
+
+No dudes en pedir ayuda, estamos aquí pa' eso.
+"""
+
+raids = """\
+Para participar en incursiones, debes añadir el bot a tu grupo.
+Luego, en ciertos momentos del día (<code>${settings_command}</code>), aparecerán anuncios en la taberna \
+con misiones que te pueden hacer ganar dinero. Si la incursión tiene éxito, ¡la recompensa será mayor!
+
+¡Y recuerda! Cuantos más Exploradores participen, más chances de ganar.
+
+Cada vez que participas en una incursión, tu ${energy_icon}Energía disminuye y luego se recupera poco a poco."""
+
+duels = """\
+Si crees que alguien en la taberna está hablando por hablar, hay una arena especial detrás para resolverlo.
+Solo responde al mensaje del bocón con el comando ${duel_command}.
+
+Pero ojo, pelear no es gratis. Alguien tiene que limpiar la sangre y recoger los dientes después.
+"""
+
+menu = """\
+Como en toda taberna decente, aquí puedes comer y beber sabroso.
+
+Mira el menú con ${menu_command} y pide lo que se te antoje.
+También puedes invitar a un amigo: responde a su mensaje \
+o mencionalo en el pedido con <code>${order_command}1 @usuario</code>.
+
+Y cuando termines... puedes lanzarle los platos a ese amigo molesto con ${throw_command}, \
+o tirarlos a otro grupo con <code>${throw_to_group_command} TAG</code>.
+"""
+
+personage = """\
+Entra a ${bot_username} para acceder al mostrador de registro.
+
+Allí puedes cambiar tu nombre usando el círculo mágico.
+O pagar por acceso al libro del olvido, para borrar tus habilidades y aprender unas nuevas.
+"""
+
+info = """\
+Las noticias del proyecto están en este canal: ${news_channel_username}.
+
+El código fuente del juego está <a href="${source_code_link}">aquí</a>.
+También puedes usar ese enlace para ayudar con la traducción del contenido.
+"""
+
+battleSystem = """\
+Características del personaje:
+${health_icon}Salud ${attack_icon}Ataque ${defense_icon}Defensa
+${strength_icon}Fuerza ${agility_icon}Agilidad ${wisdom_icon}Sabiduría
+
+Reglas del combate:
+1. Si tu ${health_icon}Salud llega a 0, estás muerto.
+2. ${strength_icon}Fuerza vence a ${agility_icon}Agilidad.
+3. ${agility_icon}Agilidad vence a ${wisdom_icon}Sabiduría.
+4. ${wisdom_icon}Sabiduría vence a ${strength_icon}Fuerza.
+5. ${strength_icon}Fuerza mejora los ${normal_attack_icon}ataques normales.
+6. ${agility_icon}Agilidad mejora tu chance de ${dodge_icon}esquivar.
+7. ${wisdom_icon}Sabiduría mejora el daño ${crit_attack_icon}crítico.
+8. ${attack_icon}Ataque sube todo el daño que haces.
+9. ${defense_icon}Defensa reduce el daño recibido.
+10. El combate es por turnos. Cada turno haces un ataque.
+"""
+
+seasons = """\
+⚡ Cada temporada comienza con una tormenta mágica devastadora que arrasa con casi todo el oro \
+y daña el equipo de los Exploradores.
+
+🔥 ¡Después llega la nueva temporada! Todos los Exploradores activos del ciclo anterior reciben una insignia especial, \
+y en las tabernas se publican los nombres de los mejores, para honrar sus hazañas.
+
+📣 Sigue las noticias y actualizaciones aquí: ${news_channel_username}!
+"""
+
+
+raidsButton = "🗡Incursiones"
+duelsButton = "🤺Duelos"
+menuButton = "🍻Taberna"
+personageButton = "🔰Explorador"
+infoButton = "💬Más"
+battleSystemButton = "⚔️Sistema de combate"
+seasonsButton = "⚡️Temporadas"

@@ -1,0 +1,40 @@
+joinRaidEvent = "Unirse a la incursión 🗡 ${energy_icon}${energy_cost}%"
+raidStartsPrefix = "La batalla comienza en"
+userAlreadyInThisRaid = "❌¡Ya estás participando en este incursión!"
+userAlreadyInOtherEvent = "❌¡Ya estás en otro evento!"
+exhaustedAlert = "⚠️¡Estás molido! Puedes luchar, pero sin recompensa. No se gastará energía."
+expiredRaid = "⚠️¡La incursión ya terminó!"
+raidInProcess = "⚠️La incursión ya empezó"
+successJoinRaid = "✅¡Te uniste a la incursión con éxito!"
+successRaid = [
+    "¡Evento completado! La incursión fue un éxito.",
+    "¡Tremenda pelea! Lo lograron, aquí está su recompensa.",
+    "¡Los enemigos cayeron! Resultaron no ser unos blandengues."
+]
+failureRaid = [
+    "Los Exploradores fallaron La incursión. ¿Pa' eso les pagamos?",
+    "Ay, fallamos. Tal vez hace falta más gente.",
+    "La pelea no salió bien. Ahora están hasta el cuello de problemas."
+]
+zeroParticipants = [
+    "Nadie aceptó el encargo😢 Esta vez no hay billete pa' nadie."
+]
+personageRaidResult = "${dead_icon_or_empty}${raid_participant}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
+raidResult = """Enemigos: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
+
+Mejores Exploradores:
+${top_participants_list}${from_new_line_items_for_personages}
+
+Informe dLa incursión: ${raid_report_command}"""
+successItemForPersonage = [
+    "¡${personage_badge_with_name} encuentra un <code>${short_item}</code> en el campo! ¡Eso se celebra con una fría en la taberna🍻!"
+]
+notEnoughSpaceInBagForItem = [
+    "${personage_badge_with_name} encuentra un <code>${short_item}</code>, pero la mochila está llena...😢"
+]
+raidParticipants = "Participantes: ${raid_participants_list}"
+raidParticipant = "${personage_badge_with_name}${exhausted_icon_or_empty}"
+report = """📜Tu informe de la última incursión:
+${personage_battle_report}"""
+reportNotPresentForPersonage = "No encontramos tu informe dLa incursión en los archivos"
+lastGroupRaidReportNotFound = "No participaste en la última incursión"

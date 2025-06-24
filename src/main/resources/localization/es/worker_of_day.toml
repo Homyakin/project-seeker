@@ -1,0 +1,29 @@
+notEnoughMembers = """\
+Para que el grupo participe en labores comunitarias, se necesitan al menos ${required_users} integrantes. \
+Puedes unirte a un grupo con ${group_join_command}"""
+alreadyChosen = [
+    "Hoy ya tenemos al trabajador estrella: ${mention_personage_badge_with_name}",
+    "Los trabajadores ya fueron asignados. Hoy le toca a ${mention_personage_badge_with_name}. ¡Vuelve mañana!"
+]
+chosenMember = """\
+${chosen_member_text}
+<i>Efecto: ${effect}</i>"""
+
+chosenMemberVariations = [
+    "Ahora ${mention_personage_badge_with_name} forma parte de los obreros de Krezar. ¡Aquí tienes la pala, allá están las tumbas!",
+    "¡El trabajador del día es ${mention_personage_badge_with_name}! Anda limpiando los hongos mordelones en la finca de la abuela Zina.",
+    """\
+¡Bienvenid@ al equipo de trabajo, ${mention_personage_badge_with_name}! \
+Los baños están por allá, ten este tenedor, y vamos: tac-tac, tac-tac.""",
+    """\
+¡Nueva tarea! Como el lobo no actúa en el circo, \
+hoy ${mention_personage_badge_with_name} lo va a sustituir con gusto en la pista.""",
+    """\
+Los bardos gritaron toda la noche. Hoy le toca a ${mention_personage_badge_with_name} \
+engrasar todas las gargantas pa' que puedan seguir desafinando.""",
+    """\
+El trabajo no es un lobo, y ${mention_personage_badge_with_name} tampoco. \
+¡Pero sí es un verdadero obrero, reconozcámoslo aunque sea hoy!""",
+    "Eh, ${mention_personage_badge_with_name}, levántate. Dale, asere, que ya es hora de meterle al trabajo.",
+    "¡A trabajar, ${mention_personage_badge_with_name}! El sol está en to' lo alto. Hoy toca cavar desde el portón hasta la hora de almorzar.",
+]
