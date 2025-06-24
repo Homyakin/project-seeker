@@ -37,6 +37,10 @@ public class FeedbackLocalization {
         return resources.getOrDefault(language, FeedbackResource::otherButton);
     }
 
+    public static String backButton(Language language) {
+        return resources.getOrDefault(language, FeedbackResource::backButton);
+    }
+
     public static String inputTextSuggestion(Language language) {
         return resources.getOrDefault(language, FeedbackResource::inputTextSuggestion);
     }

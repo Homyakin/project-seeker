@@ -1,0 +1,5 @@
+errorButton = "❗️Report error"
+improvementButton = "💡Suggest idea"
+textButton = "📝Suggest text"
+otherButton = "💬Other"
+backButton = "⬅️Back"
