@@ -20,7 +20,6 @@ import ru.homyakin.seeker.locale.top.TopUtils;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
