@@ -13,6 +13,7 @@ public record WorldRaidResource(
     String mustBeInRegisteredGroup,
     String raidNotFound,
     String successBattle,
+    String rarityCount,
     String failedBattle,
     String battleResult,
     String groupResult,
