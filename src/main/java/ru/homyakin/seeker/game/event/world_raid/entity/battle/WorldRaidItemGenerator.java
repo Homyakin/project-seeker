@@ -45,5 +45,5 @@ public class WorldRaidItemGenerator {
         );
     }
 
-    private static final int NONE_ITEM_CHANCE = 20;
+    private static final int NONE_ITEM_CHANCE = 10;
 }

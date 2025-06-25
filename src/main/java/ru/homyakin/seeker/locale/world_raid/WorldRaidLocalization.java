@@ -168,24 +168,30 @@ public class WorldRaidLocalization {
         final var params = new HashMap<String, Object>();
         params.put("raid_report_command", CommandType.WORLD_RAID_REPORT.getText());
         params.put("battle_result", battleResult(language, result));
-        int epicCount = 0;
-        int legendaryCount = 0;
+        final var rarityCountMap = new HashMap<ItemRarity, Integer>();
         for (final var personageResult : result.personageResults()) {
             if (personageResult.generatedItem().isEmpty()) {
                 continue;
             }
-            if (personageResult.generatedItem().get().rarity() == ItemRarity.LEGENDARY) {
-                legendaryCount++;
-            } else if (personageResult.generatedItem().get().rarity() == ItemRarity.EPIC) {
-                epicCount++;
-            }
+            rarityCountMap.merge(personageResult.generatedItem().get().rarity(), 1, Integer::sum);
         }
-        params.put("epic_count", epicCount);
-        params.put("epic_icon", ItemRarity.EPIC.icon);
-        params.put("legendary_count", legendaryCount);
-        params.put("legendary_icon", ItemRarity.LEGENDARY.icon);
+        final var rarityCounts = rarityCountMap.entrySet().stream()
+            .sorted(Comparator.comparingInt(e -> e.getKey().id))
+            .map(entry -> rarityCount(language, entry.getKey(), entry.getValue()))
+            .toList();
+        params.put("rarity_counts", String.join("\n", rarityCounts));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::successBattle),
+            params
+        );
+    }
+
+    private static String rarityCount(Language language, ItemRarity rarity, int count) {
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", rarity.icon);
+        params.put("count", count);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, WorldRaidResource::rarityCount),
             params
         );
     }
