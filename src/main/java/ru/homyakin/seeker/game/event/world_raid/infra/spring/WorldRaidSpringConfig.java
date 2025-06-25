@@ -8,6 +8,7 @@ import java.time.Duration;
 
 @ConfigurationProperties(prefix = "homyakin.seeker.event.world-raid")
 public class WorldRaidSpringConfig implements WorldRaidConfig {
+    private static final Money INIT_FUND = Money.from(500);
     private Money requiredForDonate;
     private int averageRequiredContribution;
     private Money fundFromDonation;
@@ -49,6 +50,11 @@ public class WorldRaidSpringConfig implements WorldRaidConfig {
     @Override
     public Duration groupNotificationInterval() {
         return groupNotificationInterval;
+    }
+
+    @Override
+    public Money initFund() {
+        return INIT_FUND;
     }
 
     public void setRequiredForDonate(int requiredForDonate) {

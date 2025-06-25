@@ -12,13 +12,16 @@ import ru.homyakin.seeker.game.event.world_raid.entity.FinalWorldRaidStatus;
 import ru.homyakin.seeker.game.event.world_raid.entity.ResearchGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.WorldRaidBattleResultService;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class ProcessWorldRaidBattleCommand {
     private final LaunchedEventService launchedEventService;
     private final GroupStatsService groupStatsService;
     private final PersonageStatsService personageStatsService;
+    private final WorldRaidConfig config;
 
     public ProcessWorldRaidBattleCommand(
         GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand,
@@ -47,7 +51,8 @@ public class ProcessWorldRaidBattleCommand {
         SendWorldRaidBattleResultCommand sendWorldRaidBattleResultCommand,
         LaunchedEventService launchedEventService,
         GroupStatsService groupStatsService,
-        PersonageStatsService personageStatsService
+        PersonageStatsService personageStatsService,
+        WorldRaidConfig config
     ) {
         this.getOrLaunchWorldRaidCommand = getOrLaunchWorldRaidCommand;
         this.personageEventService = personageEventService;
@@ -60,6 +65,7 @@ public class ProcessWorldRaidBattleCommand {
         this.launchedEventService = launchedEventService;
         this.groupStatsService = groupStatsService;
         this.personageStatsService = personageStatsService;
+        this.config = config;
     }
 
     @Transactional
@@ -83,6 +89,7 @@ public class ProcessWorldRaidBattleCommand {
                 storage.saveAsContinued(
                     raid,
                     remainedInfo,
+                    Money.from(RandomUtils.getInPercentRange(config.initFund().value(), 10)),
                     researchGenerator.generate()
                 );
                 yield FinalWorldRaidStatus.CONTINUED;
