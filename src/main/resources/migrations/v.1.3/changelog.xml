@@ -12,4 +12,5 @@
     <include file="changes/2025-06-07_01_add-seasons.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-06-13_01_add-broken-to-items.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-06-21_01_start-season-4.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2025-06-29_01_move-badge-locale-to-badge-table.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

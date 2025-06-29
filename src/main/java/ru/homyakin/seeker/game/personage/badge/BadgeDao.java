@@ -12,28 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.utils.JsonUtils;
 
 @Repository
 public class BadgeDao {
     private final JdbcClient jdbcClient;
+    private final JsonUtils jsonUtils;
 
-    public BadgeDao(DataSource dataSource) {
+    public BadgeDao(DataSource dataSource, JsonUtils jsonUtils) {
         this.jdbcClient = JdbcClient.create(dataSource);
+        this.jsonUtils = jsonUtils;
     }
 
     @Transactional
     public void save(SavingBadge badge) {
         final var sql = """
-            INSERT INTO badge (code)
-            VALUES (:code)
-            ON CONFLICT (code) DO UPDATE SET code = :code
-            RETURNING id
+            INSERT INTO badge (code, locale)
+            VALUES (:code, :locale)
+            ON CONFLICT (code) DO UPDATE SET locale = :locale
             """;
-        final int id = jdbcClient.sql(sql)
+        jdbcClient.sql(sql)
             .param("code", badge.view().code())
-            .query((rs, rowNum) -> rs.getInt("id"))
-            .single();
-        badge.locales().forEach((language, locale) -> saveLocale(id, language, locale));
+            .param("locale", jsonUtils.mapToPostgresJson(badge.locales()))
+            .update();
     }
 
     public Optional<Badge> getByCode(String code) {
