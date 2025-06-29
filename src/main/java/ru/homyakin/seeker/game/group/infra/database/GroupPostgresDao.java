@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.group.entity.CreateGroupRequest;
@@ -13,6 +14,7 @@ import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupSettings;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 import javax.sql.DataSource;
@@ -39,15 +41,22 @@ public class GroupPostgresDao implements GroupStorage {
     }
 
     @Override
+    @Transactional
     public GroupId create(CreateGroupRequest request) {
-        final var sql = """
+        final var badgeSql = "SELECT id FROM badge WHERE code = :code";
+        int badgeId = jdbcClient.sql(badgeSql)
+            .param("code", BadgeView.STANDARD.code())
+            .query((rs, _) -> rs.getInt("id"))
+            .single();
+
+        final var groupSql = """
             INSERT INTO pgroup (is_active, init_date, next_event_date, next_rumor_date,
-                    event_intervals_setting, time_zone_setting, name, is_hidden, settings)
+                    event_intervals_setting, time_zone_setting, name, is_hidden, settings, active_badge_id)
             VALUES (:is_active, :init_date, :next_event_date, :next_rumor_date, :event_intervals_setting, :time_zone_setting,
-                    :name, :is_hidden, :settings)
+                    :name, :is_hidden, :settings, :active_badge_id)
             RETURNING id
             """;
-        return jdbcClient.sql(sql)
+        GroupId groupId = jdbcClient.sql(groupSql)
             .param("is_active", request.isActive())
             .param("init_date", request.initDate())
             .param("next_event_date", request.nextEventDate())
@@ -57,8 +66,20 @@ public class GroupPostgresDao implements GroupStorage {
             .param("name", request.name())
             .param("is_hidden", request.settings().isHidden())
             .param("settings", jsonUtils.mapToPostgresJson(GroupSettingsPostgresJson.from(request.settings())))
+            .param("active_badge_id", badgeId)
             .query((rs, _) -> GroupId.from(rs.getLong("id")))
             .single();
+
+        final var groupToBadgeSql = """
+            INSERT INTO pgroup_to_badge (pgroup_id, badge_id)
+            VALUES (:pgroup_id, :badge_id)
+            """;
+        jdbcClient.sql(groupToBadgeSql)
+            .param("pgroup_id", groupId.value())
+            .param("badge_id", badgeId)
+            .update();
+
+        return groupId;
     }
 
     @Override
@@ -75,7 +96,12 @@ public class GroupPostgresDao implements GroupStorage {
 
     @Override
     public Optional<Group> get(GroupId groupId) {
-        final var sql = "SELECT * FROM pgroup WHERE id = :id";
+        final var sql = """
+            SELECT p.*, b.code badge_code
+            FROM pgroup p
+            LEFT JOIN badge b ON p.active_badge_id = b.id
+            WHERE p.id = :id
+            """;
         return jdbcClient.sql(sql)
             .param("id", groupId.value())
             .query(this::mapRow)
@@ -85,7 +111,10 @@ public class GroupPostgresDao implements GroupStorage {
     @Override
     public List<Group> getGetGroupsWithLessNextEventDate(LocalDateTime maxNextEventDate) {
         final var sql = """
-            SELECT * FROM pgroup WHERE next_event_date < :next_event_date and is_active = true
+            SELECT p.*, b.code badge_code
+            FROM pgroup p
+            LEFT JOIN badge b ON p.active_badge_id = b.id
+            WHERE next_event_date < :next_event_date and is_active = true
             """;
         return jdbcClient.sql(sql)
             .param("next_event_date", maxNextEventDate)
@@ -96,7 +125,10 @@ public class GroupPostgresDao implements GroupStorage {
     @Override
     public List<Group> getGetGroupsWithLessNextRumorDate(LocalDateTime maxNextRumorDate) {
         final var sql = """
-            SELECT * FROM pgroup WHERE next_rumor_date < :next_rumor_date and is_active = true
+            SELECT p.*, b.code badge_code
+            FROM pgroup p
+            LEFT JOIN badge b ON p.active_badge_id = b.id
+            WHERE next_rumor_date < :next_rumor_date and is_active = true
             """;
         return jdbcClient.sql(sql)
             .param("next_rumor_date", maxNextRumorDate)
@@ -240,9 +272,11 @@ public class GroupPostgresDao implements GroupStorage {
             pgroup.name,
             pgroup.tag,
             pgroup.money,
-            member_count.count as member_count
+            member_count.count as member_count,
+            b.code badge_code
         FROM pgroup
         JOIN member_count ON true
+        LEFT JOIN badge b ON pgroup.active_badge_id = b.id
         WHERE pgroup.id = :id
         """;
         return jdbcClient.sql(sql)
@@ -253,13 +287,7 @@ public class GroupPostgresDao implements GroupStorage {
 
     @Override
     public Optional<Group> getByTag(String tag) {
-        final var sql = """
-            SELECT * FROM pgroup WHERE tag = :tag
-            """;
-        return jdbcClient.sql(sql)
-            .param("tag", tag)
-            .query(this::mapRow)
-            .optional();
+        return getByTags(Collections.singletonList(tag)).stream().findFirst();
     }
 
     @Override
@@ -268,7 +296,10 @@ public class GroupPostgresDao implements GroupStorage {
             return Collections.emptyList();
         }
         final var sql = """
-            SELECT * FROM pgroup WHERE tag in (:tags)
+            SELECT p.*, b.code badge_code
+            FROM pgroup p
+            LEFT JOIN badge b ON p.active_badge_id = b.id
+            WHERE tag in (:tags)
             """;
         return jdbcClient.sql(sql)
             .param("tags", tags)
@@ -299,6 +330,7 @@ public class GroupPostgresDao implements GroupStorage {
             GroupId.from(rs.getLong("id")),
             Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
+            BadgeView.findByCode(rs.getString("badge_code")),
             rs.getBoolean("is_active"),
             new GroupSettings(
                 ZoneOffset.of(rs.getString("time_zone_setting")),
@@ -316,6 +348,7 @@ public class GroupPostgresDao implements GroupStorage {
             GroupId.from(rs.getLong("id")),
             rs.getString("name"),
             Optional.ofNullable(rs.getString("tag")),
+            BadgeView.findByCode(rs.getString("badge_code")),
             Money.from(rs.getInt("money")),
             rs.getInt("member_count")
         );

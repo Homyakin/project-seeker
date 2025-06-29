@@ -25,6 +25,7 @@ public class GroupSettingsLocalization {
         params.put("time_zone", group.settings().timeZone());
         params.put("set_time_zone_command", CommandType.SET_TIME_ZONE.getText());
         params.put("change_group_name_command", CommandType.CHANGE_GROUP_NAME.getText());
+        params.put("show_badges_command", CommandType.SHOW_BADGES_GROUP.getText());
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         params.put(
             "optional_group_is_hidden_description",

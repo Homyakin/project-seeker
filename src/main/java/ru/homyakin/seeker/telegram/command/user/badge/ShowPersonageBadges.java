@@ -4,11 +4,11 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
-public record ShowBadges(
+public record ShowPersonageBadges(
     UserId userId
 ) implements Command {
-    public static ShowBadges from(Message message) {
-        return new ShowBadges(
+    public static ShowPersonageBadges from(Message message) {
+        return new ShowPersonageBadges(
             UserId.from(message.getFrom().getId())
         );
     }

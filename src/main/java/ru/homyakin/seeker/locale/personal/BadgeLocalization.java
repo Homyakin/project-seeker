@@ -3,8 +3,8 @@ package ru.homyakin.seeker.locale.personal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import ru.homyakin.seeker.game.personage.badge.Badge;
-import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
+import ru.homyakin.seeker.game.badge.entity.Badge;
+import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -16,7 +16,7 @@ public class BadgeLocalization {
         resources.add(language, resource);
     }
 
-    public static String availableBadges(Language language, List<PersonageAvailableBadge> badges) {
+    public static String availableBadges(Language language, List<AvailableBadge> badges) {
         final var showBadges = badges.stream()
             .map(badge -> badge(language, badge.badge()))
             .toList();

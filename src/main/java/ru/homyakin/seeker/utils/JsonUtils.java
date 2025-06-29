@@ -10,12 +10,12 @@ import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.badge.entity.BadgeLocale;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestLocale;
 import ru.homyakin.seeker.game.event.raid.models.RaidLocale;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLocale;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
-import ru.homyakin.seeker.game.personage.badge.BadgeLocale;
 import ru.homyakin.seeker.locale.Language;
 
 import java.sql.SQLException;

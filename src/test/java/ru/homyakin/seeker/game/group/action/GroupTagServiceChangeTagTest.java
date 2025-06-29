@@ -159,6 +159,7 @@ public class GroupTagServiceChangeTagTest {
             groupId,
             "Test Group",
             Optional.empty(),
+            null,
             new Money(moneyValue),
             1
         );

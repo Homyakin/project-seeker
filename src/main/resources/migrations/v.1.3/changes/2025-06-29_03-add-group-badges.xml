@@ -1,0 +1,85 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-group-badges">
+        <createTable tableName="pgroup_to_badge">
+            <column name="pgroup_id" type="BIGINT"/>
+            <column name="badge_id" type="INT"/>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="pgroup_id, badge_id"
+                constraintName="pgroup_to_badge-pk"
+                tableName="pgroup_to_badge"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="pgroup_to_badge"
+                baseColumnNames="pgroup_id"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+                constraintName="fk-pgroup_to_badge-pgroup"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="pgroup_to_badge"
+                baseColumnNames="badge_id"
+                referencedTableName="badge"
+                referencedColumnNames="id"
+                constraintName="fk-pgroup_to_badge-badge"
+        />
+
+        <sql>
+            INSERT INTO pgroup_to_badge (pgroup_id, badge_id)
+            SELECT p.id, b.id
+            FROM pgroup p
+            JOIN badge b ON b.code = 'standard';
+        </sql>
+
+        <addColumn tableName="pgroup">
+            <column name="active_badge_id" type="INT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE pgroup
+            SET active_badge_id = (SELECT id FROM badge WHERE code = 'standard');
+        </sql>
+
+        <addNotNullConstraint tableName="pgroup" columnName="active_badge_id"/>
+
+        <addForeignKeyConstraint
+            baseTableName="pgroup"
+            baseColumnNames="active_badge_id"
+            referencedTableName="badge"
+            referencedColumnNames="id"
+            constraintName="fk-pgroup-active_badge_id-badge"
+        />
+
+        <sql>
+            <![CDATA[
+            WITH pgroups AS (
+            SELECT * FROM season_pgroup_stats sps WHERE sps.season_number = 3 AND sps.raids_total > 10
+            )
+            INSERT INTO pgroup_to_badge  (pgroup_id, badge_id)
+            SELECT p.pgroup_id, b.id
+            FROM pgroups p, badge b
+            WHERE b.code = 'third-season';
+            ]]>
+        </sql>
+        <sql>
+            <![CDATA[
+            WITH pgroups AS (
+            SELECT * FROM pgroup WHERE tag is not null and is_active = true
+            )
+            INSERT INTO pgroup_to_badge  (pgroup_id, badge_id)
+            SELECT p.id, b.id
+            FROM pgroups p, badge b
+            WHERE b.code = 'first-groups';
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>

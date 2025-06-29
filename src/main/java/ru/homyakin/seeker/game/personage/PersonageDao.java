@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
-import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;

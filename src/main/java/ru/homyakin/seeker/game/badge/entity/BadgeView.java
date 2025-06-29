@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.personage.badge;
+package ru.homyakin.seeker.game.badge.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import net.fellbaum.jemoji.EmojiManager;

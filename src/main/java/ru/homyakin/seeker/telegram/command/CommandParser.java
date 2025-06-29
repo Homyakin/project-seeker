@@ -10,6 +10,8 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.common.world_raid.JoinWorldRaid;
 import ru.homyakin.seeker.telegram.command.group.action.MigrateFromGroup;
+import ru.homyakin.seeker.telegram.command.group.badge.SelectGroupBadge;
+import ru.homyakin.seeker.telegram.command.group.badge.ShowGroupBadges;
 import ru.homyakin.seeker.telegram.command.group.management.CancelJoinGroupMember;
 import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupTag;
 import ru.homyakin.seeker.telegram.command.group.management.ConfirmJoinGroupMember;
@@ -54,8 +56,8 @@ import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeekGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopWorkerOfDay;
 import ru.homyakin.seeker.telegram.command.group.world_raid.GroupWorldRaidReport;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
-import ru.homyakin.seeker.telegram.command.user.badge.SelectBadge;
-import ru.homyakin.seeker.telegram.command.user.badge.ShowBadges;
+import ru.homyakin.seeker.telegram.command.user.badge.SelectPersonageBadge;
+import ru.homyakin.seeker.telegram.command.user.badge.ShowPersonageBadges;
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.ShowWorldRaidInfo;
 import ru.homyakin.seeker.telegram.command.common.world_raid.WorldRaidDonate;
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.WorldRaidResearchTop;
@@ -166,7 +168,7 @@ public class CommandParser {
                 case RESET_CHARACTERISTICS -> ResetCharacteristics.from(message);
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
-                case SHOW_BADGES -> ShowBadges.from(message);
+                case SHOW_BADGES -> ShowPersonageBadges.from(message);
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
                 case TAKE_OFF -> TakeOffItem.from(message);
@@ -227,6 +229,7 @@ public class CommandParser {
                 case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
                 case CHANGE_TAG -> ChangeGroupTag.from(message);
                 case THROW_ORDER_TO_GROUP -> ThrowOrderToGroup.from(message);
+                case SHOW_BADGES_GROUP -> ShowGroupBadges.from(message);
                 default -> null;
             });
     }
@@ -252,7 +255,7 @@ public class CommandParser {
                 case CONFIRM_RESET_CHARACTERISTICS -> ConfirmResetCharacteristics.from(callback);
                 case CANCEL_RESET_CHARACTERISTICS -> CancelResetCharacteristics.from(callback);
                 case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
-                case SELECT_BADGE -> SelectBadge.from(callback);
+                case SELECT_BADGE -> SelectPersonageBadge.from(callback);
                 case TOGGLE_PERSONAGE_SETTING -> SetPersonageSetting.from(callback);
                 default -> null;
             });
@@ -274,6 +277,7 @@ public class CommandParser {
                 case JOIN_WORLD_RAID -> JoinWorldRaid.from(callback);
                 case CONFIRM_GROUP_JOIN -> ConfirmJoinGroupMember.from(callback);
                 case CANCEL_GROUP_JOIN -> CancelJoinGroupMember.from(callback);
+                case SELECT_BADGE -> SelectGroupBadge.from(callback);
                 default -> null;
             });
     }

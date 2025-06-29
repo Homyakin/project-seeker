@@ -14,7 +14,7 @@ import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;

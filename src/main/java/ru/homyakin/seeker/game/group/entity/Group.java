@@ -5,6 +5,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.error.StillSame;
 import ru.homyakin.seeker.game.group.error.ZeroEnabledEventIntervalsError;
 import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ public record Group(
     GroupId id,
     Optional<String> tag,
     String name,
+    BadgeView badge,
     boolean isActive,
     GroupSettings settings
 ) {
@@ -44,7 +46,7 @@ public record Group(
     }
 
     private Group copyWithSettings(GroupSettings settings) {
-        return new Group(id, tag, name, isActive, settings);
+        return new Group(id, tag, name, badge, isActive, settings);
     }
 
     private Either<StillSame, Group> changeActive(boolean newActive) {
@@ -53,6 +55,7 @@ public record Group(
                 id,
                 tag,
                 name,
+                badge,
                 newActive,
                 settings
             );

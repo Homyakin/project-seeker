@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.personage.badge;
+package ru.homyakin.seeker.game.badge.infra.postgres;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,12 +8,20 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.common.models.BadgeId;
+import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.badge.entity.Badge;
+import ru.homyakin.seeker.game.badge.entity.BadgeStorage;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.badge.entity.GroupBadgeStorage;
+import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
+import ru.homyakin.seeker.game.badge.entity.PersonageBadgeStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Repository
-public class BadgeDao {
+public class BadgeDao implements BadgeStorage, PersonageBadgeStorage, GroupBadgeStorage {
     private final JdbcClient jdbcClient;
     private final JsonUtils jsonUtils;
 
@@ -22,7 +30,7 @@ public class BadgeDao {
         this.jsonUtils = jsonUtils;
     }
 
-    @Transactional
+    @Override
     public void save(SavingBadge badge) {
         final var sql = """
             INSERT INTO badge (code, locale)
@@ -35,6 +43,7 @@ public class BadgeDao {
             .update();
     }
 
+    @Override
     public Optional<Badge> getByCode(String code) {
         final var sql = "SELECT * FROM badge WHERE code = :code";
         return jdbcClient.sql(sql)
@@ -43,27 +52,21 @@ public class BadgeDao {
             .optional();
     }
 
-    public Optional<Badge> getById(int id) {
-        final var sql = "SELECT * FROM badge WHERE id = :id";
-        return jdbcClient.sql(sql)
-            .param("id", id)
-            .query(this::mapBadge)
-            .optional();
-    }
-
-    public void savePersonageAvailableBadge(PersonageAvailableBadge availableBadge) {
+    @Override
+    public void savePersonageAvailableBadge(PersonageId personageId, BadgeId badgeId, boolean isActive) {
         final var sql = """
             INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
             VALUES (:personage_id, :badge_id, :is_active)
             """;
         jdbcClient.sql(sql)
-            .param("personage_id", availableBadge.personageId().value())
-            .param("badge_id", availableBadge.badge().id())
-            .param("is_active", availableBadge.isActive())
+            .param("personage_id", personageId.value())
+            .param("badge_id", badgeId.value())
+            .param("is_active", isActive)
             .update();
     }
 
-    public List<PersonageAvailableBadge> getPersonageAvailableBadges(PersonageId personageId) {
+    @Override
+    public List<AvailableBadge> getPersonageAvailableBadges(PersonageId personageId) {
         final var sql = """
             SELECT * FROM personage_available_badge pab
             LEFT JOIN public.badge b on b.id = pab.badge_id
@@ -72,16 +75,16 @@ public class BadgeDao {
             """;
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
-            .query((rs, rowNum) -> new PersonageAvailableBadge(
-                personageId,
+            .query((rs, rowNum) -> new AvailableBadge(
                 mapBadge(rs, rowNum),
                 rs.getBoolean("is_active")
             ))
             .list();
     }
 
+    @Override
     @Transactional
-    public void activatePersonageBadge(PersonageId personageId, Badge badge) {
+    public void activatePersonageBadge(PersonageId personageId, BadgeId badgeId) {
         final var deactivatePersonageBadges = """
             UPDATE personage_available_badge SET is_active = false
             WHERE personage_id = :personage_id
@@ -97,13 +100,42 @@ public class BadgeDao {
             .update();
         jdbcClient.sql(activatePersonageBadge)
             .param("personage_id", personageId.value())
-            .param("badge_id", badge.id())
+            .param("badge_id", badgeId.value())
+            .update();
+    }
+
+    @Override
+    public List<AvailableBadge> getGroupAvailableBadges(GroupId groupId) {
+        final var sql = """
+            SELECT b.*, p.active_badge_id FROM pgroup_to_badge pb
+            LEFT JOIN public.badge b on b.id = pb.badge_id
+            LEFT JOIN pgroup p ON p.id = pb.pgroup_id
+            WHERE pb.pgroup_id = :pgroup_id
+            ORDER BY b.id
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .query((rs, rowNum) -> new AvailableBadge(
+                mapBadge(rs, rowNum),
+                rs.getInt("id") == rs.getInt("active_badge_id")
+            ))
+            .list();
+    }
+
+    @Override
+    public void activateGroupBadge(GroupId groupId, BadgeId badgeId) {
+        final var sql = """
+            UPDATE pgroup SET active_badge_id = :badge_id WHERE id = :pgroup_id
+            """;
+        jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("badge_id", badgeId.value())
             .update();
     }
 
     private Badge mapBadge(ResultSet rs, int rowNum) throws SQLException {
         return new Badge(
-            rs.getInt("id"),
+            BadgeId.of(rs.getInt("id")),
             BadgeView.findByCode(rs.getString("code")),
             jsonUtils.fromString(rs.getString("locale"), JsonUtils.BADGE_LOCALE)
         );

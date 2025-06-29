@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidStatus;
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
@@ -75,8 +75,9 @@ public class TopDao {
                 WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date AND pg.is_hidden = false
                 GROUP BY letp.pgroup_id
             )
-            SELECT p.id, p.name, p.tag, ep.success_count, ep.fail_count FROM event_points ep
+            SELECT p.id, p.name, p.tag, ep.success_count, ep.fail_count, b.code badge_code FROM event_points ep
             INNER JOIN pgroup p ON ep.pgroup_id = p.id
+            LEFT JOIN badge b ON p.active_badge_id = b.id
             WHERE success_count > 0 OR fail_count > 0
             """;
         return jdbcClient.sql(sql)
@@ -151,6 +152,7 @@ public class TopDao {
     private GroupTopRaidPosition mapGroupTopRaidPosition(ResultSet rs, int rowNum) throws SQLException {
         return new GroupTopRaidPosition(
             GroupId.from(rs.getLong("id")),
+            BadgeView.findByCode(rs.getString("badge_code")),
             Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
             rs.getInt("success_count"),

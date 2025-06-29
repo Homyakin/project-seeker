@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
-import ru.homyakin.seeker.game.personage.badge.BadgeService;
+import ru.homyakin.seeker.game.badge.action.BadgeService;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 
