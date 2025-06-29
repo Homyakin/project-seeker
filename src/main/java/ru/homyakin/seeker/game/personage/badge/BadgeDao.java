@@ -3,7 +3,6 @@ package ru.homyakin.seeker.game.personage.badge;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
-import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 @Repository
@@ -42,8 +40,7 @@ public class BadgeDao {
         return jdbcClient.sql(sql)
             .param("code", code)
             .query(this::mapBadge)
-            .optional()
-            .map(it -> it.toBadge(getLocales(it.id)));
+            .optional();
     }
 
     public Optional<Badge> getById(int id) {
@@ -51,8 +48,7 @@ public class BadgeDao {
         return jdbcClient.sql(sql)
             .param("id", id)
             .query(this::mapBadge)
-            .optional()
-            .map(it -> it.toBadge(getLocales(it.id)));
+            .optional();
     }
 
     public void savePersonageAvailableBadge(PersonageAvailableBadge availableBadge) {
@@ -76,15 +72,11 @@ public class BadgeDao {
             """;
         return jdbcClient.sql(sql)
             .param("personage_id", personageId.value())
-            .query((rs, rowNum) -> {
-                final var badge = mapBadge(rs, rowNum);
-                final var locales = getLocales(badge.id());
-                return new PersonageAvailableBadge(
-                    personageId,
-                    badge.toBadge(locales),
-                    rs.getBoolean("is_active")
-                );
-            })
+            .query((rs, rowNum) -> new PersonageAvailableBadge(
+                personageId,
+                mapBadge(rs, rowNum),
+                rs.getBoolean("is_active")
+            ))
             .list();
     }
 
@@ -109,50 +101,11 @@ public class BadgeDao {
             .update();
     }
 
-    @SuppressWarnings("unchecked")
-    private Map<Language, BadgeLocale> getLocales(int badgeId) {
-        final var sql = "SELECT * FROM badge_locale WHERE badge_id = :badge_id";
-        final var list = jdbcClient.sql(sql)
-            .param("badge_id", badgeId)
-            .query(this::mapLocale)
-            .list();
-        return Map.ofEntries(list.toArray(new Map.Entry[0]));
-    }
-
-    private void saveLocale(int badgeId, Language language, BadgeLocale locale) {
-        final var sql = """
-            INSERT INTO badge_locale (badge_id, language_id, description)
-            VALUES (:badge_id, :language_id, :description)
-            ON CONFLICT (badge_id, language_id)
-            DO UPDATE SET description = :description
-            """;
-        jdbcClient.sql(sql)
-            .param("badge_id", badgeId)
-            .param("language_id", language.id())
-            .param("description", locale.description())
-            .update();
-    }
-
-    private BadgeWithoutLocale mapBadge(ResultSet rs, int rowNum) throws SQLException {
-        return new BadgeWithoutLocale(
+    private Badge mapBadge(ResultSet rs, int rowNum) throws SQLException {
+        return new Badge(
             rs.getInt("id"),
-            rs.getString("code")
+            BadgeView.findByCode(rs.getString("code")),
+            jsonUtils.fromString(rs.getString("locale"), JsonUtils.BADGE_LOCALE)
         );
-    }
-
-    private Map.Entry<Language, BadgeLocale> mapLocale(ResultSet rs, int rowNum) throws SQLException {
-        return Map.entry(
-            Language.getOrDefault(rs.getInt("language_id")),
-            new BadgeLocale(rs.getString("description"))
-        );
-    }
-
-    private record BadgeWithoutLocale(
-        int id,
-        String code
-    ) {
-        public Badge toBadge(Map<Language, BadgeLocale> locales) {
-            return new Badge(id, BadgeView.findByCode(code), locales);
-        }
     }
 }

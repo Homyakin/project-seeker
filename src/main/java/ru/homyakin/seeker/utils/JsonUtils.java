@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.event.raid.models.RaidLocale;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLocale;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
+import ru.homyakin.seeker.game.personage.badge.BadgeLocale;
 import ru.homyakin.seeker.locale.Language;
 
 import java.sql.SQLException;
@@ -68,5 +69,7 @@ public class JsonUtils {
     public static final TypeReference<Map<Language, PersonalQuestLocale>> PERSONAL_QUEST_LOCALE = new TypeReference<>() {
     };
     public static final TypeReference<Map<Language, WorldRaidLocale>> WORLD_RAID_LOCALE = new TypeReference<>() {
+    };
+    public static final TypeReference<Map<Language, BadgeLocale>> BADGE_LOCALE = new TypeReference<>() {
     };
 }
