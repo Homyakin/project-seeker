@@ -37,7 +37,7 @@ public class WorldRaidItemGenerator {
         // А если человек участвует реже, то и гарант будет реже
         // Механика призвана повысить посещаемость мировых рейдов
         final var itemChance = BASE_ITEM_CHANCE + 10 * personageService.countWorldRaidsFromLastItem(personage.id());
-        if (RandomUtils.processChance(itemChance)) {
+        if (!RandomUtils.processChance(itemChance)) {
             return Optional.empty();
         }
         final var params = personageNextWorldRaidItemParams.get();
