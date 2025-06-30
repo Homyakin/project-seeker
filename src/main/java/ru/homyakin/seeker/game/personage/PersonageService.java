@@ -182,6 +182,10 @@ public class PersonageService {
         return personageBattleResultDao.countSuccessRaidsFromLastItem(personageId);
     }
 
+    public int countWorldRaidsFromLastItem(PersonageId personageId) {
+        return personageBattleResultDao.countWorldRaidsFromLastItem(personageId);
+    }
+
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {
         return personage
             .resetStats()

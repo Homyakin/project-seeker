@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -66,29 +67,19 @@ public class PersonageBattleResultDao {
     }
 
     public int countSuccessRaidsFromLastItem(PersonageId personageId) {
-        final var sql = """
-            WITH last_non_null_item AS (
-                SELECT MAX(launched_event_id) AS last_event_with_item -- could be null
-                FROM personage_raid_result
-                WHERE personage_id = :personage_id AND generated_item_id IS NOT NULL
-            )
-            SELECT SUM(
-                CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
-            ) AS raids_count
-            FROM personage_raid_result prr
-            LEFT JOIN personage_to_event pte ON pte.personage_id = prr.personage_id AND pte.launched_event_id = prr.launched_event_id
-            LEFT JOIN launched_event le on le.id = pte.launched_event_id
-            INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
-            WHERE prr.personage_id = :personage_id
-            AND prr.launched_event_id > -- more id => newer event
-                COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
-            AND le.status_id = :success_status_id
-            AND generated_item_id IS NULL
-            """;
-        return jdbcClient.sql(sql)
+        return jdbcClient.sql(COUNT_BATTLE_RESULTS_WITHOUT_ITEM_IN_STATUSES)
             .param("personage_id", personageId.value())
-            .param("success_status_id", EventStatus.SUCCESS.id())
-            .param("raid_id", BattleType.RAID.id())
+            .param("event_statuses", List.of(EventStatus.SUCCESS.id()))
+            .param("event_type_id", BattleType.RAID.id())
+            .query((rs, _) -> rs.getInt("raids_count"))
+            .single();
+    }
+
+    public int countWorldRaidsFromLastItem(PersonageId personageId) {
+        return jdbcClient.sql(COUNT_BATTLE_RESULTS_WITHOUT_ITEM_IN_STATUSES)
+            .param("personage_id", personageId.value())
+            .param("event_statuses", List.of(EventStatus.SUCCESS.id(), EventStatus.FAILED.id()))
+            .param("event_type_id", BattleType.WORLD_RAID.id())
             .query((rs, _) -> rs.getInt("raids_count"))
             .single();
     }
@@ -113,6 +104,28 @@ public class PersonageBattleResultDao {
         FROM personage_raid_result
         WHERE personage_id = :personage_id
         and launched_event_id = :launched_event_id
+        """;
+
+    private static final String COUNT_BATTLE_RESULTS_WITHOUT_ITEM_IN_STATUSES = """
+        WITH last_non_null_item AS (
+            SELECT MAX(prr.launched_event_id) AS last_event_with_item -- could be null
+            FROM personage_raid_result prr
+            LEFT JOIN launched_event le on le.id = prr.launched_event_id
+            INNER JOIN event e on le.event_id = e.id AND e.type_id = :event_type_id
+            WHERE personage_id = :personage_id AND generated_item_id IS NOT NULL
+        )
+        SELECT SUM(
+            CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
+        ) AS raids_count
+        FROM personage_raid_result prr
+        LEFT JOIN personage_to_event pte ON pte.personage_id = prr.personage_id AND pte.launched_event_id = prr.launched_event_id
+        LEFT JOIN launched_event le on le.id = pte.launched_event_id
+        INNER JOIN event e on le.event_id = e.id AND e.type_id = :event_type_id
+        WHERE prr.personage_id = :personage_id
+        AND prr.launched_event_id > -- more id => newer event
+            COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
+        AND le.status_id in (:event_statuses)
+        AND generated_item_id IS NULL
         """;
 
     private PersonageBattleResult mapRow(ResultSet rs, int rowNum) throws SQLException {
