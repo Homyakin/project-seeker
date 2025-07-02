@@ -10,6 +10,10 @@
     [raid.locales.EN]
     intro = "Oh no, another village has suffered from the pranks of a Grumpy fairy!"
     description = "The water in rivers and wells has become salty, and cows have become intelligent and are now rebelling against milking. We need to help the peasants and defeat the ugly winged hooligan!"
+    
+    [raid.locales.ES]
+    intro = "¡Ay no! ¡Otra aldea ha caído víctima de las travesuras de un hada gruñona!"
+    description = "El agua de los ríos y pozos se volvió salada, y las vacas adquirieron inteligencia y ahora se rebelan contra el ordeño. ¡Hay que ayudar a los campesinos y derrotar a esa alada sabandija!"
 
 [[raid]]
     isEnabled = true
@@ -24,6 +28,10 @@
     intro = "With the birth rate and is bad, so also the Piper-piper took all the children out of the village."
     description = "They say that he was not paid for the vivisection of mustachioed pests, so he severely punished the locals — and started his sullen trill, charming all the children. The flutist has taken the poor things away, and the desperate parents are begging the heroes for help!"
 
+    [raid.locales.ES]
+    intro = "Con la natalidad ya por el piso, encima el Flautista se llevó a todos los niños del pueblo."
+    description = "Dicen que no le pagaron por la vivisección de los roedores bigotudos, así que se vengó cruelmente: entonó su lúgubre melodía y hechizó a los niños. Se los llevó sin dejar rastro, y los padres desesperados claman por ayuda heroica."
+
 [[raid]]
     isEnabled = true
     code = "crow_harpy"
@@ -36,6 +44,11 @@
     [raid.locales.EN]
     intro = "A crow harpy? The harpy crow! Looks like a plucked chicken, loves everything shiny, like a crow."
     description = "The noble ladies were stunned: there were no brooches and gold-embroidered hats left in the capital. How, one may ask, to lead the usual life of living rooms? The noblewomen filed a collective complaint, so the mayor had to look for brave kuroschupov."
+
+    [raid.locales.ES]
+    intro = "¿Una arpía-cuervo? ¡Una arpía-cuervo! Parece una gallina desplumada y adora todo lo brillante, como un cuervo."
+    description = "Las damas nobles están escandalizadas: en la capital ya no queda ni un prendedor ni un sombrero bordado en oro. ¿Cómo se supone que continúe la vida social? Las aristócratas presentaron una queja colectiva, y el alcalde no tuvo más remedio que buscar valientes atrapadores de gallinas."
+
 
 [[raid]]
     isEnabled = true
@@ -50,6 +63,10 @@
     intro = "Unsuccessful experiments with the krotovuha woke up the Krotokraken!"
     description = "After the dubious tincture became popular in the cities, the wine industry changed its shoes and began actively plundering the lands of the Krotokraken, destroying its people, for which the beast rebelled and began its subversive activities. Stop the Mole, and then you'll kick people!"
 
+    [raid.locales.ES]
+    intro = "¡Experimentos fallidos con krotovuja despertaron al Krotokraken!"
+    description = "Tras la popularidad de esa infame bebida casera en las ciudades, la industria del vino cambió de rumbo y empezó a saquear las tierras del Krotokraken, arrasando con su pueblo. La bestia se rebeló y comenzó su cruzada subterránea. ¡Detengan al topo, y luego ya lidiamos con los humanos!"
+
 [[raid]]
     isEnabled = true
     code = "myconid"
@@ -62,6 +79,10 @@
     [raid.locales.EN]
     intro = "Prickly myconids! Where did they get their mind from?!"
     description = "Mushroom pickers are in danger! The Myconids act cunningly: first they reward mushroom pickers with a pungent smell on their feet, and then they move into their vacant houses! 6 families have already died from the fetid smell of feet! Help, kind people!"
+
+    [raid.locales.ES]
+    intro = "¡Malditos micónidos! ¿De dónde sacaron inteligencia?!"
+    description = "¡Los recolectores de setas están en peligro! Los micónidos son astutos: primero les regalan a los recolectores un apestoso hedor en los pies, y luego se mudan a sus casas vacías. ¡Ya han muerto 6 familias por ese olor fétido! ¡Ayuda, almas caritativas!"
 
 [[raid]]
     isEnabled = true
@@ -84,6 +105,14 @@
     Women claim to spend the night with their husbands, and husbands claim to sleep with beer — where is the truth?\
     \nPerhaps it's worth lying in wait for the “husband for an hour" and solve everything on the spot!"""
 
+    [raid.locales.ES]
+    intro = "¡Auxilio! ¡Del Mímico! ¡Es Gosha, también Goga, también... el marido!"
+    description = """\
+    ¡Los esposos de la ciudad están desesperados! ¡Sus mujeres no paran de dar a luz! \
+    Lo que parecía una bendición demográfica se ha convertido en tragedia familiar. \
+    Ellas juran pasar la noche con sus maridos, ellos dicen dormir con cerveza — ¿dónde está la verdad?\
+    \nQuizás haya que esperar al “marido por una hora”... ¡y resolver todo ahí mismo!"""
+
 [[raid]]
     isEnabled = true
     code = "necromancer"
@@ -96,6 +125,10 @@
     [raid.locales.EN]
     intro = "Crime and punishment and zombies"
     description = "In a city near the capital, two drunken zombies attacked a tortilla vendor. The incident occurred late at night, who fed the zombie meat with wine and why he needed it is not established. Local authorities are calling on the brave souls to catch the scoundrel!"
+
+    [raid.locales.ES]
+    intro = "Crimen, castigo y... zombis"
+    description = "En una ciudad cercana a la capital, dos zombis borrachos atacaron a un vendedor de tortillas. El incidente ocurrió de noche, pero aún no se sabe quién les dio carne con vino ni con qué fin. ¡Las autoridades locales llaman a los valientes a capturar al desgraciado!"
 
 [[raid]]
     isEnabled = true
@@ -110,6 +143,10 @@
     intro = "The bridesmaid is... a monster!"
     description = "The city madwoman has finally gone crazy. Not only is she getting married to a stump, but she chose a monster for her girlfriend! Stop the wedding before the voracious plant devours both the bride and the city!"
 
+    [raid.locales.ES]
+    intro = "¡La dama de honor es... un monstruo!"
+    description = "La loca del pueblo perdió por completo la chaveta. No solo se casa con un tronco, ¡sino que eligió a un monstruo como dama de honor! ¡Detengan la boda antes de que la planta voraz se trague a la novia y a toda la ciudad!"
+
 [[raid]]
     isEnabled = true
     code = "ashann_cult"
@@ -120,8 +157,12 @@
     description = "Ашанн и его приспешники угрожают всем ретроградной Луной Дурных Предзнаменований и, если люди хотят спастись, то им нужно внести некую сумму на счёт культа и тогда беды их минуют. Бедный народ! Соберите людей и в бой!"
 
     [raid.locales.EN]
-    intro = "Stop Ashann!"
-    description = "Ashann and his henchmen threaten everyone with a retrograde Moon of Bad Omens and if people want to be saved, then they need to deposit a certain amount to the cult account and then their troubles will pass. Poor people! Gather people and fight!"
+    intro = "Stop Walmar!"
+    description = "Walmar and his henchmen threaten everyone with a retrograde Moon of Bad Omens and if people want to be saved, then they need to deposit a certain amount to the cult account and then their troubles will pass. Poor people! Gather people and fight!"
+
+    [raid.locales.ES]
+    intro = "¡Detengan a Walmar!"
+    description = "Walmar y sus secuaces amenazan a todos con una Luna retrógrada de Malos Augurios. Si la gente quiere salvarse, debe depositar cierta suma en la cuenta del culto, y así evitar las desgracias. ¡Pobre pueblo! ¡Reúnan a la gente y al combate!"
 
 [[raid]]
     isEnabled = true
@@ -135,6 +176,10 @@
     [raid.locales.EN]
     intro = "An order from the wizard Valdemar"
     description = "I urgently need to protect the tower from an ogre attack! Their drums, dogs and thieves don't let me sleep! They're always trying to shake my tower! Stop them! The reward will be invaluable experience and a little gold"
+
+    [raid.locales.ES]
+    intro = "Encargo del hechicero Valdemar"
+    description = "¡Necesito con urgencia protección para mi torre contra el ataque de ogros! ¡Sus tambores, perros y ladronzuelos no me dejan dormir! ¡Siempre intentan tambalear mi torre! ¡Deténganlos! La recompensa será experiencia invaluable y algo de oro."
 
 [[raid]]
     isEnabled = true
@@ -157,6 +202,14 @@
     The peasants are afraid for their lives and refuse to go out to work in the fields. Stop these creatures!\
     \nBy the way, the Krezar taverns, will gladly pay you for fresh maggoose carcasses."""
 
+    [raid.locales.ES]
+    intro = "¡Socorro! ¡Los maggansos están aterrorizando la aldea!"
+    description = """\
+    ¡El exceso de magia ha vuelto locos a algunos gansos! \
+    Se agrupan en bandadas y atacan a cualquiera. ¡Incluso otros gansos han sido víctimas! \
+    Los campesinos temen por su vida y se niegan a salir a trabajar al campo. ¡Detengan a esas bestias!\
+    \nPor cierto, las tabernas de Krezar estarán encantadas de pagar por maggansos frescos."""
+
 [[raid]]
     isEnabled = true
     code = "straw_crow"
@@ -169,6 +222,10 @@
     [raid.locales.EN]
     intro = "A straw scarecrow appeared!"
     description = "An ugly stuffed straw man appeared in the middle of the square. It causes a straw crow hurricane, straw and crows everywhere! In the noses, ears, less fortunate people die from multiple straw wounds. Help the city and return the scarecrow to the garden hell!"
+
+    [raid.locales.ES]
+    intro = "¡Ha aparecido un espantapájaros de paja!"
+    description = "En medio de la plaza surgió un espantajo horroroso hecho de paja. ¡Provoca un huracán de cuervos y paja, que lo cubre todo! Hay paja en narices, orejas... y los menos afortunados mueren por múltiples heridas pajacuerviles. ¡Ayuden a la ciudad y devuelvan al espantapájaros al infierno del huerto!"
 
 [[raid]]
     isEnabled = true
@@ -183,6 +240,10 @@
     intro = "The wise wolf is wise again."
     description = "Recently, hunters who have returned from the forest have been behaving strangely. They claim that they do not perform in the circus and torment the townspeople with advice: \"It doesn't matter who, it's important who!\", \"It's better to try than not to try\", \"They love quietly, loudly only betray\". Deal with the cause of this madness!"
 
+    [raid.locales.ES]
+    intro = "El lobo sabio vuelve a hacer de las suyas."
+    description = "Últimamente los cazadores que regresan del bosque actúan raro. Dicen que no son parte de ningún circo y torturan a los ciudadanos con frases como: \"¡No importa quién, importa quién!\", \"Mejor intentar que no intentar\", \"El que ama calla, el que grita traiciona\". ¡Acaben con la causa de esta locura!"
+
 [[raid]]
     isEnabled = true
     code = "whirlpools"
@@ -196,6 +257,10 @@
     intro = "Whirlpools in the latrine!"
     description = 'The latrine is no longer safe! As soon as a citizen sits down, the hole in the floor expands dramatically and he falls into the abyss. The only survivor is in a state of shock and repeats one phrase: "I will not die in the toilet!". The situation is urgent! Save people from a terrible monster that has encroached on the holy!'
 
+    [raid.locales.ES]
+    intro = "¡Remolinos en la letrina!"
+    description = "¡La letrina ya no es segura! Apenas alguien se sienta, el agujero en el suelo se expande dramáticamente y cae al abismo. El único sobreviviente está en estado de shock y repite una frase: \"¡No moriré en el baño!\" ¡La situación es urgente! ¡Salven a la gente de un monstruo terrible que se ha atrevido a profanar lo sagrado!"
+
 [[raid]]
     isEnabled = true
     code = "weevil"
@@ -208,6 +273,10 @@
     [raid.locales.EN]
     intro = "Our harvest was devoured by a weevil!"
     description = "A sudden attack struck the villages south of Krezar: almost the entire crop was destroyed by weevils. The peasants cope with the usual pests on their own, but these individuals were the size of a whole cow! Perhaps not only the harvest suffered, but no one wants to find out. Sort out the problem, Seekers!"
+
+    [raid.locales.ES]
+    intro = "¡Nuestro cultivo fue devorado por un gorgojo!"
+    description = "Un ataque repentino azotó las aldeas al sur de Krezar: casi toda la cosecha fue destruida por gorgojos. Los campesinos suelen lidiar con las plagas comunes, pero estos ejemplares tenían el tamaño de una vaca. Tal vez no solo la cosecha haya sufrido, pero nadie quiere averiguarlo. ¡Resuelvan el problema, Exploradores!"
 
 [[raid]]
     isEnabled = true
@@ -230,6 +299,10 @@
     \nRecently, scouts from one of the guilds discovered a new settlement to the west of the city. \
     Destroy them before they breed strongly enough and become a serious threat to the locals."""
 
+    [raid.locales.ES]
+    intro = "Cacería de goblins"
+    description = "Se necesitan urgentemente exploradores para proteger los alrededores de Krezar de la creciente amenaza de los goblins. Estas criaturas ya han saqueado varias granjas, robado ganado y causado estragos. Recientemente, exploradores de un gremio encontraron un nuevo asentamiento al oeste. ¡Destrúyanlo antes de que se multipliquen y se conviertan en una amenaza seria para los locales!"
+
 [[raid]]
     isEnabled = true
     code = "crab-rave"
@@ -243,6 +316,10 @@
     intro = "Danger on the beach"
     description = "Peasants report that they can't walk to their boats and go to the sea for fish. Giant crabs have decided to have a wild rave right on the beach! Assemble a group of Seekers to help the residents get back to work. If successful, each participant gets a crab salad on the house!"
 
+    [raid.locales.ES]
+    intro = "¡Peligro en la playa!"
+    description = "Los campesinos dicen que no pueden llegar a sus botes para salir a pescar. ¡Unos cangrejos gigantes decidieron montar una rave salvaje justo en la playa! Reúnan un grupo de Exploradores que ayuden a los vecinos a volver al trabajo. ¡Si lo logran, ensalada de cangrejo gratis para todos!"
+
 [[raid]]
     isEnabled = true
     code = "zlich"
@@ -254,3 +331,10 @@
     Печально известный в узких кругах Злич бушует в тавернах Крезара. Он обзавёлся армией двойников и не даёт спокойно жить \
     обычным работягам. Выпиваёт всё пиво в таверне, забирает золото и лут с рейдов. Нужны добровольцы, \
     чтобы поставить его на место!"""
+
+    [raid.locales.ES]
+    intro = "¡El malvado Zlich y sus dobles están causando caos!"
+    description = """\
+    Zlich, tristemente célebre entre ciertos círculos, está causando estragos en las tabernas de Krezar. \
+    Se ha hecho con un ejército de dobles y no deja vivir en paz a los trabajadores comunes. \
+    Se bebe toda la cerveza, se queda con el oro y el botín de los asaltos. ¡Se necesitan voluntarios para ponerlo en su lugar!"""

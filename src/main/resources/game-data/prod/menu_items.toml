@@ -21,6 +21,15 @@
         "There is nothing better than a mug of cool beer after a hard day. Right, <b>${personage_badge_with_name}</b>?"
     ]
 
+    [item.locales.ES]
+    name = "Cerveza"
+    consumeTemplate = [
+        "¡Una jarra de cerveza para nuestro cliente habitual <b>${personage_badge_with_name}</b>!",
+        "No hay nada mejor que una jarra de cerveza bien fría tras un día duro. ¿Verdad, <b>${personage_badge_with_name}</b>?",
+        "¡Una cervecita para el tirón!",
+        "Lo que arruina a la gente no es la cerveza... ¡es el agua!"
+    ]
+
 [[item]]
     code = "slime_nastoyka"
     rarity = "RARE"
@@ -40,6 +49,13 @@
     consumeTemplate = [
         "I see <b>${personage_badge_with_name}</b> knows a lot about quality booze! And slime.",
         "Tincture on slimes caught in the vicinity of Krezar. It's not even a headache in the morning! But no one is immune from other side effects..."
+    ]
+
+    [item.locales.ES]
+    name = "Licor de babas"
+    consumeTemplate = [
+        "Veo que <b>${personage_badge_with_name}</b> sabe de buen trago... ¡y de babas también!",
+        "Licor preparado con babas cazadas en los alrededores de Krezar. ¡Ni resaca al día siguiente! Aunque... de otros efectos no se salva nadie."
     ]
 
 [[item]]
@@ -63,6 +79,13 @@
         "A warm drink with the taste of lunch is ready!"
     ]
 
+    [item.locales.ES]
+    name = "Té de chícharo"
+    consumeTemplate = [
+        "No es de chícharo, pero sí con él. Disfruta, <b>${personage_badge_with_name}</b>.",
+        "¡Bebida calentita con sabor a almuerzo, lista!"
+    ]
+
 [[item]]
     code = "monastery_wine"
     rarity = "UNCOMMON"
@@ -82,6 +105,13 @@
     consumeTemplate = [
         "A fragrant bouquet of incense and oil protects the soul and body from the machinations of enemies.",
         "Wine is strictly forbidden for use by demons and undead. But you have nothing to be afraid of, right?"
+    ]
+
+    [item.locales.ES]
+    name = "Vino monástico"
+    consumeTemplate = [
+        "Un bouquet fragante de incienso y aceite protege el alma y el cuerpo de las maquinaciones del enemigo.",
+        "El consumo de este vino está estrictamente prohibido para demonios y no muertos. Pero tú no tienes nada que temer, ¿verdad?"
     ]
 
 [[item]]
@@ -124,6 +154,12 @@
         "Cat soup for <b>${personage_badge_with_name}</b>! Meowed 15 minutes ago"
     ]
 
+    [item.locales.ES]
+    name = "Sopa de gato"
+    consumeTemplate = [
+        "¡Sopa de gato para <b>${personage_badge_with_name}</b>! Maullaba hace apenas 15 minutos"
+    ]
+
 [[item]]
     code = "roast_maggoose"
     rarity = "RARE"
@@ -138,6 +174,10 @@
     [item.locales.EN]
     name = "Roast of maggoose"
     consumeTemplate = [ "Roast of fresh maggoose! Increases magical potency" ]
+
+    [item.locales.ES]
+    name = "Asado de magganso"
+    consumeTemplate = [ "¡Asado de magganso fresco! Aumenta la potencia mágica" ]
 
 [[item]]
     code = "fried_potato"
@@ -157,6 +197,13 @@
     name = "Fried potatoes"
     consumeTemplate = [ "Only you are hotter than this potato!" ]
 
+    [item.locales.ES]
+    name = "Papas fritas"
+    consumeTemplate = [
+        "Mmm... papitas bien calientes... ¡recién fritas para <b>${personage_badge_with_name}</b>!",
+        "¡Solo tú estás más caliente que estas papas!"
+    ]
+
 [[item]]
     code = "olivier"
     rarity = "RARE"
@@ -170,6 +217,14 @@
         "Домашний салатик, приготовленный с любовью!",
         "<b>${personage_badge_with_name}</b>, куда делся тазик оливье?",
         "Такой салат ещё вкуснее рядом с хорошими товарищими. Хорошо, что <b>${personage_badge_with_name}</b> один из них!",
+    ]
+
+    [item.locales.ES]
+    name = "Ensaladilla rusa"
+    consumeTemplate = [
+        "¡Una ensaladita casera hecha con amor!",
+        "<b>${personage_badge_with_name}</b>, ¿a dónde se fue el cubo de ensaladilla?",
+        "Esta ensalada sabe aún mejor junto a buenos amigos. ¡Qué suerte que <b>${personage_badge_with_name}</b> sea uno de ellos!"
     ]
 
 [[item]]
@@ -189,6 +244,16 @@
         "Счастья! Здоровья! Что б меч стоял, и деньги были!"
     ]
 
+    [item.locales.ES]
+    name = "Champán"
+    consumeTemplate = [
+        "¡El tintinear de las copas alegra el alma!",
+        "¡Feliz Año Nuevo, <b>${personage_badge_with_name}</b>!",
+        "¡Con cada sorbo, el ánimo se vuelve más festivo! Compártelo con tus amigos",
+        "¡La fiesta ya llegó, la fiesta ya llegó! ¡Y con ella, <b>${personage_badge_with_name}</b> bien borracho!",
+        "¡Salud! ¡Dinero! ¡Y que no falte espada ni fortuna!"
+    ]
+
 [[item]]
     code = "gluhwein"
     rarity = "RARE"
@@ -203,4 +268,13 @@
         "Лучшее вино, свежие апельсины и секретные специи пострадали, чтобы оказаться в стакане <b>${personage_badge_with_name}</b>.",
         "Отличный напиток для этой холодной погоды!",
         "Год был не простым... Но <b>${personage_badge_with_name}</b> был на высоте!",
+    ]
+    
+    [item.locales.ES]
+    name = "Vino caliente"
+    consumeTemplate = [
+        "¡Calienta el alma y el cuerpo de <b>${personage_badge_with_name}</b>!",
+        "El mejor vino, naranjas frescas y especias secretas sufrieron para terminar en el vaso de <b>${personage_badge_with_name}</b>.",
+        "¡Una bebida perfecta para este clima frío!",
+        "Este año no fue fácil... ¡Pero <b>${personage_badge_with_name}</b> estuvo a la altura!"
     ]
