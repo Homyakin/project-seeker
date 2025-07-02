@@ -10,6 +10,7 @@ import org.postgresql.util.PGobject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.badge.entity.BadgeLocale;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestLocale;
 import ru.homyakin.seeker.game.event.raid.models.RaidLocale;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLocale;
@@ -68,5 +69,7 @@ public class JsonUtils {
     public static final TypeReference<Map<Language, PersonalQuestLocale>> PERSONAL_QUEST_LOCALE = new TypeReference<>() {
     };
     public static final TypeReference<Map<Language, WorldRaidLocale>> WORLD_RAID_LOCALE = new TypeReference<>() {
+    };
+    public static final TypeReference<Map<Language, BadgeLocale>> BADGE_LOCALE = new TypeReference<>() {
     };
 }

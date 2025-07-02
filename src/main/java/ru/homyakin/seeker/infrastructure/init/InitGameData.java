@@ -23,7 +23,7 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
 import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
-import ru.homyakin.seeker.game.personage.badge.BadgeService;
+import ru.homyakin.seeker.game.badge.action.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
 import ru.homyakin.seeker.game.rumor.RumorService;
 import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;

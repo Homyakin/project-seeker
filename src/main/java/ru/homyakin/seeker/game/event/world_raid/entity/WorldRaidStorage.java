@@ -36,6 +36,7 @@ public interface WorldRaidStorage {
     void saveAsContinued(
         ActiveWorldRaid raid,
         WorldRaidBattleInfo info,
+        Money fund,
         ActiveWorldRaidState.Research research
     );
 

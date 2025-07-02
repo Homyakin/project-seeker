@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.personage.badge.BadgeService;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
@@ -37,21 +37,21 @@ public class PersonageService {
     private static final Logger logger = LoggerFactory.getLogger(PersonageService.class);
     private final PersonageDao personageDao;
     private final PersonageBattleResultDao personageBattleResultDao;
-    private final BadgeService badgeService;
+    private final PersonageBadgeService personageBadgeService;
 
     public PersonageService(
         PersonageDao personageDao,
         PersonageBattleResultDao personageBattleResultDao,
-        BadgeService badgeService
+        PersonageBadgeService personageBadgeService
     ) {
         this.personageDao = personageDao;
         this.personageBattleResultDao = personageBattleResultDao;
-        this.badgeService = badgeService;
+        this.personageBadgeService = personageBadgeService;
     }
 
     public Personage createPersonage() {
         final var id = personageDao.createDefault();
-        badgeService.createDefaultPersonageBadge(id);
+        personageBadgeService.createDefaultPersonageBadge(id);
         return personageDao.getById(id)
             .orElseThrow(() -> new IllegalStateException("Personage must be present after create"));
     }
@@ -59,7 +59,7 @@ public class PersonageService {
     public Either<NameError, Personage> createPersonage(String name) {
         return NameValidator.validateName(name)
             .map(personageDao::createDefault)
-            .peek(badgeService::createDefaultPersonageBadge)
+            .peek(personageBadgeService::createDefaultPersonageBadge)
             .map(id -> personageDao.getById(id).orElseThrow(() -> new IllegalStateException("Personage must be present after create")))
             .peekLeft(_ -> logger.warn("Can't create personage with name " + name));
     }
@@ -180,6 +180,10 @@ public class PersonageService {
 
     public int countSuccessRaidsFromLastItem(PersonageId personageId) {
         return personageBattleResultDao.countSuccessRaidsFromLastItem(personageId);
+    }
+
+    public int countWorldRaidsFromLastItem(PersonageId personageId) {
+        return personageBattleResultDao.countWorldRaidsFromLastItem(personageId);
     }
 
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {

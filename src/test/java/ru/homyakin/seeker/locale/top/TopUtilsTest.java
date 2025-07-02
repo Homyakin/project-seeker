@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;

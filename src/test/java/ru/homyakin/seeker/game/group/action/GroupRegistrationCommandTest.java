@@ -44,7 +44,7 @@ public class GroupRegistrationCommandTest {
 
     @Test
     void When_GroupIsAlreadyRegistered_Then_ReturnGroupAlreadyRegisteredError() {
-        final var group = new Group(groupId, Optional.of("tag"), "Test Group", true, null);
+        final var group = new Group(groupId, Optional.of("tag"), "Test Group", null, true, null);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
         final var result = groupTagService.register(groupId, personageId, "TAG");
@@ -180,6 +180,7 @@ public class GroupRegistrationCommandTest {
             groupId,
             "Test Group",
             Optional.empty(),
+            null,
             new Money(moneyValue),
             1
         );

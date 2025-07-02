@@ -1,4 +1,3 @@
-# TODO характеристики
 itemWithoutModifiers = "${object}"
 itemWithPrefixModifier = "${prefix_modifier} ${object}"
 itemWithSuffixModifier = "${object} ${suffix_modifier}"

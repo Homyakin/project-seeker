@@ -32,7 +32,7 @@ class InitGroupRegistrationCommandTest {
 
     @Test
     void When_GroupIsNotRegistered_Then_Return1000Money() {
-        final var group = new Group(groupId, Optional.empty(), "Test Group", true, null);
+        final var group = new Group(groupId, Optional.empty(), "Test Group", null, true, null);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupConfig.registrationPrice()).thenReturn(new Money(1000));
 
@@ -44,7 +44,7 @@ class InitGroupRegistrationCommandTest {
 
     @Test
     void When_GroupIsAlreadyRegistered_Then_ReturnAlreadyRegisteredError() {
-        final var group = new Group(groupId, Optional.of("tag"), "Test Group", true, null);
+        final var group = new Group(groupId, Optional.of("tag"), "Test Group", null, true, null);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
         Either<GroupAlreadyRegistered, Money> result = initGroupRegistrationCommand.execute(groupId);

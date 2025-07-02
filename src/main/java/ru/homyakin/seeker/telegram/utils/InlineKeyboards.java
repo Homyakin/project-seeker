@@ -5,7 +5,7 @@ import java.util.List;
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
-import ru.homyakin.seeker.game.personage.badge.PersonageAvailableBadge;
+import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
 import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
@@ -112,7 +112,7 @@ public class InlineKeyboards {
             .build();
     }
 
-    public static InlineKeyboardMarkup badgeSelector(List<PersonageAvailableBadge> badges) {
+    public static InlineKeyboardMarkup badgeSelector(List<AvailableBadge> badges) {
         final var builder = InlineKeyboardBuilder.builder();
         final var callbackPrefix = CommandType.SELECT_BADGE.getText() + TextConstants.CALLBACK_DELIMITER;
         for (int i = 0; i < badges.size(); ++i) {
@@ -120,10 +120,11 @@ public class InlineKeyboards {
                 builder.addRow();
             }
             final var badge = badges.get(i);
+            final var callbackData = callbackPrefix + badge.badge().id().value();
             if (badge.isActive()) {
-                builder.addButton(selectedIcon + badge.badge().view().icon(), callbackPrefix + badge.badge().id());
+                builder.addButton(selectedIcon + badge.badge().view().icon(), callbackData);
             } else {
-                builder.addButton(badge.badge().view().icon(), callbackPrefix + badge.badge().id());
+                builder.addButton(badge.badge().view().icon(), callbackData);
             }
 
         }

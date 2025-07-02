@@ -84,6 +84,7 @@ public enum CommandType {
     ADD_MODIFIER("/addmod", CheckType.STARTS_WITH),
     REPAIR("/repair", CheckType.STARTS_WITH),
     THROW_ORDER_TO_GROUP("/gthrow", CheckType.EQUALS),
+    SHOW_BADGES_GROUP("/badges", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

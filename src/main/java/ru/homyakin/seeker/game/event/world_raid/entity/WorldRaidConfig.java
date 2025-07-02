@@ -18,4 +18,6 @@ public interface WorldRaidConfig {
     int requiredEnergy();
 
     Duration groupNotificationInterval();
+
+    Money initFund();
 }

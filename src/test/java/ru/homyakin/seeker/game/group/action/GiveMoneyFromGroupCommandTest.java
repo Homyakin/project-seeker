@@ -162,6 +162,7 @@ class GiveMoneyFromGroupCommandTest {
             groupId,
             "Test Group",
             tag,
+            null,
             new Money(1000),
             1
         );

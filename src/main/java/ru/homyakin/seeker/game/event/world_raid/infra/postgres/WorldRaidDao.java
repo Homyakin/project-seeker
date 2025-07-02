@@ -158,13 +158,14 @@ public class WorldRaidDao implements WorldRaidStorage {
     public void saveAsContinued(
         ActiveWorldRaid raid,
         WorldRaidBattleInfo info,
+        Money fund,
         ActiveWorldRaidState.Research research
     ) {
         jdbcClient.sql(SAVE_LAUNCHED)
             .param("contribution", research.contribution())
             .param("required_contribution", research.requiredContribution())
             .param("info", jsonUtils.mapToPostgresJson(info))
-            .param("fund", 0)
+            .param("fund", fund.value())
             .param("status_id", ActiveWorldRaidStatus.RESEARCH.id())
             .param("event_id", raid.eventId())
             .param("start_date", TimeUtils.moscowTime())

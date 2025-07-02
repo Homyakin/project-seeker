@@ -2,6 +2,7 @@ groupSettings = """\
 ⚙️Настройки группы ${group_name_with_badge}:
 ${optional_group_is_hidden_description}
 Изменить имя группы: <code>${change_group_name_command} [имя_группы]</code>
+Выбрать жетон: <code>${show_badges_command}</code>
 Часовой пояс: ${time_zone}
 Изменение часового пояса: <code>${set_time_zone_command} [часовой_пояс]</code>
 

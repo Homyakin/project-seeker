@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.personage.badge.BadgeView;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
