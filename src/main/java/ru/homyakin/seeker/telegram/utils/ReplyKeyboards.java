@@ -71,14 +71,14 @@ public class ReplyKeyboards {
             .addButton(button(FeedbackLocalization.textButton(language)))
             .addButton(button(FeedbackLocalization.otherButton(language)))
             .addRow()
-            .addButton(button(MenuLocalization.backButton(language)))
+            .addButton(button(FeedbackLocalization.backButton(language)))
             .build();
     }
 
     public static ReplyKeyboardMarkup inputFeedbackKeyboard(Language language) {
         return ReplyKeyboardBuilder.builder()
             .addRow()
-            .addButton(button(MenuLocalization.backButton(language)))
+            .addButton(button(FeedbackLocalization.backButton(language)))
             .build();
     }
 

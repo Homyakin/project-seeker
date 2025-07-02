@@ -3,7 +3,7 @@ code = "dragon"
 isEnabled = true
 
 [raid.info]
-health = 50000
+health = 70000
 attack = 100
 defense = 300
 strength = 9
@@ -23,7 +23,7 @@ code = "swamp-thing"
 isEnabled = true
 
 [raid.info]
-health = 80000
+health = 100000
 attack = 80
 defense = 400
 strength = 15

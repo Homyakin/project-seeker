@@ -38,10 +38,10 @@ successBattle = """\
 ${battle_result}
 
 Лут:
-${legendary_icon} x ${legendary_count}
-${epic_icon} x ${epic_count}
+${rarity_counts}
 
 Результат можно посмотреть в профиле с помощью <code>${raid_report_command}</code>"""
+rarityCount = "${rarity_icon} x ${count}"
 failedBattle = """\
 Мировой рейд завeршён! Искатели потерпели поражение, но у нас ещё есть шанс на реванш...
 
