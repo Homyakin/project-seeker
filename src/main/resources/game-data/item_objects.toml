@@ -67,7 +67,7 @@
     text = "Dagger"
     form = "WITHOUT"
 
-    [object.locales.EN]
+    [object.locales.ES]
     text = "Dagger"
     form = "WITHOUT"
 

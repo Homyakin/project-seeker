@@ -15,4 +15,5 @@
     <include file="changes/2025-06-29_01_move-badge-locale-to-badge-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-06-29_02_drop-badge-locale-table.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-06-29_03-add-group-badges.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2025-07-02_01_add-es-language.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -33,3 +33,4 @@
 ## Благодарности
 - [Swifty8bit](https://github.com/Swifty8bit) - Казахская локализация
 - [dpwiz](https://github.com/dpwiz) - Новые персональные квесты
+- [Starcatcher](https://github.com/CatchingStars) - Испанская локализация

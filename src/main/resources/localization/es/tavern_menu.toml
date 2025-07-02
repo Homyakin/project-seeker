@@ -105,9 +105,10 @@ ${throw_text}
 
 <i>Gastado: -${money_value}${money_icon}</i>"""
 throwFromGroupResult = """\
-${throw_text}"""
+${throw_text}
 
-<i>Efecto: ${effect}</i>
+<i>Efecto: ${effect}</i>"""
+
 throwDrinkToGroup = [
     "Lanzas una jarra al grupo <code>${to_group}</code> y le das en la cabeza a <code>${personage}</code> ¡Ahora toca pagar!",
     "¡Tiro hacia <code>${to_group}</code>! La jarra vuela... ¡GOOOOOOL! <code>${personage}</code> noqueado.",
