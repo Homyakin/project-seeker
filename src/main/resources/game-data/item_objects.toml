@@ -14,8 +14,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Espada"
-    form = "FEMININE"
+    text = "Sword"
+    form = "WITHOUT"
 
 [[object]]
     code = "club"
@@ -32,8 +32,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Garrote"
-    form = "MASCULINE"
+    text = "Club"
+    form = "WITHOUT"
 
 [[object]]
     code = "spear"
@@ -50,8 +50,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Lanza"
-    form = "FEMININE"
+    text = "Spear"
+    form = "WITHOUT"
 
 [[object]]
     code = "dagger"
@@ -68,8 +68,8 @@
     form = "WITHOUT"
 
     [object.locales.EN]
-    text = "Daga"
-    form = "FEMININE"
+    text = "Dagger"
+    form = "WITHOUT"
 
 [[object]]
     code = "cutlass"
@@ -86,8 +86,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Puñal"
-    form = "MASCULINE"
+    text = "Cutlass"
+    form = "WITHOUT"
 
 [[object]]
     code = "stick"
@@ -104,8 +104,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Palo"
-    form = "MASCULINE"
+    text = "Stick"
+    form = "WITHOUT"
 
 [[object]]
     code = "saber"
@@ -122,8 +122,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Sable"
-    form = "MASCULINE"
+    text = "Saber"
+    form = "WITHOUT"
 
 [[object]]
     code = "greatsword"
@@ -140,8 +140,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Mandoble"
-    form = "MASCULINE"
+    text = "Greatsword"
+    form = "WITHOUT"
 
 [[object]]
     code = "shield"
@@ -158,8 +158,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Escudo"
-    form = "MASCULINE"
+    text = "Shield"
+    form = "WITHOUT"
 
 [[object]]
     code = "scutum"
@@ -176,8 +176,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Escudo escutum"
-    form = "MASCULINE"
+    text = "Scutum"
+    form = "WITHOUT"
 
 [[object]]
     code = "buckler"
@@ -194,8 +194,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Rodela"
-    form = "FEMININE"
+    text = "Buckler"
+    form = "WITHOUT"
 
 [[object]]
     code = "vest"
@@ -212,8 +212,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Chaleco"
-    form = "MASCULINE"
+    text = "Vest"
+    form = "WITHOUT"
 
 [[object]]
     code = "breastplate"
@@ -230,8 +230,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Pechera"
-    form = "FEMININE"
+    text = "Breastplate"
+    form = "WITHOUT"
 
 [[object]]
     code = "cuirass"
@@ -248,8 +248,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Coraza"
-    form = "FEMININE"
+    text = "Cuirass"
+    form = "WITHOUT"
 
 [[object]]
     code = "chain-mail"
@@ -266,8 +266,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Cota de malla"
-    form = "FEMININE"
+    text = "Mail"
+    form = "WITHOUT"
 
 [[object]]
     code = "mantle"
@@ -284,8 +284,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Manto"
-    form = "MASCULINE"
+    text = "Mantle"
+    form = "WITHOUT"
 
 [[object]]
     code = "pants"
@@ -302,8 +302,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Pantalón"
-    form = "MASCULINE"
+    text = "Pants"
+    form = "WITHOUT"
 
 [[object]]
     code = "socks"
@@ -320,8 +320,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Medias"
-    form = "PLURAL"
+    text = "Socks"
+    form = "WITHOUT"
 
 [[object]]
     code = "boots"
@@ -334,6 +334,10 @@
     form = "PLURAL"
 
     [object.locales.EN]
+    text = "Boots"
+    form = "WITHOUT"
+
+    [object.locales.ES]
     text = "Boots"
     form = "WITHOUT"
 
@@ -352,8 +356,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Valenkis"
-    form = "PLURAL"
+    text = "Valenki"
+    form = "WITHOUT"
 
 [[object]]
     code = "sandals"
@@ -370,8 +374,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Sandalias"
-    form = "PLURAL"
+    text = "Sandals"
+    form = "WITHOUT"
 
 [[object]]
     code = "traction"
@@ -388,8 +392,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Sandalias"
-    form = "PLURAL"
+    text = "Traction" # перевод отсюда https://www.reddit.com/r/russian/comments/11z6v82/comment/jdc38r3/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+    form = "WITHOUT"
 
 [[object]]
     code = "hat"
@@ -406,8 +410,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Sombrero"
-    form = "MASCULINE"
+    text = "Hat"
+    form = "WITHOUT"
 
 [[object]]
     code = "helmet"
@@ -424,26 +428,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Yelmo"
-    form = "MASCULINE"
-
-[[object]]
-    code = "helmet"
-    slots = ["HELMET"]
-    rarities = ["RARE", "EPIC"]
-    characteristics.types = ["DEFENSE", "HEALTH"]
-
-    [object.locales.RU]
-    text = "Шлем"
-    form = "MASCULINE"
-
-    [object.locales.EN]
     text = "Helmet"
     form = "WITHOUT"
-
-    [object.locales.ES]
-    text = "Yelmo"
-    form = "MASCULINE"
 
 [[object]]
     code = "kolpak"
@@ -460,8 +446,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Gorro puntiagudo"
-    form = "MASCULINE"
+    text = "Kolpak"
+    form = "WITHOUT"
 
 [[object]]
     code = "bandana"
@@ -479,7 +465,7 @@
 
     [object.locales.ES]
     text = "Bandana"
-    form = "FEMININE"
+    form = "WITHOUT"
 
 [[object]]
     code = "diadem"
@@ -496,8 +482,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Diadema"
-    form = "FEMININE"
+    text = "Diadem"
+    form = "WITHOUT"
 
 [[object]]
     code = "gloves"
@@ -514,8 +500,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Guantes"
-    form = "PLURAL"
+    text = "Gloves"
+    form = "WITHOUT"
 
 [[object]]
     code = "mitten"
@@ -532,8 +518,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Manoplas"
-    form = "PLURAL"
+    text = "Mitten"
+    form = "WITHOUT"
 
 [[object]]
     code = "krags"
@@ -550,8 +536,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Polainas"
-    form = "PLURAL"
+    text = "Krags"
+    form = "WITHOUT"
 
 [[object]]
     code = "sleeves"
@@ -568,8 +554,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Mitones de lana"
-    form = "PLURAL"
+    text = "Sleeves"
+    form = "WITHOUT"
 
 [[object]]
     code = "boxers"
@@ -586,8 +572,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Calzoncillos de abuelo"
-    form = "PLURAL"
+    text = "Boxers"
+    form = "WITHOUT"
 
 [[object]]
     code = "sirwal"
@@ -604,8 +590,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Bombachos"
-    form = "PLURAL"
+    text = "Sirwal"
+    form = "WITHOUT"
 
 [[object]]
     code = "shorts"
@@ -622,8 +608,8 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Pantaloncillos"
-    form = "PLURAL"
+    text = "Sirwal"
+    form = "WITHOUT"
 
 [[object]]
     code = "leggings"
@@ -641,7 +627,7 @@
 
     [object.locales.ES]
     text = "Leggings"
-    form = "PLURAL"
+    form = "WITHOUT"
 
 [[object]]
     code = "trainers"
@@ -658,5 +644,5 @@
     form = "WITHOUT"
 
     [object.locales.ES]
-    text = "Los de correr"
-    form = "PLURALMASCULINE"
+    text = "Trainers"
+    form = "WITHOUT"

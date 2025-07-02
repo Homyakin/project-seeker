@@ -14,6 +14,9 @@
     [modifier.locales.EN.form]
     WITHOUT = "Sharp"
 
+    [modifier.locales.ES.form]
+    WITHOUT = "Sharp"
+
 [[modifier]]
     code = "iron"
     type = "PREFIX"
@@ -27,6 +30,9 @@
     PLURAL = "Железные"
 
     [modifier.locales.EN.form]
+    WITHOUT = "Iron"
+
+    [modifier.locales.ES.form]
     WITHOUT = "Iron"
 
 [[modifier]]
@@ -44,6 +50,9 @@
     [modifier.locales.EN.form]
     WITHOUT = "Wooden"
 
+    [modifier.locales.ES.form]
+    WITHOUT = "Wooden"
+
 [[modifier]]
     code = "strength"
     type = "SUFFIX"
@@ -54,6 +63,9 @@
     WITHOUT = "Силы"
 
     [modifier.locales.EN.form]
+    WITHOUT = "Of Strength"
+
+    [modifier.locales.ES.form]
     WITHOUT = "Of Strength"
 
 [[modifier]]
@@ -68,6 +80,9 @@
     [modifier.locales.EN.form]
     WITHOUT = "Of Anger"
 
+    [modifier.locales.ES.form]
+    WITHOUT = "Of Anger"
+
 [[modifier]]
     code = "random"
     type = "SUFFIX"
@@ -78,6 +93,9 @@
     WITHOUT = "Случайности"
 
     [modifier.locales.EN.form]
+    WITHOUT = "Of Random"
+
+    [modifier.locales.ES.form]
     WITHOUT = "Of Random"
 
 [[modifier]]
@@ -95,6 +113,9 @@
     [modifier.locales.EN.form]
     WITHOUT = "Holiday"
 
+    [modifier.locales.ES.form]
+    WITHOUT = "Holiday"
+
 [[modifier]]
     code = "tea"
     type = "PREFIX"
@@ -108,6 +129,9 @@
     PLURAL = "Чайные"
 
     [modifier.locales.EN.form]
+    WITHOUT = "Tea"
+
+    [modifier.locales.ES.form]
     WITHOUT = "Tea"
 
 [[modifier]]
@@ -125,6 +149,9 @@
     [modifier.locales.EN.form]
     WITHOUT = "Strange"
 
+    [modifier.locales.ES.form]
+    WITHOUT = "Strange"
+
 [[modifier]]
     code = "defense"
     type = "SUFFIX"
@@ -135,6 +162,9 @@
     WITHOUT = "Защиты"
 
     [modifier.locales.EN.form]
+    WITHOUT = "Of Defense"
+    
+    [modifier.locales.ES.form]
     WITHOUT = "Of Defense"
 
 [[modifier]]
@@ -151,3 +181,7 @@
 
     [modifier.locales.EN.form]
     WITHOUT = "beer"
+
+    [modifier.locales.ES.form]
+    WITHOUT = "beer"
+  
