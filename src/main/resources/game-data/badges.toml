@@ -51,3 +51,15 @@ description = "Третий Сезон"
 
 [badge.locales.ES]
 description = "Tercera Temporada"
+
+[badge.locales.ES]
+description = "Tercera Temporada"
+
+[[badge]]
+code = "first-groups"
+
+[badge.locales.RU]
+description = "Первые Группы"
+
+[badge.locales.ES]
+description = "Primeros Grupos"
