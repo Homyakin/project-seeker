@@ -11,6 +11,15 @@
     failure = """\
     Кота ты нашёл. Но это был не просто кот, а настоящий монстр. В неравной схватке ты потерпел сокрушительное \
     поражение. Вернулся в таверну весь в царапинах и с пустыми руками, время запить этот день."""
+    [quest.locales.ES]
+    intro = "El pequeño Timmy ha perdido a su adorado gatito. ¿Eres un Explorador, no? ¡Entonces empieza a buscar, no te quedes ahí parado!"
+    success =  """\
+    Revisaste media ciudad: escarbaste en basureros, bajaste al alcantarillado, hasta husmeaste en burdeles. \
+    Pero al fin, el minino fue hallado y devuelto a su dueño, quien casi llora de emoción. \
+    ¡Momento ideal para celebrarlo con una buena copa!"""
+    failure =  """\
+    Lo encontraste... pero no era un gato, sino un demonio disfrazado. Te hizo trizas en una pelea despareja. \
+    Volviste a la taberna lleno de rasguños y sin el dichoso felino. Hora de olvidar con alcohol."""
 
 [[quest]]
     code = "gardening-help"

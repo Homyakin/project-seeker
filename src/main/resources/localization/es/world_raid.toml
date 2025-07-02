@@ -1,0 +1,66 @@
+worldRaidResearchEnd = """\
+¡Se encontró la incursión mundial! Top de Exploradores por contribución:
+
+${top_personage_list}"""
+worldRaidBattle = """\
+${world_raid_intro}
+
+Enemigos: ${enemies_health}❤️ ${enemies_count}👹
+
+Fondo: ${money_icon}${fund_value}
+
+La batalla comienza en: ${duration}
+Mientras tanto, puedes seguir participando en otros eventos.
+
+${optional_participants}"""
+endedWorldRaidBattle = """\
+${world_raid_intro}
+
+Enemigos: ${enemies_health}❤️ ${enemies_count}👹
+
+Fondo: ${money_icon}${fund_value}
+
+${optional_participants}
+"""
+worldRaidParticipants = """\
+Grupos: ${group_tags}
+Participantes: ${participants_count}"""
+joinWorldRaidButton = "Unirse🗡 ${energy_icon}${energy_cost}%"
+successJoin = "✅¡Ya estás participando en la incursión mundial!"
+alreadyInRaid = "✅¡Ya estás dentro!"
+notEnoughEnergy = "❌¡No tienes suficiente energía!"
+mustBeInRegisteredGroup = "❌Tienes que pertenecer a un grupo registrado para participar en la incursión mundial."
+raidNotFound = "⚠️¡No se encontró ninguna incursión mundial activa!"
+groupNotification = "¡La incursión mundial ya comenzó! Más detalles aquí: ${channel}"
+successBattle = """\
+¡La incursión mundial terminó! Los enemigos fueron derrotados, ¡es hora de repartir el botín!
+
+${battle_result}
+
+Botín:
+${legendary_icon} x ${legendary_count}
+${epic_icon} x ${epic_count}
+
+Puedes ver el resultado en tu perfil con <code>${raid_report_command}</code>"""
+failedBattle = """\
+¡La incursión mundial terminó! Los Exploradores fueron vencidos, pero aún queda chance pa'l desquite...
+
+Enemigos restantes: ${enemies_health}❤️ ${enemies_count}👹
+
+${battle_result}
+
+Puedes ver el resultado en tu perfil con <code>${raid_report_command}</code>"""
+battleResult = """\
+Mejores grupos:
+${group_results}
+
+Mejores Exploradores:
+${personage_results}"""
+
+groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+personageResult = "${dead_icon_or_empty}${personage_badge_with_name} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+personageWorldRaidReportNotFound = "No participaste en la última incursión mundial"
+groupWorldRaidReportNotFound = "El grupo no participó en la última incursión mundial"
+personageWorldRaidReport = """\
+📜Tu informe de la incursión mundial:
+${personage_battle_report}"""

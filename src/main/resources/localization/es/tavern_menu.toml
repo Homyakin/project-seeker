@@ -1,0 +1,143 @@
+menuHeader = "Hoy en el menú:"
+drinks = "Bebidas"
+mainDishes = "Platos fuertes"
+itemNotInMenu = "¡Eso no está en el menú!"
+notEnoughMoneyDrink = [
+    "Te faltan ${money_icon}${not_enough_money_value}, trabaja un poco y después vienes a beber.",
+    "Esa bebida no está a tu alcance. Cuesta ${money_icon}${item_cost}"
+]
+notEnoughMoneyMainDish = [
+    "¡El que no trabaja, no come! Te faltan ${money_icon}${not_enough_money_value}"
+]
+orderGiftToDifferentBot = [
+    "Lo siento, pero no aceptamos pedidos para cosas sin alma."
+]
+orderDrinkToThisBot = [
+    "¡Nada para el cantinero!",
+    "Este simpático camarero no bebe en el trabajo. Espérate a que salga de turno.",
+]
+orderMainDishToThisBot = [
+    "El camarero ya comió.",
+    "¿En serio crees que no alimentan al personal?",
+    "Mejor come tú algo antes de la incursión.",
+]
+order = [
+    "${item_name} para ${mention_acceptor_icon_with_name}!"
+]
+orderGift = [
+    "¡Pedido! ${item_name} de parte de ${mention_giver_icon_with_name} para ${mention_acceptor_icon_with_name}"
+]
+expiredOrder = [
+    "El pedido se quedó tanto tiempo esperando que se lo comió un camarero hambriento. Y ni pagó."
+]
+consumeDrinkButton = "🍺Beber"
+consumeMainDishButton = "🍽Comer"
+consumeAlreadyInFinalStatus = "El pedido desapareció... Tal vez se lo llevó el coco."
+consumed = """\
+${consumed_item_text}
+<i>Efecto: ${effect}</i>"""
+wrongConsumer = "¡Ese pedido no es tuyo!"
+orderToUnknownUser = [
+    """\
+Los camareros no encuentran a ese Explorador entre los clientes. \
+Puede que nunca haya pasado por esta taberna o haya cambiado de nombre."""
+]
+orderIsLocked = "Pedido en proceso, inténtalo más tarde."
+
+# THROW ORDER
+userNotFoundToThrow = "Miras alrededor pero no ves a nadie. Que tu socio pulse ${get_profile_command}"
+noOrdersToThrow = "Revisas la mesa y no hay nada. Pídete algo con ${menu_command}."
+onlyCreatedDish = [
+    "La última vez que alguien lanzó comida, el personal casi lo mata. Mejor termina de comer.",
+]
+onlyCreatedDrink = [
+    "Qué pena dejar tremenda bebida. Deberías terminarla.",
+]
+notEnoughMoneyToThrow = [
+    "Miras la loza, luego tu bolsillo... y dejas la idea.",
+    "Si no puedes pagar la loza rota, vas a tener que pagarlo con el cuerpo. No te va a gustar.",
+]
+throwResult = """\
+${throw_text}
+
+<i>Gasto: -${money_value}${money_icon}${optional_effect}</i>"""
+throwEffect = "\nEfecto: ${effect}"
+
+throwDishToNone = [
+    "El plato se rompe contra la pared más cercana",
+    "El personal recoge los pedazos con tristeza... Qué falta de respeto.",
+    "Ese era el plato favorito de Anuchka.",
+]
+throwDrinkToNone = [
+    "El vaso se hace trizas contra la pared",
+    "Rompes la jarra contra el suelo con toda tu fuerza. Todos se asustan un poco.",
+]
+throwDishToPersonage = [
+    "El plato vuela como frisbee y le da de lleno a ${mention_target_icon_with_name}.",
+    "Le rompes el plato en la cabeza a ${mention_target_icon_with_name}. Eso va a doler.",
+]
+throwDrinkToPersonage = [
+    """\
+    La jarra cruza el salón y le da directo a ${mention_target_icon_with_name}. \
+    El público aplaude, pero tú pagas la loza.""",
+    "El vaso no fue el mejor arma, pero sí le diste a ${mention_target_icon_with_name}.",
+]
+selfThrowDish = [
+    "Te das un cabezazo contra la mesa y rompes el plato. Brillante.",
+]
+selfThrowDrink = [
+    "Apostaste que podías romper la botella en la cabeza sin dañarte. Error de cálculo.",
+]
+throwToStaff = [
+    "Le diste al cantinero por error. Te despiertas en la calle.",
+    "Intentaste vengarte del camarero con una loza... te cayeron todos encima.",
+]
+
+throwToGroupMissingGroup = "Debes escribir el tag del grupo <code>${throw_to_group_command} tag</code>"
+throwToGroupNotExists = "Ese grupo no existe"
+throwToGroupNotMember = "No perteneces al grupo desde donde quieres lanzar el pedido"
+throwToGroupTimeout = "Te tienen en la mira desde el último incidente. Mejor espera ${duration}"
+throwToGroupTargetTimeout = "Parece que a tu objetivo ya le lanzaron algo y está alerta. Espera si no quieres líos."
+throwToGroupNoPersonage = "Parece que <code>${group}</code> está vacío. No hay blanco."
+throwToThisGroup = "No puedes tirarle a tu propio grupo"
+throwToGroupResult = """\
+${throw_text}
+
+<i>Gastado: -${money_value}${money_icon}</i>"""
+throwFromGroupResult = """\
+${throw_text}"""
+
+<i>Efecto: ${effect}</i>
+throwDrinkToGroup = [
+    "Lanzas una jarra al grupo <code>${to_group}</code> y le das en la cabeza a <code>${personage}</code> ¡Ahora toca pagar!",
+    "¡Tiro hacia <code>${to_group}</code>! La jarra vuela... ¡GOOOOOOL! <code>${personage}</code> noqueado.",
+    "Con fuerza mandas la jarra a <code>${to_group}</code> — <code>${personage}</code> ya sabe lo que es el dolor.",
+    "Tu jarra vuela hacia <code>${to_group}</code> y se estrella contra <code>${personage}</code> ¡El cantinero aplaude!",
+    "La jarra que lanzaste a <code>${to_group}</code> tumba con estilo a <code>${personage}</code> ¡La gente enloquece!",
+    "Gritando “¡Salud!” lanzas tu jarra a <code>${to_group}</code> y le das de lleno a <code>${personage}</code>.",
+]
+throwDishToGroup = [
+    "Tiras el plato al grupo <code>${to_group}</code> y le das directo en la cabeza a <code>${personage}</code>. ¡Vas a tener que pagar los daños!",
+    "¡Tiro hacia <code>${to_group}</code>! El plato vuela... ¡GOOOOOOL! <code>${personage}</code> cae al piso.",
+    "El plato que lanzaste a <code>${to_group}</code> encuentra su blanco — <code>${personage}</code> quedó decorado con restos de comida.",
+    "El plato lanzado a <code>${to_group}</code> se parte en <code>${personage}</code>. El camarero pone mala cara.",
+    "Tiras el plato con precisión a <code>${to_group}</code> — <code>${personage}</code> sabe lo que es ser objetivo.",
+    "Tu plato vuela hacia <code>${to_group}</code> y provoca un escándalo — <code>${personage}</code> y la taberna entera reaccionan.",
+]
+
+throwDrinkFromGroup = [
+    "¡De repente una jarra de <code>${from_group}</code> le da directo al dormido ${mention_personage}!",
+    "Desde <code>${from_group}</code> lanzan una jarra con estruendo y le dan a ${mention_personage} ¡Buena puntería!",
+    "Una jarra de <code>${from_group}</code> cruza todo el salón y aterriza en la cabeza de ${mention_personage}.",
+    "Desde <code>${from_group}</code> lanzan una jarra — ahora ${mention_personage} sabe lo que es una sorpresa.",
+    "Una jarra de <code>${from_group}</code> describe una curva y se estrella contra ${mention_personage}.",
+    "Desde <code>${from_group}</code> lanzan una jarra — ${mention_personage} termina con un buen coscorrón.",
+]
+throwDishFromGroup = [
+    "¡De repente un plato de <code>${from_group}</code> le da a ${mention_personage} que estaba dormido!",
+    "Desde <code>${from_group}</code> lanzan un plato — ${mention_personage} ahora conoce el sabor de la sorpresa.",
+    "Alguien desde <code>${from_group}</code> lanza un plato que da justo en ${mention_personage}!",
+    "Desde <code>${from_group}</code> vuela un plato — los restos de la cena terminan en ${mention_personage}.",
+    "Desde <code>${from_group}</code> lanzan un plato — ${mention_personage} queda decorado con sobras.",
+    "El plato desde <code>${from_group}</code> le da un sacudón inesperado a ${mention_personage}.",
+]

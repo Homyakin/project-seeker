@@ -4,11 +4,17 @@ code = "standard"
 [badge.locales.RU]
 description = "Стандартный жетон Искателя"
 
+[badge.locales.ES]
+description = "Ficha estandar de Explorador"
+
 [[badge]]
 code = "first-personages"
 
 [badge.locales.RU]
 description = "Первые Искатели"
+
+[badge.locales.ES]
+description = "Los Primeros Exploradores"
 
 [[badge]]
 code = "first-season"
@@ -16,11 +22,17 @@ code = "first-season"
 [badge.locales.RU]
 description = "Первый Сезон"
 
+[badge.locales.ES]
+description = "Primera Temporada"
+
 [[badge]]
 code = "second-season"
 
 [badge.locales.RU]
 description = "Второй Сезон"
+
+[badge.locales.ES]
+description = "Segunda Temporada"
 
 [[badge]]
 code = "new-year-2025"
@@ -28,14 +40,23 @@ code = "new-year-2025"
 [badge.locales.RU]
 description = "Новый Год 2025"
 
+[badge.locales.ES]
+description = "Año Nuevo 2025"
+
 [[badge]]
 code = "third-season"
 
 [badge.locales.RU]
 description = "Третий Сезон"
 
+[badge.locales.ES]
+description = "Tercera Temporada"
+
 [[badge]]
 code = "first-groups"
 
 [badge.locales.RU]
 description = "Первые Группы"
+
+[badge.locales.ES]
+description = "Primeros Grupos"

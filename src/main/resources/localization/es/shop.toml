@@ -1,0 +1,52 @@
+menu = """\
+📦Cajitas misteriosas con objetos:
+${buying_items}
+
+🎒Tus objetos:
+${selling_items}
+"""
+
+sellingItem = "${full_item} ${money_icon}${price_value} ${sell_command}"
+buyingItem = "${shop_item_icon}${shop_item_name} ${money_icon}${price_value} ${buy_command}"
+
+common = "Común"
+uncommon = "Poco común"
+rare = "Rara"
+epic = "Épica"
+legendary = "Legendaria"
+random = "Aleatoria"
+
+incorrectBuyingItem = "No tenemos ese objeto en la tienda."
+noItemAtPersonage = "No tienes ese objeto encima."
+notEnoughMoney = "No te alcanza la plata. Te falta ${money_icon}${required_value}"
+notEnoughSpaceInBag = "Tu mochila está llena, no cabe ni un alfiler más."
+successBuy = "¡Felicidades por la compra! <code>${full_item_name}</code>"
+successSell = "¡Vendido! <code>${full_item_name}</code> +${money_icon}${price_value}"
+
+enhanceTable = """\
+En la mesa de encantamientos puedes mejorar tus objetos actuales:
+
+${equipped_enhance_times}
+
+🎒Inventario:
+${inventory_enhance_times}"""
+enhanceItem = "${full_item} ${enhance_command}"
+enhanceItemInfo = """\
+<code>${full_item}</code>
+
+${available_enhance}
+"""
+addModifier = "Agregar modificador: ${add_modifier_command} ${money_icon}${price_value}"
+repair = "Arreglar: ${repair_command} ${money_icon}${price_value}"
+maxModifiers = "Este objeto ya tiene todos los mods que aguanta."
+brokenItem = "¡Primero arregla el objeto!"
+successAddModifier = """\
+¡Modificador añadido!
+
+${enhance_item_info}"""
+notBrokenItem = "Este objeto no está roto."
+successRepair = """\
+¡Objeto arreglado!
+
+${enhance_item_info}"""
+emptyEnhance = "No hay mejoras disponibles por ahora."

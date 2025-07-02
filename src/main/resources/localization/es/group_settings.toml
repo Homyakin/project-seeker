@@ -1,0 +1,27 @@
+groupSettings = """\
+⚙️Configuración del grupo ${group_name_with_badge}:
+${optional_group_is_hidden_description}
+Cambiar nombre del grupo: <code>${change_group_name_command} [nombre_del_grupo]</code>
+Zona horaria: ${time_zone}
+Cambiar zona horaria: <code>${set_time_zone_command} [zona_horaria]</code>
+
+Intervalos para incursiones:"""
+groupIsHiddenDescription = "\nEl grupo está oculto en los rankings y actividades. No se cuenta en las estadísticas globales.\n"
+eventIntervalButton = "${start_hour} — ${end_hour} ${enabled_icon}"
+incorrectTimeZone = "Zona horaria incorrecta. Debe ser un número entre ${min_time_zone} y ${max_time_zone}"
+zeroEnabledEventIntervals = "Debes activar al menos un intervalo"
+incorrectSetTimeZoneCommand = """\
+El formato correcto es: <code>${set_time_zone_command} [zona_horaria]</code>. La zona debe ser un número entero."""
+successChangeTimeZone = "Zona horaria actualizada."
+
+changeNameInvalidFormat = """
+Para cambiar el nombre del grupo, usa el comando: <code>${change_group_name_command} [nombre_del_grupo]</code>"""
+changeNameInvalidSymbols = """
+Puedes usar solo estos símbolos en el nombre del grupo: <code>letras (cirílicas o latinas), números, _-.#№ y espacios</code>"""
+changeNameInvalidLength = """
+El nombre del grupo debe tener entre ${min_name_length} y ${max_name_length} caracteres"""
+successChangeName = "El nombre del grupo ahora es <b>${name}</b>"
+
+groupIsHidden = "El grupo ahora está oculto en los rankings y actividades públicas"
+groupIsNotHidden = "El grupo ahora es visible en los rankings y actividades"
+forbiddenHidden = "Este grupo no puede cambiar su visibilidad"

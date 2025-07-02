@@ -1,0 +1,31 @@
+# TODO características
+itemWithoutModifiers = "${object}"
+itemWithPrefixModifier = "${prefix_modifier} ${object}"
+itemWithSuffixModifier = "${object} ${suffix_modifier}"
+itemWithPrefixAndSuffixModifier = "${prefix_modifier} ${object} ${suffix_modifier}"
+itemWithTwoPrefixModifiers = "${prefix_modifier_one} ${prefix_modifier_two} ${object}"
+fullItem = "${slots}${rarity_icon}${broken_icon} ${item} ${characteristics}"
+shortItem = "${rarity_icon}${broken_icon} ${item} ${characteristics}"
+shortItemWithoutCharacteristics = "${rarity_icon}${broken_icon} ${item}"
+characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}"
+attack = "${attack_icon}${attack_value}"
+defense = "${defense_icon}${defense_value}"
+health = "${health_icon}${health_value}"
+itemInBag = "${full_item} ${put_on_command}"
+equippedItem = "${full_item} ${take_off_command}"
+personageFreeSlot = "${slot} <i>Vacío</i>"
+
+inventory = """\
+<b>👤Equipo:</b>
+${equipped_items_and_free_slots}
+
+<b>🎒Mochila (${items_in_bag_count}/${max_items_in_bag}):</b>
+${items_in_bag}"""
+
+personageMissingItem = "No tienes ese objeto"
+alreadyEquipped = "Ya tienes ese objeto equipado"
+alreadyTakenOff = "Ese objeto no está equipado"
+notEnoughSpaceInBag = "No tienes espacio en la mochila para quitar ese objeto"
+requiredFreeSlots = "Los siguientes espacios están ocupados: ${busy_slots}"
+successPutOn = "¡Equipado exitosamente!: ${item}"
+successTakeOff = "Exitosamente desequipado: ${item}"

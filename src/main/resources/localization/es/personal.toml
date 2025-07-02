@@ -1,0 +1,141 @@
+[menu]
+profileButton = "👤Perfil"
+languageButton = "🌐Idioma"
+receptionDeskButton = "✍️Mostrador de registro"
+backButton = "⬅️Atrás"
+resetCharacteristicsButton = "📖Libro del Olvido"
+changeNameButton = "🔮Cambiar nombre"
+showBadgesButton = "🔰Insignias"
+inventoryButton = "🎒Mochila"
+shopButton = "⚖️Mercado negro"
+bulletinBoardButton = "📣Tablón de anuncios"
+takePersonalQuestButton = "📝Tomar misión"
+worldRaidButton = "🔎Incursión mundial"
+enhanceButton = "🧿Mesa de encantamientos"
+
+[changeName]
+changeNameWithoutName = "¡El nombre no puede estar vacío!"
+initChangeName = """
+Usar el círculo mágico cuesta ${change_name_cost}${money_icon}. Escribe el nombre con el que te conocerán los demás Exploradores.
+Caracteres permitidos: <code>letras latinas, cirílicas, números, _-.#№ y espacios</code>
+"""
+notEnoughMoney = "Necesitas ${change_name_cost}${money_icon} para cambiar tu nombre"
+repeatChangeName = "Escribe el nuevo nombre:"
+cancelChangeName = "El círculo mágico se desvanece. Será para otra vez..."
+confirmName = "Tu nuevo nombre: <code>${name}</code>. ¿Está bien así?"
+personageNameInvalidLength = """\
+Lo siento, pero el círculo mágico solo acepta nombres entre ${min_name_length} y ${max_name_length} caracteres."""
+personageNameInvalidSymbols = """\
+Lamentablemente, solo puedes usar: \
+<code>letras latinas, cirílicas, números, símbolos _-.#№ y espacios</code>"""
+successNameChange = "¡Nombre cambiado con éxito! El círculo mágico se apaga."
+internalError = "El círculo mágico parpadea... y se apaga de golpe. Algo salió mal, inténtalo más tarde."
+cancelButton = "❌Cancelar"
+confirmButton = "✅Confirmar"
+repeatButton = "🔄Intentar de nuevo"
+
+[characteristics]
+resetConfirmation = """\
+Leer el libro del olvido cuesta ${money_icon}${money_count}. \
+¿Seguro que quieres olvidar tus habilidades y empezar de nuevo?"""
+successReset = """\
+Después de leer el libro, tu mente se nubla... Olvidas tus viejas habilidades. Todo está por decidirse otra vez."""
+canceledReset = "El libro se queda aquí. Vuelve cuando estés list@."
+increasedCharacteristic = "Has mejorado una habilidad: ${increased_value}${increased_icon}."
+currentCharacteristics = """\
+Tus características actuales: ${strength_value}${strength_icon}${agility_value}${agility_icon}${wisdom_value}${wisdom_icon}"""
+chooseCharacteristic = """\
+Elige qué quieres desarrollar:
+(${strength_icon}>${agility_icon}>${wisdom_icon}>${strength_icon})"""
+notEnoughCharacteristicPoints = "¡Llegaste al límite! Usa el libro del olvido si quieres cambiar de estilo."
+notEnoughMoney = "¡No te alcanza pa'l libro! Te faltan ${money_icon}${money_count}"
+profileLevelUp = "¡Puedes mejorar tus habilidades! Usa ${level_up_command}"
+confirmButton = "📖Leer"
+cancelButton = "❌Después"
+strengthButton = "+1${strength_icon}"
+agilityButton = "+1${agility_icon}"
+wisdomButton = "+1${wisdom_icon}"
+
+[badges]
+availableBadges = """\
+Insignias disponibles:
+
+${badge_list}"""
+badge = """\
+${badge_icon} ${badge_description}"""
+badgeIsNotAvailable = "Esa insignia no está disponible"
+
+[bulletinBoard]
+bulletinBoard = """\
+El tablón está repleto de encargos de los habitantes de Krezar. Escoge uno, y si cumples, te ganas una recompensa.
+
+Coste de misión: ${energy_icon}${quest_required_energy}% ${time_icon}${quest_duration}
+Para tomar varias: <code>${take_quest_command} N</code>"""
+notEnoughEnergy = "Te falta energía: ${energy_icon}${required_energy}%"
+personageInAnotherEvent = "Ya estás participando en otro evento."
+startedQuest = """\
+${quest_intro}
+
+Gastaste ${energy_icon}${energy}% y volverás en ${time_icon}${duration}"""
+autoStartedQuest = """\
+${energy_recovered}
+
+${started_quest}
+"""
+failedSingleQuest = """\
+${quest_failure}
+
+Energía actual: ${energy_icon}${current_energy}%"""
+successSingleQuest = """\
+${quest_success}
+
+Ganaste +${money_icon}${money_value}
+Energía actual: ${energy_icon}${current_energy}%"""
+incorrectQuestCount = "Debes escribir un número entero mayor o igual a 1."
+multipleQuestsIntro = [
+    "Arrancas varios encargos del tablón y te lanzas a trabajar.",
+    "La necesidad aprieta, así que te guardas varios encargos de una.",
+    "Mirando el tablón piensas: si no agarro todos ahora, se los llevan.",
+    "El descanso es pa' viejos. Tú vas a completar lo más que puedas.",
+]
+multipleQuestsFinished = """\
+${multiple_quests_outro}
+
+${quests_results}
+
+Ganaste +${money_icon}${money_value}
+Energía actual: ${energy_icon}${current_energy}%"""
+multipleQuestsOutro = [
+    "¡Después de tantos encargos, te mereces una fría en la taberna!",
+    "¡Todo cumplido! Bueno... más o menos. ¡Pero hiciste cantidad!",
+]
+
+worldRaidResearch = """\
+Progreso de búsqueda: ${progress}%
+Fondo: ${money_icon}${fund_value}
+
+Cómo aumentar el progreso:
+• Realiza una misión
+• Dona ${money_icon}${donate_value} con ${donate_world_raid_command}
+
+📊Top de Exploradores por aporte: ${world_raid_research_top_command}"""
+worldRaidBattle = """\
+¡Se detectó un enemigo! Todos los miembros de grupos registrados, únanse a la batalla: ${world_raid_channel}
+
+Fondo: ${money_icon}${fund_value}
+
+📊Top de Exploradores por aporte: ${world_raid_research_top_command}"""
+notEnoughMoneyForDonate = "No tienes suficiente para donar. Faltan ${money_icon}${required_value}"
+worldRaidResearchIsCompleted = "¡La búsqueda ya se completó!"
+successWorldRaidDonate = "¡Donación recibida! ${money_icon}${money_value} añadido al fondo"
+
+[settings]
+personageIsHidden = "Ahora estás fuera de los rankings y estadísticas globales. ¡Pura sombra!"
+personageIsUnhidden = "Tus logros vuelven a ser públicos para los Exploradores."
+settings = """\
+⚙️Ajustes:
+
+Notificaciones — avisos sobre eventos en segundo plano: recarga de energía, misiones, etc.
+Misiones automáticas — al llegar al máximo de energía, te lanzas solo a una misión. Gasta más energía, eso sí."""
+sendNotificationsButton = "${enabled_icon}Notificaciones"
+autoQuestingButton = "${enabled_icon}Misiones automáticas"

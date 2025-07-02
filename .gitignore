@@ -16,3 +16,4 @@ src/main/resources/application-dev.properties
 .project
 .settings/
 bin/
+src/main/resources/game-data/item_objects es backup.toml

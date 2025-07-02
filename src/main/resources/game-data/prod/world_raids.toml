@@ -18,6 +18,14 @@ intro = """\
 в окрестностях Крезара, однако необходимо срочно уничтожить его, пока он не начал нападать \
 на мирное население."""
 
+[raid.locales.ES]
+intro = """\
+¿Es un pájaro? ¿Es una bola de fuego? ¡Es un dragón! ¡¿UN DRAGÓN???????
+
+Estas criaturas fueron exterminadas antes incluso de que el Imperio apareciera en el mapa del mundo. \
+No sabemos de dónde ha salido en las cercanías de Krezar, pero hay que eliminarlo urgentemente \
+antes de que empiece a atacar a la población pacífica."""
+
 [[raid]]
 code = "swamp-thing"
 isEnabled = true
@@ -37,3 +45,11 @@ intro = """\
 Похоже на мутировавшую слизь. Умом и сообразительностью не отличается, зато очень даже отличается \
 агрессивностью и живучестью. Несколько крестьян уже успели стать её жертвами, пока ходили в лес за грибами. \
 Убейте её, пока жертв не стало больше."""
+
+[raid.locales.ES]
+intro = """\
+¡Se ha detectado una asquerosa criatura del pantano!
+
+Parece una baba mutada. No se destaca por su inteligencia o astucia, pero sí por ser increíblemente \
+agresiva y resistente. Ya varios campesinos han caído víctimas suyas mientras recogían hongos en el bosque. \
+Mátenla antes de que haya más víctimas."""

@@ -1,0 +1,63 @@
+duelMustContainsMention = """\
+¡Elige a tu oponente para el duelo! Para eso responde al mensaje de tu rival \
+o menciónalo en tu mensaje, por ejemplo: <code>${duel_command} @usuario</code>.
+"""
+duelWithDifferentBot = [
+    "¡Elige un oponente que esté vivo, compay!" # TODO aquí se puede añadir un ping aleatorio a un jugador
+]
+duelWithThisBot = [
+    "No te recomiendo empezar una bronca con el personal. Podría aparecerle una espuma ‘especial’ a tu cerveza..."
+]
+duelWithYourself = "¡No puedes retarte a ti mismo a un duelo!"
+duelWithInitiatorNotEnoughMoney = [
+    "¡Oye! Para usar la arena necesitas al menos ${money_icon}${money_count}. Ponte a trabajar primero",
+    "La entrada a la arena cuesta ${money_icon}${money_count}, ¡a trabajar!",
+    "La pelea es privilegio de los que tienen plata. Reúne ${money_icon}${money_count} y vuelve.",
+    "¡Ese combate está fuera de tu presupuesto! Te faltan ${money_icon}${money_count}.",
+]
+personageAlreadyStartDuel = "¡Ya estás en otro duelo! Espera que termine."
+initDuel = """\
+${init_duel_variation}
+<i>-${duel_cost}${money_icon}</i>"""
+initDuelVariation = [
+    "El Explorador ${mention_initiator_icon_with_name} reta a duelo a ${mention_acceptor_icon_with_name}.",
+    """\
+¡${mention_initiator_icon_with_name} le lanzó el guante en la cara \
+a ${mention_acceptor_icon_with_name}!""",
+    "¡Reacciona, ${mention_acceptor_icon_with_name}, acepta el reto de ${mention_initiator_icon_with_name}!",
+    "¡${mention_initiator_icon_with_name} tiene ganas de darle un buen golpe a ${mention_acceptor_icon_with_name}!",
+    """\
+¡Asalto en progreso! ¡${mention_acceptor_icon_with_name} fue acorralado detrás de la taberna! ${mention_initiator_icon_with_name} \
+no viene a conversar, viene a pelear de verdad.""",
+]
+notDuelAcceptingPersonage = "¡Ese reto no era para ti!"
+expiredDuel = [
+    "El reto fue ignorado completamente",
+    "${mention_acceptor_icon_with_name}: Ir al duelo o no, me da igual.",
+    "${mention_acceptor_icon_with_name} no puede participar ahora. Intenta más tarde.",
+    "La mamá de ${mention_acceptor_icon_with_name} no lo deja salir. ¡Hasta que no friegue el piso no hay duelo!",
+]
+declinedDuel = [
+    "¡El oponente rechazó el reto!",
+    "¡Ja! ${mention_initiator_icon_with_name}, busca a otro tonto para tu duelo.",
+]
+finishedDuel = [
+    "El Explorador ${mention_winner_icon_with_name} venció a ${mention_loser_icon_with_name}",
+    "¡${mention_loser_icon_with_name} quedó hecho puré sobre el empedrado!",
+    "¡Duelo terminado! ${mention_winner_icon_with_name} fue claramente superior a ${mention_loser_icon_with_name}!",
+    "Durante el duelo, ${mention_winner_icon_with_name} manda a dormir a ${mention_loser_icon_with_name} de un solo golpe.",
+    "La próxima vez, ${mention_loser_icon_with_name} lo pensará dos veces antes de enfrentarse a ${mention_winner_icon_with_name}.",
+    "¡Chiki-briki y ${mention_winner_icon_with_name} se alzó con la victoria!",
+]
+acceptDuelButton = "Aceptar reto🗡"
+declineDuelButton = "Rechazar👐"
+duelWithUnknownUser = [
+    """\
+El personal no sabe a quién enviar el reto de duelo. \
+Tal vez tu socio aún no ha pasado por esta taberna o cambió de nombre."""
+]
+duelIsLocked = "El duelo está en proceso, intenta más tarde."
+personageDuelResult = """\
+${winner_or_loser_icon}${personage_badge_with_name}: \
+${remain_health}${health_icon} ${damage_dealt}${attack_icon} (${crits_count}${crit_icon}${dodges_count}${dodge_icon})"""
+duelAlreadyFinished = "El duelo ya había terminado, pero el resultado no se mostró por un error del sistema. Disculpa las molestias."

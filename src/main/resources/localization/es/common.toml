@@ -1,0 +1,154 @@
+welcomeGroup = """\
+¡Bienvenidos a la taberna de la ciudad de Krezar, Exploradores! Vamos al grano:
+
+⚔️ ¡Participen en incursiones para ganar oro y equipo! El horario está en ${settings_command}.
+🍻 ¡Tómense algo con los socios! Vean el menú actual con ${menu_command}
+🤺 ¡Resuelvan las broncas a duelo con ${duel_command}!
+⚒ ¡Nominen al Currante del Día con ${worker_of_day_command}!
+🏆 ¡Compitan por un puesto en los rankings! ${top_command}
+💬 Pasen por @${bot_username} para ir de misión, comprar equipo, cambiar de nombre u otras cosas.
+
+Pulsen ${help_command} si tienen dudas. \
+Y no se pierdan las novedades en ${news_channel_username}!"""
+
+chooseLanguage = "Elige idioma:"
+onlyAdminAction = "❌Esta acción solo está disponible para administradores"
+onlyGroupMemberAction = "❌Esta acción solo está disponible para miembros del grupo"
+forbiddenForHiddenGroup = "❌Esta acción no está permitida en un grupo oculto"
+onlyForRegisteredGroup = "❌Esta acción solo está disponible en grupos registrados"
+forbiddenAction = "❌No puedes hacer eso"
+internalError = "❌Algo falló, inténtalo más tarde"
+fullProfile = """\
+${personage_badge_with_name}
+${money_icon}Oro: ${personage_money}
+${energy_icon}Energía: ${energy_value}% ${time_icon}${remain_duration_for_full_regen}
+${health_icon}Salud: ${health_value}
+${power_icon}Poder: ${power_value}
+${attack_icon}${attack_value} ${defense_icon}${defense_value}
+${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
+${current_event}${personage_effects}
+👤Equipo: ${item_characteristics}"""
+
+shortProfile = """\
+${personage_badge_with_name}
+${money_icon}${personage_money} ${energy_icon}${energy_value}%
+${health_icon}${health_value} ${attack_icon}${attack_value} ${defense_icon}${defense_value}
+${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}"""
+
+# Отступы нужны, чтобы нормально отображалось в fullProfile
+personageEffects = """\
+\nEfectos:${personage_effects}
+""" # здесь нужен перенос, чтобы была строчка до снаряжения
+menuItemEffect = "\n<code>-🍻Taberna: ${effect} ${time_icon}${duration}</code>"
+throwOrderEffect = "\n<code>-⭕️Lanzamiento de pedidos: ${effect} ${time_icon}${duration}</code>"
+workerOfDayEffect = "\n<code>-⚒️Currante del Día: ${effect} ${time_icon}${duration}</code>"
+addValueEffect = "+${value}${characteristic_icon}"
+multiplyPercentEffect = "+${value}%${characteristic_icon}"
+minusMultiplyPercentEffect = "-${value}%${characteristic_icon}"
+
+personageInRaid = "\nEn incursión ${time_icon}${duration}"
+personageInQuest = "\nEn misión ${time_icon}${duration}"
+personageInWorldRaid = "\nEn incursión mundial ${time_icon}${duration}"
+
+hoursShort = "h."
+minutesShort = "min."
+
+# текста для группы
+noStatsForSeason = "No hay estadísticas para esta temporada"
+groupStats = """\
+📊<b>Estadísticas del grupo ${group_name_with_badge}:</b>
+
+<code>Temporada ${season_number}</code>
+
+🗡Incursiones exitosas: ${raids_success}/${raids_total}
+🤺Duelos completados: ${duels_count}
+🗡Incursiones mundiales: ${world_raids_success}/${world_raids_total}
+
+🍻Gastado en la taberna: ${money_icon}${tavern_money_spent}
+"""
+personageGroupStats = """\
+📊<b>Tu estadística en el grupo:</b>
+
+<code>Temporada ${season_number}</code>
+
+🗡Incursiones exitosas: ${raids_success}/${raids_total}
+🤺Victorias en duelos: ${duels_wins}/${duels_total}
+
+🍻Gastado en la taberna: ${money_icon}${tavern_money_spent}
+⚒Currante del Día: ${worker_of_day_count}
+"""
+personageGlobalStats = """\
+📊<b>Tu estadística en las tabernas de Krezar:</b>
+
+<code>Temporada ${season_number}</code>
+
+🗡Incursiones exitosas: ${raids_success}/${raids_total}
+🤺Victorias en duelos: ${duels_wins}/${duels_total}
+📝Misiones exitosas: ${quests_success}/${quests_total}
+🗡Incursiones mundiales: ${world_raids_success}/${world_raids_total}
+
+🍻Gastado en la taberna: ${money_icon}${tavern_money_spent}
+⚒Currante del Día: ${worker_of_day_count}
+"""
+
+migrateGroup = """\
+Mensaje técnico: el grupo ha sido convertido en supergrupo. Estadísticas transferidas."""
+
+# текста для лички
+# TODO перенести куда-нибудь
+welcomeUser = """
+¡Bienvenido a la taberna, Explorador!
+
+Aquí tienes varias formas de pasar el rato:
+⚔️ ¡Participa en incursiones y consigue oro y equipo!
+🍻 ¡Comparte unos tragos con la gente!
+🤺 ¡Lánzate a un duelo y demuestra quién manda!
+💬 ¡Y muchas otras aventuras en las tabernas del glorioso Krezar!
+
+Para mejorar la experiencia, añade al bot en un grupo con tus panas. \
+Venir solo a la taberna es bastante triste...
+
+Pulsa ${help_command} para ver más información.
+Únete a ${news_channel_username} y mantente al tanto de las novedades."""
+receptionDesk = """\
+En la pared detrás del mostrador ves un letrero tejido con hilos de maná:
+
+🔰Exploradores activos hoy: ${active_personages_count}
+👥Grupos oficiales activos: ${registered_groups_count}
+
+Puedes pedir ayuda al personal con lo siguiente:"""
+energyRecovered = [
+    "¡Energía lista! Ponte a hacer algo útil.",
+    "Ya descansaste suficiente. ¡Dale trabajo al cuerpo!",
+]
+personageBattleReport = """\
+<code>${battle_date_time}</code>
+
+Características en combate:
+${attack_icon}${attack_value}${defense_icon}${defense_value}
+${strength_icon}${strength_value}${agility_icon}${agility_value}${wisdom
+
+📊Estadísticas:
+${normal_attack_icon}Ataques normales: ${normal_damage_value} (${normal_damage_count})
+${crit_attack_icon}Críticos: ${crit_damage_value} (${crit_damage_count})
+${miss_icon}Fallos: ${misses_count}
+
+${damage_blocked_icon}Daño recibido: ${damage_blocked_value} (${damage_blocked_count})
+${dodge_icon}Esquives: ${dodged_damage_value} (${dodged_damage_count})
+
+${health_icon}Salud: ${remain_health}/${max_health}
+
+${money_icon}Recompensa: ${reward_value}
+<code>${optional_full_item}</code>"""
+shortPersonageBattleReport = """\
+📜${personage_badge_with_name} ${health_icon}${remain_health}
+${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
+${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
++${reward_value}${money_icon} <code>${optional_short_item_without_characteristics}</code>"""
+shortGroupBattleReport = """\
+📜${group_badge_with_name}
+${participants_icon}${remain_participants}/${total_participants}
+${health_icon}${remain_health}/${total_health}
+${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
+${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
++${money_icon}${reward_value}"""

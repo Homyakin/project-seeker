@@ -8,6 +8,9 @@ text = "Говорят калитка некоего Балдура ломает
 [rumor.locales.EN]
 text = "Rumor has it that a certain Baldur's gate has broken for the third time in a row.... Poor guy"
 
+[rumor.locales.ES]
+text = "Se rumorea que la puerta de cierto Baldur se ha roto por tercera vez seguida... Pobrecito"
+
 [[rumor]]
 code = "slime-beer"
 isAvailable = true
@@ -18,6 +21,9 @@ text = "В таверне уже не первый раз пытаются св�
 [rumor.locales.EN]
 text = "Heard the tavern's been trying to brew slime beer for a while now. Except all the tasters had to be pumped out at the temple."
 
+[rumor.locales.ES]
+text = "Dicen que en la taberna ya van varios intentos de preparar cerveza de slime. Pero todos los catadores acabaron siendo reanimados en el templo."
+
 [[rumor]]
 code = "maggeese-breeding"
 isAvailable = true
@@ -26,7 +32,10 @@ isAvailable = true
 text = "Недавно один крестьянин попытался разводить маггусей на своём участке. Теперь это их участок."
 
 [rumor.locales.EN]
-text = "Recently, a farmer tried to breed maggots on his property. Now it's their plot."
+text = "Recently, a farmer tried to breed maggeese on his property. Now it's their plot."
+
+[rumor.locales.ES]
+text = "Recientemente, un campesino intentó criar maggansos en su terreno. Ahora el terreno es de ellos."
 
 [[rumor]]
 code = "seeker-update"
@@ -44,6 +53,12 @@ text = """
 - When will it be released?
 - As soon as possible...."""
 
+[rumor.locales.ES]
+text = """
+— Escuché a unos magos de la academia hablando de una gran actualización para el sistema de Buscadores.
+— ¿Y cuándo la sacan?
+— Cuando esté lista..."""
+
 [[rumor]]
 code = "magramming"
 isAvailable = false
@@ -53,6 +68,9 @@ text = '- Говорила мне мама: "иди, дитятко, в магр
 
 [rumor.locales.EN]
 text = "- My mom told me to go into magramming... Now I'm gonna be delivering orders for the rest of my life..."
+
+[rumor.locales.ES]
+text = "- Mi madre me decía: 'Hijo, métete a magramador'... Y ahora me voy a pasar la vida repartiendo pedidos..."
 
 [[rumor]]
 code = "busy-magisterium"
@@ -68,6 +86,11 @@ text = """
 - I'm so sick of this! Kill the goblins, kill the scarecrow, kill somebody else! Where's the real adventure?!
 - I hear the Magisterium is in the middle of research. So we make do with what we've got. It's good enough for a beer."""
 
+[rumor.locales.ES]
+text = """
+— ¡Estoy harto! Mata a los goblins, mata al espantapájaros, mata a otro más... ¿Dónde están las verdaderas aventuras?
+— Escuché que el Magisterio está metido de lleno en investigaciones... Así que nos toca conformarnos. Al menos alcanza para una cerveza."""
+
 [[rumor]]
 code = "rumors"
 isAvailable = false
@@ -81,6 +104,11 @@ text = """
 text = """
 - There's a rumor going around the tavern now.
 - Oh, really?!"""
+
+[rumor.locales.ES]
+text = """
+— Se rumorea que ahora hay rumores en la taberna.
+— ¿En serio?!"""
 
 [[rumor]]
 code = "cat-soup"
@@ -96,6 +124,11 @@ text = """
 - Hey! Has anyone seen a striped cat outside the tavern? I can't find it anywhere.
 - I don't know about the cat, but the soup is really good today!"""
 
+[rumor.locales.ES]
+text = """
+— ¡Oigan! ¿Alguien ha visto un gato atigrado cerca de la taberna? No lo encuentro por ningún lado.
+— No sé nada del gato, pero la sopa está buenísima."""
+
 [[rumor]]
 code = "alcoholic-waldemar"
 isAvailable = false
@@ -110,6 +143,11 @@ text = """
 - I saw Waldemar drink 42 tinctures in a row and not even a snack!
 - Who the fuck are you fucking kidding?! He can't get out of his tower."""
 
+[rumor.locales.ES]
+text = """
+— ¡Lo vi con mis propios ojos! ¡Valdemar se tomó 42 tragos seguidos sin picar nada!
+— ¡A quién quieres meterle esa muela! ¡Si ese ni sale de su torre!"""
+
 [[rumor]]
 code = "wolf-citation"
 isAvailable = true
@@ -120,12 +158,18 @@ text = "В жизни полно лжи и грязи, она не так кра
 [rumor.locales.EN]
 text = "Life is full of lies and dirt, it's not so pretty. Even your best friend may not share a beer..."
 
+[rumor.locales.ES]
+text = "La vida está llena de mentiras y porquería, no es tan bonita. Hasta tu mejor amigo puede no compartir su cerveza..."
+
 [[rumor]]
 code = "color-equipment"
 isAvailable = true
 
 [rumor.locales.RU]
 text = "Послушай, Искатель... Когда у общества нет цветовой дифференциации шмота, то нет цели!"
+
+[rumor.locales.ES]
+text = "Escucha, Explorador... ¡Cuando una sociedad no tiene diferenciación por colores del equipamiento, no tiene propósito!"
 
 [[rumor]]
 code = "shit-in-forest"
@@ -136,6 +180,11 @@ text = """\
 - Ёпт, опять рейд проспал...
 - Иди возьми пока что-нибудь на доске объявлений. Только не вляпайся в говно в лесу, а то от меня до сих пор воняет."""
 
+[rumor.locales.ES]
+text = """\
+— Joder, otra vez me dormí y perdí el raid...\
+\n— Anda ve a tomar algo del tablón de anuncios. Solo no pises mierda en el bosque, que todavía me apesto yo mismo."""
+
 [[rumor]]
 code = "pupa-lupa-in-shop"
 isAvailable = true
@@ -144,6 +193,11 @@ isAvailable = true
 text = """\
 Однажды Пупа и Лупа пришли покупать коробки. Но на чёрном рынке всё перепутали. \
 В итоге, Лупа получил за Пупу, а Пупа — белый кортик без модификаторов!"""
+
+[rumor.locales.ES]
+text = """\
+Un día Pupa y Lupa fueron a comprar cajas. Pero en el mercado negro lo confundieron todo.\
+\nAl final, Lupa recibió por Pupa, y Pupa — una daga blanca sin modificadores."""
 
 [[rumor]]
 code = "energy-notification"
@@ -154,6 +208,11 @@ text = """\
 - Достаточно отдохнули? Да нихрена не достаточно! Пусть Магистрат засунет себе это уведомление прямо в жо..\
 *звуки боли*"""
 
+[rumor.locales.ES]
+text = """\
+— ¿Descansaste lo suficiente? ¡Claro que no! Que el Magisterio se meta esa notificación por el cu...\
+*sonidos de dolor*"""
+
 [[rumor]]
 code = "feedback"
 isAvailable = true
@@ -161,3 +220,7 @@ isAvailable = true
 [rumor.locales.RU]
 text = """\
 Говорят, что Магистрат отвечает почти на все вопросы и идеи из <code>${feedback_command}</code>..."""
+
+[rumor.locales.ES]
+text = """\
+Dicen que el Magisterio responde a casi todas las preguntas e ideas de <code>${feedback_command}</code>..."""

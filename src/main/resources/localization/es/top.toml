@@ -1,0 +1,60 @@
+topRaidWeek = """\
+🏆Top de todos los Exploradores en incursiones de la semana <code>${start_date} - ${end_date}</code>:
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
+topRaidWeekGroup = """\
+🏆Top de Exploradores del grupo en incursiones de la semana <code>${start_date} - ${end_date}</code>:
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
+topRaidPosition = "${position}. ${personage_badge_with_name}: ${success_raids}/${all_raids}"
+topGroupRaidWeek = """\
+🏆Top de Grupos en incursiones de la semana <code>${start_date} - ${end_date}</code>:
+
+${top_group_list}
+
+Total de grupos: ${total_count}"""
+topGroupRaidPosition = "${position}. ${group_badge_with_name}: ${success_raids}/${all_raids}"
+topRaidEmpty = "Nadie participó en incursiones durante el período seleccionado"
+topList = """\
+📊Lista de tops disponibles:
+
+🔰Tops de Exploradores:
+🗡Top de Exploradores en incursiones de la semana ${top_raid_week_command}
+🗡Top de Exploradores en incursiones de la semana ${top_raid_week_group_command}
+⚒Top de trabajadores del grupo ${top_work_group_command}
+💪Top de poder de Exploradores del grupo ${top_power_personage_command}
+
+👥Tops de Grupos:
+🗡Top de Grupos en incursiones de la semana ${top_group_raid_week_command}"""
+topWorkerOfDayEmpty = "Todavía nadie ha sido elegido como el trabajador del grupo."
+topWorkerOfDayGroup = """\
+⚒Top de trabajadores del grupo de todos los tiempos:
+
+${top_personage_list}
+
+Total de participantes: ${total_count}
+"""
+topWorkerPosition = "${position}. ${personage_badge_with_name}: ${work_count}"
+
+topPowerPersonageGroup = """\
+💪Top de poder de los Exploradores del grupo:
+
+${top_personage_list}
+
+Total de participantes: ${total_count}
+"""
+topPowerPersonagePosition = "${position}. ${personage_badge_with_name}: ${power}"
+topPersonageEmpty = "No hay participantes para mostrar"
+topWorldRaidResearch = """\
+🏆Top de Exploradores por contribución en la búsqueda de incursión mundial:
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
+topWorldRaidResearchPosition = "${position}. ${personage_badge_with_name}: ${contribution} ${optional_reward}"
+topWorldRaidResearchReward = " +${money_icon}${reward}"
+topWorldRaidResearchEmpty = "Nadie ha contribuido todavía en la búsqueda de incursión"
