@@ -9,6 +9,7 @@ public enum Language {
     RU(1, "ru"),
     EN(2, "en"),
     KZ(3, "kz"),
+    ES(4, "es"),
     ;
 
     private final int id;
