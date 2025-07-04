@@ -105,7 +105,6 @@ ${throw_text}
 
 <i>Gastado: -${money_value}${money_icon}</i>"""
 throwFromGroupResult = """\
-
 ${throw_text}
 
 <i>Efecto: ${effect}</i>"""
