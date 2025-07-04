@@ -126,7 +126,7 @@ personageBattleReport = """\
 
 Características en combate:
 ${attack_icon}${attack_value}${defense_icon}${defense_value}
-${strength_icon}${strength_value}${agility_icon}${agility_value}${wisdom
+${strength_icon}${strength_value}${agility_icon}${agility_value}${wisdom_icon}${wisdom_value}
 
 📊Estadísticas:
 ${normal_attack_icon}Ataques normales: ${normal_damage_value} (${normal_damage_count})
