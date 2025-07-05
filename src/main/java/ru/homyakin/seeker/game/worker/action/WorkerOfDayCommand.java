@@ -76,7 +76,7 @@ public class WorkerOfDayCommand {
         final var personageId = result.get().get();
         logger.info("Personage {} was selected in group {} worker", personageId.value(), groupId.value());
         storage.save(groupId, personageId, date);
-        groupPersonageStatsService.incrementWorkerOfDay(groupId, personageId);
+        groupPersonageStatsService.addWorkerOfDay(groupId, personageId);
         final var effect = createEffect();
         final var personage = personageService.addEffect(personageId, PersonageEffectType.WORKER_OF_DAY_EFFECT, effect);
         return Either.right(new WorkerOfDayResult(personage, effect.effect()));

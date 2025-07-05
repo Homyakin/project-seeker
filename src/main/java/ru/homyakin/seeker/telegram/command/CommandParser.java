@@ -54,6 +54,7 @@ import ru.homyakin.seeker.telegram.command.group.top.TopPowerGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeekGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopWorkerOfDay;
+import ru.homyakin.seeker.telegram.command.group.top.TopDonate;
 import ru.homyakin.seeker.telegram.command.group.world_raid.GroupWorldRaidReport;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.badge.SelectPersonageBadge;
@@ -211,6 +212,7 @@ public class CommandParser {
                 case TOP_RAID_WEEK -> TopRaidWeek.from(message);
                 case TOP_RAID_WEEK_GROUP -> TopRaidWeekGroup.from(message);
                 case TOP -> TopList.from(message);
+                case TOP_DONATE -> TopDonate.from(message);
                 case SETTINGS -> GetGroupSettings.from(message);
                 case SET_TIME_ZONE -> SetTimeZone.from(message);
                 case THROW_ORDER -> ThrowOrder.from(message);

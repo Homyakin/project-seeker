@@ -1,10 +1,5 @@
 package ru.homyakin.seeker.locale.top;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,7 +10,12 @@ import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocalizationInitializer;
 
-public class TopUtilsTest {
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class TopUtilsCreateTopListTest {
     @BeforeAll
     public static void init() {
         LocalizationInitializer.initLocale();
@@ -23,7 +23,6 @@ public class TopUtilsTest {
 
     @Test
     public void When_RequestedPersonageInTop10_And_PersonageCountLessThan10_Then_ReturnAllPersonages() {
-        // given
         final var topRaidPositions = generatePositions(3);
         final var top = new TopRaidResult(
             LocalDate.of(2020, 11, 11),
@@ -31,11 +30,7 @@ public class TopUtilsTest {
             topRaidPositions,
             TopRaidResult.Type.WEEK
         );
-
-        //when
         final var result = TopUtils.createTopList(Language.RU, PersonageId.from(0L), top);
-
-        //then
         Assertions.assertEquals(
             """ 
                 1. 🔰Тест1: 3/3
@@ -47,7 +42,6 @@ public class TopUtilsTest {
 
     @Test
     public void When_RequestedPersonageNotPresent_And_PersonageCountMoreThan10_Then_Return10Personages() {
-        // given
         final var topRaidPositions = generatePositions(11);
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
@@ -55,11 +49,7 @@ public class TopUtilsTest {
             topRaidPositions,
             TopRaidResult.Type.WEEK
         );
-
-        //when
         final var result = TopUtils.createTopList(Language.RU, PersonageId.from(1000L), top);
-
-        //then
         Assertions.assertEquals(
             """
                 1. 🔰Тест1: 11/11
@@ -78,7 +68,6 @@ public class TopUtilsTest {
 
     @Test
     public void When_RequestedPersonageHas11Position_And_PersonageCountMoreThan11_Then_Return11Personages() {
-        // given
         final var topRaidPositions = generatePositions(13);
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
@@ -86,11 +75,7 @@ public class TopUtilsTest {
             topRaidPositions,
             TopRaidResult.Type.WEEK
         );
-
-        //when
         final var result = TopUtils.createTopList(Language.RU, PersonageId.from(10L), top);
-
-        //then
         Assertions.assertEquals(
             """
                 1. 🔰Тест1: 13/13
@@ -110,7 +95,6 @@ public class TopUtilsTest {
 
     @Test
     public void When_RequestedPersonageHasLastPosition_And_PersonageCountMoreThan11_Then_Return10Personages_And_2AtTheEnd() {
-        // given
         final var topRaidPositions = generatePositions(15);
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
@@ -118,11 +102,7 @@ public class TopUtilsTest {
             topRaidPositions,
             TopRaidResult.Type.WEEK
         );
-
-        //when
         final var result = TopUtils.createTopList(Language.RU, PersonageId.from(14L), top);
-
-        //then
         Assertions.assertEquals(
             """                
                 1. 🔰Тест1: 15/15
@@ -144,7 +124,6 @@ public class TopUtilsTest {
 
     @Test
     public void When_RequestedPersonageHasNotLastPosition_And_PersonageCountMoreThan12_Then_Return10Personages_And_3AtTheEnd() {
-        // given
         final var topRaidPositions = generatePositions(16);
         final var top = new TopRaidResult(
             LocalDate.of(2021, 11, 11),
@@ -152,11 +131,7 @@ public class TopUtilsTest {
             topRaidPositions,
             TopRaidResult.Type.WEEK
         );
-
-        //when
         final var result = TopUtils.createTopList(Language.RU, PersonageId.from(14L), top);
-
-        //then
         Assertions.assertEquals(
             """               
                 1. 🔰Тест1: 16/16
