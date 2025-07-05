@@ -77,7 +77,7 @@ public class TopService {
     }
 
     public TopPowerPersonageResult getTopPowerPersonage(GroupId groupId) {
-        final var personages = personageService.getByIds(getActiveGroupPersonagesCommand.execute(groupId));
+        final var personages = personageService.getByIdsWithoutEnergyRegen(getActiveGroupPersonagesCommand.execute(groupId));
         final var top = personages.stream()
             .map(Personage::toBattlePersonage)
             .sorted(Comparator.comparingDouble(BattlePersonage::power).reversed())
