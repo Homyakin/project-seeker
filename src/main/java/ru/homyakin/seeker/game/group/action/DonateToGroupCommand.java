@@ -10,15 +10,22 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.stats.action.GroupPersonageStatsService;
 
 @Component
 public class DonateToGroupCommand {
     private final GroupStorage groupStorage;
     private final PersonageService personageService;
+    private final GroupPersonageStatsService groupPersonageStatsService;
 
-    public DonateToGroupCommand(GroupStorage groupStorage, PersonageService personageService) {
+    public DonateToGroupCommand(
+        GroupStorage groupStorage, 
+        PersonageService personageService,
+        GroupPersonageStatsService groupPersonageStatsService
+    ) {
         this.groupStorage = groupStorage;
         this.personageService = personageService;
+        this.groupPersonageStatsService = groupPersonageStatsService;
     }
 
     @Transactional
@@ -36,6 +43,7 @@ public class DonateToGroupCommand {
         }
         final var updatePersonage = personageService.takeMoney(personage, money);
         groupStorage.addMoney(groupId, money);
+        groupPersonageStatsService.addDonateMoney(groupId, personageId, money);
         return Either.right(updatePersonage);
     }
 }

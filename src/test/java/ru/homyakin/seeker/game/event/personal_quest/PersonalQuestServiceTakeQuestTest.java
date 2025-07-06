@@ -109,7 +109,8 @@ public class PersonalQuestServiceTakeQuestTest {
                 new AddPersonageToEventRequest(
                     launchedEvent.id(),
                     personage.id(),
-                    Optional.of(new PersonalQuestPersonageParams(count))
+                    Optional.of(new PersonalQuestPersonageParams(count)),
+                    config.requiredEnergy() * count
                 )
             )
         ).thenReturn(Either.right(Success.INSTANCE));
@@ -144,7 +145,8 @@ public class PersonalQuestServiceTakeQuestTest {
                 new AddPersonageToEventRequest(
                     launchedEvent.id(),
                     personage.id(),
-                    Optional.of(new PersonalQuestPersonageParams(1))
+                    Optional.of(new PersonalQuestPersonageParams(1)),
+                    config.requiredEnergy()
                 )
             )
         ).thenReturn(Either.right(Success.INSTANCE));

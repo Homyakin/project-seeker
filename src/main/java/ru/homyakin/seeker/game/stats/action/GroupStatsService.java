@@ -70,6 +70,6 @@ public class GroupStatsService {
     public void increaseTavernMoneySpent(GroupId groupId, PersonageId personageId, Money money) {
         final var season = seasonService.currentSeason();
         storage.add(GroupStats.withSpentTavernMoney(season, groupId, money));
-        groupPersonageStatsService.increaseTavernMoneySpent(groupId, personageId, money);
+        groupPersonageStatsService.addSpentTavernMoney(groupId, personageId, money);
     }
 }

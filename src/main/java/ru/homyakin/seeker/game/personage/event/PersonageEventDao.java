@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 @Component
 public class PersonageEventDao {
     private static final String SAVE_USER_EVENT = """
-        INSERT INTO personage_to_event (personage_id, launched_event_id, personage_params)
-        VALUES (:personage_id, :launched_event_id, :personage_params);
+        INSERT INTO personage_to_event (personage_id, launched_event_id, personage_params, spent_energy)
+        VALUES (:personage_id, :launched_event_id, :personage_params, :spent_energy);
         """;
 
     private final JdbcClient jdbcClient;
@@ -35,6 +35,7 @@ public class PersonageEventDao {
             .param("personage_id", request.personageId().value())
             .param("launched_event_id", request.launchedEventId())
             .param("personage_params", request.personageParams().map(jsonUtils::mapToPostgresJson).orElse(null))
+            .param("spent_energy", request.spentEnergy())
             .update();
     }
 

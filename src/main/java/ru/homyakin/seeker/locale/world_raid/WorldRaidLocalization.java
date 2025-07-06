@@ -19,6 +19,7 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.top.TopUtils;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -118,9 +119,10 @@ public class WorldRaidLocalization {
         );
     }
 
-    public static String groupNotification(Language language, String channel) {
+    public static String groupNotification(Language language, String channel, LaunchedEvent event) {
         final var params = new HashMap<String, Object>();
         params.put("channel", channel);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::groupNotification),
             params

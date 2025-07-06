@@ -141,7 +141,8 @@ public class PersonalQuestService {
             new AddPersonageToEventRequest(
                 launchedEvent.id(),
                 personageId,
-                Optional.of(new PersonalQuestPersonageParams(count))
+                Optional.of(new PersonalQuestPersonageParams(count)),
+                requiredEnergy
             )
         );
         if (addResult.isLeft()) {
@@ -221,7 +222,8 @@ public class PersonalQuestService {
                     new AddPersonageToEventRequest(
                         launchedEventId,
                         personage.id(),
-                        Optional.of(new PersonalQuestPersonageParams(0))
+                        Optional.of(new PersonalQuestPersonageParams(0)),
+                        0
                     )
                 );
             }

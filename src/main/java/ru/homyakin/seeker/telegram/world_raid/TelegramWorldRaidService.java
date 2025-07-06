@@ -130,7 +130,7 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
     }
 
     @Override
-    public void sendBattleToGroup(GroupId groupId) {
+    public void sendBattleToGroup(GroupId groupId, LaunchedEvent event) {
         if (!getGroup.forceGet(groupId).isActive()) {
             return;
         }
@@ -144,7 +144,7 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
         telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(groupTg.id())
-                .text(WorldRaidLocalization.groupNotification(language, config.getOrDefaultChannel(language)))
+                .text(WorldRaidLocalization.groupNotification(language, config.getOrDefaultChannel(language), event))
                 .build()
         );
     }

@@ -48,13 +48,23 @@ public class GroupPersonageStatsService {
         storage.add(GroupPersonageStats.withFailedRaid(season, groupId, personageId));
     }
 
-    public void increaseTavernMoneySpent(GroupId groupId, PersonageId personageId, Money money) {
+    public void addSpentTavernMoney(GroupId groupId, PersonageId personageId, Money money) {
         final var season = seasonService.currentSeason();
         storage.add(GroupPersonageStats.withSpentTavernMoney(season, groupId, personageId, money));
     }
 
-    public void incrementWorkerOfDay(GroupId groupId, PersonageId personageId) {
+    public void addWorkerOfDay(GroupId groupId, PersonageId personageId) {
         final var season = seasonService.currentSeason();
         storage.add(GroupPersonageStats.withWorkerOfDay(season, groupId, personageId));
+    }
+
+    public void addDonateMoney(GroupId groupId, PersonageId personageId, Money money) {
+        final var season = seasonService.currentSeason();
+        storage.add(GroupPersonageStats.withDonateMoney(season, groupId, personageId, money));
+    }
+
+    public void addGiveMoney(GroupId groupId, PersonageId personageId, Money money) {
+        final var season = seasonService.currentSeason();
+        storage.add(GroupPersonageStats.withGiveMoney(season, groupId, personageId, money));
     }
 }

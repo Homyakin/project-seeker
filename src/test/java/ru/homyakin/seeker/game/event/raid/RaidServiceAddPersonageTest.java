@@ -61,7 +61,12 @@ public class RaidServiceAddPersonageTest {
         Mockito.when(launchedEventService.getActiveEventsByPersonageId(personageId))
             .thenReturn(new CurrentEvents(List.of()));
         Mockito.when(personageEventService.addPersonageToLaunchedEvent(
-            new AddPersonageToEventRequest(launchedEvent.id(), personageId, Optional.of(new RaidPersonageParams(false)))
+                new AddPersonageToEventRequest(
+                    launchedEvent.id(),
+                    personageId,
+                    Optional.of(new RaidPersonageParams(false)),
+                    33
+                )
             ))
             .thenReturn(Either.right(Success.INSTANCE));
         Mockito.when(raidDao.getByEventId(launchedEvent.eventId())).thenReturn(Optional.of(raid));
@@ -176,7 +181,12 @@ public class RaidServiceAddPersonageTest {
         Mockito.when(personageService.checkPersonageEnergy(personageId, 33))
             .thenReturn(Either.left(NotEnoughEnergy.INSTANCE));
         Mockito.when(personageEventService.addPersonageToLaunchedEvent(
-                new AddPersonageToEventRequest(launchedEvent.id(), personageId, Optional.of(new RaidPersonageParams(true)))
+                new AddPersonageToEventRequest(
+                    launchedEvent.id(),
+                    personageId,
+                    Optional.of(new RaidPersonageParams(true)),
+                    0
+                )
             ))
             .thenReturn(Either.right(Success.INSTANCE));
         final var participants = Stream.of(PersonageUtils.random(), PersonageUtils.withId(personageId))

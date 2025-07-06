@@ -78,12 +78,12 @@ public class PersonageService {
             .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
     }
 
-    public List<Personage> getByIds(Set<PersonageId> ids) {
+    public List<Personage> getByIdsWithoutEnergyRegen(Set<PersonageId> ids) {
         final var now = TimeUtils.moscowTime();
         return personageDao.getByIds(ids)
             .stream()
             .map(
-                personage -> personage.updateStateIfNeed(now)
+                personage -> personage.updateStateIfNeed(now, false)
                     .peek(personageDao::update)
                     .getOrElse(personage)
             )

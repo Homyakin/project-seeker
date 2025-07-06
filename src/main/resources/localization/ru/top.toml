@@ -26,7 +26,8 @@ topList = """\
 🗡Топ Искателей в рейдах за неделю ${top_raid_week_command}
 🗡Топ Искателей группы в рейдах за неделю ${top_raid_week_group_command}
 ⚒Топ работяг в группе ${top_work_group_command}
-💪 Топ Искателей в группе по мощи ${top_power_personage_command}
+💪Топ Искателей в группе по мощи ${top_power_personage_command}
+💰Топ Вкладчиков в группе ${top_donate_command}
 
 👥Топы Групп:
 🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}"""
@@ -58,3 +59,11 @@ ${top_personage_list}
 topWorldRaidResearchPosition = "${position}. ${personage_badge_with_name}: ${contribution} ${optional_reward}"
 topWorldRaidResearchReward = " +${money_icon}${reward}"
 topWorldRaidResearchEmpty = "Пока никто не сделал вклад в поиск рейда"
+topDonateGroup = """\
+💰Топ Вкладчиков в группе (<code>Сезон ${season_number}</code>):
+
+${top_personage_list}
+
+Всего участников: ${total_count}"""
+topDonatePosition = "${position}. ${personage_badge_with_name}: ${money_icon}${donate_money}"
+topDonateEmpty = "Пока никто не делал донаты в этой группе"

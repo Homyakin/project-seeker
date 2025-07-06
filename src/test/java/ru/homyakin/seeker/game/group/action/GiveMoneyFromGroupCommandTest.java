@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.stats.action.GroupPersonageStatsService;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
 import ru.homyakin.seeker.utils.models.Success;
@@ -29,11 +30,13 @@ class GiveMoneyFromGroupCommandTest {
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
     private final PersonageService personageService = Mockito.mock();
     private final CheckGroupMemberAdminCommand checkGroupMemberAdminCommand = Mockito.mock();
+    private final GroupPersonageStatsService groupPersonageStatsService = Mockito.mock();
     private final GiveMoneyFromGroupCommand takeMoneyFromGroupCommand = new GiveMoneyFromGroupCommand(
         groupStorage,
         checkGroupMemberAdminCommand,
         groupPersonageStorage,
-        personageService
+        personageService,
+        groupPersonageStatsService
     );
     private GroupId groupId;
     private PersonageId acceptor;
@@ -151,6 +154,7 @@ class GiveMoneyFromGroupCommandTest {
         Assertions.assertTrue(result.isRight());
         Mockito.verify(groupStorage).takeMoney(groupId, validAmount);
         Mockito.verify(personageService).addMoney(personage, validAmount);
+        Mockito.verify(groupPersonageStatsService).addGiveMoney(groupId, acceptor, validAmount);
     }
 
     private GroupProfile groupProfile() {

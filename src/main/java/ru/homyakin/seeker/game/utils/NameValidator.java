@@ -20,7 +20,10 @@ public class NameValidator {
 
     private static final String CYRILLIC = "а-яА-ЯёЁ";
     private static final String ENGLISH = "a-zA-Z";
+    private static final String SPANISH = "áéíóúÁÉÍÓÚñÑüÜ";
     private static final String NUMBERS = "0-9";
     private static final String SPECIAL = "_\\-\\.#№ ";
-    private static final Pattern NAME_PATTERN = Pattern.compile("[" + CYRILLIC + ENGLISH + NUMBERS + SPECIAL + "]+");
+    private static final Pattern NAME_PATTERN = Pattern.compile(
+        "[" + CYRILLIC + ENGLISH + SPANISH + NUMBERS + SPECIAL + "]+"
+    );
 }

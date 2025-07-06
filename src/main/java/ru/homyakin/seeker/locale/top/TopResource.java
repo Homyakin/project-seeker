@@ -17,6 +17,9 @@ public record TopResource(
     String topWorldRaidResearch,
     String topWorldRaidResearchPosition,
     String topWorldRaidResearchReward,
-    String topWorldRaidResearchEmpty
+    String topWorldRaidResearchEmpty,
+    String topDonateGroup,
+    String topDonatePosition,
+    String topDonateEmpty
 ) {
 }

@@ -27,6 +27,7 @@ topList = """\
 🗡Top de Exploradores en incursiones de la semana ${top_raid_week_group_command}
 ⚒Top de trabajadores del grupo ${top_work_group_command}
 💪Top de poder de Exploradores del grupo ${top_power_personage_command}
+💰Top de donadores del grupo ${top_donate_command}
 
 👥Tops de Grupos:
 🗡Top de Grupos en incursiones de la semana ${top_group_raid_week_command}"""
@@ -58,3 +59,11 @@ Total de participantes: ${total_count}"""
 topWorldRaidResearchPosition = "${position}. ${personage_badge_with_name}: ${contribution} ${optional_reward}"
 topWorldRaidResearchReward = " +${money_icon}${reward}"
 topWorldRaidResearchEmpty = "Nadie ha contribuido todavía en la búsqueda de incursión"
+topDonateGroup = """\
+💰Top de donadores del grupo (<code>Temporada ${season_number}</code>):
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
+topDonatePosition = "${position}. ${personage_badge_with_name}: ${money_icon}${donate_money}"
+topDonateEmpty = "Aún nadie ha hecho donaciones en este grupo"

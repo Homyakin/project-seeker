@@ -61,7 +61,7 @@ public class PersonageEventService {
 
     private List<EventParticipant> getEventParticipants(long launchedEventId) {
         final var personageParams = personageEventDao.getPersonageParamsByLaunchedEvent(launchedEventId);
-        return personageService.getByIds(personageParams.keySet())
+        return personageService.getByIdsWithoutEnergyRegen(personageParams.keySet())
             .stream()
             .map(personage -> new EventParticipant(personage, personageParams.get(personage.id())))
             .toList();

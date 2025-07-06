@@ -90,7 +90,16 @@ public record Personage(
     }
 
     public Either<StillSame, Personage> updateStateIfNeed(LocalDateTime now) {
-        final var energyResult = energy.regenIfNeeded(now);
+        return updateStateIfNeed(now, true);
+    }
+
+    public Either<StillSame, Personage> updateStateIfNeed(LocalDateTime now, boolean regenEnergy) {
+        final Either<StillSame, Energy> energyResult;
+        if (regenEnergy) {
+            energyResult = energy.regenIfNeeded(now);
+        } else {
+            energyResult = Either.left(StillSame.INSTANCE);
+        }
         final var effectsResult = effects.expireIfNeeded(now);
 
         if (energyResult.isLeft() && effectsResult.isLeft()) {

@@ -101,7 +101,8 @@ public class RaidService {
         final var request = new AddPersonageToEventRequest(
             launchedEventId,
             personageId,
-            Optional.of(new RaidPersonageParams(checkEnergyResult.isLeft()))
+            Optional.of(new RaidPersonageParams(checkEnergyResult.isLeft())),
+            checkEnergyResult.isRight() ? config.energyCost() : 0
         );
 
         return personageEventService.addPersonageToLaunchedEvent(request)
