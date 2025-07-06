@@ -52,10 +52,10 @@
     ]
 
     [item.locales.ES]
-    name = "Licor de babas"
+    name = "Licor de slime"
     consumeTemplate = [
-        "Veo que <b>${personage_badge_with_name}</b> sabe de buen trago... ¡y de babas también!",
-        "Licor preparado con babas cazadas en los alrededores de Krezar. ¡Ni resaca al día siguiente! Aunque... de otros efectos no se salva nadie."
+        "Veo que <b>${personage_badge_with_name}</b> sabe de buen trago... ¡y de slimes también!",
+        "Licor preparado con slimes cazados en los alrededores de Krezar. ¡Ni resaca al día siguiente! Aunque... de otros efectos no se salva nadie."
     ]
 
 [[item]]
@@ -133,6 +133,13 @@
     consumeTemplate = [
         "Tincture of snake venom, you can not only drink it, but also rub it into your knees!",
         "The tavern is not responsible in case of partial transformation into stone. To your health!"
+    ]
+
+    [item.locales.ES]
+    name = "Tentación gorgónica"
+    consumeTemplate = [
+        "Tintura de veneno de serpiente: ¡puedes beberla o frotártela en las rodillas!",
+        "La taberna no se hace responsable si quedas hecho parcialmente una piedra. ¡Salud!"
     ]
 
 [[item]]
