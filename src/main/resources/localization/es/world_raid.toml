@@ -31,7 +31,7 @@ alreadyInRaid = "✅¡Ya estás dentro!"
 notEnoughEnergy = "❌¡No tienes suficiente energía!"
 mustBeInRegisteredGroup = "❌Tienes que pertenecer a un grupo registrado para participar en la incursión mundial."
 raidNotFound = "⚠️¡No se encontró ninguna incursión mundial activa!"
-groupNotification = "¡La incursión mundial ya comenzó! Más detalles aquí: ${channel}"
+groupNotification = "¡La incursión mundial comenzará en <code>${duration}</code>! Más detalles aquí: ${channel}"
 successBattle = """\
 ¡La incursión mundial terminó! Los enemigos fueron derrotados, ¡es hora de repartir el botín!
 

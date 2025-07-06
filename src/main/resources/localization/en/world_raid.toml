@@ -1,0 +1,66 @@
+worldRaidResearchEnd = """\
+World raid found! Top Seekers by contribution:
+
+${top_personage_list}"""
+worldRaidBattle = """\
+${world_raid_intro}
+
+Enemies: ${enemies_health}❤️ ${enemies_count}👹
+
+Fund: ${money_icon}${fund_value}
+
+Battle starts in: ${duration}
+While everyone is gathering, you can safely participate in other events.
+
+${optional_participants}"""
+endedWorldRaidBattle = """\
+${world_raid_intro}
+
+Enemies: ${enemies_health}❤️ ${enemies_count}👹
+
+Fund: ${money_icon}${fund_value}
+
+${optional_participants}
+"""
+worldRaidParticipants = """\
+Groups: ${group_tags}
+Participants: ${participants_count}"""
+joinWorldRaidButton = "Join🗡 ${energy_icon}${energy_cost}%"
+successJoin = "✅You are now participating in the world raid!"
+alreadyInRaid = "✅You are already participating!"
+notEnoughEnergy = "❌Not enough energy!"
+mustBeInRegisteredGroup = "❌You must be in a registered group to participate in the world raid!"
+raidNotFound = "⚠️No active world raid found!"
+groupNotification = "World raid will start in <code>${duration}</code>! Details here: ${channel}"
+successBattle = """\
+World raid completed! Enemies defeated, time to share the loot!
+
+${battle_result}
+
+Loot:
+${rarity_counts}
+
+You can view the result in your profile using <code>${raid_report_command}</code>"""
+rarityCount = "${rarity_icon} x ${count}"
+failedBattle = """\
+World raid completed! Seekers were defeated, but we still have a chance for revenge...
+
+Remaining enemies: ${enemies_health}❤️ ${enemies_count}👹
+
+${battle_result}
+
+You can view the result in your profile using <code>${raid_report_command}</code>"""
+battleResult = """\
+Best groups:
+${group_results}
+
+Best Seekers:
+${personage_results}"""
+
+groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+personageResult = "${dead_icon_or_empty}${personage_badge_with_name} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+personageWorldRaidReportNotFound = "You did not participate in the last world raid"
+groupWorldRaidReportNotFound = "The group did not participate in the last world raid"
+personageWorldRaidReport = """\
+📜Your world raid report:
+${personage_battle_report}""" 
