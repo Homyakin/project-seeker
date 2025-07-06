@@ -8,6 +8,7 @@ import java.util.Optional;
 public record AddPersonageToEventRequest(
     long launchedEventId,
     PersonageId personageId,
-    Optional<EventPersonageParams> personageParams
+    Optional<EventPersonageParams> personageParams,
+    int spentEnergy
 ) {
 }

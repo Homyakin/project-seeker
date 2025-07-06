@@ -57,7 +57,7 @@ public class JoinWorldRaidCommand {
             return Either.left(JoinWorldRaidError.NotEnoughEnergy.INSTANCE);
         }
         final var joinResult = personageEventService.addPersonageToLaunchedEvent(
-            new AddPersonageToEventRequest(launchedEventId, personageId, Optional.empty())
+            new AddPersonageToEventRequest(launchedEventId, personageId, Optional.empty(), config.requiredEnergy())
         );
         if (joinResult.isLeft()) {
             return Either.left(JoinWorldRaidError.NotFound.INSTANCE);
