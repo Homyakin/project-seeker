@@ -51,10 +51,10 @@ ${battle_result}
 
 Puedes ver el resultado en tu perfil con <code>${raid_report_command}</code>"""
 battleResult = """\
-Mejores grupos:
+Los mejores grupos:
 ${group_results}
 
-Mejores Exploradores:
+Los mejores Exploradores:
 ${personage_results}"""
 
 groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"

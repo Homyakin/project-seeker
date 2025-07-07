@@ -22,7 +22,7 @@ zeroParticipants = [
 personageRaidResult = "${dead_icon_or_empty}${raid_participant}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
 raidResult = """Enemigos: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
 
-Mejores Exploradores:
+Los mejores Exploradores:
 ${top_participants_list}${from_new_line_items_for_personages}
 
 Informe dLa incursión: ${raid_report_command}"""
