@@ -6,6 +6,7 @@ public enum EventStatus {
     FAILED(2),
     SUCCESS(3),
     CREATION_ERROR(4),
+    CANCELED(5),
     ;
 
     private final int id;

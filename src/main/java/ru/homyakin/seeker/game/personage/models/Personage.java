@@ -128,6 +128,13 @@ public record Personage(
             .map(this::copyWithEnergy);
     }
 
+    public Personage addEnergy(
+        LocalDateTime energyChangeTime,
+        int energyToAdd
+    ) {
+        return copyWithEnergy(energy.add(energyToAdd, energyChangeTime));
+    }
+
     public Either<NotEnoughMoney, Personage> resetStats() {
         if (money.lessThan(RESET_STATS_COST)) {
             return Either.left(new NotEnoughMoney(RESET_STATS_COST));

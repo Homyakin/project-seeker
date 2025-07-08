@@ -284,11 +284,21 @@ public class CommonLocalization {
     }
 
     private static String personageInEvent(Language language, CurrentEvent event) {
-        return switch (event.type()) {
+        final var text = switch (event.type()) {
             case RAID -> personageInRaid(language, event.endDate());
             case PERSONAL_QUEST -> personageInQuest(language, event.endDate());
             case WORLD_RAID -> personageInWorldRaid(language, event.endDate());
         };
+        final var params = new HashMap<String, Object>();
+        params.put("personage_in_event", text);
+        params.put(
+            "cancel_command",
+            CommandType.CANCEL_EVENT.getText() + TextConstants.TG_COMMAND_DELIMITER + event.id()
+        );
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInEvent),
+            params
+        );
     }
 
     private static String personageInRaid(Language language, LocalDateTime end) {
@@ -500,5 +510,23 @@ public class CommonLocalization {
             resources.getOrDefault(language, CommonResource::shortGroupBattleReport),
             params
         );
+    }
+
+    public static String cancelEventSuccess(Language language, int energy) {
+        final var params = new HashMap<String, Object>();
+        params.put("energy_value", energy);
+        params.put("energy_icon", Icons.ENERGY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::cancelEventSuccess),
+            params
+        );
+    }
+
+    public static String cancelEventNotFound(Language language) {
+        return resources.getOrDefault(language, CommonResource::cancelEventNotFound);
+    }
+
+    public static String cancelEventLocked(Language language) {
+        return resources.getOrDefault(language, CommonResource::cancelEventLocked);
     }
 }

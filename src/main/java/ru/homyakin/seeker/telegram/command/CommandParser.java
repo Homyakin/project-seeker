@@ -95,6 +95,7 @@ import ru.homyakin.seeker.telegram.command.user.world_raid.UserWorldRaidReport;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
+import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
 
 @Component
 public class CommandParser {
@@ -191,6 +192,7 @@ public class CommandParser {
                 case ENHANCE_INFO -> EnhanceInfo.from(message);
                 case ADD_MODIFIER -> AddModifier.from(message);
                 case REPAIR -> Repair.from(message);
+                case CANCEL_EVENT -> CancelEvent.from(message);
                 default -> null;
             });
     }

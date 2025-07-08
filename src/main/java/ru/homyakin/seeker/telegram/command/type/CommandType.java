@@ -53,6 +53,7 @@ public enum CommandType {
     BUY_ITEM("/buy", CheckType.STARTS_WITH),
     PUT_ON("/on", CheckType.STARTS_WITH),
     TAKE_OFF("/off", CheckType.STARTS_WITH),
+    CANCEL_EVENT("/ecancel", CheckType.STARTS_WITH),
     SETTINGS("/settings", CheckType.EQUALS),
     TOGGLE_EVENT_INTERVAL("toggleEventInterval", CheckType.STARTS_WITH),
     SET_TIME_ZONE("/set_time_zone", CheckType.STARTS_WITH),

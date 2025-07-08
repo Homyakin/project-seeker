@@ -18,4 +18,5 @@
     <include file="changes/2025-07-02_01_add-es-language.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-07-05_01_add-donate-stats.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-07-06_01_add-spent-energy-to-personage-to-event.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2025-07-08_01_add-canceled-event-status.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

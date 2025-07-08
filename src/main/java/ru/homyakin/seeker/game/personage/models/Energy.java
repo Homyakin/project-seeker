@@ -87,5 +87,17 @@ public record Energy(
         }
     }
 
+    public Energy add(int value, LocalDateTime changeTime) {
+        return regenIfNeeded(changeTime)
+            .fold(
+                _ -> new Energy(addOrMax(value), this.lastChange, this.totalFullRegenDuration),
+                energy -> new Energy(energy.addOrMax(value), energy.lastChange, this.totalFullRegenDuration)
+            );
+    }
+
+    private int addOrMax(int value) {
+        return Math.min(this.value + value, MAX_ENERGY);
+    }
+
     private static final int MAX_ENERGY = 100;
 }

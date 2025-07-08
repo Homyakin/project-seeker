@@ -78,7 +78,7 @@ public class RaidService {
             logger.warn("Personage {} tried to join to ended event {} in status {}", personageId, launchedEventId, launchedEvent.status());
             final var error = switch (launchedEvent.status()) {
                 case LAUNCHED -> throw new IllegalStateException("Ended event can't be in launched status");
-                case EXPIRED -> AddPersonageToRaidError.RaidInFinalStatus.ExpiredRaid.INSTANCE;
+                case EXPIRED, CANCELED -> AddPersonageToRaidError.RaidInFinalStatus.ExpiredRaid.INSTANCE;
                 case FAILED, SUCCESS -> new AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid(
                     raid.get(),
                     personageEventService.getRaidParticipants(launchedEventId)

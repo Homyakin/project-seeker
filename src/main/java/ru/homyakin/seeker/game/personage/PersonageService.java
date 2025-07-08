@@ -232,4 +232,17 @@ public class PersonageService {
     public long getActivePersonagesCount(LocalDateTime start) {
         return personageDao.getActivePersonagesCount(start);
     }
+
+    /**
+     * @return Возвращает добавленную энергию
+     */
+    public int addEnergy(PersonageId personageId, int energy) {
+        if (energy == 0) {
+            return 0;
+        }
+        final var personage = getByIdForce(personageId);
+        final var updated = personage.addEnergy(TimeUtils.moscowTime(), energy);
+        personageDao.update(updated);
+        return updated.energy().value() - personage.energy().value();
+    }
 }

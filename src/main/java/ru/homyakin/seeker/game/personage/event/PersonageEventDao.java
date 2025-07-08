@@ -54,6 +54,29 @@ public class PersonageEventDao {
             .collect(Collectors.toMap(Pair::first, Pair::second));
     }
 
+    public Optional<Integer> getSpentEnergy(PersonageId personageId, long launchedEventId) {
+        final var sql = """
+            SELECT spent_energy FROM personage_to_event
+            WHERE personage_id = :personage_id AND launched_event_id = :launched_event_id
+            """;
+        return jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .param("launched_event_id", launchedEventId)
+            .query((rs, _) -> rs.getInt("spent_energy"))
+            .optional();
+    }
+
+    public void delete(PersonageId personageId, long launchedEventId) {
+        final var sql = """
+            DELETE FROM personage_to_event
+            WHERE personage_id = :personage_id AND launched_event_id = :launched_event_id
+            """;
+        jdbcClient.sql(sql)
+            .param("personage_id", personageId.value())
+            .param("launched_event_id", launchedEventId)
+            .update();
+    }
+
     private Pair<PersonageId, Optional<EventPersonageParams>> mapRow(ResultSet rs, int rowNum) throws SQLException {
         return Pair.of(
             PersonageId.from(rs.getLong("personage_id")),

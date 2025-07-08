@@ -99,6 +99,10 @@ public class LaunchedEventService {
         launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.CREATION_ERROR);
     }
 
+    public void cancel(long launchedEventId) {
+        launchedEventDao.updateStatus(launchedEventId, EventStatus.CANCELED);
+    }
+
     public CurrentEvents getActiveEventsByPersonageId(PersonageId personageId) {
         return new CurrentEvents(launchedEventDao.getActiveEventsByPersonageId(personageId));
     }

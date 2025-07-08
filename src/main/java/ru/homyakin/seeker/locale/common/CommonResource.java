@@ -16,6 +16,7 @@ public record CommonResource(
     String menuItemEffect,
     String addValueEffect,
     String multiplyPercentEffect,
+    String personageInEvent,
     String personageInRaid,
     String personageInQuest,
     String personageInWorldRaid,
@@ -33,6 +34,9 @@ public record CommonResource(
     String personageGlobalStats,
     String personageBattleReport,
     String shortPersonageBattleReport,
-    String shortGroupBattleReport
+    String shortGroupBattleReport,
+    String cancelEventSuccess,
+    String cancelEventNotFound,
+    String cancelEventLocked
 ) {
 }

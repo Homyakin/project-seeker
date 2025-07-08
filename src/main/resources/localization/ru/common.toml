@@ -46,9 +46,15 @@ addValueEffect = "+${value}${characteristic_icon}"
 multiplyPercentEffect = "+${value}%${characteristic_icon}"
 minusMultiplyPercentEffect = "-${value}%${characteristic_icon}"
 
+personageInEvent = "${personage_in_event} ${cancel_command}"
+
 personageInRaid = "\nВ рейде ${time_icon}${duration}"
 personageInQuest = "\nВ квесте ${time_icon}${duration}"
 personageInWorldRaid = "\nВ мировом рейде ${time_icon}${duration}"
+
+cancelEventSuccess = "Ты возвращаешься в таверну и экномишь ${energy_icon}${energy_value}%"
+cancelEventNotFound = "Ты не участвуешь в этом событии"
+cancelEventLocked = "Событие уже в процессе, подожди немного."
 
 hoursShort = "ч."
 minutesShort = "мин."
@@ -152,4 +158,3 @@ ${health_icon}${remain_health}/${total_health}
 ${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
 ${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
 +${money_icon}${reward_value}"""
-
