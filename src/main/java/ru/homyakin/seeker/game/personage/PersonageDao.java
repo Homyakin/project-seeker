@@ -206,18 +206,6 @@ public class PersonageDao {
             .list();
     }
 
-    public void addEnergy(PersonageId personageId, int energy) {
-        final var sql = """
-            UPDATE personage
-            SET energy = energy + :energy
-            WHERE id = :id
-            """;
-        jdbcClient.sql(sql)
-            .param("id", personageId.value())
-            .param("energy", energy)
-            .update();
-    }
-
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Personage(
             PersonageId.from(rs.getLong("id")),
