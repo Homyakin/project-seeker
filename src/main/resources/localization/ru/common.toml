@@ -52,7 +52,7 @@ personageInRaid = "\nВ рейде ${time_icon}${duration}"
 personageInQuest = "\nВ квесте ${time_icon}${duration}"
 personageInWorldRaid = "\nВ мировом рейде ${time_icon}${duration}"
 
-cancelEventSuccess = "Ты возвращаешься в таверну и экномишь ${energy_icon}${energy_value}%"
+cancelEventSuccess = "Ты возвращаешься в таверну и экономишь ${energy_icon}${energy_value}%"
 cancelEventNotFound = "Ты не участвуешь в этом событии"
 cancelEventLocked = "Событие уже в процессе, подожди немного."
 
