@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.top;
 import java.util.Comparator;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v3.BattlePersonage;
 import ru.homyakin.seeker.game.group.action.personage.GetActiveGroupPersonagesCommand;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;

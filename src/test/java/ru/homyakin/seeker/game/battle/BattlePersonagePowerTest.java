@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.battle;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.homyakin.seeker.game.battle.v3.BattlePersonage;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -9,7 +10,6 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
-import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemEffect;
 
 import java.util.Collections;
 import java.util.Optional;

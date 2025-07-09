@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v3.BattlePersonage;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.item.models.Item;

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.battle.GroupBattleStats;
+import ru.homyakin.seeker.game.battle.v3.GroupBattleStats;
 import ru.homyakin.seeker.game.group.entity.GroupBattleResultStorage;
 import ru.homyakin.seeker.game.group.entity.SavedGroupBattleResult;
 import ru.homyakin.seeker.game.models.Money;

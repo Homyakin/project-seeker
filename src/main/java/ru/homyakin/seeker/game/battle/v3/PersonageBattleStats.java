@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.battle;
+package ru.homyakin.seeker.game.battle.v3;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.homyakin.seeker.game.personage.models.Characteristics;

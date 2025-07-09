@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.PersonageBattleStats;
+import ru.homyakin.seeker.game.battle.v3.PersonageBattleStats;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.BattleType;

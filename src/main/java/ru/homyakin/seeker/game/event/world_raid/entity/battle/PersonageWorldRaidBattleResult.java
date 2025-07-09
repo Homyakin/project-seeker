@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.event.world_raid.entity.battle;
 
-import ru.homyakin.seeker.game.battle.PersonageBattleStats;
+import ru.homyakin.seeker.game.battle.v3.PersonageBattleStats;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;

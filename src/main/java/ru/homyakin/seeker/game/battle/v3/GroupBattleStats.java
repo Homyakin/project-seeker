@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.battle;
+package ru.homyakin.seeker.game.battle.v3;
 
 public record GroupBattleStats(
     long remainHealth,

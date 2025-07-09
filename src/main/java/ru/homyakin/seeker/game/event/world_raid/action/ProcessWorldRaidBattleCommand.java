@@ -2,8 +2,8 @@ package ru.homyakin.seeker.game.event.world_raid.action;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.battle.PersonageBattleResult;
-import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
+import ru.homyakin.seeker.game.battle.v3.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.v3.two_team.TwoPersonageTeamsBattle;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;

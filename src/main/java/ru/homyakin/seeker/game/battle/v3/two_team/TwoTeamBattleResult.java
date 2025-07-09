@@ -1,6 +1,6 @@
-package ru.homyakin.seeker.game.battle.two_team;
+package ru.homyakin.seeker.game.battle.v3.two_team;
 
-import ru.homyakin.seeker.game.battle.TeamResult;
+import ru.homyakin.seeker.game.battle.v3.TeamResult;
 
 public record TwoTeamBattleResult(
     TwoTeamBattleWinner winner,

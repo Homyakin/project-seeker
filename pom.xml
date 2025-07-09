@@ -224,6 +224,12 @@
             <version>${commons-rng.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.5.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

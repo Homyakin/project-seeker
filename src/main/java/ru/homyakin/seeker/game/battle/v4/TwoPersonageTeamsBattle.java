@@ -1,23 +1,25 @@
-package ru.homyakin.seeker.game.battle.two_team;
+package ru.homyakin.seeker.game.battle.v4;
+
+import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.TeamResult;
-import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component
 public class TwoPersonageTeamsBattle {
+    private final RandomUtils randomUtils;
+
+    public TwoPersonageTeamsBattle(RandomUtils randomUtils) {
+        this.randomUtils = randomUtils;
+    }
 
     public TwoTeamBattleResult battle(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
         return new TwoTeamBattleResult(
-            process(firstTeam, secondTeam),
-            TeamResult.of(firstTeam),
-            TeamResult.of(secondTeam)
+            process(firstTeam, secondTeam)
         );
     }
 
@@ -33,7 +35,7 @@ public class TwoPersonageTeamsBattle {
             .collect(Collectors.toMap(BattlePersonage::id, it -> it));
         final Queue<Long> secondTeamAttackQueue = new LinkedList<>(secondTeam.stream().map(BattlePersonage::id).toList());
 
-        int teamTurn = RandomUtils.getInInterval(1, 2);
+        int teamTurn = randomUtils.getInIntervalNotStatic(1, 2);
         while (!firstAliveTeam.isEmpty() && !secondAliveTeam.isEmpty()) {
             final var activeAliveTeam = teamTurn == 1 ? firstAliveTeam : secondAliveTeam;
             final var activeTeamAttackQueue = teamTurn == 1 ? firstTeamAttackQueue : secondTeamAttackQueue;

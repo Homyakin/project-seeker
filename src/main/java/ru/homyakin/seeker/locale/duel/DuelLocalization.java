@@ -2,7 +2,7 @@ package ru.homyakin.seeker.locale.duel;
 
 import java.util.Collections;
 import java.util.HashMap;
-import ru.homyakin.seeker.game.battle.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.v3.PersonageBattleResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;

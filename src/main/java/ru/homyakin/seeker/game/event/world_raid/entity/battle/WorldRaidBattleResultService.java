@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.game.event.world_raid.entity.battle;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.GroupBattleResult;
-import ru.homyakin.seeker.game.battle.TeamResult;
+import ru.homyakin.seeker.game.battle.v3.GroupBattleResult;
+import ru.homyakin.seeker.game.battle.v3.TeamResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;

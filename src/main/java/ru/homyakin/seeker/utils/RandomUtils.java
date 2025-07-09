@@ -40,6 +40,13 @@ public class RandomUtils {
         return random.nextInt(start, end + 1);
     }
 
+    public int getInIntervalNotStatic(int start, int end) {
+        if (start >= end) {
+            return start;
+        }
+        return random.nextInt(start, end + 1);
+    }
+
     public static int getWithMax(int max) {
         return random.nextInt(max);
     }

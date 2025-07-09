@@ -2,10 +2,9 @@ package ru.homyakin.seeker.test_utils.battle;
 
 import java.util.List;
 
-import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.two_team.TwoPersonageTeamsBattle;
-import ru.homyakin.seeker.game.battle.two_team.TwoTeamBattleWinner;
-import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.battle.v3.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v3.two_team.TwoPersonageTeamsBattle;
+import ru.homyakin.seeker.game.battle.v3.two_team.TwoTeamBattleWinner;
 
 public class TwoPersonageTeamsBattleUtility {
     private static final int REPEAT = 10;

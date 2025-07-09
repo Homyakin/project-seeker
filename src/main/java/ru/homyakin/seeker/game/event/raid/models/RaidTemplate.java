@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v3.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
 import ru.homyakin.seeker.game.event.raid.generator.RaidBattlePersonageGenerator;
 import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;

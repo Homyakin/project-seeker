@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.event.models;
 
-import ru.homyakin.seeker.game.battle.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.v3.PersonageBattleResult;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
