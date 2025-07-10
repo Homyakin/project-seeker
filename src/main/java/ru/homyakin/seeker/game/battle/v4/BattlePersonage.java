@@ -17,7 +17,7 @@ public class BattlePersonage implements Cloneable {
         int damage = (int) (
             attack
                 * randomizeAttackBonus()
-                //* critMultiplier()
+                * critMultiplier()
         );
         enemy.takeDamage(damage);
     }
@@ -56,6 +56,6 @@ public class BattlePersonage implements Cloneable {
     }
 
     private static final int CRIT_CHANCE = 20;
-    private static final double CRIT_MULTIPLIER = 1.5;
+    private static final double CRIT_MULTIPLIER = 2;
     private static final int ATTACK_RND = 20;
 }

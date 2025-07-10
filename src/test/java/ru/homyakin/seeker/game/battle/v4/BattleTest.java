@@ -25,7 +25,7 @@ public class BattleTest {
         when(randomUtils.getInIntervalNotStatic(1, 2)).thenReturn(1);
         List<Double> winrates = calcFirstTeamWinrates();
         writeHistogramPng(
-            "Процент побед первой команды (100хп, 20атк), рандом атаки +-20%",
+            "Процент побед первой команды (100хп, 10атк), кш 20%, ку 2, rnd +-20%",
             winrates,
             "first_team_first_histogram.png"
         );
