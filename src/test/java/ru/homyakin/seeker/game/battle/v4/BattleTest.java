@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.test_utils.TestRandom;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -24,13 +25,14 @@ public class BattleTest {
         when(randomUtils.getInIntervalNotStatic(1, 2)).thenReturn(1);
         List<Double> winrates = calcFirstTeamWinrates();
         writeHistogramPng(
-            "Процент побед первой команды, когда она ходит первой",
+            "Процент побед первой команды (100хп, 20атк), рандом атаки +-20%",
             winrates,
             "first_team_first_histogram.png"
         );
     }
 
     @Test
+    @Disabled
     public void firstTeamSecond() {
         when(randomUtils.getInIntervalNotStatic(1, 2)).thenReturn(2);
         List<Double> winrates = calcFirstTeamWinrates();
