@@ -25,7 +25,7 @@ public class BattleTest {
         when(randomUtils.getInIntervalNotStatic(1, 2)).thenReturn(1);
         List<Double> winrates = calcFirstTeamWinrates();
         writeHistogramPng(
-            "Процент побед первой команды (100хп, 10атк), кш 20%, ку 2, rnd +-20%",
+            "Процент побед (100хп, 10атк) 5 скорости VS 10 скорости",
             winrates,
             "first_team_first_histogram.png"
         );
@@ -46,8 +46,22 @@ public class BattleTest {
     private List<Double> calcFirstTeamWinrates() {
         final var firstTeamWinrates = new ArrayList<Double>();
         for (int i = 0; i < EXPERIMENTS; i++) {
-            final var team1 = generateEqualTeam(1);
-            final var team2 = generateEqualTeam(1);
+            final var team1 = List.of(
+                new BattlePersonage(
+                    TestRandom.nextLong(),
+                    100,
+                    10,
+                    10
+                )
+            );
+            final var team2 = List.of(
+                new BattlePersonage(
+                    TestRandom.nextLong(),
+                    100,
+                    20,
+                    20
+                )
+            );
             int firstTeamWins = 0;
             for (int j = 0; j < EXPERIMENT_ITERATIONS; j++) {
                 final var firstTeam = team1.stream().map(BattlePersonage::clone).toList();
@@ -94,7 +108,8 @@ public class BattleTest {
                 new BattlePersonage(
                     TestRandom.nextLong(),
                     100,
-                    10
+                    10,
+                    5
                 )
             );
         }

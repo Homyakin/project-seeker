@@ -6,11 +6,13 @@ public class BattlePersonage implements Cloneable {
     private final long id;
     private int health;
     private int attack;
+    private int speed;
 
-    public BattlePersonage(long id, int health, int attack) {
+    public BattlePersonage(long id, int health, int attack, int speed) {
         this.id = id;
         this.health = health;
         this.attack = attack;
+        this.speed = speed;
     }
 
     public void dealDamageToPersonage(BattlePersonage enemy) {
@@ -46,13 +48,17 @@ public class BattlePersonage implements Cloneable {
         return id;
     }
 
+    public int speed() {
+        return speed;
+    }
+
     public boolean isDead() {
         return health <= 0;
     }
 
     @Override
     public BattlePersonage clone() {
-        return new BattlePersonage(id, health, attack);
+        return new BattlePersonage(id, health, attack, speed);
     }
 
     private static final int CRIT_CHANCE = 20;
