@@ -61,7 +61,7 @@ public class BattlePersonage implements Cloneable {
         return new BattlePersonage(id, health, attack, speed);
     }
 
-    private static final int CRIT_CHANCE = 20;
-    private static final double CRIT_MULTIPLIER = 2;
-    private static final int ATTACK_RND = 20;
+    private static final int CRIT_CHANCE = 10;
+    private static final double CRIT_MULTIPLIER = 1.5;
+    private static final int ATTACK_RND = 10;
 }

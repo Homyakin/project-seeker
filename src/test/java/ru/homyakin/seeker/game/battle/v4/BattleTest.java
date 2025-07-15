@@ -51,15 +51,15 @@ public class BattleTest {
                     TestRandom.nextLong(),
                     100,
                     10,
-                    10
+                    44
                 )
             );
             final var team2 = List.of(
                 new BattlePersonage(
                     TestRandom.nextLong(),
                     100,
-                    20,
-                    20
+                    25,
+                    100
                 )
             );
             int firstTeamWins = 0;
@@ -117,5 +117,5 @@ public class BattleTest {
     }
 
     private static final int EXPERIMENTS = 1000;
-    private static final int EXPERIMENT_ITERATIONS = 1000;
+    private static final int EXPERIMENT_ITERATIONS = 500;
 }

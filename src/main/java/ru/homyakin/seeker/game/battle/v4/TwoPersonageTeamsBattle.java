@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.models.Pair;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TwoPersonageTeamsBattle {
+    private static final Logger logger = LoggerFactory.getLogger(TwoPersonageTeamsBattle.class);
     private final RandomUtils randomUtils;
 
     public TwoPersonageTeamsBattle(RandomUtils randomUtils) {
@@ -38,6 +41,7 @@ public class TwoPersonageTeamsBattle {
 
         while (!firstAliveTeam.isEmpty() && !secondAliveTeam.isEmpty()) {
             final var nextAttacker = getNextAttacker(speedQueue, firstAliveTeam, secondAliveTeam);
+            //logger.info("Next attacker: {}, {}", nextAttacker.first().id(), nextAttacker.second());
 
             final var enemyTeam = nextAttacker.second() ? secondAliveTeam : firstAliveTeam;
             
@@ -89,6 +93,13 @@ public class TwoPersonageTeamsBattle {
             }
         } while (personage.isDead());
 
+        if (prev != null && prev.equals(nextEntry.key.personageId)) {
+            prevCount++;
+        } else {
+            prev = nextEntry.key.personageId();
+            prevCount = 1;
+        }
+
         // Reduce all other personages' speed by the attacker's speed
         for (final var entry : speedQueue) {
             entry.currentSpeed -= nextEntry.currentSpeed;
@@ -100,6 +111,9 @@ public class TwoPersonageTeamsBattle {
         
         return Pair.of(personage, nextEntry.key.firstTeam());
     }
+
+    private Long prev = null;
+    private int prevCount = 0;
 
     private void insertInCorrectPosition(LinkedList<SpeedQueueEntry> speedQueue, SpeedQueueEntry newEntry) {
         int insertIndex = 0;
