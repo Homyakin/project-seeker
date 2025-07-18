@@ -60,3 +60,17 @@ description = "Первые Группы"
 
 [badge.locales.ES]
 description = "Primeros Grupos"
+
+[[badge]]
+code = "feedback"
+
+[badge.locales.RU]
+description = "Активная обратную связь"
+
+[[badge]]
+code = "contribute"
+
+[badge.locales.RU]
+description = "Вклад в развитие таверны"
+
+
