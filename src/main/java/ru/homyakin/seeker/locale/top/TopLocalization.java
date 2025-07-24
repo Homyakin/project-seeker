@@ -16,6 +16,8 @@ import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
+import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
+import ru.homyakin.seeker.game.top.models.TopTavernSpentResult;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
@@ -79,6 +81,7 @@ public class TopLocalization {
         params.put("top_group_raid_week_command", CommandType.TOP_GROUP_RAID_WEEK.getText());
         params.put("top_power_personage_command", CommandType.TOP_POWER_GROUP.getText());
         params.put("top_donate_command", CommandType.TOP_DONATE.getText());
+        params.put("top_tavern_spent_command", CommandType.TOP_TAVERN_SPENT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topList),
             params
@@ -248,5 +251,30 @@ public class TopLocalization {
 
     public static String topDonateEmpty(Language language) {
         return resources.getOrDefault(language, TopResource::topDonateEmpty);
+    }
+
+    public static String topTavernSpentGroup(Language language, PersonageId requestedPersonageId, TopTavernSpentResult result) {
+        final var params = new HashMap<String, Object>();
+        final var topPersonageList = TopUtils.createTwoSideTopList(language, requestedPersonageId, result);
+        params.put("top_personage_list", topPersonageList);
+        params.put("total_count", result.positions().size());
+        params.put("season_number", result.seasonNumber().value());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topTavernSpentGroup),
+            params
+        );
+    }
+
+    public static String topTavernSpentPosition(Language language, int positionNumber, TopTavernSpentPosition position) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
+        params.put("tavern_money_spent", position.tavernMoneySpent());
+        params.put("money_icon", Icons.MONEY);
+        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topTavernSpentPosition), params);
+    }
+
+    public static String topTavernSpentEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topTavernSpentEmpty);
     }
 }

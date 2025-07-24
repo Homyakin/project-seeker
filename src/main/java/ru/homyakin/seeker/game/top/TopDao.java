@@ -21,6 +21,7 @@ import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.utils.DatabaseUtils;
+import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
 
 @Component
 public class TopDao {
@@ -126,6 +127,14 @@ public class TopDao {
             .list();
     }
 
+    public List<TopTavernSpentPosition> getUnsortedTopTavernSpentGroup(GroupId groupId, int seasonNumber) {
+        return jdbcClient.sql(TOP_TAVERN_SPENT_GROUP)
+            .param("pgroup_id", groupId.value())
+            .param("season_number", seasonNumber)
+            .query(this::mapTavernSpentPosition)
+            .list();
+    }
+
     private TopWorldRaidResearchPosition mapWorldRaidResearchPosition(ResultSet rs, int rowNum) throws SQLException {
         return new TopWorldRaidResearchPosition(
             PersonageId.from(rs.getLong("personage_id")),
@@ -176,6 +185,16 @@ public class TopDao {
             rs.getString("name"),
             rs.getInt("success_count"),
             rs.getInt("fail_count")
+        );
+    }
+
+    private TopTavernSpentPosition mapTavernSpentPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new TopTavernSpentPosition(
+            PersonageId.from(rs.getLong("personage_id")),
+            rs.getString("personage_name"),
+            BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("pgroup_member_tag")),
+            rs.getLong("tavern_money_spent")
         );
     }
 
@@ -265,4 +284,24 @@ public class TopDao {
         LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE pab.is_active = true
         """;
+
+    private static final String TOP_TAVERN_SPENT_GROUP = """
+        WITH personage_tavern_spent AS (
+            SELECT personage_id, tavern_money_spent
+            FROM season_pgroup_personage_stats
+            WHERE pgroup_id = :pgroup_id AND season_number = :season_number
+        )
+        SELECT
+            p.id as personage_id,
+            p.name personage_name,
+            b.code badge_code,
+            pts.tavern_money_spent,
+            pg.tag as pgroup_member_tag
+        FROM personage p
+        INNER JOIN personage_tavern_spent pts ON p.id = pts.personage_id
+        LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
+        LEFT JOIN public.badge b on b.id = pab.badge_id
+        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
+        WHERE pab.is_active = true
+    """;
 }

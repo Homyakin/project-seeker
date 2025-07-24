@@ -18,6 +18,8 @@ import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
+import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
+import ru.homyakin.seeker.game.top.models.TopTavernSpentResult;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -96,5 +98,12 @@ public class TopService {
         final var top = topDao.getUnsortedTopWorldRaidResearch();
         top.sort(Comparator.comparingInt(PersonageTopPosition::score).reversed());
         return new TopWorldRaidResearchResult(top);
+    }
+
+    public TopTavernSpentResult getTopTavernSpentGroup(GroupId groupId) {
+        final var currentSeason = seasonService.currentSeason();
+        final var top = topDao.getUnsortedTopTavernSpentGroup(groupId, currentSeason.value());
+        top.sort(Comparator.comparingLong(TopTavernSpentPosition::tavernMoneySpent).reversed());
+        return new TopTavernSpentResult(top, currentSeason);
     }
 }

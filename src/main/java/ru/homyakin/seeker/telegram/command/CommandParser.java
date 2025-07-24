@@ -96,6 +96,7 @@ import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
+import ru.homyakin.seeker.telegram.command.group.top.TopTavernSpent;
 
 @Component
 public class CommandParser {
@@ -215,6 +216,7 @@ public class CommandParser {
                 case TOP_RAID_WEEK_GROUP -> TopRaidWeekGroup.from(message);
                 case TOP -> TopList.from(message);
                 case TOP_DONATE -> TopDonate.from(message);
+                case TOP_TAVERN_SPENT -> TopTavernSpent.from(message);
                 case SETTINGS -> GetGroupSettings.from(message);
                 case SET_TIME_ZONE -> SetTimeZone.from(message);
                 case THROW_ORDER -> ThrowOrder.from(message);
