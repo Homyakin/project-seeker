@@ -255,7 +255,7 @@ public class TopLocalization {
 
     public static String topTavernSpentGroup(Language language, PersonageId requestedPersonageId, TopTavernSpentResult result) {
         final var params = new HashMap<String, Object>();
-        final var topPersonageList = TopUtils.createTwoSideTopList(language, requestedPersonageId, result);
+        final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, result);
         params.put("top_personage_list", topPersonageList);
         params.put("total_count", result.positions().size());
         params.put("season_number", result.seasonNumber().value());
