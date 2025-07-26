@@ -329,6 +329,7 @@ public class TopDao {
         FROM pgroup p
         LEFT JOIN badge b ON p.active_badge_id = b.id
         WHERE p.is_hidden = false AND p.raid_level > 0
+        AND tag is not null
         ORDER BY p.raid_level DESC
     """;
 }
