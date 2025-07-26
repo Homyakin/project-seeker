@@ -17,7 +17,7 @@ topGroupRaidWeek = """\
 ${top_group_list}
 
 Всего групп: ${total_count}"""
-topGroupRaidPosition = "${position}. ${group_badge_with_name}: ${success_raids}/${all_raids}"
+topGroupRaidPosition = "${position}. ${group_badge_with_name}: ${success_raids}/${all_raids} (${raid_points} 🏆)"
 topRaidEmpty = "Никто не участвовал в рейдах за выбранный период"
 topList = """\
 📊Список топов доступных к просмотру:
@@ -31,7 +31,8 @@ topList = """\
 🍻Топ Завсегдатаев группы ${top_tavern_spent_command}
 
 👥Топы Групп:
-🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}"""
+🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}
+🏆Топ Групп по максимальному уровню рейда ${top_group_raid_level_command}"""
 topWorkerOfDayEmpty = "Никто ещё не был назначен работягой в этой группе."
 topWorkerOfDayGroup = """\
 ⚒Топ работяг в группе за всё время:
@@ -76,3 +77,12 @@ ${top_personage_list}
 Всего участников: ${total_count}"""
 topTavernSpentPosition = "${position}. ${personage_badge_with_name}: ${money_icon}${tavern_money_spent}"
 topTavernSpentEmpty = "Пока никто не тратил деньги в таверне в этой группе"
+
+topGroupRaidLevel = """\
+🏆Топ Групп по максимальному уровню рейда:
+
+${top_group_list}
+
+Всего групп: ${total_count}"""
+topGroupRaidLevelPosition = "${position}. ${group_badge_with_name}: ${raid_level}"
+topRaidLevelEmpty = "Пока нет групп с рейдами"

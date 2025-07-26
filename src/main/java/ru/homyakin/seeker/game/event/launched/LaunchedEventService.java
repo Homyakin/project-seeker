@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaid;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
+import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 
 @Service
 public class LaunchedEventService {
@@ -32,8 +33,14 @@ public class LaunchedEventService {
         this.config = config;
     }
 
-    public LaunchedEvent createLaunchedEventFromRaid(Raid raid, LocalDateTime start, GroupId groupId) {
-        final var id = launchedEventDao.save(raid.eventId(), start, start.plus(config.raidDuration()));
+    public LaunchedEvent createLaunchedEventFromRaid(Raid raid, LocalDateTime start, GroupId groupId, int raidLevel) {
+        final var raidParams = new RaidParams(raidLevel, 0);
+        final var id = launchedEventDao.save(
+            raid.eventId(),
+            start,
+            start.plus(config.raidDuration()),
+            Optional.of(raidParams)
+        );
         launchedEventGroupDao.save(id, groupId);
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
@@ -60,17 +67,25 @@ public class LaunchedEventService {
         return launchedEventDao.getById(launchedEventId);
     }
 
-    public void updateResult(LaunchedEvent launchedEvent, EventResult.RaidResult raidResult) {
-        launchedEventDao.updateStatus(
-            launchedEvent.id(),
-            switch (raidResult) {
-                case EventResult.RaidResult.Completed completed -> switch (completed.status()) {
-                    case SUCCESS -> EventStatus.SUCCESS;
-                    case FAILURE -> EventStatus.FAILED;
-                };
-                case EventResult.RaidResult.Expired _ -> EventStatus.EXPIRED;
-            }
-        );
+    public void updateResult(LaunchedRaidEvent event, EventResult.RaidResult raidResult) {
+        // Обновляем статус события
+        final var status = switch (raidResult) {
+            case EventResult.RaidResult.Completed completed -> switch (completed.status()) {
+                case SUCCESS -> EventStatus.SUCCESS;
+                case FAILURE -> EventStatus.FAILED;
+            };
+            case EventResult.RaidResult.Expired _ -> EventStatus.EXPIRED;
+        };
+
+        if (raidResult instanceof EventResult.RaidResult.Completed completed) {
+            launchedEventDao.updateStatusAndEventParams(
+                event.id(),
+                status,
+                event.raidParams().withPoints(completed.points())
+            );
+        } else {
+            launchedEventDao.updateStatus(event.id(), status);
+        }
     }
 
     public void updateResult(LaunchedEvent launchedEvent, PersonalQuestResult result) {
@@ -95,8 +110,8 @@ public class LaunchedEventService {
         );
     }
 
-    public void creationError(LaunchedEvent launchedEvent) {
-        launchedEventDao.updateStatus(launchedEvent.id(), EventStatus.CREATION_ERROR);
+    public void creationError(long launchedEventId) {
+        launchedEventDao.updateStatus(launchedEventId, EventStatus.CREATION_ERROR);
     }
 
     public void cancel(long launchedEventId) {

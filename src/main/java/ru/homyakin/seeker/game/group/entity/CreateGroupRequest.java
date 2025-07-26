@@ -8,6 +8,7 @@ public record CreateGroupRequest(
     LocalDateTime initDate,
     LocalDateTime nextEventDate,
     LocalDateTime nextRumorDate,
-    GroupSettings settings
+    GroupSettings settings,
+    int raidLevel
 ) {
 }

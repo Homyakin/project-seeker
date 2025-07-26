@@ -15,7 +15,8 @@ public record Group(
     String name,
     BadgeView badge,
     boolean isActive,
-    GroupSettings settings
+    GroupSettings settings,
+    int raidLevel
 ) {
     public Either<ZeroEnabledEventIntervalsError, Group> toggleEventInterval(int intervalIndex) {
         return settings.toggleEventInterval(intervalIndex).map(this::copyWithSettings);
@@ -46,7 +47,7 @@ public record Group(
     }
 
     private Group copyWithSettings(GroupSettings settings) {
-        return new Group(id, tag, name, badge, isActive, settings);
+        return new Group(id, tag, name, badge, isActive, settings, raidLevel);
     }
 
     private Either<StillSame, Group> changeActive(boolean newActive) {
@@ -57,7 +58,8 @@ public record Group(
                 name,
                 badge,
                 newActive,
-                settings
+                settings,
+                raidLevel
             );
             return Either.right(group);
         }

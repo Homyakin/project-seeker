@@ -13,17 +13,12 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.utils.JsonUtils;
 
 @Component
 public class LaunchedEventDao {
     private static final String GET_LAUNCHED_EVENT_BY_ID = """
         SELECT * FROM launched_event WHERE id = :id
-        """;
-    private static final String GET_ACTIVE_EVENTS_BY_PERSONAGE_ID = """
-        SELECT * FROM personage_to_event pe
-         LEFT JOIN launched_event le on pe.launched_event_id = le.id
-         WHERE pe.personage_id = :personage_id
-         AND le.status_id = :status_id
         """;
     private static final String GET_ACTIVE_EVENTS_WITH_LESS_END_DATE = """
         SELECT * FROM launched_event WHERE end_date <= :end_date AND status_id = :status_id;
@@ -33,35 +28,56 @@ public class LaunchedEventDao {
         set status_id = :status_id
         where id = :id;
         """;
+    private static final String UPDATE_STATUS_AND_EVENT_PARAMS = """
+        update launched_event
+        set status_id = :status_id, event_params = :event_params
+        where id = :id;
+        """;
     private final JdbcClient jdbcClient;
     private final SimpleJdbcInsert jdbcInsert;
+    private final JsonUtils jsonUtils;
 
-    public LaunchedEventDao(DataSource dataSource) {
+    public LaunchedEventDao(DataSource dataSource, JsonUtils jsonUtils) {
         jdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("launched_event")
             .usingColumns(
                 "event_id",
                 "start_date",
                 "end_date",
-                "status_id"
+                "status_id",
+                "event_params"
             )
             .usingGeneratedKeyColumns("id");
         jdbcClient = JdbcClient.create(dataSource);
+        this.jsonUtils = jsonUtils;
     }
 
     public long save(int eventId, LocalDateTime start, LocalDateTime end) {
-        return save(eventId, start, end, EventStatus.LAUNCHED);
+        return save(eventId, start, end, EventStatus.LAUNCHED, Optional.empty());
     }
 
     public long save(int eventId, LocalDateTime start, LocalDateTime end, EventStatus status) {
+        return save(eventId, start, end, status, Optional.empty());
+    }
+
+    public long save(int eventId, LocalDateTime start, LocalDateTime end, Optional<EventParams> eventParams) {
+        return save(eventId, start, end, EventStatus.LAUNCHED, eventParams);
+    }
+
+    public long save(
+        int eventId,
+        LocalDateTime start,
+        LocalDateTime end,
+        EventStatus status,
+        Optional<EventParams> eventParams
+    ) {
         final var params = new HashMap<String, Object>();
         params.put("event_id", eventId);
         params.put("start_date", start);
         params.put("end_date", end);
         params.put("status_id", status.id());
-        return jdbcInsert.executeAndReturnKey(
-            params
-        ).longValue();
+        params.put("event_params", eventParams.map(jsonUtils::mapToPostgresJson).orElse(null));
+        return jdbcInsert.executeAndReturnKey(params).longValue();
     }
 
     public Optional<LaunchedEvent> getById(Long launchedEventId) {
@@ -109,6 +125,14 @@ public class LaunchedEventDao {
             .update();
     }
 
+    public void updateStatusAndEventParams(Long launchedEventId, EventStatus status, EventParams eventParams) {
+        jdbcClient.sql(UPDATE_STATUS_AND_EVENT_PARAMS)
+            .param("id", launchedEventId)
+            .param("status_id", status.id())
+            .param("event_params", jsonUtils.mapToPostgresJson(eventParams))
+            .update();
+    }
+
     public int countFailedPersonalQuestsRowForPersonage(PersonageId personageId) {
         final var sql = """
             WITH last_success AS (
@@ -145,7 +169,9 @@ public class LaunchedEventDao {
             rs.getInt("event_id"),
             rs.getTimestamp("start_date").toLocalDateTime(),
             rs.getTimestamp("end_date").toLocalDateTime(),
-            EventStatus.findById(rs.getInt("status_id"))
+            EventStatus.findById(rs.getInt("status_id")),
+            Optional.ofNullable(rs.getString("event_params"))
+                .map(it -> jsonUtils.fromString(it, EventParams.class))
         );
     }
 }

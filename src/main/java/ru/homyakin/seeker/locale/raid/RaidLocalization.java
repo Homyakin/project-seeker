@@ -218,6 +218,15 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::lastGroupRaidReportNotFound);
     }
 
+    public static String raidLevel(Language language, Integer raidLevel) {
+        final var params = new HashMap<String, Object>();
+        params.put("raid_level", raidLevel);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, RaidResource::raidLevel),
+            params
+        );
+    }
+
     private static final Comparator<PersonageRaidResult> resultComparator = Comparator.<PersonageRaidResult>comparingLong(
         result -> result.stats().damageDealtAndTaken()
     ).reversed();

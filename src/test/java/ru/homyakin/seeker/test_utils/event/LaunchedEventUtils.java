@@ -7,6 +7,7 @@ import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 import java.time.Duration;
+import java.util.Optional;
 
 public class LaunchedEventUtils {
     public static LaunchedEvent withId(int id) {
@@ -16,7 +17,8 @@ public class LaunchedEventUtils {
             TestRandom.nextInt(),
             now,
             now.plus(Duration.ofSeconds(RandomUtils.getInInterval(3601, 7199))),
-            EventStatus.LAUNCHED
+            EventStatus.LAUNCHED,
+            Optional.empty()
         );
     }
 
@@ -27,7 +29,8 @@ public class LaunchedEventUtils {
             eventId,
             now,
             now.plus(Duration.ofSeconds(RandomUtils.getInInterval(3601, 7199))),
-            EventStatus.LAUNCHED
+            EventStatus.LAUNCHED,
+            Optional.empty()
         );
     }
 
@@ -38,7 +41,8 @@ public class LaunchedEventUtils {
             eventId,
             now.minus(Duration.ofSeconds(RandomUtils.getInInterval(3601, 7199))),
             now,
-            EventStatus.EXPIRED
+            EventStatus.EXPIRED,
+            Optional.empty()
         );
     }
 }

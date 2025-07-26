@@ -35,9 +35,9 @@ public class GroupStatsService {
     public void updateRaidStats(GroupId groupId, EventResult.RaidResult.Completed raidResult) {
         final var season = seasonService.currentSeason();
         if (raidResult.status() == EventResult.RaidResult.Completed.Status.SUCCESS) {
-            storage.add(GroupStats.withSuccessRaid(season, groupId));
+            storage.add(GroupStats.withSuccessRaid(season, groupId, raidResult.points()));
         } else {
-            storage.add(GroupStats.withFailedRaid(season, groupId));
+            storage.add(GroupStats.withFailedRaid(season, groupId, raidResult.points()));
         }
         raidResult.personageResults().forEach(
             personageResult -> {

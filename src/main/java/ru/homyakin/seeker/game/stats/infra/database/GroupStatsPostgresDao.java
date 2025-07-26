@@ -44,7 +44,8 @@ public class GroupStatsPostgresDao implements GroupStatsStorage {
              duels_complete,
              tavern_money_spent,
              world_raids_success,
-             world_raids_total
+             world_raids_total,
+             raid_points
             )
             VALUES (
             :season_number,
@@ -54,7 +55,8 @@ public class GroupStatsPostgresDao implements GroupStatsStorage {
             :duels_complete,
             :tavern_money_spent,
             :world_raids_success,
-            :world_raids_total
+            :world_raids_total,
+            :raid_points
             )
             ON CONFLICT (season_number, pgroup_id) DO UPDATE SET
             raids_success = season_pgroup_stats.raids_success + :raids_success,
@@ -62,7 +64,8 @@ public class GroupStatsPostgresDao implements GroupStatsStorage {
             duels_complete = season_pgroup_stats.duels_complete + :duels_complete,
             tavern_money_spent = season_pgroup_stats.tavern_money_spent + :tavern_money_spent,
             world_raids_success = season_pgroup_stats.world_raids_success + :world_raids_success,
-            world_raids_total = season_pgroup_stats.world_raids_total + :world_raids_total
+            world_raids_total = season_pgroup_stats.world_raids_total + :world_raids_total,
+            raid_points = season_pgroup_stats.raid_points + :raid_points
             """;
         jdbcClient.sql(sql)
             .param("season_number", stats.seasonNumber().value())
@@ -71,8 +74,9 @@ public class GroupStatsPostgresDao implements GroupStatsStorage {
             .param("raids_total", stats.raidsTotal())
             .param("duels_complete", stats.duelsComplete())
             .param("tavern_money_spent", stats.tavernMoneySpent())
-            .param("world_raids_success", stats.worldRaidsTotal())
+            .param("world_raids_success", stats.worldRaidsSuccess())
             .param("world_raids_total", stats.worldRaidsTotal())
+            .param("raid_points", stats.raidPoints())
             .update();
     }
 
@@ -85,7 +89,8 @@ public class GroupStatsPostgresDao implements GroupStatsStorage {
             rs.getInt("duels_complete"),
             rs.getLong("tavern_money_spent"),
             rs.getInt("world_raids_success"),
-            rs.getInt("world_raids_total")
+            rs.getInt("world_raids_total"),
+            rs.getInt("raid_points")
         );
     }
 }

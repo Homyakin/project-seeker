@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-raid-level-and-event-params">
+        <addColumn tableName="pgroup">
+            <column name="raid_level" type="INT" defaultValueNumeric="10">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="launched_event">
+            <column name="event_params" type="jsonb">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="season_pgroup_stats">
+            <column name="raid_points" defaultValue="0" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog> 

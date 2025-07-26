@@ -25,7 +25,8 @@ public sealed interface EventResult {
             Raid raid,
             List<PersonageBattleResult> raidNpcResults,
             List<PersonageRaidResult> personageResults,
-            List<GeneratedItemResult> generatedItemResults
+            List<GeneratedItemResult> generatedItemResults,
+            int points
         ) implements RaidResult {
             public enum Status {
                 SUCCESS,

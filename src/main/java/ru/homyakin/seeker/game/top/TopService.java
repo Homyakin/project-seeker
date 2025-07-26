@@ -8,6 +8,8 @@ import ru.homyakin.seeker.game.group.action.personage.GetActiveGroupPersonagesCo
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.season.action.SeasonService;
+import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
+import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
 import ru.homyakin.seeker.game.top.models.PersonageTopPosition;
@@ -105,5 +107,11 @@ public class TopService {
         final var top = topDao.getUnsortedTopTavernSpentGroup(groupId, currentSeason.value());
         top.sort(Comparator.comparingLong(TopTavernSpentPosition::tavernMoneySpent).reversed());
         return new TopTavernSpentResult(top, currentSeason);
+    }
+
+    public GroupTopRaidLevelResult getGroupTopRaidLevel() {
+        final var top = topDao.getUnsortedGroupTopRaidLevel();
+        top.sort(Comparator.comparingInt(GroupTopRaidLevelPosition::raidLevel).reversed());
+        return new GroupTopRaidLevelResult(top);
     }
 }

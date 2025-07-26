@@ -67,6 +67,7 @@ groupStats = """\
 <code>Сезон ${season_number}</code>
 
 🗡Успешные рейды: ${raids_success}/${raids_total}
+🏆Очки за рейды: ${raid_points}
 🤺Завершено дуэлей: ${duels_count}
 🗡Мировые рейды: ${world_raids_success}/${world_raids_total}
 

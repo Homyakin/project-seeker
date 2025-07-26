@@ -219,7 +219,8 @@ public class PersonalQuestServiceTakeQuestTest {
         quest.eventId(),
         TimeUtils.moscowTime(),
         TimeUtils.moscowTime().plusMinutes(5),
-        EventStatus.LAUNCHED
+        EventStatus.LAUNCHED,
+        Optional.empty()
     );
     private final int REQUIRED_ENERGY = 20;
 }

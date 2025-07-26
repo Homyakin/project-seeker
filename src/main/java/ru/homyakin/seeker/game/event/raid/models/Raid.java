@@ -39,11 +39,13 @@ public record Raid(
         return toBaseMessage(language) + "\n\n" + RaidLocalization.raidParticipants(language, participants);
     }
 
-    public String toStartMessage(Language language, LocalDateTime startDate, LocalDateTime endDate) {
+    public String toStartMessage(Language language, LocalDateTime startDate, LocalDateTime endDate, int raidLevel) {
         final var endDateText = endDateText(language, startDate, endDate);
+        final var baseMessage = toBaseMessage(language);
+        final var levelText = "\n\n" + RaidLocalization.raidLevel(language, raidLevel);
         return endDateText
-            .map(s -> toBaseMessage(language) + "\n\n" + s)
-            .orElseGet(() -> toBaseMessage(language));
+            .map(s -> baseMessage + levelText + "\n\n" + s)
+            .orElseGet(() -> baseMessage + levelText);
     }
 
     public String endMessage(Language language, EventResult.RaidResult.Completed result) {

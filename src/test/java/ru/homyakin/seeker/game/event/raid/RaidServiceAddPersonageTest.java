@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.event.launched.CurrentEvent;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.raid.models.RaidPersonageParams;
@@ -87,7 +88,7 @@ public class RaidServiceAddPersonageTest {
 
         // then
         final var expected = new JoinToRaidResult(
-            launchedEvent,
+            LaunchedRaidEvent.fromLaunchedEvent(launchedEvent),
             raid,
             participants,
             false,
@@ -199,7 +200,7 @@ public class RaidServiceAddPersonageTest {
 
         // then
         final var expected = new JoinToRaidResult(
-            launchedEvent,
+            LaunchedRaidEvent.fromLaunchedEvent(launchedEvent),
             raid,
             participants,
             true,

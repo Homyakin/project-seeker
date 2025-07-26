@@ -64,6 +64,7 @@ public enum CommandType {
     THROW_ORDER("/throw", CheckType.EQUALS),
     CHANGE_GROUP_NAME("/name", CheckType.EQUALS),
     TOP_GROUP_RAID_WEEK("/topg_raid_week", CheckType.EQUALS),
+    TOP_GROUP_RAID_LEVEL("/topg_raid_level", CheckType.EQUALS),
     GROUP_INFO("/group_info", CheckType.EQUALS),
     REGISTER_GROUP("/register", CheckType.STARTS_WITH),
     DONATE_MONEY("/donate", CheckType.STARTS_WITH),

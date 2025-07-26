@@ -14,12 +14,15 @@ import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
+import ru.homyakin.seeker.game.event.service.GroupEventService;
+import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 
 @Service
 public class RaidProcessing {
@@ -32,6 +35,8 @@ public class RaidProcessing {
     private final RaidRewardGenerator raidRewardGenerator;
     private final LaunchedEventService launchedEventService;
     private final PersonageEventService personageEventService;
+    private final GroupEventService groupEventService;
+    private final GroupStatsService groupStatsService;
 
     public RaidProcessing(
         PersonageService personageService,
@@ -41,7 +46,9 @@ public class RaidProcessing {
         RaidGenerator raidGenerator,
         RaidRewardGenerator raidRewardGenerator,
         LaunchedEventService launchedEventService,
-        PersonageEventService personageEventService
+        PersonageEventService personageEventService,
+        GroupEventService groupEventService,
+        GroupStatsService groupStatsService
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
@@ -51,23 +58,27 @@ public class RaidProcessing {
         this.raidRewardGenerator = raidRewardGenerator;
         this.launchedEventService = launchedEventService;
         this.personageEventService = personageEventService;
+        this.groupEventService = groupEventService;
+        this.groupStatsService = groupStatsService;
     }
 
     public EventResult.RaidResult process(LaunchedEvent launchedEvent) {
         final var raid = raidService.getByEventId(launchedEvent.eventId())
             .orElseThrow(() -> new IllegalStateException("Raid must be present"));
+        final var raidEvent = LaunchedRaidEvent.fromLaunchedEvent(launchedEvent);
 
         final var participants = personageEventService.getRaidParticipants(launchedEvent.id());
         if (participants.isEmpty()) {
             logger.info("Raid {} is expired", launchedEvent.id());
             final var result = EventResult.RaidResult.Expired.INSTANCE;
-            launchedEventService.updateResult(launchedEvent, result);
+            launchedEventService.updateResult(raidEvent, result);
             return result;
         }
+
         final var idToParticipant = participants.stream().collect(Collectors.toMap(it -> it.personage().id(), it -> it));
         final var personages = participants.stream().map(RaidParticipant::personage).map(Personage::toBattlePersonage).toList();
         final var result = twoPersonageTeamsBattle.battle(
-            raidGenerator.generate(raid, launchedEvent, personages),
+            raidGenerator.generate(raid, raidEvent, personages),
             personages
         );
         boolean doesParticipantsWin = result.winner() == TwoTeamBattleWinner.SECOND_TEAM;
@@ -104,15 +115,27 @@ public class RaidProcessing {
             .toList();
 
         final var raidResult = new EventResult.RaidResult.Completed(
-            doesParticipantsWin ? EventResult.RaidResult.Completed.Status.SUCCESS : EventResult.RaidResult.Completed.Status.FAILURE,
+            doesParticipantsWin
+                ? EventResult.RaidResult.Completed.Status.SUCCESS
+                : EventResult.RaidResult.Completed.Status.FAILURE,
             raid,
             result.firstTeamResults().personageResults(),
             raidResults,
-            generatedItems
+            generatedItems,
+            calculateRaidPoints(raidEvent.raidParams().raidLevel(), doesParticipantsWin)
         );
         personageService.saveRaidResults(raidResult.personageResults(), launchedEvent);
-        launchedEventService.updateResult(launchedEvent, raidResult);
+        groupEventService.updateRaidLevel(launchedEvent.id(), doesParticipantsWin);
+        launchedEventService.updateResult(raidEvent, raidResult);
         logger.info("Raid {} status is {}", launchedEvent.id(), raidResult.status());
         return raidResult;
+    }
+
+    private int calculateRaidPoints(int raidLevel, boolean isWin) {
+        if (isWin) {
+            return 2 * raidLevel;
+        } else {
+            return raidLevel;
+        }
     }
 }

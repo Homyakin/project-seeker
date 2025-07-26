@@ -25,6 +25,8 @@ public interface GroupStorage {
 
     void updateNextRumorDate(GroupId groupId, LocalDateTime nextRumorDate);
 
+    void updateRaidLevel(GroupId groupId, int raidLevel);
+
     void changeGroupName(GroupId groupId, String name);
 
     /**

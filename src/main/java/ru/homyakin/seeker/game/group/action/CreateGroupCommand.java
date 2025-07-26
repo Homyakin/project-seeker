@@ -34,7 +34,8 @@ public class CreateGroupCommand {
                 config.defaultEventIntervals(),
                 false,
                 GroupSettings.DEFAULT_ENABLE_TOGGLE_HIDE
-            )
+            ),
+            10
         );
         final var id = storage.create(request);
         return storage.get(id).orElseThrow();

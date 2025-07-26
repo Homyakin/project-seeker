@@ -51,9 +51,9 @@ public class GroupPostgresDao implements GroupStorage {
 
         final var groupSql = """
             INSERT INTO pgroup (is_active, init_date, next_event_date, next_rumor_date,
-                    event_intervals_setting, time_zone_setting, name, is_hidden, settings, active_badge_id)
+                    event_intervals_setting, time_zone_setting, name, is_hidden, settings, active_badge_id, raid_level)
             VALUES (:is_active, :init_date, :next_event_date, :next_rumor_date, :event_intervals_setting, :time_zone_setting,
-                    :name, :is_hidden, :settings, :active_badge_id)
+                    :name, :is_hidden, :settings, :active_badge_id, :raid_level)
             RETURNING id
             """;
         GroupId groupId = jdbcClient.sql(groupSql)
@@ -67,6 +67,7 @@ public class GroupPostgresDao implements GroupStorage {
             .param("is_hidden", request.settings().isHidden())
             .param("settings", jsonUtils.mapToPostgresJson(GroupSettingsPostgresJson.from(request.settings())))
             .param("active_badge_id", badgeId)
+            .param("raid_level", request.raidLevel())
             .query((rs, _) -> GroupId.from(rs.getLong("id")))
             .single();
 
@@ -170,6 +171,17 @@ public class GroupPostgresDao implements GroupStorage {
         jdbcClient.sql(sql)
             .param("id", groupId.value())
             .param("next_rumor_date", nextRumorDate)
+            .update();
+    }
+
+    @Override
+    public void updateRaidLevel(GroupId groupId, int raidLevel) {
+        final var sql = """
+            UPDATE pgroup SET raid_level = :raid_level WHERE id = :id
+            """;
+        jdbcClient.sql(sql)
+            .param("id", groupId.value())
+            .param("raid_level", raidLevel)
             .update();
     }
 
@@ -339,7 +351,8 @@ public class GroupPostgresDao implements GroupStorage {
                 postgresSettings.enableToggleHide() == null
                     ? GroupSettings.DEFAULT_ENABLE_TOGGLE_HIDE
                     : postgresSettings.enableToggleHide()
-            )
+            ),
+            rs.getInt("raid_level")
         );
     }
 

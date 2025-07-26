@@ -12,10 +12,15 @@ public record GroupStats(
     int duelsComplete,
     long tavernMoneySpent,
     int worldRaidsSuccess,
-    int worldRaidsTotal
+    int worldRaidsTotal,
+    int raidPoints
 ) {
 
-    public static GroupStats withSuccessRaid(SeasonNumber seasonNumber, GroupId groupId) {
+    public static GroupStats withSuccessRaid(
+        SeasonNumber seasonNumber,
+        GroupId groupId,
+        int raidPoints
+    ) {
         return new GroupStats(
             seasonNumber,
             groupId,
@@ -24,11 +29,16 @@ public record GroupStats(
             0,
             0,
            0,
-            0
+            0,
+            raidPoints
         );
     }
 
-    public static GroupStats withFailedRaid(SeasonNumber seasonNumber, GroupId groupId) {
+    public static GroupStats withFailedRaid(
+        SeasonNumber seasonNumber,
+        GroupId groupId,
+        int raidPoints
+    ) {
         return new GroupStats(
             seasonNumber,
             groupId,
@@ -37,7 +47,8 @@ public record GroupStats(
             0,
             0,
             0,
-            0
+            0,
+            raidPoints
         );
     }
 
@@ -48,6 +59,7 @@ public record GroupStats(
             0,
             0,
             1,
+            0,
             0,
             0,
             0
@@ -67,6 +79,7 @@ public record GroupStats(
             0,
             tavernMoneySpent.value(),
             0,
+            0,
             0
         );
     }
@@ -83,7 +96,8 @@ public record GroupStats(
            0,
             0,
             1,
-            1
+            1,
+            0
         );
     }
 
@@ -99,7 +113,22 @@ public record GroupStats(
             0,
             0,
             0,
-            1
+            1,
+            0
+        );
+    }
+
+    public static GroupStats withRaidPoints(SeasonNumber seasonNumber, GroupId groupId, int raidPoints) {
+        return new GroupStats(
+            seasonNumber,
+            groupId,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            raidPoints
         );
     }
 }

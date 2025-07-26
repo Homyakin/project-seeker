@@ -355,6 +355,7 @@ public class CommonLocalization {
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         params.put("world_raids_success", groupStats.worldRaidsSuccess());
         params.put("world_raids_total", groupStats.worldRaidsTotal());
+        params.put("raid_points", groupStats.raidPoints());
         params.put("season_number", groupStats.seasonNumber().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::groupStats),

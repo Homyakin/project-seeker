@@ -66,21 +66,30 @@ public class TgEventLauncher {
 
     private void launchRaidInGroup(Group group, Raid raid) {
         logger.info("Creating raid " + raid.code() + " for group " + group.id());
-        final var launchedRaidResult = raidService.launchRaid(raid, group.id());
-        final var launchedEvent = launchedRaidResult.launchedEvent();
+        final var launchedRaidResult = raidService.launchRaid(raid, group.id(), group.raidLevel());
+        final var launchedRaidEvent = launchedRaidResult.launchedRaidEvent();
         final var groupTg = groupTgService.forceGet(group.id());
         var result = telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(groupTg.id())
-                .text(raid.toStartMessage(groupTg.language(), launchedEvent.startDate(), launchedEvent.endDate()))
-                .keyboard(InlineKeyboards.joinRaidKeyboard(groupTg.language(), launchedEvent.id(), launchedRaidResult.energyCost()))
+                .text(raid.toStartMessage(
+                    groupTg.language(),
+                    launchedRaidEvent.startDate(),
+                    launchedRaidEvent.endDate(),
+                    launchedRaidEvent.raidParams().raidLevel()
+                ))
+                .keyboard(InlineKeyboards.joinRaidKeyboard(
+                    groupTg.language(),
+                    launchedRaidEvent.id(),
+                    launchedRaidResult.energyCost()
+                ))
                 .build()
         );
         if (result.isLeft()) {
-            groupEventService.creationError(launchedEvent);
+            groupEventService.creationError(launchedRaidEvent.id());
             return;
         }
-        groupEventService.createGroupEvent(launchedEvent, groupTg, result.get().getMessageId());
+        groupEventService.createGroupEvent(launchedRaidEvent.id(), groupTg, result.get().getMessageId());
         updateGroupParameters.updateNextEventDate(
             group.id(),
             group.settings().eventDateInNextInterval().withOffsetSameInstant(TimeUtils.moscowOffset()).toLocalDateTime()

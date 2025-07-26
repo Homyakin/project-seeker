@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidStatus;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopDonatePosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
@@ -77,7 +78,8 @@ public class TopDao {
                 SELECT
                     letp.pgroup_id,
                     SUM(CASE WHEN le.status_id = :success_id THEN 1 ELSE 0 END) AS success_count,
-                    SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count
+                    SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count,
+                    SUM(COALESCE((le.event_params->>'raidPoints')::int, 0)) AS raid_points
                 FROM launched_event_to_pgroup letp
                 INNER JOIN launched_event le on le.id = letp.launched_event_id
                 INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
@@ -85,7 +87,7 @@ public class TopDao {
                 WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date AND pg.is_hidden = false
                 GROUP BY letp.pgroup_id
             )
-            SELECT p.id, p.name, p.tag, ep.success_count, ep.fail_count, b.code badge_code FROM event_points ep
+            SELECT p.id, p.name, p.tag, ep.success_count, ep.fail_count, ep.raid_points, b.code badge_code FROM event_points ep
             INNER JOIN pgroup p ON ep.pgroup_id = p.id
             LEFT JOIN badge b ON p.active_badge_id = b.id
             WHERE success_count > 0 OR fail_count > 0
@@ -132,6 +134,12 @@ public class TopDao {
             .param("pgroup_id", groupId.value())
             .param("season_number", seasonNumber)
             .query(this::mapTavernSpentPosition)
+            .list();
+    }
+
+    public List<GroupTopRaidLevelPosition> getUnsortedGroupTopRaidLevel() {
+        return jdbcClient.sql(TOP_GROUP_RAID_LEVEL)
+            .query(this::mapGroupTopRaidLevelPosition)
             .list();
     }
 
@@ -184,7 +192,8 @@ public class TopDao {
             Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
             rs.getInt("success_count"),
-            rs.getInt("fail_count")
+            rs.getInt("fail_count"),
+            rs.getInt("raid_points")
         );
     }
 
@@ -195,6 +204,16 @@ public class TopDao {
             BadgeView.findByCode(rs.getString("badge_code")),
             Optional.ofNullable(rs.getString("pgroup_member_tag")),
             rs.getLong("tavern_money_spent")
+        );
+    }
+
+    private GroupTopRaidLevelPosition mapGroupTopRaidLevelPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new GroupTopRaidLevelPosition(
+            GroupId.from(rs.getLong("id")),
+            BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("tag")),
+            rs.getString("name"),
+            rs.getInt("raid_level")
         );
     }
 
@@ -303,5 +322,13 @@ public class TopDao {
         LEFT JOIN public.badge b on b.id = pab.badge_id
         LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE pab.is_active = true
+    """;
+
+    private static final String TOP_GROUP_RAID_LEVEL = """
+        SELECT p.id, p.name, p.tag, p.raid_level, b.code badge_code
+        FROM pgroup p
+        LEFT JOIN badge b ON p.active_badge_id = b.id
+        WHERE p.is_hidden = false AND p.raid_level > 0
+        ORDER BY p.raid_level DESC
     """;
 }

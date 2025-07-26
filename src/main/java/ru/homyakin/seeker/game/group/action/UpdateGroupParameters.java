@@ -21,4 +21,10 @@ public class UpdateGroupParameters {
     public void updateNextEventDate(GroupId groupId, LocalDateTime nextEventDate) {
         storage.updateNextEventDate(groupId, nextEventDate);
     }
+
+    public void updateRaidLevel(GroupId groupId, boolean wasRaidSuccess) {
+        final var group = storage.get(groupId).orElseThrow();
+        final var newRaidLevel = Math.max(1, group.raidLevel() + (wasRaidSuccess ? 1 : -2));
+        storage.updateRaidLevel(groupId, newRaidLevel);
+    }
 }

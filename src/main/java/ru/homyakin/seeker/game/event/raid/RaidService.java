@@ -18,6 +18,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingRaid;
 import ru.homyakin.seeker.utils.TimeUtils;
+import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 
 import java.util.Optional;
 
@@ -56,9 +57,15 @@ public class RaidService {
         raidDao.save(eventId, raid);
     }
 
-    public LaunchedRaidResult launchRaid(Raid raid, GroupId groupId) {
-        final var launchedEvent = launchedEventService.createLaunchedEventFromRaid(raid, TimeUtils.moscowTime(), groupId);
-        return new LaunchedRaidResult(raid, launchedEvent, config.energyCost());
+    public LaunchedRaidResult launchRaid(Raid raid, GroupId groupId, int raidLevel) {
+        final var launchedEvent = launchedEventService.createLaunchedEventFromRaid(
+            raid,
+            TimeUtils.moscowTime(),
+            groupId,
+            raidLevel
+        );
+            
+        return new LaunchedRaidResult(raid, LaunchedRaidEvent.fromLaunchedEvent(launchedEvent), config.energyCost());
     }
 
     @Transactional
@@ -68,15 +75,22 @@ public class RaidService {
             logger.warn("Personage {} tried to join to not created event {}", personageId, launchedEventId);
             return Either.left(AddPersonageToRaidError.RaidNotExist.INSTANCE);
         }
-        final var launchedEvent = launchedEventResult.get();
-        final var raid = getByEventId(launchedEvent.eventId());
+        
+        final var launchedRaidEvent = LaunchedRaidEvent.fromLaunchedEvent(launchedEventResult.get());
+        
+        final var raid = getByEventId(launchedRaidEvent.eventId());
         if (raid.isEmpty()) {
             logger.warn("Personage {} tried to join to not raid event {}", personageId, launchedEventId);
             return Either.left(AddPersonageToRaidError.RaidNotExist.INSTANCE);
         }
-        if (launchedEvent.isInFinalStatus()) {
-            logger.warn("Personage {} tried to join to ended event {} in status {}", personageId, launchedEventId, launchedEvent.status());
-            final var error = switch (launchedEvent.status()) {
+        if (launchedRaidEvent.isInFinalStatus()) {
+            logger.warn(
+                "Personage {} tried to join to ended event {} in status {}",
+                personageId,
+                launchedEventId,
+                launchedRaidEvent.status()
+            );
+            final var error = switch (launchedRaidEvent.status()) {
                 case LAUNCHED -> throw new IllegalStateException("Ended event can't be in launched status");
                 case EXPIRED, CANCELED -> AddPersonageToRaidError.RaidInFinalStatus.ExpiredRaid.INSTANCE;
                 case FAILED, SUCCESS -> new AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid(
@@ -120,9 +134,9 @@ public class RaidService {
                     }
                 }
                 return new JoinToRaidResult(
-                    launchedEvent,
+                    launchedRaidEvent,
                     raid.get(),
-                    personageEventService.getRaidParticipants(launchedEvent.id()),
+                    personageEventService.getRaidParticipants(launchedRaidEvent.id()),
                     checkEnergyResult.isLeft(),
                     config.energyCost()
                 );

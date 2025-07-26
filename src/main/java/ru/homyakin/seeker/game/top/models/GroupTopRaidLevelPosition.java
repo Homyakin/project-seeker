@@ -7,22 +7,20 @@ import ru.homyakin.seeker.locale.top.TopLocalization;
 
 import java.util.Optional;
 
-public record GroupTopRaidPosition(
+public record GroupTopRaidLevelPosition(
     GroupId id,
     BadgeView badge,
     Optional<String> tag,
     String name,
-    int successRaids,
-    int failedRaids,
-    int raidPoints
+    int raidLevel
 ) implements GroupTopPosition {
     @Override
     public int score() {
-        return raidPoints;
+        return raidLevel;
     }
 
     @Override
     public String toLocalizedString(Language language, int positionNumber) {
-        return TopLocalization.topGroupRaidPosition(language, positionNumber, this);
+        return TopLocalization.topGroupRaidLevelPosition(language, positionNumber, this);
     }
 }

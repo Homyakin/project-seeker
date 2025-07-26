@@ -40,3 +40,4 @@ report = """\
 ${personage_battle_report}"""
 reportNotPresentForPersonage = "Не смогли найти твой отчёт о рейде в архивах"
 lastGroupRaidReportNotFound = "Ты не участвовал в последнем рейде"
+raidLevel = "Уровень рейда: ${raid_level}"
