@@ -117,6 +117,20 @@ public class RaidLocalization {
                 ++remainingEnemies;
             }
         }
+
+        long participantsHealth = 0;
+        long participantsMaxHealth = 0;
+        long livingParticipants = 0;
+        final var personageResults = raidResult.personageResults();
+
+        for (final var personageResult : personageResults) {
+            participantsHealth += personageResult.stats().remainHealth();
+            participantsMaxHealth += personageResult.participant().personage().calcTotalCharacteristics().health();
+
+            if (!personageResult.stats().isDead()) {
+                livingParticipants++;
+            }
+        }
         final var params = new HashMap<String, Object>();
         params.put("remain_enemies_health", remainEnemiesHealth);
         params.put("total_enemies_health", totalEnemiesHealth);
@@ -124,6 +138,11 @@ public class RaidLocalization {
         params.put("total_enemies_count", raidResult.raidNpcResults().size());
         params.put("top_participants_list", topPersonages.toString());
         params.put("raid_report_command", CommandType.RAID_REPORT.getText());
+        params.put("participants_health", participantsHealth);
+        params.put("participants_max_health", participantsMaxHealth);
+        params.put("living_participants", livingParticipants);
+        params.put("total_participants", personageResults.size());
+
         if (raidResult.generatedItemResults().isEmpty()) {
             params.put("from_new_line_items_for_personages", "");
         } else {
