@@ -32,7 +32,13 @@ public class TopUtils {
         final var positionsToShow = Math.min(MAX_TOP_POSITIONS, positions.size());
         final var list = new StringBuilder();
         for (int i = 1; i <= positionsToShow; ++i) {
-            list.append(positions.get(i - 1).toLocalizedString(language, i));
+            final var position = positions.get(i - 1);
+            final var positionText = position.toLocalizedString(language, i);
+            if (position.id().equals(requestedId)) {
+                list.append("<b>").append(positionText).append("</b>");
+            } else {
+                list.append(positionText);
+            }
             if (i != positionsToShow) {
                 list.append("\n");
             }
@@ -45,11 +51,12 @@ public class TopUtils {
                     if (index == positionsToShow) {
                         list.append("\n").append(positionToString(positions, index, language));
                     } else if (index > positionsToShow) {
+                        final var userPositionText = positions.get(index - 1).toLocalizedString(language, index);
                         list
-                            .append(SEPARATOR)
-                            .append(positions.get(index - 1).toLocalizedString(language, index))
-                            .append("\n")
-                            .append(positionToString(positions, index, language));
+                                .append(SEPARATOR)
+                                .append("<b>").append(userPositionText).append("</b>")
+                                .append("\n")
+                                .append(positionToString(positions, index, language));
                         if (positions.size() > index + 1) {
                             list.append("\n").append(positionToString(positions, index + 1, language));
                         }
@@ -72,7 +79,13 @@ public class TopUtils {
         if (positions.size() <= maxInTop + maxInBottom) {
             final var list = new StringBuilder();
             for (int i = 0; i < positions.size(); ++i) {
-                list.append(positionToString(positions, i, language));
+                final var position = positions.get(i);
+                final var positionText = positionToString(positions, i, language);
+                if (position.id().equals(requestedId)) {
+                    list.append("<b>").append(positionText).append("</b>");
+                } else {
+                    list.append(positionText);
+                }
                 if (i != positions.size() - 1) {
                     list.append("\n");
                 }
@@ -82,7 +95,14 @@ public class TopUtils {
 
         final var topList = new StringBuilder();
         for (int i = 0; i < maxInTop; ++i) {
-            topList.append(positionToString(positions, i, language));
+            final var position = positions.get(i);
+            final var positionText = positionToString(positions, i, language);
+
+            if (position.id().equals(requestedId)) {
+                topList.append("<b>").append(positionText).append("</b>");
+            } else {
+                topList.append(positionText);
+            }
             if (i != maxInTop - 1) {
                 topList.append("\n");
             }
@@ -91,7 +111,13 @@ public class TopUtils {
         final var bottomStart = positions.size() - maxInBottom;
         final var bottomList = new StringBuilder();
         for (int i = bottomStart; i < positions.size(); ++i) {
-            bottomList.append(positionToString(positions, i, language));
+            final var position = positions.get(i);
+            final var positionText = positionToString(positions, i, language);
+            if (position.id().equals(requestedId)) {
+                bottomList.append("<b>").append(positionText).append("</b>");
+            } else {
+                bottomList.append(positionText);
+            }
             if (i != positions.size() - 1) {
                 bottomList.append("\n");
             }
@@ -111,10 +137,12 @@ public class TopUtils {
         final int requestedIdx = requestedIdxOptional.get();
         list.append(topList);
         final var position = positionToString(positions, requestedIdx, language);
+        final var boldPositionText = "<b>" + position + "</b>";
+
         if (requestedIdx == maxInTop) {
-            list.append("\n").append(position);
+            list.append("\n").append(boldPositionText);
         } else {
-            list.append(SEPARATOR).append(position);
+            list.append(SEPARATOR).append(boldPositionText);
         }
         if (requestedIdx == bottomStart - 1) {
             list.append("\n");
