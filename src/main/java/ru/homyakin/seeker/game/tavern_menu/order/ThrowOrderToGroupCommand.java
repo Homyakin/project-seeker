@@ -55,7 +55,7 @@ public class ThrowOrderToGroupCommand {
         }
 
         final var lastThrowDate = menuItemOrderDao.lastThrowFromGroup(group.id());
-        if (lastThrowDate.isPresent() && !TimeUtils.isTimePassed(lastThrowDate.get(), config.throwGroupTimeout())) {
+        if (lastThrowDate.isPresent() && !TimeUtils.isTimePassed(lastThrowDate.get(), config.throwGroupTimeout()) && targetTag != 'SLOT') {
             final var remaining = TimeUtils.remainingTime(lastThrowDate.get().plus(config.throwGroupTimeout()));
             return Either.left(new ThrowToGroupError.ThrowingGroupTimeout(remaining));
         }
@@ -67,7 +67,7 @@ public class ThrowOrderToGroupCommand {
 
         final var lastThrowTargetDate = menuItemOrderDao.lastThrowToGroup(targetGroup.get().id());
         if (lastThrowTargetDate.isPresent()
-            && !TimeUtils.isTimePassed(lastThrowTargetDate.get(), config.throwTargetGroupTimeout())) {
+            && !TimeUtils.isTimePassed(lastThrowTargetDate.get(), config.throwTargetGroupTimeout()) && targetTag != 'SLOT') {
             return Either.left(ThrowToGroupError.TargetGroupTimeout.INSTANCE);
         }
 
