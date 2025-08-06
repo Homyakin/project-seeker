@@ -73,12 +73,12 @@ public class TgEventStopper {
                             telegramSender.send(EditMessageTextBuilder.builder()
                                 .chatId(groupEvent.groupId())
                                 .messageId(groupEvent.messageId())
-                                .text(completed.raid().toEndMessage(completed, group.language()))
+                                .text(RaidLocalization.raidBaseMessage(group.language(), completed))
                                 .build()
                             );
                             telegramSender.send(SendMessageBuilder.builder()
                                 .chatId(groupEvent.groupId())
-                                .text(completed.raid().endMessage(group.language(), completed))
+                                .text(RaidLocalization.raidResult(group.language(), completed))
                                 .replyMessageId(groupEvent.messageId())
                                 .build()
                             );

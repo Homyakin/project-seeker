@@ -40,7 +40,12 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
         final var result = raidService.addPersonage(user.personageId(), command.launchedEventId());
         final var text = result.fold(
             error -> mapErrorToUserMessage(error, group, command),
-            joinToRaidResult -> joinToRaidResult.toMessage(group.language())
+            joinToRaidResult -> RaidLocalization.raidStarting(
+                group.language(),
+                joinToRaidResult.raid(),
+                joinToRaidResult.launchedRaidEvent(),
+                joinToRaidResult.participants()
+            )
         );
         if (result.isLeft()) {
             telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), text));
@@ -88,9 +93,11 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
             case AddPersonageToRaidError.RaidInFinalStatus raidInFinalStatus -> {
                 final var editText = switch (raidInFinalStatus) {
                     case AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid completedRaid ->
-                        completedRaid.raid().toEndMessageWithParticipants(
-                            completedRaid.participants(),
-                            group.language()
+                        RaidLocalization.raidBaseMessage(
+                            group.language(),
+                            completedRaid.raid(),
+                            completedRaid.launchedRaidEvent(),
+                            completedRaid.participants()
                         );
                     case AddPersonageToRaidError.RaidInFinalStatus.CreationErrorRaid _ ->
                         CommonLocalization.internalError(group.language());

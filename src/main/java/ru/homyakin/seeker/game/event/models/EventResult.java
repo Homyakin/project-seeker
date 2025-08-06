@@ -4,6 +4,7 @@ import ru.homyakin.seeker.game.battle.PersonageBattleResult;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
+import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
@@ -23,11 +24,16 @@ public sealed interface EventResult {
         record Completed(
             Status status,
             Raid raid,
+            LaunchedRaidEvent launchedRaidEvent,
             List<PersonageBattleResult> raidNpcResults,
             List<PersonageRaidResult> personageResults,
             List<GeneratedItemResult> generatedItemResults,
             int points
         ) implements RaidResult {
+            public boolean isSuccess() {
+                return status == Status.SUCCESS;
+            }
+
             public enum Status {
                 SUCCESS,
                 FAILURE,

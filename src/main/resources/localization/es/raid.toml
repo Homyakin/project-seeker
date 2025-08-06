@@ -1,5 +1,4 @@
 joinRaidEvent = "Unirse a la incursión 🗡 ${energy_icon}${energy_cost}%"
-raidStartsPrefix = "La batalla comienza en"
 userAlreadyInThisRaid = "❌¡Ya estás participando en este incursión!"
 userAlreadyInOtherEvent = "❌¡Ya estás en otro evento!"
 exhaustedAlert = "⚠️¡Estás molido! Puedes luchar, pero sin recompensa. No se gastará energía."

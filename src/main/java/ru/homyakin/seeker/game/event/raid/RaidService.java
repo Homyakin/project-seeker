@@ -95,6 +95,7 @@ public class RaidService {
                 case EXPIRED, CANCELED -> AddPersonageToRaidError.RaidInFinalStatus.ExpiredRaid.INSTANCE;
                 case FAILED, SUCCESS -> new AddPersonageToRaidError.RaidInFinalStatus.CompletedRaid(
                     raid.get(),
+                    launchedRaidEvent,
                     personageEventService.getRaidParticipants(launchedEventId)
                 );
                 case CREATION_ERROR -> AddPersonageToRaidError.RaidInFinalStatus.CreationErrorRaid.INSTANCE;

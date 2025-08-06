@@ -24,6 +24,7 @@ public sealed interface AddPersonageToRaidError {
 
         record CompletedRaid(
             Raid raid,
+            LaunchedRaidEvent launchedRaidEvent,
             List<RaidParticipant> participants
         ) implements RaidInFinalStatus {
         }

@@ -11,11 +11,14 @@ import ru.homyakin.seeker.game.group.action.UpdateGroupParameters;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
+import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.TimeUtils;
+
+import java.util.List;
 
 @Service
 public class TgEventLauncher {
@@ -72,11 +75,11 @@ public class TgEventLauncher {
         var result = telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(groupTg.id())
-                .text(raid.toStartMessage(
+                .text(RaidLocalization.raidStarting(
                     groupTg.language(),
-                    launchedRaidEvent.startDate(),
-                    launchedRaidEvent.endDate(),
-                    launchedRaidEvent.raidParams().raidLevel()
+                    raid,
+                    launchedRaidEvent,
+                    List.of()
                 ))
                 .keyboard(InlineKeyboards.joinRaidKeyboard(
                     groupTg.language(),

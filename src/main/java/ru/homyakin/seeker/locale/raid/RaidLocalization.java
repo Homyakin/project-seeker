@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
+import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
+import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
@@ -39,10 +41,6 @@ public class RaidLocalization {
             resources.getOrDefault(language, RaidResource::joinRaidEvent),
             params
         );
-    }
-
-    public static String raidStartsPrefix(Language language) {
-        return resources.getOrDefault(language, RaidResource::raidStartsPrefix);
     }
 
     public static String userAlreadyInThisRaid(Language language) {
@@ -142,6 +140,11 @@ public class RaidLocalization {
         params.put("participants_max_health", participantsMaxHealth);
         params.put("living_participants", livingParticipants);
         params.put("total_participants", personageResults.size());
+        if (raidResult.isSuccess()) {
+            params.put("success_or_failure", RaidLocalization.successRaid(language));
+        } else {
+            params.put("success_or_failure", RaidLocalization.failureRaid(language));
+        }
 
         if (raidResult.generatedItemResults().isEmpty()) {
             params.put("from_new_line_items_for_personages", "");
@@ -237,11 +240,48 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::lastGroupRaidReportNotFound);
     }
 
-    public static String raidLevel(Language language, Integer raidLevel) {
+    public static String raidBaseMessage(Language language, EventResult.RaidResult.Completed completed) {
+        return raidBaseMessage(
+            language,
+            completed.raid(),
+            completed.launchedRaidEvent(),
+            completed.personageResults().stream().map(PersonageRaidResult::participant).toList()
+        );
+    }
+
+    public static String raidBaseMessage(
+        Language language,
+        Raid raid,
+        LaunchedRaidEvent launchedRaidEvent,
+        List<RaidParticipant> participants
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("raid_level", raidLevel);
+        final var raidLocale = raid.getLocaleOrDefault(language);
+        params.put("raid_intro", raidLocale.intro());
+        params.put("raid_description", raidLocale.description());
+        params.put("raid_level", launchedRaidEvent.raidParams().raidLevel());
+        if (participants.isEmpty()) {
+            params.put("raid_participants", "");
+        } else {
+            params.put("raid_participants", raidParticipants(language, participants));
+        }
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, RaidResource::raidLevel),
+            resources.getOrDefault(language, RaidResource::raidBaseMessage),
+            params
+        );
+    }
+
+    public static String raidStarting(
+        Language language,
+        Raid raid,
+        LaunchedRaidEvent launchedRaidEvent,
+        List<RaidParticipant> participants
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("raid_base_message", raidBaseMessage(language, raid, launchedRaidEvent, participants).trim());
+        params.put("duration", CommonLocalization.duration(language, launchedRaidEvent.duration()));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, RaidResource::raidStarting),
             params
         );
     }

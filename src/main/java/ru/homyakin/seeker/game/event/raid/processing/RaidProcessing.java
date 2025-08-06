@@ -119,6 +119,7 @@ public class RaidProcessing {
                 ? EventResult.RaidResult.Completed.Status.SUCCESS
                 : EventResult.RaidResult.Completed.Status.FAILURE,
             raid,
+            raidEvent,
             result.firstTeamResults().personageResults(),
             raidResults,
             generatedItems,
