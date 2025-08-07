@@ -34,6 +34,15 @@ public class TopLocalization {
         resources.add(language, resource);
     }
 
+    public static String selectedPosition(Language language, String position) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", position);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::selectedPosition),
+            params
+        );
+    }
+
     public static String topRaidWeek(Language language, PersonageId requestedPersonageId, TopRaidResult topRaidResult) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topRaidWeek),

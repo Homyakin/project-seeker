@@ -8,4 +8,6 @@ public interface TopPosition<IdType> {
     int score();
 
     String toLocalizedString(Language language, int positionNumber);
+
+    String toLocalizedSelectedString(Language language, int positionNumber);
 }

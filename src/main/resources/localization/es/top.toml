@@ -67,3 +67,4 @@ ${top_personage_list}
 Total de participantes: ${total_count}"""
 topDonatePosition = "${position}. ${personage_badge_with_name}: ${money_icon}${donate_money}"
 topDonateEmpty = "Aún nadie ha hecho donaciones en este grupo"
+selectedPosition = "<b>${position}</b>"

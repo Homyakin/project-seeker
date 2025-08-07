@@ -25,4 +25,9 @@ public record GroupTopRaidPosition(
     public String toLocalizedString(Language language, int positionNumber) {
         return TopLocalization.topGroupRaidPosition(language, positionNumber, this);
     }
+
+    @Override
+    public String toLocalizedSelectedString(Language language, int positionNumber) {
+        return TopLocalization.selectedPosition(language, toLocalizedString(language, positionNumber));
+    }
 }

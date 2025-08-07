@@ -86,3 +86,4 @@ ${top_group_list}
 Всего групп: ${total_count}"""
 topGroupRaidLevelPosition = "${position}. ${group_badge_with_name}: ${raid_level}"
 topRaidLevelEmpty = "Пока нет групп с рейдами"
+selectedPosition = "<b>${position}</b>"

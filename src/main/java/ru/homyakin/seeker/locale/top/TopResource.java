@@ -26,6 +26,7 @@ public record TopResource(
     String topDonateEmpty,
     String topTavernSpentGroup,
     String topTavernSpentPosition,
-    String topTavernSpentEmpty
+    String topTavernSpentEmpty,
+    String selectedPosition
 ) {
 }
