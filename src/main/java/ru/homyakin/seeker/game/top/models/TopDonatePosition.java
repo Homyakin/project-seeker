@@ -23,4 +23,4 @@ public record TopDonatePosition(
     public String toLocalizedString(Language language, int positionNumber) {
         return TopLocalization.topDonatePosition(language, positionNumber, this);
     }
-} 
+}
