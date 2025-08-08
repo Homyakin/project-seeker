@@ -33,7 +33,7 @@ public class TopUtilsCreateTopListTest {
         final var result = TopUtils.createTopList(Language.RU, PersonageId.from(0L), top);
         Assertions.assertEquals(
             """ 
-                1. 🔰Тест1: 3/3
+                <b>1. 🔰Тест1: 3/3</b>
                 2. 🔰Тест2: 2/2
                 3. 🔰Тест3: 1/1""",
             result
@@ -88,7 +88,7 @@ public class TopUtilsCreateTopListTest {
                 8. 🔰Тест8: 6/6
                 9. 🔰Тест9: 5/5
                 10. 🔰Тест10: 4/4
-                11. 🔰Тест11: 3/3""",
+                <b>11. 🔰Тест11: 3/3</b>""",
             result
         );
     }
@@ -117,7 +117,7 @@ public class TopUtilsCreateTopListTest {
                 10. 🔰Тест10: 6/6
                 -----------
                 14. 🔰Тест14: 2/2
-                15. 🔰Тест15: 1/1""",
+                <b>15. 🔰Тест15: 1/1</b>""",
             result
         );
     }
@@ -146,7 +146,7 @@ public class TopUtilsCreateTopListTest {
                 10. 🔰Тест10: 7/7
                 -----------
                 14. 🔰Тест14: 3/3
-                15. 🔰Тест15: 2/2
+                <b>15. 🔰Тест15: 2/2</b>
                 16. 🔰Тест16: 1/1""",
             result
         );
