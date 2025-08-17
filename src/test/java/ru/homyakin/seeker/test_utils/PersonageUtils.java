@@ -62,9 +62,9 @@ public class PersonageUtils {
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
             new Characteristics(
-                RandomUtils.getInInterval(50, 100),
-                RandomUtils.getInInterval(30, 60),
-                RandomUtils.getInInterval(10, 40),
+                0,
+                0,
+                0,
                 0,
                 0,
                 0

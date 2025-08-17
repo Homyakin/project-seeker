@@ -161,7 +161,8 @@ public class TopDao {
             BadgeView.findByCode(rs.getString("badge_code")),
             Optional.ofNullable(rs.getString("pgroup_member_tag")),
             rs.getInt("success_count"),
-            rs.getInt("fail_count")
+            rs.getInt("fail_count"),
+            rs.getInt("raid_points")
         );
     }
 
@@ -222,13 +223,15 @@ public class TopDao {
         SELECT
             pte.personage_id,
             SUM(CASE WHEN le.status_id = :success_id THEN 1 ELSE 0 END) AS success_count,
-            SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count
+            SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count,
+            SUM(COALESCE((le.event_params->>'raidPoints')::int, 0)) AS raid_points
         FROM personage_to_event pte
         LEFT JOIN launched_event le on le.id = pte.launched_event_id
         INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
         LEFT JOIN launched_event_to_pgroup letp on le.id = letp.launched_event_id
         LEFT JOIN pgroup pg on letp.pgroup_id = pg.id
         WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date AND pg.is_hidden = false
+        AND COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false
         GROUP BY pte.personage_id
         )""";
 
@@ -237,13 +240,15 @@ public class TopDao {
         SELECT
             pte.personage_id,
             SUM(CASE WHEN le.status_id = :success_id THEN 1 ELSE 0 END) AS success_count,
-            SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count
+            SUM(CASE WHEN le.status_id = :fail_id THEN 1 ELSE 0 END) AS fail_count,
+            SUM(COALESCE((le.event_params->>'raidPoints')::int, 0)) AS raid_points
         FROM personage_to_event pte
         LEFT JOIN launched_event le on le.id = pte.launched_event_id
         LEFT JOIN launched_event_to_pgroup letp on le.id = letp.launched_event_id
         INNER JOIN event e on le.event_id = e.id AND e.type_id = :raid_id
         WHERE le.start_date::date >= :start_date AND le.start_date::date <= :end_date
         AND letp.pgroup_id = :pgroup_id
+        AND COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false
         GROUP BY pte.personage_id
         )""";
 
@@ -254,6 +259,7 @@ public class TopDao {
             b.code badge_code,
             success_count,
             fail_count,
+            raid_points,
             pg.tag as pgroup_member_tag
         FROM personage p
         INNER JOIN event_points ep ON p.id = ep.personage_id

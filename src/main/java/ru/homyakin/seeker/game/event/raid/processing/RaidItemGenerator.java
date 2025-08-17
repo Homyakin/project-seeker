@@ -31,15 +31,16 @@ public class RaidItemGenerator {
     /**
      * Функция генерации предметов для персонажа
      * В основе лежит функция:
-     * Если x <= 5 => y = 2*x (нужно, потому что степенные функции в начале растут очень медленно)
-     * Если x > 5 => y = 10 + ((x - 5)^2) / 2.5
+     * Если x <= 5 => y = x
+     * Если x > 5 => y = (x - 3)^2
      * x - количество рейдов подряд без предметов
      * y - вероятность получить предмет в процентах
      */
     public Optional<GeneratedItemResult> generateItem(
         boolean isWin,
         Personage personage,
-        boolean isExhausted
+        boolean isExhausted,
+        int raidLevel
     ) {
         if (!isWin) {
             return Optional.empty();
@@ -50,12 +51,12 @@ public class RaidItemGenerator {
         final var raidsWithoutItems = personageService.countSuccessRaidsFromLastItem(personage.id());
         final int chance;
         if (raidsWithoutItems <= 5) {
-            chance = raidsWithoutItems * 2;
+            chance = raidsWithoutItems;
         } else {
-            chance = (int) (10 + Math.pow(raidsWithoutItems - 5, 2) / 2.5);
+            chance = (int) Math.pow(raidsWithoutItems - 3, 2);
         }
         if (RandomUtils.processChance(chance)) {
-            final var itemParams = personageNextRaidItemParams.get(personage.id());
+            final var itemParams = personageNextRaidItemParams.get(personage.id(), raidLevel);
             final var result = itemService
                 .generateItemForPersonage(
                     personage,

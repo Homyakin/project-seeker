@@ -12,8 +12,10 @@ import java.util.Optional;
 
 public class SingleBossGenerator implements RaidBattlePersonageGenerator {
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
-        final var totalPower = personages.stream().mapToDouble(BattlePersonage::power).sum() * powerPercent;
+    public List<BattlePersonage> generate(int personagesCount, double powerMultiplier) {
+        // 32000 - примерная мощь базового персонажа
+        // 0.0832 - крайне магическая константа полученная методом перебора
+        final var totalPower = personagesCount * 32000 * (powerMultiplier + 0.0832);
         final var tempCharacteristics = Characteristics.random();
 
         final var tempPersonage = new BattlePersonage(

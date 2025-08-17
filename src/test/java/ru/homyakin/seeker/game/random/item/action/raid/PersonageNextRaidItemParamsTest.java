@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
 import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
 import ru.homyakin.seeker.game.random.item.entity.ItemRandomConfig;
+import ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfig;
 import ru.homyakin.seeker.game.random.item.entity.pool.ItemRandomPool;
 import ru.homyakin.seeker.game.random.item.action.ItemRandomPoolRenew;
 import ru.homyakin.seeker.game.random.item.entity.RaidItemRandomPoolRepository;
@@ -24,10 +25,12 @@ public class PersonageNextRaidItemParamsTest {
     private final RaidItemRandomPoolRepository raidItemRandomPoolRepository = Mockito.mock();
     private final ItemRandomPoolRenew randomPoolRenew = Mockito.mock();
     private final ItemRandomConfig config = Mockito.mock();
+    private final RaidLevelItemConfig raidLevelItemConfig = Mockito.mock();
     private final PersonageNextRaidItemParams action = new PersonageNextRaidItemParams(
         raidItemRandomPoolRepository,
         randomPoolRenew,
-        config
+        config,
+        raidLevelItemConfig
     );
 
     @Test
@@ -41,9 +44,9 @@ public class PersonageNextRaidItemParamsTest {
         // when
         Mockito.when(raidItemRandomPoolRepository.get(personageId)).thenReturn(pool);
         Mockito.when(randomPoolRenew.fullRenewIfEmpty(pool)).thenReturn(pool);
-        Mockito.when(config.raidRarityPicker()).thenReturn(rarityPicker());
+        Mockito.when(raidLevelItemConfig.getRarityPickerForLevel(Mockito.anyInt())).thenReturn(rarityPicker());
         Mockito.when(config.raidModifierCountPicker()).thenReturn(modifierPicker());
-        final var result = action.get(personageId);
+        final var result = action.get(personageId, 10);
         final var captor = ArgumentCaptor.forClass(ItemRandomPool.class);
         Mockito.verify(raidItemRandomPoolRepository, Mockito.times(1))
             .save(Mockito.eq(personageId), captor.capture());

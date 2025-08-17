@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -37,5 +38,20 @@ public class ProbabilityPicker<T> {
         }
         // Should never reach here
         return items.getLast();
+    }
+
+    public Map<T, Double> getProbabilities() {
+        final var map = new HashMap<T, Double>();
+        for (int i = 0; i < items.size(); i++) {
+            int weight;
+            if (i == 0) {
+                weight = cumulativeWeights.get(i);
+            } else {
+                weight = cumulativeWeights.get(i) - cumulativeWeights.get(i - 1);
+            }
+            double probability = (double) weight / totalWeight * 100;
+            map.put(items.get(i), probability);
+        }
+        return map;
     }
 }

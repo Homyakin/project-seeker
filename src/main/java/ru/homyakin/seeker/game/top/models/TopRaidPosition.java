@@ -13,11 +13,12 @@ public record TopRaidPosition(
     BadgeView personageBadge,
     Optional<String> tag,
     int successRaids,
-    int failedRaids
+    int failedRaids,
+    int raidPoints
 ) implements PersonageTopPosition {
     @Override
     public int score() {
-        return successRaids * 2 + failedRaids;
+        return raidPoints;
     }
 
     @Override

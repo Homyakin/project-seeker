@@ -11,7 +11,6 @@ import java.util.HashMap;
 public class ItemRandomSpringConfig implements ItemRandomConfig {
     private final int sameSlotsInPool = 2;
     private final ProbabilityPicker<ItemRarity> shopRarityPicker;
-    private final ProbabilityPicker<ItemRarity> raidRarityPicker;
     private final ProbabilityPicker<Integer> shopModifierCountPicker;
     private final ProbabilityPicker<Integer> raidModifierCountPicker;
     private final ProbabilityPicker<ItemRarity> worldRaidRarityPicker;
@@ -25,14 +24,6 @@ public class ItemRandomSpringConfig implements ItemRandomConfig {
         shopRarityProbabilities.put(ItemRarity.EPIC, 11);
         shopRarityProbabilities.put(ItemRarity.LEGENDARY, 7);
         shopRarityPicker = new ProbabilityPicker<>(shopRarityProbabilities);
-
-        final var raidRarityProbabilities = new HashMap<ItemRarity, Integer>();
-        raidRarityProbabilities.put(ItemRarity.COMMON, 30);
-        raidRarityProbabilities.put(ItemRarity.UNCOMMON, 25);
-        raidRarityProbabilities.put(ItemRarity.RARE, 20);
-        raidRarityProbabilities.put(ItemRarity.EPIC, 15);
-        raidRarityProbabilities.put(ItemRarity.LEGENDARY, 10);
-        raidRarityPicker = new ProbabilityPicker<>(raidRarityProbabilities);
 
         final var shopModifierCountProbabilities = new HashMap<Integer, Integer>();
         shopModifierCountProbabilities.put(0, 55);
@@ -67,11 +58,6 @@ public class ItemRandomSpringConfig implements ItemRandomConfig {
     @Override
     public ProbabilityPicker<ItemRarity> shopRarityPicker() {
         return shopRarityPicker;
-    }
-
-    @Override
-    public ProbabilityPicker<ItemRarity> raidRarityPicker() {
-        return raidRarityPicker;
     }
 
     @Override

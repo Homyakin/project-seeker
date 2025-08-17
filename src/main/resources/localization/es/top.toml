@@ -10,7 +10,7 @@ topRaidWeekGroup = """\
 ${top_personage_list}
 
 Total de participantes: ${total_count}"""
-topRaidPosition = "${position}. ${personage_badge_with_name}: ${success_raids}/${all_raids}"
+topRaidPosition = "${position}. ${personage_badge_with_name}: ${success_raids}/${all_raids} (${raid_points} 🏆)"
 topGroupRaidWeek = """\
 🏆Top de Grupos en incursiones de la semana <code>${start_date} - ${end_date}</code>:
 

@@ -102,7 +102,8 @@ public class RaidProcessing {
                 final var generatedItem = raidItemGenerator.generateItem(
                     doesParticipantsWin,
                     battleResult.personage(),
-                    participant.params().isExhausted()
+                    participant.params().isExhausted(),
+                    raidEvent.raidParams().raidLevel()
                 );
                 generatedItem.ifPresent(generatedItems::add);
                 return new PersonageRaidResult(

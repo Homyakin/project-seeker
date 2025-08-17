@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -19,13 +20,13 @@ public class RaidItemGeneratorTest {
 
     @Test
     public void Given_Lose_Then_ReturnEmpty() {
-        final var result = generator.generateItem(false, Mockito.mock(), true);
+        final var result = generator.generateItem(false, Mockito.mock(), true, 10);
         Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
     public void Given_IsExhausted_Then_ReturnEmpty() {
-        final var result = generator.generateItem(true, Mockito.mock(), false);
+        final var result = generator.generateItem(true, Mockito.mock(), false, 10);
         Assertions.assertTrue(result.isEmpty());
     }
 
@@ -33,7 +34,7 @@ public class RaidItemGeneratorTest {
     public void Given_WinAndNotExhausted_When_ProcessChanceIsFalse_Then_ReturnEmpty() {
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.processChance(Mockito.anyInt())).thenReturn(false);
-            final var result = generator.generateItem(true, Mockito.mock(), false);
+            final var result = generator.generateItem(true, Mockito.mock(), false, 10);
             Assertions.assertTrue(result.isEmpty());
         }
 
@@ -45,10 +46,10 @@ public class RaidItemGeneratorTest {
 
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.processChance(Mockito.anyInt())).thenReturn(true);
-            Mockito.when(personageNextRaidItemParams.get(Mockito.any())).thenReturn(Mockito.mock());
+            Mockito.when(personageNextRaidItemParams.get(Mockito.any(), Mockito.anyInt())).thenReturn(Mockito.mock(ItemParamsFull.class));
             Mockito.when(itemService.generateItemForPersonage(Mockito.any(), Mockito.any())).thenReturn(Either.right(expectedItem));
 
-            final var result = generator.generateItem(true, Mockito.mock(), false);
+            final var result = generator.generateItem(true, Mockito.mock(), false, 10);
 
             Assertions.assertFalse(result.isEmpty());
             Assertions.assertInstanceOf(GeneratedItemResult.Success.class, result.get());

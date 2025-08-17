@@ -11,12 +11,22 @@ import java.util.List;
 public class RaidGenerator {
 
     public List<BattlePersonage> generate(Raid raid, LaunchedRaidEvent event, List<BattlePersonage> personages) {
-        return raid.template().generate(personages, calcPowerPercent(event));
+        var powerBonus = 1.0
+            + calcPowerBonusFromLevel(event.raidParams().raidLevel())
+            + calcPowerBonusFromPersonages(personages.size());
+        return raid.template().generate(personages, powerBonus);
     }
 
-    private double calcPowerPercent(LaunchedRaidEvent event) {
-        final var raidLevel = event.raidParams().raidLevel();
+    private double calcPowerBonusFromLevel(int raidLevel) {
         final var levelDiff = raidLevel - 10;
-        return 1.0 + (levelDiff * 0.05);
+        return levelDiff * 0.1;
+    }
+
+    private double calcPowerBonusFromPersonages(int count) {
+        if (count < 3) {
+            return 0.1; // Мотивация не делать прокси группы, минимум 3 человека
+        } else {
+            return 0;
+        }
     }
 }

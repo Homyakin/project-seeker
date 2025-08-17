@@ -77,6 +77,7 @@ public class TopLocalization {
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
         params.put("success_raids", position.successRaids());
         params.put("all_raids", position.successRaids() + position.failedRaids());
+        params.put("raid_points", position.raidPoints());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topRaidPosition), params);
     }
 

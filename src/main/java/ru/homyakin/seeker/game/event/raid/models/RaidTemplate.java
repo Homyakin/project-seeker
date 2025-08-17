@@ -38,6 +38,6 @@ public enum RaidTemplate {
     }
 
     public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
-        return generator.generate(personages, powerPercent);
+        return generator.generate(personages.size(), powerPercent);
     }
 }

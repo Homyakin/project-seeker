@@ -5,7 +5,6 @@ import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
@@ -14,11 +13,10 @@ import java.util.Optional;
 
 public class GroupGenerator implements RaidBattlePersonageGenerator {
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
-        final var totalPower = personages.stream().mapToDouble(BattlePersonage::power).sum()
-            / calcPowerPenalty(personages.size()) * powerPercent;
+    public List<BattlePersonage> generate(int personagesCount, double powerMultiplier) {
+        final var totalPower = personagesCount * 32000 * (powerMultiplier - 0.06);
         final var group = new ArrayList<BattlePersonage>();
-        final var baseCount = personages.size() * 3;
+        final var baseCount = personagesCount * 3;
         final int totalCount = RandomUtils.getInInterval((int) (baseCount * 0.9), (int) (baseCount * 1.1));
         final double averagePower = totalPower / totalCount;
 
@@ -50,16 +48,5 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
             );
         }
         return group;
-    }
-
-    /**
-     * Считаем штраф для мощи группы противников. Иначе они будут слишком сильными на большом количестве персонажей
-     * Примерные значения при количестве персонажей:
-     * 1 => 1.05
-     * 5 => 1.08
-     * 15 => 1.1
-     */
-    private double calcPowerPenalty(int personagesCount) {
-        return MathUtils.calcOneDivideXFunc(personagesCount, -0.392, -4.6, 1.12);
     }
 }

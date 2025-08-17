@@ -10,8 +10,6 @@ public interface ItemRandomConfig {
 
     ProbabilityPicker<Integer> shopModifierCountPicker();
 
-    ProbabilityPicker<ItemRarity> raidRarityPicker();
-
     ProbabilityPicker<Integer> raidModifierCountPicker();
 
     ProbabilityPicker<ItemRarity> worldRaidRarityPicker();
