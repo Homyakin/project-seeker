@@ -123,7 +123,7 @@ public class RaidLocalization {
 
         for (final var personageResult : personageResults) {
             participantsHealth += personageResult.stats().remainHealth();
-            participantsMaxHealth += personageResult.participant().personage().calcTotalCharacteristics().health();
+            participantsMaxHealth += personageResult.stats().characteristics().health();
 
             if (!personageResult.stats().isDead()) {
                 livingParticipants++;
