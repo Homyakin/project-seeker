@@ -24,7 +24,7 @@ public class UpdateGroupParameters {
 
     public void updateRaidLevel(GroupId groupId, boolean wasRaidSuccess) {
         final var group = storage.get(groupId).orElseThrow();
-        final var newRaidLevel = Math.max(1, group.raidLevel() + (wasRaidSuccess ? 2 : -3));
+        final var newRaidLevel = Math.max(1, group.raidLevel() + (wasRaidSuccess ? 4 : -5));
         storage.updateRaidLevel(groupId, newRaidLevel);
     }
 }
