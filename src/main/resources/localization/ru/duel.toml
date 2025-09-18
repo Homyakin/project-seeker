@@ -38,8 +38,10 @@ expiredDuel = [
     "${mention_acceptor_icon_with_name} наказала мама. Пока полы не будут помыты - дуэли не будет!",
 ]
 declinedDuel = [
-    "Принимающая сторона отклонила вызов!",
-    "Ха! ${mention_initiator_icon_with_name}, ищи дурака для дуэли в другом месте!"
+    "Дуэль отменена.",
+    "Ха! ${mention_initiator_icon_with_name}, ищи дурака для дуэли в другом месте!",
+    "${mention_initiator_icon_with_name}, у нас отмена!",
+    "Дуэль прекращена по инициативе одной из сторон.",
 ]
 finishedDuel = [
     "Искатель ${mention_winner_icon_with_name} одержал верх над ${mention_loser_icon_with_name}",

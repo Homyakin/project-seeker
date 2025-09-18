@@ -86,8 +86,8 @@ public class DuelService {
         );
     }
 
-    public Either<ProcessDuelError, Success> declineDuel(Duel duel, PersonageId acceptor) {
-        if (!acceptor.equals(duel.acceptingPersonageId())) {
+    public Either<ProcessDuelError, Success> declineDuel(Duel duel, PersonageId personageId) {
+        if (!personageId.equals(duel.acceptingPersonageId()) && !personageId.equals(duel.initiatingPersonageId())) {
             return Either.left(ProcessDuelError.NotDuelAcceptor.INSTANCE);
         }
         return lockService.<Either<ProcessDuelError, Success>>tryLockAndCalc(
