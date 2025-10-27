@@ -285,3 +285,35 @@
         "¡Una bebida perfecta para este clima frío!",
         "Este año no fue fácil... ¡Pero <b>${personage_badge_with_name}</b> estuvo a la altura!"
     ]
+
+[[item]]
+    code = "pumpkin_nastoyka"
+    rarity = "RARE"
+    isAvailable = true
+    category = "DRINK"
+    effectCharacteristic = "ATTACK"
+
+    [item.locales.RU]
+    name = "Тыквенная настойка"
+    consumeTemplate = [
+        "Осенняя тыква, настоянная на крепком духе! Для <b>${personage_badge_with_name}</b>!",
+        "Говорят, что после этой настойки начинаешь видеть духов. Или дело в <b>${personage_badge_with_name}</b>?",
+        "Рецепт передаётся из поколения в поколение. <b>${personage_badge_with_name}</b> определённо оценит вкус осени!",
+        "Сладкая тыква и жгучий спирт - идеальное сочетание для храбрых искателей вроде <b>${personage_badge_with_name}</b>!"
+    ]
+
+[[item]]
+    code = "pumpkin_soup"
+    rarity = "RARE"
+    isAvailable = true
+    category = "MAIN_DISH"
+    effectCharacteristic = "HEALTH"
+
+    [item.locales.RU]
+    name = "Тыквенный суп"
+    consumeTemplate = [
+        "Горячий тыквенный суп согреет <b>${personage_badge_with_name}</b> в холодную осеннюю ночь!",
+        "Суп из отборных тыкв, выращенных на кладбище... Шутка! Или нет, <b>${personage_badge_with_name}</b>?",
+        "Сливочный, ароматный, целебный! Именно то, что нужно <b>${personage_badge_with_name}</b> перед битвой!",
+        "Бабушкин рецепт с секретным ингредиентом. <b>${personage_badge_with_name}</b> чувствует прилив сил!"
+    ]
