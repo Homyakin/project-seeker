@@ -66,6 +66,7 @@ public enum CommandType {
     TOP_GROUP_RAID_WEEK("/topg_raid_week", CheckType.EQUALS),
     TOP_GROUP_RAID_LEVEL("/topg_raid_level", CheckType.EQUALS),
     GROUP_INFO("/group_info", CheckType.EQUALS),
+    GROUP_MEMBERS("/group_members", CheckType.EQUALS),
     REGISTER_GROUP("/register", CheckType.STARTS_WITH),
     DONATE_MONEY("/donate", CheckType.STARTS_WITH),
     GIVE_MONEY("/give", CheckType.STARTS_WITH),
