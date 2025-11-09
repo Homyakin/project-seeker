@@ -289,7 +289,7 @@
 [[item]]
     code = "pumpkin_nastoyka"
     rarity = "RARE"
-    isAvailable = true
+    isAvailable = false
     category = "DRINK"
     effectCharacteristic = "ATTACK"
 
@@ -305,7 +305,7 @@
 [[item]]
     code = "pumpkin_soup"
     rarity = "RARE"
-    isAvailable = true
+    isAvailable = false
     category = "MAIN_DISH"
     effectCharacteristic = "HEALTH"
 
