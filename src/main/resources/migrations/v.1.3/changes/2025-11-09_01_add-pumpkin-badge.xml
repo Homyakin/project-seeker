@@ -14,7 +14,7 @@
             INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
             SELECT p.personage_id, b.id, false
             FROM active_personages p, badge b
-            WHERE b.code = 'new-year-2025';
+            WHERE b.code = 'pumpkin';
         </sql>
     </changeSet>
 </databaseChangeLog>
