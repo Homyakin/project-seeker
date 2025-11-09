@@ -13,6 +13,7 @@ public enum BadgeView {
     FIRST_GROUPS("first-groups", EmojiManager.getByAlias(":rosette:").orElseThrow().getFirst().getEmoji()),
     FEEDBACK("feedback", EmojiManager.getByAlias(":bulb:").orElseThrow().getFirst().getEmoji()),
     CONTRIBUTE("contribute", EmojiManager.getByAlias(":hammer:").orElseThrow().getFirst().getEmoji()),
+    PUMPKIN("pumpkin", EmojiManager.getByAlias(":pumpkin:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;

@@ -65,12 +65,18 @@ description = "Primeros Grupos"
 code = "feedback"
 
 [badge.locales.RU]
-description = "Активная обратную связь"
+description = "Активная обратная связь"
 
 [[badge]]
 code = "contribute"
 
 [badge.locales.RU]
 description = "Вклад в развитие таверны"
+
+[[badge]]
+code = "pumpkin"
+
+[badge.locales.RU]
+description = "Согревающая осень"
 
 
