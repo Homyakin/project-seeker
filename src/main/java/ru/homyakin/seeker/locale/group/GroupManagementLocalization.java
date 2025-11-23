@@ -209,6 +209,10 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::leaveGroupNotMember);
     }
 
+    public static String leaveGroupNotAnyMember(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::leaveGroupNotAnyMember);
+    }
+
     public static String leaveGroupLastMemberConfirmation(Language language) {
         return resources.getOrDefault(language, GroupManagementResource::leaveGroupLastMemberConfirmation);
     }

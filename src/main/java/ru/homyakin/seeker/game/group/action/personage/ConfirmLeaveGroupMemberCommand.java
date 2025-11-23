@@ -43,14 +43,47 @@ public class ConfirmLeaveGroupMemberCommand {
             return Either.right(
                 new ConfirmLeaveGroupMemberResult(
                     ConfirmLeaveGroupMemberResult.LeaveType.LAST_MEMBER,
-                    config.personageJoinGroupTimeout()
+                    config.personageJoinGroupTimeout(),
+                    groupId
                 )
             );
         } else {
             return Either.right(
                 new ConfirmLeaveGroupMemberResult(
                     ConfirmLeaveGroupMemberResult.LeaveType.NOT_LAST_MEMBER,
-                    config.personageJoinGroupTimeout()
+                    config.personageJoinGroupTimeout(),
+                    groupId
+                )
+            );
+        }
+    }
+
+    public Either<LeaveGroupMemberError.NotGroupMember, ConfirmLeaveGroupMemberResult> execute(
+        PersonageId personageId
+    ) {
+        final var personageMemberGroup = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (!personageMemberGroup.hasGroup()) {
+            return Either.left(LeaveGroupMemberError.NotGroupMember.INSTANCE);
+        }
+
+        final var groupId = personageMemberGroup.groupId().get();
+        groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
+        final var memberCount = groupStorage.memberCount(groupId);
+        if (memberCount == 0) {
+            groupStorage.deleteTag(groupId);
+            return Either.right(
+                new ConfirmLeaveGroupMemberResult(
+                    ConfirmLeaveGroupMemberResult.LeaveType.LAST_MEMBER,
+                    config.personageJoinGroupTimeout(),
+                    groupId
+                )
+            );
+        } else {
+            return Either.right(
+                new ConfirmLeaveGroupMemberResult(
+                    ConfirmLeaveGroupMemberResult.LeaveType.NOT_LAST_MEMBER,
+                    config.personageJoinGroupTimeout(),
+                    groupId
                 )
             );
         }

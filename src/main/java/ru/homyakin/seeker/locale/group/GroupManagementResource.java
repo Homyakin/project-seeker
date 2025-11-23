@@ -25,6 +25,7 @@ public record GroupManagementResource(
     String joinConfirmNotMember,
     String leaveGroupSuccess,
     String leaveGroupNotMember,
+    String leaveGroupNotAnyMember,
     String leaveGroupLastMemberConfirmation,
     String leaveGroupConfirmButton,
     String leaveGroupCancelButton,

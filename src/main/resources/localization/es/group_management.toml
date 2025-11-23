@@ -49,6 +49,7 @@ joinConfirmNotMember = "Debes ser miembro del grupo para aprobar solicitudes"
 
 leaveGroupSuccess = "<code>${personage_badge_with_name}</code> salió del grupo. No podrá entrar a otro durante ${duration}"
 leaveGroupNotMember = "No perteneces a ese grupo"
+leaveGroupNotAnyMember = "No perteneces a ningún grupo"
 leaveGroupLastMemberConfirmation = "Si te vas, el grupo quedará vacío y será disuelto"
 leaveGroupConfirmButton = "✅Salir"
 leaveGroupCancelButton = "❌Cancelar"

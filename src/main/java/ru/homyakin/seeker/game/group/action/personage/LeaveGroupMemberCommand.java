@@ -45,4 +45,23 @@ public class LeaveGroupMemberCommand {
         }
         return Either.right(config.personageJoinGroupTimeout());
     }
+
+    /**
+     * @return Возвращает таймаут на вступление в случае успеха
+     */
+    public Either<LeaveGroupMemberError, Duration> execute(PersonageId personageId) {
+        final var personageMemberGroup = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (!personageMemberGroup.hasGroup()) {
+            return Either.left(LeaveGroupMemberError.NotGroupMember.INSTANCE);
+        }
+
+        final var groupId = personageMemberGroup.groupId().get();
+        final var memberCount = groupStorage.memberCount(groupId);
+        if (memberCount == 1) {
+            return Either.left(LeaveGroupMemberError.LastMember.INSTANCE);
+        } else {
+            groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
+        }
+        return Either.right(config.personageJoinGroupTimeout());
+    }
 }

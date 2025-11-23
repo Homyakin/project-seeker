@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.telegram.command.group.management;
+package ru.homyakin.seeker.telegram.command.user.group;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.GetGroup;
@@ -8,60 +8,58 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.group.GroupUserService;
+import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 
 @Component
-public class LeaveGroupMemberConfirmExecutor extends CommandExecutor<LeaveGroupMemberConfirm> {
-    private final GroupUserService groupUserService;
+public class LeaveGroupInPrivateConfirmExecutor extends CommandExecutor<LeaveGroupInPrivateConfirm> {
+    private final UserService userService;
     private final ConfirmLeaveGroupMemberCommand confirmLeaveGroupMemberCommand;
-    private final TelegramSender telegramSender;
     private final PersonageService personageService;
     private final GetGroup getGroup;
+    private final TelegramSender telegramSender;
 
-    public LeaveGroupMemberConfirmExecutor(
-        GroupUserService groupUserService,
+    public LeaveGroupInPrivateConfirmExecutor(
+        UserService userService,
         ConfirmLeaveGroupMemberCommand confirmLeaveGroupMemberCommand,
-        TelegramSender telegramSender,
         PersonageService personageService,
-        GetGroup getGroup
+        GetGroup getGroup,
+        TelegramSender telegramSender
     ) {
-        this.groupUserService = groupUserService;
+        this.userService = userService;
         this.confirmLeaveGroupMemberCommand = confirmLeaveGroupMemberCommand;
-        this.telegramSender = telegramSender;
         this.personageService = personageService;
         this.getGroup = getGroup;
+        this.telegramSender = telegramSender;
     }
 
     @Override
-    public void execute(LeaveGroupMemberConfirm command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
-        final var groupTg = groupUser.first();
-        final var user = groupUser.second();
+    public void execute(LeaveGroupInPrivateConfirm command) {
+        final var user = userService.forceGetFromPrivate(command.userId());
 
         if (!user.personageId().equals(command.personageId())) {
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
                     command.callbackId(),
-                    CommonLocalization.forbiddenAction(groupTg.language())
+                    CommonLocalization.forbiddenAction(user.language())
                 )
             );
             return;
         }
 
-        final var text = confirmLeaveGroupMemberCommand.execute(user.personageId(), groupTg.domainGroupId())
+        final var text = confirmLeaveGroupMemberCommand.execute(user.personageId())
             .fold(
-                _ -> GroupManagementLocalization.leaveGroupNotMember(groupTg.language()),
+                _ -> GroupManagementLocalization.leaveGroupNotAnyMember(user.language()),
                 result -> switch (result.leaveType()) {
                     case NOT_LAST_MEMBER ->
                         GroupManagementLocalization.leaveGroupSuccess(
-                            groupTg.language(),
+                            user.language(),
                             personageService.getByIdForce(user.personageId()),
                             result.joinTimeout()
                         );
                     case LAST_MEMBER -> GroupManagementLocalization.leaveGroupLastMemberSuccess(
-                        groupTg.language(),
+                        user.language(),
                         personageService.getByIdForce(user.personageId()),
                         getGroup.forceGet(result.groupId()),
                         result.joinTimeout()
@@ -70,10 +68,11 @@ public class LeaveGroupMemberConfirmExecutor extends CommandExecutor<LeaveGroupM
             );
         telegramSender.send(
             EditMessageTextBuilder.builder()
-                .chatId(command.groupTgId())
+                .chatId(user.id())
                 .messageId(command.messageId())
                 .text(text)
                 .build()
         );
     }
 }
+

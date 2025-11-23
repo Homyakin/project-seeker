@@ -98,6 +98,9 @@ import ru.homyakin.seeker.telegram.user.state.UserStateService;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
 import ru.homyakin.seeker.telegram.command.group.top.TopTavernSpent;
+import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivate;
+import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivateConfirm;
+import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivateCancel;
 
 @Component
 public class CommandParser {
@@ -195,6 +198,7 @@ public class CommandParser {
                 case ADD_MODIFIER -> AddModifier.from(message);
                 case REPAIR -> Repair.from(message);
                 case CANCEL_EVENT -> CancelEvent.from(message);
+                case LEAVE_GROUP -> LeaveGroupInPrivate.from(message);
                 default -> null;
             });
     }
@@ -265,6 +269,8 @@ public class CommandParser {
                 case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
                 case SELECT_BADGE -> SelectPersonageBadge.from(callback);
                 case TOGGLE_PERSONAGE_SETTING -> SetPersonageSetting.from(callback);
+                case LEAVE_GROUP_CONFIRM -> LeaveGroupInPrivateConfirm.from(callback);
+                case LEAVE_GROUP_CANCEL -> LeaveGroupInPrivateCancel.from(callback);
                 default -> null;
             });
     }

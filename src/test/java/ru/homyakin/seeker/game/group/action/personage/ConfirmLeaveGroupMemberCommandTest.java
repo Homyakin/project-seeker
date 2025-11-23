@@ -13,10 +13,8 @@ import ru.homyakin.seeker.game.group.error.ConfirmLeaveGroupMemberResult;
 import ru.homyakin.seeker.game.group.error.LeaveGroupMemberError;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
-import ru.homyakin.seeker.utils.DatabaseUtils;
 
 import java.time.Duration;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -64,7 +62,8 @@ class ConfirmLeaveGroupMemberCommandTest {
         Assertions.assertEquals(
             new ConfirmLeaveGroupMemberResult(
                 ConfirmLeaveGroupMemberResult.LeaveType.LAST_MEMBER,
-                joinTimeout
+                joinTimeout,
+                groupId
             ),
             result.get()
         );
@@ -86,7 +85,8 @@ class ConfirmLeaveGroupMemberCommandTest {
         Assertions.assertEquals(
             new ConfirmLeaveGroupMemberResult(
                 ConfirmLeaveGroupMemberResult.LeaveType.NOT_LAST_MEMBER,
-                joinTimeout
+                joinTimeout,
+                groupId
             ),
             result.get()
         );
