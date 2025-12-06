@@ -62,6 +62,7 @@ public class GroupMigrateDao {
         final var deleteGroup = """
             DELETE FROM everyday_spin WHERE pgroup_id = :id;
             DELETE FROM pgroup_to_personage WHERE pgroup_id = :id;
+            DELETE FROM pgroup_to_badge WHERE pgroup_id = :id;
             UPDATE grouptg SET pgroup_id = NULL WHERE pgroup_id = :id;
             DELETE FROM pgroup WHERE id = :id;
             """;
