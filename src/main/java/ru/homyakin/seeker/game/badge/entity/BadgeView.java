@@ -14,6 +14,7 @@ public enum BadgeView {
     FEEDBACK("feedback", EmojiManager.getByAlias(":bulb:").orElseThrow().getFirst().getEmoji()),
     CONTRIBUTE("contribute", EmojiManager.getByAlias(":hammer:").orElseThrow().getFirst().getEmoji()),
     PUMPKIN("pumpkin", EmojiManager.getByAlias(":jack_o_lantern:").orElseThrow().getFirst().getEmoji()),
+    FOURTH_SEASON("fourth-season", EmojiManager.getByAlias(":dog2:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;

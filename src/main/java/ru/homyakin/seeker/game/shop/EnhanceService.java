@@ -98,7 +98,7 @@ public class EnhanceService {
 
     private Money addModifierPrice(Item item) {
         final var basePrice = config.buyingPriceByRarity(item.rarity());
-        final var multiplier = 1.5 + item.modifiers().size();
+        final var multiplier = 2.0 + item.modifiers().size();
         return Money.from((int) (basePrice.value() * multiplier));
     }
 

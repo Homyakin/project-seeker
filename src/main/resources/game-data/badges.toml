@@ -79,4 +79,11 @@ code = "pumpkin"
 [badge.locales.RU]
 description = "Согревающая осень"
 
+[[badge]]
+code = "fourth-season"
 
+[badge.locales.RU]
+description = "Четвёртый Сезон"
+
+[badge.locales.ES]
+description = "Cuarta Temporada"
