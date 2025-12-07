@@ -21,7 +21,7 @@
                 SELECT pgroup_id FROM pgroup_points WHERE points >= 21
             )
             INSERT INTO pgroup_to_badge (pgroup_id, badge_id)
-            SELECT p.pgroup_id, b.id, false
+            SELECT p.pgroup_id, b.id
             FROM qualified_pgroups p, badge b
             WHERE b.code = 'fourth-season';
             ]]>
