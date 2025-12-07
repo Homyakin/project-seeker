@@ -22,4 +22,5 @@
     <include file="changes/2025-07-26_01_add-raid-level-and-event-params.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-11-09_01_add-pumpkin-badge.xml" relativeToChangelogFile="true"/>
     <include file="changes/2025-12-06_01_start-season-5.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2025-12-07_01_add-4-season-badge-to-groups.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -1,0 +1,30 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="start-season-4">
+        <sql>
+            <![CDATA[
+            WITH pgroup_points AS (
+                SELECT 
+                    letp.pgroup_id,
+                    SUM(CASE WHEN e.type_id = 2 THEN 0.05 ELSE 1 END) AS points
+                FROM launched_event_to_pgroup letp
+                LEFT JOIN launched_event le ON letp.launched_event_id = le.id
+                LEFT JOIN event e ON le.event_id = e.id
+                LEFT JOIN season s ON s.number = 4
+                WHERE le.end_date >= s.start_date AND le.end_date < s.end_date
+                GROUP BY letp.pgroup_id
+            ),
+            qualified_pgroups AS (
+                SELECT pgroup_id FROM pgroup_points WHERE points >= 21
+            )
+            INSERT INTO pgroup_to_badge (pgroup_id, badge_id)
+            SELECT p.personage_id, b.id, false
+            FROM qualified_pgroups p, badge b
+            WHERE b.code = 'fourth-season';
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>
