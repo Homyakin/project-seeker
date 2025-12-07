@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="start-season-4">
+    <changeSet context="legacy" author="Homyakin" id="add-4-season-badge-to-groups">
         <sql>
             <![CDATA[
             WITH pgroup_points AS (
