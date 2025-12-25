@@ -214,7 +214,7 @@
 [[item]]
     code = "olivier"
     rarity = "RARE"
-    isAvailable = false
+    isAvailable = true
     category = "MAIN_DISH"
     effectCharacteristic = "HEALTH"
 
@@ -237,7 +237,7 @@
 [[item]]
     code = "champagne"
     rarity = "RARE"
-    isAvailable = false
+    isAvailable = true
     category = "DRINK"
     effectCharacteristic = "WISDOM"
 
@@ -264,7 +264,7 @@
 [[item]]
     code = "gluhwein"
     rarity = "RARE"
-    isAvailable = false
+    isAvailable = true
     category = "DRINK"
     effectCharacteristic = "ATTACK"
 
