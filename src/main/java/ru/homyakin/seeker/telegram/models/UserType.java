@@ -13,6 +13,9 @@ public enum UserType {
     }
 
     public static UserType from(String username) {
+        if (username == null) {
+            return USER;
+        }
         if (TelegramBotConfig.username().equals(username)) {
             return THIS_BOT;
         }
