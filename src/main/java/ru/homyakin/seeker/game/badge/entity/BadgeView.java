@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.badge.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import net.fellbaum.jemoji.EmojiManager;
 
 public enum BadgeView {
@@ -15,6 +16,7 @@ public enum BadgeView {
     CONTRIBUTE("contribute", EmojiManager.getByAlias(":hammer:").orElseThrow().getFirst().getEmoji()),
     PUMPKIN("pumpkin", EmojiManager.getByAlias(":jack_o_lantern:").orElseThrow().getFirst().getEmoji()),
     FOURTH_SEASON("fourth-season", EmojiManager.getByAlias(":dog2:").orElseThrow().getFirst().getEmoji()),
+    NEW_YEAR_2026("new-year-2026", EmojiManager.getByAlias(":sparkles:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;
