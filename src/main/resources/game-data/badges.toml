@@ -87,3 +87,12 @@ description = "Четвёртый Сезон"
 
 [badge.locales.ES]
 description = "Cuarta Temporada"
+
+[[badge]]
+code = "new-year-2026"
+
+[badge.locales.RU]
+description = "Новый Год 2026"
+
+[badge.locales.ES]
+description = "Año Nuevo 2026"
