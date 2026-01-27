@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <changeSet context="legacy" author="Homyakin" id="add-new-year-2026-badge">
-        <sql>
+        <sql><![CDATA[
             WITH active_personages AS (
                 SELECT mio.ordering_personage_id as personage_id FROM menu_item_order mio
                 INNER JOIN menu_item mi ON mio.menu_item_id = mi.id
@@ -16,6 +16,6 @@
             SELECT p.personage_id, b.id, false
             FROM active_personages p, badge b
             WHERE b.code = 'new-year-2026';
-        </sql>
+        ]]></sql>
     </changeSet>
 </databaseChangeLog>
