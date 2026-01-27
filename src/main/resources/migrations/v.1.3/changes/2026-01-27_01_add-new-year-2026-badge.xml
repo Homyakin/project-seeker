@@ -9,7 +9,7 @@
                 SELECT mio.ordering_personage_id as personage_id FROM menu_item_order mio
                 INNER JOIN menu_item mi ON mio.menu_item_id = mi.id
                 WHERE mi.code IN ('olivier', 'champagne', 'gluhwein')
-                AND mio.expire_date_time >= '2025-12-01' AND mio.expire_date_time < '2026-01-02'
+                AND mio.expire_date_time >= '2025-12-01' AND mio.expire_date_time < '2026-02-01'
                 GROUP BY mio.ordering_personage_id
             )
             INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
