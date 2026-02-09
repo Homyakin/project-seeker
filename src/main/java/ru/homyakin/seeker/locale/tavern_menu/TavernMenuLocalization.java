@@ -201,6 +201,7 @@ public class TavernMenuLocalization {
             case ThrowOrderError throwOrderError -> throwOrderError(language, throwOrderError);
             case ThrowToGroupError.InternalError _ -> CommonLocalization.internalError(language);
             case ThrowToGroupError.NotGroupMember _ -> throwToGroupNotMember(language);
+            case ThrowToGroupError.TargetGroupNotActive _ -> targetGroupNotActive(language);
             case ThrowToGroupError.NotRegisteredGroup _ -> CommonLocalization.onlyForRegisteredGroup(language);
             case ThrowToGroupError.TargetGroupIsEmpty _ -> throwToGroupNoPersonage(language);
             case ThrowToGroupError.TargetGroupNotFound _ -> throwToGroupNotExists(language);
@@ -284,6 +285,10 @@ public class TavernMenuLocalization {
             resources.getOrDefaultRandom(language, TavernMenuResource::throwDishFromGroup),
             params
         );
+    }
+
+    private static String targetGroupNotActive(Language language) {
+        return resources.getOrDefault(language, TavernMenuResource::targetGroupNotActive);
     }
 
     private static String throwToGroupNotMember(Language language) {

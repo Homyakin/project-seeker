@@ -1,7 +1,8 @@
 package ru.homyakin.seeker.game.tavern_menu.order;
 
-import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
+
+import io.vavr.control.Either;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.action.personage.RandomGroupPersonage;
@@ -63,6 +64,9 @@ public class ThrowOrderToGroupCommand {
         final var targetGroup = getGroup.getByTag(targetTag);
         if (targetGroup.isEmpty()) {
             return Either.left(ThrowToGroupError.TargetGroupNotFound.INSTANCE);
+        }
+        if (!targetGroup.get().isActive()) {
+            return Either.left(ThrowToGroupError.TargetGroupNotActive.INSTANCE);
         }
 
         final var lastThrowTargetDate = menuItemOrderDao.lastThrowToGroup(targetGroup.get().id());

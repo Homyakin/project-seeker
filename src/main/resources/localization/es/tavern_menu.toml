@@ -94,6 +94,7 @@ throwToStaff = [
 ]
 
 throwToGroupMissingGroup = "Debes escribir el tag del grupo <code>${throw_to_group_command} tag</code>"
+targetGroupNotActive = "Parece que el grupo objetivo dejó la taberna"
 throwToGroupNotExists = "Ese grupo no existe"
 throwToGroupNotMember = "No perteneces al grupo desde donde quieres lanzar el pedido"
 throwToGroupTimeout = "Te tienen en la mira desde el último incidente. Mejor espera ${duration}"

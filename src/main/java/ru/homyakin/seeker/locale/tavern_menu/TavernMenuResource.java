@@ -35,6 +35,7 @@ public record TavernMenuResource(
     String[] selfThrowDrink,
     String[] throwToStaff,
     String throwToGroupMissingGroup,
+    String targetGroupNotActive,
     String throwToGroupNotExists,
     String throwToGroupNotMember,
     String throwToGroupTimeout,

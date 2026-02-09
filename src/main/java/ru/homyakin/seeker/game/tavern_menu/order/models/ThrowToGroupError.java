@@ -5,6 +5,7 @@ import java.time.Duration;
 public sealed interface ThrowToGroupError permits
     ThrowOrderError,
     ThrowToGroupError.InternalError,
+    ThrowToGroupError.TargetGroupNotActive,
     ThrowToGroupError.NotGroupMember,
     ThrowToGroupError.NotRegisteredGroup,
     ThrowToGroupError.TargetGroupIsEmpty,
@@ -12,6 +13,10 @@ public sealed interface ThrowToGroupError permits
     ThrowToGroupError.TargetGroupTimeout,
     ThrowToGroupError.ThrowingGroupTimeout,
     ThrowToGroupError.ThrowToThisGroup {
+
+    enum TargetGroupNotActive implements ThrowToGroupError {
+        INSTANCE;
+    }
 
     enum NotRegisteredGroup implements ThrowToGroupError {
         INSTANCE;

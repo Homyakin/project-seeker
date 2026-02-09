@@ -94,6 +94,7 @@ throwToStaff = [
 ]
 
 throwToGroupMissingGroup = "Необходимо указать тэг группы <code>${throw_to_group_command} тэг</code>"
+targetGroupNotActive = "Похоже целевая группа покинула таверну"
 throwToGroupNotExists = "Такой группы не существует"
 throwToGroupNotMember = "Ты не состоишь в группе, из которой собираешься бросить заказ"
 throwToGroupTimeout = "За вашей группой пристально наблюдают после последнего инцидента. Лучше подождать ${duration}"
