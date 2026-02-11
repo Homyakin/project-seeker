@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
@@ -72,6 +73,11 @@ public class PersonageService {
                     .getOrElse(personage)
             );
     }
+
+    public List<Personage> getByGroupId(GroupId groupId) {
+        final var ids = personageDao.getPersonageIdsByGroupId(groupId);
+        return personageDao.getByIds(new java.util.HashSet<>(ids));
+        }
 
     public Personage getByIdForce(PersonageId personageId) {
         return getById(personageId)

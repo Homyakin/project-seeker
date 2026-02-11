@@ -2,7 +2,7 @@ registeredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
 Казна: ${money}${money_icon}
-Участники: ${members_count}
+Участники: ${members_count} ${group_members_command}
 
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}

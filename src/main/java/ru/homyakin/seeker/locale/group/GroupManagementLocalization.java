@@ -38,6 +38,7 @@ public class GroupManagementLocalization {
         params.put("group_stats_command", CommandType.GROUP_STATS.getText());
         params.put("group_settings_command", CommandType.SETTINGS.getText());
         params.put("group_commands_command", CommandType.GROUP_COMMANDS.getText());
+        params.put("group_members_command", CommandType.GROUP_MEMBERS.getText());
         params.put("members_count", group.memberCount());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::registeredGroupInfo),

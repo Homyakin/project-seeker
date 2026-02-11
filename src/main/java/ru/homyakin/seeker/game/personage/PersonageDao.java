@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -204,6 +205,14 @@ public class PersonageDao {
             .param("now", TimeUtils.moscowTime())
             .query((rs, _) -> PersonageId.from(rs.getLong("id")))
             .list();
+    }
+
+    public List<PersonageId> getPersonageIdsByGroupId(GroupId groupId) {
+        final var sql = "SELECT id FROM personage WHERE member_pgroup_id = :groupId AND is_hidden = false ORDER BY name";
+        return jdbcClient.sql(sql)
+                .param("groupId", groupId.value())
+                .query((rs, _) -> PersonageId.from(rs.getLong("id")))
+                .list();
     }
 
     private Personage mapRow(ResultSet rs, int rowNum) throws SQLException {
