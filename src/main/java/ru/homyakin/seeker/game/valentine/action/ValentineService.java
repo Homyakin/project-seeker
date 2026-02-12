@@ -75,6 +75,9 @@ public class ValentineService {
         if (!receiver.isGroupMember()) {
             return Either.left(ValentineError.ReceiverNotRegistered.INSTANCE);
         }
+        if (!activeGroupPersonagesService.isPersonageActiveInGroup(groupId, receiverId)) {
+            return Either.left(ValentineError.ReceiverNotActiveInGroup.INSTANCE);
+        }
 
         final boolean inSameGroup = sender.isSameGroup(receiver);
         final var goldCost = inSameGroup ? config.sameGroupGold() : config.otherGroupGold();
