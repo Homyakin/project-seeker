@@ -19,7 +19,8 @@ public record SendValentine(
 
     public static SendValentine from(Message message) {
         final var tag = TelegramUtils.deleteCommand(message.getText())
-            .map(text -> text.split("\\s+")[0]);
+            .map(text -> text.split("\\s+")[0])
+            .filter(text -> !text.startsWith("@"));
         return new SendValentine(
             GroupTgId.from(message.getChatId()),
             UserId.from(message.getFrom().getId()),
