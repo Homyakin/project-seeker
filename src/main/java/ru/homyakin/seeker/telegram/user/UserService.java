@@ -1,14 +1,15 @@
 package ru.homyakin.seeker.telegram.user;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.models.MentionInfo;
 import ru.homyakin.seeker.telegram.models.UserType;
 import ru.homyakin.seeker.telegram.user.models.User;
-
-import java.util.Optional;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 @Component
@@ -29,6 +30,15 @@ public class UserService {
         return switch (mentionInfo) {
             case MentionInfo.Id id -> Optional.of(forceGetFromGroup(id.userId()));
             case MentionInfo.UsernameMention usernameMention -> userDao.getByUsernameInGroup(usernameMention.username(), groupId);
+        };
+    }
+
+    public Optional<User> getByMention(MentionInfo mentionInfo) {
+        assert mentionInfo.userType() == UserType.USER;
+
+        return switch (mentionInfo) {
+            case MentionInfo.Id id -> Optional.of(forceGetFromGroup(id.userId()));
+            case MentionInfo.UsernameMention usernameMention -> userDao.getByUsername(usernameMention.username());
         };
     }
 

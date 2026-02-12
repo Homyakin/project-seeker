@@ -3,16 +3,18 @@ package ru.homyakin.seeker.telegram.user;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
+import ru.homyakin.seeker.telegram.user.entity.Username;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.user.models.UserId;
-import ru.homyakin.seeker.telegram.user.entity.Username;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Component
@@ -52,6 +54,14 @@ public class UserDao {
         return jdbcClient.sql(GET_BY_USERNAME)
             .param("username", username.value())
             .param("grouptg_id", groupId.value())
+            .query(this::mapRow)
+            .optional();
+    }
+
+    public Optional<User> getByUsername(Username username) {
+        final var sql = "SELECT * FROM usertg WHERE username = :username";
+        return jdbcClient.sql(sql)
+            .param("username", username.value())
             .query(this::mapRow)
             .optional();
     }

@@ -1,0 +1,46 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-valentine-stats">
+        <createTable tableName="valentine_stats">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="throwing_personage_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_valentine_stats_throwing_personage"
+                             references="personage(id)"/>
+            </column>
+            <column name="target_personage_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_valentine_stats_target_personage"
+                             references="personage(id)"/>
+            </column>
+            <column name="is_random" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="throwing_pgroup_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_valentine_stats_throwing_pgroup"
+                             references="pgroup(id)"/>
+            </column>
+            <column name="target_pgroup_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_valentine_stats_target_pgroup"
+                             references="pgroup(id)"/>
+            </column>
+            <column name="date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="valentine_stats" indexName="idx_valentine_stats_throwing_personage_id">
+            <column name="throwing_personage_id"/>
+        </createIndex>
+        <createIndex tableName="valentine_stats" indexName="idx_valentine_stats_target_personage_id">
+            <column name="target_personage_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

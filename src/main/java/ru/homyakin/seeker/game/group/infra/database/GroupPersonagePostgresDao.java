@@ -1,18 +1,20 @@
 package ru.homyakin.seeker.game.group.infra.database;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.entity.personage.PersonageMemberGroup;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.DatabaseUtils;
-
-import javax.sql.DataSource;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Set;
 
 @Repository
 public class GroupPersonagePostgresDao implements GroupPersonageStorage {
@@ -94,6 +96,19 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
             .param("pgroup_id", groupId.value())
             .query((rs, _) -> PersonageId.from(rs.getLong("personage_id")))
             .set();
+    }
+
+    @Override
+    public boolean isPersonageActiveInGroup(GroupId groupId, PersonageId personageId) {
+        final var sql = """
+            SELECT COUNT(*) FROM pgroup_to_personage
+            WHERE pgroup_id = :pgroup_id AND personage_id = :personage_id AND is_active = true
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .query((rs, _) -> rs.getInt(1))
+            .single() > 0;
     }
 
     @Override

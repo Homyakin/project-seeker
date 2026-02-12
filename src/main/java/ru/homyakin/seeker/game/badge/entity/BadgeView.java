@@ -17,6 +17,7 @@ public enum BadgeView {
     PUMPKIN("pumpkin", EmojiManager.getByAlias(":jack_o_lantern:").orElseThrow().getFirst().getEmoji()),
     FOURTH_SEASON("fourth-season", EmojiManager.getByAlias(":dog2:").orElseThrow().getFirst().getEmoji()),
     NEW_YEAR_2026("new-year-2026", EmojiManager.getByAlias(":sparkles:").orElseThrow().getFirst().getEmoji()),
+    VALENTINE("valentine", EmojiManager.getByAlias(":two_hearts:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;

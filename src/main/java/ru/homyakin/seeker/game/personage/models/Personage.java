@@ -260,8 +260,16 @@ public record Personage(
         return copyWithEffects(effects.addEffect(type, effect));
     }
 
+    public boolean isGroupMember() {
+        return tag().isPresent();
+    }
+
+    public boolean isSameGroup(Personage other) {
+        return isGroupMember() && tag().equals(other.tag());
+    }
+
     public boolean isGroupMember(Group group) {
-        return tag().isPresent() && group.tag().isPresent() && tag().equals(group.tag());
+        return isGroupMember() && group.tag().isPresent() && tag().equals(group.tag());
     }
 
     private Personage copyWithEffects(PersonageEffects effects) {

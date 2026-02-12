@@ -1,11 +1,11 @@
 package ru.homyakin.seeker.game.group.entity.personage;
 
-import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
+
+import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 public interface GroupPersonageStorage {
     Optional<PersonageId> randomMember(GroupId groupId);
@@ -19,6 +19,8 @@ public interface GroupPersonageStorage {
     void create(GroupId groupId, PersonageId personageId);
 
     Set<PersonageId> getActiveGroupPersonages(GroupId groupId);
+
+    boolean isPersonageActiveInGroup(GroupId groupId, PersonageId personageId);
 
     PersonageMemberGroup getPersonageMemberGroup(PersonageId personageId);
 

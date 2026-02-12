@@ -1,10 +1,12 @@
 package ru.homyakin.seeker.game.top;
 
 import java.util.Comparator;
+
 import org.springframework.stereotype.Service;
+
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.group.action.personage.GetActiveGroupPersonagesCommand;
+import ru.homyakin.seeker.game.group.action.personage.ActiveGroupPersonagesService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.season.action.SeasonService;
@@ -18,27 +20,27 @@ import ru.homyakin.seeker.game.top.models.TopDonateResult;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
-import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
-import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentResult;
+import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
+import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class TopService {
     private final TopDao topDao;
-    private final GetActiveGroupPersonagesCommand getActiveGroupPersonagesCommand;
+    private final ActiveGroupPersonagesService activeGroupPersonagesService;
     private final PersonageService personageService;
     private final SeasonService seasonService;
 
     public TopService(
         TopDao topDao,
-        GetActiveGroupPersonagesCommand getActiveGroupPersonagesCommand,
+        ActiveGroupPersonagesService activeGroupPersonagesService,
         PersonageService personageService,
         SeasonService seasonService
     ) {
         this.topDao = topDao;
-        this.getActiveGroupPersonagesCommand = getActiveGroupPersonagesCommand;
+        this.activeGroupPersonagesService = activeGroupPersonagesService;
         this.personageService = personageService;
         this.seasonService = seasonService;
     }
@@ -81,7 +83,7 @@ public class TopService {
     }
 
     public TopPowerPersonageResult getTopPowerPersonage(GroupId groupId) {
-        final var personages = personageService.getByIdsWithoutEnergyRegen(getActiveGroupPersonagesCommand.execute(groupId));
+        final var personages = personageService.getByIdsWithoutEnergyRegen(activeGroupPersonagesService.getActiveGroupPersonages(groupId));
         final var top = personages.stream()
             .map(Personage::toBattlePersonage)
             .sorted(Comparator.comparingDouble(BattlePersonage::power).reversed())

@@ -96,3 +96,9 @@ description = "Новый Год 2026"
 
 [badge.locales.ES]
 description = "Año Nuevo 2026"
+
+[[badge]]
+code = "valentine"
+
+[badge.locales.RU]
+description = "Во Имя Любви"

@@ -1,11 +1,14 @@
 package ru.homyakin.seeker.locale;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 import java.io.File;
 import java.io.InputStream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.toml.TomlMapper;
+
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.common.CommonResource;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
@@ -21,22 +24,24 @@ import ru.homyakin.seeker.locale.help.HelpResource;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.item.ItemResource;
 import ru.homyakin.seeker.locale.personal.BadgeLocalization;
+import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
-import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.raid.RaidResource;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.locale.shop.ShopResource;
-import ru.homyakin.seeker.locale.worker.WorkerOfDayLocalization;
-import ru.homyakin.seeker.locale.worker.WorkerOfDayResource;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuLocalization;
 import ru.homyakin.seeker.locale.tavern_menu.TavernMenuResource;
 import ru.homyakin.seeker.locale.top.TopLocalization;
 import ru.homyakin.seeker.locale.top.TopResource;
+import ru.homyakin.seeker.locale.valentine.ValentineLocalization;
+import ru.homyakin.seeker.locale.valentine.ValentineResource;
+import ru.homyakin.seeker.locale.worker.WorkerOfDayLocalization;
+import ru.homyakin.seeker.locale.worker.WorkerOfDayResource;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidResource;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
@@ -61,6 +66,7 @@ public class LocalizationInitializer {
     private static final String SHOP_PATH = File.separator + "shop.toml";
     private static final String FEEDBACK_PATH = File.separator + "feedback.toml";
     private static final String WORLD_RAID_PATH = File.separator + "world_raid.toml";
+    private static final String VALENTINE_PATH = File.separator + "valentine.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -151,6 +157,11 @@ public class LocalizationInitializer {
                     FeedbackLocalization.add(language, resource);
                     FeedbackCommandType.fillLocaleMap(resource);
                 }
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + VALENTINE_PATH,
+                it -> ValentineLocalization.add(language, extractClass(mapper, it, ValentineResource.class))
             );
         }
         logger.info("Localization loaded");
