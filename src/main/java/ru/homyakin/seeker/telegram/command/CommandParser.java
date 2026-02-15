@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.common.help.HelpLove;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.common.help.ShowHelp;
 import ru.homyakin.seeker.telegram.command.common.world_raid.JoinWorldRaid;
@@ -60,7 +59,6 @@ import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeekGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopTavernSpent;
 import ru.homyakin.seeker.telegram.command.group.top.TopWorkerOfDay;
-import ru.homyakin.seeker.telegram.command.group.valentine.SendValentine;
 import ru.homyakin.seeker.telegram.command.group.worker.WorkerOfDay;
 import ru.homyakin.seeker.telegram.command.group.world_raid.GroupWorldRaidReport;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
