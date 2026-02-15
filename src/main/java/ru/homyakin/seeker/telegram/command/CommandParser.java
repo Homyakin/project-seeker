@@ -203,7 +203,7 @@ public class CommandParser {
                 case REPAIR -> Repair.from(message);
                 case CANCEL_EVENT -> CancelEvent.from(message);
                 case LEAVE_GROUP -> LeaveGroupInPrivate.from(message);
-                case HELP_LOVE -> HelpLove.from(message);
+                // case HELP_LOVE -> HelpLove.from(message);
                 default -> null;
             });
     }
@@ -247,8 +247,8 @@ public class CommandParser {
                 case CHANGE_TAG -> ChangeGroupTag.from(message);
                 case THROW_ORDER_TO_GROUP -> ThrowOrderToGroup.from(message);
                 case SHOW_BADGES_GROUP -> ShowGroupBadges.from(message);
-                case SEND_VALENTINE -> SendValentine.from(message);
-                case HELP_LOVE -> HelpLove.from(message);
+                // case SEND_VALENTINE -> SendValentine.from(message);
+                // case HELP_LOVE -> HelpLove.from(message);
                 default -> null;
             });
     }
