@@ -38,6 +38,7 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
                     PersonageId.from(-1 - i),
                     null,
                     Optional.empty(),
+                    Optional.empty(),
                     null,
                     characteristics,
                     null,

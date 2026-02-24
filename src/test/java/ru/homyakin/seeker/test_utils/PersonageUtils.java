@@ -29,6 +29,7 @@ public class PersonageUtils {
             PersonageId.from(TestRandom.nextLong()),
             TestRandom.randomAlphanumeric(5),
             Optional.empty(),
+            Optional.empty(),
             Money.zero(),
             Characteristics.random(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
@@ -43,6 +44,7 @@ public class PersonageUtils {
             PersonageId.from(TestRandom.nextLong()),
             TestRandom.randomAlphanumeric(5),
             Optional.empty(),
+            Optional.empty(),
             Money.zero(),
             Characteristics.random(),
             new Energy(0, TimeUtils.moscowTime(), timeToRegen),
@@ -56,6 +58,7 @@ public class PersonageUtils {
         return new Personage(
             id,
             TestRandom.randomAlphanumeric(5),
+            Optional.empty(),
             Optional.empty(),
             Money.zero(),
             Characteristics.random(),

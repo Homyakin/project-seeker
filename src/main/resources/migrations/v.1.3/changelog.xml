@@ -25,4 +25,6 @@
     <include file="changes/2025-12-07_01_add-4-season-badge-to-groups.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-01-27_01_add-new-year-2026-badge.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-02-11_01_add-valentine-stats.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-02-23_01_add-contraband-chest.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-02-23_02_add-generated-contraband-id-to-raid-result.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

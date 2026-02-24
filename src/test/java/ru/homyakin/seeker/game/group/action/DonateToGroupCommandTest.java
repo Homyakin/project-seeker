@@ -38,6 +38,7 @@ class DonateToGroupCommandTest {
             personageId,
             "Test Personage",
             Optional.empty(),
+            Optional.empty(),
             new Money(100),
             null,
             null,
@@ -75,6 +76,7 @@ class DonateToGroupCommandTest {
             new Personage(
                 personageId,
                 "Test Personage",
+                Optional.empty(),
                 Optional.empty(),
                 new Money(50),
                 null,

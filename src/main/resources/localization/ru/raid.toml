@@ -32,6 +32,11 @@ ${top_participants_list}${from_new_line_items_for_personages}
 successItemForPersonage = [
     "${personage_badge_with_name} обнаруживает на поле <code>${short_item}</code>! Необходимо обмыть находку в таверне🍻"
 ]
+successContrabandForPersonage = [
+    "${personage_badge_with_name} нащупал в пыли после боя <b>${contraband_name}</b>! Что-то гремит внутри...",
+    "${personage_badge_with_name} споткнулся о <b>${contraband_name}</b>! Замок выглядит подозрительно.",
+    "${personage_badge_with_name} обнаруживает <b>${contraband_name}</b> среди обломков. От него несёт контрабандой."
+]
 notEnoughSpaceInBagForItem = [
     "${personage_badge_with_name} обнаруживает на поле <code>${short_item}</code>, но не может унести из-за полного рюкзака...😢"
 ]

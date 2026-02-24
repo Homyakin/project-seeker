@@ -39,4 +39,9 @@ public class Icons {
     public static final String PANTS = EmojiManager.getByAlias(":jeans:").orElseThrow().getFirst().getEmoji();
     public static final String HELMET = EmojiManager.getByAlias(":billed_cap:").orElseThrow().getFirst().getEmoji();
     public static final String GLOVES = EmojiManager.getByAlias(":gloves:").orElseThrow().getFirst().getEmoji();
+
+    // Contraband
+    public static final String CONTRABAND_COMMON = EmojiManager.getByAlias(":package:").orElseThrow().getFirst().getEmoji();
+    public static final String CONTRABAND_RARE = EmojiManager.getByAlias(":lock:").orElseThrow().getFirst().getEmoji();
+    public static final String CONTRABAND_EPIC = EmojiManager.getByAlias(":eye:").orElseThrow().getFirst().getEmoji();
 }

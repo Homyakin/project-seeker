@@ -1,7 +1,5 @@
 package ru.homyakin.seeker.game.personage;
 
-import io.vavr.control.Either;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -12,22 +10,25 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import io.vavr.control.Either;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.BattleType;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
-import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
-import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
+import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
@@ -107,14 +108,27 @@ public class PersonageService {
     public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
         personageBattleResultDao.saveBatch(
             results.stream()
-                .map(result -> new PersonageBattleResult(
-                    result.participant().personage().id(),
-                    launchedEvent.id(),
-                    result.stats(),
-                    result.reward(),
-                    result.generatedItem().map(Item::id)
-                ))
+                .map(result -> mapToBattleResult(result, launchedEvent.id()))
                 .toList()
+        );
+    }
+
+    private static PersonageBattleResult mapToBattleResult(PersonageRaidResult result, long launchedEventId) {
+        Long generatedItemId = null;
+        Long generatedContrabandId = null;
+        if (result.generatedItem().isPresent()) {
+            switch (result.generatedItem().get()) {
+                case RaidItem.ContrabandDrop c -> generatedContrabandId = c.contraband().id();
+                case RaidItem.ItemDrop i -> generatedItemId = i.item().id();
+            }
+        }
+        return new PersonageBattleResult(
+            result.participant().personage().id(),
+            launchedEventId,
+            result.stats(),
+            result.reward(),
+            Optional.ofNullable(generatedItemId),
+            Optional.ofNullable(generatedContrabandId)
         );
     }
 
@@ -135,7 +149,8 @@ public class PersonageService {
                     launchedEvent.id(),
                     result.stats(),
                     result.reward(),
-                    result.generatedItem().map(Item::id)
+                    result.generatedItem().map(Item::id),
+                    Optional.empty()
                 ))
                 .toList()
         );
@@ -184,6 +199,10 @@ public class PersonageService {
 
     public int countWorldRaidsFromLastItem(PersonageId personageId) {
         return personageBattleResultDao.countWorldRaidsFromLastItem(personageId);
+    }
+
+    public int countSuccessRaidsFromLastContraband(PersonageId personageId) {
+        return personageBattleResultDao.countSuccessRaidsFromLastContraband(personageId);
     }
 
     public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {

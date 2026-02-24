@@ -6,7 +6,9 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.ToIntFunction;
 import java.util.random.RandomGenerator;
+
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.slf4j.Logger;
@@ -80,6 +82,18 @@ public class RandomUtils {
 
     public static <T> T getRandomElement(List<T> list) {
         return list.get(random.nextInt(0, list.size()));
+    }
+
+    public static <T> T getRandomByWeights(List<T> list, ToIntFunction<T> weightExtractor) {
+        final var totalWeight = list.stream().mapToInt(weightExtractor).sum();
+        var roll = getInInterval(1, totalWeight);
+        for (final var item : list) {
+            roll -= weightExtractor.applyAsInt(item);
+            if (roll <= 0) {
+                return item;
+            }
+        }
+        return list.getLast();
     }
 
     /**

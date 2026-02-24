@@ -2,6 +2,7 @@ package ru.homyakin.seeker.locale.shop;
 
 public record ShopResource(
     String menu,
+    String contrabandNotification,
     String sellingItem,
     String buyingItem,
     String common,

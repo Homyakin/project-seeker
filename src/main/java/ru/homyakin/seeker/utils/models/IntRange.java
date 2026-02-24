@@ -24,4 +24,8 @@ public record IntRange(
             Integer.parseInt(split[1])
         );
     }
+
+    public static IntRange of(int min, int max) {
+        return new IntRange(min, max);
+    }
 }

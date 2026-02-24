@@ -91,6 +91,10 @@ public enum CommandType {
     SHOW_BADGES_GROUP("/badges", CheckType.EQUALS),
     SEND_VALENTINE("/love", CheckType.EQUALS),
     HELP_LOVE("/help_love", CheckType.EQUALS),
+    FORCE_OPEN_CONTRABAND("forceContraband", CheckType.EQUALS),
+    SELL_TO_BLACK_MARKET("sellContraband", CheckType.EQUALS),
+    OPEN_CONTRABAND_AS_RECEIVER("openContraband", CheckType.EQUALS),
+    VIEW_CONTRABAND("/contraband", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

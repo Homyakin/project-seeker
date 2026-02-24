@@ -4,12 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.service.EventProcessing;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
+import ru.homyakin.seeker.telegram.contraband.TgContrabandNotifier;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -25,6 +27,7 @@ public class TgEventStopper {
     private final EventProcessing eventProcessing;
     private final GroupStatsService groupStatsService;
     private final LockService lockService;
+    private final TgContrabandNotifier contrabandNotifier;
 
     public TgEventStopper(
         GroupTgService groupTgService,
@@ -32,7 +35,8 @@ public class TgEventStopper {
         GroupEventService groupEventService,
         EventProcessing eventProcessing,
         GroupStatsService groupStatsService,
-        LockService lockService
+        LockService lockService,
+        TgContrabandNotifier contrabandNotifier
     ) {
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
@@ -40,6 +44,7 @@ public class TgEventStopper {
         this.eventProcessing = eventProcessing;
         this.groupStatsService = groupStatsService;
         this.lockService = lockService;
+        this.contrabandNotifier = contrabandNotifier;
     }
 
     public void stopEvents() {
@@ -82,6 +87,15 @@ public class TgEventStopper {
                                 .replyMessageId(groupEvent.messageId())
                                 .build()
                             );
+                            for (final var itemResult : completed.generatedItemResults()) {
+                                if (itemResult instanceof GeneratedItemResult.ContrabandDrop contrabandDrop) {
+                                    try {
+                                        contrabandNotifier.sendContrabandFoundToFinder(contrabandDrop.contraband());
+                                    } catch (Exception e) {
+                                        logger.error("Failed to send contraband notification", e);
+                                    }
+                                }
+                            }
                         }
                         case EventResult.RaidResult.Expired _ -> telegramSender.send(
                             EditMessageTextBuilder.builder()

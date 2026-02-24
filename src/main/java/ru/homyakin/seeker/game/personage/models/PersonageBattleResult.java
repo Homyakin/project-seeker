@@ -10,6 +10,7 @@ public record PersonageBattleResult(
     long launchedEventId,
     PersonageBattleStats stats,
     Money reward,
-    Optional<Long> generatedItemId
+    Optional<Long> generatedItemId,
+    Optional<Long> generatedContrabandId
 ) {
 }

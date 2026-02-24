@@ -27,12 +27,14 @@ import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.utils.models.Success;
 
 public record Personage(
     PersonageId id,
     String name,
     Optional<String> tag,
+    Optional<GroupId> memberGroupId,
     Money money,
     Characteristics characteristics,
     Energy energy,
@@ -45,6 +47,7 @@ public record Personage(
             id,
             name,
             tag,
+            memberGroupId,
             this.money.add(money),
             characteristics,
             energy,
@@ -110,6 +113,7 @@ public record Personage(
             id,
             name,
             tag,
+            memberGroupId,
             money,
             characteristics,
             energyResult.getOrElse(energy),
@@ -277,6 +281,7 @@ public record Personage(
             id,
             name,
             tag,
+            memberGroupId,
             money,
             characteristics,
             energy,
@@ -304,6 +309,7 @@ public record Personage(
             id,
             name,
             tag,
+            memberGroupId,
             money,
             characteristics,
             energy,
@@ -318,6 +324,7 @@ public record Personage(
             id,
             name,
             tag,
+            memberGroupId,
             money,
             characteristics,
             energy,
@@ -332,6 +339,7 @@ public record Personage(
             id,
             name,
             tag,
+            memberGroupId,
             money,
             characteristics,
             energy,

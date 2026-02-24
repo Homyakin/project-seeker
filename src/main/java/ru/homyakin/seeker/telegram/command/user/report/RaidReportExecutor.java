@@ -1,9 +1,13 @@
 package ru.homyakin.seeker.telegram.command.user.report;
 
+import java.util.Optional;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -16,6 +20,7 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
     private final PersonageService personageService;
     private final LaunchedEventService launchedEventService;
     private final ItemService itemService;
+    private final ContrabandService contrabandService;
     private final TelegramSender telegramSender;
 
     public RaidReportExecutor(
@@ -23,12 +28,14 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
         PersonageService personageService,
         LaunchedEventService launchedEventService,
         ItemService itemService,
+        ContrabandService contrabandService,
         TelegramSender telegramSender
     ) {
         this.userService = userService;
         this.personageService = personageService;
         this.launchedEventService = launchedEventService;
         this.itemService = itemService;
+        this.contrabandService = contrabandService;
         this.telegramSender = telegramSender;
     }
 
@@ -43,7 +50,7 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
                         user.language(),
                         result,
                         event,
-                        result.generatedItemId().flatMap(itemService::getById)
+                        loadRaidItem(result)
                     );
                 }
             )
@@ -53,6 +60,15 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
             .text(text)
             .build()
         );
+    }
+
+    private Optional<RaidItem> loadRaidItem(PersonageBattleResult result) {
+        return result.generatedItemId()
+            .flatMap(itemService::getById)
+            .<RaidItem>map(RaidItem.ItemDrop::new)
+            .or(() -> result.generatedContrabandId()
+                .flatMap(contrabandService::getById)
+                .map(RaidItem.ContrabandDrop::new));
     }
 
 }

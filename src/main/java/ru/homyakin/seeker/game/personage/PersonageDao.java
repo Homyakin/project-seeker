@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -48,7 +49,8 @@ public class PersonageDao {
         SELECT p.*,
             b.code as badge_code,
             ic.*,
-            pg.tag as pgroup_member_tag
+            pg.tag as pgroup_member_tag,
+            p.member_pgroup_id
         FROM personage p
         LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id AND pab.is_active = true
         LEFT JOIN badge b ON pab.badge_id = b.id
@@ -211,6 +213,7 @@ public class PersonageDao {
             PersonageId.from(rs.getLong("id")),
             rs.getString("name"),
             Optional.ofNullable(rs.getString("pgroup_member_tag")),
+            DatabaseUtils.getLongOrEmpty(rs, "member_pgroup_id").map(GroupId::from),
             new Money(rs.getInt("money")),
             new Characteristics(
                 rs.getInt("health"),

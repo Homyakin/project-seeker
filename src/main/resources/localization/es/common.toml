@@ -42,6 +42,7 @@ personageEffects = """\
 menuItemEffect = "\n<code>-🍻Taberna: ${effect} ${time_icon}${duration}</code>"
 throwOrderEffect = "\n<code>-⭕️Lanzamiento de pedidos: ${effect} ${time_icon}${duration}</code>"
 workerOfDayEffect = "\n<code>-⚒️Currante del Día: ${effect} ${time_icon}${duration}</code>"
+contrabandEffect = "\n<code>-📦Contrabando: ${effect} ${time_icon}${duration}</code>"
 addValueEffect = "+${value}${characteristic_icon}"
 multiplyPercentEffect = "+${value}%${characteristic_icon}"
 minusMultiplyPercentEffect = "-${value}%${characteristic_icon}"

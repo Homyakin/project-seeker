@@ -13,7 +13,7 @@ import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
@@ -22,6 +22,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
+import ru.homyakin.seeker.locale.contraband.ContrabandLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -175,6 +176,11 @@ public class RaidLocalization {
                 params.put("short_item", ItemLocalization.shortItem(language, notEnoughSpaceInBag.item()));
                 yield resources.getOrDefaultRandom(language, RaidResource::notEnoughSpaceInBagForItem);
             }
+            case GeneratedItemResult.ContrabandDrop contrabandDrop -> {
+                params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(contrabandDrop.personage()));
+                params.put("contraband_name", ContrabandLocalization.contrabandName(language, contrabandDrop.contraband().tier()));
+                yield resources.getOrDefaultRandom(language, RaidResource::successContrabandForPersonage);
+            }
         };
         return StringNamedTemplate.format(text, params);
     }
@@ -221,13 +227,13 @@ public class RaidLocalization {
         Language language,
         PersonageBattleResult result,
         LaunchedEvent event,
-        Optional<Item> item
+        Optional<RaidItem> raidItem
     ) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::report),
             Collections.singletonMap(
                 "personage_battle_report",
-                CommonLocalization.personageBattleReport(language, result, event, item)
+                CommonLocalization.personageBattleReport(language, result, event, raidItem)
             )
         );
     }

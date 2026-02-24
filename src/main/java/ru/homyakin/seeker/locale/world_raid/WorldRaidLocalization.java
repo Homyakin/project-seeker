@@ -7,7 +7,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.JoinWorldRaidError;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
@@ -284,10 +284,10 @@ public class WorldRaidLocalization {
         Language language,
         PersonageBattleResult result,
         LaunchedEvent event,
-        Optional<Item> item
+        Optional<RaidItem> raidItem
     ) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_battle_report", CommonLocalization.personageBattleReport(language, result, event, item));
+        params.put("personage_battle_report", CommonLocalization.personageBattleReport(language, result, event, raidItem));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::personageWorldRaidReport),
             params

@@ -28,6 +28,9 @@ Informe dLa incursión: ${raid_report_command}"""
 successItemForPersonage = [
     "¡${personage_badge_with_name} encuentra un <code>${short_item}</code> en el campo! ¡Eso se celebra con una fría en la taberna🍻!"
 ]
+successContrabandForPersonage = [
+    "¡${personage_badge_with_name} encuentra en el campo <b>${contraband_name}</b>! Algo suena dentro...📦"
+]
 notEnoughSpaceInBagForItem = [
     "${personage_badge_with_name} encuentra un <code>${short_item}</code>, pero la mochila está llena...😢"
 ]

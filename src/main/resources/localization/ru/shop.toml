@@ -1,9 +1,14 @@
 menu = """\
-📦Случайные коробки предметов:
+${optional_contraband_notification}📦Случайные коробки предметов:
 ${buying_items}
 
 🎒Ваши предметы:
 ${selling_items}
+"""
+
+contrabandNotification = """\
+У вас завалялась контрабанда, взгляните ${contraband_command}
+
 """
 
 sellingItem = "${full_item} ${money_icon}${price_value} ${sell_command}"

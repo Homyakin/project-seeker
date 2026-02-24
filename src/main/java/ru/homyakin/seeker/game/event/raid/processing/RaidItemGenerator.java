@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.raid.processing;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
@@ -17,15 +18,18 @@ public class RaidItemGenerator {
     private final PersonageService personageService;
     private final ItemService itemService;
     private final PersonageNextRaidItemParams personageNextRaidItemParams;
+    private final ContrabandService contrabandService;
 
     public RaidItemGenerator(
         PersonageService personageService,
         ItemService itemService,
-        PersonageNextRaidItemParams personageNextRaidItemParams
+        PersonageNextRaidItemParams personageNextRaidItemParams,
+        ContrabandService contrabandService
     ) {
         this.personageService = personageService;
         this.itemService = itemService;
         this.personageNextRaidItemParams = personageNextRaidItemParams;
+        this.contrabandService = contrabandService;
     }
 
     /**
@@ -35,6 +39,8 @@ public class RaidItemGenerator {
      * Если x > 5 => y = (x - 3)^2
      * x - количество рейдов подряд без предметов
      * y - вероятность получить предмет в процентах
+     * <p>
+     * Вместо предмета может выпасть контрабанда (определяется в ContrabandService).
      */
     public Optional<GeneratedItemResult> generateItem(
         boolean isWin,
@@ -56,6 +62,11 @@ public class RaidItemGenerator {
             chance = (int) Math.pow(raidsWithoutItems - 3, 2);
         }
         if (RandomUtils.processChance(chance)) {
+            final var contrabandOpt = contrabandService.tryCreate(personage, raidLevel);
+            if (contrabandOpt.isPresent()) {
+                return Optional.of(new GeneratedItemResult.ContrabandDrop(personage, contrabandOpt.get()));
+            }
+
             final var itemParams = personageNextRaidItemParams.get(personage.id(), raidLevel);
             final var result = itemService
                 .generateItemForPersonage(

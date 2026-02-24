@@ -7,3 +7,6 @@ successRaid = [
 failureRaid = [
     "The seekers failed the raid."
 ]
+successContrabandForPersonage = [
+    "${personage_badge_with_name} finds <b>${contraband_name}</b> on the field! Something rattles inside...📦"
+]

@@ -7,4 +7,5 @@ public enum LockPrefixes {
     DUEL,
     MENU_ITEM_ORDER,
     PERSONAGE,
+    CONTRABAND,
 }

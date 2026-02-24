@@ -41,7 +41,8 @@ public class PersonageBattleResultDao {
                 .addValue("launched_event_id", result.launchedEventId())
                 .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
                 .addValue("reward", result.reward().value())
-                .addValue("generated_item_id", result.generatedItemId().orElse(null));
+                .addValue("generated_item_id", result.generatedItemId().orElse(null))
+                .addValue("generated_contraband_id", result.generatedContrabandId().orElse(null));
             parameters.add(paramSource);
         }
         jdbcTemplate.batchUpdate(SAVE_RESULT, parameters.toArray(new SqlParameterSource[0]));
@@ -84,9 +85,18 @@ public class PersonageBattleResultDao {
             .single();
     }
 
+    public int countSuccessRaidsFromLastContraband(PersonageId personageId) {
+        return jdbcClient.sql(COUNT_BATTLE_RESULTS_WITHOUT_CONTRABAND)
+            .param("personage_id", personageId.value())
+            .param("event_statuses", List.of(EventStatus.SUCCESS.id()))
+            .param("event_type_id", BattleType.RAID.id())
+            .query((rs, _) -> rs.getInt("raids_count"))
+            .single();
+    }
+
     private static final String SAVE_RESULT = """
-        INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward, generated_item_id)
-        VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :generated_item_id)
+        INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward, generated_item_id, generated_contraband_id)
+        VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :generated_item_id, :generated_contraband_id)
         """;
 
     private static final String SELECT_LAST_RESULT = """
@@ -112,7 +122,7 @@ public class PersonageBattleResultDao {
             FROM personage_raid_result prr
             LEFT JOIN launched_event le on le.id = prr.launched_event_id
             INNER JOIN event e on le.event_id = e.id AND e.type_id = :event_type_id
-            WHERE personage_id = :personage_id AND generated_item_id IS NOT NULL
+            WHERE personage_id = :personage_id AND (generated_item_id IS NOT NULL OR generated_contraband_id IS NOT NULL)
         )
         SELECT SUM(
             CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
@@ -125,7 +135,29 @@ public class PersonageBattleResultDao {
         AND prr.launched_event_id > -- more id => newer event
             COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
         AND le.status_id in (:event_statuses)
-        AND generated_item_id IS NULL
+        AND generated_item_id IS NULL AND generated_contraband_id IS NULL
+        """;
+
+    private static final String COUNT_BATTLE_RESULTS_WITHOUT_CONTRABAND = """
+        WITH last_contraband AS (
+            SELECT MAX(prr.launched_event_id) AS last_event_with_contraband
+            FROM personage_raid_result prr
+            LEFT JOIN launched_event le on le.id = prr.launched_event_id
+            INNER JOIN event e on le.event_id = e.id AND e.type_id = :event_type_id
+            WHERE personage_id = :personage_id AND generated_contraband_id IS NOT NULL
+        )
+        SELECT SUM(
+            CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
+        ) AS raids_count
+        FROM personage_raid_result prr
+        LEFT JOIN personage_to_event pte ON pte.personage_id = prr.personage_id AND pte.launched_event_id = prr.launched_event_id
+        LEFT JOIN launched_event le on le.id = pte.launched_event_id
+        INNER JOIN event e on le.event_id = e.id AND e.type_id = :event_type_id
+        WHERE prr.personage_id = :personage_id
+        AND prr.launched_event_id >
+            COALESCE((SELECT last_event_with_contraband FROM last_contraband), -1)
+        AND le.status_id in (:event_statuses)
+        AND generated_contraband_id IS NULL
         """;
 
     private PersonageBattleResult mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -134,7 +166,8 @@ public class PersonageBattleResultDao {
             rs.getLong("launched_event_id"),
             jsonUtils.fromString(rs.getString("stats"), PersonageBattleStats.class),
             Money.from(rs.getInt("reward")),
-            Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_item_id"))
+            Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_item_id")),
+            Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_contraband_id"))
         );
     }
 }

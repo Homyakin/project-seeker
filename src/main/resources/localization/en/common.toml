@@ -4,3 +4,5 @@ internalError = "Unexpected error, try again later"
 
 hoursShort = "hh"
 minutesShort = "mm"
+
+contrabandEffect = "\n<code>-📦Contraband: ${effect} ${time_icon}${duration}</code>"

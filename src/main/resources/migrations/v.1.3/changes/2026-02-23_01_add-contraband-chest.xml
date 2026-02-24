@@ -1,0 +1,48 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-contraband-chest">
+        <createTable tableName="contraband_chest">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="tier" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="finder_personage_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="fk_contraband_chest_finder_personage"
+                             references="personage(id)"/>
+            </column>
+            <column name="receiver_personage_id" type="BIGINT">
+                <constraints foreignKeyName="fk_contraband_chest_receiver_personage"
+                             references="personage(id)"/>
+            </column>
+            <column name="status" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processed_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <createIndex tableName="contraband_chest" indexName="idx_contraband_chest_finder">
+            <column name="finder_personage_id"/>
+        </createIndex>
+        <createIndex tableName="contraband_chest" indexName="idx_contraband_chest_receiver">
+            <column name="receiver_personage_id"/>
+        </createIndex>
+        <createIndex tableName="contraband_chest" indexName="idx_contraband_chest_status">
+            <column name="status"/>
+        </createIndex>
+        <createIndex tableName="contraband_chest" indexName="idx_contraband_chest_expires_at">
+            <column name="expires_at"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

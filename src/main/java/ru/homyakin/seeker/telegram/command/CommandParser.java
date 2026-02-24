@@ -74,6 +74,10 @@ import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetChar
 import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
 import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
 import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
+import ru.homyakin.seeker.telegram.command.user.contraband.ForceOpenContraband;
+import ru.homyakin.seeker.telegram.command.user.contraband.OpenContrabandAsReceiver;
+import ru.homyakin.seeker.telegram.command.user.contraband.SellContraband;
+import ru.homyakin.seeker.telegram.command.user.contraband.ViewContraband;
 import ru.homyakin.seeker.telegram.command.user.feedback.InitFeedback;
 import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivate;
 import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivateCancel;
@@ -201,6 +205,7 @@ public class CommandParser {
                 case REPAIR -> Repair.from(message);
                 case CANCEL_EVENT -> CancelEvent.from(message);
                 case LEAVE_GROUP -> LeaveGroupInPrivate.from(message);
+                case VIEW_CONTRABAND -> ViewContraband.from(message);
                 // case HELP_LOVE -> HelpLove.from(message);
                 default -> null;
             });
@@ -276,6 +281,9 @@ public class CommandParser {
                 case TOGGLE_PERSONAGE_SETTING -> SetPersonageSetting.from(callback);
                 case LEAVE_GROUP_CONFIRM -> LeaveGroupInPrivateConfirm.from(callback);
                 case LEAVE_GROUP_CANCEL -> LeaveGroupInPrivateCancel.from(callback);
+                case FORCE_OPEN_CONTRABAND -> ForceOpenContraband.from(callback);
+                case SELL_TO_BLACK_MARKET -> SellContraband.from(callback);
+                case OPEN_CONTRABAND_AS_RECEIVER -> OpenContrabandAsReceiver.from(callback);
                 default -> null;
             });
     }

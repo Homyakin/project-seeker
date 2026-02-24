@@ -110,7 +110,7 @@ public class RaidProcessing {
                     participant,
                     battleResult.stats(),
                     reward,
-                    generatedItem.map(GeneratedItemResult::item)
+                    generatedItem.map(GeneratedItemResult::toRaidItem)
                 );
             })
             .toList();

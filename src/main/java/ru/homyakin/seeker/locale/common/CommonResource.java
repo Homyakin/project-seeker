@@ -31,6 +31,7 @@ public record CommonResource(
     String minusMultiplyPercentEffect,
     String throwOrderEffect,
     String workerOfDayEffect,
+    String contrabandEffect,
     String personageGlobalStats,
     String personageBattleReport,
     String shortPersonageBattleReport,

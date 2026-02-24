@@ -15,6 +15,7 @@ public record RaidResource(
     String[] zeroParticipants,
     String raidResult,
     String[] successItemForPersonage,
+    String[] successContrabandForPersonage,
     String[] notEnoughSpaceInBagForItem,
     String personageRaidResult,
     String raidParticipants,

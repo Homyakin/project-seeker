@@ -7,3 +7,5 @@ minutesShort = "мин."
 
 # текста для лички
 receptionDesk = "Сәлеметсіз бе! Көмегім қажет пе?"
+
+contrabandEffect = "\n<code>-📦Контрабанда: ${effect} ${time_icon}${duration}</code>"

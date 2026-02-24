@@ -1,9 +1,14 @@
 menu = """\
-📦Cajitas misteriosas con objetos:
+${optional_contraband_notification}📦Cajitas misteriosas con objetos:
 ${buying_items}
 
 🎒Tus objetos:
 ${selling_items}
+"""
+
+contrabandNotification = """\
+Tienes contrabando por ahí, échale un vistazo ${contraband_command}
+
 """
 
 sellingItem = "${full_item} ${money_icon}${price_value} ${sell_command}"

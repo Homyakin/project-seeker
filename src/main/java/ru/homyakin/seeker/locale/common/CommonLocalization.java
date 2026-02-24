@@ -3,10 +3,10 @@ package ru.homyakin.seeker.locale.common;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.event.launched.CurrentEvent;
 import ru.homyakin.seeker.game.group.entity.SavedGroupBattleResult;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
@@ -17,6 +17,7 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.contraband.ContrabandLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -176,6 +177,7 @@ public class CommonLocalization {
                 case MENU_ITEM_EFFECT -> menuItemEffect(language, effect.getValue());
                 case THROW_DAMAGE_EFFECT -> throwOrderEffect(language, effect.getValue());
                 case WORKER_OF_DAY_EFFECT -> workerOfDayEffect(language, effect.getValue());
+                case CONTRABAND_BUFF, CONTRABAND_DEBUFF -> contrabandEffect(language, effect.getValue());
             };
             effectsText.append(text);
         }
@@ -214,6 +216,17 @@ public class CommonLocalization {
         params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::workerOfDayEffect),
+            params
+        );
+    }
+
+    public static String contrabandEffect(Language language, PersonageEffect effect) {
+        final var params = new HashMap<String, Object>();
+        params.put("effect", effect(language, effect.effect()));
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", duration(language, TimeUtils.moscowTime(), effect.expireDateTime()));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::contrabandEffect),
             params
         );
     }
@@ -411,15 +424,11 @@ public class CommonLocalization {
         Language language,
         PersonageBattleResult result,
         LaunchedEvent event,
-        Optional<Item> item
+        Optional<RaidItem> raidItem
     ) {
         final var params = paramsForPersonageBattleReport(result);
         params.put("battle_date_time", TimeUtils.toString(event.endDate()));
-        if (item.isEmpty()) {
-            params.put("optional_full_item", "");
-        } else {
-            params.put("optional_full_item", ItemLocalization.fullItem(language, item.get()));
-        }
+        params.put("optional_full_item", formatRaidItemFull(language, raidItem));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageBattleReport),
             params
@@ -430,18 +439,11 @@ public class CommonLocalization {
         Language language,
         PersonageBattleResult result,
         Personage personage,
-        Optional<Item> item
+        Optional<RaidItem> raidItem
     ) {
         final var params = paramsForPersonageBattleReport(result);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
-        if (item.isEmpty()) {
-            params.put("optional_short_item_without_characteristics", "");
-        } else {
-            params.put(
-                "optional_short_item_without_characteristics",
-                ItemLocalization.shortItemWithoutCharacteristics(language, item.get())
-            );
-        }
+        params.put("optional_short_item_without_characteristics", formatRaidItemShort(language, raidItem));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::shortPersonageBattleReport),
             params
@@ -529,5 +531,27 @@ public class CommonLocalization {
 
     public static String cancelEventLocked(Language language) {
         return resources.getOrDefault(language, CommonResource::cancelEventLocked);
+    }
+
+    private static String formatRaidItemFull(Language language, Optional<RaidItem> raidItem) {
+        if (raidItem.isEmpty()) {
+            return "";
+        }
+        return switch (raidItem.get()) {
+            case RaidItem.ItemDrop itemDrop -> ItemLocalization.fullItem(language, itemDrop.item());
+            case RaidItem.ContrabandDrop contrabandDrop ->
+                ContrabandLocalization.contrabandDisplayForReport(language, contrabandDrop.contraband());
+        };
+    }
+
+    private static String formatRaidItemShort(Language language, Optional<RaidItem> raidItem) {
+        if (raidItem.isEmpty()) {
+            return "";
+        }
+        return switch (raidItem.get()) {
+            case RaidItem.ItemDrop itemDrop -> ItemLocalization.shortItemWithoutCharacteristics(language, itemDrop.item());
+            case RaidItem.ContrabandDrop contrabandDrop ->
+                ContrabandLocalization.contrabandDisplayForReport(language, contrabandDrop.contraband());
+        };
     }
 }

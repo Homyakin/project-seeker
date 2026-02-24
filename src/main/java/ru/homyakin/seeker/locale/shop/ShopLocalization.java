@@ -18,7 +18,10 @@ import ru.homyakin.seeker.utils.StringNamedTemplate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import ru.homyakin.seeker.game.contraband.entity.Contraband;
 
 public class ShopLocalization {
     private static final Resources<ShopResource> resources = new Resources<>();
@@ -27,7 +30,7 @@ public class ShopLocalization {
         resources.add(language, resource);
     }
 
-    public static String menu(Language language, List<ShopItem> items) {
+    public static String menu(Language language, List<ShopItem> items, Optional<Contraband> activeContraband) {
         final var buying = new StringBuilder();
         final var selling = new StringBuilder();
         final var buyingItems = items.stream()
@@ -54,8 +57,21 @@ public class ShopLocalization {
         final var params = new HashMap<String, Object>();
         params.put("buying_items", buying.toString());
         params.put("selling_items", selling.toString());
+        params.put("optional_contraband_notification", contrabandNotification(language, activeContraband));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::menu),
+            params
+        );
+    }
+
+    private static String contrabandNotification(Language language, Optional<Contraband> activeContraband) {
+        if (activeContraband.isEmpty()) {
+            return "";
+        }
+        final var params = new HashMap<String, Object>();
+        params.put("contraband_command", CommandType.VIEW_CONTRABAND.getText());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::contrabandNotification),
             params
         );
     }
