@@ -63,6 +63,9 @@ public class ContrabandService {
     }
 
     public Optional<Contraband> tryCreate(Personage finder, int raidLevel) {
+        if (getActiveContraband(finder.id()).isPresent()) {
+            return Optional.empty();
+        }
         final var raidsWithoutContraband = personageService.countSuccessRaidsFromLastContraband(finder.id());
         final var chance = config.dropChancePercent() + raidsWithoutContraband * 20;
         if (!RandomUtils.processChance(chance)) {
