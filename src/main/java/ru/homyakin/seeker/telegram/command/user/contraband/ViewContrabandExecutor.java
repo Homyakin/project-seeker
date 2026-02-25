@@ -60,26 +60,29 @@ public class ViewContrabandExecutor extends CommandExecutor<ViewContraband> {
     }
 
     private void sendFinderView(User user, Language language, Contraband contraband) {
+        final var finderSuccessChance = config.finderSuccessChancePercent();
+        final var sellPrice = config.sellPrice(contraband.tier());
         final var text = ContrabandLocalization.contrabandFoundPrivateMessage(
-            language, contraband, config.finderSuccessChancePercent(), config.sellPrice(contraband.tier())
+            language, contraband, finderSuccessChance, sellPrice
         );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(text)
-            .keyboard(ContrabandKeyboards.finderChoiceKeyboard(language, contraband, config))
+            .keyboard(ContrabandKeyboards.finderChoiceKeyboard(language, contraband, finderSuccessChance, sellPrice))
             .build()
         );
     }
 
     private void sendReceiverView(User user, Language language, Contraband contraband) {
         final var finder = personageService.getByIdForce(contraband.finderPersonageId());
+        final var receiverSuccessChance = config.receiverSuccessChancePercent();
         final var text = ContrabandLocalization.receiverNotification(
-            language, contraband, finder, config.receiverSuccessChancePercent()
+            language, contraband, finder, receiverSuccessChance
         );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(text)
-            .keyboard(ContrabandKeyboards.receiverOpenKeyboard(language, contraband, config))
+            .keyboard(ContrabandKeyboards.receiverOpenKeyboard(language, contraband, receiverSuccessChance))
             .build()
         );
     }
