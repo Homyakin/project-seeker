@@ -38,10 +38,9 @@ public class ItemRandomSpringConfig implements ItemRandomConfig {
         raidModifierCountPicker = new ProbabilityPicker<>(raidModifierCountProbabilities);
 
         final var worldRaidRarityProbabilities = new HashMap<ItemRarity, Integer>();
-        worldRaidRarityProbabilities.put(ItemRarity.UNCOMMON, 5);
-        worldRaidRarityProbabilities.put(ItemRarity.RARE, 40);
-        worldRaidRarityProbabilities.put(ItemRarity.EPIC, 50);
-        worldRaidRarityProbabilities.put(ItemRarity.LEGENDARY, 5);
+        worldRaidRarityProbabilities.put(ItemRarity.RARE, 5);
+        worldRaidRarityProbabilities.put(ItemRarity.EPIC, 60);
+        worldRaidRarityProbabilities.put(ItemRarity.LEGENDARY, 35);
         worldRaidRarityPicker = new ProbabilityPicker<>(worldRaidRarityProbabilities);
 
         final var worldRaidModifierCountProbabilities = new HashMap<Integer, Integer>();
