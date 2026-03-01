@@ -2,8 +2,9 @@ package ru.homyakin.seeker.game.contraband.entity;
 
 public enum ContrabandTier {
     COMMON(1),
-    RARE(2),
-    EPIC(3),
+    UNCOMMON(2),
+    RARE(3),
+    EPIC(4),
     ;
 
     private final int id;

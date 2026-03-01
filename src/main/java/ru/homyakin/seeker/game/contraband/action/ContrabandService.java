@@ -120,7 +120,7 @@ public class ContrabandService {
             return Either.left(FinderContrabandError.NotFound.INSTANCE);
         }
         final var contraband = contrabandOpt.get();
-        if (!contraband.canBeAccessedBy(personageId)) {
+        if (!contraband.canBeAccessedBy(personageId) || !contraband.canBeProcessedByFinder()) {
             return Either.left(FinderContrabandError.AlreadyProcessed.INSTANCE);
         }
         if (contraband.isExpired(LocalDateTime.now())) {
@@ -129,7 +129,9 @@ public class ContrabandService {
         }
 
         final var now = LocalDateTime.now();
-        if (RandomUtils.processChance(config.finderSuccessChancePercent())) {
+        final var failedOpens = contrabandStorage.countFinderFailedOpensSinceLastSuccess(personageId);
+        final var chance = config.finderSuccessChancePercent() + failedOpens * config.finderChanceIncreasePerFail();
+        if (RandomUtils.processChance(chance)) {
             final var reward = generateReward(contraband.tier(), personageId);
             contrabandStorage.update(contraband.withStatus(ContrabandStatus.OPENED_SUCCESS, now));
             return Either.right(reward);
@@ -172,7 +174,7 @@ public class ContrabandService {
             return Either.left(ReceiverContrabandError.NotFound.INSTANCE);
         }
         final var contraband = contrabandOpt.get();
-        if (!contraband.canBeAccessedBy(personageId)) {
+        if (!contraband.canBeAccessedBy(personageId) || !contraband.canBeProcessedByReceiver()) {
             return Either.left(ReceiverContrabandError.NotReceiver.INSTANCE);
         }
         if (contraband.isExpired(LocalDateTime.now())) {
@@ -181,7 +183,9 @@ public class ContrabandService {
         }
 
         final var now = LocalDateTime.now();
-        if (RandomUtils.processChance(config.receiverSuccessChancePercent())) {
+        final var failedOpens = contrabandStorage.countReceiverFailedOpensSinceLastSuccess(personageId);
+        final var chance = config.receiverSuccessChancePercent() + failedOpens * config.receiverChanceIncreasePerFail();
+        if (RandomUtils.processChance(chance)) {
             final var reward = generateReward(contraband.tier(), personageId);
             contrabandStorage.update(contraband.withStatus(ContrabandStatus.OPENED_SUCCESS, now));
             return Either.right(reward);

@@ -68,7 +68,7 @@ public class ViewContrabandExecutor extends CommandExecutor<ViewContraband> {
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(text)
-            .keyboard(ContrabandKeyboards.finderChoiceKeyboard(language, contraband, finderSuccessChance, sellPrice))
+            .keyboard(ContrabandKeyboards.finderChoiceKeyboard(language, contraband, sellPrice))
             .build()
         );
     }
@@ -82,7 +82,7 @@ public class ViewContrabandExecutor extends CommandExecutor<ViewContraband> {
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(text)
-            .keyboard(ContrabandKeyboards.receiverOpenKeyboard(language, contraband, receiverSuccessChance))
+            .keyboard(ContrabandKeyboards.receiverOpenKeyboard(language, contraband))
             .build()
         );
     }

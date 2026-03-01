@@ -28,6 +28,7 @@ public class ContrabandLocalization {
     public static String contrabandName(Language language, ContrabandTier tier) {
         return switch (tier) {
             case COMMON -> resources.getOrDefault(language, ContrabandResource::commonChestName);
+            case UNCOMMON -> resources.getOrDefault(language, ContrabandResource::uncommonChestName);
             case RARE -> resources.getOrDefault(language, ContrabandResource::rareChestName);
             case EPIC -> resources.getOrDefault(language, ContrabandResource::epicChestName);
         };
@@ -53,13 +54,8 @@ public class ContrabandLocalization {
         );
     }
 
-    public static String forceOpenButton(Language language, int chance) {
-        final var params = new HashMap<String, Object>();
-        params.put("chance", chance);
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ContrabandResource::forceOpenButton),
-            params
-        );
+    public static String forceOpenButton(Language language) {
+        return resources.getOrDefault(language, ContrabandResource::forceOpenButton);
     }
 
     public static String sellToMarketButton(Language language, Money price) {
@@ -72,13 +68,8 @@ public class ContrabandLocalization {
         );
     }
 
-    public static String openAsReceiverButton(Language language, int chance) {
-        final var params = new HashMap<String, Object>();
-        params.put("chance", chance);
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ContrabandResource::openAsReceiverButton),
-            params
-        );
+    public static String openAsReceiverButton(Language language) {
+        return resources.getOrDefault(language, ContrabandResource::openAsReceiverButton);
     }
 
     public static String openResult(Language language, ContrabandOpenResult result) {

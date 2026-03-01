@@ -13,14 +13,13 @@ public class ContrabandKeyboards {
     public static InlineKeyboardMarkup finderChoiceKeyboard(
         Language language,
         Contraband contraband,
-        int finderSuccessChancePercent,
         Money sellPrice
     ) {
         final var delimiter = TextConstants.CALLBACK_DELIMITER;
         return InlineKeyboardBuilder.builder()
             .addRow()
             .addButton(
-                ContrabandLocalization.forceOpenButton(language, finderSuccessChancePercent),
+                ContrabandLocalization.forceOpenButton(language),
                 CommandType.FORCE_OPEN_CONTRABAND.getText() + delimiter + contraband.id()
             )
             .addRow()
@@ -33,13 +32,12 @@ public class ContrabandKeyboards {
 
     public static InlineKeyboardMarkup receiverOpenKeyboard(
         Language language,
-        Contraband contraband,
-        int receiverSuccessChancePercent
+        Contraband contraband
     ) {
         return InlineKeyboardBuilder.builder()
             .addRow()
             .addButton(
-                ContrabandLocalization.openAsReceiverButton(language, receiverSuccessChancePercent),
+                ContrabandLocalization.openAsReceiverButton(language),
                 CommandType.OPEN_CONTRABAND_AS_RECEIVER.getText() + TextConstants.CALLBACK_DELIMITER + contraband.id()
             )
             .build();

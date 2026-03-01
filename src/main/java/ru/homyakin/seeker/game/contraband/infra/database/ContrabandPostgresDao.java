@@ -108,6 +108,48 @@ public class ContrabandPostgresDao implements ContrabandStorage {
             .list();
     }
 
+    @Override
+    public int countFinderFailedOpensSinceLastSuccess(PersonageId personageId) {
+        return jdbcClient.sql("""
+                SELECT COUNT(*) FROM contraband_chest
+                WHERE finder_personage_id = :personage_id
+                  AND receiver_personage_id IS NULL
+                  AND status = :failure_status
+                  AND processed_at > COALESCE(
+                      (SELECT MAX(processed_at) FROM contraband_chest
+                       WHERE finder_personage_id = :personage_id
+                         AND receiver_personage_id IS NULL
+                         AND status = :success_status),
+                      '1970-01-01'::timestamp
+                  )
+                """)
+            .param("personage_id", personageId.value())
+            .param("failure_status", ContrabandStatus.OPENED_FAILURE.id())
+            .param("success_status", ContrabandStatus.OPENED_SUCCESS.id())
+            .query((rs, _) -> rs.getInt(1))
+            .single();
+    }
+
+    @Override
+    public int countReceiverFailedOpensSinceLastSuccess(PersonageId personageId) {
+        return jdbcClient.sql("""
+                SELECT COUNT(*) FROM contraband_chest
+                WHERE receiver_personage_id = :personage_id
+                  AND status = :failure_status
+                  AND processed_at > COALESCE(
+                      (SELECT MAX(processed_at) FROM contraband_chest
+                       WHERE receiver_personage_id = :personage_id
+                         AND status = :success_status),
+                      '1970-01-01'::timestamp
+                  )
+                """)
+            .param("personage_id", personageId.value())
+            .param("failure_status", ContrabandStatus.OPENED_FAILURE.id())
+            .param("success_status", ContrabandStatus.OPENED_SUCCESS.id())
+            .query((rs, _) -> rs.getInt(1))
+            .single();
+    }
+
     private Contraband mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var receiverId = rs.getObject("receiver_personage_id");
         final var processedAt = rs.getTimestamp("processed_at");

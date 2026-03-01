@@ -102,11 +102,11 @@ public class TgPersonageNotificationService implements SendNotificationToPersona
         return switch (notification) {
             case Notification.ContrabandFound found ->
                 Optional.of(ContrabandKeyboards.finderChoiceKeyboard(
-                    language, found.contraband(), found.finderSuccessChancePercent(), found.sellPrice()
+                    language, found.contraband(), found.sellPrice()
                 ));
             case Notification.ContrabandReceived received ->
                 Optional.of(ContrabandKeyboards.receiverOpenKeyboard(
-                    language, received.contraband(), received.receiverSuccessChancePercent()
+                    language, received.contraband()
                 ));
             default -> Optional.empty();
         };

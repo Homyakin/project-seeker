@@ -18,4 +18,8 @@ public interface ContrabandStorage {
     List<Contraband> findPendingForBlackMarket();
 
     List<Contraband> findExpired(LocalDateTime now);
+
+    int countFinderFailedOpensSinceLastSuccess(PersonageId personageId);
+
+    int countReceiverFailedOpensSinceLastSuccess(PersonageId personageId);
 }

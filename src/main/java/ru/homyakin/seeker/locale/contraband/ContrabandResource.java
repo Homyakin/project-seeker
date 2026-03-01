@@ -3,6 +3,7 @@ package ru.homyakin.seeker.locale.contraband;
 public record ContrabandResource(
     String contrabandFoundPrivateMessage,
     String commonChestName,
+    String uncommonChestName,
     String rareChestName,
     String epicChestName,
     String forceOpenButton,
