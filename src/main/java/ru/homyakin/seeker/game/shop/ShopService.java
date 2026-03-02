@@ -71,7 +71,7 @@ public class ShopService {
         );
         return result.mapLeft(
             _ -> {
-                personageService.addMoney(personage, price);
+                personageService.addMoney(personageWithTakenMoney, price);
                 return BuyItemError.NotEnoughSpaceInBag.INSTANCE;
             }
         );
