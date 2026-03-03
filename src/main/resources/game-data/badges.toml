@@ -102,3 +102,9 @@ code = "valentine"
 
 [badge.locales.RU]
 description = "Во Имя Любви"
+
+[[badge]]
+code = "bug"
+
+[badge.locales.RU]
+description = "Охотник На Жуков"
