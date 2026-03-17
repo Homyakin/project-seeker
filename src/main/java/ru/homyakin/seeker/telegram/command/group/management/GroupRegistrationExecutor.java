@@ -55,7 +55,7 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
                     SendMessageBuilder
                         .builder()
                         .chatId(command.groupTgId())
-                        .text(GroupManagementLocalization.groupRegistration(groupTg.language(), result.get()))
+                        .text(GroupManagementLocalization.groupRegistration(groupTg.language()))
                         .build()
                 );
             }
@@ -78,8 +78,6 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
                     CommonLocalization.forbiddenForHiddenGroup(groupTg.language());
                 case GroupRegistrationError.InvalidTag _ ->
                     GroupManagementLocalization.incorrectTag(groupTg.language());
-                case GroupRegistrationError.NotEnoughMoney notEnoughMoney ->
-                    GroupManagementLocalization.notEnoughMoneyForGroupRegistration(groupTg.language(), notEnoughMoney.required());
                 case GroupRegistrationError.PersonageInAnotherGroup _ ->
                     GroupManagementLocalization.registrationPersonageInAnotherGroup(groupTg.language());
                 case GroupRegistrationError.TagAlreadyTaken _ ->

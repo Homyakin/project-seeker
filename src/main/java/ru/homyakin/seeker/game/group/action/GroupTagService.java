@@ -4,7 +4,6 @@ import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
-import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.ChangeTagError;
@@ -19,18 +18,15 @@ public class GroupTagService {
     private final GroupStorage groupStorage;
     private final GroupPersonageStorage groupPersonageStorage;
     private final CheckGroupPersonage checkGroupPersonage;
-    private final GroupConfig config;
 
     public GroupTagService(
         GroupStorage groupStorage,
         GroupPersonageStorage groupPersonageStorage,
-        CheckGroupPersonage checkGroupPersonage,
-        GroupConfig config
+        CheckGroupPersonage checkGroupPersonage
     ) {
         this.groupStorage = groupStorage;
         this.groupPersonageStorage = groupPersonageStorage;
         this.checkGroupPersonage = checkGroupPersonage;
-        this.config = config;
     }
 
     public Either<GroupRegistrationError, Success> register(
@@ -48,10 +44,6 @@ public class GroupTagService {
         if (groupPersonageStorage.getPersonageMemberGroup(personageId).hasGroup()) {
             return Either.left(GroupRegistrationError.PersonageInAnotherGroup.INSTANCE);
         }
-        final var profile = groupStorage.getProfile(groupId).orElseThrow();
-        if (profile.money().lessThan(config.registrationPrice())) {
-            return Either.left(new GroupRegistrationError.NotEnoughMoney(config.registrationPrice()));
-        }
         if (!validateTag(tag)) {
             return Either.left(GroupRegistrationError.InvalidTag.INSTANCE);
         }
@@ -62,7 +54,7 @@ public class GroupTagService {
             return Either.left(GroupRegistrationError.NotAdmin.INSTANCE);
         }
 
-        groupStorage.setTagAndTakeMoney(groupId, tag, config.registrationPrice());
+        groupStorage.setTag(groupId, tag);
         groupPersonageStorage.setMemberGroup(personageId, groupId);
         return Either.right(Success.INSTANCE);
     }
@@ -79,10 +71,6 @@ public class GroupTagService {
         if (!groupPersonageStorage.getPersonageMemberGroup(personageId).isGroupMember(groupId)) {
             return Either.left(ChangeTagError.PersonageNotInGroup.INSTANCE);
         }
-        final var profile = groupStorage.getProfile(groupId).orElseThrow();
-        if (profile.money().lessThan(config.changeTagPrice())) {
-            return Either.left(new ChangeTagError.NotEnoughMoney(config.changeTagPrice()));
-        }
         if (!validateTag(tag)) {
             return Either.left(ChangeTagError.InvalidTag.INSTANCE);
         }
@@ -93,7 +81,7 @@ public class GroupTagService {
             return Either.left(ChangeTagError.NotAdmin.INSTANCE);
         }
 
-        groupStorage.setTagAndTakeMoney(groupId, tag, config.changeTagPrice());
+        groupStorage.setTag(groupId, tag);
         return Either.right(Success.INSTANCE);
     }
 

@@ -1,8 +1,6 @@
 package ru.homyakin.seeker.game.group.infra.database;
 
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +11,6 @@ import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupSettings;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.utils.JsonUtils;
 
@@ -22,10 +19,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -208,36 +203,13 @@ public class GroupPostgresDao implements GroupStorage {
     }
 
     @Override
-    public void setTagAndTakeMoney(GroupId groupId, String tag, Money money) {
+    public void setTag(GroupId groupId, String tag) {
         final var sql = """
-            UPDATE pgroup SET tag = :tag, money = money - :money WHERE id = :id
+            UPDATE pgroup SET tag = :tag WHERE id = :id
             """;
         jdbcClient.sql(sql)
             .param("id", groupId.value())
             .param("tag", tag)
-            .param("money", money.value())
-            .update();
-    }
-
-    @Override
-    public void addMoney(GroupId groupId, Money money) {
-        final var sql = """
-            UPDATE pgroup SET money = money + :money WHERE id = :id
-            """;
-        jdbcClient.sql(sql)
-            .param("id", groupId.value())
-            .param("money", money.value())
-            .update();
-    }
-
-    @Override
-    public void takeMoney(GroupId groupId, Money money) {
-        final var sql = """
-            UPDATE pgroup SET money = money - :money WHERE id = :id
-            """;
-        jdbcClient.sql(sql)
-            .param("id", groupId.value())
-            .param("money", money.value())
             .update();
     }
 
@@ -283,7 +255,6 @@ public class GroupPostgresDao implements GroupStorage {
             pgroup.id,
             pgroup.name,
             pgroup.tag,
-            pgroup.money,
             member_count.count as member_count,
             b.code badge_code
         FROM pgroup
@@ -319,23 +290,6 @@ public class GroupPostgresDao implements GroupStorage {
             .list();
     }
 
-    @Override
-    public void addMoney(Map<GroupId, Money> moneyMap) {
-        final var parameters = new ArrayList<SqlParameterSource>();
-        for (final var entry : moneyMap.entrySet()) {
-            MapSqlParameterSource paramSource = new MapSqlParameterSource()
-                .addValue("id", entry.getKey().value())
-                .addValue("money", entry.getValue().value());
-            parameters.add(paramSource);
-        }
-        final var sql = """
-            UPDATE pgroup
-            SET money = money + :money
-            WHERE id = :id
-            """;
-        jdbcTemplate.batchUpdate(sql, parameters.toArray(new SqlParameterSource[0]));
-    }
-
     private Group mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var postgresSettings = jsonUtils.fromString(rs.getString("settings"), GroupSettingsPostgresJson.class);
         return new Group(
@@ -362,7 +316,6 @@ public class GroupPostgresDao implements GroupStorage {
             rs.getString("name"),
             Optional.ofNullable(rs.getString("tag")),
             BadgeView.findByCode(rs.getString("badge_code")),
-            Money.from(rs.getInt("money")),
             rs.getInt("member_count")
         );
     }

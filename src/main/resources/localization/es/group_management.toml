@@ -1,7 +1,6 @@
 registeredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
-Fondo común: ${money}${money_icon}
 Miembros: ${members_count}
 
 📊Estadísticas del grupo: ${group_stats_command}
@@ -11,26 +10,20 @@ Comandos del grupo: ${group_commands_command}
 unregisteredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
-Fondo común: ${money}${money_icon}
-
 Registrar grupo: ${register_group_command}
 
 📊Estadísticas del grupo: ${group_stats_command}
 ⚙️Configuración: ${group_settings_command}
-Aportar fondos: <code>${donate_money_command} [cantidad]</code>
 """
 
 groupRegistration = """\
 Para registrar el grupo, necesitas definir un tag con <code>${register_group_command} TAG</code>. \
-El tag debe tener 3-4 letras mayúsculas del alfabeto latino.
-Costo: ${money_icon}${money}"""
+El tag debe tener 3-4 letras mayúsculas del alfabeto latino."""
 alreadyRegisteredGroup = "¡El grupo ya está registrado!"
 registrationPersonageInAnotherGroup = "¡No puedes registrar si ya estás en otro grupo!"
-notEnoughMoneyForGroupRegistration = "¡Hace falta ${money_icon}${money} en el fondo común para registrar el grupo!"
 incorrectTag = "El tag debe contener de 3 a 4 letras mayúsculas en inglés."
 tagAlreadyTaken = "Ese tag ya está en uso"
 successGroupRegistration = "¡Grupo registrado con éxito! Puedes unirte con ${group_join_command}"
-notEnoughMoneyForChangeTag = "Hace falta ${money_icon}${money} en el fondo común para cambiar el tag."
 successChangeTag = "Tag cambiado con éxito a <code>[${tag}]</code>"
 
 joinPersonageAlreadyInGroup = "¡Ya estás en este grupo!"
@@ -59,24 +52,8 @@ leaveGroupLastMemberSuccess = """
 No podrás entrar a otro grupo durante ${duration}"""
 leaveGroupCancel = "Sigues siendo parte del grupo"
 
-successDonate = "${personage_badge_with_name} aportó ${money}${money_icon} al grupo!"
-notEnoughMoneyForDonate = "No tienes suficiente dinero"
-successGiveMoney = "${giver_badge_with_name} le entrega ${money}${money_icon} a ${acceptor_badge_with_name} del fondo del grupo."
-notEnoughMoneyForGive = "El fondo del grupo no tiene suficiente dinero"
-giveMoneyPersonageNotMember = "El destinatario debe estar en el grupo"
-giverNotMember = "Debes estar en el grupo para repartir dinero"
-incorrectAcceptor = """\
-Debes indicar a quién va el dinero, ya sea respondiendo un mensaje o mencionando al usuario. Ejemplo:
-<code>${give_money_command} 100 @usuario</code>"""
-acceptorNotFound = """\
-No pudimos encontrar a quién enviarle el dinero. \
-Puede que tu socio nunca haya estado en esta taberna o haya cambiado su nombre."""
-incorrectAmount = "Cantidad inválida"
-
 groupCommands = """\
 Comandos del grupo:
 <code>${group_join_command}</code> - unirse al grupo
 <code>${group_leave_command}</code> - salir del grupo
-<code>${donate_money_command} [cantidad]</code> - aportar fondos
-<code>${give_money_command} [cantidad] @usuario</code> - repartir fondos
-<code>${change_tag_command} [TAG]</code> - cambiar el tag del grupo (${money_icon}${price})"""
+<code>${change_tag_command} [TAG]</code> - cambiar el tag del grupo"""

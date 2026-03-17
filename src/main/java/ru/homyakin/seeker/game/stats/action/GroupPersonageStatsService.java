@@ -57,14 +57,4 @@ public class GroupPersonageStatsService {
         final var season = seasonService.currentSeason();
         storage.add(GroupPersonageStats.withWorkerOfDay(season, groupId, personageId));
     }
-
-    public void addDonateMoney(GroupId groupId, PersonageId personageId, Money money) {
-        final var season = seasonService.currentSeason();
-        storage.add(GroupPersonageStats.withDonateMoney(season, groupId, personageId, money));
-    }
-
-    public void addGiveMoney(GroupId groupId, PersonageId personageId, Money money) {
-        final var season = seasonService.currentSeason();
-        storage.add(GroupPersonageStats.withGiveMoney(season, groupId, personageId, money));
-    }
 }

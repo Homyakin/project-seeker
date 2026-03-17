@@ -1,0 +1,10 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="remove-group-money">
+        <dropColumn tableName="pgroup" columnName="money"/>
+        <dropColumn tableName="pgroup_battle_result" columnName="reward"/>
+    </changeSet>
+</databaseChangeLog>

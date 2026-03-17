@@ -27,8 +27,6 @@ import ru.homyakin.seeker.telegram.command.group.management.CancelJoinGroupMembe
 import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupName;
 import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupTag;
 import ru.homyakin.seeker.telegram.command.group.management.ConfirmJoinGroupMember;
-import ru.homyakin.seeker.telegram.command.group.management.DonateToGroup;
-import ru.homyakin.seeker.telegram.command.group.management.GiveMoneyFromGroup;
 import ru.homyakin.seeker.telegram.command.group.management.GroupCommands;
 import ru.homyakin.seeker.telegram.command.group.management.GroupInfo;
 import ru.homyakin.seeker.telegram.command.group.management.GroupRegistration;
@@ -50,7 +48,6 @@ import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ThrowOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ThrowOrderToGroup;
-import ru.homyakin.seeker.telegram.command.group.top.TopDonate;
 import ru.homyakin.seeker.telegram.command.group.top.TopGroupRaidLevel;
 import ru.homyakin.seeker.telegram.command.group.top.TopGroupRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopList;
@@ -228,7 +225,6 @@ public class CommandParser {
                 case TOP_RAID_WEEK -> TopRaidWeek.from(message);
                 case TOP_RAID_WEEK_GROUP -> TopRaidWeekGroup.from(message);
                 case TOP -> TopList.from(message);
-                case TOP_DONATE -> TopDonate.from(message);
                 case TOP_TAVERN_SPENT -> TopTavernSpent.from(message);
                 case SETTINGS -> GetGroupSettings.from(message);
                 case SET_TIME_ZONE -> SetTimeZone.from(message);
@@ -241,8 +237,6 @@ public class CommandParser {
                 case GROUP_INFO -> GroupInfo.from(message);
                 case REGISTER_GROUP -> GroupRegistration.from(message);
                 case JOIN_GROUP -> JoinGroupMember.from(message);
-                case DONATE_MONEY -> DonateToGroup.from(message);
-                case GIVE_MONEY -> GiveMoneyFromGroup.from(message);
                 case LEAVE_GROUP -> LeaveGroupMember.from(message);
                 case GROUP_COMMANDS -> GroupCommands.from(message);
                 case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);

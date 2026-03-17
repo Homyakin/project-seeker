@@ -496,8 +496,6 @@ public class CommonLocalization {
         params.put("damage_blocked_count", result.stats().blockCount());
         params.put("dodged_damage_value", result.stats().damageDodged());
         params.put("dodged_damage_count", result.stats().dodgesCount());
-        params.put("money_icon", Icons.MONEY);
-        params.put("reward_value", result.reward().value());
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
         params.put("miss_icon", Icons.MISS);

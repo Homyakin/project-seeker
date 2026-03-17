@@ -51,8 +51,6 @@ public class ChangeGroupTagExecutor extends CommandExecutor<ChangeGroupTag> {
                         GroupManagementLocalization.incorrectTag(groupTg.language());
                     case ChangeTagError.NotAdmin _ ->
                         CommonLocalization.onlyAdminAction(groupTg.language());
-                    case ChangeTagError.NotEnoughMoney notEnoughMoney ->
-                        GroupManagementLocalization.notEnoughMoneyForChangeTag(groupTg.language(), notEnoughMoney.required());
                     case ChangeTagError.PersonageNotInGroup _ ->
                         CommonLocalization.onlyGroupMemberAction(groupTg.language());
                     case ChangeTagError.TagAlreadyTaken _ ->

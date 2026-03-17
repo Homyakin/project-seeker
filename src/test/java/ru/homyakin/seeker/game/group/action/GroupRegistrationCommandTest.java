@@ -7,12 +7,10 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
@@ -24,13 +22,11 @@ public class GroupRegistrationCommandTest {
 
     private final GroupStorage groupStorage = Mockito.mock();
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
-    private final GroupConfig groupConfig = Mockito.mock();
     private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
     private final GroupTagService groupTagService = new GroupTagService(
         groupStorage,
         groupPersonageStorage,
-        checkGroupPersonage,
-        groupConfig
+        checkGroupPersonage
     );
     private GroupId groupId;
     private PersonageId personageId;
@@ -39,7 +35,6 @@ public class GroupRegistrationCommandTest {
     void init() {
         groupId = new GroupId(TestRandom.nextLong());
         personageId = new PersonageId(TestRandom.nextLong());
-        Mockito.when(groupConfig.registrationPrice()).thenReturn(new Money(1000));
     }
 
     @Test
@@ -90,30 +85,11 @@ public class GroupRegistrationCommandTest {
     }
 
     @Test
-    void When_InsufficientFunds_Then_ReturnNotEnoughMoneyError() {
-        final var group = Mockito.mock(Group.class);
-        Mockito.when(group.isHidden()).thenReturn(false);
-        Mockito.when(group.isRegistered()).thenReturn(false);
-        final var profile = groupProfile(500);
-        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
-        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
-            .thenReturn(PersonageMemberGroupUtils.empty());
-
-        final var result = groupTagService.register(groupId, personageId, "TAG");
-
-        Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(new GroupRegistrationError.NotEnoughMoney(new Money(1000)), result.getLeft());
-    }
-
-    @Test
     void When_InvalidTag_Then_ReturnInvalidTagError() {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isHidden()).thenReturn(false);
         Mockito.when(group.isRegistered()).thenReturn(false);
-        final var profile = groupProfile(1000);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
 
@@ -128,9 +104,7 @@ public class GroupRegistrationCommandTest {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isHidden()).thenReturn(false);
         Mockito.when(group.isRegistered()).thenReturn(false);
-        final var profile = groupProfile(1000);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(true);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
@@ -146,9 +120,7 @@ public class GroupRegistrationCommandTest {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isHidden()).thenReturn(false);
         Mockito.when(group.isRegistered()).thenReturn(false);
-        final var profile = groupProfile(1000);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
@@ -166,9 +138,7 @@ public class GroupRegistrationCommandTest {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isHidden()).thenReturn(false);
         Mockito.when(group.isRegistered()).thenReturn(false);
-        final var profile = groupProfile(1000);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
@@ -179,18 +149,8 @@ public class GroupRegistrationCommandTest {
 
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(Success.INSTANCE, result.get());
-        Mockito.verify(groupStorage).setTagAndTakeMoney(groupId, "TAG", new Money(1000));
+        Mockito.verify(groupStorage).setTag(groupId, "TAG");
         Mockito.verify(groupPersonageStorage).setMemberGroup(personageId, groupId);
     }
 
-    private GroupProfile groupProfile(int moneyValue) {
-        return new GroupProfile(
-            groupId,
-            "Test Group",
-            Optional.empty(),
-            null,
-            new Money(moneyValue),
-            1
-        );
-    }
 }

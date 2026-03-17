@@ -5,24 +5,17 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
 import ru.homyakin.seeker.game.group.entity.GroupBattleResultStorage;
-import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.SavedGroupBattleResult;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class GroupBattleResultService {
     private final GroupBattleResultStorage groupBattleResultStorage;
-    private final GroupStorage groupStorage;
 
-    public GroupBattleResultService(
-        GroupBattleResultStorage groupBattleResultStorage,
-        GroupStorage groupStorage
-    ) {
+    public GroupBattleResultService(GroupBattleResultStorage groupBattleResultStorage) {
         this.groupBattleResultStorage = groupBattleResultStorage;
-        this.groupStorage = groupStorage;
     }
 
     public void saveWorldRaidResults(List<GroupWorldRaidBattleResult> results, LaunchedEvent launchedEvent) {
@@ -31,19 +24,9 @@ public class GroupBattleResultService {
                 .map(result -> new SavedGroupBattleResult(
                     result.group().id(),
                     launchedEvent.id(),
-                    result.stats(),
-                    result.reward()
+                    result.stats()
                 ))
                 .toList()
-        );
-        groupStorage.addMoney(
-            results.stream()
-                .collect(
-                    Collectors.toMap(
-                        GroupWorldRaidBattleResult::groupId,
-                        GroupWorldRaidBattleResult::reward
-                    )
-                )
         );
     }
 

@@ -1,7 +1,6 @@
 registeredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
-Казна: ${money}${money_icon}
 Участники: ${members_count}
 
 📊Статистика группы: ${group_stats_command}
@@ -11,26 +10,20 @@ registeredGroupInfo = """\
 unregisteredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
-Казна: ${money}${money_icon}
-
 Зарегистрировать группу: ${register_group_command}
 
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
-Вложить деньги: <code>${donate_money_command} [сумма]</code>
 """
 
 groupRegistration = """\
 Для регистрации группы необходимо установить тэг группы <code>${register_group_command} тэг</code>. \
-Тэг должен стостоять из 3-4 заглавных букв латинского алфавита.
-Стоимость: ${money_icon}${money}"""
+Тэг должен стостоять из 3-4 заглавных букв латинского алфавита."""
 alreadyRegisteredGroup = "Группа уже зарегистрирована"
 registrationPersonageInAnotherGroup = "Регистрирующий персонаж не должен быть участником другой группы!"
-notEnoughMoneyForGroupRegistration = "Для регистрации группы необходимо ${money_icon}${money} в казне группы!"
 incorrectTag = "Неправильно указан тэг, он должен состоять из 3-4 заглавных букв латинского алфавита"
 tagAlreadyTaken = "Такой тэг уже занят"
 successGroupRegistration = "Группа успешно зарегистрирована! Вступить в группу можно с помощью ${group_join_command}"
-notEnoughMoneyForChangeTag = "Для смены тэга необходимо иметь ${money_icon}${money} в казне группы"
 successChangeTag = "Тэг успешно изменён на <code>[${tag}]</code>"
 
 joinPersonageAlreadyInGroup = "Ты уже состоишь в этой группе!"
@@ -60,24 +53,8 @@ leaveGroupLastMemberSuccess = """
 Вступление заблокировано на ${duration}"""
 leaveGroupCancel = "Ты остаёшься в группе"
 
-successDonate = "В группу вложено ${money}${money_icon} от ${personage_badge_with_name}!"
-notEnoughMoneyForDonate = "Недостаточно денег"
-successGiveMoney = "${giver_badge_with_name} выдаёт из группы ${money}${money_icon} для ${acceptor_badge_with_name}!"
-notEnoughMoneyForGive = "Недостаточно денег в казне группы"
-giveMoneyPersonageNotMember = "Получатель должен состоять в группе"
-giverNotMember = "Для выдачи денег необходимо состоять в группе"
-incorrectAcceptor = """\
-Необходимо указать кому выдаются деньги, либо ответом на сообщение либо через упоминание. Например:
-<code>${give_money_command} 100 @user</code>"""
-acceptorNotFound = """\
-К сожалению, мы не смогли найти кому отправить деньги. \
-Возможно твой товарищ ещё не посещал данную таверну или сменил имя."""
-incorrectAmount = "Неправильно указана сумма"
-
 groupCommands = """\
 Комманды для группы:
 <code>${group_join_command}</code> - вступить в группу
 <code>${group_leave_command}</code> - покинуть группу
-<code>${donate_money_command} [сумма]</code> - вложить деньги в группу
-<code>${give_money_command} [сумма] @user</code> - выдать деньги из группы
-<code>${change_tag_command} [тэг]</code> - сменить тэг группы (${money_icon}${price})"""
+<code>${change_tag_command} [тэг]</code> - сменить тэг группы"""

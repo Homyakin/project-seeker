@@ -8,8 +8,6 @@ import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
-import ru.homyakin.seeker.game.top.models.TopDonatePosition;
-import ru.homyakin.seeker.game.top.models.TopDonateResult;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
@@ -93,7 +91,6 @@ public class TopLocalization {
         params.put("top_group_raid_week_command", CommandType.TOP_GROUP_RAID_WEEK.getText());
         params.put("top_group_raid_level_command", CommandType.TOP_GROUP_RAID_LEVEL.getText());
         params.put("top_power_personage_command", CommandType.TOP_POWER_GROUP.getText());
-        params.put("top_donate_command", CommandType.TOP_DONATE.getText());
         params.put("top_tavern_spent_command", CommandType.TOP_TAVERN_SPENT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topList),
@@ -236,35 +233,6 @@ public class TopLocalization {
 
     public static String topWorldRaidResearchEmpty(Language language) {
         return resources.getOrDefault(language, TopResource::topWorldRaidResearchEmpty);
-    }
-
-    public static String topDonateGroup(
-        Language language,
-        PersonageId requestedPersonageId,
-        TopDonateResult result
-    ) {
-        final var params = new HashMap<String, Object>();
-        final var topPersonageList = TopUtils.createTwoSideTopList(language, requestedPersonageId, result);
-        params.put("top_personage_list", topPersonageList);
-        params.put("total_count", result.positions().size());
-        params.put("season_number", result.seasonNumber().value());
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, TopResource::topDonateGroup),
-            params
-        );
-    }
-
-    public static String topDonatePosition(Language language, int positionNumber, TopDonatePosition position) {
-        final var params = new HashMap<String, Object>();
-        params.put("position", positionNumber);
-        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
-        params.put("donate_money", position.donateMoney());
-        params.put("money_icon", Icons.MONEY);
-        return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topDonatePosition), params);
-    }
-
-    public static String topDonateEmpty(Language language) {
-        return resources.getOrDefault(language, TopResource::topDonateEmpty);
     }
 
     public static String topTavernSpentGroup(Language language, PersonageId requestedPersonageId, TopTavernSpentResult result) {
