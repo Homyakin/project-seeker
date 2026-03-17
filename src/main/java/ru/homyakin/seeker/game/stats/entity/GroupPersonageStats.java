@@ -14,8 +14,7 @@ public record GroupPersonageStats(
     int duelsWins,
     int duelsTotal,
     long tavernMoneySpent,
-    int workerOfDayCount,
-    long donateMoney
+    int workerOfDayCount
 ) {
     public static GroupPersonageStats withSuccessRaid(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
@@ -24,7 +23,6 @@ public record GroupPersonageStats(
             personageId,
             1,
             1,
-            0,
             0,
             0,
             0,
@@ -42,7 +40,6 @@ public record GroupPersonageStats(
             0,
             0,
             0,
-            0,
             0
         );
     }
@@ -57,7 +54,6 @@ public record GroupPersonageStats(
             1,
             1,
             0,
-            0,
             0
         );
     }
@@ -71,7 +67,6 @@ public record GroupPersonageStats(
             0,
             0,
             1,
-            0,
             0,
             0
         );
@@ -92,7 +87,6 @@ public record GroupPersonageStats(
             0,
             0,
             money.value(),
-            0,
             0
         );
     }
@@ -107,48 +101,7 @@ public record GroupPersonageStats(
             0,
             0,
             0,
-            1,
-            0
-        );
-    }
-
-    public static GroupPersonageStats withDonateMoney(
-        SeasonNumber seasonNumber,
-        GroupId groupId,
-        PersonageId personageId,
-        Money money
-    ) {
-        return new GroupPersonageStats(
-            seasonNumber,
-            groupId,
-            personageId,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            money.value()
-        );
-    }
-
-    public static GroupPersonageStats withGiveMoney(
-        SeasonNumber seasonNumber,
-        GroupId groupId,
-        PersonageId personageId,
-        Money money
-    ) {
-        return new GroupPersonageStats(
-            seasonNumber,
-            groupId,
-            personageId,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            -money.value()
+            1
         );
     }
 }

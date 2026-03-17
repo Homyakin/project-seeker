@@ -1,11 +1,9 @@
 package ru.homyakin.seeker.game.group.entity;
 
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.models.Money;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface GroupStorage {
@@ -34,11 +32,7 @@ public interface GroupStorage {
      */
     boolean toggleIsHidden(GroupId groupId);
 
-    void setTagAndTakeMoney(GroupId groupId, String tag, Money money);
-
-    void addMoney(GroupId groupId, Money money);
-
-    void takeMoney(GroupId groupId, Money money);
+    void setTag(GroupId groupId, String tag);
 
     int memberCount(GroupId groupId);
 
@@ -51,6 +45,4 @@ public interface GroupStorage {
     Optional<Group> getByTag(String tag);
 
     List<Group> getByTags(List<String> tags);
-
-    void addMoney(Map<GroupId, Money> map);
 }

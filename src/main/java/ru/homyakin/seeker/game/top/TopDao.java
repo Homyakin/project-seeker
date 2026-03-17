@@ -17,7 +17,6 @@ import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
-import ru.homyakin.seeker.game.top.models.TopDonatePosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
@@ -61,14 +60,6 @@ public class TopDao {
         return jdbcClient.sql(TOP_SPIN_GROUP)
             .param("pgroup_id", groupId.value())
             .query(this::mapWorkerPosition)
-            .list();
-    }
-
-    public List<TopDonatePosition> getUnsortedTopDonateGroup(GroupId groupId, int seasonNumber) {
-        return jdbcClient.sql(TOP_DONATE_GROUP)
-            .param("pgroup_id", groupId.value())
-            .param("season_number", seasonNumber)
-            .query(this::mapDonatePosition)
             .list();
     }
 
@@ -176,16 +167,6 @@ public class TopDao {
         );
     }
 
-    private TopDonatePosition mapDonatePosition(ResultSet rs, int rowNum) throws SQLException {
-        return new TopDonatePosition(
-            PersonageId.from(rs.getLong("personage_id")),
-            rs.getString("personage_name"),
-            BadgeView.findByCode(rs.getString("badge_code")),
-            Optional.ofNullable(rs.getString("pgroup_member_tag")),
-            rs.getLong("donate_money")
-        );
-    }
-
     private GroupTopRaidPosition mapGroupTopRaidPosition(ResultSet rs, int rowNum) throws SQLException {
         return new GroupTopRaidPosition(
             GroupId.from(rs.getLong("id")),
@@ -288,27 +269,6 @@ public class TopDao {
         LEFT JOIN public.badge b on b.id = pab.badge_id
         LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE pab.is_active = true""";
-
-    private static final String TOP_DONATE_GROUP = """
-        WITH personage_donate
-        AS (
-            SELECT personage_id, donate_money
-            FROM season_pgroup_personage_stats
-            WHERE pgroup_id = :pgroup_id AND season_number = :season_number
-        )
-        SELECT
-            p.id as personage_id,
-            p.name personage_name,
-            b.code badge_code,
-            pd.donate_money,
-            pg.tag as pgroup_member_tag
-        FROM personage p
-        INNER JOIN personage_donate pd ON p.id = pd.personage_id
-        LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
-        LEFT JOIN public.badge b on b.id = pab.badge_id
-        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
-        WHERE pab.is_active = true
-        """;
 
     private static final String TOP_TAVERN_SPENT_GROUP = """
         WITH personage_tavern_spent AS (

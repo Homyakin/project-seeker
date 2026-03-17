@@ -33,8 +33,7 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
                 duels_wins,
                 duels_total,
                 tavern_money_spent,
-                spin_wins_count,
-                donate_money
+                spin_wins_count
             ) VALUES (
                 :season_number,
                 :pgroup_id,
@@ -44,8 +43,7 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
                 :duels_wins,
                 :duels_total,
                 :tavern_money_spent,
-                :spin_wins_count,
-                :donate_money
+                :spin_wins_count
             )
             ON CONFLICT (season_number, pgroup_id, personage_id) DO UPDATE SET
                 raids_success = season_pgroup_personage_stats.raids_success + :raids_success,
@@ -53,8 +51,7 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
                 duels_wins = season_pgroup_personage_stats.duels_wins + :duels_wins,
                 duels_total = season_pgroup_personage_stats.duels_total + :duels_total,
                 tavern_money_spent = season_pgroup_personage_stats.tavern_money_spent + :tavern_money_spent,
-                spin_wins_count = season_pgroup_personage_stats.spin_wins_count + :spin_wins_count,
-                donate_money = season_pgroup_personage_stats.donate_money + :donate_money
+                spin_wins_count = season_pgroup_personage_stats.spin_wins_count + :spin_wins_count
             """;
         jdbcClient.sql(sql)
             .param("season_number", groupPersonageStats.seasonNumber().value())
@@ -66,7 +63,6 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
             .param("duels_total", groupPersonageStats.duelsTotal())
             .param("tavern_money_spent", groupPersonageStats.tavernMoneySpent())
             .param("spin_wins_count", groupPersonageStats.workerOfDayCount())
-            .param("donate_money", groupPersonageStats.donateMoney())
             .update();
     }
 
@@ -96,8 +92,7 @@ public class GroupPersonageStatsPostgresDao implements GroupPersonageStatsStorag
             rs.getInt("duels_wins"),
             rs.getInt("duels_total"),
             rs.getLong("tavern_money_spent"),
-            rs.getInt("spin_wins_count"),
-            rs.getLong("donate_money")
+            rs.getInt("spin_wins_count")
         );
     }
 }

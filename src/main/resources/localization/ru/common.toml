@@ -158,5 +158,4 @@ shortGroupBattleReport = """\
 ${participants_icon}${remain_participants}/${total_participants}
 ${health_icon}${remain_health}/${total_health}
 ${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
-${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
-+${money_icon}${reward_value}"""
+${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})"""

@@ -15,8 +15,6 @@ import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
 import ru.homyakin.seeker.game.top.models.PersonageTopPosition;
-import ru.homyakin.seeker.game.top.models.TopDonatePosition;
-import ru.homyakin.seeker.game.top.models.TopDonateResult;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
@@ -65,13 +63,6 @@ public class TopService {
         final var top = topDao.getUnsortedTopWorkerGroup(groupId);
         top.sort(Comparator.comparingInt(PersonageTopPosition::score).reversed());
         return new TopWorkerOfDayResult(top, TopWorkerOfDayResult.Type.GROUP);
-    }
-
-    public TopDonateResult getTopDonateGroup(GroupId groupId) {
-        final var currentSeason = seasonService.currentSeason();
-        final var top = topDao.getUnsortedTopDonateGroup(groupId, currentSeason.value());
-        top.sort(Comparator.comparingLong(TopDonatePosition::donateMoney).reversed());
-        return new TopDonateResult(top, currentSeason);
     }
 
     public GroupTopRaidResult getGroupRaidWeek() {

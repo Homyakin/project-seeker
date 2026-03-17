@@ -9,7 +9,6 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.GroupBattleStats;
 import ru.homyakin.seeker.game.group.entity.GroupBattleResultStorage;
 import ru.homyakin.seeker.game.group.entity.SavedGroupBattleResult;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.utils.JsonUtils;
 
 import javax.sql.DataSource;
@@ -38,13 +37,12 @@ public class GroupBattleResultDao implements GroupBattleResultStorage {
             MapSqlParameterSource paramSource = new MapSqlParameterSource()
                 .addValue("pgroup_id", result.groupId().value())
                 .addValue("launched_event_id", result.launchedEventId())
-                .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
-                .addValue("reward", result.reward().value());
+                .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()));
             parameters.add(paramSource);
         }
         final var sql = """
-                INSERT INTO pgroup_battle_result (pgroup_id, launched_event_id, stats, reward)
-                VALUES (:pgroup_id, :launched_event_id, :stats, :reward)""";
+                INSERT INTO pgroup_battle_result (pgroup_id, launched_event_id, stats)
+                VALUES (:pgroup_id, :launched_event_id, :stats)""";
         jdbcTemplate.batchUpdate(
             sql,
             parameters.toArray(new SqlParameterSource[0])
@@ -67,8 +65,7 @@ public class GroupBattleResultDao implements GroupBattleResultStorage {
         return new SavedGroupBattleResult(
             GroupId.from(rs.getLong("pgroup_id")),
             rs.getLong("launched_event_id"),
-            jsonUtils.fromString(rs.getString("stats"), GroupBattleStats.class),
-            Money.from(rs.getInt("reward"))
+            jsonUtils.fromString(rs.getString("stats"), GroupBattleStats.class)
         );
     }
 }

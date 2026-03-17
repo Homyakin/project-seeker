@@ -253,8 +253,6 @@ public class WorldRaidLocalization {
         params.put("group_tag_with_badage", LocaleUtils.groupTagWithBadge(result.group()));
         params.put("damage_dealt", result.stats().damageDealt());
         params.put("damage_taken", result.stats().damageTaken());
-        params.put("money_icon", Icons.MONEY);
-        params.put("money", result.reward().value());
         params.put("participants_count", result.stats().totalPersonages());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::groupResult),

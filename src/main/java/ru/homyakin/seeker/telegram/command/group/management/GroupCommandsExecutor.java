@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -12,16 +11,13 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class GroupCommandsExecutor extends CommandExecutor<GroupCommands> {
     private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
-    private final GroupConfig config;
 
     public GroupCommandsExecutor(
         GroupTgService groupTgService,
-        TelegramSender telegramSender,
-        GroupConfig config
+        TelegramSender telegramSender
     ) {
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
-        this.config = config;
     }
 
     @Override
@@ -31,7 +27,7 @@ public class GroupCommandsExecutor extends CommandExecutor<GroupCommands> {
         telegramSender.send(
             SendMessageBuilder.builder()
                 .chatId(command.groupTgId())
-                .text(GroupManagementLocalization.groupCommands(groupTg.language(), config.changeTagPrice()))
+                .text(GroupManagementLocalization.groupCommands(groupTg.language()))
                 .build()
         );
     }

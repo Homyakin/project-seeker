@@ -7,12 +7,9 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.group.entity.GroupConfig;
-import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.ChangeTagError;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
@@ -24,13 +21,11 @@ public class GroupTagServiceChangeTagTest {
 
     private final GroupStorage groupStorage = Mockito.mock();
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
-    private final GroupConfig groupConfig = Mockito.mock();
     private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
     private final GroupTagService groupTagService = new GroupTagService(
         groupStorage,
         groupPersonageStorage,
-        checkGroupPersonage,
-        groupConfig
+        checkGroupPersonage
     );
     private GroupId groupId;
     private PersonageId personageId;
@@ -39,7 +34,6 @@ public class GroupTagServiceChangeTagTest {
     void init() {
         groupId = new GroupId(TestRandom.nextLong());
         personageId = new PersonageId(TestRandom.nextLong());
-        Mockito.when(groupConfig.changeTagPrice()).thenReturn(new Money(300));
     }
 
     @Test
@@ -69,30 +63,12 @@ public class GroupTagServiceChangeTagTest {
     }
 
     @Test
-    void When_ChangeTagNotEnoughMoney_Then_ReturnNotEnoughMoneyError() {
-        final var group = Mockito.mock(Group.class);
-        Mockito.when(group.isRegistered()).thenReturn(true);
-        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
-        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
-            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
-        final var profile = groupProfile(200);
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
-
-        final var result = groupTagService.changeTag(groupId, personageId, "TAG");
-
-        Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(new ChangeTagError.NotEnoughMoney(new Money(300)), result.getLeft());
-    }
-
-    @Test
     void When_ChangeTagInvalidTag_Then_ReturnInvalidTagError() {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isRegistered()).thenReturn(true);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
-        final var profile = groupProfile(1000);
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
 
         final var result = groupTagService.changeTag(groupId, personageId, "фыва");
 
@@ -107,8 +83,6 @@ public class GroupTagServiceChangeTagTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
-        final var profile = groupProfile(1000);
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(true);
 
         final var result = groupTagService.changeTag(groupId, personageId, "TAG");
@@ -124,8 +98,6 @@ public class GroupTagServiceChangeTagTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
-        final var profile = groupProfile(300);
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId)).thenReturn(false);
 
@@ -142,8 +114,6 @@ public class GroupTagServiceChangeTagTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
-        final var profile = groupProfile(300);
-        Mockito.when(groupStorage.getProfile(groupId)).thenReturn(Optional.of(profile));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId)).thenReturn(true);
 
@@ -151,17 +121,6 @@ public class GroupTagServiceChangeTagTest {
 
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(Success.INSTANCE, result.get());
-        Mockito.verify(groupStorage).setTagAndTakeMoney(groupId, "TAG", new Money(300));
-    }
-
-    private GroupProfile groupProfile(int moneyValue) {
-        return new GroupProfile(
-            groupId,
-            "Test Group",
-            Optional.empty(),
-            null,
-            new Money(moneyValue),
-            1
-        );
+        Mockito.verify(groupStorage).setTag(groupId, "TAG");
     }
 }

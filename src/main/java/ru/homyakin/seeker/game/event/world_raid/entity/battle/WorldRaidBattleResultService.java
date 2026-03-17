@@ -42,13 +42,7 @@ public class WorldRaidBattleResultService {
         LaunchedEvent launchedEvent,
         WorldRaidBattleInfo remainInfo
     ) {
-        int moneyForPersonages = fund.value() / 2;
-        int moneyForGroup = fund.value() - moneyForPersonages;
-
         final var personageTotalImpact = result.personageResults().stream()
-            .mapToLong(it -> it.stats().damageDealtAndTaken())
-            .sum();
-        final var groupTotalImpact = result.groupResults().stream()
             .mapToLong(it -> it.stats().damageDealtAndTaken())
             .sum();
 
@@ -56,7 +50,7 @@ public class WorldRaidBattleResultService {
             .map(it -> new PersonageWorldRaidBattleResult(
                 it.personage(),
                 it.stats(),
-                Money.from((int) (moneyForPersonages * it.stats().damageDealtAndTaken() / personageTotalImpact)),
+                Money.from((int) (fund.value() * it.stats().damageDealtAndTaken() / personageTotalImpact)),
                 worldRaidItemGenerator.generate(it.personage(), isWin)
             ))
             .toList();
@@ -71,8 +65,7 @@ public class WorldRaidBattleResultService {
         final var groupResults = result.groupResults().stream()
             .map(it -> new GroupWorldRaidBattleResult(
                 tagToGroup.get(it.tag()),
-                it.stats(),
-                Money.from((int) (moneyForGroup * it.stats().damageDealtAndTaken() / groupTotalImpact))
+                it.stats()
             ))
             .toList();
 

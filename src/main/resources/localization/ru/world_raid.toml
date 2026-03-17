@@ -57,7 +57,7 @@ ${group_results}
 Лучшие Искатели:
 ${personage_results}"""
 
-groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
+groupResult = "${group_tag_with_badage} 👤${participants_count} ⚔️${damage_dealt} 🛡${damage_taken}"
 personageResult = "${dead_icon_or_empty}${personage_badge_with_name} ⚔️${damage_dealt} 🛡${damage_taken} +${money_icon}${money}"
 personageWorldRaidReportNotFound = "Ты не участвовал в последнем мировом рейде"
 groupWorldRaidReportNotFound = "Группа не участвовала в последнем мировом рейде"

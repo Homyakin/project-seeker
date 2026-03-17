@@ -6,11 +6,9 @@ public record GroupManagementResource(
     String groupRegistration,
     String alreadyRegisteredGroup,
     String registrationPersonageInAnotherGroup,
-    String notEnoughMoneyForGroupRegistration,
     String incorrectTag,
     String tagAlreadyTaken,
     String successGroupRegistration,
-    String notEnoughMoneyForChangeTag,
     String successChangeTag,
     String joinPersonageAlreadyInGroup,
     String joinPersonageInAnotherGroup,
@@ -31,15 +29,6 @@ public record GroupManagementResource(
     String leaveGroupCancelButton,
     String leaveGroupLastMemberSuccess,
     String leaveGroupCancel,
-    String successDonate,
-    String notEnoughMoneyForDonate,
-    String successGiveMoney,
-    String notEnoughMoneyForGive,
-    String giveMoneyPersonageNotMember,
-    String giverNotMember,
-    String incorrectAcceptor,
-    String acceptorNotFound,
-    String incorrectAmount,
     String groupCommands
 ) {
 }
