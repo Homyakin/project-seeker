@@ -1,0 +1,9 @@
+outpost = """
+🏰<b>Аванпост</b>
+
+${slots}
+"""
+emptySlot = "<i>[Пустой слот]</i>"
+buildingSlot = "${building_name} — ур. ${level}"
+
+monolith = "Монолит"

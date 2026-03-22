@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-pgroup-outpost">
+        <createTable tableName="pgroup_outpost">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="building_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="level" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="progress" type="JSONB">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                tableName="pgroup_outpost"
+                columnNames="building_id, pgroup_id"
+                constraintName="pgroup_outpost-pk"
+        />
+        <addForeignKeyConstraint
+                baseTableName="pgroup_outpost"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-pgroup_outpost-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>

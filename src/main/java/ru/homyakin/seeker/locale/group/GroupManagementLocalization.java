@@ -32,6 +32,7 @@ public class GroupManagementLocalization {
         final var params = new HashMap<String, Object>();
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         params.put("group_stats_command", CommandType.GROUP_STATS.getText());
+        params.put("outpost_command", CommandType.SHOW_OUTPOST.getText());
         params.put("group_settings_command", CommandType.SETTINGS.getText());
         params.put("group_commands_command", CommandType.GROUP_COMMANDS.getText());
         params.put("members_count", group.memberCount());
@@ -46,6 +47,7 @@ public class GroupManagementLocalization {
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         params.put("register_group_command", CommandType.REGISTER_GROUP.getText());
         params.put("group_stats_command", CommandType.GROUP_STATS.getText());
+        params.put("outpost_command", CommandType.SHOW_OUTPOST.getText());
         params.put("group_settings_command", CommandType.SETTINGS.getText());
         params.put("group_commands_command", CommandType.GROUP_COMMANDS.getText());
         params.put("members_count", group.memberCount());

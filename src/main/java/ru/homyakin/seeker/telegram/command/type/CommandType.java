@@ -92,6 +92,7 @@ public enum CommandType {
     SELL_TO_BLACK_MARKET("sellContraband", CheckType.EQUALS),
     OPEN_CONTRABAND_AS_RECEIVER("openContraband", CheckType.EQUALS),
     VIEW_CONTRABAND("/contraband", CheckType.EQUALS),
+    SHOW_OUTPOST("/outpost", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
