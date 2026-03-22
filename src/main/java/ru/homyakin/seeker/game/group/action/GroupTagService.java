@@ -41,8 +41,12 @@ public class GroupTagService {
         if (group.isHidden()) {
             return Either.left(GroupRegistrationError.HiddenGroup.INSTANCE);
         }
-        if (groupPersonageStorage.getPersonageMemberGroup(personageId).hasGroup()) {
-            return Either.left(GroupRegistrationError.PersonageInAnotherGroup.INSTANCE);
+        final var personageMemberGroup = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (!personageMemberGroup.isGroupMember(groupId)) {
+            if (personageMemberGroup.hasGroup()) {
+                return Either.left(GroupRegistrationError.PersonageInAnotherGroup.INSTANCE);
+            }
+            return Either.left(GroupRegistrationError.PersonageNotGroupMember.INSTANCE);
         }
         if (!validateTag(tag)) {
             return Either.left(GroupRegistrationError.InvalidTag.INSTANCE);
@@ -55,7 +59,6 @@ public class GroupTagService {
         }
 
         groupStorage.setTag(groupId, tag);
-        groupPersonageStorage.setMemberGroup(personageId, groupId);
         return Either.right(Success.INSTANCE);
     }
 

@@ -6,6 +6,7 @@ public record GroupManagementResource(
     String groupRegistration,
     String alreadyRegisteredGroup,
     String registrationPersonageInAnotherGroup,
+    String registrationPersonageNotGroupMember,
     String incorrectTag,
     String tagAlreadyTaken,
     String successGroupRegistration,

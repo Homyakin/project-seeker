@@ -10,10 +10,13 @@ registeredGroupInfo = """\
 unregisteredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
+Участники: ${members_count}
+
 Зарегистрировать группу: ${register_group_command}
 
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
+Комманды для группы: ${group_commands_command}
 """
 
 groupRegistration = """\
@@ -21,6 +24,7 @@ groupRegistration = """\
 Тэг должен стостоять из 3-4 заглавных букв латинского алфавита."""
 alreadyRegisteredGroup = "Группа уже зарегистрирована"
 registrationPersonageInAnotherGroup = "Регистрирующий персонаж не должен быть участником другой группы!"
+registrationPersonageNotGroupMember = "Сначала вступи в группу: ${group_join_command}"
 incorrectTag = "Неправильно указан тэг, он должен состоять из 3-4 заглавных букв латинского алфавита"
 tagAlreadyTaken = "Такой тэг уже занят"
 successGroupRegistration = "Группа успешно зарегистрирована! Вступить в группу можно с помощью ${group_join_command}"

@@ -47,6 +47,8 @@ public class GroupManagementLocalization {
         params.put("register_group_command", CommandType.REGISTER_GROUP.getText());
         params.put("group_stats_command", CommandType.GROUP_STATS.getText());
         params.put("group_settings_command", CommandType.SETTINGS.getText());
+        params.put("group_commands_command", CommandType.GROUP_COMMANDS.getText());
+        params.put("members_count", group.memberCount());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::unregisteredGroupInfo),
             params
@@ -68,6 +70,13 @@ public class GroupManagementLocalization {
 
     public static String registrationPersonageInAnotherGroup(Language language) {
         return resources.getOrDefault(language, GroupManagementResource::registrationPersonageInAnotherGroup);
+    }
+
+    public static String registrationPersonageNotGroupMember(Language language) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::registrationPersonageNotGroupMember),
+            Collections.singletonMap("group_join_command", CommandType.JOIN_GROUP.getText())
+        );
     }
 
     public static String incorrectTag(Language language) {
@@ -202,6 +211,9 @@ public class GroupManagementLocalization {
         Group group,
         Duration joinTimeout
     ) {
+        if (!group.isRegistered()) {
+            return leaveGroupSuccess(language, personage, joinTimeout);
+        }
         final var params = new HashMap<String, Object>();
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));

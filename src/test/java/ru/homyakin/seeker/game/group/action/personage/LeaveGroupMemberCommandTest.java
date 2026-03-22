@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
@@ -49,17 +50,40 @@ class LeaveGroupMemberCommandTest {
     }
 
     @Test
-    void When_LastMemberLeavesGroup_Then_ReturnLastMemberError() {
+    void When_LastMemberLeavesRegisteredGroup_Then_ReturnLastMemberError() {
         final var personageId = new PersonageId(1);
         final var groupId = new GroupId(1);
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isRegistered()).thenReturn(true);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
         Mockito.when(groupStorage.memberCount(groupId)).thenReturn(1);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
         final var result = leaveGroupMemberCommand.execute(personageId, groupId);
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(LeaveGroupMemberError.LastMember.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    void When_LastMemberLeavesUnregisteredGroup_Then_LeaveImmediately() {
+        final var personageId = new PersonageId(1);
+        final var groupId = new GroupId(1);
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isRegistered()).thenReturn(false);
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
+        Mockito.when(groupStorage.memberCount(groupId)).thenReturn(1).thenReturn(0);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
+        Mockito.doNothing().when(groupStorage).deleteTag(groupId);
+
+        final var result = leaveGroupMemberCommand.execute(personageId, groupId);
+
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertEquals(joinTimeout, result.get());
+        Mockito.verify(groupPersonageStorage).clearMemberGroup(eq(personageId), any());
+        Mockito.verify(groupStorage).deleteTag(groupId);
     }
 
     @Test

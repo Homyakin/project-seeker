@@ -39,7 +39,11 @@ public class LeaveGroupMemberCommand {
 
         final var memberCount = groupStorage.memberCount(groupId);
         if (memberCount == 1) {
-            return Either.left(LeaveGroupMemberError.LastMember.INSTANCE);
+            final var group = groupStorage.get(groupId).orElseThrow();
+            if (group.isRegistered()) {
+                return Either.left(LeaveGroupMemberError.LastMember.INSTANCE);
+            }
+            leaveAsLastMember(personageId, groupId);
         } else {
             groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
         }
@@ -58,10 +62,21 @@ public class LeaveGroupMemberCommand {
         final var groupId = personageMemberGroup.groupId().get();
         final var memberCount = groupStorage.memberCount(groupId);
         if (memberCount == 1) {
-            return Either.left(LeaveGroupMemberError.LastMember.INSTANCE);
+            final var group = groupStorage.get(groupId).orElseThrow();
+            if (group.isRegistered()) {
+                return Either.left(LeaveGroupMemberError.LastMember.INSTANCE);
+            }
+            leaveAsLastMember(personageId, groupId);
         } else {
             groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
         }
         return Either.right(config.personageJoinGroupTimeout());
+    }
+
+    private void leaveAsLastMember(PersonageId personageId, GroupId groupId) {
+        groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
+        if (groupStorage.memberCount(groupId) == 0) {
+            groupStorage.deleteTag(groupId);
+        }
     }
 }

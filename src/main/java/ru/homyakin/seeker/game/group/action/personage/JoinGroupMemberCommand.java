@@ -69,9 +69,6 @@ public class JoinGroupMemberCommand {
             return Either.left(new JoinGroupMemberError.PersonageJoinTimeout(remainJoinTimeout.get()));
         }
         final var group = groupStorage.get(groupId).orElseThrow();
-        if (!group.isRegistered()) {
-            return Either.left(JoinGroupMemberError.GroupNotRegistered.INSTANCE);
-        }
         if (!checkGroupPersonage.isAdminInGroup(groupId, personageId)) {
             return Either.left(JoinGroupMemberError.ConfirmationRequired.INSTANCE);
         }
