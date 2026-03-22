@@ -10,10 +10,13 @@ Comandos del grupo: ${group_commands_command}
 unregisteredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
+Miembros: ${members_count}
+
 Registrar grupo: ${register_group_command}
 
 📊Estadísticas del grupo: ${group_stats_command}
 ⚙️Configuración: ${group_settings_command}
+Comandos del grupo: ${group_commands_command}
 """
 
 groupRegistration = """\
@@ -21,6 +24,7 @@ Para registrar el grupo, necesitas definir un tag con <code>${register_group_com
 El tag debe tener 3-4 letras mayúsculas del alfabeto latino."""
 alreadyRegisteredGroup = "¡El grupo ya está registrado!"
 registrationPersonageInAnotherGroup = "¡No puedes registrar si ya estás en otro grupo!"
+registrationPersonageNotGroupMember = "Primero únete al grupo: ${group_join_command}"
 incorrectTag = "El tag debe contener de 3 a 4 letras mayúsculas en inglés."
 tagAlreadyTaken = "Ese tag ya está en uso"
 successGroupRegistration = "¡Grupo registrado con éxito! Puedes unirte con ${group_join_command}"

@@ -53,8 +53,6 @@ public class ConfirmJoinGroupMemberExecutor extends CommandExecutor<ConfirmJoinG
                     GroupManagementLocalization.joinPersonageAlreadyInGroup(groupTg.language());
                 case JoinGroupMemberError.PersonageInAnotherGroup _ ->
                     GroupManagementLocalization.joinPersonageInAnotherGroup(groupTg.language());
-                case JoinGroupMemberError.GroupNotRegistered _ ->
-                    GroupManagementLocalization.groupNotRegisteredAtJoin(groupTg.language());
                 case JoinGroupMemberError.PersonageJoinTimeout personageJoinTimeout ->
                     GroupManagementLocalization.joinPersonageTimeout(groupTg.language(), personageJoinTimeout);
                 case JoinGroupMemberError.ConfirmationRequired _ -> {

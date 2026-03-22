@@ -70,7 +70,7 @@ class JoinGroupMemberCommandConfirmTest {
     }
 
     @Test
-    void When_GroupNotRegistered_Then_ReturnGroupNotRegisteredError() {
+    void When_GroupNotRegisteredAndAdmin_Then_JoinGroup() {
         final var groupId = new GroupId(1);
         final var personageId = new PersonageId(1);
         final var group = Mockito.mock(Group.class);
@@ -79,11 +79,13 @@ class JoinGroupMemberCommandConfirmTest {
         Mockito.when(group.isRegistered()).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
+        Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId)).thenReturn(true);
 
         final var result = joinGroupMemberCommand.confirm(groupId, confirming, personageId);
 
-        Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(JoinGroupMemberError.GroupNotRegistered.INSTANCE, result.getLeft());
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertEquals(Success.INSTANCE, result.get());
+        Mockito.verify(groupPersonageStorage).setMemberGroup(personageId, groupId);
     }
 
     @Test

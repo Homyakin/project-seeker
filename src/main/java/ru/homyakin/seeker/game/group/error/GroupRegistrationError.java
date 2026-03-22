@@ -9,6 +9,10 @@ public sealed interface GroupRegistrationError {
         INSTANCE
     }
 
+    enum PersonageNotGroupMember implements GroupRegistrationError {
+        INSTANCE
+    }
+
     enum HiddenGroup implements GroupRegistrationError {
         INSTANCE
     }

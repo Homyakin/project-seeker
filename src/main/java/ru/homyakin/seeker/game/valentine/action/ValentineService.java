@@ -63,7 +63,7 @@ public class ValentineService {
         }
 
         final var sender = personageService.getByIdForce(senderId);
-        if (!sender.isGroupMember()) {
+        if (!sender.isRegisteredGroupMember()) {
             return Either.left(ValentineError.NotGroupMember.INSTANCE);
         }
 
@@ -72,7 +72,7 @@ public class ValentineService {
         }
 
         final var receiver = personageService.getByIdForce(receiverId);
-        if (!receiver.isGroupMember()) {
+        if (!receiver.isRegisteredGroupMember()) {
             return Either.left(ValentineError.ReceiverNotRegistered.INSTANCE);
         }
         if (!activeGroupPersonagesService.isPersonageActiveInGroup(groupId, receiverId)) {
@@ -106,7 +106,7 @@ public class ValentineService {
         }
 
         final var sender = personageService.getByIdForce(senderId);
-        if (!sender.isGroupMember(senderGroup)) {
+        if (!sender.isRegisteredGroupMember(senderGroup)) {
             return Either.left(ValentineError.NotGroupMember.INSTANCE);
         }
 
@@ -121,10 +121,10 @@ public class ValentineService {
         }
 
         final var receiver = personageService.getByIdForce(receiverId);
-        if (!receiver.isGroupMember()) {
+        if (!receiver.isRegisteredGroupMember()) {
             return Either.left(ValentineError.ReceiverNotRegistered.INSTANCE);
         }
-        if (!receiver.isGroupMember(targetGroup)) {
+        if (!receiver.isRegisteredGroupMember(targetGroup)) {
             return Either.left(ValentineError.ReceiverNotInTargetGroup.INSTANCE);
         }
         if (!activeGroupPersonagesService.isPersonageActiveInGroup(targetGroup.id(), receiverId)) {
@@ -158,7 +158,7 @@ public class ValentineService {
         }
 
         final var sender = personageService.getByIdForce(senderId);
-        if (!sender.isGroupMember(senderGroup)) {
+        if (!sender.isRegisteredGroupMember(senderGroup)) {
             return Either.left(ValentineError.NotGroupMember.INSTANCE);
         }
 

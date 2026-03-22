@@ -51,7 +51,7 @@ public class ThrowOrderToGroupCommand {
         }
 
         final var personage = personageService.getByIdForce(personageId);
-        if (!personage.isGroupMember(group)) {
+        if (!personage.isRegisteredGroupMember(group)) {
             return Either.left(ThrowToGroupError.NotGroupMember.INSTANCE);
         }
 

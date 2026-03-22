@@ -17,8 +17,4 @@ public sealed interface JoinGroupMemberError extends ConfirmJoinGroupMemberError
 
     record PersonageJoinTimeout(Duration remain) implements JoinGroupMemberError {
     }
-
-    enum GroupNotRegistered implements JoinGroupMemberError {
-        INSTANCE
-    }
 }

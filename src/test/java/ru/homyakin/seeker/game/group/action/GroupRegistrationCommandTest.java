@@ -85,13 +85,28 @@ public class GroupRegistrationCommandTest {
     }
 
     @Test
-    void When_InvalidTag_Then_ReturnInvalidTagError() {
+    void When_PersonageNotInGroup_Then_ReturnPersonageNotGroupMemberError() {
         final var group = Mockito.mock(Group.class);
         Mockito.when(group.isHidden()).thenReturn(false);
         Mockito.when(group.isRegistered()).thenReturn(false);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
+
+        final var result = groupTagService.register(groupId, personageId, "TAG");
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(GroupRegistrationError.PersonageNotGroupMember.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    void When_InvalidTag_Then_ReturnInvalidTagError() {
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isHidden()).thenReturn(false);
+        Mockito.when(group.isRegistered()).thenReturn(false);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
 
         final var result = groupTagService.register(groupId, personageId, "фыва");
 
@@ -107,7 +122,7 @@ public class GroupRegistrationCommandTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(true);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
-            .thenReturn(PersonageMemberGroupUtils.empty());
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
 
         final var result = groupTagService.register(groupId, personageId, "TAG");
 
@@ -123,7 +138,7 @@ public class GroupRegistrationCommandTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
-            .thenReturn(PersonageMemberGroupUtils.empty());
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(false);
 
@@ -141,7 +156,7 @@ public class GroupRegistrationCommandTest {
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
         Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
-            .thenReturn(PersonageMemberGroupUtils.empty());
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(true);
 
@@ -150,7 +165,7 @@ public class GroupRegistrationCommandTest {
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(Success.INSTANCE, result.get());
         Mockito.verify(groupStorage).setTag(groupId, "TAG");
-        Mockito.verify(groupPersonageStorage).setMemberGroup(personageId, groupId);
+        Mockito.verify(groupPersonageStorage, Mockito.never()).setMemberGroup(personageId, groupId);
     }
 
 }
