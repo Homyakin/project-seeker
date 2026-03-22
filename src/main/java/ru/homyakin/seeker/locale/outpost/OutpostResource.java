@@ -4,6 +4,8 @@ public record OutpostResource(
     String outpost,
     String emptySlot,
     String buildingSlot,
-    String monolith
+    String monolith,
+    String openInPrivateButton,
+    String outpostNoGroup
 ) {
 }

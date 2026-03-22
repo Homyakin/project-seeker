@@ -93,6 +93,7 @@ public enum CommandType {
     OPEN_CONTRABAND_AS_RECEIVER("openContraband", CheckType.EQUALS),
     VIEW_CONTRABAND("/contraband", CheckType.EQUALS),
     SHOW_OUTPOST("/outpost", CheckType.EQUALS),
+    OPEN_OUTPOST_MENU("outpost", CheckType.START_PAYLOAD),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();
@@ -118,6 +119,19 @@ public enum CommandType {
             .findFirst();
     }
 
+    /**
+     * Первый аргумент команды {@code /start} в личке (deep link {@code ?start=...}).
+     */
+    public static Optional<CommandType> getFromStartArgument(String argument) {
+        if (argument == null) {
+            return Optional.empty();
+        }
+        final var trimmed = argument.trim();
+        return Arrays.stream(values())
+            .filter(type -> type.checkType == CheckType.START_PAYLOAD && trimmed.equals(type.text))
+            .findFirst();
+    }
+
     public static void fillLocaleMap(MenuResource resource) {
         CommonUtils.putIfKeyPresents(textToType, resource.profileButton(), CommandType.GET_PROFILE);
         CommonUtils.putIfKeyPresents(textToType, resource.languageButton(), CommandType.CHANGE_LANGUAGE);
@@ -138,7 +152,7 @@ public enum CommandType {
         return switch (this.checkType) {
             case EQUALS -> this.text.equals(text);
             case STARTS_WITH -> text.startsWith(this.text);
-            case MAP -> false;
+            case MAP, START_PAYLOAD -> false;
         };
     }
 }

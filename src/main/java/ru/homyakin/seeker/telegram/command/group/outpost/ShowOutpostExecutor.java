@@ -6,6 +6,7 @@ import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
+import ru.homyakin.seeker.telegram.utils.OutpostKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -32,6 +33,7 @@ public class ShowOutpostExecutor extends CommandExecutor<ShowOutpost> {
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupId())
             .text(text)
+            .keyboard(OutpostKeyboards.openOutpostInPrivateKeyboard(group.language()))
             .build()
         );
     }

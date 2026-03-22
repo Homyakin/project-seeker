@@ -1,13 +1,14 @@
 package ru.homyakin.seeker.telegram.command.user.navigation;
 
-import org.telegram.telegrambots.meta.api.objects.message.Message;
-import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
-import ru.homyakin.seeker.telegram.user.models.UserId;
-
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Map;
+
+import org.telegram.telegrambots.meta.api.objects.message.Message;
+
+import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record StartUser(
     UserId userId,

@@ -7,3 +7,6 @@ emptySlot = "<i>[Пустой слот]</i>"
 buildingSlot = "${building_name} — ур. ${level}"
 
 monolith = "Монолит"
+
+openInPrivateButton = "🧱На стройку"
+outpostNoGroup = "Сначала вступи в группу, чтобы пользоваться аванпостом."

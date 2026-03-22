@@ -17,6 +17,14 @@ public class OutpostLocalization {
         resources.add(language, resource);
     }
 
+    public static String openInPrivateButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::openInPrivateButton);
+    }
+
+    public static String outpostNoGroup(Language language) {
+        return resources.getOrDefault(language, OutpostResource::outpostNoGroup);
+    }
+
     public static String outpost(Language language, List<OutpostSlot> slots) {
         final var lines = slots.stream()
             .map(slot -> formatSlotLine(language, slot))
