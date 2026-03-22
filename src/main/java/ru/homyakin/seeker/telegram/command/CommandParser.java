@@ -87,6 +87,7 @@ import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
+import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostMenu;
 import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
@@ -168,6 +169,10 @@ public class CommandParser {
     }
 
     private Optional<Command> commandByPrivateMessage(Message message) {
+        final var startCommand = parsePrivateStartCommand(message);
+        if (startCommand.isPresent()) {
+            return startCommand;
+        }
         return CommandType.getFromString(message.getText())
             .map(commandType -> switch (commandType) {
                 case CHANGE_LANGUAGE -> UserChangeLanguage.from(message);
@@ -203,10 +208,31 @@ public class CommandParser {
                 case REPAIR -> Repair.from(message);
                 case CANCEL_EVENT -> CancelEvent.from(message);
                 case LEAVE_GROUP -> LeaveGroupInPrivate.from(message);
+                case SHOW_OUTPOST -> OpenOutpostMenu.from(message);
                 case VIEW_CONTRABAND -> ViewContraband.from(message);
                 // case HELP_LOVE -> HelpLove.from(message);
                 default -> null;
             });
+    }
+
+    private Optional<Command> parsePrivateStartCommand(Message message) {
+        final var text = message.getText();
+        if (text == null || !text.startsWith("/start")) {
+            return Optional.empty();
+        }
+        final var parts = text.split(" ", 2);
+        if (parts.length < 2) {
+            return Optional.empty();
+        }
+        return CommandType.getFromStartArgument(parts[1])
+            .flatMap(type -> commandFromPrivateStartPayload(type, message));
+    }
+
+    private Optional<Command> commandFromPrivateStartPayload(CommandType type, Message message) {
+        return Optional.ofNullable(switch (type) {
+            case OPEN_OUTPOST_MENU -> OpenOutpostMenu.from(message);
+            default -> null;
+        });
     }
 
     private Optional<Command> parseGroupMessage(Message message) {

@@ -42,6 +42,20 @@ public class InlineKeyboardBuilder {
         return this;
     }
 
+    public InlineKeyboardBuilder addUrlButton(String text, String url) {
+        if (row == null) {
+            throw new IllegalStateException("Any row doesn't exist");
+        }
+        row.add(
+            InlineKeyboardButton
+                .builder()
+                .url(url)
+                .text(text)
+                .build()
+        );
+        return this;
+    }
+
     public InlineKeyboardMarkup build() {
         if (row == null || row.isEmpty()) {
             throw new IllegalStateException("Last row is empty or doesn't exist");
