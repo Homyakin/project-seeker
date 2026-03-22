@@ -3,6 +3,7 @@ registeredGroupInfo = """\
 
 Участники: ${members_count}
 
+🏰Аванпост: ${outpost_command}
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
 Комманды для группы: ${group_commands_command}
@@ -14,6 +15,7 @@ unregisteredGroupInfo = """\
 
 Зарегистрировать группу: ${register_group_command}
 
+🏰Аванпост: ${outpost_command}
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
 Комманды для группы: ${group_commands_command}

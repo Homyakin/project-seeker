@@ -41,6 +41,7 @@ import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleHideG
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
+import ru.homyakin.seeker.telegram.command.group.outpost.ShowOutpost;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.stats.GetPersonageStats;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ConsumeOrder;
@@ -218,6 +219,7 @@ public class CommandParser {
                 case TAVERN_MENU -> GetTavernMenu.from(message);
                 case ORDER -> Order.from(message);
                 case GROUP_STATS -> GetGroupStats.from(message);
+                case SHOW_OUTPOST -> ShowOutpost.from(message);
                 case WORKER_OF_DAY -> WorkerOfDay.from(message);
                 case WORKER_OF_DAY_TOP -> TopWorkerOfDay.from(message);
                 case PERSONAGE_STATS -> GetPersonageStats.from(message);

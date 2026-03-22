@@ -4,4 +4,5 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
     <include file="changes/2026-03-17_01_remove-group-money.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-03-22_01_add-pgroup-outpost.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

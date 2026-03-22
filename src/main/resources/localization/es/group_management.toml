@@ -4,6 +4,7 @@ registeredGroupInfo = """\
 Miembros: ${members_count}
 
 📊Estadísticas del grupo: ${group_stats_command}
+🏰Avanzada: ${outpost_command}
 ⚙️Configuración: ${group_settings_command}
 Comandos del grupo: ${group_commands_command}
 """
@@ -15,6 +16,7 @@ Miembros: ${members_count}
 Registrar grupo: ${register_group_command}
 
 📊Estadísticas del grupo: ${group_stats_command}
+🏰Avanzada: ${outpost_command}
 ⚙️Configuración: ${group_settings_command}
 Comandos del grupo: ${group_commands_command}
 """
