@@ -6,7 +6,7 @@
     <changeSet context="legacy" author="Cursor" id="add-pgroup-outpost">
         <createTable tableName="pgroup_outpost">
             <column name="pgroup_id" type="BIGINT">
-                <constraints primaryKey="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="building_id" type="INTEGER">
                 <constraints nullable="false"/>
@@ -19,9 +19,9 @@
             </column>
         </createTable>
 
-        <addUniqueConstraint
+        <addPrimaryKey
                 tableName="pgroup_outpost"
-                columnNames="building_id, pgroup_id"
+                columnNames="pgroup_id, building_id"
                 constraintName="pgroup_outpost-pk"
         />
         <addForeignKeyConstraint

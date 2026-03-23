@@ -8,4 +8,5 @@ public enum LockPrefixes {
     MENU_ITEM_ORDER,
     PERSONAGE,
     CONTRABAND,
+    OUTPOST,
 }

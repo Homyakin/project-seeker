@@ -6,6 +6,19 @@ public record OutpostResource(
     String buildingSlot,
     String monolith,
     String openInPrivateButton,
-    String outpostNoGroup
+    String outpostNoGroup,
+    String startBuildingButton,
+    String chooseBuildingTitle,
+    String confirmNewBuilding,
+    String confirmUpgradeBuilding,
+    String buildingButtonLabel,
+    String confirmStartButton,
+    String confirmUpgradeButton,
+    String cancelStartButton,
+    String startBuildingSuccessPrivate,
+    String startBuildingCanceled,
+    String groupBuildingStarted,
+    String notAdminOutpost,
+    String startBuildingConflict
 ) {
 }

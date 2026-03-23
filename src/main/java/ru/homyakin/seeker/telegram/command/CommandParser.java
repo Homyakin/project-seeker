@@ -88,6 +88,10 @@ import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostMenu;
+import ru.homyakin.seeker.telegram.command.user.outpost.OutpostCancelStartBuilding;
+import ru.homyakin.seeker.telegram.command.user.outpost.OutpostConfirmStartBuilding;
+import ru.homyakin.seeker.telegram.command.user.outpost.OutpostOpenBuildPicker;
+import ru.homyakin.seeker.telegram.command.user.outpost.OutpostSelectStartBuilding;
 import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
@@ -306,6 +310,10 @@ public class CommandParser {
                 case FORCE_OPEN_CONTRABAND -> ForceOpenContraband.from(callback);
                 case SELL_TO_BLACK_MARKET -> SellContraband.from(callback);
                 case OPEN_CONTRABAND_AS_RECEIVER -> OpenContrabandAsReceiver.from(callback);
+                case OUTPOST_BUILD_PICKER_OPEN -> OutpostOpenBuildPicker.from(callback);
+                case OUTPOST_BUILD_SELECT_BUILDING -> OutpostSelectStartBuilding.from(callback);
+                case OUTPOST_BUILD_CONFIRM -> OutpostConfirmStartBuilding.from(callback);
+                case OUTPOST_BUILD_CANCEL -> OutpostCancelStartBuilding.from(callback);
                 default -> null;
             });
     }
