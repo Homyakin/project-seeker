@@ -8,6 +8,7 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
+import ru.homyakin.seeker.telegram.utils.OutpostKeyboards;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
@@ -47,13 +48,19 @@ public class OpenOutpostMenuExecutor extends CommandExecutor<OpenOutpostMenu> {
             );
             return;
         }
-        final var slots = outpostService.listSlots(membership.groupId().get());
+        final var groupId = membership.groupId().get();
+        final var slots = outpostService.listSlots(groupId);
         final var text = OutpostLocalization.outpost(user.language(), slots);
-        telegramSender.send(SendMessageBuilder.builder()
+        final var canOfferStart = outpostService.canPersonageBuild(user.personageId())
+            && !outpostService.listBuildOffers(groupId).isEmpty();
+        final var builder = SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(text)
-            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
-            .build()
-        );
+            .text(text);
+        if (canOfferStart) {
+            builder.keyboard(OutpostKeyboards.outpostPrivateStartBuildingRow(user.language()));
+        } else {
+            builder.keyboard(ReplyKeyboards.mainKeyboard(user.language()));
+        }
+        telegramSender.send(builder.build());
     }
 }

@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.navigation;
 
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;

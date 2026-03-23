@@ -36,6 +36,35 @@ public class OutpostPostgresDao implements OutpostStorage {
             .toList();
     }
 
+    @Override
+    public boolean tryInsert(GroupId groupId, Building building, int level) {
+        final var sql = """
+            INSERT INTO pgroup_outpost (pgroup_id, building_id, level)
+            VALUES (:pgroup_id, :building_id, :level)
+            ON CONFLICT (pgroup_id, building_id) DO NOTHING
+            """;
+        final var updated = jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("building_id", building.id())
+            .param("level", level)
+            .update();
+        return updated > 0;
+    }
+
+    @Override
+    public boolean incrementLevel(GroupId groupId, Building building) {
+        final var sql = """
+            UPDATE pgroup_outpost
+            SET level = level + 1
+            WHERE pgroup_id = :pgroup_id
+              AND building_id = :building_id
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("building_id", building.id())
+            .update() > 0;
+    }
+
     private Optional<OutpostSlot.BuildingSlot> mapEntry(ResultSet rs) throws SQLException {
         final var pgroupId = GroupId.from(rs.getLong("pgroup_id"));
         final var buildingId = rs.getInt("building_id");
