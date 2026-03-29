@@ -8,19 +8,18 @@ import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
-import ru.homyakin.seeker.telegram.utils.OutpostKeyboards;
 import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
-public class OpenOutpostMenuExecutor extends CommandExecutor<OpenOutpostMenu> {
+public class OpenOutpostBuildingExecutor extends CommandExecutor<OpenOutpostBuilding> {
     private final UserService userService;
     private final UserStateService userStateService;
     private final TelegramSender telegramSender;
     private final GroupPersonageStorage groupPersonageStorage;
     private final OutpostService outpostService;
 
-    public OpenOutpostMenuExecutor(
+    public OpenOutpostBuildingExecutor(
         UserService userService,
         UserStateService userStateService,
         TelegramSender telegramSender,
@@ -35,32 +34,30 @@ public class OpenOutpostMenuExecutor extends CommandExecutor<OpenOutpostMenu> {
     }
 
     @Override
-    public void execute(OpenOutpostMenu command) {
+    public void execute(OpenOutpostBuilding command) {
         final var user = userService.forceGetFromPrivate(command.userId());
         userStateService.clearUserState(user);
+        final var language = user.language();
+        final var building = command.building();
+
         final var membership = groupPersonageStorage.getPersonageMemberGroup(user.personageId());
         if (membership.groupId().isEmpty()) {
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(user.id())
-                .text(OutpostLocalization.outpostNoGroup(user.language()))
-                .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+                .text(OutpostLocalization.outpostNoGroup(language))
+                .keyboard(ReplyKeyboards.mainKeyboard(language))
                 .build()
             );
             return;
         }
+
         final var groupId = membership.groupId().get();
-        final var slots = outpostService.listSlots(groupId);
-        final var text = OutpostLocalization.outpost(user.language(), slots, true);
-        final var canOfferStart = outpostService.canPersonageBuild(user.personageId())
-            && !outpostService.listBuildOffers(groupId).isEmpty();
-        final var builder = SendMessageBuilder.builder()
+        final var slot = outpostService.slotForBuilding(groupId, building);
+        final var text = OutpostLocalization.buildingMenu(language, building, slot);
+        telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(text);
-        if (canOfferStart) {
-            builder.keyboard(OutpostKeyboards.outpostPrivateStartBuildingRow(user.language()));
-        } else {
-            builder.keyboard(ReplyKeyboards.mainKeyboard(user.language()));
-        }
-        telegramSender.send(builder.build());
+            .text(text)
+            .build()
+        );
     }
 }

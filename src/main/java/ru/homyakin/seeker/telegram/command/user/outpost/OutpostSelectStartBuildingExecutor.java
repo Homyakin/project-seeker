@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.telegram.command.user.outpost;
 
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.outpost.action.OutpostService;
-import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -39,15 +39,7 @@ public class OutpostSelectStartBuildingExecutor extends CommandExecutor<OutpostS
             return;
         }
         final var groupId = groupIdOpt.get();
-        final var buildingOpt = Building.fromId(command.buildingId());
-        if (buildingOpt.isEmpty()) {
-            telegramSender.send(TelegramMethods.createAnswerCallbackQuery(
-                command.callbackId(),
-                OutpostLocalization.startBuildingConflict(user.language())
-            ));
-            return;
-        }
-        final var building = buildingOpt.get();
+        final var building = command.building();
         final var offerOpt = outpostService.listBuildOffers(groupId).stream()
             .filter(o -> o.building() == building)
             .findFirst();
@@ -63,7 +55,13 @@ public class OutpostSelectStartBuildingExecutor extends CommandExecutor<OutpostS
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(user.id())
             .messageId(command.messageId())
-            .text(OutpostLocalization.confirmStartBuilding(user.language(), building, fromLevel, toLevel))
+            .text(OutpostLocalization.confirmStartBuilding(
+                user.language(),
+                building,
+                fromLevel,
+                toLevel,
+                building.materialsToReachLevel(toLevel)
+            ))
             .keyboard(OutpostKeyboards.outpostConfirmStartKeyboard(user.language(), building, fromLevel))
             .build()
         );

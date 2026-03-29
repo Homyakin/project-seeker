@@ -5,8 +5,6 @@ public sealed interface OutpostApplyError {
 
     enum NotAdmin implements OutpostApplyError { INSTANCE }
 
-    enum UnknownBuilding implements OutpostApplyError { INSTANCE }
-
     enum NoOffer implements OutpostApplyError { INSTANCE }
 
     enum Busy implements OutpostApplyError { INSTANCE }

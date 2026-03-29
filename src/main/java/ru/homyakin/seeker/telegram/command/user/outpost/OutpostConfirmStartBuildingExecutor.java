@@ -41,7 +41,7 @@ public class OutpostConfirmStartBuildingExecutor extends CommandExecutor<Outpost
         final var user = userService.forceGetFromPrivate(command.userId());
         final var language = user.language();
 
-        final var result = outpostService.tryApplyBuildOrUpgrade(user.personageId(), command.buildingId());
+        final var result = outpostService.tryApplyBuildOrUpgrade(user.personageId(), command.building());
         result.peek(applyResult -> {
             telegramSender.send(EditMessageTextBuilder.builder()
                 .chatId(user.id())
@@ -53,12 +53,14 @@ public class OutpostConfirmStartBuildingExecutor extends CommandExecutor<Outpost
             final var personage = personageService.getByIdForce(user.personageId());
             final var groupTg = groupTgService.forceGet(applyResult.groupId());
             final var offer = applyResult.offer();
+            final var materialsRequired = offer.building().materialsToReachLevel(offer.toLevel());
             final var groupText = OutpostLocalization.groupBuildingStarted(
                 groupTg.language(),
                 offer.building(),
                 personage,
                 offer.fromLevel(),
-                offer.toLevel()
+                offer.toLevel(),
+                materialsRequired
             );
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(groupTg.id())
@@ -69,7 +71,7 @@ public class OutpostConfirmStartBuildingExecutor extends CommandExecutor<Outpost
             final var text = switch (error) {
                 case OutpostApplyError.NoGroup _ -> OutpostLocalization.outpostNoGroup(language);
                 case OutpostApplyError.NotAdmin _ -> OutpostLocalization.notAdminOutpost(language);
-                case OutpostApplyError.UnknownBuilding _, OutpostApplyError.NoOffer _, OutpostApplyError.Busy _ ->
+                case OutpostApplyError.NoOffer _, OutpostApplyError.Busy _ ->
                     OutpostLocalization.startBuildingConflict(language);
             };
             telegramSender.send(TelegramMethods.createAnswerCallbackQuery(
