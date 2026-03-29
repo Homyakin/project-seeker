@@ -1,11 +1,12 @@
 package ru.homyakin.seeker.telegram.command.user.outpost;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
-public record OutpostSelectStartBuilding(UserId userId, int messageId, String callbackId, int buildingId)
+public record OutpostSelectStartBuilding(UserId userId, int messageId, String callbackId, Building building)
     implements Command {
     public static OutpostSelectStartBuilding from(CallbackQuery callback) {
         final var parts = callback.getData().split(TextConstants.CALLBACK_DELIMITER);
@@ -13,7 +14,7 @@ public record OutpostSelectStartBuilding(UserId userId, int messageId, String ca
             UserId.from(callback.getFrom().getId()),
             callback.getMessage().getMessageId(),
             callback.getId(),
-            Integer.parseInt(parts[1])
+            Building.fromId(Integer.parseInt(parts[1]))
         );
     }
 }

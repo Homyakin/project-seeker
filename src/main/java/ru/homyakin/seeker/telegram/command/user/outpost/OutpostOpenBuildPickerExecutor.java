@@ -49,7 +49,7 @@ public class OutpostOpenBuildPickerExecutor extends CommandExecutor<OutpostOpenB
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(user.id())
             .messageId(command.messageId())
-            .text(OutpostLocalization.chooseBuildingTitle(user.language()))
+            .text(OutpostLocalization.chooseBuildingPicker(user.language(), available))
             .keyboard(OutpostKeyboards.outpostBuildingChoiceKeyboard(user.language(), available))
             .build()
         );

@@ -4,23 +4,62 @@ outpost = """
 ${slots}
 """
 emptySlot = "<i>[Пустой слот]</i>"
-buildingSlot = "${building_name} — ур. ${level}"
+buildingSlot = """<b>${building_name}</b> · ур. ${level}
+${current_description}"""
+buildingSlotInProgress = """${building_name} · ур. ${level} → ${target_level}
+${progress_bar} ${percent}% ${open_building_command}"""
+buildingSlotInProgressGroup = """${building_name} · ур. ${level} → ${target_level}
+${progress_bar} ${percent}%"""
+
+materialsResource = "Материалы"
 
 monolith = "Монолит"
+monolithLevel0 = "Площадка: только разметка и первые блоки фундамента."
+monolithLevel1 = "Низкий каменный стержень; слабый резонанс с силовыми линиями мира."
+monolithLevel2 = "Монолит подрос, узлы стабилизации начинают держать форму зоны."
+monolithLevel3 = "Ядро усилено; аванпост заметно устойчивее к внешним всплескам."
+monolithLevel4 = "Структура почти зрелая; осталось дожать последние каналы."
+monolithLevel5 = "Полная гармония: монолит как опорная точка для группы."
 
 openInPrivateButton = "🧱На стройку"
 outpostNoGroup = "Сначала вступи в группу, чтобы пользоваться аванпостом."
 
 startBuildingButton = "🏗 Начать строительство"
-chooseBuildingTitle = "<b>Выбери здание</b>"
-confirmNewBuilding = "Построить <b>${building_name}</b> (ур. ${to})?"
-confirmUpgradeBuilding = "Повысить <b>${building_name}</b> с ур. ${from} до ${to}?"
-buildingButtonLabel = "${building_name} ${from} -> ${to}"
+chooseBuildingTitle = """<b>Выбери здание</b>
+
+${offers_lines}"""
+chooseBuildingOfferLine = "• <code>${building_name}</code> ${from}→${to} · ${materials_icon} <b>${required}</b>"
+confirmNewBuilding = """Построить <b>${building_name}</b> до ур. ${to}?
+
+${target_description}
+
+${materials_icon} ${materials}: <b>${required}</b>"""
+confirmUpgradeBuilding = """Повысить <b>${building_name}</b> с ур. ${from} до ${to}?
+
+${target_description}
+
+${materials_icon} ${materials}: <b>${required}</b>"""
+buildingButtonLabel = "${building_name} ${from}→${to}"
 confirmStartButton = "✅ Построить"
 confirmUpgradeButton = "✅ Улучшить"
 cancelStartButton = "❌ Отмена"
 startBuildingSuccessPrivate = "Строительство начато."
 startBuildingCanceled = "Строительство отменено."
-groupBuildingStarted = "🏗 В аванпосте начато строительство: <code>${building_name}</code> (${from} → ${to}).\nИнициатор: ${initiator}"
+groupBuildingStarted = """
+🏗 В аванпосте начато строительство: <code>${building_name}</code> (${from} → ${to}).
+${materials_icon} ${materials}: ${required}
+Инициатор: ${initiator}"""
+
+buildingMenuUnknownBuilding = "Такого здания нет."
+buildingMenuEmptySlot = "В аванпосте ещё нет <b>${building_name}</b> — слот пуст."
+buildingMenuIdle = """<b>${building_name}</b> · ур. ${level}
+${current_description}"""
+buildingMenuInProgress = """<b>${building_name}</b> · ур. ${level} → ${target_level}
+<b>Сейчас</b> (ур. ${level}):
+${current_description}
+<code>${progress_bar}</code> ${percent}% · ${materials_icon} ${materials} <b>${delivered}/${required}</b>
+<b>После завершения</b> (ур. ${target_level}):
+${target_description}"""
+
 notAdminOutpost = "Только администратор группы может начинать строительство."
 startBuildingConflict = "Нельзя построить это здание."

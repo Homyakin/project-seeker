@@ -87,6 +87,7 @@ import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
+import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostBuilding;
 import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostMenu;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostCancelStartBuilding;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostConfirmStartBuilding;
@@ -213,6 +214,7 @@ public class CommandParser {
                 case CANCEL_EVENT -> CancelEvent.from(message);
                 case LEAVE_GROUP -> LeaveGroupInPrivate.from(message);
                 case SHOW_OUTPOST -> OpenOutpostMenu.from(message);
+                case OPEN_OUTPOST_BUILDING -> OpenOutpostBuilding.from(message);
                 case VIEW_CONTRABAND -> ViewContraband.from(message);
                 // case HELP_LOVE -> HelpLove.from(message);
                 default -> null;
