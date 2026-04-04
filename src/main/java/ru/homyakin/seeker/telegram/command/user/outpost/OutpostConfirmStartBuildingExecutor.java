@@ -53,7 +53,7 @@ public class OutpostConfirmStartBuildingExecutor extends CommandExecutor<Outpost
             final var personage = personageService.getByIdForce(user.personageId());
             final var groupTg = groupTgService.forceGet(applyResult.groupId());
             final var offer = applyResult.offer();
-            final var materialsRequired = offer.building().materialsToReachLevel(offer.toLevel());
+            final var materialsRequired = offer.materialsRequired();
             final var groupText = OutpostLocalization.groupBuildingStarted(
                 groupTg.language(),
                 offer.building(),

@@ -14,6 +14,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.outpost.OutpostBuildingConfig;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostApplyError;
 import ru.homyakin.seeker.game.outpost.entity.OutpostApplyResult;
@@ -41,6 +42,7 @@ public class OutpostService {
     private final LockService lockService;
     private final ItemService itemService;
     private final ShopConfig shopConfig;
+    private final OutpostBuildingConfig outpostBuildingConfig;
 
     public OutpostService(
         OutpostStorage storage,
@@ -49,7 +51,8 @@ public class OutpostService {
         CheckGroupPersonage checkGroupPersonage,
         LockService lockService,
         ItemService itemService,
-        ShopConfig shopConfig
+        ShopConfig shopConfig,
+        OutpostBuildingConfig outpostBuildingConfig
     ) {
         this.storage = storage;
         this.contributionStorage = contributionStorage;
@@ -58,6 +61,7 @@ public class OutpostService {
         this.lockService = lockService;
         this.itemService = itemService;
         this.shopConfig = shopConfig;
+        this.outpostBuildingConfig = outpostBuildingConfig;
     }
 
     public boolean canPersonageBuild(PersonageId personageId) {
@@ -112,14 +116,25 @@ public class OutpostService {
         for (int i = 0; i < slots.size() && i < buildings.length; i++) {
             final var building = buildings[i];
             switch (slots.get(i)) {
-                case OutpostSlot.EmptySlot _ -> offers.add(new OutpostBuildOffer(building, 0, 1));
+                case OutpostSlot.EmptySlot _ -> offers.add(new OutpostBuildOffer(
+                    building,
+                    0,
+                    1,
+                    outpostBuildingConfig.materialsToReachLevel(building, 1)
+                ));
                 case OutpostSlot.BuildingSlot occupied -> {
                     if (occupied.progress().isPresent()) {
                         break;
                     }
                     if (occupied.level() < building.maxLevel()) {
                         final var from = occupied.level();
-                        offers.add(new OutpostBuildOffer(building, from, from + 1));
+                        final var to = from + 1;
+                        offers.add(new OutpostBuildOffer(
+                            building,
+                            from,
+                            to,
+                            outpostBuildingConfig.materialsToReachLevel(building, to)
+                        ));
                     }
                 }
             }
@@ -154,8 +169,7 @@ public class OutpostService {
             return Either.left(OutpostApplyError.NoOffer.INSTANCE);
         }
         final var offer = offerOpt.get();
-        final var materialsRequired = building.materialsToReachLevel(offer.toLevel());
-        final var progress = OutpostBuildingProgress.started(materialsRequired);
+        final var progress = OutpostBuildingProgress.started(offer.materialsRequired());
         if (offer.fromLevel() == 0) {
             if (!storage.tryInsertWithProgress(groupId, building, 0, progress)) {
                 return Either.left(OutpostApplyError.NoOffer.INSTANCE);

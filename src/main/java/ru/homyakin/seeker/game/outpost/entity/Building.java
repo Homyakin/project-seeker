@@ -22,15 +22,6 @@ public enum Building {
         return maxLevel;
     }
 
-    /**
-     * Total materials the group must deliver to finish construction / upgrade to {@code targetLevel} (1-based).
-     */
-    public int materialsToReachLevel(int targetLevel) {
-        return switch (this) {
-            case MONOLITH -> 100 * targetLevel;
-        };
-    }
-
     public static Building fromId(int id) {
         return Arrays.stream(values()).filter(b -> b.id == id).findFirst().orElseThrow();
     }
