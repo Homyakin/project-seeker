@@ -50,7 +50,22 @@ public final class OutpostKeyboards {
                     + TextConstants.CALLBACK_DELIMITER + offer.building().id()
             );
         }
-        return builder.build();
+        return builder.addRow()
+            .addButton(
+                OutpostLocalization.backToOutpostMenuButton(language),
+                CommandType.OPEN_OUTPOST_MENU_INLINE.getText()
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup backToOutpostMenuKeyboard(Language language) {
+        return InlineKeyboardBuilder.builder()
+            .addRow()
+            .addButton(
+                OutpostLocalization.backToOutpostMenuButton(language),
+                CommandType.OPEN_OUTPOST_MENU_INLINE.getText()
+            )
+            .build();
     }
 
     public static InlineKeyboardMarkup outpostConfirmStartKeyboard(Language language, Building building, int fromLevel) {

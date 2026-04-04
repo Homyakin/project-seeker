@@ -94,6 +94,7 @@ public enum CommandType {
     VIEW_CONTRABAND("/contraband", CheckType.EQUALS),
     SHOW_OUTPOST("/outpost", CheckType.EQUALS),
     OPEN_OUTPOST_MENU("outpost", CheckType.START_PAYLOAD),
+    OPEN_OUTPOST_MENU_INLINE("outpostMenu", CheckType.EQUALS),
     OUTPOST_BUILD_PICKER_OPEN("outpostBldPick", CheckType.EQUALS),
     OUTPOST_BUILD_SELECT_BUILDING("outpostBldSel", CheckType.EQUALS),
     OUTPOST_BUILD_CONFIRM("outpostBldOk", CheckType.EQUALS),
