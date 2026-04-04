@@ -40,7 +40,7 @@ public class OutpostCancelStartBuildingExecutor extends CommandExecutor<OutpostC
             .chatId(user.id())
             .messageId(command.messageId())
             .text(OutpostLocalization.startBuildingCanceled(user.language()))
-            .keyboard(OutpostKeyboards.emptyInlineKeyboard())
+            .keyboard(OutpostKeyboards.backToOutpostMenuKeyboard(user.language()))
             .build()
         );
     }

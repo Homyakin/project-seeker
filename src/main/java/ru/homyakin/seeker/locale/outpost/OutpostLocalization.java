@@ -121,6 +121,10 @@ public class OutpostLocalization {
         return resources.getOrDefault(language, OutpostResource::cancelStartButton);
     }
 
+    public static String backToOutpostMenuButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::backToOutpostMenuButton);
+    }
+
     public static String startBuildingSuccessPrivate(Language language) {
         return resources.getOrDefault(language, OutpostResource::startBuildingSuccessPrivate);
     }

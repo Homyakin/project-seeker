@@ -25,6 +25,7 @@ public record OutpostResource(
     String confirmStartButton,
     String confirmUpgradeButton,
     String cancelStartButton,
+    String backToOutpostMenuButton,
     String startBuildingSuccessPrivate,
     String startBuildingCanceled,
     String groupBuildingStarted,

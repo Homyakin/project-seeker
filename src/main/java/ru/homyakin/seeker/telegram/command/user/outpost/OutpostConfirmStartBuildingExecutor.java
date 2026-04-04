@@ -47,7 +47,7 @@ public class OutpostConfirmStartBuildingExecutor extends CommandExecutor<Outpost
                 .chatId(user.id())
                 .messageId(command.messageId())
                 .text(OutpostLocalization.startBuildingSuccessPrivate(language))
-                .keyboard(OutpostKeyboards.emptyInlineKeyboard())
+                .keyboard(OutpostKeyboards.backToOutpostMenuKeyboard(language))
                 .build()
             );
             final var personage = personageService.getByIdForce(user.personageId());
