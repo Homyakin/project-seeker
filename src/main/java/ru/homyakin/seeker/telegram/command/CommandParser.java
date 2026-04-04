@@ -89,8 +89,10 @@ import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
 import ru.homyakin.seeker.telegram.command.user.navigation.StartUser;
 import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostBuilding;
 import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostMenu;
+import ru.homyakin.seeker.telegram.command.user.outpost.OutpostBuildingContributeView;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostCancelStartBuilding;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostConfirmStartBuilding;
+import ru.homyakin.seeker.telegram.command.user.outpost.OutpostDonateItem;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostOpenBuildPicker;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostSelectStartBuilding;
 import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
@@ -215,6 +217,7 @@ public class CommandParser {
                 case LEAVE_GROUP -> LeaveGroupInPrivate.from(message);
                 case SHOW_OUTPOST -> OpenOutpostMenu.from(message);
                 case OPEN_OUTPOST_BUILDING -> OpenOutpostBuilding.from(message);
+                case OUTPOST_DONATE_ITEM -> OutpostDonateItem.tryParse(message).orElse(null);
                 case VIEW_CONTRABAND -> ViewContraband.from(message);
                 // case HELP_LOVE -> HelpLove.from(message);
                 default -> null;
@@ -316,6 +319,8 @@ public class CommandParser {
                 case OUTPOST_BUILD_SELECT_BUILDING -> OutpostSelectStartBuilding.from(callback);
                 case OUTPOST_BUILD_CONFIRM -> OutpostConfirmStartBuilding.from(callback);
                 case OUTPOST_BUILD_CANCEL -> OutpostCancelStartBuilding.from(callback);
+                case OUTPOST_BUILD_CONTRIBUTE -> OutpostBuildingContributeView.from(callback);
+                case OPEN_OUTPOST_BUILDING_INLINE -> OpenOutpostBuilding.fromInlineCallback(callback);
                 default -> null;
             });
     }

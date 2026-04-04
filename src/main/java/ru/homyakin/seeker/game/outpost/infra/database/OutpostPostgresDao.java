@@ -92,6 +92,38 @@ public class OutpostPostgresDao implements OutpostStorage {
             .update() > 0;
     }
 
+    @Override
+    public boolean updateBuildingProgress(GroupId groupId, Building building, OutpostBuildingProgress progress) {
+        final var sql = """
+            UPDATE pgroup_outpost
+            SET progress = :progress
+            WHERE pgroup_id = :pgroup_id
+              AND building_id = :building_id
+              AND progress IS NOT NULL
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("building_id", building.id())
+            .param("progress", jsonUtils.mapToPostgresJson(progress))
+            .update() > 0;
+    }
+
+    @Override
+    public boolean completeInProgressBuilding(GroupId groupId, Building building) {
+        final var sql = """
+            UPDATE pgroup_outpost
+            SET level = level + 1,
+                progress = NULL
+            WHERE pgroup_id = :pgroup_id
+              AND building_id = :building_id
+              AND progress IS NOT NULL
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("building_id", building.id())
+            .update() > 0;
+    }
+
     private OutpostSlot.BuildingSlot mapEntry(ResultSet rs) throws SQLException {
         final var pgroupId = GroupId.from(rs.getLong("pgroup_id"));
         final var buildingId = rs.getInt("building_id");

@@ -33,6 +33,21 @@ public record OutpostResource(
     String buildingMenuIdle,
     String buildingMenuInProgress,
     String notAdminOutpost,
-    String startBuildingConflict
+    String startBuildingConflict,
+    String donateItemSuccess,
+    String donateItemBuildingCompletePrivate,
+    String donateBuildingNotInProgress,
+    String donateItemEquipped,
+    String donateItemNotFound,
+    String donateBusy,
+    String donateStateConflict,
+    String groupBuildingCompletedTop,
+    String groupBuildingCompletedContributorLine,
+    String makeContributeButton,
+    String contributeRefreshButton,
+    String contributeBackButton,
+    String buildingContributePicker,
+    String buildingContributeItemLine,
+    String buildingContributeEmptyBag
 ) {
 }

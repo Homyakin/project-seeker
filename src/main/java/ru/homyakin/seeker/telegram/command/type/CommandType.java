@@ -98,7 +98,10 @@ public enum CommandType {
     OUTPOST_BUILD_SELECT_BUILDING("outpostBldSel", CheckType.EQUALS),
     OUTPOST_BUILD_CONFIRM("outpostBldOk", CheckType.EQUALS),
     OUTPOST_BUILD_CANCEL("outpostBldNo", CheckType.EQUALS),
+    OUTPOST_BUILD_CONTRIBUTE("outpostBldGive", CheckType.EQUALS),
+    OPEN_OUTPOST_BUILDING_INLINE("openOutpostBld", CheckType.EQUALS),
     OPEN_OUTPOST_BUILDING("/building", CheckType.STARTS_WITH),
+    OUTPOST_DONATE_ITEM("/outpost_donate", CheckType.STARTS_WITH),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

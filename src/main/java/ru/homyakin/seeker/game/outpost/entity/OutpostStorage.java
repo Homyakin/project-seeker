@@ -25,4 +25,16 @@ public interface OutpostStorage {
      * @return {@code true} если строка обновлена (ранее не было progress)
      */
     boolean trySetProgress(GroupId groupId, Building building, OutpostBuildingProgress progress);
+
+    /**
+     * @return {@code true} если строка с непустым progress обновлена
+     */
+    boolean updateBuildingProgress(GroupId groupId, Building building, OutpostBuildingProgress progress);
+
+    /**
+     * Завершает стройку: level + 1, progress = NULL.
+     *
+     * @return {@code true} если строка была в процессе стройки
+     */
+    boolean completeInProgressBuilding(GroupId groupId, Building building);
 }

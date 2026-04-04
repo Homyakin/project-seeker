@@ -8,12 +8,16 @@ import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildOffer;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingProgress;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.outpost.entity.OutpostDonateError;
+import ru.homyakin.seeker.game.outpost.entity.OutpostDonateSuccess;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.AsciiProgressBar;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -73,7 +77,7 @@ public class OutpostLocalization {
         params.put("materials", materialsLabel);
         params.put("materials_icon", Icons.OUTPOST_MATERIALS);
         params.put("required", materialsRequired);
-        params.put("target_description", asItalicDescription(buildingLevelDescription(language, building, toLevel)));
+        params.put("target_description", buildingLevelDescription(language, building, toLevel));
         if (fromLevel == 0) {
             params.put("to", toLevel);
             return StringNamedTemplate.format(
@@ -201,16 +205,6 @@ public class OutpostLocalization {
         };
     }
 
-    /**
-     * Wraps non-blank text in {@code <i>...</i>} for Telegram HTML; otherwise returns empty string.
-     */
-    private static String asItalicDescription(String raw) {
-        if (raw == null || raw.isBlank()) {
-            return "";
-        }
-        return "<i>" + raw + "</i>";
-    }
-
     private static String formatSlotLine(Language language, OutpostSlot slot, boolean showOpenBuildingCommand) {
         return switch (slot) {
             case OutpostSlot.BuildingSlot occupied -> formatBuildingLine(language, occupied, showOpenBuildingCommand);
@@ -231,7 +225,7 @@ public class OutpostLocalization {
                 params.put("level", occupied.level());
                 params.put(
                     "current_description",
-                    asItalicDescription(buildingLevelDescription(language, occupied.building(), occupied.level()))
+                    buildingLevelDescription(language, occupied.building(), occupied.level())
                 );
                 return StringNamedTemplate.format(
                     resources.getOrDefault(language, OutpostResource::buildingSlot),
@@ -273,7 +267,7 @@ public class OutpostLocalization {
         params.put("level", occupied.level());
         params.put(
             "current_description",
-            asItalicDescription(buildingLevelDescription(language, occupied.building(), occupied.level()))
+            buildingLevelDescription(language, occupied.building(), occupied.level())
         );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, OutpostResource::buildingMenuIdle),
@@ -301,14 +295,145 @@ public class OutpostLocalization {
         params.put("percent", AsciiProgressBar.percent100(delivered, required));
         params.put(
             "current_description",
-            asItalicDescription(buildingLevelDescription(language, occupied.building(), occupied.level()))
+            buildingLevelDescription(language, occupied.building(), occupied.level())
         );
         params.put(
             "target_description",
-            asItalicDescription(buildingLevelDescription(language, occupied.building(), targetLevel))
+            buildingLevelDescription(language, occupied.building(), targetLevel)
         );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, OutpostResource::buildingMenuInProgress),
+            params
+        );
+    }
+
+    public static String makeContributeButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::makeContributeButton);
+    }
+
+    public static String contributeRefreshButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::contributeRefreshButton);
+    }
+
+    public static String contributeBackButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::contributeBackButton);
+    }
+
+    public static String buildingContributeItemLine(
+        Language language,
+        Item item,
+        int materialsValue,
+        String donateCommand
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("full_item", ItemLocalization.fullItem(language, item));
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        params.put("materials_value", materialsValue);
+        params.put("donate_command", donateCommand);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::buildingContributeItemLine),
+            params
+        );
+    }
+
+    public static String buildingContributePicker(
+        Language language,
+        OutpostSlot.BuildingSlot occupied,
+        OutpostBuildingProgress progress,
+        String itemsBlock
+    ) {
+        final var building = occupied.building();
+        final var targetLevel = occupied.level() == 0 ? 1 : occupied.level() + 1;
+        final var delivered = progress.materialsDelivered();
+        final var required = progress.materialsRequired();
+        final var params = new HashMap<String, Object>();
+        params.put("building_name", buildingDisplayName(language, building));
+        params.put("level", occupied.level());
+        params.put("target_level", targetLevel);
+        params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        params.put("delivered", delivered);
+        params.put("required", required);
+        params.put("progress_bar", AsciiProgressBar.bracketedBar(delivered, required, AsciiProgressBar.DEFAULT_WIDTH));
+        params.put("percent", AsciiProgressBar.percent100(delivered, required));
+        params.put("items_block", itemsBlock);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::buildingContributePicker),
+            params
+        );
+    }
+
+    public static String buildingContributeEmptyBag(Language language) {
+        return resources.getOrDefault(language, OutpostResource::buildingContributeEmptyBag);
+    }
+
+    public static String donateItemSuccessPrivate(Language language, OutpostDonateSuccess success) {
+        final var params = new HashMap<String, Object>();
+        params.put("added", success.materialsFromItem());
+        params.put("delivered", success.deliveredAfter());
+        params.put("required", success.materialsRequired());
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
+        final var successLine = StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::donateItemSuccess),
+            params
+        );
+        if (!success.completed()) {
+            return successLine;
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::donateItemBuildingCompletePrivate),
+            Map.of(
+                "donate_item_success", successLine,
+                "new_level", success.newLevel()
+            )
+        );
+    }
+
+    public static String donateBuildingNotInProgress(Language language) {
+        return resources.getOrDefault(language, OutpostResource::donateBuildingNotInProgress);
+    }
+
+    public static String donateItemError(Language language, OutpostDonateError error) {
+        return switch (error) {
+            case OutpostDonateError.NoGroup _ -> outpostNoGroup(language);
+            case OutpostDonateError.BuildingNotInProgress _ -> donateBuildingNotInProgress(language);
+            case OutpostDonateError.ItemNotFound _ ->
+                resources.getOrDefault(language, OutpostResource::donateItemNotFound);
+            case OutpostDonateError.ItemEquipped _ ->
+                resources.getOrDefault(language, OutpostResource::donateItemEquipped);
+            case OutpostDonateError.Busy _ -> resources.getOrDefault(language, OutpostResource::donateBusy);
+            case OutpostDonateError.StateConflict _ ->
+                resources.getOrDefault(language, OutpostResource::donateStateConflict);
+        };
+    }
+
+    public static String groupBuildingCompletedContributorLine(Language language, String displayName, int materials) {
+        final var params = new HashMap<String, Object>();
+        params.put("name", displayName);
+        params.put("materials", materials);
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::groupBuildingCompletedContributorLine),
+            params
+        );
+    }
+
+    public static String groupBuildingCompletedWithTop(
+        Language language,
+        Building building,
+        int newLevel,
+        List<String> contributorLines
+    ) {
+        final var lines = contributorLines.isEmpty() ? "—" : String.join("\n", contributorLines);
+        final var params = new HashMap<String, Object>();
+        params.put("building_name", buildingDisplayName(language, building));
+        params.put("new_level", newLevel);
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
+        params.put("contributors_lines", lines);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::groupBuildingCompletedTop),
             params
         );
     }
