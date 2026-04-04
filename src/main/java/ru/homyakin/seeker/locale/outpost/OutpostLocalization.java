@@ -48,7 +48,7 @@ public class OutpostLocalization {
         final var lineTemplate = resources.getOrDefault(language, OutpostResource::chooseBuildingOfferLine);
         final var lines = offers.stream()
             .map(offer -> {
-                final var required = offer.building().materialsToReachLevel(offer.toLevel());
+                final var required = offer.materialsRequired();
                 final var params = new HashMap<String, Object>();
                 params.put("building_name", buildingDisplayName(language, offer.building()));
                 params.put("from", offer.fromLevel());

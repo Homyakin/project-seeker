@@ -50,8 +50,9 @@ public class OutpostSelectStartBuildingExecutor extends CommandExecutor<OutpostS
             ));
             return;
         }
-        final var fromLevel = offerOpt.get().fromLevel();
-        final var toLevel = offerOpt.get().toLevel();
+        final var offer = offerOpt.get();
+        final var fromLevel = offer.fromLevel();
+        final var toLevel = offer.toLevel();
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(user.id())
             .messageId(command.messageId())
@@ -60,7 +61,7 @@ public class OutpostSelectStartBuildingExecutor extends CommandExecutor<OutpostS
                 building,
                 fromLevel,
                 toLevel,
-                building.materialsToReachLevel(toLevel)
+                offer.materialsRequired()
             ))
             .keyboard(OutpostKeyboards.outpostConfirmStartKeyboard(user.language(), building, fromLevel))
             .build()
