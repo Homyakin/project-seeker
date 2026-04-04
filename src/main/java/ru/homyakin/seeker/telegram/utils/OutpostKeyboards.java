@@ -4,6 +4,7 @@ import java.util.List;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildOffer;
+import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
@@ -66,6 +67,44 @@ public final class OutpostKeyboards {
                 confirmLabel,
                 CommandType.OUTPOST_BUILD_CONFIRM.getText()
                     + TextConstants.CALLBACK_DELIMITER + building.id()
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup outpostBuildingMainMenuKeyboard(
+        Language language,
+        Building building,
+        OutpostSlot slot
+    ) {
+        return switch (slot) {
+            case OutpostSlot.BuildingSlot occupied when occupied.progress().isPresent() ->
+                outpostBuildingMenuInProgressKeyboard(language, building);
+            default -> emptyInlineKeyboard();
+        };
+    }
+
+    public static InlineKeyboardMarkup outpostBuildingMenuInProgressKeyboard(Language language, Building building) {
+        final var contributeCallback = CommandType.OUTPOST_BUILD_CONTRIBUTE.getText()
+            + TextConstants.CALLBACK_DELIMITER
+            + building.id();
+        return InlineKeyboardBuilder.builder()
+            .addRow()
+            .addButton(OutpostLocalization.makeContributeButton(language), contributeCallback)
+            .build();
+    }
+
+    public static InlineKeyboardMarkup outpostBuildingContributePickerKeyboard(Language language, Building building) {
+        final var contributeCallback = CommandType.OUTPOST_BUILD_CONTRIBUTE.getText()
+            + TextConstants.CALLBACK_DELIMITER
+            + building.id();
+        return InlineKeyboardBuilder.builder()
+            .addRow()
+            .addButton(OutpostLocalization.contributeRefreshButton(language), contributeCallback)
+            .addButton(
+                OutpostLocalization.contributeBackButton(language),
+                CommandType.OPEN_OUTPOST_BUILDING_INLINE.getText()
+                    + TextConstants.CALLBACK_DELIMITER
+                    + building.id()
             )
             .build();
     }

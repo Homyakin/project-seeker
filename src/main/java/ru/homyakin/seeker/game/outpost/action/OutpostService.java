@@ -8,37 +8,56 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.outpost.entity.Building;
-import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingProgress;
 import ru.homyakin.seeker.game.outpost.entity.OutpostApplyError;
 import ru.homyakin.seeker.game.outpost.entity.OutpostApplyResult;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildOffer;
+import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingProgress;
+import ru.homyakin.seeker.game.outpost.entity.OutpostDonateError;
+import ru.homyakin.seeker.game.outpost.entity.OutpostDonateSuccess;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
+import ru.homyakin.seeker.game.outpost.entity.OutpostSlotAccessError;
+import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingContributionStorage;
 import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.shop.ShopConfig;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 
 @Component
 public class OutpostService {
+    private static final int TOP_CONTRIBUTORS_LIMIT = 5;
+
     private final OutpostStorage storage;
+    private final OutpostBuildingContributionStorage contributionStorage;
     private final GroupPersonageStorage groupPersonageStorage;
     private final CheckGroupPersonage checkGroupPersonage;
     private final LockService lockService;
+    private final ItemService itemService;
+    private final ShopConfig shopConfig;
 
     public OutpostService(
         OutpostStorage storage,
+        OutpostBuildingContributionStorage contributionStorage,
         GroupPersonageStorage groupPersonageStorage,
         CheckGroupPersonage checkGroupPersonage,
-        LockService lockService
+        LockService lockService,
+        ItemService itemService,
+        ShopConfig shopConfig
     ) {
         this.storage = storage;
+        this.contributionStorage = contributionStorage;
         this.groupPersonageStorage = groupPersonageStorage;
         this.checkGroupPersonage = checkGroupPersonage;
         this.lockService = lockService;
+        this.itemService = itemService;
+        this.shopConfig = shopConfig;
     }
 
     public boolean canPersonageBuild(PersonageId personageId) {
@@ -73,6 +92,17 @@ public class OutpostService {
         return storage.findBuildingSlot(groupId, building)
             .<OutpostSlot>map(Function.identity())
             .orElse(OutpostSlot.EmptySlot.INSTANCE);
+    }
+
+    public Either<OutpostSlotAccessError, OutpostSlot> slotForBuilding(PersonageId personageId, Building building) {
+        final var member = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (member.groupId().isEmpty()) {
+            return Either.left(OutpostSlotAccessError.NoGroup.INSTANCE);
+        }
+        final var groupId = member.groupId().get();
+        return storage.findBuildingSlot(groupId, building)
+            .<Either<OutpostSlotAccessError, OutpostSlot>>map(Either::right)
+            .orElseGet(() -> Either.left(OutpostSlotAccessError.NotFound.INSTANCE));
     }
 
     public List<OutpostBuildOffer> listBuildOffers(GroupId groupId) {
@@ -135,6 +165,91 @@ public class OutpostService {
                 return Either.left(OutpostApplyError.NoOffer.INSTANCE);
             }
         }
+        contributionStorage.clear(groupId, building);
         return Either.right(new OutpostApplyResult(groupId, offer));
+    }
+
+    @Transactional
+    public Either<OutpostDonateError, OutpostDonateSuccess> tryDonateItemToBuilding(
+        PersonageId personageId,
+        Building building,
+        long itemId
+    ) {
+        final var member = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (member.groupId().isEmpty()) {
+            return Either.left(OutpostDonateError.NoGroup.INSTANCE);
+        }
+        final var groupId = member.groupId().get();
+        final var key = LockPrefixes.OUTPOST.name() + groupId.value();
+        return lockService.<Either<OutpostDonateError, OutpostDonateSuccess>>tryLockAndCalc(
+            key,
+            () -> donateItemLocked(groupId, personageId, building, itemId)
+        ).fold(
+            _ -> Either.left(OutpostDonateError.Busy.INSTANCE),
+            inner -> inner
+        );
+    }
+
+    private Either<OutpostDonateError, OutpostDonateSuccess> donateItemLocked(
+        GroupId groupId,
+        PersonageId personageId,
+        Building building,
+        long itemId
+    ) {
+        final var slotOpt = storage.findBuildingSlot(groupId, building);
+        if (slotOpt.isEmpty() || slotOpt.get().progress().isEmpty()) {
+            return Either.left(OutpostDonateError.BuildingNotInProgress.INSTANCE);
+        }
+        final var slot = slotOpt.get();
+        final var progress = slot.progress().get();
+        final var itemOpt = itemService.getPersonageItem(personageId, itemId);
+        if (itemOpt.isEmpty()) {
+            return Either.left(OutpostDonateError.ItemNotFound.INSTANCE);
+        }
+        final var item = itemOpt.get();
+        if (item.isEquipped()) {
+            return Either.left(OutpostDonateError.ItemEquipped.INSTANCE);
+        }
+        final var materialsValue = shopConfig.buyingPriceByRarity(item.rarity()).value();
+        final var newDelivered = Math.min(
+            progress.materialsRequired(),
+            progress.materialsDelivered() + materialsValue
+        );
+        final var completed = newDelivered >= progress.materialsRequired();
+
+        itemService.removeItem(personageId, itemId);
+        contributionStorage.add(groupId, building, personageId, materialsValue);
+
+        if (!completed) {
+            if (!storage.updateBuildingProgress(
+                groupId,
+                building,
+                new OutpostBuildingProgress(progress.materialsRequired(), newDelivered)
+            )) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                return Either.left(OutpostDonateError.StateConflict.INSTANCE);
+            }
+            return Either.right(OutpostDonateSuccess.inProgress(
+                materialsValue,
+                newDelivered,
+                progress.materialsRequired()
+            ));
+        }
+
+        final var topContributors = contributionStorage.listTop(groupId, building, TOP_CONTRIBUTORS_LIMIT);
+        if (!storage.completeInProgressBuilding(groupId, building)) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return Either.left(OutpostDonateError.StateConflict.INSTANCE);
+        }
+        contributionStorage.clear(groupId, building);
+        final var newLevel = slot.level() + 1;
+        return Either.right(new OutpostDonateSuccess(
+            materialsValue,
+            newDelivered,
+            progress.materialsRequired(),
+            true,
+            newLevel,
+            topContributors
+        ));
     }
 }
