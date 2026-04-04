@@ -9,6 +9,7 @@ public record GroupManagementResource(
     String registrationPersonageNotGroupMember,
     String incorrectTag,
     String tagAlreadyTaken,
+    String registrationRequiresMonolith,
     String successGroupRegistration,
     String successChangeTag,
     String joinPersonageAlreadyInGroup,

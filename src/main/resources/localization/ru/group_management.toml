@@ -23,12 +23,15 @@ unregisteredGroupInfo = """\
 
 groupRegistration = """\
 Для регистрации группы необходимо установить тэг группы <code>${register_group_command} тэг</code>. \
-Тэг должен стостоять из 3-4 заглавных букв латинского алфавита."""
+Тэг должен стостоять из 3-4 заглавных букв латинского алфавита.
+
+Для регистрации необходимо построить Монолит уровня ${required_monolith_level}"""
 alreadyRegisteredGroup = "Группа уже зарегистрирована"
 registrationPersonageInAnotherGroup = "Регистрирующий персонаж не должен быть участником другой группы!"
 registrationPersonageNotGroupMember = "Сначала вступи в группу: ${group_join_command}"
 incorrectTag = "Неправильно указан тэг, он должен состоять из 3-4 заглавных букв латинского алфавита"
 tagAlreadyTaken = "Такой тэг уже занят"
+registrationRequiresMonolith = "Регистрация недоступа! Монолит аванпоста должен быть уровня ${required_monolith_level}"
 successGroupRegistration = "Группа успешно зарегистрирована! Вступить в группу можно с помощью ${group_join_command}"
 successChangeTag = "Тэг успешно изменён на <code>[${tag}]</code>"
 

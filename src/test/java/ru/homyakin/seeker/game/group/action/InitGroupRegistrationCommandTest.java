@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.group.action;
 
 
-import io.vavr.control.Either;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,8 +8,8 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
+import ru.homyakin.seeker.game.group.entity.InitRegistrationInfo;
 import ru.homyakin.seeker.game.group.error.GroupAlreadyRegistered;
-import ru.homyakin.seeker.utils.models.Success;
 
 import java.util.Optional;
 
@@ -35,7 +34,10 @@ class InitGroupRegistrationCommandTest {
         final var result = initGroupRegistrationCommand.execute(groupId);
 
         Assertions.assertTrue(result.isRight());
-        Assertions.assertEquals(Success.INSTANCE, result.get());
+        Assertions.assertEquals(
+            new InitRegistrationInfo(GroupTagService.MIN_MONOLITH_LEVEL_FOR_REGISTRATION),
+            result.get()
+        );
     }
 
     @Test
@@ -43,7 +45,7 @@ class InitGroupRegistrationCommandTest {
         final var group = new Group(groupId, Optional.of("tag"), "Test Group", null, true, null, 0);
         Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
-        Either<GroupAlreadyRegistered, Success> result = initGroupRegistrationCommand.execute(groupId);
+        var result = initGroupRegistrationCommand.execute(groupId);
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(GroupAlreadyRegistered.INSTANCE, result.getLeft());
