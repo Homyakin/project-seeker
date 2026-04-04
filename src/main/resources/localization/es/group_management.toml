@@ -23,12 +23,15 @@ Comandos del grupo: ${group_commands_command}
 
 groupRegistration = """\
 Para registrar el grupo, necesitas definir un tag con <code>${register_group_command} TAG</code>. \
-El tag debe tener 3-4 letras mayúsculas del alfabeto latino."""
+El tag debe tener 3-4 letras mayúsculas del alfabeto latino.
+
+También necesitas un Monolito en el avanzada de al menos nivel ${required_monolith_level}."""
 alreadyRegisteredGroup = "¡El grupo ya está registrado!"
 registrationPersonageInAnotherGroup = "¡No puedes registrar si ya estás en otro grupo!"
 registrationPersonageNotGroupMember = "Primero únete al grupo: ${group_join_command}"
 incorrectTag = "El tag debe contener de 3 a 4 letras mayúsculas en inglés."
 tagAlreadyTaken = "Ese tag ya está en uso"
+registrationRequiresMonolith = "El registro está disponible cuando el Monolito en el avanzada alcance al menos el nivel ${required_monolith_level}."
 successGroupRegistration = "¡Grupo registrado con éxito! Puedes unirte con ${group_join_command}"
 successChangeTag = "Tag cambiado con éxito a <code>[${tag}]</code>"
 

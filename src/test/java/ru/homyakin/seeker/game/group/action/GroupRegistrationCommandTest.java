@@ -11,6 +11,9 @@ import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
+import ru.homyakin.seeker.game.outpost.entity.Building;
+import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
+import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
@@ -23,10 +26,12 @@ public class GroupRegistrationCommandTest {
     private final GroupStorage groupStorage = Mockito.mock();
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
     private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
+    private final OutpostStorage outpostStorage = Mockito.mock();
     private final GroupTagService groupTagService = new GroupTagService(
         groupStorage,
         groupPersonageStorage,
-        checkGroupPersonage
+        checkGroupPersonage,
+        outpostStorage
     );
     private GroupId groupId;
     private PersonageId personageId;
@@ -159,6 +164,8 @@ public class GroupRegistrationCommandTest {
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(true);
+        Mockito.when(outpostStorage.findBuildingSlot(groupId, Building.MONOLITH))
+            .thenReturn(Optional.of(new OutpostSlot.BuildingSlot(groupId, Building.MONOLITH, 1, Optional.empty())));
 
         final var result = groupTagService.register(groupId, personageId, "TAG");
 
@@ -166,6 +173,46 @@ public class GroupRegistrationCommandTest {
         Assertions.assertEquals(Success.INSTANCE, result.get());
         Mockito.verify(groupStorage).setTag(groupId, "TAG");
         Mockito.verify(groupPersonageStorage, Mockito.never()).setMemberGroup(personageId, groupId);
+    }
+
+    @Test
+    void When_MonolithMissing_Then_ReturnMonolithLevelTooLowError() {
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isHidden()).thenReturn(false);
+        Mockito.when(group.isRegistered()).thenReturn(false);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
+        Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
+        Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
+            .thenReturn(true);
+        Mockito.when(outpostStorage.findBuildingSlot(groupId, Building.MONOLITH))
+            .thenReturn(Optional.empty());
+
+        final var result = groupTagService.register(groupId, personageId, "TAG");
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(new GroupRegistrationError.MonolithLevelTooLow(1), result.getLeft());
+    }
+
+    @Test
+    void When_MonolithLevelZero_Then_ReturnMonolithLevelTooLowError() {
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isHidden()).thenReturn(false);
+        Mockito.when(group.isRegistered()).thenReturn(false);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
+        Mockito.when(groupStorage.isTagExists("TAG")).thenReturn(false);
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
+        Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
+            .thenReturn(true);
+        Mockito.when(outpostStorage.findBuildingSlot(groupId, Building.MONOLITH))
+            .thenReturn(Optional.of(new OutpostSlot.BuildingSlot(groupId, Building.MONOLITH, 0, Optional.empty())));
+
+        final var result = groupTagService.register(groupId, personageId, "TAG");
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(new GroupRegistrationError.MonolithLevelTooLow(1), result.getLeft());
     }
 
 }

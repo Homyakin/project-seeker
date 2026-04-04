@@ -61,9 +61,10 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::alreadyRegisteredGroup);
     }
 
-    public static String groupRegistration(Language language) {
+    public static String groupRegistration(Language language, int requiredMonolithLevel) {
         final var params = new HashMap<String, Object>();
         params.put("register_group_command", CommandType.REGISTER_GROUP.getText());
+        params.put("required_monolith_level", requiredMonolithLevel);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::groupRegistration),
             params
@@ -87,6 +88,13 @@ public class GroupManagementLocalization {
 
     public static String tagAlreadyTaken(Language language) {
         return resources.getOrDefault(language, GroupManagementResource::tagAlreadyTaken);
+    }
+
+    public static String registrationRequiresMonolith(Language language, int requiredMonolithLevel) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::registrationRequiresMonolith),
+            Collections.singletonMap("required_monolith_level", requiredMonolithLevel)
+        );
     }
 
     public static String successGroupRegistration(Language language) {

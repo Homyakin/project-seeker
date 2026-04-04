@@ -28,4 +28,7 @@ public sealed interface GroupRegistrationError {
     enum NotAdmin implements GroupRegistrationError {
         INSTANCE
     }
+
+    record MonolithLevelTooLow(int requiredLevel) implements GroupRegistrationError {
+    }
 }

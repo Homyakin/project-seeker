@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.group.action.GroupTagService;
 import ru.homyakin.seeker.game.group.action.InitGroupRegistrationCommand;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
@@ -55,7 +56,10 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
                     SendMessageBuilder
                         .builder()
                         .chatId(command.groupTgId())
-                        .text(GroupManagementLocalization.groupRegistration(groupTg.language()))
+                        .text(GroupManagementLocalization.groupRegistration(
+                            groupTg.language(),
+                            result.get().requiredMonolithLevel()
+                        ))
                         .build()
                 );
             }
@@ -86,6 +90,8 @@ public class GroupRegistrationExecutor extends CommandExecutor<GroupRegistration
                     GroupManagementLocalization.tagAlreadyTaken(groupTg.language());
                 case GroupRegistrationError.NotAdmin _ ->
                     CommonLocalization.onlyAdminAction(groupTg.language());
+                case GroupRegistrationError.MonolithLevelTooLow e ->
+                    GroupManagementLocalization.registrationRequiresMonolith(groupTg.language(), e.requiredLevel());
             },
             _ -> GroupManagementLocalization.successGroupRegistration(groupTg.language())
         );

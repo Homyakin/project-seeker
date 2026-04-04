@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.ChangeTagError;
+import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
@@ -22,10 +23,12 @@ public class GroupTagServiceChangeTagTest {
     private final GroupStorage groupStorage = Mockito.mock();
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
     private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
+    private final OutpostStorage outpostStorage = Mockito.mock();
     private final GroupTagService groupTagService = new GroupTagService(
         groupStorage,
         groupPersonageStorage,
-        checkGroupPersonage
+        checkGroupPersonage,
+        outpostStorage
     );
     private GroupId groupId;
     private PersonageId personageId;

@@ -8,6 +8,9 @@ import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.ChangeTagError;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
+import ru.homyakin.seeker.game.outpost.entity.Building;
+import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
+import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.models.Success;
 
@@ -15,18 +18,23 @@ import java.util.regex.Pattern;
 
 @Component
 public class GroupTagService {
+    public static final int MIN_MONOLITH_LEVEL_FOR_REGISTRATION = 1;
+
     private final GroupStorage groupStorage;
     private final GroupPersonageStorage groupPersonageStorage;
     private final CheckGroupPersonage checkGroupPersonage;
+    private final OutpostStorage outpostStorage;
 
     public GroupTagService(
         GroupStorage groupStorage,
         GroupPersonageStorage groupPersonageStorage,
-        CheckGroupPersonage checkGroupPersonage
+        CheckGroupPersonage checkGroupPersonage,
+        OutpostStorage outpostStorage
     ) {
         this.groupStorage = groupStorage;
         this.groupPersonageStorage = groupPersonageStorage;
         this.checkGroupPersonage = checkGroupPersonage;
+        this.outpostStorage = outpostStorage;
     }
 
     public Either<GroupRegistrationError, Success> register(
@@ -56,6 +64,12 @@ public class GroupTagService {
         }
         if (!checkGroupPersonage.isAdminInGroup(groupId, personageId)) {
             return Either.left(GroupRegistrationError.NotAdmin.INSTANCE);
+        }
+        final var monolithLevel = outpostStorage.findBuildingSlot(groupId, Building.MONOLITH)
+            .map(OutpostSlot.BuildingSlot::level)
+            .orElse(0);
+        if (monolithLevel < MIN_MONOLITH_LEVEL_FOR_REGISTRATION) {
+            return Either.left(new GroupRegistrationError.MonolithLevelTooLow(MIN_MONOLITH_LEVEL_FOR_REGISTRATION));
         }
 
         groupStorage.setTag(groupId, tag);
