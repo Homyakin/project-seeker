@@ -174,12 +174,16 @@ public class OutpostLocalization {
                 Map.of("building_name", buildingDisplayName(language, building))
             );
             case OutpostSlot.BuildingSlot occupied -> occupied.progress()
-                .map(p -> formatBuildingMenuInProgress(language, occupied, p))
+                .map(p -> formatBuildingMenuInProgress(language, occupied, p, occupied.materialsRequired()))
                 .orElseGet(() -> formatBuildingMenuIdle(language, occupied));
         };
     }
 
-    public static String outpost(Language language, List<OutpostSlot> slots, boolean showOpenBuildingCommand) {
+    public static String outpost(
+        Language language,
+        List<OutpostSlot> slots,
+        boolean showOpenBuildingCommand
+    ) {
         final var lines = slots.stream()
             .map(slot -> formatSlotLine(language, slot, showOpenBuildingCommand))
             .collect(Collectors.joining("\n"));
@@ -209,9 +213,17 @@ public class OutpostLocalization {
         };
     }
 
-    private static String formatSlotLine(Language language, OutpostSlot slot, boolean showOpenBuildingCommand) {
+    private static String formatSlotLine(
+        Language language,
+        OutpostSlot slot,
+        boolean showOpenBuildingCommand
+    ) {
         return switch (slot) {
-            case OutpostSlot.BuildingSlot occupied -> formatBuildingLine(language, occupied, showOpenBuildingCommand);
+            case OutpostSlot.BuildingSlot occupied -> formatBuildingLine(
+                language,
+                occupied,
+                showOpenBuildingCommand
+            );
             case OutpostSlot.EmptySlot _ -> resources.getOrDefault(language, OutpostResource::emptySlot);
         };
     }
@@ -222,7 +234,13 @@ public class OutpostLocalization {
         boolean showOpenBuildingCommand
     ) {
         return occupied.progress()
-            .map(p -> formatBuildingLineInProgress(language, occupied, p, showOpenBuildingCommand))
+            .map(p -> formatBuildingLineInProgress(
+                language,
+                occupied,
+                p,
+                showOpenBuildingCommand,
+                occupied.materialsRequired()
+            ))
             .orElseGet(() -> {
                 final var params = new HashMap<String, Object>();
                 params.put("building_name", buildingDisplayName(language, occupied.building()));
@@ -242,11 +260,12 @@ public class OutpostLocalization {
         Language language,
         OutpostSlot.BuildingSlot occupied,
         OutpostBuildingProgress progress,
-        boolean showOpenBuildingCommand
+        boolean showOpenBuildingCommand,
+        int materialsRequired
     ) {
         final var targetLevel = occupied.level() == 0 ? 1 : occupied.level() + 1;
         final var delivered = progress.materialsDelivered();
-        final var required = progress.materialsRequired();
+        final var required = materialsRequired;
         final var params = new HashMap<String, Object>();
         params.put("building_name", buildingDisplayName(language, occupied.building()));
         params.put("level", occupied.level());
@@ -282,11 +301,12 @@ public class OutpostLocalization {
     private static String formatBuildingMenuInProgress(
         Language language,
         OutpostSlot.BuildingSlot occupied,
-        OutpostBuildingProgress progress
+        OutpostBuildingProgress progress,
+        int materialsRequired
     ) {
         final var targetLevel = occupied.level() == 0 ? 1 : occupied.level() + 1;
         final var delivered = progress.materialsDelivered();
-        final var required = progress.materialsRequired();
+        final var required = materialsRequired;
         final var params = new HashMap<String, Object>();
         params.put("building_name", buildingDisplayName(language, occupied.building()));
         params.put("level", occupied.level());
@@ -349,7 +369,7 @@ public class OutpostLocalization {
         final var building = occupied.building();
         final var targetLevel = occupied.level() == 0 ? 1 : occupied.level() + 1;
         final var delivered = progress.materialsDelivered();
-        final var required = progress.materialsRequired();
+        final var required = occupied.materialsRequired();
         final var params = new HashMap<String, Object>();
         params.put("building_name", buildingDisplayName(language, building));
         params.put("level", occupied.level());

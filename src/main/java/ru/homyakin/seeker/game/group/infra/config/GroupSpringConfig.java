@@ -10,18 +10,13 @@ import ru.homyakin.seeker.game.models.Money;
 
 @ConfigurationProperties(prefix = "homyakin.seeker.group")
 public class GroupSpringConfig implements GroupConfig {
-    private static final Money REGISTRATION_PRICE = new Money(500);
     private static final Money CHANGE_TAG_PRICE = new Money(300);
     private static final Duration PERSONAGE_JOIN_GROUP_TIMEOUT = Duration.ofHours(24);
+    private Duration groupTaxRecalcInterval = Duration.ofHours(24);
     private EventIntervals defaultEventIntervals;
 
     public EventIntervals defaultEventIntervals() {
         return defaultEventIntervals;
-    }
-
-    @Override
-    public Money registrationPrice() {
-        return REGISTRATION_PRICE;
     }
 
     @Override
@@ -32,6 +27,15 @@ public class GroupSpringConfig implements GroupConfig {
     @Override
     public Duration personageJoinGroupTimeout() {
         return PERSONAGE_JOIN_GROUP_TIMEOUT;
+    }
+
+    @Override
+    public Duration groupTaxRecalcInterval() {
+        return groupTaxRecalcInterval;
+    }
+
+    public void setGroupTaxRecalcInterval(Duration groupTaxRecalcInterval) {
+        this.groupTaxRecalcInterval = groupTaxRecalcInterval;
     }
 
     /**

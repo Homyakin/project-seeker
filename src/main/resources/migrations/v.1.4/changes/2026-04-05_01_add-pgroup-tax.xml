@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-pgroup-tax">
+        <addColumn tableName="pgroup">
+            <column name="effective_tax" type="INTEGER" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_tax_update" type="TIMESTAMP"/>
+        </addColumn>
+
+        <sql>
+            UPDATE pgroup p
+            SET effective_tax = m.cnt,
+                last_tax_update = CURRENT_TIMESTAMP
+            FROM (
+                SELECT member_pgroup_id AS gid, COUNT(*)::int AS cnt
+                FROM personage
+                WHERE member_pgroup_id IS NOT NULL
+                GROUP BY member_pgroup_id
+            ) m
+            WHERE p.id = m.gid
+        </sql>
+
+        <createTable tableName="group_leaved_members">
+            <column name="id" type="BIGSERIAL">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="group_leaved_members-pk"/>
+            </column>
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leaved_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="group_leaved_members"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-group_leaved_members-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+        <addForeignKeyConstraint
+                baseTableName="group_leaved_members"
+                baseColumnNames="personage_id"
+                constraintName="fk-group_leaved_members-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+
+        <createIndex indexName="idx_group_leaved_members_pgroup_leaved_at" tableName="group_leaved_members">
+            <column name="pgroup_id"/>
+            <column name="leaved_at"/>
+        </createIndex>
+        <createIndex indexName="idx_group_leaved_members_pgroup_personage" tableName="group_leaved_members">
+            <column name="pgroup_id"/>
+            <column name="personage_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

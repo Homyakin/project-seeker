@@ -2,7 +2,9 @@ package ru.homyakin.seeker.game.group.action.personage;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
@@ -19,26 +21,32 @@ public class JoinGroupMemberCommand {
     private final CheckGroupPersonage checkGroupPersonage;
     private final GroupStorage groupStorage;
     private final GroupConfig config;
+    private final GroupTaxService groupTaxService;
 
     public JoinGroupMemberCommand(
         GroupPersonageStorage groupPersonageStorage,
         CheckGroupMemberAdminCommand checkGroupMemberAdminCommand,
         CheckGroupPersonage checkGroupPersonage,
         GroupStorage groupStorage,
-        GroupConfig config
+        GroupConfig config,
+        GroupTaxService groupTaxService
     ) {
         this.groupPersonageStorage = groupPersonageStorage;
         this.checkGroupMemberAdminCommand = checkGroupMemberAdminCommand;
         this.checkGroupPersonage = checkGroupPersonage;
         this.groupStorage = groupStorage;
         this.config = config;
+        this.groupTaxService = groupTaxService;
     }
 
+    @Transactional
     public Either<JoinGroupMemberError, Group> join(GroupId groupId, PersonageId personageId) {
         return canJoin(groupId, personageId)
+            .peek(_ -> groupTaxService.applyJoin(groupId, personageId))
             .peek(_ -> groupPersonageStorage.setMemberGroup(personageId, groupId));
     }
 
+    @Transactional
     public Either<ConfirmJoinGroupMemberError, Success> confirm(
         GroupId groupId,
         PersonageId confirmingPersonageId,
@@ -47,11 +55,13 @@ public class JoinGroupMemberCommand {
         final var canJoinResult = canJoin(groupId, joiningPersonageId);
         if (canJoinResult.isLeft() && canJoinResult.getLeft() instanceof JoinGroupMemberError.ConfirmationRequired) {
             return checkGroupMemberAdminCommand.execute(groupId, confirmingPersonageId)
+                .peek(_ -> groupTaxService.applyJoin(groupId, joiningPersonageId))
                 .peek(_ -> groupPersonageStorage.setMemberGroup(joiningPersonageId, groupId))
                 .mapLeft(it -> it);
         }
         // Нужен маппинг left иначе система типов не понимает
         return canJoinResult
+            .peek(_ -> groupTaxService.applyJoin(groupId, joiningPersonageId))
             .peek(_ -> groupPersonageStorage.setMemberGroup(joiningPersonageId, groupId))
             .map(_ -> Success.INSTANCE)
             .mapLeft(it -> it);

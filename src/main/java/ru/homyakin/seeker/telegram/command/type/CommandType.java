@@ -71,6 +71,7 @@ public enum CommandType {
     LEAVE_GROUP_CONFIRM("confirmLeaveGroup", CheckType.STARTS_WITH),
     LEAVE_GROUP_CANCEL("cancelLeaveGroup", CheckType.STARTS_WITH),
     GROUP_COMMANDS("/group_commands", CheckType.EQUALS),
+    GROUP_TAX("/group_tax", CheckType.EQUALS),
     TOGGLE_PERSONAGE_SETTING("tglPersStng", CheckType.STARTS_WITH),
     SHOW_WORLD_RAID_INFO(null, CheckType.MAP),
     WORLD_RAID_DONATE("/wr_donate", CheckType.EQUALS),

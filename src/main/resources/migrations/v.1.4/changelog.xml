@@ -6,4 +6,5 @@
     <include file="changes/2026-03-17_01_remove-group-money.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-03-22_01_add-pgroup-outpost.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-03-30_01_outpost_building_contribution.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-04-05_01_add-pgroup-tax.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

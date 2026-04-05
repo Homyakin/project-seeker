@@ -7,9 +7,9 @@ import java.time.Duration;
 public interface GroupConfig {
     EventIntervals defaultEventIntervals();
 
-    Money registrationPrice();
-
     Money changeTagPrice();
 
     Duration personageJoinGroupTimeout();
+
+    Duration groupTaxRecalcInterval();
 }

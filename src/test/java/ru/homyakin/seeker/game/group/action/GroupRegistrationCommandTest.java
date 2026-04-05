@@ -165,7 +165,7 @@ public class GroupRegistrationCommandTest {
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(true);
         Mockito.when(outpostStorage.findBuildingSlot(groupId, Building.MONOLITH))
-            .thenReturn(Optional.of(new OutpostSlot.BuildingSlot(groupId, Building.MONOLITH, 1, Optional.empty())));
+            .thenReturn(Optional.of(new OutpostSlot.BuildingSlot(groupId, Building.MONOLITH, 1, Optional.empty(), 0)));
 
         final var result = groupTagService.register(groupId, personageId, "TAG");
 
@@ -207,7 +207,7 @@ public class GroupRegistrationCommandTest {
         Mockito.when(checkGroupPersonage.isAdminInGroup(groupId, personageId))
             .thenReturn(true);
         Mockito.when(outpostStorage.findBuildingSlot(groupId, Building.MONOLITH))
-            .thenReturn(Optional.of(new OutpostSlot.BuildingSlot(groupId, Building.MONOLITH, 0, Optional.empty())));
+            .thenReturn(Optional.of(new OutpostSlot.BuildingSlot(groupId, Building.MONOLITH, 0, Optional.empty(), 0)));
 
         final var result = groupTagService.register(groupId, personageId, "TAG");
 

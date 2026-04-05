@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.outpost.action.SyncGroupTaxCommand;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
@@ -11,39 +10,34 @@ import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
-public class GroupInfoExecutor extends CommandExecutor<GroupInfo> {
+public class GroupTaxExecutor extends CommandExecutor<GroupTax> {
     private final GroupTgService groupTgService;
-    private final GetGroup getGroup;
     private final GroupTaxService groupTaxService;
     private final SyncGroupTaxCommand syncGroupTaxCommand;
     private final TelegramSender telegramSender;
 
-    public GroupInfoExecutor(
+    public GroupTaxExecutor(
         GroupTgService groupTgService,
-        GetGroup getGroup,
         GroupTaxService groupTaxService,
         SyncGroupTaxCommand syncGroupTaxCommand,
         TelegramSender telegramSender
     ) {
         this.groupTgService = groupTgService;
-        this.getGroup = getGroup;
         this.groupTaxService = groupTaxService;
         this.syncGroupTaxCommand = syncGroupTaxCommand;
         this.telegramSender = telegramSender;
     }
 
     @Override
-    public void execute(GroupInfo command) {
+    public void execute(GroupTax command) {
         final var groupTg = groupTgService.getOrCreate(command.groupTgId());
         final var groupId = groupTg.domainGroupId();
         syncGroupTaxCommand.execute(groupId);
-        final var group = getGroup.forceGetProfile(groupId);
         final var tax = groupTaxService.groupTaxSnapshot(groupId);
         telegramSender.send(
-            SendMessageBuilder
-                .builder()
+            SendMessageBuilder.builder()
                 .chatId(command.groupTgId())
-                .text(GroupManagementLocalization.groupInfo(groupTg.language(), group, tax))
+                .text(GroupManagementLocalization.groupTaxDetails(groupTg.language(), tax))
                 .build()
         );
     }

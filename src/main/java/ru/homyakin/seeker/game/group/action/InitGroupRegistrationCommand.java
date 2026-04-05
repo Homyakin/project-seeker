@@ -9,8 +9,6 @@ import ru.homyakin.seeker.game.group.error.GroupAlreadyRegistered;
 
 @Component
 public class InitGroupRegistrationCommand {
-
-
     private final GroupStorage groupStorage;
 
     public InitGroupRegistrationCommand(GroupStorage groupStorage) {

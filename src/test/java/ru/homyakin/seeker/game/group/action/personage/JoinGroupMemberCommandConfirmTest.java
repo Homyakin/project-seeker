@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
@@ -27,12 +28,14 @@ class JoinGroupMemberCommandConfirmTest {
     private final GroupStorage groupStorage = Mockito.mock();
     private final CheckGroupMemberAdminCommand checkGroupMemberAdminCommand = Mockito.mock();
     private final CheckGroupPersonage checkGroupPersonage = Mockito.mock();
+    private final GroupTaxService groupTaxService = Mockito.mock();
     private final JoinGroupMemberCommand joinGroupMemberCommand = new JoinGroupMemberCommand(
         groupPersonageStorage,
         checkGroupMemberAdminCommand,
         checkGroupPersonage,
         groupStorage,
-        groupConfig
+        groupConfig,
+        groupTaxService
     );
 
     @BeforeAll

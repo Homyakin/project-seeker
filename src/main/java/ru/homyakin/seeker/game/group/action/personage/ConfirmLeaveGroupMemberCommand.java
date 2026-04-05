@@ -2,7 +2,9 @@ package ru.homyakin.seeker.game.group.action.personage;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
@@ -16,17 +18,21 @@ public class ConfirmLeaveGroupMemberCommand {
     private final GroupPersonageStorage groupPersonageStorage;
     private final GroupStorage groupStorage;
     private final GroupConfig config;
+    private final GroupTaxService groupTaxService;
 
     public ConfirmLeaveGroupMemberCommand(
         GroupPersonageStorage groupPersonageStorage,
         GroupStorage groupStorage,
-        GroupConfig config
+        GroupConfig config,
+        GroupTaxService groupTaxService
     ) {
         this.groupPersonageStorage = groupPersonageStorage;
         this.groupStorage = groupStorage;
         this.config = config;
+        this.groupTaxService = groupTaxService;
     }
 
+    @Transactional
     public Either<LeaveGroupMemberError.NotGroupMember, ConfirmLeaveGroupMemberResult> execute(
         PersonageId personageId,
         GroupId groupId
@@ -35,29 +41,10 @@ public class ConfirmLeaveGroupMemberCommand {
         if (!personageMemberGroup.isGroupMember(groupId)) {
             return Either.left(LeaveGroupMemberError.NotGroupMember.INSTANCE);
         }
-
-        groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
-        final var memberCount = groupStorage.memberCount(groupId);
-        if (memberCount == 0) {
-            groupStorage.deleteTag(groupId);
-            return Either.right(
-                new ConfirmLeaveGroupMemberResult(
-                    ConfirmLeaveGroupMemberResult.LeaveType.LAST_MEMBER,
-                    config.personageJoinGroupTimeout(),
-                    groupId
-                )
-            );
-        } else {
-            return Either.right(
-                new ConfirmLeaveGroupMemberResult(
-                    ConfirmLeaveGroupMemberResult.LeaveType.NOT_LAST_MEMBER,
-                    config.personageJoinGroupTimeout(),
-                    groupId
-                )
-            );
-        }
+        return Either.right(leave(personageId, groupId));
     }
 
+    @Transactional
     public Either<LeaveGroupMemberError.NotGroupMember, ConfirmLeaveGroupMemberResult> execute(
         PersonageId personageId
     ) {
@@ -65,26 +52,26 @@ public class ConfirmLeaveGroupMemberCommand {
         if (!personageMemberGroup.hasGroup()) {
             return Either.left(LeaveGroupMemberError.NotGroupMember.INSTANCE);
         }
-
         final var groupId = personageMemberGroup.groupId().get();
+        return Either.right(leave(personageId, groupId));
+    }
+
+    private ConfirmLeaveGroupMemberResult leave(PersonageId personageId, GroupId groupId) {
+        groupTaxService.applyLeave(groupId, personageId);
         groupPersonageStorage.clearMemberGroup(personageId, TimeUtils.moscowTime());
         final var memberCount = groupStorage.memberCount(groupId);
         if (memberCount == 0) {
             groupStorage.deleteTag(groupId);
-            return Either.right(
-                new ConfirmLeaveGroupMemberResult(
-                    ConfirmLeaveGroupMemberResult.LeaveType.LAST_MEMBER,
-                    config.personageJoinGroupTimeout(),
-                    groupId
-                )
+            return new ConfirmLeaveGroupMemberResult(
+                ConfirmLeaveGroupMemberResult.LeaveType.LAST_MEMBER,
+                config.personageJoinGroupTimeout(),
+                groupId
             );
         } else {
-            return Either.right(
-                new ConfirmLeaveGroupMemberResult(
-                    ConfirmLeaveGroupMemberResult.LeaveType.NOT_LAST_MEMBER,
-                    config.personageJoinGroupTimeout(),
-                    groupId
-                )
+            return new ConfirmLeaveGroupMemberResult(
+                ConfirmLeaveGroupMemberResult.LeaveType.NOT_LAST_MEMBER,
+                config.personageJoinGroupTimeout(),
+                groupId
             );
         }
     }

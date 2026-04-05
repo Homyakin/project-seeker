@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.ItemService;
@@ -43,6 +43,8 @@ public class OutpostService {
     private final ItemService itemService;
     private final ShopConfig shopConfig;
     private final OutpostBuildingConfig outpostBuildingConfig;
+    private final GroupTaxService groupTaxService;
+    private final SyncGroupTaxCommand syncGroupTaxCommand;
 
     public OutpostService(
         OutpostStorage storage,
@@ -52,7 +54,9 @@ public class OutpostService {
         LockService lockService,
         ItemService itemService,
         ShopConfig shopConfig,
-        OutpostBuildingConfig outpostBuildingConfig
+        OutpostBuildingConfig outpostBuildingConfig,
+        GroupTaxService groupTaxService,
+        SyncGroupTaxCommand syncGroupTaxCommand
     ) {
         this.storage = storage;
         this.contributionStorage = contributionStorage;
@@ -62,6 +66,17 @@ public class OutpostService {
         this.itemService = itemService;
         this.shopConfig = shopConfig;
         this.outpostBuildingConfig = outpostBuildingConfig;
+        this.groupTaxService = groupTaxService;
+        this.syncGroupTaxCommand = syncGroupTaxCommand;
+    }
+
+    private int materialsRequiredInProgressAfterSync(GroupId groupId, OutpostSlot.BuildingSlot slot) {
+        final var targetLevel = slot.level() + 1;
+        return outpostBuildingConfig.materialsToReachLevel(
+            slot.building(),
+            targetLevel,
+            groupTaxService.currentTax(groupId)
+        );
     }
 
     public boolean canPersonageBuild(PersonageId personageId) {
@@ -81,21 +96,40 @@ public class OutpostService {
     }
 
     public List<OutpostSlot> listSlots(GroupId groupId) {
+        syncGroupTaxCommand.execute(groupId);
+        return listSlotsAfterSync(groupId);
+    }
+
+    private List<OutpostSlot> listSlotsAfterSync(GroupId groupId) {
         final var built = storage.listBuildingSlots(groupId);
         final var byBuilding = built.stream()
             .collect(Collectors.toMap(OutpostSlot.BuildingSlot::building, s -> s, (a, _) -> a));
         return Arrays.stream(Building.values())
             .map(b -> {
                 final var slot = byBuilding.get(b);
-                return slot != null ? slot : OutpostSlot.EmptySlot.INSTANCE;
+                return slot != null ? enrichMaterialsRequired(groupId, slot) : OutpostSlot.EmptySlot.INSTANCE;
             })
             .toList();
     }
 
-    public OutpostSlot slotForBuilding(GroupId groupId, Building building) {
-        return storage.findBuildingSlot(groupId, building)
-            .<OutpostSlot>map(Function.identity())
-            .orElse(OutpostSlot.EmptySlot.INSTANCE);
+    private OutpostSlot.BuildingSlot enrichMaterialsRequired(GroupId groupId, OutpostSlot.BuildingSlot slot) {
+        if (slot.progress().isEmpty()) {
+            return new OutpostSlot.BuildingSlot(
+                slot.groupId(),
+                slot.building(),
+                slot.level(),
+                slot.progress(),
+                0
+            );
+        }
+        final var required = materialsRequiredInProgressAfterSync(groupId, slot);
+        return new OutpostSlot.BuildingSlot(
+            slot.groupId(),
+            slot.building(),
+            slot.level(),
+            slot.progress(),
+            required
+        );
     }
 
     public Either<OutpostSlotAccessError, OutpostSlot> slotForBuilding(PersonageId personageId, Building building) {
@@ -104,13 +138,20 @@ public class OutpostService {
             return Either.left(OutpostSlotAccessError.NoGroup.INSTANCE);
         }
         final var groupId = member.groupId().get();
+        syncGroupTaxCommand.execute(groupId);
         return storage.findBuildingSlot(groupId, building)
-            .<Either<OutpostSlotAccessError, OutpostSlot>>map(Either::right)
+            .<Either<OutpostSlotAccessError, OutpostSlot>>map(s -> Either.right(enrichMaterialsRequired(groupId, s)))
             .orElseGet(() -> Either.left(OutpostSlotAccessError.NotFound.INSTANCE));
     }
 
     public List<OutpostBuildOffer> listBuildOffers(GroupId groupId) {
-        final var slots = listSlots(groupId);
+        syncGroupTaxCommand.execute(groupId);
+        return listBuildOffersAfterSync(groupId);
+    }
+
+    private List<OutpostBuildOffer> listBuildOffersAfterSync(GroupId groupId) {
+        final var taxMultiplier = groupTaxService.currentTax(groupId);
+        final var slots = listSlotsAfterSync(groupId);
         final var buildings = Building.values();
         final var offers = new ArrayList<OutpostBuildOffer>();
         for (int i = 0; i < slots.size() && i < buildings.length; i++) {
@@ -120,7 +161,7 @@ public class OutpostService {
                     building,
                     0,
                     1,
-                    outpostBuildingConfig.materialsToReachLevel(building, 1)
+                    outpostBuildingConfig.materialsToReachLevel(building, 1, taxMultiplier)
                 ));
                 case OutpostSlot.BuildingSlot occupied -> {
                     if (occupied.progress().isPresent()) {
@@ -133,7 +174,7 @@ public class OutpostService {
                             building,
                             from,
                             to,
-                            outpostBuildingConfig.materialsToReachLevel(building, to)
+                            outpostBuildingConfig.materialsToReachLevel(building, to, taxMultiplier)
                         ));
                     }
                 }
@@ -151,8 +192,9 @@ public class OutpostService {
         if (!checkGroupPersonage.isAdminInGroup(groupId, personageId)) {
             return Either.left(OutpostApplyError.NotAdmin.INSTANCE);
         }
+        syncGroupTaxCommand.execute(groupId);
         final var key = LockPrefixes.OUTPOST.name() + groupId.value();
-        return lockService.<Either<OutpostApplyError, OutpostApplyResult>>tryLockAndCalc(
+        return lockService.tryLockAndCalc(
             key,
             () -> applyLocked(groupId, building)
         ).fold(
@@ -162,14 +204,14 @@ public class OutpostService {
     }
 
     private Either<OutpostApplyError, OutpostApplyResult> applyLocked(GroupId groupId, Building building) {
-        final var offerOpt = listBuildOffers(groupId).stream()
+        final var offerOpt = listBuildOffersAfterSync(groupId).stream()
             .filter(o -> o.building() == building)
             .findFirst();
         if (offerOpt.isEmpty()) {
             return Either.left(OutpostApplyError.NoOffer.INSTANCE);
         }
         final var offer = offerOpt.get();
-        final var progress = OutpostBuildingProgress.started(offer.materialsRequired());
+        final var progress = OutpostBuildingProgress.started();
         if (offer.fromLevel() == 0) {
             if (!storage.tryInsertWithProgress(groupId, building, 0, progress)) {
                 return Either.left(OutpostApplyError.NoOffer.INSTANCE);
@@ -194,6 +236,7 @@ public class OutpostService {
             return Either.left(OutpostDonateError.NoGroup.INSTANCE);
         }
         final var groupId = member.groupId().get();
+        syncGroupTaxCommand.execute(groupId);
         final var key = LockPrefixes.OUTPOST.name() + groupId.value();
         return lockService.<Either<OutpostDonateError, OutpostDonateSuccess>>tryLockAndCalc(
             key,
@@ -216,6 +259,13 @@ public class OutpostService {
         }
         final var slot = slotOpt.get();
         final var progress = slot.progress().get();
+        final var targetLevel = slot.level() + 1;
+        final var taxMultiplier = groupTaxService.currentTax(groupId);
+        final var materialsRequired = outpostBuildingConfig.materialsToReachLevel(
+            building,
+            targetLevel,
+            taxMultiplier
+        );
         final var itemOpt = itemService.getPersonageItem(personageId, itemId);
         if (itemOpt.isEmpty()) {
             return Either.left(OutpostDonateError.ItemNotFound.INSTANCE);
@@ -225,11 +275,10 @@ public class OutpostService {
             return Either.left(OutpostDonateError.ItemEquipped.INSTANCE);
         }
         final var materialsValue = shopConfig.buyingPriceByRarity(item.rarity()).value();
-        final var newDelivered = Math.min(
-            progress.materialsRequired(),
-            progress.materialsDelivered() + materialsValue
-        );
-        final var completed = newDelivered >= progress.materialsRequired();
+        final var baseDelivered = progress.materialsDelivered();
+        final var afterAdd = baseDelivered + materialsValue;
+        final var completed = afterAdd >= materialsRequired || baseDelivered >= materialsRequired;
+        final var newDelivered = completed ? materialsRequired : Math.min(materialsRequired, afterAdd);
 
         itemService.removeItem(personageId, itemId);
         contributionStorage.add(groupId, building, personageId, materialsValue);
@@ -238,7 +287,7 @@ public class OutpostService {
             if (!storage.updateBuildingProgress(
                 groupId,
                 building,
-                new OutpostBuildingProgress(progress.materialsRequired(), newDelivered)
+                new OutpostBuildingProgress(newDelivered)
             )) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return Either.left(OutpostDonateError.StateConflict.INSTANCE);
@@ -246,7 +295,7 @@ public class OutpostService {
             return Either.right(OutpostDonateSuccess.inProgress(
                 materialsValue,
                 newDelivered,
-                progress.materialsRequired()
+                materialsRequired
             ));
         }
 
@@ -260,7 +309,7 @@ public class OutpostService {
         return Either.right(new OutpostDonateSuccess(
             materialsValue,
             newDelivered,
-            progress.materialsRequired(),
+            materialsRequired,
             true,
             newLevel,
             topContributors
