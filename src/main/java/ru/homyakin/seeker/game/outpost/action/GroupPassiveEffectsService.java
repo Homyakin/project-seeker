@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.effect.ItemFoundChanceBonus;
 import ru.homyakin.seeker.game.effect.RaidGoldRewardBonus;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.outpost.OutpostBuildingConfig;
@@ -69,5 +70,13 @@ public class GroupPassiveEffectsService {
      */
     public int raidGoldBonusPercentSum(GroupId groupId, LocalDateTime now) {
         return RaidGoldRewardBonus.sumGroupPassiveEffects(listPassiveEffects(groupId), now);
+    }
+
+    /**
+     * Sum of {@link ru.homyakin.seeker.game.effect.Effect.ItemFoundChancePercent} from group passives;
+     * one {@link #listPassiveEffects} load per call.
+     */
+    public int itemFoundChanceBonusPercentSum(GroupId groupId, LocalDateTime now) {
+        return ItemFoundChanceBonus.sumGroupPassiveEffects(listPassiveEffects(groupId), now);
     }
 }

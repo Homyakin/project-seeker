@@ -42,11 +42,15 @@ public class RaidItemGenerator {
      * <p>
      * Вместо предмета может выпасть контрабанда (определяется в ContrabandService).
      */
+    /**
+     * @param itemFoundChanceBonusPercent sum of {@code ItemFoundChancePercent} from personage buffs and group passives
+     */
     public Optional<GeneratedItemResult> generateItem(
         boolean isWin,
         Personage personage,
         boolean isExhausted,
-        int raidLevel
+        int raidLevel,
+        int itemFoundChanceBonusPercent
     ) {
         if (!isWin) {
             return Optional.empty();
@@ -61,7 +65,7 @@ public class RaidItemGenerator {
         } else {
             chance = (int) Math.pow(raidsWithoutItems - 3, 2);
         }
-        if (RandomUtils.processChance(chance)) {
+        if (RandomUtils.processChance(chance + itemFoundChanceBonusPercent)) {
             final var contrabandOpt = contrabandService.tryCreate(personage, raidLevel);
             if (contrabandOpt.isPresent()) {
                 return Optional.of(new GeneratedItemResult.ContrabandDrop(personage, contrabandOpt.get()));

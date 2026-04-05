@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.telegram.command.user.profile;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Collections;
+
+import org.springframework.stereotype.Component;
 
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;

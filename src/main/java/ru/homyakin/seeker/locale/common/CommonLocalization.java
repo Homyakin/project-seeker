@@ -374,6 +374,14 @@ public class CommonLocalization {
                     params
                 );
             }
+            case Effect.ItemFoundChancePercent itemFound -> {
+                final var params = new HashMap<String, Object>();
+                params.put("value", itemFound.percent());
+                yield StringNamedTemplate.format(
+                    resources.getOrDefault(language, CommonResource::itemFoundChancePercentEffect),
+                    params
+                );
+            }
         };
     }
 

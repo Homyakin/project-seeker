@@ -15,4 +15,7 @@ public sealed interface Effect {
 
     record RaidGoldRewardPercent(int percent) implements Effect {
     }
+
+    record ItemFoundChancePercent(int percent) implements Effect {
+    }
 }

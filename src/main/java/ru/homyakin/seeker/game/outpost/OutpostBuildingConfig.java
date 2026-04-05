@@ -17,6 +17,11 @@ public class OutpostBuildingConfig {
      */
     private int shadowShopRaidGoldPercentPerLevel = 1;
 
+    /**
+     * Total item-found chance bonus percent on raid = level × this value (Storm Scanner).
+     */
+    private int stormScannerItemFoundPercentPerLevel = 1;
+
     @NotEmpty
     private Map<Building, BuildingLevelMaterials> building;
 
@@ -29,6 +34,17 @@ public class OutpostBuildingConfig {
             throw new IllegalStateException("shadowShopRaidGoldPercentPerLevel must be >= 0");
         }
         this.shadowShopRaidGoldPercentPerLevel = shadowShopRaidGoldPercentPerLevel;
+    }
+
+    public int getStormScannerItemFoundPercentPerLevel() {
+        return stormScannerItemFoundPercentPerLevel;
+    }
+
+    public void setStormScannerItemFoundPercentPerLevel(int stormScannerItemFoundPercentPerLevel) {
+        if (stormScannerItemFoundPercentPerLevel < 0) {
+            throw new IllegalStateException("stormScannerItemFoundPercentPerLevel must be >= 0");
+        }
+        this.stormScannerItemFoundPercentPerLevel = stormScannerItemFoundPercentPerLevel;
     }
 
     public Map<Building, BuildingLevelMaterials> getBuilding() {
@@ -89,8 +105,10 @@ public class OutpostBuildingConfig {
     public int slotsByMonolithLevel(int monolithLevel) {
         if (monolithLevel < 2) {
             return 1;
-        } else {
+        } else if (monolithLevel < 4) {
             return 2;
+        } else {
+            return 3;
         }
     }
 }
