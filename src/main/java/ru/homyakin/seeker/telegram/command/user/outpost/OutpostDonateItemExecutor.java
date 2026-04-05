@@ -1,10 +1,9 @@
 package ru.homyakin.seeker.telegram.command.user.outpost;
 
-import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.outpost.action.OutpostService;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.locale.LocaleUtils;
+import ru.homyakin.seeker.game.top.TopService;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -18,6 +17,7 @@ public class OutpostDonateItemExecutor extends CommandExecutor<OutpostDonateItem
     private final UserService userService;
     private final OutpostService outpostService;
     private final PersonageService personageService;
+    private final TopService topService;
     private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
 
@@ -25,12 +25,14 @@ public class OutpostDonateItemExecutor extends CommandExecutor<OutpostDonateItem
         UserService userService,
         OutpostService outpostService,
         PersonageService personageService,
+        TopService topService,
         GroupTgService groupTgService,
         TelegramSender telegramSender
     ) {
         this.userService = userService;
         this.outpostService = outpostService;
         this.personageService = personageService;
+        this.topService = topService;
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
     }
@@ -63,20 +65,11 @@ public class OutpostDonateItemExecutor extends CommandExecutor<OutpostDonateItem
                     return;
                 }
                 final var groupTg = groupTgService.forceGet(groupIdOpt.get());
-                final var contributorLines = new ArrayList<String>();
-                for (final var c : success.topContributors()) {
-                    final var name = personageService.getById(c.personageId())
-                        .map(LocaleUtils::personageNameWithBadge)
-                        .orElseGet(() -> "#" + c.personageId().value());
-                    contributorLines.add(
-                        OutpostLocalization.groupBuildingCompletedContributorLine(language, name, c.materials())
-                    );
-                }
                 final var groupText = OutpostLocalization.groupBuildingCompletedWithTop(
                     groupTg.language(),
                     command.building(),
                     success.newLevel(),
-                    contributorLines
+                    topService.getTopOutpostBuildingMaterials(success.topContributors())
                 );
                 telegramSender.send(SendMessageBuilder.builder()
                     .chatId(groupTg.id())

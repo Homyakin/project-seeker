@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingContributionStorage;
-import ru.homyakin.seeker.game.outpost.entity.OutpostMaterialContributor;
+import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 @Repository
@@ -37,7 +37,7 @@ public class OutpostBuildingContributionDao implements OutpostBuildingContributi
     }
 
     @Override
-    public List<OutpostMaterialContributor> listTop(GroupId groupId, Building building, int limit) {
+    public List<OutpostContributor> listTop(GroupId groupId, Building building, int limit) {
         final var sql = """
             SELECT personage_id, materials
             FROM pgroup_outpost_building_contribution
@@ -49,7 +49,7 @@ public class OutpostBuildingContributionDao implements OutpostBuildingContributi
             .param("pgroup_id", groupId.value())
             .param("building_id", building.id())
             .param("limit", limit)
-            .query((rs, _) -> new OutpostMaterialContributor(
+            .query((rs, _) -> new OutpostContributor(
                 PersonageId.from(rs.getLong("personage_id")),
                 rs.getInt("materials")
             ))

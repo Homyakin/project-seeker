@@ -17,5 +17,6 @@ public interface TopResult<IdType, T extends TopPosition<IdType>> {
         return Optional.empty();
     }
 
+    // TODO сделать personageId optional
     String toLocalizedString(Language language, IdType requestedId);
 }

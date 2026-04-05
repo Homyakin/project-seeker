@@ -8,7 +8,7 @@ public record OutpostDonateSuccess(
     int materialsRequired,
     boolean completed,
     int newLevel,
-    List<OutpostMaterialContributor> topContributors
+    List<OutpostContributor> topContributors
 ) {
     public static OutpostDonateSuccess inProgress(
         int materialsFromItem,

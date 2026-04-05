@@ -68,6 +68,13 @@ ${top_personage_list}
 Всего участников: ${total_count}"""
 topTavernSpentPosition = "${position}. ${personage_badge_with_name}: ${money_icon}${tavern_money_spent}"
 topTavernSpentEmpty = "Пока никто не тратил деньги в таверне в этой группе"
+topOutpostBuilding = """\
+🧱Топ строителей:
+
+${top_personage_list}
+
+Всего участников: ${total_count}"""
+topOutpostBuildingPosition = "${position}. ${personage_badge_with_name}: ${materials_icon}<b>${materials}</b>"
 
 topGroupRaidLevel = """\
 🏆Топ Групп по уровню рейда:

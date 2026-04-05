@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildOffer;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingProgress;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildingResult;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -452,30 +453,18 @@ public class OutpostLocalization {
         };
     }
 
-    public static String groupBuildingCompletedContributorLine(Language language, String displayName, int materials) {
-        final var params = new HashMap<String, Object>();
-        params.put("name", displayName);
-        params.put("materials", materials);
-        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, OutpostResource::groupBuildingCompletedContributorLine),
-            params
-        );
-    }
-
     public static String groupBuildingCompletedWithTop(
         Language language,
         Building building,
         int newLevel,
-        List<String> contributorLines
+        TopOutpostBuildingResult result
     ) {
-        final var lines = contributorLines.isEmpty() ? "—" : String.join("\n", contributorLines);
         final var params = new HashMap<String, Object>();
         params.put("building_name", buildingDisplayName(language, building));
         params.put("new_level", newLevel);
         params.put("materials_icon", Icons.OUTPOST_MATERIALS);
         params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
-        params.put("contributors_lines", lines);
+        params.put("top_outpost_building", result.toLocalizedString(language, null));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, OutpostResource::groupBuildingCompletedTop),
             params

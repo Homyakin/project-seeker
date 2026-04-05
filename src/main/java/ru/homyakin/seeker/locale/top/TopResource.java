@@ -24,6 +24,8 @@ public record TopResource(
     String topTavernSpentGroup,
     String topTavernSpentPosition,
     String topTavernSpentEmpty,
+    String topOutpostBuilding,
+    String topOutpostBuildingPosition,
     String selectedPosition
 ) {
 }

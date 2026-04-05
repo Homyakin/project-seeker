@@ -57,7 +57,6 @@ public record OutpostResource(
     String donateBusy,
     String donateStateConflict,
     String groupBuildingCompletedTop,
-    String groupBuildingCompletedContributorLine,
     String makeContributeButton,
     String contributeRefreshButton,
     String contributeBackButton,

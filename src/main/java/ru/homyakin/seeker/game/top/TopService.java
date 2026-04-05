@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.top;
 
 import java.util.Comparator;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -10,11 +11,14 @@ import ru.homyakin.seeker.game.group.action.personage.ActiveGroupPersonagesServi
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.season.action.SeasonService;
+import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
 import ru.homyakin.seeker.game.top.models.PersonageTopPosition;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildingPosition;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildingResult;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
@@ -106,5 +110,23 @@ public class TopService {
         final var top = topDao.getUnsortedGroupTopRaidLevel();
         top.sort(Comparator.comparingInt(GroupTopRaidLevelPosition::raidLevel).reversed());
         return new GroupTopRaidLevelResult(top);
+    }
+
+    public TopOutpostBuildingResult getTopOutpostBuildingMaterials(
+        List<OutpostContributor> contributors
+    ) {
+        final var positions = contributors.stream()
+            .map(c -> {
+                final var personage = personageService.getByIdForce(c.personageId());
+                return new TopOutpostBuildingPosition(
+                    personage.id(),
+                    personage.name(),
+                    personage.badge(),
+                    personage.tag(),
+                    c.materials()
+                );
+            })
+            .toList();
+        return new TopOutpostBuildingResult(positions);
     }
 }

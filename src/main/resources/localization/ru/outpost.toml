@@ -94,9 +94,7 @@ donateStateConflict = "Состояние стройки изменилось �
 groupBuildingCompletedTop = """
 🎉 <b>${building_name}</b> достиг уровня <b>${new_level}</b>!
 
-Топ помощников по ${materials_icon} ${materials}:
-${contributors_lines}"""
-groupBuildingCompletedContributorLine = "• ${name} — ${materials_icon} <b>${materials}</b>"
+${top_outpost_building}"""
 
 makeContributeButton = "🔨Сделать вклад"
 contributeRefreshButton = "🔄Обновить"
