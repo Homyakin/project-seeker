@@ -92,6 +92,7 @@ personageGroupStats = """\
 
 🍻Потрачено в тавернe: ${money_icon}${tavern_money_spent}
 ⚒Работяга дня: ${worker_of_day_count}
+🧱Материалы в аванпост (сезон): ${materials_icon}${outpost_building_materials}
 """
 personageGlobalStats = """\
 📊<b>Твоя статистика в тавернах Крезара:</b>

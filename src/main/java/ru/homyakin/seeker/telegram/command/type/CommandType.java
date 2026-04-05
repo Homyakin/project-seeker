@@ -43,6 +43,8 @@ public enum CommandType {
     TOP_RAID_WEEK_GROUP("/top_raid_week_group", CheckType.EQUALS),
     TOP_POWER_GROUP("/top_power_group", CheckType.EQUALS),
     TOP_TAVERN_SPENT("/top_tavern_spent", CheckType.EQUALS),
+    TOP_OUTPOST_SEASON_MATERIALS("/top_outpost_season", CheckType.EQUALS),
+    TOP_OUTPOST_BUILD_SESSION("/top_building", CheckType.STARTS_WITH),
     TOP("/top", CheckType.EQUALS),
     INVENTORY(null, CheckType.MAP),
     OPEN_SHOP(null, CheckType.MAP),

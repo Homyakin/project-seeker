@@ -28,6 +28,7 @@ topList = """\
 ⚒Топ работяг в группе ${top_work_group_command}
 💪Топ Искателей в группе по мощи ${top_power_personage_command}
 🍻Топ Завсегдатаев группы ${top_tavern_spent_command}
+🧱Топ строителей аванпоста за сезон ${top_outpost_season_command}
 
 👥Топы Групп:
 🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}
@@ -75,6 +76,21 @@ ${top_personage_list}
 
 Всего участников: ${total_count}"""
 topOutpostBuildingPosition = "${position}. ${personage_badge_with_name}: ${materials_icon}<b>${materials}</b>"
+topOutpostBuildingSeasonGroup = """\
+🧱Топ строителей в группе (<code>Сезон ${season_number}</code>):
+
+${top_personage_list}
+
+Всего участников: ${total_count}"""
+topOutpostBuildingSeasonEmpty = "Пока никто не вносил материалы в постройки аванпоста в этом сезоне"
+topOutpostBuildSessionGroup = """\
+🧱Топ вклада в постройку: <b>${building_name} ${target_level}</b>
+
+${top_personage_list}
+
+Всего участников: ${total_count}"""
+topOutpostBuildSessionEmpty = "По этой постройке ещё нет вкладов материалов"
+topOutpostBuildInvalidUsage = "Формат: <code>${top_outpost_build_command}_id_уровень</code> (например, <code>${top_outpost_build_command}_1_2</code>)."
 
 topGroupRaidLevel = """\
 🏆Топ Групп по уровню рейда:

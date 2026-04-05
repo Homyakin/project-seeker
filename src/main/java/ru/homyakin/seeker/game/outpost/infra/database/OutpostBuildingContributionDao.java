@@ -37,18 +37,16 @@ public class OutpostBuildingContributionDao implements OutpostBuildingContributi
     }
 
     @Override
-    public List<OutpostContributor> listTop(GroupId groupId, Building building, int limit) {
+    public List<OutpostContributor> listTop(GroupId groupId, Building building) {
         final var sql = """
             SELECT personage_id, materials
             FROM pgroup_outpost_building_contribution
             WHERE pgroup_id = :pgroup_id AND building_id = :building_id
             ORDER BY materials DESC, personage_id ASC
-            LIMIT :limit
             """;
         return jdbcClient.sql(sql)
             .param("pgroup_id", groupId.value())
             .param("building_id", building.id())
-            .param("limit", limit)
             .query((rs, _) -> new OutpostContributor(
                 PersonageId.from(rs.getLong("personage_id")),
                 rs.getInt("materials")

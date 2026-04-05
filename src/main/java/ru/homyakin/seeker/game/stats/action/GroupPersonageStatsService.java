@@ -57,4 +57,9 @@ public class GroupPersonageStatsService {
         final var season = seasonService.currentSeason();
         storage.add(GroupPersonageStats.withWorkerOfDay(season, groupId, personageId));
     }
+
+    public void addOutpostBuildingMaterials(GroupId groupId, PersonageId personageId, int materialsDelta) {
+        final var season = seasonService.currentSeason();
+        storage.add(GroupPersonageStats.withOutpostBuildingMaterials(season, groupId, personageId, materialsDelta));
+    }
 }

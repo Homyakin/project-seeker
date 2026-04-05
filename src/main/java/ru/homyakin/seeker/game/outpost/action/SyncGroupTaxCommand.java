@@ -19,7 +19,6 @@ import ru.homyakin.seeker.infrastructure.lock.LockService;
 
 @Component
 public class SyncGroupTaxCommand {
-    private static final int TOP_CONTRIBUTORS_LIMIT = 5;
     private static final Logger log = LoggerFactory.getLogger(SyncGroupTaxCommand.class);
     private final GroupTaxService groupTaxService;
     private final LockService lockService;
@@ -76,7 +75,7 @@ public class SyncGroupTaxCommand {
             if (slot.progress().get().materialsDelivered() < required) {
                 continue;
             }
-            final var topContributors = contributionStorage.listTop(groupId, building, TOP_CONTRIBUTORS_LIMIT);
+            final var topContributors = contributionStorage.listTop(groupId, building);
             if (storage.completeInProgressBuilding(groupId, building)) {
                 log.info("Completed building at tax sync, {}, {}", groupId, building);
                 contributionStorage.clear(groupId, building);

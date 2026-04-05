@@ -42,6 +42,15 @@ public class OutpostLocalization {
         return resources.getOrDefault(language, OutpostResource::startBuildingButton);
     }
 
+    private static String topOutpostBuildCommandLine(Building building, int targetLevel) {
+        final var d = TextConstants.TG_COMMAND_DELIMITER;
+        return CommandType.TOP_OUTPOST_BUILD_SESSION.getText()
+            + d
+            + building.id()
+            + d
+            + targetLevel;
+    }
+
     /**
      * Picker message: title plus one line per offer with required materials (icons stay in text, not on buttons).
      */
@@ -291,11 +300,13 @@ public class OutpostLocalization {
         params.put("building_name", buildingDisplayName(language, occupied.building()));
         params.put("level", occupied.level());
         params.put("target_level", targetLevel);
+        params.put("top_outpost_build_command", topOutpostBuildCommandLine(occupied.building(), targetLevel));
         if (showOpenBuildingCommand) {
-            var command = CommandType.OPEN_OUTPOST_BUILDING.getText()
-                + TextConstants.TG_COMMAND_DELIMITER
-                + occupied.building().id();
-            params.put("open_building_command", command);
+            final var d = TextConstants.TG_COMMAND_DELIMITER;
+            params.put(
+                "open_building_command",
+                CommandType.OPEN_OUTPOST_BUILDING.getText() + d + occupied.building().id()
+            );
         }
         params.put("progress_bar", AsciiProgressBar.bracketedBar(delivered, required, AsciiProgressBar.DEFAULT_WIDTH));
         params.put("percent", AsciiProgressBar.percent100(delivered, required));
@@ -462,6 +473,7 @@ public class OutpostLocalization {
         final var params = new HashMap<String, Object>();
         params.put("building_name", buildingDisplayName(language, building));
         params.put("new_level", newLevel);
+        params.put("top_outpost_build_command", topOutpostBuildCommandLine(building, newLevel));
         params.put("materials_icon", Icons.OUTPOST_MATERIALS);
         params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
         params.put("top_outpost_building", result.toLocalizedString(language, null));

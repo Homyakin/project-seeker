@@ -21,6 +21,8 @@ import ru.homyakin.seeker.game.top.models.TopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.utils.DatabaseUtils;
+import ru.homyakin.seeker.game.outpost.entity.Building;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildingPosition;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
 
 @Component
@@ -134,6 +136,29 @@ public class TopDao {
             .list();
     }
 
+    public List<TopOutpostBuildingPosition> getUnsortedTopOutpostSeasonGroup(GroupId groupId, int seasonNumber) {
+        return jdbcClient.sql(TOP_OUTPOST_SEASON_MATERIALS_GROUP)
+            .param("pgroup_id", groupId.value())
+            .param("season_number", seasonNumber)
+            .query(this::mapOutpostBuildingPosition)
+            .list();
+    }
+
+    public List<TopOutpostBuildingPosition> getUnsortedTopOutpostBuildSession(
+        GroupId groupId,
+        int seasonNumber,
+        Building building,
+        int targetLevel
+    ) {
+        return jdbcClient.sql(TOP_OUTPOST_BUILD_SESSION_GROUP)
+            .param("pgroup_id", groupId.value())
+            .param("season_number", seasonNumber)
+            .param("building_id", building.id())
+            .param("target_level", targetLevel)
+            .query(this::mapOutpostBuildingPosition)
+            .list();
+    }
+
     private TopWorldRaidResearchPosition mapWorldRaidResearchPosition(ResultSet rs, int rowNum) throws SQLException {
         return new TopWorldRaidResearchPosition(
             PersonageId.from(rs.getLong("personage_id")),
@@ -196,6 +221,16 @@ public class TopDao {
             Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
             rs.getInt("raid_level")
+        );
+    }
+
+    private TopOutpostBuildingPosition mapOutpostBuildingPosition(ResultSet rs, int rowNum) throws SQLException {
+        return new TopOutpostBuildingPosition(
+            PersonageId.from(rs.getLong("personage_id")),
+            rs.getString("personage_name"),
+            BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("pgroup_member_tag")),
+            rs.getLong("materials")
         );
     }
 
@@ -297,5 +332,50 @@ public class TopDao {
         WHERE p.is_hidden = false AND p.raid_level > 0
         AND tag is not null
         ORDER BY p.raid_level DESC
+    """;
+
+    private static final String TOP_OUTPOST_SEASON_MATERIALS_GROUP = """
+        WITH personage_outpost AS (
+            SELECT personage_id, outpost_building_materials AS materials
+            FROM season_pgroup_personage_stats
+            WHERE pgroup_id = :pgroup_id AND season_number = :season_number
+            AND outpost_building_materials > 0
+        )
+        SELECT
+            p.id as personage_id,
+            p.name personage_name,
+            b.code badge_code,
+            po.materials,
+            pg.tag as pgroup_member_tag
+        FROM personage p
+        INNER JOIN personage_outpost po ON p.id = po.personage_id
+        LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
+        LEFT JOIN public.badge b on b.id = pab.badge_id
+        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
+        WHERE pab.is_active = true
+    """;
+
+    private static final String TOP_OUTPOST_BUILD_SESSION_GROUP = """
+        WITH personage_build AS (
+            SELECT personage_id, materials
+            FROM season_pgroup_outpost_build_contribution
+            WHERE pgroup_id = :pgroup_id
+            AND season_number = :season_number
+            AND building_id = :building_id
+            AND target_level = :target_level
+            AND materials > 0
+        )
+        SELECT
+            p.id as personage_id,
+            p.name personage_name,
+            b.code badge_code,
+            pb.materials,
+            pg.tag as pgroup_member_tag
+        FROM personage p
+        INNER JOIN personage_build pb ON p.id = pb.personage_id
+        LEFT JOIN public.personage_available_badge pab on p.id = pab.personage_id
+        LEFT JOIN public.badge b on b.id = pab.badge_id
+        LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
+        WHERE pab.is_active = true
     """;
 }

@@ -56,6 +56,8 @@ import ru.homyakin.seeker.telegram.command.group.top.TopList;
 import ru.homyakin.seeker.telegram.command.group.top.TopPowerGroup;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopRaidWeekGroup;
+import ru.homyakin.seeker.telegram.command.group.top.TopOutpostBuildSession;
+import ru.homyakin.seeker.telegram.command.group.top.TopOutpostSeasonMaterials;
 import ru.homyakin.seeker.telegram.command.group.top.TopTavernSpent;
 import ru.homyakin.seeker.telegram.command.group.top.TopWorkerOfDay;
 import ru.homyakin.seeker.telegram.command.group.worker.WorkerOfDay;
@@ -265,6 +267,8 @@ public class CommandParser {
                 case TOP_RAID_WEEK_GROUP -> TopRaidWeekGroup.from(message);
                 case TOP -> TopList.from(message);
                 case TOP_TAVERN_SPENT -> TopTavernSpent.from(message);
+                case TOP_OUTPOST_SEASON_MATERIALS -> TopOutpostSeasonMaterials.from(message);
+                case TOP_OUTPOST_BUILD_SESSION -> TopOutpostBuildSession.from(message);
                 case SETTINGS -> GetGroupSettings.from(message);
                 case SET_TIME_ZONE -> SetTimeZone.from(message);
                 case THROW_ORDER -> ThrowOrder.from(message);

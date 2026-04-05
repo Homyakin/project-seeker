@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="season-outpost-building-materials">
+        <addColumn tableName="season_pgroup_personage_stats">
+            <column name="outpost_building_materials" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <createTable tableName="season_pgroup_outpost_build_contribution">
+            <column name="season_number" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="building_id" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="target_level" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="materials" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                tableName="season_pgroup_outpost_build_contribution"
+                columnNames="season_number, pgroup_id, building_id, target_level, personage_id"
+                constraintName="season_pgroup_outpost_build_contribution-pk"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_outpost_build_contribution"
+                baseColumnNames="season_number"
+                constraintName="fk-season_pgroup_outpost_build_contribution-season"
+                referencedTableName="season"
+                referencedColumnNames="number"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_outpost_build_contribution"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-season_pgroup_outpost_build_contribution-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="season_pgroup_outpost_build_contribution"
+                baseColumnNames="personage_id"
+                constraintName="fk-season_pgroup_outpost_build_contribution-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>
