@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.personage.models;
 import io.vavr.control.Either;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
@@ -66,7 +68,15 @@ public record Personage(
     }
 
     public String fullProfile(Language language, CurrentEvents currentEvents) {
-        final var profile = CommonLocalization.fullProfile(language, this, currentEvents);
+        return fullProfile(language, currentEvents, Collections.emptyList());
+    }
+
+    public String fullProfile(
+        Language language,
+        CurrentEvents currentEvents,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
+        final var profile = CommonLocalization.fullProfile(language, this, currentEvents, groupPassiveEffects);
 
         return characteristics.hasUnspentLevelingPoints()
             ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;

@@ -1,17 +1,18 @@
 package ru.homyakin.seeker.game.group.action;
 
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.InitRegistrationInfo;
 import ru.homyakin.seeker.game.group.error.GroupAlreadyRegistered;
-
-import java.util.Optional;
 
 class InitGroupRegistrationCommandTest {
 

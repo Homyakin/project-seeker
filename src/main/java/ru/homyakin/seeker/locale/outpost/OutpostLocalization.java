@@ -186,7 +186,7 @@ public class OutpostLocalization {
     ) {
         final var lines = slots.stream()
             .map(slot -> formatSlotLine(language, slot, showOpenBuildingCommand))
-            .collect(Collectors.joining("\n"));
+            .collect(Collectors.joining("\n\n"));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, OutpostResource::outpost),
             Map.of("slots", lines)
@@ -196,6 +196,7 @@ public class OutpostLocalization {
     public static String buildingDisplayName(Language language, Building building) {
         return switch (building) {
             case MONOLITH -> resources.getOrDefault(language, OutpostResource::monolith);
+            case SHADOW_SHOP -> resources.getOrDefault(language, OutpostResource::shadowShop);
         };
     }
 
@@ -208,6 +209,15 @@ public class OutpostLocalization {
                 case 3 -> resources.getOrDefault(language, OutpostResource::monolithLevel3);
                 case 4 -> resources.getOrDefault(language, OutpostResource::monolithLevel4);
                 case 5 -> resources.getOrDefault(language, OutpostResource::monolithLevel5);
+                default -> "";
+            };
+            case SHADOW_SHOP -> switch (level) {
+                case 0 -> resources.getOrDefault(language, OutpostResource::shadowShopLevel0);
+                case 1 -> resources.getOrDefault(language, OutpostResource::shadowShopLevel1);
+                case 2 -> resources.getOrDefault(language, OutpostResource::shadowShopLevel2);
+                case 3 -> resources.getOrDefault(language, OutpostResource::shadowShopLevel3);
+                case 4 -> resources.getOrDefault(language, OutpostResource::shadowShopLevel4);
+                case 5 -> resources.getOrDefault(language, OutpostResource::shadowShopLevel5);
                 default -> "";
             };
         };

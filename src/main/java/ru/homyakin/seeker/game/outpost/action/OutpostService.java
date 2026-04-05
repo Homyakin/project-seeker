@@ -2,10 +2,9 @@ package ru.homyakin.seeker.game.outpost.action;
 
 import io.vavr.control.Either;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -100,16 +99,29 @@ public class OutpostService {
         return listSlotsAfterSync(groupId);
     }
 
+    private static int monolithCompletedLevel(List<OutpostSlot.BuildingSlot> slots) {
+        for (final var slot: slots) {
+            if (slot.building() == Building.MONOLITH) {
+                return slot.level();
+            }
+        }
+        return 0;
+    }
+
     private List<OutpostSlot> listSlotsAfterSync(GroupId groupId) {
         final var built = storage.listBuildingSlots(groupId);
-        final var byBuilding = built.stream()
-            .collect(Collectors.toMap(OutpostSlot.BuildingSlot::building, s -> s, (a, _) -> a));
-        return Arrays.stream(Building.values())
-            .map(b -> {
-                final var slot = byBuilding.get(b);
-                return slot != null ? enrichMaterialsRequired(groupId, slot) : OutpostSlot.EmptySlot.INSTANCE;
-            })
-            .toList();
+        final int maxSlots = Math.max(
+            outpostBuildingConfig.slotsByMonolithLevel(monolithCompletedLevel(built)),
+            built.size()
+        );
+        final var slots = new ArrayList<OutpostSlot>();
+        for (final var slot: built) {
+            slots.add(enrichMaterialsRequired(groupId, slot));
+        }
+        for (int i = 0; i < maxSlots - slots.size(); ++i) {
+            slots.add(OutpostSlot.EmptySlot.INSTANCE);
+        }
+        return slots;
     }
 
     private OutpostSlot.BuildingSlot enrichMaterialsRequired(GroupId groupId, OutpostSlot.BuildingSlot slot) {
@@ -151,33 +163,52 @@ public class OutpostService {
 
     private List<OutpostBuildOffer> listBuildOffersAfterSync(GroupId groupId) {
         final var taxMultiplier = groupTaxService.currentTax(groupId);
-        final var slots = listSlotsAfterSync(groupId);
-        final var buildings = Building.values();
+        final var built = storage.listBuildingSlots(groupId);
+        final int monolithLevel = monolithCompletedLevel(built);
+        final int maxSlots = Math.max(
+            outpostBuildingConfig.slotsByMonolithLevel(monolithLevel),
+            built.size()
+        );
+        final boolean hasEmptySlot = built.size() < maxSlots;
+
+        final var existingTypes = EnumSet.noneOf(Building.class);
         final var offers = new ArrayList<OutpostBuildOffer>();
-        for (int i = 0; i < slots.size() && i < buildings.length; i++) {
-            final var building = buildings[i];
-            switch (slots.get(i)) {
-                case OutpostSlot.EmptySlot _ -> offers.add(new OutpostBuildOffer(
+        for (final var occupied : built) {
+            existingTypes.add(occupied.building());
+            if (occupied.progress().isPresent()) {
+                continue;
+            }
+            final var building = occupied.building();
+            final var from = occupied.level();
+            if (from >= building.maxLevel()) {
+                continue;
+            }
+            final var to = from + 1;
+            if (building != Building.MONOLITH && to > monolithLevel) {
+                continue;
+            }
+            offers.add(new OutpostBuildOffer(
+                building,
+                from,
+                to,
+                outpostBuildingConfig.materialsToReachLevel(building, to, taxMultiplier)
+            ));
+        }
+
+        if (hasEmptySlot) {
+            for (final var building : Building.values()) {
+                if (existingTypes.contains(building)) {
+                    continue;
+                }
+                if (building != Building.MONOLITH && 1 > monolithLevel) {
+                    continue;
+                }
+                offers.add(new OutpostBuildOffer(
                     building,
                     0,
                     1,
                     outpostBuildingConfig.materialsToReachLevel(building, 1, taxMultiplier)
                 ));
-                case OutpostSlot.BuildingSlot occupied -> {
-                    if (occupied.progress().isPresent()) {
-                        break;
-                    }
-                    if (occupied.level() < building.maxLevel()) {
-                        final var from = occupied.level();
-                        final var to = from + 1;
-                        offers.add(new OutpostBuildOffer(
-                            building,
-                            from,
-                            to,
-                            outpostBuildingConfig.materialsToReachLevel(building, to, taxMultiplier)
-                        ));
-                    }
-                }
             }
         }
         return List.copyOf(offers);

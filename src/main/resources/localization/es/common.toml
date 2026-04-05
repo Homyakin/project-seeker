@@ -26,7 +26,7 @@ ${health_icon}Salud: ${health_value}
 ${power_icon}Poder: ${power_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
-${current_event}${personage_effects}
+${current_event}${personage_effects}${group_effects}
 👤Equipo: ${item_characteristics}"""
 
 shortProfile = """\
@@ -39,6 +39,9 @@ ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}
 personageEffects = """\
 \nEfectos:${personage_effects}
 """ # здесь нужен перенос, чтобы была строчка до снаряжения
+groupProfileEffects = """\
+\nEfectos del grupo:${group_effects}
+"""
 menuItemEffect = "\n<code>-🍻Taberna: ${effect} ${time_icon}${duration}</code>"
 throwOrderEffect = "\n<code>-⭕️Lanzamiento de pedidos: ${effect} ${time_icon}${duration}</code>"
 workerOfDayEffect = "\n<code>-⚒️Currante del Día: ${effect} ${time_icon}${duration}</code>"
@@ -152,3 +155,7 @@ ${participants_icon}${remain_participants}/${total_participants}
 ${health_icon}${remain_health}/${total_health}
 ${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
 ${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})"""
+
+raidGoldRewardPercentEffect = "+${value}% ${money_icon} al oro de incursiones"
+groupBuildingEffectLine = "\n<code>-${source_label}: ${effect}${optional_time_suffix}</code>"
+groupInfoPassiveEffectsSection = "\n\n<b>Efectos del grupo</b>${group_effect_lines}"

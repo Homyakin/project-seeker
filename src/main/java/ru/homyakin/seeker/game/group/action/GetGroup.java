@@ -1,14 +1,15 @@
 package ru.homyakin.seeker.game.group.action;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 public class GetGroup {

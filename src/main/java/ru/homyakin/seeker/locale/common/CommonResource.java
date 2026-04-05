@@ -13,6 +13,7 @@ public record CommonResource(
     String fullProfile,
     String shortProfile,
     String personageEffects,
+    String groupProfileEffects,
     String menuItemEffect,
     String addValueEffect,
     String multiplyPercentEffect,
@@ -38,6 +39,9 @@ public record CommonResource(
     String shortGroupBattleReport,
     String cancelEventSuccess,
     String cancelEventNotFound,
-    String cancelEventLocked
+    String cancelEventLocked,
+    String raidGoldRewardPercentEffect,
+    String groupBuildingEffectLine,
+    String groupInfoPassiveEffectsSection
 ) {
 }

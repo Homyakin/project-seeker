@@ -1,9 +1,12 @@
 package ru.homyakin.seeker.game.worker.action;
 
-import io.vavr.control.Either;
+import java.time.Duration;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import io.vavr.control.Either;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
@@ -13,14 +16,12 @@ import ru.homyakin.seeker.game.group.action.personage.RandomGroupPersonage;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
+import ru.homyakin.seeker.game.stats.action.GroupPersonageStatsService;
 import ru.homyakin.seeker.game.worker.entity.WorkerOfDayConfig;
 import ru.homyakin.seeker.game.worker.entity.WorkerOfDayResult;
 import ru.homyakin.seeker.game.worker.entity.WorkerOfDayStorage;
 import ru.homyakin.seeker.game.worker.error.WorkerOfDayError;
-import ru.homyakin.seeker.game.stats.action.GroupPersonageStatsService;
 import ru.homyakin.seeker.utils.TimeUtils;
-
-import java.time.Duration;
 
 @Component
 public class WorkerOfDayCommand {

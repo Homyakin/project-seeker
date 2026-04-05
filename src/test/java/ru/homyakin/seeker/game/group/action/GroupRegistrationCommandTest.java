@@ -1,13 +1,15 @@
 package ru.homyakin.seeker.game.group.action;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.error.GroupRegistrationError;
@@ -18,8 +20,6 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
 import ru.homyakin.seeker.utils.models.Success;
-
-import java.util.Optional;
 
 public class GroupRegistrationCommandTest {
 

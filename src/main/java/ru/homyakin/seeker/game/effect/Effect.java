@@ -12,4 +12,7 @@ public sealed interface Effect {
 
     record MinusMultiplier(int percent, EffectCharacteristic characteristic) implements Effect {
     }
+
+    record RaidGoldRewardPercent(int percent) implements Effect {
+    }
 }

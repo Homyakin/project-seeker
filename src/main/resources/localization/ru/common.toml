@@ -26,7 +26,7 @@ ${health_icon}Здоровье: ${health_value}
 ${power_icon}Мощь: ${power_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
-${current_event}${personage_effects}
+${current_event}${personage_effects}${group_effects}
 👤Снаряжение: ${item_characteristics}"""
 
 shortProfile = """\
@@ -39,6 +39,9 @@ ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}
 personageEffects = """\
 \nЭффекты:${personage_effects}
 """ # здесь нужен перенос, чтобы была строчка до снаряжения
+groupProfileEffects = """\
+\nЭффекты группы:${group_effects}
+"""
 menuItemEffect = "\n<code>-🍻Таверна: ${effect} ${time_icon}${duration}</code>"
 throwOrderEffect = "\n<code>-⭕️Метание заказов: ${effect} ${time_icon}${duration}</code>"
 workerOfDayEffect = "\n<code>-⚒️Работяга дня: ${effect} ${time_icon}${duration}</code>"
@@ -56,6 +59,10 @@ personageInWorldRaid = "\nВ мировом рейде ${time_icon}${duration}"
 cancelEventSuccess = "Ты возвращаешься в таверну и экономишь ${energy_icon}${energy_value}%"
 cancelEventNotFound = "Ты не участвуешь в этом событии"
 cancelEventLocked = "Событие уже в процессе, подожди немного."
+
+raidGoldRewardPercentEffect = "+${value}% ${money_icon} к золоту с рейда"
+groupBuildingEffectLine = "\n<code>-${source_label}: ${effect}${optional_time_suffix}</code>"
+groupInfoPassiveEffectsSection = "\n\n<b>Эффекты группы</b>${group_effect_lines}"
 
 hoursShort = "ч."
 minutesShort = "мин."

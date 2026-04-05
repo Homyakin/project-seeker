@@ -2,6 +2,7 @@ registeredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
 Miembros: ${members_count}
+${group_passive_effects}
 
 Nivel fiscal: <b>${tax_level}</b>${duration}
 📊Estadísticas del grupo: ${group_stats_command}
@@ -13,6 +14,7 @@ unregisteredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
 Miembros: ${members_count}
+${group_passive_effects}
 
 Nivel fiscal: <b>${tax_level}</b>${duration}
 Registrar grupo: ${register_group_command}

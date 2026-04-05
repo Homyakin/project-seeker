@@ -2,8 +2,11 @@ package ru.homyakin.seeker.locale.group;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
+import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.error.JoinGroupMemberError;
@@ -24,11 +27,16 @@ public class GroupManagementLocalization {
         resources.add(language, resource);
     }
 
-    public static String groupInfo(Language language, GroupProfile group, GroupTaxSnapshot taxSnapshot) {
+    public static String groupInfo(
+        Language language,
+        GroupProfile group,
+        GroupTaxSnapshot taxSnapshot,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
         if (group.isRegistered()) {
-            return registeredGroupInfo(language, group, taxSnapshot);
+            return registeredGroupInfo(language, group, taxSnapshot, groupPassiveEffects);
         }
-        return unregisteredGroupInfo(language, group, taxSnapshot);
+        return unregisteredGroupInfo(language, group, taxSnapshot, groupPassiveEffects);
     }
 
     public static String groupTaxDetails(Language language, GroupTaxSnapshot tax) {
@@ -65,7 +73,12 @@ public class GroupManagementLocalization {
         params.put("duration", duration);
     }
 
-    private static String registeredGroupInfo(Language language, GroupProfile group, GroupTaxSnapshot tax) {
+    private static String registeredGroupInfo(
+        Language language,
+        GroupProfile group,
+        GroupTaxSnapshot tax,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
         final var params = new HashMap<String, Object>();
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         params.put("group_stats_command", CommandType.GROUP_STATS.getText());
@@ -73,6 +86,10 @@ public class GroupManagementLocalization {
         params.put("group_settings_command", CommandType.SETTINGS.getText());
         params.put("group_commands_command", CommandType.GROUP_COMMANDS.getText());
         params.put("members_count", group.memberCount());
+        params.put(
+            "group_passive_effects",
+            CommonLocalization.formatGroupInfoPassiveEffectsSection(language, groupPassiveEffects)
+        );
         putTaxLineParams(language, params, tax);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::registeredGroupInfo),
@@ -80,7 +97,12 @@ public class GroupManagementLocalization {
         );
     }
 
-    private static String unregisteredGroupInfo(Language language, GroupProfile group, GroupTaxSnapshot tax) {
+    private static String unregisteredGroupInfo(
+        Language language,
+        GroupProfile group,
+        GroupTaxSnapshot tax,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
         final var params = new HashMap<String, Object>();
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
         params.put("register_group_command", CommandType.REGISTER_GROUP.getText());
@@ -89,6 +111,10 @@ public class GroupManagementLocalization {
         params.put("group_settings_command", CommandType.SETTINGS.getText());
         params.put("group_commands_command", CommandType.GROUP_COMMANDS.getText());
         params.put("members_count", group.memberCount());
+        params.put(
+            "group_passive_effects",
+            CommonLocalization.formatGroupInfoPassiveEffectsSection(language, groupPassiveEffects)
+        );
         putTaxLineParams(language, params, tax);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::unregisteredGroupInfo),
