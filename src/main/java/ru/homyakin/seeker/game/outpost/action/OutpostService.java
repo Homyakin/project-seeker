@@ -25,6 +25,9 @@ import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlotAccessError;
 import ru.homyakin.seeker.game.outpost.entity.OutpostBuildingContributionStorage;
 import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
+import ru.homyakin.seeker.game.outpost.entity.SeasonOutpostBuildContributionStorage;
+import ru.homyakin.seeker.game.season.action.SeasonService;
+import ru.homyakin.seeker.game.stats.action.GroupPersonageStatsService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.shop.ShopConfig;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
@@ -32,10 +35,11 @@ import ru.homyakin.seeker.infrastructure.lock.LockService;
 
 @Component
 public class OutpostService {
-    private static final int TOP_CONTRIBUTORS_LIMIT = 5;
-
     private final OutpostStorage storage;
     private final OutpostBuildingContributionStorage contributionStorage;
+    private final SeasonOutpostBuildContributionStorage seasonOutpostBuildContributionStorage;
+    private final GroupPersonageStatsService groupPersonageStatsService;
+    private final SeasonService seasonService;
     private final GroupPersonageStorage groupPersonageStorage;
     private final CheckGroupPersonage checkGroupPersonage;
     private final LockService lockService;
@@ -48,6 +52,9 @@ public class OutpostService {
     public OutpostService(
         OutpostStorage storage,
         OutpostBuildingContributionStorage contributionStorage,
+        SeasonOutpostBuildContributionStorage seasonOutpostBuildContributionStorage,
+        GroupPersonageStatsService groupPersonageStatsService,
+        SeasonService seasonService,
         GroupPersonageStorage groupPersonageStorage,
         CheckGroupPersonage checkGroupPersonage,
         LockService lockService,
@@ -59,6 +66,9 @@ public class OutpostService {
     ) {
         this.storage = storage;
         this.contributionStorage = contributionStorage;
+        this.seasonOutpostBuildContributionStorage = seasonOutpostBuildContributionStorage;
+        this.groupPersonageStatsService = groupPersonageStatsService;
+        this.seasonService = seasonService;
         this.groupPersonageStorage = groupPersonageStorage;
         this.checkGroupPersonage = checkGroupPersonage;
         this.lockService = lockService;
@@ -313,6 +323,16 @@ public class OutpostService {
 
         itemService.removeItem(personageId, itemId);
         contributionStorage.add(groupId, building, personageId, materialsValue);
+        final var season = seasonService.currentSeason();
+        groupPersonageStatsService.addOutpostBuildingMaterials(groupId, personageId, materialsValue);
+        seasonOutpostBuildContributionStorage.add(
+            season,
+            groupId,
+            building,
+            targetLevel,
+            personageId,
+            materialsValue
+        );
 
         if (!completed) {
             if (!storage.updateBuildingProgress(
@@ -330,7 +350,7 @@ public class OutpostService {
             ));
         }
 
-        final var topContributors = contributionStorage.listTop(groupId, building, TOP_CONTRIBUTORS_LIMIT);
+        final var topContributors = contributionStorage.listTop(groupId, building);
         if (!storage.completeInProgressBuilding(groupId, building)) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return Either.left(OutpostDonateError.StateConflict.INSTANCE);

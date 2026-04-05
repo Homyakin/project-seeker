@@ -26,6 +26,11 @@ public record TopResource(
     String topTavernSpentEmpty,
     String topOutpostBuilding,
     String topOutpostBuildingPosition,
+    String topOutpostBuildingSeasonGroup,
+    String topOutpostBuildingSeasonEmpty,
+    String topOutpostBuildSessionGroup,
+    String topOutpostBuildSessionEmpty,
+    String topOutpostBuildInvalidUsage,
     String selectedPosition
 ) {
 }

@@ -9,7 +9,7 @@ buildingSlot = """<b>${building_name}</b> · ур. ${level}
 buildingSlotInProgress = """<b>${building_name}</b> · ур. ${level} → ${target_level}
 ${progress_bar} ${percent}% ${open_building_command}"""
 buildingSlotInProgressGroup = """<b>${building_name}</b> · ур. ${level} → ${target_level}
-${progress_bar} ${percent}%"""
+${progress_bar} ${percent}% ${top_outpost_build_command}"""
 
 materialsResource = "Материалы"
 
@@ -92,9 +92,9 @@ donateBusy = "Попробуй через секунду — стройка за
 donateStateConflict = "Состояние стройки изменилось — ничего не списано. Попробуй ещё раз."
 
 groupBuildingCompletedTop = """
-🎉 <b>${building_name}</b> достиг уровня <b>${new_level}</b>!
+🎉 <b>${building_name}</b> теперь уровня <b>${new_level}</b>!
 
-${top_outpost_building}"""
+${top_outpost_building} ${top_outpost_build_command}"""
 
 makeContributeButton = "🔨Сделать вклад"
 contributeRefreshButton = "🔄Обновить"

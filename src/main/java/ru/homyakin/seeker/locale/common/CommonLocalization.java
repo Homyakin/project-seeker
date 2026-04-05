@@ -474,6 +474,8 @@ public class CommonLocalization {
         params.put("money_icon", Icons.MONEY);
         params.put("tavern_money_spent", stats.tavernMoneySpent());
         params.put("worker_of_day_count", stats.workerOfDayCount());
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        params.put("outpost_building_materials", stats.outpostBuildingMaterials());
         params.put("season_number", stats.seasonNumber().value());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageGroupStats),

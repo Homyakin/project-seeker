@@ -7,7 +7,7 @@ import ru.homyakin.seeker.game.personage.models.PersonageId;
 public interface OutpostBuildingContributionStorage {
     void add(GroupId groupId, Building building, PersonageId personageId, int materialsDelta);
 
-    List<OutpostContributor> listTop(GroupId groupId, Building building, int limit);
+    List<OutpostContributor> listTop(GroupId groupId, Building building);
 
     void clear(GroupId groupId, Building building);
 }

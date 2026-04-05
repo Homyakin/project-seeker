@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.group.action.personage.ActiveGroupPersonagesService;
+import ru.homyakin.seeker.game.outpost.entity.Building;
+import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.season.action.SeasonService;
-import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
@@ -19,6 +20,8 @@ import ru.homyakin.seeker.game.top.models.GroupTopRaidResult;
 import ru.homyakin.seeker.game.top.models.PersonageTopPosition;
 import ru.homyakin.seeker.game.top.models.TopOutpostBuildingPosition;
 import ru.homyakin.seeker.game.top.models.TopOutpostBuildingResult;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildSessionResult;
+import ru.homyakin.seeker.game.top.models.TopOutpostSeasonResult;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonagePosition;
 import ru.homyakin.seeker.game.top.models.TopPowerPersonageResult;
 import ru.homyakin.seeker.game.top.models.TopRaidResult;
@@ -128,5 +131,28 @@ public class TopService {
             })
             .toList();
         return new TopOutpostBuildingResult(positions);
+    }
+
+    public TopOutpostSeasonResult getTopOutpostSeasonGroup(GroupId groupId) {
+        final var currentSeason = seasonService.currentSeason();
+        final var top = topDao.getUnsortedTopOutpostSeasonGroup(groupId, currentSeason.value());
+        top.sort(Comparator.comparingLong(TopOutpostBuildingPosition::materials).reversed());
+        return new TopOutpostSeasonResult(new TopOutpostBuildingResult(top), currentSeason);
+    }
+
+    public TopOutpostBuildSessionResult getTopOutpostBuildSession(
+        GroupId groupId,
+        Building building,
+        int targetLevel
+    ) {
+        final var currentSeason = seasonService.currentSeason();
+        final var top = topDao.getUnsortedTopOutpostBuildSession(
+            groupId,
+            currentSeason.value(),
+            building,
+            targetLevel
+        );
+        top.sort(Comparator.comparingLong(TopOutpostBuildingPosition::materials).reversed());
+        return new TopOutpostBuildSessionResult(new TopOutpostBuildingResult(top), building, targetLevel);
     }
 }

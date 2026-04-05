@@ -80,6 +80,7 @@ personageGroupStats = """\
 
 🍻Gastado en la taberna: ${money_icon}${tavern_money_spent}
 ⚒Currante del Día: ${worker_of_day_count}
+🧱Materiales al puesto (temporada): ${materials_icon}${outpost_building_materials}
 """
 personageGlobalStats = """\
 📊<b>Tu estadística en las tabernas de Krezar:</b>

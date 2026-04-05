@@ -28,9 +28,11 @@ topList = """\
 ⚒Top de trabajadores del grupo ${top_work_group_command}
 💪Top de poder de Exploradores del grupo ${top_power_personage_command}
 🍻Top de parroquianos del grupo ${top_tavern_spent_command}
+🧱Top de constructores del puesto por temporada ${top_outpost_season_command}
 
 👥Tops de Grupos:
-🗡Top de Grupos en incursiones de la semana ${top_group_raid_week_command}"""
+🗡Top de Grupos en incursiones de la semana ${top_group_raid_week_command}
+🏆Top de Grupos por nivel de incursión ${top_group_raid_level_command}"""
 topWorkerOfDayEmpty = "Todavía nadie ha sido elegido como el trabajador del grupo."
 topWorkerOfDayGroup = """\
 ⚒Top de trabajadores del grupo de todos los tiempos:
@@ -67,5 +69,35 @@ ${top_personage_list}
 Total de participantes: ${total_count}"""
 topTavernSpentPosition = "${position}. ${personage_badge_with_name}: ${money_icon}${tavern_money_spent}"
 topTavernSpentEmpty = "Nadie ha gastado todavía en la taberna de este grupo"
+topOutpostBuilding = """\
+🧱Top de constructores:
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
 topOutpostBuildingPosition = "${position}. ${personage_badge_with_name}: ${materials_icon}<b>${materials}</b>"
+topOutpostBuildingSeasonGroup = """\
+🧱Top de constructores del puesto en el grupo (<code>Temporada ${season_number}</code>):
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
+topOutpostBuildingSeasonEmpty = "Aún nadie ha aportado materiales a las construcciones del puesto en esta temporada"
+topOutpostBuildSessionGroup = """\
+🧱Top de aportes a la obra: ${building_name} → nivel ${target_level}
+
+${top_personage_list}
+
+Total de participantes: ${total_count}"""
+topOutpostBuildSessionEmpty = "Aún no hay aportes de materiales para esta obra"
+topOutpostBuildInvalidUsage = "Formato: <code>${top_outpost_build_command}_id_objetivo</code> (ej.: <code>${top_outpost_build_command}</code>)."
+
+topGroupRaidLevel = """\
+🏆Top de Grupos por nivel de incursión:
+
+${top_group_list}
+
+Total de grupos: ${total_count}"""
+topGroupRaidLevelPosition = "${position}. ${group_badge_with_name}: ${raid_level}"
+topRaidLevelEmpty = "Aún no hay grupos con incursiones"
 selectedPosition = "<b>${position}</b>"

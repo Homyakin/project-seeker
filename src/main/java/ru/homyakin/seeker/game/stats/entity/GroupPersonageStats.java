@@ -14,7 +14,8 @@ public record GroupPersonageStats(
     int duelsWins,
     int duelsTotal,
     long tavernMoneySpent,
-    int workerOfDayCount
+    int workerOfDayCount,
+    long outpostBuildingMaterials
 ) {
     public static GroupPersonageStats withSuccessRaid(SeasonNumber seasonNumber, GroupId groupId, PersonageId personageId) {
         return new GroupPersonageStats(
@@ -23,6 +24,7 @@ public record GroupPersonageStats(
             personageId,
             1,
             1,
+            0,
             0,
             0,
             0,
@@ -40,6 +42,7 @@ public record GroupPersonageStats(
             0,
             0,
             0,
+            0,
             0
         );
     }
@@ -54,6 +57,7 @@ public record GroupPersonageStats(
             1,
             1,
             0,
+            0,
             0
         );
     }
@@ -67,6 +71,7 @@ public record GroupPersonageStats(
             0,
             0,
             1,
+            0,
             0,
             0
         );
@@ -87,6 +92,7 @@ public record GroupPersonageStats(
             0,
             0,
             money.value(),
+            0,
             0
         );
     }
@@ -101,7 +107,28 @@ public record GroupPersonageStats(
             0,
             0,
             0,
-            1
+            1,
+            0
+        );
+    }
+
+    public static GroupPersonageStats withOutpostBuildingMaterials(
+        SeasonNumber seasonNumber,
+        GroupId groupId,
+        PersonageId personageId,
+        int materialsDelta
+    ) {
+        return new GroupPersonageStats(
+            seasonNumber,
+            groupId,
+            personageId,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            materialsDelta
         );
     }
 }

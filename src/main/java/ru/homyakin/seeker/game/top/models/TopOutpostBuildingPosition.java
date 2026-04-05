@@ -12,11 +12,11 @@ public record TopOutpostBuildingPosition(
     String personageName,
     BadgeView personageBadge,
     Optional<String> tag,
-    int materials
+    long materials
 ) implements PersonageTopPosition {
     @Override
     public int score() {
-        return materials;
+        return (int) Math.min(materials, Integer.MAX_VALUE);
     }
 
     @Override

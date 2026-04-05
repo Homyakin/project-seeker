@@ -16,14 +16,17 @@ import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildSessionResult;
 import ru.homyakin.seeker.game.top.models.TopOutpostBuildingPosition;
 import ru.homyakin.seeker.game.top.models.TopOutpostBuildingResult;
+import ru.homyakin.seeker.game.top.models.TopOutpostSeasonResult;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentResult;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
@@ -94,6 +97,7 @@ public class TopLocalization {
         params.put("top_group_raid_level_command", CommandType.TOP_GROUP_RAID_LEVEL.getText());
         params.put("top_power_personage_command", CommandType.TOP_POWER_GROUP.getText());
         params.put("top_tavern_spent_command", CommandType.TOP_TAVERN_SPENT.getText());
+        params.put("top_outpost_season_command", CommandType.TOP_OUTPOST_SEASON_MATERIALS.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topList),
             params
@@ -303,6 +307,83 @@ public class TopLocalization {
         params.put("total_count", result.positions().size());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topOutpostBuilding),
+            params
+        );
+    }
+
+    public static String topOutpostBuildingSeasonEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topOutpostBuildingSeasonEmpty);
+    }
+
+    public static String topOutpostBuildingSeasonGroup(
+        Language language,
+        TopOutpostSeasonResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("season_number", result.seasonNumber().value());
+        params.put("top_personage_list", TopUtils.createTopList(language, result));
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuildingSeasonGroup),
+            params
+        );
+    }
+
+    public static String topOutpostBuildingSeasonGroup(
+        Language language,
+        PersonageId requestedPersonageId,
+        TopOutpostSeasonResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("season_number", result.seasonNumber().value());
+        params.put("top_personage_list", TopUtils.createTopList(language, requestedPersonageId, result));
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuildingSeasonGroup),
+            params
+        );
+    }
+
+    public static String topOutpostBuildSessionEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topOutpostBuildSessionEmpty);
+    }
+
+    public static String topOutpostBuildInvalidUsage(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("top_outpost_build_command", CommandType.TOP_OUTPOST_BUILD_SESSION.getText());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuildInvalidUsage),
+            params
+        );
+    }
+
+    public static String topOutpostBuildSessionGroup(
+        Language language,
+        TopOutpostBuildSessionResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("building_name", OutpostLocalization.buildingDisplayName(language, result.building()));
+        params.put("target_level", result.targetLevel());
+        params.put("top_personage_list", TopUtils.createTopList(language, result));
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuildSessionGroup),
+            params
+        );
+    }
+
+    public static String topOutpostBuildSessionGroup(
+        Language language,
+        PersonageId requestedPersonageId,
+        TopOutpostBuildSessionResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("building_name", OutpostLocalization.buildingDisplayName(language, result.building()));
+        params.put("target_level", result.targetLevel());
+        params.put("top_personage_list", TopUtils.createTopList(language, requestedPersonageId, result));
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuildSessionGroup),
             params
         );
     }
