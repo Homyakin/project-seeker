@@ -206,6 +206,9 @@ public record Characteristics(
                 case Effect.RaidGoldRewardPercent _ -> {
                     // Group / meta effects: not applied to characteristics.
                 }
+                case Effect.ItemFoundChancePercent _ -> {
+                    // Group / meta effects: not applied to characteristics.
+                }
             }
         }
 

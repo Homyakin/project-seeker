@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;

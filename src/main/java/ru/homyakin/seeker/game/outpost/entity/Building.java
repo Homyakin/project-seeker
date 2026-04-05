@@ -5,6 +5,7 @@ import java.util.Arrays;
 public enum Building {
     MONOLITH(1, 5),
     SHADOW_SHOP(2, 5),
+    STORM_SCANNER(3, 5),
     ;
 
     private final int id;

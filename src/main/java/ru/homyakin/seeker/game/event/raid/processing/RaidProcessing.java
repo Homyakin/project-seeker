@@ -1,7 +1,9 @@
 package ru.homyakin.seeker.game.event.raid.processing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -17,7 +19,9 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.effect.ItemFoundChanceBonus;
 import ru.homyakin.seeker.game.effect.RaidGoldRewardBonus;
+import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -85,7 +89,7 @@ public class RaidProcessing {
 
         final var idToParticipant = participants.stream().collect(Collectors.toMap(it -> it.personage().id(), it -> it));
         final var now = TimeUtils.moscowTime();
-        final var groupRaidGoldPercentCache = new HashMap<GroupId, Integer>();
+        final var groupPassiveEffectsCache = new HashMap<GroupId, List<GroupPassiveEffect>>();
         final var personages = participants.stream().map(RaidParticipant::personage).map(Personage::toBattlePersonage).toList();
         final var result = twoPersonageTeamsBattle.battle(
             raidGenerator.generate(raid, raidEvent, personages),
@@ -100,14 +104,18 @@ public class RaidProcessing {
                 final var participant = idToParticipant.get(battleResult.personage().id());
                 final var personage = participant.personage();
                 final int personageRaidGoldPercent = RaidGoldRewardBonus.sumPersonageEffects(personage.effects(), now);
-                final int groupRaidGoldPercent = personage.memberGroupId()
-                    .map(
-                        gid -> groupRaidGoldPercentCache.computeIfAbsent(
-                            gid,
-                            id -> groupPassiveEffectsService.raidGoldBonusPercentSum(id, now)
-                        )
-                    )
-                    .orElse(0);
+                final int personageItemFoundBonusPercent = ItemFoundChanceBonus.sumPersonageEffects(
+                    personage.effects(),
+                    now
+                );
+                final var groupPassives = personage.memberGroupId()
+                    .map(gid -> groupPassiveEffectsCache.computeIfAbsent(
+                        gid,
+                        groupPassiveEffectsService::listPassiveEffects
+                    ))
+                    .orElse(Collections.emptyList());
+                final int groupRaidGoldPercent = RaidGoldRewardBonus.sumGroupPassiveEffects(groupPassives, now);
+                final int groupItemFoundBonusPercent = ItemFoundChanceBonus.sumGroupPassiveEffects(groupPassives, now);
                 final var reward = new Money(
                     raidRewardGenerator.calculateReward(
                         doesParticipantsWin,
@@ -124,7 +132,8 @@ public class RaidProcessing {
                     doesParticipantsWin,
                     battleResult.personage(),
                     participant.params().isExhausted(),
-                    raidEvent.raidParams().raidLevel()
+                    raidEvent.raidParams().raidLevel(),
+                    personageItemFoundBonusPercent + groupItemFoundBonusPercent
                 );
                 generatedItem.ifPresent(generatedItems::add);
                 return new PersonageRaidResult(

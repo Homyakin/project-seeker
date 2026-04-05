@@ -41,6 +41,7 @@ public record CommonResource(
     String cancelEventNotFound,
     String cancelEventLocked,
     String raidGoldRewardPercentEffect,
+    String itemFoundChancePercentEffect,
     String groupBuildingEffectLine,
     String groupInfoPassiveEffectsSection
 ) {

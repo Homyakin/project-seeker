@@ -21,18 +21,21 @@ public class RaidItemGeneratorTest {
     private final PersonageNextRaidItemParams personageNextRaidItemParams = Mockito.mock();
     private final ContrabandService contrabandService = Mockito.mock();
     private final RaidItemGenerator generator = new RaidItemGenerator(
-        personageService, itemService, personageNextRaidItemParams, contrabandService
+        personageService,
+        itemService,
+        personageNextRaidItemParams,
+        contrabandService
     );
 
     @Test
     public void Given_Lose_Then_ReturnEmpty() {
-        final var result = generator.generateItem(false, Mockito.mock(), true, 10);
+        final var result = generator.generateItem(false, Mockito.mock(), true, 10, 0);
         Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
     public void Given_IsExhausted_Then_ReturnEmpty() {
-        final var result = generator.generateItem(true, Mockito.mock(), false, 10);
+        final var result = generator.generateItem(true, Mockito.mock(), false, 10, 0);
         Assertions.assertTrue(result.isEmpty());
     }
 
@@ -40,7 +43,7 @@ public class RaidItemGeneratorTest {
     public void Given_WinAndNotExhausted_When_ProcessChanceIsFalse_Then_ReturnEmpty() {
         try (final var mock = Mockito.mockStatic(RandomUtils.class)) {
             mock.when(() -> RandomUtils.processChance(Mockito.anyInt())).thenReturn(false);
-            final var result = generator.generateItem(true, Mockito.mock(), false, 10);
+            final var result = generator.generateItem(true, Mockito.mock(), false, 10, 0);
             Assertions.assertTrue(result.isEmpty());
         }
 
@@ -57,7 +60,7 @@ public class RaidItemGeneratorTest {
             Mockito.when(personageNextRaidItemParams.get(Mockito.any(), Mockito.anyInt())).thenReturn(Mockito.mock(ItemParamsFull.class));
             Mockito.when(itemService.generateItemForPersonage(Mockito.any(), Mockito.any())).thenReturn(Either.right(expectedItem));
 
-            final var result = generator.generateItem(true, Mockito.mock(), false, 10);
+            final var result = generator.generateItem(true, Mockito.mock(), false, 10, 0);
 
             Assertions.assertFalse(result.isEmpty());
             Assertions.assertInstanceOf(GeneratedItemResult.Success.class, result.get());
