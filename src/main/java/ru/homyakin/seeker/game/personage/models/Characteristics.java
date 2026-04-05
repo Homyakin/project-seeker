@@ -203,6 +203,9 @@ public record Characteristics(
                     final var value = 1 - multiplier.percent() / 100.0;
                     multiplyCharacteristic(value, multiplier.characteristic());
                 }
+                case Effect.RaidGoldRewardPercent _ -> {
+                    // Group / meta effects: not applied to characteristics.
+                }
             }
         }
 

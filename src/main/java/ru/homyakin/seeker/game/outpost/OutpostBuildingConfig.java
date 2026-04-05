@@ -12,8 +12,24 @@ import ru.homyakin.seeker.game.outpost.entity.Building;
 @Validated
 @ConfigurationProperties("homyakin.seeker.outpost")
 public class OutpostBuildingConfig {
+    /**
+     * Total raid gold bonus percent = level × this value (Shadow Shop). Display-only until raid payout uses it.
+     */
+    private int shadowShopRaidGoldPercentPerLevel = 1;
+
     @NotEmpty
     private Map<Building, BuildingLevelMaterials> building;
+
+    public int getShadowShopRaidGoldPercentPerLevel() {
+        return shadowShopRaidGoldPercentPerLevel;
+    }
+
+    public void setShadowShopRaidGoldPercentPerLevel(int shadowShopRaidGoldPercentPerLevel) {
+        if (shadowShopRaidGoldPercentPerLevel < 0) {
+            throw new IllegalStateException("shadowShopRaidGoldPercentPerLevel must be >= 0");
+        }
+        this.shadowShopRaidGoldPercentPerLevel = shadowShopRaidGoldPercentPerLevel;
+    }
 
     public Map<Building, BuildingLevelMaterials> getBuilding() {
         return building;
@@ -67,6 +83,14 @@ public class OutpostBuildingConfig {
 
         public void setMaterials(List<Integer> materials) {
             this.materials = materials;
+        }
+    }
+
+    public int slotsByMonolithLevel(int monolithLevel) {
+        if (monolithLevel < 2) {
+            return 1;
+        } else {
+            return 2;
         }
     }
 }

@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.locale.common;
 
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.group.passive.GroupBuildingPassiveEffect;
+import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
@@ -19,6 +21,7 @@ import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.contraband.ContrabandLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
+import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.game.stats.entity.GroupPersonageStats;
@@ -31,6 +34,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -96,7 +100,12 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::internalError);
     }
 
-    public static String fullProfile(Language language, Personage personage, CurrentEvents currentEvents) {
+    public static String fullProfile(
+        Language language,
+        Personage personage,
+        CurrentEvents currentEvents,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
         final var params = profileParams(personage);
 
         params.put("power_icon", Icons.POWER);
@@ -112,11 +121,8 @@ public class CommonLocalization {
                 duration(language, personage.energy().remainTimeForFullRegen(TimeUtils.moscowTime()))
             );
         }
-        if (personage.effects().isEmpty()) {
-            params.put("personage_effects", "");
-        } else {
-            params.put("personage_effects", personageEffects(language, personage.effects()));
-        }
+        params.put("personage_effects", personageProfileEffectsSection(language, personage.effects()));
+        params.put("group_effects", groupProfileEffectsSection(language, groupPassiveEffects));
         if (currentEvents.events().isEmpty()) {
             params.put("current_event", "");
         } else {
@@ -167,10 +173,63 @@ public class CommonLocalization {
         return params;
     }
 
-    private static String personageEffects(Language language, PersonageEffects effects) {
-        if (effects.isEmpty()) {
+    /**
+     * Block for group chat: heading plus passive group lines (outpost, etc.).
+     */
+    public static String formatGroupInfoPassiveEffectsSection(
+        Language language,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
+        if (groupPassiveEffects.isEmpty()) {
             return "";
         }
+        final var effectsText = new StringBuilder();
+        for (final var passive : groupPassiveEffects) {
+            effectsText.append(formatGroupPassiveEffectLine(language, passive));
+        }
+        if (effectsText.isEmpty()) {
+            return "";
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::groupInfoPassiveEffectsSection),
+            Collections.singletonMap("group_effect_lines", effectsText.toString())
+        );
+    }
+
+    private static String personageProfileEffectsSection(Language language, PersonageEffects personageEffects) {
+        if (personageEffects.isEmpty()) {
+            return "";
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageEffects),
+            Collections.singletonMap("personage_effects", personageEffectLinesInner(language, personageEffects))
+        );
+    }
+
+    private static String groupProfileEffectsSection(Language language, List<GroupPassiveEffect> groupPassiveEffects) {
+        if (groupPassiveEffects.isEmpty()) {
+            return "";
+        }
+        final var effectsText = new StringBuilder();
+        for (final var passive : groupPassiveEffects) {
+            effectsText.append(formatGroupPassiveEffectLine(language, passive));
+        }
+        if (effectsText.isEmpty()) {
+            return "";
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::groupProfileEffects),
+            Collections.singletonMap("group_effects", effectsText.toString())
+        );
+    }
+
+    private static String formatGroupPassiveEffectLine(Language language, GroupPassiveEffect passive) {
+        return switch (passive) {
+            case GroupBuildingPassiveEffect gb -> groupBuildingPassiveEffectLine(language, gb);
+        };
+    }
+
+    private static String personageEffectLinesInner(Language language, PersonageEffects effects) {
         final var effectsText = new StringBuilder();
         for (final var effect : effects.effects().entrySet()) {
             final var text = switch (effect.getKey()) {
@@ -181,9 +240,22 @@ public class CommonLocalization {
             };
             effectsText.append(text);
         }
+        return effectsText.toString();
+    }
+
+    private static String groupBuildingPassiveEffectLine(Language language, GroupBuildingPassiveEffect passive) {
+        final var params = new HashMap<String, Object>();
+        params.put("source_label", OutpostLocalization.buildingDisplayName(language, passive.building()));
+        params.put("effect", effect(language, passive.effect()));
+        params.put(
+            "optional_time_suffix",
+            passive.expiresAt()
+                .map(end -> " " + Icons.TIME + duration(language, TimeUtils.moscowTime(), end))
+                .orElse("")
+        );
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, CommonResource::personageEffects),
-            Collections.singletonMap("personage_effects", effectsText.toString())
+            resources.getOrDefault(language, CommonResource::groupBuildingEffectLine),
+            params
         );
     }
 
@@ -290,6 +362,15 @@ public class CommonLocalization {
                 params.put("characteristic_icon", minusMultiplier.characteristic().icon());
                 yield StringNamedTemplate.format(
                     resources.getOrDefault(language, CommonResource::minusMultiplyPercentEffect),
+                    params
+                );
+            }
+            case Effect.RaidGoldRewardPercent raidGold -> {
+                final var params = new HashMap<String, Object>();
+                params.put("value", raidGold.percent());
+                params.put("money_icon", Icons.MONEY);
+                yield StringNamedTemplate.format(
+                    resources.getOrDefault(language, CommonResource::raidGoldRewardPercentEffect),
                     params
                 );
             }

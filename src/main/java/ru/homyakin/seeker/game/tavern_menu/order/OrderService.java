@@ -1,10 +1,13 @@
 package ru.homyakin.seeker.game.tavern_menu.order;
 
-import io.vavr.control.Either;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import io.vavr.control.Either;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -13,11 +16,11 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.tavern_menu.menu.MenuService;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.Category;
+import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
+import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeOrderError;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeResult;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ExpireOrderError;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ExpiredOrder;
-import ru.homyakin.seeker.game.tavern_menu.order.models.ConsumeOrderError;
-import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.game.tavern_menu.order.models.MenuItemOrder;
 import ru.homyakin.seeker.game.tavern_menu.order.models.OrderError;
 import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowOrderError;
@@ -26,8 +29,6 @@ import ru.homyakin.seeker.game.tavern_menu.order.models.ThrowTarget;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.utils.TimeUtils;
-
-import java.util.Optional;
 
 @Service
 public class OrderService {

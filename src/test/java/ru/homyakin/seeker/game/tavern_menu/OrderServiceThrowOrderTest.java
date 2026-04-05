@@ -1,10 +1,18 @@
 package ru.homyakin.seeker.game.tavern_menu;
 
-import io.vavr.control.Either;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.Mockito;
+
+import io.vavr.control.Either;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
@@ -29,14 +37,6 @@ import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
 
 public class OrderServiceThrowOrderTest {
     private final PersonageService personageService = Mockito.mock();

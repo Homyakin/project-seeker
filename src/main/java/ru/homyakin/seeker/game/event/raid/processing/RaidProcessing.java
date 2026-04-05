@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.raid.processing;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -15,7 +16,10 @@ import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
+import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.effect.RaidGoldRewardBonus;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
@@ -23,6 +27,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class RaidProcessing {
@@ -37,6 +42,7 @@ public class RaidProcessing {
     private final PersonageEventService personageEventService;
     private final GroupEventService groupEventService;
     private final GroupStatsService groupStatsService;
+    private final GroupPassiveEffectsService groupPassiveEffectsService;
 
     public RaidProcessing(
         PersonageService personageService,
@@ -48,7 +54,8 @@ public class RaidProcessing {
         LaunchedEventService launchedEventService,
         PersonageEventService personageEventService,
         GroupEventService groupEventService,
-        GroupStatsService groupStatsService
+        GroupStatsService groupStatsService,
+        GroupPassiveEffectsService groupPassiveEffectsService
     ) {
         this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
@@ -60,6 +67,7 @@ public class RaidProcessing {
         this.personageEventService = personageEventService;
         this.groupEventService = groupEventService;
         this.groupStatsService = groupStatsService;
+        this.groupPassiveEffectsService = groupPassiveEffectsService;
     }
 
     public EventResult.RaidResult process(LaunchedEvent launchedEvent) {
@@ -76,6 +84,8 @@ public class RaidProcessing {
         }
 
         final var idToParticipant = participants.stream().collect(Collectors.toMap(it -> it.personage().id(), it -> it));
+        final var now = TimeUtils.moscowTime();
+        final var groupRaidGoldPercentCache = new HashMap<GroupId, Integer>();
         final var personages = participants.stream().map(RaidParticipant::personage).map(Personage::toBattlePersonage).toList();
         final var result = twoPersonageTeamsBattle.battle(
             raidGenerator.generate(raid, raidEvent, personages),
@@ -88,11 +98,22 @@ public class RaidProcessing {
         final var raidResults = result.secondTeamResults().personageResults().stream()
             .map(battleResult -> {
                 final var participant = idToParticipant.get(battleResult.personage().id());
+                final var personage = participant.personage();
+                final int personageRaidGoldPercent = RaidGoldRewardBonus.sumPersonageEffects(personage.effects(), now);
+                final int groupRaidGoldPercent = personage.memberGroupId()
+                    .map(
+                        gid -> groupRaidGoldPercentCache.computeIfAbsent(
+                            gid,
+                            id -> groupPassiveEffectsService.raidGoldBonusPercentSum(id, now)
+                        )
+                    )
+                    .orElse(0);
                 final var reward = new Money(
                     raidRewardGenerator.calculateReward(
                         doesParticipantsWin,
                         battleResult,
-                        participant.params().isExhausted()
+                        participant.params().isExhausted(),
+                        personageRaidGoldPercent + groupRaidGoldPercent
                     )
                 );
                 personageService.addMoney(

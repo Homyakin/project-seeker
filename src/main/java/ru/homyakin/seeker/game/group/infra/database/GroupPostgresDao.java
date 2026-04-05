@@ -1,20 +1,5 @@
 package ru.homyakin.seeker.game.group.infra.database;
 
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.group.entity.EventIntervals;
-import ru.homyakin.seeker.game.group.entity.CreateGroupRequest;
-import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.group.entity.GroupProfile;
-import ru.homyakin.seeker.game.group.entity.GroupSettings;
-import ru.homyakin.seeker.game.group.entity.GroupStorage;
-import ru.homyakin.seeker.game.badge.entity.BadgeView;
-import ru.homyakin.seeker.utils.JsonUtils;
-
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -22,6 +7,23 @@ import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sql.DataSource;
+
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.group.entity.CreateGroupRequest;
+import ru.homyakin.seeker.game.group.entity.EventIntervals;
+import ru.homyakin.seeker.game.group.entity.Group;
+import ru.homyakin.seeker.game.group.entity.GroupProfile;
+import ru.homyakin.seeker.game.group.entity.GroupSettings;
+import ru.homyakin.seeker.game.group.entity.GroupStorage;
+import ru.homyakin.seeker.utils.JsonUtils;
 
 @Repository
 public class GroupPostgresDao implements GroupStorage {

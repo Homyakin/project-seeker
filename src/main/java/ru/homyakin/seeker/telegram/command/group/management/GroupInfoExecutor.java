@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.command.group.management;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.action.GroupTaxService;
+import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.outpost.action.SyncGroupTaxCommand;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -16,6 +17,7 @@ public class GroupInfoExecutor extends CommandExecutor<GroupInfo> {
     private final GetGroup getGroup;
     private final GroupTaxService groupTaxService;
     private final SyncGroupTaxCommand syncGroupTaxCommand;
+    private final GroupPassiveEffectsService groupPassiveEffectsService;
     private final TelegramSender telegramSender;
 
     public GroupInfoExecutor(
@@ -23,12 +25,14 @@ public class GroupInfoExecutor extends CommandExecutor<GroupInfo> {
         GetGroup getGroup,
         GroupTaxService groupTaxService,
         SyncGroupTaxCommand syncGroupTaxCommand,
+        GroupPassiveEffectsService groupPassiveEffectsService,
         TelegramSender telegramSender
     ) {
         this.groupTgService = groupTgService;
         this.getGroup = getGroup;
         this.groupTaxService = groupTaxService;
         this.syncGroupTaxCommand = syncGroupTaxCommand;
+        this.groupPassiveEffectsService = groupPassiveEffectsService;
         this.telegramSender = telegramSender;
     }
 
@@ -39,11 +43,12 @@ public class GroupInfoExecutor extends CommandExecutor<GroupInfo> {
         syncGroupTaxCommand.execute(groupId);
         final var group = getGroup.forceGetProfile(groupId);
         final var tax = groupTaxService.groupTaxSnapshot(groupId);
+        final var passiveEffects = groupPassiveEffectsService.listPassiveEffects(groupId);
         telegramSender.send(
             SendMessageBuilder
                 .builder()
                 .chatId(command.groupTgId())
-                .text(GroupManagementLocalization.groupInfo(groupTg.language(), group, tax))
+                .text(GroupManagementLocalization.groupInfo(groupTg.language(), group, tax, passiveEffects))
                 .build()
         );
     }

@@ -11,7 +11,12 @@ public class RaidRewardGenerator {
      * В случае поражения - награда равна базовой, в случае победы - награда зависит от нанесённого и полученного урона.
      * Бонус за урон считается по формуле log(1.1, урон / 10) - 43. При 1000 бонус примерно равен 5, при 3000 - 16
      */
-    public int calculateReward(boolean doesParticipantsWin, PersonageBattleResult result, boolean isExhausted) {
+    public int calculateReward(
+        boolean doesParticipantsWin,
+        PersonageBattleResult result,
+        boolean isExhausted,
+        int raidGoldBonusPercentSum
+    ) {
         if (isExhausted) {
             return 0;
         }
@@ -25,7 +30,10 @@ public class RaidRewardGenerator {
             }
             reward = (int) Math.round(BASE_REWARD + bonusMoney);
         }
-        return reward;
+        if (raidGoldBonusPercentSum <= 0) {
+            return reward;
+        }
+        return (int) Math.round(reward * (100.0 + raidGoldBonusPercentSum) / 100.0);
     }
 
     private static final int BASE_REWARD = 5;

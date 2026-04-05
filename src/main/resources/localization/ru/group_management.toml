@@ -2,8 +2,8 @@ registeredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
 Участники: ${members_count}
-
 Налоговый уровень: <b>${tax_level}</b>${duration}
+${group_passive_effects}
 🏰Аванпост: ${outpost_command}
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
@@ -14,6 +14,7 @@ unregisteredGroupInfo = """\
 
 Участники: ${members_count}
 Налоговый уровень: <b>${tax_level}</b>${duration}
+${group_passive_effects}
 
 Зарегистрировать группу: ${register_group_command}
 

@@ -1,13 +1,13 @@
 package ru.homyakin.seeker.game.group.entity;
 
+import java.util.Optional;
+
 import io.vavr.control.Either;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
 import ru.homyakin.seeker.game.group.error.StillSame;
 import ru.homyakin.seeker.game.group.error.ZeroEnabledEventIntervalsError;
-import ru.homyakin.seeker.game.group.error.IncorrectTimeZone;
-import ru.homyakin.seeker.game.badge.entity.BadgeView;
-
-import java.util.Optional;
 
 public record Group(
     GroupId id,
