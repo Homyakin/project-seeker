@@ -1,20 +1,18 @@
 package ru.homyakin.seeker.game.group.infra.database;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.sql.DataSource;
-
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
-
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.entity.personage.PersonageMemberGroup;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.DatabaseUtils;
+
+import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class GroupPersonagePostgresDao implements GroupPersonageStorage {

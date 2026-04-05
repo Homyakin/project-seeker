@@ -9,7 +9,8 @@ public sealed interface OutpostSlot {
         GroupId groupId,
         Building building,
         int level,
-        Optional<OutpostBuildingProgress> progress
+        Optional<OutpostBuildingProgress> progress,
+        int materialsRequired // TODO не инициализировать нулем
     ) implements OutpostSlot {
     }
 

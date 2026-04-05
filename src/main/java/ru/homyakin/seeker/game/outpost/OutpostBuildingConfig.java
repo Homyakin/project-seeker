@@ -43,12 +43,12 @@ public class OutpostBuildingConfig {
         this.building = building;
     }
 
-    public int materialsToReachLevel(Building building, int targetLevel) {
+    public int materialsToReachLevel(Building building, int targetLevel, int taxMultiplier) {
         final var entry = this.building.get(building);
         if (entry == null) {
             throw new IllegalStateException("No outpost materials configured for " + building);
         }
-        return entry.materialsForLevel(targetLevel);
+        return entry.materialsForLevel(targetLevel) * taxMultiplier;
     }
 
     public static class BuildingLevelMaterials {

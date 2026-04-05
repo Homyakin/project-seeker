@@ -132,6 +132,6 @@ public class OutpostPostgresDao implements OutpostStorage {
         final var progress = progressRaw == null
             ? Optional.<OutpostBuildingProgress>empty()
             : Optional.of(jsonUtils.fromString(progressRaw, OutpostBuildingProgress.class));
-        return new OutpostSlot.BuildingSlot(pgroupId, Building.fromId(buildingId), level, progress);
+        return new OutpostSlot.BuildingSlot(pgroupId, Building.fromId(buildingId), level, progress, 0);
     }
 }

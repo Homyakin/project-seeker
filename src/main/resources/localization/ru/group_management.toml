@@ -3,6 +3,7 @@ registeredGroupInfo = """\
 
 Участники: ${members_count}
 
+Налоговый уровень: <b>${tax_level}</b>${duration}
 🏰Аванпост: ${outpost_command}
 📊Статистика группы: ${group_stats_command}
 ⚙️Настройки: ${group_settings_command}
@@ -12,6 +13,7 @@ unregisteredGroupInfo = """\
 <code>${group_name_with_badge}</code>
 
 Участники: ${members_count}
+Налоговый уровень: <b>${tax_level}</b>${duration}
 
 Зарегистрировать группу: ${register_group_command}
 
@@ -66,4 +68,15 @@ groupCommands = """\
 Комманды для группы:
 <code>${group_join_command}</code> - вступить в группу
 <code>${group_leave_command}</code> - покинуть группу
-<code>${change_tag_command} [тэг]</code> - сменить тэг группы"""
+<code>${change_tag_command} [тэг]</code> - сменить тэг группы
+<code>${group_tax_command}</code> - налог группы (подробно)"""
+
+groupTaxDetails = """\
+<b>Налог группы</b>
+Текущий уровень налога: <b>${tax_level}</b>
+
+Участников сейчас: <b>${current_members}</b>
+Недавно вышли (ещё учитываются): <b>${leaved_members}</b>
+
+Следующий пересчёт: <b>${duration}</b>
+После пересчёта: <b>${tax_after}</b>"""

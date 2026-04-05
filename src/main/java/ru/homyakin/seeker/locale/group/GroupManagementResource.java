@@ -31,6 +31,7 @@ public record GroupManagementResource(
     String leaveGroupCancelButton,
     String leaveGroupLastMemberSuccess,
     String leaveGroupCancel,
-    String groupCommands
+    String groupCommands,
+    String groupTaxDetails
 ) {
 }

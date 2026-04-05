@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import java.util.Optional;
+
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupConfig;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
@@ -16,7 +19,6 @@ import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 import java.time.Duration;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -25,10 +27,12 @@ class LeaveGroupMemberCommandTest {
     private final GroupPersonageStorage groupPersonageStorage = Mockito.mock();
     private final GroupStorage groupStorage = Mockito.mock();
     private static final GroupConfig groupConfig = Mockito.mock();
+    private final GroupTaxService groupTaxService = Mockito.mock();
     private final LeaveGroupMemberCommand leaveGroupMemberCommand = new LeaveGroupMemberCommand(
         groupPersonageStorage,
         groupStorage,
-        groupConfig
+        groupConfig,
+        groupTaxService
     );
 
     @BeforeAll
@@ -90,9 +94,12 @@ class LeaveGroupMemberCommandTest {
     void When_PersonageIsMemberAndGroupHasMoreThanOneMember_Then_SuccessLeave() {
         final var personageId = new PersonageId(1);
         final var groupId = new GroupId(1);
+        final var group = Mockito.mock(Group.class);
+        Mockito.when(group.isRegistered()).thenReturn(false);
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
         Mockito.when(groupStorage.memberCount(groupId)).thenReturn(2);
+        Mockito.when(groupStorage.get(groupId)).thenReturn(Optional.of(group));
 
         final var result = leaveGroupMemberCommand.execute(personageId, groupId);
 

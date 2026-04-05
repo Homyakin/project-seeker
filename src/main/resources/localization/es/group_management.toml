@@ -3,6 +3,7 @@ registeredGroupInfo = """\
 
 Miembros: ${members_count}
 
+Nivel fiscal: <b>${tax_level}</b>${duration}
 📊Estadísticas del grupo: ${group_stats_command}
 🏰Avanzada: ${outpost_command}
 ⚙️Configuración: ${group_settings_command}
@@ -13,6 +14,7 @@ unregisteredGroupInfo = """\
 
 Miembros: ${members_count}
 
+Nivel fiscal: <b>${tax_level}</b>${duration}
 Registrar grupo: ${register_group_command}
 
 📊Estadísticas del grupo: ${group_stats_command}
@@ -65,4 +67,16 @@ groupCommands = """\
 Comandos del grupo:
 <code>${group_join_command}</code> - unirse al grupo
 <code>${group_leave_command}</code> - salir del grupo
-<code>${change_tag_command} [TAG]</code> - cambiar el tag del grupo"""
+<code>${change_tag_command} [TAG]</code> - cambiar el tag del grupo
+<code>${group_tax_command}</code> - impuesto del grupo (detalle)"""
+
+groupTaxDetails = """\
+<b>Impuesto del grupo</b>
+Nivel actual: <b>${tax_level}</b>
+Se calcula con los miembros actuales y con quienes salieron recientemente: mientras sigan contando, el nivel puede ser mayor que la gente en el grupo.
+
+Miembros ahora: <b>${current_members}</b>
+Salieron recientemente (aún cuentan): <b>${leaved_members}</b>
+
+Próximo recálculo: <b>${duration}</b>
+Después del recálculo: <b>${tax_after}</b>"""
