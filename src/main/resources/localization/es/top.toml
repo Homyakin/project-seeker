@@ -67,4 +67,5 @@ ${top_personage_list}
 Total de participantes: ${total_count}"""
 topTavernSpentPosition = "${position}. ${personage_badge_with_name}: ${money_icon}${tavern_money_spent}"
 topTavernSpentEmpty = "Nadie ha gastado todavía en la taberna de este grupo"
+topOutpostBuildingPosition = "${position}. ${personage_badge_with_name}: ${materials_icon}<b>${materials}</b>"
 selectedPosition = "<b>${position}</b>"

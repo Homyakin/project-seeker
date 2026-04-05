@@ -16,6 +16,8 @@ import ru.homyakin.seeker.game.top.models.TopWorkerOfDayPosition;
 import ru.homyakin.seeker.game.top.models.TopWorkerOfDayResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchPosition;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildingPosition;
+import ru.homyakin.seeker.game.top.models.TopOutpostBuildingResult;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentPosition;
 import ru.homyakin.seeker.game.top.models.TopTavernSpentResult;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -258,6 +260,51 @@ public class TopLocalization {
 
     public static String topTavernSpentEmpty(Language language) {
         return resources.getOrDefault(language, TopResource::topTavernSpentEmpty);
+    }
+
+    public static String topOutpostBuildingPosition(
+        Language language,
+        int positionNumber,
+        TopOutpostBuildingPosition position
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
+        params.put("materials", position.materials());
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuildingPosition),
+            params
+        );
+    }
+
+    public static String topOutpostBuilding(
+        Language language,
+        TopOutpostBuildingResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        final var topGroupList = TopUtils.createTopList(language, result);
+        params.put("top_personage_list", topGroupList);
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuilding),
+            params
+        );
+    }
+
+    public static String topOutpostBuilding(
+        Language language,
+        PersonageId requestedPersonageId,
+        TopOutpostBuildingResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        final var topGroupList = TopUtils.createTopList(language, requestedPersonageId, result);
+        params.put("top_personage_list", topGroupList);
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topOutpostBuilding),
+            params
+        );
     }
 
     public static String topGroupRaidLevel(
