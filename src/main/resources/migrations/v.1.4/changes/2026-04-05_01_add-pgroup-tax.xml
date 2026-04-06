@@ -14,8 +14,7 @@
 
         <sql>
             UPDATE pgroup p
-            SET effective_tax = m.cnt,
-                last_tax_update = CURRENT_TIMESTAMP
+            SET effective_tax = m.cnt
             FROM (
                 SELECT member_pgroup_id AS gid, COUNT(*)::int AS cnt
                 FROM personage
