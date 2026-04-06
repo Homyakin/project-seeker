@@ -122,7 +122,7 @@ public class PersonageBattleResultDao {
             FROM personage_raid_result prr
             LEFT JOIN launched_event le on le.id = prr.launched_event_id
             INNER JOIN event e on le.event_id = e.id AND e.type_id = :event_type_id
-            WHERE personage_id = :personage_id AND (generated_item_id IS NOT NULL OR generated_contraband_id IS NOT NULL)
+            WHERE personage_id = :personage_id AND (generated_item_id IS NOT NULL)
         )
         SELECT SUM(
             CASE WHEN COALESCE((pte.personage_params->>'isExhausted')::boolean, false) = false THEN 1 ELSE 0 END
@@ -135,7 +135,7 @@ public class PersonageBattleResultDao {
         AND prr.launched_event_id > -- more id => newer event
             COALESCE((SELECT last_event_with_item FROM last_non_null_item), -1) -- all events id > 0
         AND le.status_id in (:event_statuses)
-        AND generated_item_id IS NULL AND generated_contraband_id IS NULL
+        AND generated_item_id IS NULL
         """;
 
     private static final String COUNT_BATTLE_RESULTS_WITHOUT_CONTRABAND = """

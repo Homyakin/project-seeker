@@ -36,7 +36,7 @@ public class RaidItemGenerator {
      * Функция генерации предметов для персонажа
      * В основе лежит функция:
      * Если x <= 5 => y = x
-     * Если x > 5 => y = (x - 3)^2
+     * Если x > 5 => y = (x - 3)^(1.8)
      * x - количество рейдов подряд без предметов
      * y - вероятность получить предмет в процентах
      * <p>
@@ -63,14 +63,13 @@ public class RaidItemGenerator {
         if (raidsWithoutItems <= 5) {
             chance = raidsWithoutItems;
         } else {
-            chance = (int) Math.pow(raidsWithoutItems - 3, 2);
+            chance = (int) Math.pow(raidsWithoutItems - 3, 1.8);
+        }
+        final var contrabandOpt = contrabandService.tryCreate(personage, raidLevel);
+        if (contrabandOpt.isPresent()) {
+            return Optional.of(new GeneratedItemResult.ContrabandDrop(personage, contrabandOpt.get()));
         }
         if (RandomUtils.processChance(chance + itemFoundChanceBonusPercent)) {
-            final var contrabandOpt = contrabandService.tryCreate(personage, raidLevel);
-            if (contrabandOpt.isPresent()) {
-                return Optional.of(new GeneratedItemResult.ContrabandDrop(personage, contrabandOpt.get()));
-            }
-
             final var itemParams = personageNextRaidItemParams.get(personage.id(), raidLevel);
             final var result = itemService
                 .generateItemForPersonage(

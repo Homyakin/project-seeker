@@ -67,7 +67,7 @@ public class ContrabandService {
             return Optional.empty();
         }
         final var raidsWithoutContraband = personageService.countSuccessRaidsFromLastContraband(finder.id());
-        final var chance = config.dropChancePercent() + raidsWithoutContraband * 20;
+        final var chance = config.dropChancePercent() + raidsWithoutContraband * 10;
         if (!RandomUtils.processChance(chance)) {
             return Optional.empty();
         }
