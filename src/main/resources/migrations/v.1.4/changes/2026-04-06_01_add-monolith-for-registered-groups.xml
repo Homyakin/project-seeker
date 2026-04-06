@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-monolith-for-registered-groups">
+        <sql>
+            INSERT INTO pgroup_outpost (pgroup_id, building_id, level, progress)
+            SELECT p.id, 1, 1, NULL
+            FROM pgroup p
+            WHERE p.tag IS NOT NULL
+            ON CONFLICT (pgroup_id, building_id) DO NOTHING;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

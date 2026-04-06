@@ -8,4 +8,5 @@
     <include file="changes/2026-03-30_01_outpost_building_contribution.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-04-05_01_add-pgroup-tax.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-04-05_02_season_outpost_building_materials.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-04-06_01_add-monolith-for-registered-groups.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
