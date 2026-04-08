@@ -15,7 +15,7 @@ public class ContrabandConfig {
     private int commonMaxRaidLevel = 15;
     private int uncommonMaxRaidLevel = 30;
     private int rareMaxRaidLevel = 45;
-    private int dropChancePercent = 20;
+    private int dropChancePercent = 10;
     private int finderSuccessChancePercent = 30;
     private int finderChanceIncreasePerFail = 15;
     private int receiverSuccessChancePercent = 70;
