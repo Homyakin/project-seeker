@@ -17,9 +17,9 @@ public class TelegramBotContextInitializer {
     @Bean
     @ConditionalOnProperty(name = "homyakin.seeker.telegram.local-bot-enabled", havingValue = "true")
     public TelegramUrl telegramUrl(
-        @Value("homyakin.seeker.telegram.local-bot-host") String localBotHost,
-        @Value("homyakin.seeker.telegram.local-bot-port") int localBotPort,
-        @Value("homyakin.seeker.telegram.local-bot-schema") String schema
+        @Value("${homyakin.seeker.telegram.local-bot-host}") String localBotHost,
+        @Value("${homyakin.seeker.telegram.local-bot-port}") int localBotPort,
+        @Value("${homyakin.seeker.telegram.local-bot-schema}") String schema
     ) {
         return TelegramUrl.builder()
             .host(localBotHost)
@@ -30,7 +30,7 @@ public class TelegramBotContextInitializer {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "homyakin.seeker.telegram.local-bot", havingValue = "false", matchIfMissing = true)
+    @ConditionalOnProperty(name = "homyakin.seeker.telegram.local-bot-enabled", havingValue = "false", matchIfMissing = true)
     public TelegramUrl defaultTelegramUrl() {
         return TelegramUrl.DEFAULT_URL;
     }
