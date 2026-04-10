@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
+import org.telegram.telegrambots.longpolling.util.DefaultGetUpdatesGenerator;
+import org.telegram.telegrambots.meta.TelegramUrl;
 import ru.homyakin.seeker.locale.LocalizationInitializer;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.TelegramUpdateReceiver;
@@ -20,21 +22,29 @@ public class Application implements CommandLineRunner {
     private final TelegramUpdateReceiver telegramUpdateReceiver;
     private final TelegramBotConfig telegramBotConfig;
     private final TelegramBotsLongPollingApplication botsApplication;
+    private final TelegramUrl telegramUrl;
 
     public Application(
         TelegramUpdateReceiver telegramUpdateReceiver,
         TelegramBotConfig telegramBotConfig,
-        TelegramBotsLongPollingApplication telegramBotsLongPollingApplication
+        TelegramBotsLongPollingApplication telegramBotsLongPollingApplication,
+        TelegramUrl telegramUrl
     ) {
         this.telegramUpdateReceiver = telegramUpdateReceiver;
         this.telegramBotConfig = telegramBotConfig;
         this.botsApplication = telegramBotsLongPollingApplication;
+        this.telegramUrl = telegramUrl;
     }
 
     @Override
     public void run(String... args) throws Exception {
         try {
-            botsApplication.registerBot(telegramBotConfig.token(), telegramUpdateReceiver);
+            botsApplication.registerBot(
+                telegramBotConfig.token(),
+                () -> telegramUrl,
+                new DefaultGetUpdatesGenerator(),
+                telegramUpdateReceiver
+            );
         } catch (Exception e) {
             logger.error("Can't start TelegramBot", e);
             throw e;

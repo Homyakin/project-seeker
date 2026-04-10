@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.meta.TelegramUrl;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
@@ -27,8 +28,13 @@ public class TelegramSender {
     private final GroupTgService groupTgService;
     private final UserService userService;
 
-    protected TelegramSender(TelegramBotConfig botConfig, GroupTgService groupTgService, UserService userService) {
-        client = new OkHttpTelegramClient(botConfig.token());
+    protected TelegramSender(
+        TelegramBotConfig botConfig,
+        GroupTgService groupTgService,
+        UserService userService,
+        TelegramUrl telegramUrl
+    ) {
+        client = new OkHttpTelegramClient(botConfig.token(), telegramUrl);
         this.groupTgService = groupTgService;
         this.userService = userService;
     }
