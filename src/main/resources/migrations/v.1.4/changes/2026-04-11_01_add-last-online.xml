@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-last-online">
+        <addColumn tableName="personage">
+            <column name="last_online" type="TIMESTAMP" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="pgroup">
+            <column name="last_online" type="TIMESTAMP" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="pgroup_to_personage">
+            <column name="last_online" type="TIMESTAMP" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE personage SET last_online = last_energy_change
+        </sql>
+        <sql>
+            UPDATE pgroup_to_personage ptp
+            SET last_online = p.last_energy_change
+            FROM personage p
+            WHERE ptp.personage_id = p.id
+        </sql>
+        <sql>
+            UPDATE pgroup g
+            SET last_online = COALESCE(
+                (SELECT MAX(ptp.last_online) FROM pgroup_to_personage ptp
+                 WHERE ptp.pgroup_id = g.id AND ptp.is_active = true),
+                g.init_date
+            )
+        </sql>
+    </changeSet>
+</databaseChangeLog>

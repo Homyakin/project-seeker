@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.telegram.command.online.TelegramOnlineUpdater;
 
 @Component
 public final class CommandProcessor {
@@ -18,9 +19,14 @@ public final class CommandProcessor {
      */
     @SuppressWarnings("rawtypes")
     private final Map<Class, CommandExecutor> executorMap;
+    private final TelegramOnlineUpdater telegramOnlineUpdater;
 
     @SuppressWarnings("rawtypes")
-    public CommandProcessor(List<CommandExecutor> executorList) {
+    public CommandProcessor(
+        List<CommandExecutor> executorList,
+        TelegramOnlineUpdater telegramOnlineUpdater
+    ) {
+        this.telegramOnlineUpdater = telegramOnlineUpdater;
         executorMap = new HashMap<>();
 
         for (final CommandExecutor executor: executorList) {
@@ -35,6 +41,9 @@ public final class CommandProcessor {
 
     @SuppressWarnings("unchecked")
     public void process(Command command) {
+        Thread.startVirtualThread(
+            () -> telegramOnlineUpdater.update(command)
+        );
         logger.info("Executing " + command.toString());
         Optional.ofNullable(executorMap.get(command.getClass()))
             .ifPresentOrElse(
