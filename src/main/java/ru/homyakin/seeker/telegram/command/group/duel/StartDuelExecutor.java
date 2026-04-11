@@ -39,14 +39,14 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
     @Override
     public void execute(StartDuel command) {
         final var groupUserPair = groupUserService.getAndActivateOrCreate(
-            command.groupId(), command.userId()
+            command.groupTgId(), command.userId()
         );
         final var group = groupUserPair.first();
         final var initiatingUser = groupUserPair.second();
         final var validationResult = validateCommand(command, group.language());
         if (validationResult.isLeft()) {
             telegramSender.send(
-                SendMessageBuilder.builder().chatId(command.groupId()).text(validationResult.getLeft()).build()
+                SendMessageBuilder.builder().chatId(command.groupTgId()).text(validationResult.getLeft()).build()
             );
             return;
         }
@@ -57,7 +57,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             telegramSender.send(
                 SendMessageBuilder
                     .builder()
-                    .chatId(command.groupId())
+                    .chatId(command.groupTgId())
                     .text(DuelLocalization.duelWithUnknownUser(group.language()))
                     .build()
             );
@@ -66,7 +66,7 @@ public class StartDuelExecutor extends CommandExecutor<StartDuel> {
             telegramSender.send(
                 SendMessageBuilder
                     .builder()
-                    .chatId(command.groupId())
+                    .chatId(command.groupTgId())
                     .text(DuelLocalization.duelWithYourself(group.language()))
                     .build()
             );

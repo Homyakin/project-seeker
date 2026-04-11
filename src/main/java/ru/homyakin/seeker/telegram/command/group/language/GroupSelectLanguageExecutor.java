@@ -23,10 +23,10 @@ public class GroupSelectLanguageExecutor extends CommandExecutor<GroupSelectLang
 
     @Override
     public void execute(GroupSelectLanguage command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         final var updatedGroup = groupTgService.changeLanguage(group, command.language());
         telegramSender.send(EditMessageTextBuilder.builder()
-            .chatId(command.groupId())
+            .chatId(command.groupTgId())
             .messageId(command.messageId())
             .text(CommonLocalization.chooseLanguage(updatedGroup.language()))
             .keyboard(InlineKeyboards.languageKeyboard(updatedGroup.language()))

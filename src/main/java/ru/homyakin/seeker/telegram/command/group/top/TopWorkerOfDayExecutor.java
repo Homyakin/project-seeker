@@ -25,12 +25,12 @@ public class TopWorkerOfDayExecutor extends CommandExecutor<TopWorkerOfDay> {
 
     @Override
     public void execute(TopWorkerOfDay command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var user = groupUser.second();
         final var top = topService.getTopWorkerOfDayGroup(group.domainGroupId());
         telegramSender.send(SendMessageBuilder.builder()
-            .chatId(command.groupId())
+            .chatId(command.groupTgId())
             .text(top.toLocalizedString(group.language(), user.personageId()))
             .build()
         );

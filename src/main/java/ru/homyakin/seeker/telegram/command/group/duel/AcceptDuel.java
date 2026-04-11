@@ -8,7 +8,7 @@ import ru.homyakin.seeker.telegram.utils.TelegramUtils;
 
 public record AcceptDuel(
     String callbackId,
-    GroupTgId groupId,
+    GroupTgId groupTgId,
     UserId userId,
     int messageId,
     long duelId,

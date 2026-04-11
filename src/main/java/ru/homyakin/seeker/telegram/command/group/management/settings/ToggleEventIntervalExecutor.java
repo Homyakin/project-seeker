@@ -32,10 +32,10 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
 
     @Override
     public void execute(ToggleEventInterval command) {
-        final var result = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var result = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = result.first();
 
-        if (!groupUserService.isUserAdminInGroup(command.groupId(), command.userId())) {
+        if (!groupUserService.isUserAdminInGroup(command.groupTgId(), command.userId())) {
             logger.info("Not admin tried to toggle event interval");
             telegramSender.send(
                 TelegramMethods.createAnswerCallbackQuery(
@@ -51,7 +51,7 @@ public class ToggleEventIntervalExecutor extends CommandExecutor<ToggleEventInte
                 updatedGroup -> telegramSender.send(
                     EditMessageTextBuilder
                         .builder()
-                        .chatId(command.groupId())
+                        .chatId(command.groupTgId())
                         .messageId(command.messageId())
                         .text(GroupSettingsLocalization.groupSettings(group.language(), updatedGroup))
                         .keyboard(InlineKeyboards.eventIntervalsKeyboard(group.language(), updatedGroup.settings().eventIntervals()))

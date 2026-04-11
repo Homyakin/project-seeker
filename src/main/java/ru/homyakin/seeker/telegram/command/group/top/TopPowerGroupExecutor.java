@@ -25,7 +25,7 @@ public class TopPowerGroupExecutor extends CommandExecutor<TopPowerGroup> {
 
     @Override
     public void execute(TopPowerGroup command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var user = groupUser.second();
         final var top = topService.getTopPowerPersonage(group.domainGroupId());

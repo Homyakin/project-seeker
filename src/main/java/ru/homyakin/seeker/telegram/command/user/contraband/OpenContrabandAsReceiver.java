@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.contraband;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.command.UserCommand;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record OpenContrabandAsReceiver(
@@ -10,7 +10,7 @@ public record OpenContrabandAsReceiver(
     Integer messageId,
     String callbackId,
     long contrabandId
-) implements Command {
+) implements UserCommand {
     public static OpenContrabandAsReceiver from(CallbackQuery callback) {
         return new OpenContrabandAsReceiver(
             UserId.from(callback.getFrom().getId()),

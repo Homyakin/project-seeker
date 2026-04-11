@@ -32,7 +32,7 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
     @Override
     public void execute(JoinRaid command) {
         final var groupUserPair = groupUserService.getAndActivateOrCreate(
-            command.groupId(),
+            command.groupTgId(),
             command.userId()
         );
         final var group = groupUserPair.first();
@@ -52,7 +52,7 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
         } else {
             telegramSender.send(
                 EditMessageTextBuilder.builder()
-                    .chatId(command.groupId())
+                    .chatId(command.groupTgId())
                     .messageId(command.messageId())
                     .text(text)
                     .keyboard(
@@ -105,7 +105,7 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
                         RaidLocalization.expiredRaid(group.language());
                 };
                 telegramSender.send(EditMessageTextBuilder.builder()
-                    .chatId(command.groupId())
+                    .chatId(command.groupTgId())
                     .messageId(command.messageId())
                     .text(editText)
                     .build()

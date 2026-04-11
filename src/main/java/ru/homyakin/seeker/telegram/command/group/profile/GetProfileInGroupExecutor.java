@@ -26,7 +26,7 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
     @Override
     public void execute(GetProfileInGroup command) {
         final var groupUserPair = groupUserService.getAndActivateOrCreate(
-            command.groupId(),
+            command.groupTgId(),
             command.userId()
         );
         final var group = groupUserPair.first();
@@ -37,7 +37,7 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
             ;
 
         telegramSender.send(
-            SendMessageBuilder.builder().chatId(command.groupId()).text(personage.shortProfile(group.language())).build()
+            SendMessageBuilder.builder().chatId(command.groupTgId()).text(personage.shortProfile(group.language())).build()
         );
     }
 

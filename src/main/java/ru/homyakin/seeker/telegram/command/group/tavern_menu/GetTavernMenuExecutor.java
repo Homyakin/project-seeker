@@ -25,7 +25,7 @@ public class GetTavernMenuExecutor extends CommandExecutor<GetTavernMenu> {
 
     @Override
     public void execute(GetTavernMenu command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         final var menu = menuService.getAvailableMenu();
         telegramSender.send(
             SendMessageBuilder.builder().chatId(group.id()).text(menu.tavernMenuText(group.language())).build()

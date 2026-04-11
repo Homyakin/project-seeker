@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
+import ru.homyakin.seeker.telegram.command.UserGroupCommand;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -13,7 +13,7 @@ public record CancelJoinGroupMember(
     UserId userId,
     int messageId,
     PersonageId personageId
-) implements Command {
+) implements UserGroupCommand {
     public static CancelJoinGroupMember from(CallbackQuery callback) {
         return new CancelJoinGroupMember(
             callback.getId(),

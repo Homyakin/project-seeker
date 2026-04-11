@@ -38,7 +38,7 @@ public class WorkerOfDayExecutor extends CommandExecutor<WorkerOfDay> {
 
     @Override
     public void execute(WorkerOfDay command) {
-        final var group = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId()).first();
+        final var group = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId()).first();
         final var message = workerOfDayCommand
             .chooseInGroup(group.domainGroupId())
             .fold(
@@ -54,7 +54,7 @@ public class WorkerOfDayExecutor extends CommandExecutor<WorkerOfDay> {
             );
 
         telegramSender.send(SendMessageBuilder.builder()
-            .chatId(command.groupId())
+            .chatId(command.groupTgId())
             .text(message)
             .build()
         );

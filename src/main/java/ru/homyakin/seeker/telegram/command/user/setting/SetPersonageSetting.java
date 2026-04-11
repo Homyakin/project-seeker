@@ -2,7 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.setting;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
-import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.command.UserCommand;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record SetPersonageSetting(
@@ -10,7 +10,7 @@ public record SetPersonageSetting(
     int messageId,
     PersonageSetting setting,
     boolean value
-) implements Command {
+) implements UserCommand {
     public static SetPersonageSetting from(CallbackQuery callback) {
         final var parsed = PersonageSettingsCallbackUtils.parseCallback(callback.getData());
         return new SetPersonageSetting(

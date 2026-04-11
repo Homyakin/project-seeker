@@ -4,11 +4,11 @@ import java.util.Optional;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.command.UserCommand;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
-public record OutpostDonateItem(UserId userId, Building building, long itemId) implements Command {
+public record OutpostDonateItem(UserId userId, Building building, long itemId) implements UserCommand {
 
     public static Optional<OutpostDonateItem> tryParse(Message message) {
         final var raw = message.getText().split("@")[0].trim();

@@ -22,7 +22,7 @@ public class TopListExecutor extends CommandExecutor<TopList> {
 
     @Override
     public void execute(TopList command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         telegramSender.send(
             SendMessageBuilder.builder()
                 .text(TopLocalization.topList(group.language()))

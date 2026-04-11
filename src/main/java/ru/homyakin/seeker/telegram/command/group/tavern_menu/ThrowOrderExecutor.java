@@ -26,7 +26,7 @@ public class ThrowOrderExecutor extends CommandExecutor<ThrowOrder> {
 
     @Override
     public void execute(ThrowOrder command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var throwing = groupUser.second();
 

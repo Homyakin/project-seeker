@@ -25,7 +25,7 @@ public class TopGroupRaidWeekExecutor extends CommandExecutor<TopGroupRaidWeek> 
 
     @Override
     public void execute(TopGroupRaidWeek command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         final var top = topService.getGroupRaidWeek();
         telegramSender.send(
             SendMessageBuilder.builder()

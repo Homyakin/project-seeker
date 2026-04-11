@@ -1,12 +1,12 @@
 package ru.homyakin.seeker.telegram.command.group.top;
 
+import ru.homyakin.seeker.telegram.command.UserGroupCommand;
 import java.util.Optional;
 
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
@@ -15,7 +15,7 @@ public record TopOutpostBuildSession(
     GroupTgId groupTgId,
     UserId userId,
     Optional<Parsed> parsed
-) implements Command {
+) implements UserGroupCommand {
 
     public record Parsed(Building building, int targetLevel) {
     }

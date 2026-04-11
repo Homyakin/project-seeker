@@ -44,7 +44,7 @@ public class OrderExecutor extends CommandExecutor<Order> {
 
     @Override
     public void execute(Order command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var giver = groupUser.second();
         final var menuItemResult = menuService.getAvailableMenuItem(command.itemCode());

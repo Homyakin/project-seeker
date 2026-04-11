@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.management;
 
+import ru.homyakin.seeker.telegram.command.UserGroupCommand;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.TelegramUtils;
@@ -12,7 +12,7 @@ public record ChangeGroupTag(
     GroupTgId groupTgId,
     UserId userId,
     Optional<String> tag
-) implements Command {
+) implements UserGroupCommand {
     public static ChangeGroupTag from(Message message) {
         return new ChangeGroupTag(
             GroupTgId.from(message.getChatId()),

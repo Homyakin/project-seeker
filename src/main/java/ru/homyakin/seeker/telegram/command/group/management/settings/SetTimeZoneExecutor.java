@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.action.EditGroupSettings;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
-import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.GroupUserService;
@@ -33,7 +32,7 @@ public class SetTimeZoneExecutor extends CommandExecutor<SetTimeZone> {
     public void execute(SetTimeZone command) {
         final var data = command.data();
 
-        final var result = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var result = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = result.first();
         if (data.isLeft()) {
             telegramSender.send(
@@ -47,7 +46,7 @@ public class SetTimeZoneExecutor extends CommandExecutor<SetTimeZone> {
         }
         final var timeZone = data.get();
 
-        if (!groupUserService.isUserAdminInGroup(command.groupId(), command.userId())) {
+        if (!groupUserService.isUserAdminInGroup(command.groupTgId(), command.userId())) {
             logger.info("Not admin tried to toggle event interval");
             telegramSender.send(
                 SendMessageBuilder.builder().text(CommonLocalization.onlyAdminAction(group.language())).chatId(group.id()).build()

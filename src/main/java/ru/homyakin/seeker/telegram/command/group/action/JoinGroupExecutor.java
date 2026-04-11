@@ -19,7 +19,7 @@ class JoinGroupExecutor extends CommandExecutor<JoinGroup> {
 
     @Override
     public void execute(JoinGroup command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         telegramSender.send(
             SendMessageBuilder.builder().chatId(group.id()).text(CommonLocalization.welcomeGroup(group.language())).build()
         );

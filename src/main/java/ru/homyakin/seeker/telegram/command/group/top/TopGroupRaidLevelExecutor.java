@@ -25,7 +25,7 @@ public class TopGroupRaidLevelExecutor extends CommandExecutor<TopGroupRaidLevel
 
     @Override
     public void execute(TopGroupRaidLevel command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         final var top = topService.getGroupTopRaidLevel();
         telegramSender.send(
             SendMessageBuilder.builder()

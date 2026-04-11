@@ -1,16 +1,16 @@
 package ru.homyakin.seeker.telegram.command.group.management.settings;
 
+import ru.homyakin.seeker.telegram.command.UserGroupCommand;
 import io.vavr.control.Either;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record SetTimeZone(
-    GroupTgId groupId,
+    GroupTgId groupTgId,
     UserId userId,
     Either<IncorrectFormat, Integer> data
-) implements Command {
+) implements UserGroupCommand {
     public static SetTimeZone from(Message message) {
 
         return new SetTimeZone(

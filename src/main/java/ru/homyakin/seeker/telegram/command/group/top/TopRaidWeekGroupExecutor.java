@@ -25,7 +25,7 @@ public class TopRaidWeekGroupExecutor extends CommandExecutor<TopRaidWeekGroup> 
 
     @Override
     public void execute(TopRaidWeekGroup command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var user = groupUser.second();
         final var top = topService.getTopRaidWeekGroup(group.domainGroupId());

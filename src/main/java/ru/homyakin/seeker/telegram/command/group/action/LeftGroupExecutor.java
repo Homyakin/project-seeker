@@ -14,6 +14,6 @@ class LeftGroupExecutor extends CommandExecutor<LeftGroup> {
 
     @Override
     public void execute(LeftGroup command) {
-        groupTgService.setNotActive(command.groupId());
+        groupTgService.setNotActive(command.groupTgId());
     }
 }

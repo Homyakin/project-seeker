@@ -7,14 +7,14 @@ import java.util.Map;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.command.UserCommand;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record StartUser(
     UserId userId,
     Map<String, String> params,
     Instant time
-) implements Command {
+) implements UserCommand {
     public static StartUser from(Message message) {
         final var splitText = message.getText().split(" ");
         final Map<String, String> params;

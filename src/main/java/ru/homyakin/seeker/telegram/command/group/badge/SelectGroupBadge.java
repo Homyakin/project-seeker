@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.telegram.command.group.badge;
 
+import ru.homyakin.seeker.telegram.command.UserGroupCommand;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.common.models.BadgeId;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
@@ -13,7 +13,7 @@ public record SelectGroupBadge(
     Integer messageId,
     String callbackId,
     BadgeId badgeId
-) implements Command {
+) implements UserGroupCommand {
     public static SelectGroupBadge from(CallbackQuery callback) {
         return new SelectGroupBadge(
             UserId.from(callback.getFrom().getId()),

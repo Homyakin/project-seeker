@@ -27,12 +27,12 @@ public class GetGroupSettingsExecutor extends CommandExecutor<GetGroupSettings> 
 
     @Override
     public void execute(GetGroupSettings command) {
-        final var groupTg = groupTgService.getOrCreate(command.groupId());
+        final var groupTg = groupTgService.getOrCreate(command.groupTgId());
         final var group = getGroup.forceGet(groupTg.domainGroupId());
         telegramSender.send(
             SendMessageBuilder
                 .builder()
-                .chatId(command.groupId())
+                .chatId(command.groupTgId())
                 .text(GroupSettingsLocalization.groupSettings(groupTg.language(), group))
                 .keyboard(InlineKeyboards.eventIntervalsKeyboard(groupTg.language(), group.settings().eventIntervals()))
                 .build()

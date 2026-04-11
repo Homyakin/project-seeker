@@ -1,18 +1,18 @@
 package ru.homyakin.seeker.telegram.command.group.tavern_menu;
 
+import ru.homyakin.seeker.telegram.command.UserGroupCommand;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record ConsumeOrder(
     String callbackId,
-    GroupTgId groupId,
+    GroupTgId groupTgId,
     Integer messageId,
     UserId userId,
     Long orderId
-) implements Command {
+) implements UserGroupCommand {
     public static ConsumeOrder from(CallbackQuery callback) {
         return new ConsumeOrder(
             callback.getId(),

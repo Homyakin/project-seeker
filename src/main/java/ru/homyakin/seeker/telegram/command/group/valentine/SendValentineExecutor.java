@@ -48,7 +48,7 @@ public class SendValentineExecutor extends CommandExecutor<SendValentine> {
 
     @Override
     public void execute(SendValentine command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var senderUser = groupUser.second();
 

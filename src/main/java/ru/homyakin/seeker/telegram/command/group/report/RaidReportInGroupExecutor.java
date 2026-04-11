@@ -42,7 +42,7 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
 
     @Override
     public void execute(RaidReportInGroup command) {
-        final var groupUserPair = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUserPair = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUserPair.first();
         final var user = groupUserPair.second();
         final var text = groupEventService.getLastEndedEventInGroup(group.id())

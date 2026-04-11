@@ -27,7 +27,7 @@ public class ShowOutpostExecutor extends CommandExecutor<ShowOutpost> {
 
     @Override
     public void execute(ShowOutpost command) {
-        final var group = groupTgService.getOrCreate(command.groupId());
+        final var group = groupTgService.getOrCreate(command.groupTgId());
         final var domainGroupId = group.domainGroupId();
         final var slots = outpostService.listSlots(domainGroupId);
         final var text = OutpostLocalization.outpost(
@@ -36,7 +36,7 @@ public class ShowOutpostExecutor extends CommandExecutor<ShowOutpost> {
             false
         );
         telegramSender.send(SendMessageBuilder.builder()
-            .chatId(command.groupId())
+            .chatId(command.groupTgId())
             .text(text)
             .keyboard(OutpostKeyboards.openOutpostInPrivateKeyboard(group.language()))
             .build()

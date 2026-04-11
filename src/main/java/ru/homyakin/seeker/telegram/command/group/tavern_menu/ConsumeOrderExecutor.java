@@ -32,7 +32,7 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
 
     @Override
     public void execute(ConsumeOrder command) {
-        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupId(), command.userId());
+        final var groupUser = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = groupUser.first();
         final var consumer = personageService.getByIdForce(groupUser.second().personageId());
         orderService.consume(command.orderId(), consumer)
@@ -41,7 +41,7 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
                     EditMessageTextBuilder.builder()
                         .text(TavernMenuLocalization.consumed(group.language(), result))
                         .messageId(command.messageId())
-                        .chatId(command.groupId())
+                        .chatId(command.groupTgId())
                         .build()
                 )
             )
@@ -54,7 +54,7 @@ public class ConsumeOrderExecutor extends CommandExecutor<ConsumeOrder> {
                                     .builder()
                                     .text(error.text(group.language()))
                                     .messageId(command.messageId())
-                                    .chatId(command.groupId())
+                                    .chatId(command.groupTgId())
                                     .build()
                             );
                         case ConsumeOrderError.WrongConsumer _, ConsumeOrderError.OrderLocked _ ->

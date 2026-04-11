@@ -5,14 +5,14 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.infrastructure.TextConstants;
-import ru.homyakin.seeker.telegram.command.Command;
+import ru.homyakin.seeker.telegram.command.UserCommand;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 
 public record OpenOutpostBuilding(
     UserId userId,
     Building building,
     Optional<Integer> editMessageId
-) implements Command {
+) implements UserCommand {
 
     public static OpenOutpostBuilding from(Message message) {
         return new OpenOutpostBuilding(
