@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.group.infra.database;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.online.entity.PersonageLastOnline;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.entity.personage.PersonageMemberGroup;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -11,6 +13,7 @@ import ru.homyakin.seeker.utils.DatabaseUtils;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,7 +41,7 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
     }
 
     @Override
-    public int countPersonageMembers(GroupId groupId) {
+    public int countActivePersonageMembers(GroupId groupId) {
         final var sql = """
             SELECT COUNT(*) FROM personage p
             LEFT JOIN pgroup_to_personage ptp ON ptp.personage_id = p.id AND p.member_pgroup_id = ptp.pgroup_id
@@ -94,6 +97,36 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
             .param("pgroup_id", groupId.value())
             .query((rs, _) -> PersonageId.from(rs.getLong("personage_id")))
             .set();
+    }
+
+    @Override
+    public List<PersonageLastOnline> listMembersOrderedByPersonageId(GroupId groupId, int offset, int limit) {
+        final var sql = """
+            SELECT p.id AS personage_id,
+             p.last_online AS last_online,
+              p.name AS personage_name,
+               b.code as badge_code,
+               pg.tag as member_tag
+            FROM personage p
+            LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id AND pab.is_active = true
+            LEFT JOIN badge b ON pab.badge_id = b.id
+            LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
+            WHERE p.member_pgroup_id = :pgroup_id
+            ORDER BY p.id
+            OFFSET :offset LIMIT :limit
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("offset", offset)
+            .param("limit", limit)
+            .query((rs, _) -> new PersonageLastOnline(
+                PersonageId.from(rs.getLong("personage_id")),
+                rs.getString("personage_name"),
+                Optional.ofNullable(rs.getString("member_tag")),
+                BadgeView.findByCode(rs.getString("badge_code")),
+                rs.getTimestamp("last_online").toLocalDateTime()
+            ))
+            .list();
     }
 
     @Override

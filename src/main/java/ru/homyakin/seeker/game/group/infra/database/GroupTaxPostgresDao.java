@@ -113,16 +113,6 @@ public class GroupTaxPostgresDao implements GroupTaxStorage {
     }
 
     @Override
-    public void deleteAllLeaved(GroupId groupId) {
-        final var sql = """
-            DELETE FROM group_leaved_members WHERE pgroup_id = :id
-            """;
-        jdbcClient.sql(sql)
-            .param("id", groupId.value())
-            .update();
-    }
-
-    @Override
     public void insertLeaved(GroupId groupId, PersonageId personageId, LocalDateTime leavedAt) {
         final var sql = """
             INSERT INTO group_leaved_members (pgroup_id, personage_id, leaved_at)

@@ -11,7 +11,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.group.action.GetGroup;
-import ru.homyakin.seeker.game.group.action.personage.CountPersonagesInGroup;
+import ru.homyakin.seeker.game.group.action.personage.CountActivePersonagesInGroup;
 import ru.homyakin.seeker.game.group.action.personage.RandomGroupPersonage;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
@@ -29,7 +29,7 @@ public class WorkerOfDayCommand {
     private final GetGroup getGroup;
     private final PersonageService personageService;
     private final RandomGroupPersonage randomGroupPersonage;
-    private final CountPersonagesInGroup countPersonagesInGroup;
+    private final CountActivePersonagesInGroup countActivePersonagesInGroup;
     private final GroupPersonageStatsService groupPersonageStatsService;
     private final WorkerOfDayConfig config;
     private final WorkerOfDayStorage storage;
@@ -38,7 +38,7 @@ public class WorkerOfDayCommand {
         GetGroup getGroup,
         PersonageService personageService,
         RandomGroupPersonage randomGroupPersonage,
-        CountPersonagesInGroup countPersonagesInGroup,
+        CountActivePersonagesInGroup countActivePersonagesInGroup,
         GroupPersonageStatsService groupPersonageStatsService,
         WorkerOfDayConfig config,
         WorkerOfDayStorage storage
@@ -46,7 +46,7 @@ public class WorkerOfDayCommand {
         this.getGroup = getGroup;
         this.personageService = personageService;
         this.randomGroupPersonage = randomGroupPersonage;
-        this.countPersonagesInGroup = countPersonagesInGroup;
+        this.countActivePersonagesInGroup = countActivePersonagesInGroup;
         this.groupPersonageStatsService = groupPersonageStatsService;
         this.config = config;
         this.storage = storage;
@@ -62,7 +62,7 @@ public class WorkerOfDayCommand {
         if (todayResult.isPresent()) {
             return Either.left(new WorkerOfDayError.AlreadyChosen(todayResult.get()));
         }
-        final var count = countPersonagesInGroup.count(groupId);
+        final var count = countActivePersonagesInGroup.count(groupId);
         if (config.minimumMembers() > count) {
             return Either.left(new WorkerOfDayError.NotEnoughUsers(config.minimumMembers()));
         }

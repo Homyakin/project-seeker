@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import ru.homyakin.seeker.game.group.entity.personage.GroupMembersPageResult;
+import ru.homyakin.seeker.game.online.entity.PersonageLastOnline;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
@@ -17,6 +19,7 @@ import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.locale.GroupMembersOnlineIndicator;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -309,9 +312,58 @@ public class GroupManagementLocalization {
         params.put("group_leave_command", CommandType.LEAVE_GROUP.getText());
         params.put("change_tag_command", CommandType.CHANGE_TAG.getText());
         params.put("group_tax_command", CommandType.GROUP_TAX.getText());
+        params.put("group_members_command", CommandType.GROUP_MEMBERS.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::groupCommands),
             params
         );
+    }
+
+    public static String groupMembersLine(Language language, String onlineStatusEmoji, PersonageLastOnline personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("online_status_emoji", onlineStatusEmoji);
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::groupMembersLine),
+            params
+        );
+    }
+
+    public static String groupMembersList(
+        Language language,
+        GroupMembersPageResult result
+    ) {
+        if (result.totalMembers() == 0) {
+            return resources.getOrDefault(language, GroupManagementResource::groupMembersEmpty);
+        }
+        final var now = TimeUtils.moscowTime();
+        final var memberLines = result.rows().stream()
+            .map(row -> {
+                final var age = Duration.between(row.lastOnline(), now);
+                final var onlineType = result.onlineConvertor().apply(age);
+                return groupMembersLine(
+                    language,
+                    GroupMembersOnlineIndicator.emoji(onlineType),
+                    row
+                );
+            })
+            .toList();
+        final var params = new HashMap<String, Object>();
+        params.put("range_from", result.rangeFrom());
+        params.put("range_to", result.rangeTo());
+        params.put("total", result.totalMembers());
+        params.put("group_members_lines", String.join("\n", memberLines));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::groupMembersList),
+            params
+        );
+    }
+
+    public static String groupMembersPaginationPrevButton(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::groupMembersPaginationPrevButton);
+    }
+
+    public static String groupMembersPaginationNextButton(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::groupMembersPaginationNextButton);
     }
 }

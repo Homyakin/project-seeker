@@ -28,6 +28,7 @@ import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupName;
 import ru.homyakin.seeker.telegram.command.group.management.ChangeGroupTag;
 import ru.homyakin.seeker.telegram.command.group.management.ConfirmJoinGroupMember;
 import ru.homyakin.seeker.telegram.command.group.management.GroupCommands;
+import ru.homyakin.seeker.telegram.command.group.management.GroupMembers;
 import ru.homyakin.seeker.telegram.command.group.management.GroupInfo;
 import ru.homyakin.seeker.telegram.command.group.management.GroupTax;
 import ru.homyakin.seeker.telegram.command.group.management.GroupRegistration;
@@ -282,6 +283,7 @@ public class CommandParser {
                 case JOIN_GROUP -> JoinGroupMember.from(message);
                 case LEAVE_GROUP -> LeaveGroupMember.from(message);
                 case GROUP_COMMANDS -> GroupCommands.from(message);
+                case GROUP_MEMBERS -> GroupMembers.fromMessage(message);
                 case GROUP_TAX -> GroupTax.from(message);
                 case WORLD_RAID_REPORT -> GroupWorldRaidReport.from(message);
                 case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
@@ -350,6 +352,7 @@ public class CommandParser {
                 case CONFIRM_GROUP_JOIN -> ConfirmJoinGroupMember.from(callback);
                 case CANCEL_GROUP_JOIN -> CancelJoinGroupMember.from(callback);
                 case SELECT_BADGE -> SelectGroupBadge.from(callback);
+                case GROUP_MEMBERS_INLINE -> GroupMembers.fromCallback(callback);
                 default -> null;
             });
     }

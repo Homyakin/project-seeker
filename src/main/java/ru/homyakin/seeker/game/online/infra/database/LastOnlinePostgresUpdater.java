@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.online.infra;
+package ru.homyakin.seeker.game.online.infra.database;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;

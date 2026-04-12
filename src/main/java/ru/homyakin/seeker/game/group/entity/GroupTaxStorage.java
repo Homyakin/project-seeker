@@ -20,8 +20,6 @@ public interface GroupTaxStorage {
 
     boolean deleteLeavedIfExists(GroupId groupId, PersonageId personageId);
 
-    void deleteAllLeaved(GroupId groupId);
-
     void insertLeaved(GroupId groupId, PersonageId personageId, LocalDateTime leavedAt);
 
     List<GroupId> findGroupIdsDueForTaxUpdate(LocalDateTime cutoff);

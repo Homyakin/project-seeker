@@ -3,6 +3,7 @@ package ru.homyakin.seeker.locale;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.online.entity.PersonageLastOnline;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.top.models.GroupTopPosition;
 import ru.homyakin.seeker.game.top.models.PersonageTopPosition;
@@ -69,5 +70,9 @@ public class LocaleUtils {
 
     public static int power(int power) {
         return power / 100; // делим на 100, так как слишком большие числа (32052 в дефолте)
+    }
+
+    public static String personageNameWithBadge(PersonageLastOnline personage) {
+        return personageNameWithBadge(personage.badge(), personage.tag(), personage.name());
     }
 }

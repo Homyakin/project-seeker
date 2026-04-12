@@ -215,4 +215,25 @@ public class InlineKeyboards {
             )
             .build();
     }
+
+    public static InlineKeyboardMarkup groupMembersPaginationKeyboard(Language language, int page, int totalPages) {
+        if (totalPages <= 1) {
+            return new InlineKeyboardMarkup(List.of());
+        }
+        final var callbackPrefix = CommandType.GROUP_MEMBERS_INLINE.getText() + TextConstants.CALLBACK_DELIMITER;
+        final var builder = InlineKeyboardBuilder.builder().addRow();
+        if (page > 1) {
+            builder.addButton(
+                GroupManagementLocalization.groupMembersPaginationPrevButton(language),
+                callbackPrefix + (page - 1)
+            );
+        }
+        if (page < totalPages) {
+            builder.addButton(
+                GroupManagementLocalization.groupMembersPaginationNextButton(language),
+                callbackPrefix + (page + 1)
+            );
+        }
+        return builder.build();
+    }
 }

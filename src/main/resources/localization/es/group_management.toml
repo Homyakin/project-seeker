@@ -70,6 +70,7 @@ Comandos del grupo:
 <code>${group_join_command}</code> - unirse al grupo
 <code>${group_leave_command}</code> - salir del grupo
 <code>${change_tag_command} [TAG]</code> - cambiar el tag del grupo
+<code>${group_members_command}</code> - lista de miembros
 <code>${group_tax_command}</code> - impuesto del grupo (detalle)"""
 
 groupTaxDetails = """\
@@ -82,3 +83,12 @@ Salieron recientemente (aún cuentan): <b>${leaved_members}</b>
 
 Próximo recálculo: <b>${duration}</b>
 Después del recálculo: <b>${tax_after}</b>"""
+
+groupMembersEmpty = "No hay miembros activos en el grupo."
+groupMembersLine = "${online_status_emoji} <code>${personage_badge_with_name}</code>"
+groupMembersList = """\
+<b>Miembros del grupo</b> (${range_from}–${range_to} / ${total}):
+
+${group_members_lines}"""
+groupMembersPaginationPrevButton = "◀"
+groupMembersPaginationNextButton = "▶"

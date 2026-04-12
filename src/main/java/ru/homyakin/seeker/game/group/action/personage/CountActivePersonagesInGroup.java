@@ -5,14 +5,14 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 
 @Component
-public class CountPersonagesInGroup {
+public class CountActivePersonagesInGroup {
     private final GroupPersonageStorage storage;
 
-    public CountPersonagesInGroup(GroupPersonageStorage storage) {
+    public CountActivePersonagesInGroup(GroupPersonageStorage storage) {
         this.storage = storage;
     }
 
     public int count(GroupId groupId) {
-        return storage.countPersonageMembers(groupId);
+        return storage.countActivePersonageMembers(groupId);
     }
 }
