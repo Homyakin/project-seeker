@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.group.action;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.group.entity.GroupStorage;
 
+import java.time.LocalDateTime;
+
 @Component
 public class CountActiveRegisteredGroupsCommand {
     private final GroupStorage storage;
@@ -11,7 +13,7 @@ public class CountActiveRegisteredGroupsCommand {
         this.storage = storage;
     }
 
-    public long execute() {
-        return storage.countActiveRegisteredGroups();
+    public long execute(LocalDateTime start) {
+        return storage.countActiveRegisteredGroups(start);
     }
 }

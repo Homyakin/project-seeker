@@ -17,7 +17,7 @@ public class StatisticServiceTest {
     public void correctGetStatistic() {
         final var activePersonages = TestRandom.nextLong();
         final var activeGroups = TestRandom.nextLong();
-        Mockito.when(countActiveRegisteredGroupsCommand.execute()).thenReturn(activeGroups);
+        Mockito.when(countActiveRegisteredGroupsCommand.execute(Mockito.any())).thenReturn(activeGroups);
         Mockito.when(personageService.getActivePersonagesCount(Mockito.any())).thenReturn(activePersonages);
 
         final var statistic = statisticService.getStatistic();

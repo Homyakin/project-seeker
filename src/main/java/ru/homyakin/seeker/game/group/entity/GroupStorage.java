@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface GroupStorage {
     GroupId create(CreateGroupRequest request);
 
-    long countActiveRegisteredGroups();
+    long countActiveRegisteredGroups(LocalDateTime start);
 
     Optional<Group> get(GroupId groupId);
 

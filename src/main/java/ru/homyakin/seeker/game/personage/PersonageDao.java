@@ -189,7 +189,7 @@ public class PersonageDao {
         final var sql = """
             SELECT COUNT(*) FROM personage
             WHERE is_hidden = FALSE
-            AND last_energy_change >= :start
+            AND last_online >= :start
             """;
         return jdbcClient.sql(sql)
             .param("start", start)

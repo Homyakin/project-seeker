@@ -23,8 +23,9 @@ public class StatisticService {
     @Cacheable(value = CachingConfig.TELEGRAM_STATISTIC)
     public Statistic getStatistic() {
         logger.debug("Getting statistic");
-        final var activePersonages = personageService.getActivePersonagesCount(TimeUtils.moscowTime().minusHours(24));
-        final var activeRegisteredGroups = countActiveRegisteredGroupsCommand.execute();
+        var activeFrom = TimeUtils.moscowTime().minusHours(24);
+        final var activePersonages = personageService.getActivePersonagesCount(activeFrom);
+        final var activeRegisteredGroups = countActiveRegisteredGroupsCommand.execute(activeFrom);
 
         return new Statistic(activePersonages, activeRegisteredGroups);
     }
