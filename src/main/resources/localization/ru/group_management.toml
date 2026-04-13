@@ -15,7 +15,6 @@ unregisteredGroupInfo = """\
 Участники: ${members_count}
 Налоговый уровень: <b>${tax_level}</b>${duration}
 ${group_passive_effects}
-
 Зарегистрировать группу: ${register_group_command}
 
 🏰Аванпост: ${outpost_command}
@@ -84,10 +83,19 @@ groupTaxDetails = """\
 После пересчёта: <b>${tax_after}</b>"""
 
 groupMembersEmpty = "В группе нет активных участников."
-groupMembersLine = "${online_status_emoji} <code>${personage_badge_with_name}</code>"
+groupMembersLine = "${online_status_emoji} <code>${personage_badge_with_name}</code> ${group_member_command}"
 groupMembersList = """\
 <b>Участники группы</b> (${range_from}–${range_to} / ${total}):
 
 ${group_members_lines}"""
 groupMembersPaginationPrevButton = "◀"
 groupMembersPaginationNextButton = "▶"
+
+groupMemberProfileCard = """\
+${short_profile}
+
+<b>Активность</b>
+🌍Глобально: ${duration_since_personage_online}
+👥В Группе: ${duration_since_group_personage_online}"""
+groupMemberNeverOnlineInGroup = "<i>не обнаружено</i>"
+groupMemberNotFound = "В группе нет такого участника"

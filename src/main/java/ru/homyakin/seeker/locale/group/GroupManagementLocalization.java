@@ -1,11 +1,13 @@
 package ru.homyakin.seeker.locale.group;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import ru.homyakin.seeker.game.group.entity.personage.GroupMemberDetails;
 import ru.homyakin.seeker.game.group.entity.personage.GroupMembersPageResult;
 import ru.homyakin.seeker.game.online.entity.PersonageLastOnline;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
@@ -14,6 +16,7 @@ import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.error.JoinGroupMemberError;
 import ru.homyakin.seeker.game.group.entity.GroupTaxSnapshot;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
@@ -323,6 +326,10 @@ public class GroupManagementLocalization {
         final var params = new HashMap<String, Object>();
         params.put("online_status_emoji", onlineStatusEmoji);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        params.put(
+            "group_member_command",
+            CommandType.GROUP_MEMBER.getText() + TextConstants.TG_COMMAND_DELIMITER + personage.id().value()
+        );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::groupMembersLine),
             params
@@ -365,5 +372,39 @@ public class GroupManagementLocalization {
 
     public static String groupMembersPaginationNextButton(Language language) {
         return resources.getOrDefault(language, GroupManagementResource::groupMembersPaginationNextButton);
+    }
+
+    public static String groupMemberNotFound(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::groupMemberNotFound);
+    }
+
+    public static String groupMemberProfileCard(
+        Language language,
+        GroupMemberDetails details
+    ) {
+        final var now = TimeUtils.moscowTime();
+        final var personageLine = groupMemberOnline(language, details.lastOnline().personageLastOnline(), now);
+        final var groupLine = details.lastOnline().membershipLastOnline()
+            .map(mt -> groupMemberOnline(language, mt, now))
+            .orElseGet(() -> resources.getOrDefault(language, GroupManagementResource::groupMemberNeverOnlineInGroup));
+        final var params = new HashMap<String, Object>();
+        params.put("short_profile", CommonLocalization.shortProfile(language, details.personage()));
+        params.put("duration_since_personage_online", personageLine);
+        params.put("duration_since_group_personage_online", groupLine);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::groupMemberProfileCard),
+            params
+        );
+    }
+
+    private static String groupMemberOnline(Language language, LocalDateTime past, LocalDateTime now) {
+        var elapsed = Duration.between(past, now);
+        if (elapsed.isNegative()) {
+            elapsed = Duration.ZERO;
+        }
+        if (elapsed.compareTo(Duration.ofMinutes(10)) < 0) {
+            return CommonLocalization.durationJustNow(language);
+        }
+        return CommonLocalization.durationWithDays(language, elapsed);
     }
 }

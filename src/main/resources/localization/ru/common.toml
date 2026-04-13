@@ -67,6 +67,8 @@ groupInfoPassiveEffectsSection = "\n<b>Эффекты группы</b>${group_ef
 
 hoursShort = "ч."
 minutesShort = "мин."
+daysShort = "д."
+durationJustNow = "сейчас"
 
 # текста для группы
 noStatsForSeason = "Статистика за сезон не найдена"

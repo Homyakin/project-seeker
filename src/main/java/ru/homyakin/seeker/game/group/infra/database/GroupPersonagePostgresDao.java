@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.group.entity.personage.GroupMemberLastOnline;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.group.entity.personage.PersonageMemberGroup;
 import ru.homyakin.seeker.game.online.entity.PersonageLastOnline;
@@ -142,6 +143,29 @@ public class GroupPersonagePostgresDao implements GroupPersonageStorage {
             .param("personage_id", personageId.value())
             .query((rs, _) -> rs.getInt(1))
             .single() > 0;
+    }
+
+    @Override
+    public Optional<GroupMemberLastOnline> findActiveMemberLastOnline(GroupId groupId, PersonageId personageId) {
+        final var sql = """
+            SELECT p.last_online AS personage_last_online,
+                   ptp.last_online AS membership_last_online
+            FROM personage p
+            LEFT JOIN pgroup_to_personage ptp
+                ON p.id = ptp.personage_id
+                AND ptp.pgroup_id = :pgroup_id
+            WHERE p.id = :personage_id
+              AND p.member_pgroup_id = :pgroup_id
+            """;
+        return jdbcClient.sql(sql)
+            .param("pgroup_id", groupId.value())
+            .param("personage_id", personageId.value())
+            .query((rs, _) -> new GroupMemberLastOnline(
+                rs.getTimestamp("personage_last_online").toLocalDateTime(),
+                Optional.ofNullable(rs.getTimestamp("membership_last_online"))
+                    .map(Timestamp::toLocalDateTime)
+            ))
+            .optional();
     }
 
     @Override

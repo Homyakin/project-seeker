@@ -29,6 +29,8 @@ public interface GroupPersonageStorage {
 
     boolean isPersonageActiveInGroup(GroupId groupId, PersonageId personageId);
 
+    Optional<GroupMemberLastOnline> findActiveMemberLastOnline(GroupId groupId, PersonageId personageId);
+
     PersonageMemberGroup getPersonageMemberGroup(PersonageId personageId);
 
     void setMemberGroup(PersonageId personageId, GroupId groupId);

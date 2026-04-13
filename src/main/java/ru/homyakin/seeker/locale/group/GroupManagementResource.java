@@ -37,6 +37,9 @@ public record GroupManagementResource(
     String groupMembersLine,
     String groupMembersList,
     String groupMembersPaginationPrevButton,
-    String groupMembersPaginationNextButton
+    String groupMembersPaginationNextButton,
+    String groupMemberProfileCard,
+    String groupMemberNeverOnlineInGroup,
+    String groupMemberNotFound
 ) {
 }

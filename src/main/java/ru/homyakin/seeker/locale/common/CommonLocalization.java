@@ -192,7 +192,7 @@ public class CommonLocalization {
         }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::groupInfoPassiveEffectsSection),
-            Collections.singletonMap("group_effect_lines", effectsText.toString())
+            Collections.singletonMap("group_effect_lines", effectsText + "\n")
         );
     }
 
@@ -312,20 +312,73 @@ public class CommonLocalization {
     }
 
     public static String duration(Language language, Duration duration) {
+        var d = duration;
+        if (d.isNegative()) {
+            d = Duration.ZERO;
+        }
         var hours = "";
-        if (duration.toHours() > 0) {
-            hours = duration.toHours() + " " + hoursShort(language);
+        if (d.toHours() > 0) {
+            hours = d.toHours() + " " + hoursShort(language);
         }
         var minutes = "";
-        if (duration.toMinutesPart() > 0) {
-            minutes = duration.toMinutesPart() + " " + minutesShort(language);
-        } else if (duration.toHours() == 0) {
+        if (d.toMinutesPart() > 0) {
+            minutes = d.toMinutesPart() + " " + minutesShort(language);
+        } else if (d.toHours() == 0) {
             minutes = "0 " + minutesShort(language);
         }
         if (hours.isBlank()) {
             return minutes;
         }
         return hours + " " + minutes;
+    }
+
+    public static String durationWithDays(Language language, Duration duration) {
+        var d = duration;
+        if (d.isNegative()) {
+            d = Duration.ZERO;
+        }
+        final var days = d.toDays();
+        final var afterDays = d.minusDays(days);
+        final var hours = afterDays.toHours();
+        final var afterHours = afterDays.minusHours(hours);
+        final var minutes = afterHours.toMinutesPart();
+
+        final var daysPart = days > 0 ? days + " " + daysShort(language) : "";
+        var hoursPart = "";
+        if (hours > 0) {
+            hoursPart = hours + " " + hoursShort(language);
+        }
+        var minutesPart = "";
+        if (minutes > 0) {
+            minutesPart = minutes + " " + minutesShort(language);
+        } else if (days == 0 && hours == 0) {
+            minutesPart = "0 " + minutesShort(language);
+        }
+        final var builder = new StringBuilder();
+        if (!daysPart.isEmpty()) {
+            builder.append(daysPart);
+        }
+        if (!hoursPart.isEmpty()) {
+            if (!builder.isEmpty()) {
+                builder.append(" ");
+            }
+            builder.append(hoursPart);
+        }
+        if (!minutesPart.isEmpty()) {
+            if (!builder.isEmpty()) {
+                builder.append(" ");
+            }
+            builder.append(minutesPart);
+        }
+        return builder.toString();
+    }
+
+    public static String durationJustNow(Language language) {
+        return resources.getOrDefault(language, CommonResource::durationJustNow);
+    }
+
+    private static String daysShort(Language language) {
+        return resources.getOrDefault(language, CommonResource::daysShort);
     }
 
     private static String hoursShort(Language language) {

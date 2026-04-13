@@ -24,6 +24,8 @@ public record CommonResource(
     String receptionDesk,
     String hoursShort,
     String minutesShort,
+    String daysShort,
+    String durationJustNow,
     String noStatsForSeason,
     String groupStats,
     String personageGroupStats,

@@ -4,6 +4,8 @@ internalError = "Қате, кейінірек қайталап көріңіз"
 
 hoursShort = "сағ."
 minutesShort = "мин."
+daysShort = "күн"
+durationJustNow = "қазір"
 
 # текста для лички
 receptionDesk = "Сәлеметсіз бе! Көмегім қажет пе?"
