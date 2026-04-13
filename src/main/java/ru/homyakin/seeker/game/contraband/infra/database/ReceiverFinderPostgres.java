@@ -29,7 +29,7 @@ public class ReceiverFinderPostgres implements FindReceiver {
             SELECT p.id AS personage_id
             FROM personage p
             LEFT JOIN contraband_chest cc ON cc.receiver_personage_id = p.id
-            WHERE p.last_energy_change > :since
+            WHERE p.last_online > :since
               AND p.id != :finder_id
               AND NOT EXISTS (
                   SELECT 1 FROM contraband_chest cc2

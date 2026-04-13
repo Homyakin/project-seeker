@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.contraband.action;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +107,7 @@ public class ContrabandService {
         return withLock(contrabandId, () -> openAsReceiverInternal(contrabandId, personageId));
     }
 
-    private <T> T withLock(long contrabandId, java.util.function.Supplier<T> action) {
+    private <T> T withLock(long contrabandId, Supplier<T> action) {
         final var key = LockPrefixes.CONTRABAND.name() + contrabandId;
         return lockService.tryLockAndCalc(key, action).getOrElseThrow(
             () -> new IllegalStateException("Failed to acquire lock for contraband " + contrabandId)
