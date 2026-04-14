@@ -36,12 +36,16 @@ public class RegenEnergyScheduler {
     @Scheduled(cron = "0 * * * * *")
     public void notifyUsersAboutEnergyRegen() {
         for (final var personageId : personageDao.getPersonagesWithRecoveredEnergy()) {
-            logger.info("Personage {} recovered energy", personageId);
-            final var settings = getPersonageSettingsCommand.execute(personageId);
-            if (settings.autoQuesting()) {
-                autoStartQuest(personageId);
-            } else {
-                regenEnergy(personageId);
+            try {
+                logger.info("Personage {} recovered energy", personageId);
+                final var settings = getPersonageSettingsCommand.execute(personageId);
+                if (settings.autoQuesting()) {
+                    autoStartQuest(personageId);
+                } else {
+                    regenEnergy(personageId);
+                }
+            } finally {
+                personageDao.clearEnergyRecoveryNotificationTime(personageId);
             }
         }
     }

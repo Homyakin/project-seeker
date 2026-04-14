@@ -53,6 +53,7 @@ class RegenEnergySchedulerTest {
         verify(sendNotificationToPersonageCommand)
             .sendNotification(eq(personageId), any(Notification.RecoveredEnergy.class));
         verify(personageService).getByIdForce(personageId);
+        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId);
     }
 
     @Test
@@ -71,6 +72,7 @@ class RegenEnergySchedulerTest {
         verify(sendNotificationToPersonageCommand)
             .sendNotification(eq(personageId), any(Notification.RecoveredEnergy.class));
         verify(personageService, times(0)).getByIdForce(personageId);
+        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId);
     }
 
     @Test
@@ -89,6 +91,7 @@ class RegenEnergySchedulerTest {
         verify(personalQuestService).autoStartQuest(personageId);
         verify(sendNotificationToPersonageCommand)
             .sendNotification(eq(personageId), any(Notification.AutoStartQuest.class));
+        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId);
     }
 
     @Test
@@ -107,6 +110,7 @@ class RegenEnergySchedulerTest {
         verify(personalQuestService).autoStartQuest(personageId);
         verify(sendNotificationToPersonageCommand, times(0))
             .sendNotification(eq(personageId), any(Notification.AutoStartQuest.class));
+        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId);
     }
 
     @Test
@@ -135,6 +139,8 @@ class RegenEnergySchedulerTest {
         verify(personageService).getByIdForce(personageId2);
         verify(sendNotificationToPersonageCommand)
             .sendNotification(eq(personageId2), any(Notification.RecoveredEnergy.class));
+        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId1);
+        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId2);
     }
 
     private void mockDisableAutoQuest(PersonageId personageId) {

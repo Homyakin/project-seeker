@@ -63,7 +63,15 @@ public class PersonageDao {
         UPDATE personage
         SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
         health = :health, last_energy_change = :last_energy_change, money = :money,
-        energy = :energy, effects = :effects, energy_recovery_notification_time = :energy_recovery_notification_time
+        energy = :energy, effects = :effects,
+        energy_recovery_notification_time = CASE
+            WHEN NOT :has_full_energy
+                THEN :energy_recovery_notification_time
+            WHEN energy_recovery_notification_time IS NOT NULL
+                AND :last_energy_change < energy_recovery_notification_time
+                THEN :last_energy_change
+            ELSE energy_recovery_notification_time
+        END
         WHERE id = :id
         """;
 
@@ -131,7 +139,21 @@ public class PersonageDao {
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
+            // Если энергия полная, то не нужно обновлять время восстановления энерги в null
+            // Если энергия полная и дата изменения энергии меньше времени восстановления энергии,
+            // то нужно обновить время восстановления энергии на дату изменения энергии
+            .param("has_full_energy", personage.energy().isFull())
             .param("energy_recovery_notification_time", personage.energy().energyRecoveryTime().orElse(null))
+            .update();
+    }
+
+    public void clearEnergyRecoveryNotificationTime(PersonageId id) {
+        jdbcClient.sql("""
+            UPDATE personage
+            SET energy_recovery_notification_time = NULL
+            WHERE id = :id
+            """)
+            .param("id", id.value())
             .update();
     }
 
