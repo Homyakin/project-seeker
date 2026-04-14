@@ -19,6 +19,7 @@ import java.util.List;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -91,7 +92,7 @@ class RegenEnergySchedulerTest {
         verify(personalQuestService).autoStartQuest(personageId);
         verify(sendNotificationToPersonageCommand)
             .sendNotification(eq(personageId), any(Notification.AutoStartQuest.class));
-        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId);
+        verify(personageDao, never()).clearEnergyRecoveryNotificationTime(personageId);
     }
 
     @Test
@@ -139,7 +140,7 @@ class RegenEnergySchedulerTest {
         verify(personageService).getByIdForce(personageId2);
         verify(sendNotificationToPersonageCommand)
             .sendNotification(eq(personageId2), any(Notification.RecoveredEnergy.class));
-        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId1);
+        verify(personageDao, never()).clearEnergyRecoveryNotificationTime(personageId1);
         verify(personageDao).clearEnergyRecoveryNotificationTime(personageId2);
     }
 

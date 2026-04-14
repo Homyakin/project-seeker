@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.notification.action.SendNotificationToPersonageCommand;
@@ -36,16 +37,16 @@ public class RegenEnergyScheduler {
     @Scheduled(cron = "0 * * * * *")
     public void notifyUsersAboutEnergyRegen() {
         for (final var personageId : personageDao.getPersonagesWithRecoveredEnergy()) {
-            try {
-                logger.info("Personage {} recovered energy", personageId);
-                final var settings = getPersonageSettingsCommand.execute(personageId);
-                if (settings.autoQuesting()) {
-                    autoStartQuest(personageId);
-                } else {
+            logger.info("Personage {} recovered energy", personageId);
+            final var settings = getPersonageSettingsCommand.execute(personageId);
+            if (settings.autoQuesting()) {
+                autoStartQuest(personageId);
+            } else {
+                try {
                     regenEnergy(personageId);
+                } finally {
+                    personageDao.clearEnergyRecoveryNotificationTime(personageId);
                 }
-            } finally {
-                personageDao.clearEnergyRecoveryNotificationTime(personageId);
             }
         }
     }
