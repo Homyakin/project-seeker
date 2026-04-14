@@ -1,8 +1,18 @@
 package ru.homyakin.seeker.game.personage;
 
 
-import io.vavr.control.Either;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import io.vavr.control.Either;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.TakeQuestError;
@@ -13,16 +23,6 @@ import ru.homyakin.seeker.game.personage.notification.entity.NotificationError;
 import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCommand;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
 import ru.homyakin.seeker.utils.models.Success;
-
-import java.util.List;
-
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 class RegenEnergySchedulerTest {
     private final PersonageService personageService = mock();
@@ -111,7 +111,7 @@ class RegenEnergySchedulerTest {
         verify(personalQuestService).autoStartQuest(personageId);
         verify(sendNotificationToPersonageCommand, times(0))
             .sendNotification(eq(personageId), any(Notification.AutoStartQuest.class));
-        verify(personageDao).clearEnergyRecoveryNotificationTime(personageId);
+        verify(personageDao, never()).clearEnergyRecoveryNotificationTime(personageId);
     }
 
     @Test
