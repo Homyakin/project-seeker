@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCom
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.contraband.ContrabandLocalization;
+import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -95,6 +96,13 @@ public class TgPersonageNotificationService implements SendNotificationToPersona
                 ContrabandLocalization.echoToFinderFailure(language, echoFailure.contraband(), echoFailure.receiver());
             case Notification.ContrabandExpired expired ->
                 ContrabandLocalization.contrabandExpired(language, expired.tier());
+            case Notification.KickedFromGroup kicked ->
+                GroupManagementLocalization.kickPrivateMessage(
+                    language,
+                    kicked.group(),
+                    kicked.admin(),
+                    kicked.joinTimeout()
+                );
         };
     }
 

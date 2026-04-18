@@ -216,6 +216,25 @@ public class InlineKeyboards {
             .build();
     }
 
+    public static InlineKeyboardMarkup kickGroupMemberConfirmationKeyboard(
+        Language language,
+        PersonageId targetPersonageId
+    ) {
+        final var callbackPostfix = TextConstants.CALLBACK_DELIMITER + targetPersonageId.value();
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                GroupManagementLocalization.kickCancelButton(language),
+                CommandType.CANCEL_GROUP_KICK.getText() + callbackPostfix
+            )
+            .addButton(
+                GroupManagementLocalization.kickConfirmButton(language),
+                CommandType.CONFIRM_GROUP_KICK.getText() + callbackPostfix
+            )
+            .build();
+    }
+
     public static InlineKeyboardMarkup groupMembersPaginationKeyboard(Language language, int page, int totalPages) {
         if (totalPages <= 1) {
             return new InlineKeyboardMarkup(List.of());

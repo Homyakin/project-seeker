@@ -391,10 +391,70 @@ public class GroupManagementLocalization {
         params.put("short_profile", CommonLocalization.shortProfile(language, details.personage()));
         params.put("duration_since_personage_online", personageLine);
         params.put("duration_since_group_personage_online", groupLine);
+        params.put(
+            "kick_command",
+            CommandType.GROUP_KICK.getText() + TextConstants.TG_COMMAND_DELIMITER + details.personage().id().value()
+        );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::groupMemberProfileCard),
             params
         );
+    }
+
+    public static String kickConfirmationRequired(Language language, Personage personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::kickConfirmationRequired),
+            params
+        );
+    }
+
+    public static String kickConfirmButton(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::kickConfirmButton);
+    }
+
+    public static String kickCancelButton(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::kickCancelButton);
+    }
+
+    public static String kickConfirmed(Language language, Personage personage, Personage admin, Duration joinTimeout) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        params.put("admin_badge_with_name", LocaleUtils.personageNameWithBadge(admin));
+        params.put("duration", CommonLocalization.duration(language, joinTimeout));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::kickConfirmed),
+            params
+        );
+    }
+
+    public static String kickCanceled(Language language, Personage personage) {
+        final var params = new HashMap<String, Object>();
+        params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::kickCanceled),
+            params
+        );
+    }
+
+    public static String kickNotMember(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::kickNotMember);
+    }
+
+    public static String kickPrivateMessage(Language language, Group group, Personage admin, Duration joinTimeout) {
+        final var params = new HashMap<String, Object>();
+        params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
+        params.put("admin_badge_with_name", LocaleUtils.personageNameWithBadge(admin));
+        params.put("duration", CommonLocalization.duration(language, joinTimeout));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, GroupManagementResource::kickPrivateMessage),
+            params
+        );
+    }
+
+    public static String kickCannotKickSelf(Language language) {
+        return resources.getOrDefault(language, GroupManagementResource::kickCannotKickSelf);
     }
 
     private static String groupMemberOnline(Language language, LocalDateTime past, LocalDateTime now) {

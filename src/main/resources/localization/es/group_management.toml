@@ -98,6 +98,24 @@ ${short_profile}
 
 <b>Actividad</b>
 🌍Globalmente: <code>${duration_since_personage_online}</code>
-👥En el grupo: <code>${duration_since_group_personage_online}</code>"""
+👥En el grupo: <code>${duration_since_group_personage_online}</code>
+
+🚫Expulsar: <code>${kick_command}</code>"""
 groupMemberNeverOnlineInGroup = "<i>aún no consta en el chat del grupo</i>"
 groupMemberNotFound = "No hay ningún miembro con ese id en este grupo."
+
+kickConfirmationRequired = """\
+¿Expulsar a <code>${personage_badge_with_name}</code> del grupo?"""
+kickConfirmButton = "✅Expulsar"
+kickCancelButton = "❌Cancelar"
+kickConfirmed = """\
+<code>${personage_badge_with_name}</code> fue expulsado del grupo por <code>${admin_badge_with_name}</code>
+
+No podrá entrar a otro durante ${duration}"""
+kickCanceled = "Expulsión de <code>${personage_badge_with_name}</code> cancelada"
+kickNotMember = "No hay ningún miembro con ese id en este grupo."
+kickPrivateMessage = """\
+Has sido expulsado del grupo <code>${group_name_with_badge}</code> por <code>${admin_badge_with_name}</code>
+
+No podrá entrar a otro durante ${duration}"""
+kickCannotKickSelf = "No puedes expulsarte a ti mismo"

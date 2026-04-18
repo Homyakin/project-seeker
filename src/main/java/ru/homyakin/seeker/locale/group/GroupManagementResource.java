@@ -40,6 +40,14 @@ public record GroupManagementResource(
     String groupMembersPaginationNextButton,
     String groupMemberProfileCard,
     String groupMemberNeverOnlineInGroup,
-    String groupMemberNotFound
+    String groupMemberNotFound,
+    String kickConfirmationRequired,
+    String kickConfirmButton,
+    String kickCancelButton,
+    String kickConfirmed,
+    String kickCanceled,
+    String kickNotMember,
+    String kickPrivateMessage,
+    String kickCannotKickSelf
 ) {
 }

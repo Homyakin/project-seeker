@@ -58,6 +58,14 @@ public class LeaveGroupMemberCommand {
         return leave(personageId, groupId);
     }
 
+    /**
+     * Same as {@link #execute(PersonageId, GroupId)} after membership in {@code groupId} is already validated.
+     */
+    @Transactional
+    public Either<LeaveGroupMemberError, Duration> leaveAssumingMemberOfGroup(PersonageId personageId, GroupId groupId) {
+        return leave(personageId, groupId);
+    }
+
     private Either<LeaveGroupMemberError, Duration> leave(PersonageId personageId, GroupId groupId) {
         final var memberCount = groupStorage.memberCount(groupId);
         final var group = groupStorage.get(groupId).orElseThrow();

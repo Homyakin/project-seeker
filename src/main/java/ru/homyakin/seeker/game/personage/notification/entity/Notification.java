@@ -1,8 +1,11 @@
 package ru.homyakin.seeker.game.personage.notification.entity;
 
+import java.time.Duration;
+
 import ru.homyakin.seeker.game.contraband.entity.Contraband;
 import ru.homyakin.seeker.game.contraband.entity.ContrabandTier;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.event.personal_quest.model.StartedQuest;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -47,5 +50,8 @@ public sealed interface Notification {
     record ContrabandExpired(
         ContrabandTier tier
     ) implements Notification {
+    }
+
+    record KickedFromGroup(Group group, Personage admin, Duration joinTimeout) implements Notification {
     }
 }

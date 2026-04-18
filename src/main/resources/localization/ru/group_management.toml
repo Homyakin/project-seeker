@@ -96,6 +96,22 @@ ${short_profile}
 
 <b>Активность</b>
 🌍Глобально: ${duration_since_personage_online}
-👥В Группе: ${duration_since_group_personage_online}"""
+👥В Группе: ${duration_since_group_personage_online}
+
+🚫Выгнать: ${kick_command}"""
 groupMemberNeverOnlineInGroup = "<i>не обнаружено</i>"
 groupMemberNotFound = "В группе нет такого участника"
+
+kickConfirmationRequired = """\
+Выгнать <code>${personage_badge_with_name}</code> из группы?"""
+kickConfirmButton = "✅Выгнать"
+kickCancelButton = "❌Отменить"
+kickConfirmed = """\
+<code>${personage_badge_with_name}</code> был выгнан из группы администратором <code>${admin_badge_with_name}</code>
+Вступление заблокировано на ${duration}"""
+kickCanceled = "Выгон <code>${personage_badge_with_name}</code> отменён"
+kickNotMember = "В группе нет такого участника"
+kickPrivateMessage = """\
+Тебя выгнали из группы <code>${group_name_with_badge}</code> администратором <code>${admin_badge_with_name}</code>
+Вступление заблокировано на ${duration}"""
+kickCannotKickSelf = "Нельзя выгнать самого себя"
