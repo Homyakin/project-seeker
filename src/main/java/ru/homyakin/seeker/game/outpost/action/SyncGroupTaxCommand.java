@@ -47,7 +47,11 @@ public class SyncGroupTaxCommand {
     }
 
     public void execute(GroupId groupId) {
-        groupTaxService.recalculateTax(groupId);
+        final var taxLockKey = LockPrefixes.GROUP_TAX_SYNC.name() + groupId.value();
+        lockService.tryLockAndExecute(
+            taxLockKey,
+            () -> groupTaxService.recalculateTax(groupId)
+        );
         final var key = LockPrefixes.OUTPOST.name() + groupId.value();
         lockService.tryLockAndCalc(
             key,

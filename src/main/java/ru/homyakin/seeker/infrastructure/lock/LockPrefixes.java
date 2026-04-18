@@ -9,4 +9,5 @@ public enum LockPrefixes {
     PERSONAGE,
     CONTRABAND,
     OUTPOST,
+    GROUP_TAX_SYNC,
 }
