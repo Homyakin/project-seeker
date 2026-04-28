@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.battle;
+package ru.homyakin.seeker.game.battle.v3.two_team;
 
 /**
  * Используется для записи статистики персонажей и групп

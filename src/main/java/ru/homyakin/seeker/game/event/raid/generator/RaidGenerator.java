@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.event.raid.generator;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 

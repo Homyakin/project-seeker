@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.battle.two_team;
+package ru.homyakin.seeker.game.battle.v3.two_team;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.TeamResult;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 @Component

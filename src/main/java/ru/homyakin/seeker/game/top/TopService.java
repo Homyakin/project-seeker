@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.group.action.personage.ActiveGroupPersonagesService;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;

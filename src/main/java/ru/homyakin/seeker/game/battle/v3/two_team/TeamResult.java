@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.battle;
+package ru.homyakin.seeker.game.battle.v3.two_team;
 
 import java.util.HashMap;
 import java.util.List;
