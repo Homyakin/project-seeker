@@ -5,9 +5,9 @@ public class Duel {
         int rounds = 0;
         while (first.isAlive() && second.isAlive()) {
             ++rounds;
-            second.takeDamage(first.getDamage());
+            second.receiveDamageFrom(first, first.rollDamage());
             if (second.isAlive()) {
-                first.takeDamage(second.getDamage());
+                first.receiveDamageFrom(second, second.rollDamage());
             }
         }
         return new DuelResult(rounds);

@@ -35,6 +35,6 @@ public enum DuelPersonageTemplate {
     }
 
     public BattlePersonage create() {
-        return new BattlePersonage(health, attack, defense, critChance, dodgeChance, 0, 0);
+        return new BattlePersonage(health, attack, defense, critChance, dodgeChance, 0, 0, 0);
     }
 }
