@@ -1,7 +1,11 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class BattleSimulator {
@@ -124,5 +128,20 @@ public class BattleSimulator {
     public void power() {
         System.out.println(new BattlePersonage(880,  360,  60, 15, 15, 1.75, 200,  15, Position.MID,   2).power());
         System.out.println(new BattlePersonage(2500, 150, 320, 5,  5,  1.5, 140, 100, Position.FRONT, 1).power());
+    }
+
+    @Test
+    public void logTest() throws Exception {
+        final var result = new Battle().process(teamTankArcher(), teamTwoArchers());
+        final var mapper = JsonMapper.builder()
+            .addModule(new Jdk8Module())
+            .build();
+        final var writer = mapper.writerWithDefaultPrettyPrinter();
+        final var outDir = Path.of("target", "battle-v4-log");
+        Files.createDirectories(outDir);
+        final var initPath = outDir.resolve("battle-init.json");
+        final var logPath = outDir.resolve("battle-action-log.json");
+        writer.writeValue(initPath.toFile(), result.initState());
+        writer.writeValue(logPath.toFile(), result.actionLog().events());
     }
 }
