@@ -71,18 +71,22 @@ public class BattlePersonage {
     /**
      * @return true if damage was applied (not dodged)
      */
-    public boolean receiveDamageFrom(BattlePersonage attacker, DamageRoll roll) {
+    public boolean receiveDamageFrom(BattlePersonage attacker, DamageRoll roll, BattleActionLog log, int round) {
         if (RandomUtils.processChance(dodgeChance)) {
             dodgesCount++;
             damageDodged += roll.amount();
             attacker.recordMiss();
+            log.add(new BattleEvent.AttackDodged(attacker.id(), id, round));
             return false;
         }
         bonusThreat = Math.max(0, bonusThreat - THREAT_LOSE_FROM_DAMAGE);
         attacker.recordDamageDealt(roll);
         damageBlocked += roll.amount();
         blockCount++;
+        final int healthBefore = health;
         this.health = health - (int) (roll.amount() * defenseReduce());
+        final int damageTaken = healthBefore - health;
+        log.add(new BattleEvent.DamageReceived(id, attacker.id(), roll, damageTaken, health, round));
         return true;
     }
 
@@ -90,19 +94,21 @@ public class BattlePersonage {
         return health > 0;
     }
 
-    public boolean tick() {
+    public boolean tick(BattleActionLog log, int round) {
         nextMove += initiative;
         if (nextMove >= TURN_INITIATIVE) {
             nextMove -= TURN_INITIATIVE;
+            log.add(new BattleEvent.InitiativeAfterTick(id, nextMove, true, round));
             return true;
         }
+        log.add(new BattleEvent.InitiativeAfterTick(id, nextMove, false, round));
         return false;
     }
 
     /**
      * @return true if the mover phase should stop (no alive enemies left)
      */
-    public boolean move(Map<UUID, BattlePersonage> enemyAliveTeam) {
+    public boolean move(Map<UUID, BattlePersonage> enemyAliveTeam, BattleActionLog log, int round) {
         if (!isAlive()) {
             return false;
         }
@@ -110,10 +116,12 @@ public class BattlePersonage {
         final var target = randomAlivePersonage(this, enemyAliveTeam);
         if (target == null) {
             stepOneLineTowardEnemy();
+            log.add(new BattleEvent.MovedTowardEnemy(id, currentPosition, round));
             return enemyAliveTeam.values().stream().noneMatch(BattlePersonage::isAlive);
         }
-        if (target.receiveDamageFrom(this, rollDamage())) {
+        if (target.receiveDamageFrom(this, rollDamage(), log, round)) {
             if (!target.isAlive()) {
+                log.add(new BattleEvent.PersonageDefeated(target.id(), id, round));
                 bonusThreat += THREAT_FROM_KILL;
                 enemyAliveTeam.remove(target.id());
             } else {
@@ -188,6 +196,19 @@ public class BattlePersonage {
 
     public UUID id() {
         return id;
+    }
+
+    public int health() {
+        return health;
+    }
+
+    public int initiative() {
+        return initiative;
+    }
+
+    /** Current initiative / turn gauge value (accumulates each tick until a turn is granted, then wraps). */
+    public int initiativeGauge() {
+        return nextMove;
     }
 
     public int totalThreat() {
