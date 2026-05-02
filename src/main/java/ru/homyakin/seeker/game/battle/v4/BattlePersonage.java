@@ -29,7 +29,9 @@ public class BattlePersonage {
     private int bonusThreat = 0;
     private int nextMove;
     private final Position startPosition;
-    private int currentCoordinate;
+    private int currentPosition = -1;
+    private BattleAdvanceDirection advanceDirection;
+    private final int range;
 
     private long normalDamageDealt;
     private long normalAttackCount;
@@ -49,7 +51,9 @@ public class BattlePersonage {
         int dodgeChance,
         double critMultiplier,
         int initiative,
-        int baseThreat, Position startPosition
+        int baseThreat,
+        Position startPosition,
+        int range
     ) {
         this.health = health;
         this.attack = attack;
@@ -60,6 +64,7 @@ public class BattlePersonage {
         this.initiative = initiative;
         this.baseThreat = baseThreat;
         this.startPosition = startPosition;
+        this.range = range;
         this.nextMove = RandomUtils.getInInterval(0, TURN_INITIATIVE / 2);
     }
 
@@ -102,9 +107,10 @@ public class BattlePersonage {
             return false;
         }
 
-        final var target = randomAlivePersonage(enemyAliveTeam);
+        final var target = randomAlivePersonage(this, enemyAliveTeam);
         if (target == null) {
-            return true;
+            stepOneLineTowardEnemy();
+            return enemyAliveTeam.values().stream().noneMatch(BattlePersonage::isAlive);
         }
         if (target.receiveDamageFrom(this, rollDamage())) {
             if (!target.isAlive()) {
@@ -118,25 +124,66 @@ public class BattlePersonage {
     }
 
     @Nullable
-    static BattlePersonage randomAlivePersonage(Map<UUID, BattlePersonage> alivePersonages) {
-        if (alivePersonages.isEmpty()) {
+    private BattlePersonage randomAlivePersonage(BattlePersonage attacker, Map<UUID, BattlePersonage> enemyAliveTeam) {
+        if (enemyAliveTeam.isEmpty()) {
             return null;
         }
 
-        final var weightMap = new HashMap<BattlePersonage, Integer>();
         boolean hasAlive = false;
-        for (final var personage : alivePersonages.values()) {
-            if (!personage.isAlive()) {
-                continue;
+        for (final var personage : enemyAliveTeam.values()) {
+            if (personage.isAlive()) {
+                hasAlive = true;
+                break;
             }
-            hasAlive = true;
-            final var weight = personage.totalThreat();
-            weightMap.put(personage, weight);
         }
         if (!hasAlive) {
             return null;
         }
-        return new ProbabilityPicker<>(weightMap).pick(RandomUtils::getWithMax);
+
+        final var weightMap = new HashMap<BattlePersonage, Integer>();
+        for (final var personage : enemyAliveTeam.values()) {
+            if (!personage.isAlive()) {
+                continue;
+            }
+            if (!inStrikeRange(attacker, personage)) {
+                continue;
+            }
+            weightMap.put(personage, personage.totalThreat());
+        }
+        if (!weightMap.isEmpty()) {
+            return new ProbabilityPicker<>(weightMap).pick(RandomUtils::getWithMax);
+        }
+
+        return null;
+    }
+
+    private static boolean inStrikeRange(BattlePersonage attacker, BattlePersonage target) {
+        return Math.abs(attacker.currentPosition() - target.currentPosition()) <= attacker.range();
+    }
+
+    private void stepOneLineTowardEnemy() {
+        currentPosition += advanceDirection.indexDelta();
+    }
+
+    public Position startPosition() {
+        return startPosition;
+    }
+
+    public int currentPosition() {
+        return currentPosition;
+    }
+
+    public int range() {
+        return range;
+    }
+
+    public BattleAdvanceDirection advanceDirection() {
+        return advanceDirection;
+    }
+
+    void placeOnBattlefield(int currentPosition, BattleAdvanceDirection advanceDirection) {
+        this.currentPosition = currentPosition;
+        this.advanceDirection = advanceDirection;
     }
 
     public UUID id() {

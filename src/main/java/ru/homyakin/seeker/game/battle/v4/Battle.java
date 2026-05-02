@@ -14,6 +14,8 @@ public class Battle {
     private record Mover(BattlePersonage personage, Map<UUID, BattlePersonage> enemyAliveTeam) { }
 
     public BattleResult process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+        new BattleMap(firstTeam, secondTeam);
+
         final var firstAliveTeam = firstTeam.stream()
             .filter(BattlePersonage::isAlive)
             .collect(Collectors.toMap(BattlePersonage::id, it -> it));
@@ -52,8 +54,8 @@ public class Battle {
 
         return new BattleResult(
             rounds,
-            BattlePersonage.randomAlivePersonage(firstAliveTeam) != null,
-            Map.copyOf(personageStats)
+            firstAliveTeam.values().stream().anyMatch(BattlePersonage::isAlive),
+            personageStats
         );
     }
 }
