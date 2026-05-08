@@ -1,10 +1,11 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.RandomUtils;
 
@@ -13,14 +14,42 @@ public class BattlePersonage {
     private static final int THREAT_FROM_DAMAGE = 5;
     private static final int THREAT_LOSE_FROM_DAMAGE = 8;
     private static final int THREAT_FROM_KILL = THREAT_FROM_DAMAGE * 10;
+    private static final int RANGE_PERCENT = 10;
+    private static final double DEFENSE_COEF = 500;
 
-    private final int rangePercent = 10;
-    private final double defenseCoef = 500;
+    private static final Map<DefenseType, Map<AttackType, Double>> DAMAGE_MATRIX = Map.of(
+        DefenseType.CLOTH, Map.of(
+            AttackType.SLASH, 0.75,
+            AttackType.BLUNT, 1.2,
+            AttackType.PIERCE, 0.8,
+            AttackType.MAGICAL, 1.25
+        ),
+        DefenseType.LEATHER, Map.of(
+            AttackType.SLASH, 0.8,
+            AttackType.BLUNT, 1.2,
+            AttackType.PIERCE, 1.25,
+            AttackType.MAGICAL, 0.75
+        ),
+        DefenseType.PLATE, Map.of(
+            AttackType.SLASH, 1.25,
+            AttackType.BLUNT, 0.75,
+            AttackType.PIERCE, 1.2,
+            AttackType.MAGICAL, 0.8
+        ),
+        DefenseType.ARCANE, Map.of(
+            AttackType.SLASH, 1.2,
+            AttackType.BLUNT, 0.85,
+            AttackType.PIERCE, 0.75,
+            AttackType.MAGICAL, 1.20
+        )
+    );
 
-    private UUID id = UUID.randomUUID();
+    private final UUID id = UUID.randomUUID();
     private int health;
-    private final int attack;
-    private final int defense;
+    private final Map<AttackType, Integer>[] rangeAttack;
+    private final Map<AttackType, Integer>[] rangeAttackCrit;
+    private final Map<DefenseType, Integer> defense;
+    private final Map<AttackType, Double> defenseReduce;
     private final int critChance;
     private final int dodgeChance;
     private final double critMultiplier;
@@ -38,34 +67,77 @@ public class BattlePersonage {
     private long critDamageDealt;
     private long critsCount;
     private long damageBlocked;
+    private long actualDamageTaken;
     private long blockCount;
     private long damageDodged;
     private long dodgesCount;
     private long missesCount;
 
     public BattlePersonage(
-        int health,
-        int attack,
-        int defense,
+        List<Item> items,
         int critChance,
         int dodgeChance,
         double critMultiplier,
         int initiative,
         int baseThreat,
-        Position startPosition,
-        int range
+        Position startPosition
     ) {
-        this.health = health;
-        this.attack = attack;
-        this.defense = defense;
+        this.defense = new EnumMap<>(DefenseType.class);
+        var maxRange = 1;
+        for (final var item : items) {
+            if (item.itemAttack().isPresent()) {
+                maxRange = Math.max(maxRange, item.itemAttack().get().range());
+            }
+            if (item.itemDefense().isPresent()) {
+                defense.merge(item.itemDefense().get().defenseType(), item.itemDefense().get().defense(), Integer::sum);
+            }
+            this.health += item.health();
+        }
+        this.rangeAttack = newRangeAttackSlotMaps(maxRange);
+        for (final var item : items) {
+            if (item.itemAttack().isEmpty()) {
+                continue;
+            }
+            final var attack = item.itemAttack().get();
+            for (int i = 1; i <= attack.range(); i++) {
+                rangeAttack[i].merge(attack.attackType(), attack.attack(), Integer::sum);
+            }
+        }
+        this.rangeAttackCrit = newRangeAttackSlotMaps(maxRange);
+        for (int i = 1; i <= maxRange; i++) {
+            for (var entry : rangeAttack[i].entrySet()) {
+                rangeAttackCrit[i].put(entry.getKey(), (int) (entry.getValue() * critMultiplier));
+            }
+        }
+        this.defenseReduce = new EnumMap<>(AttackType.class);
+        for (AttackType attackType : AttackType.values()) {
+            double effectiveDef = 0;
+            for (var entry : defense.entrySet()) {
+                double multiplier = DAMAGE_MATRIX.get(entry.getKey()).get(attackType);
+                effectiveDef += entry.getValue() * multiplier;
+            }
+            defenseReduce.put(
+                attackType,
+                1 - (effectiveDef / (effectiveDef + DEFENSE_COEF))
+            );
+        }
         this.critChance = critChance;
         this.dodgeChance = dodgeChance;
         this.critMultiplier = critMultiplier;
         this.initiative = initiative;
         this.baseThreat = baseThreat;
         this.startPosition = startPosition;
-        this.range = range;
+        this.range = maxRange;
         this.nextMove = RandomUtils.getInInterval(0, TURN_INITIATIVE / 2);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static Map<AttackType, Integer>[] newRangeAttackSlotMaps(int maxSlot) {
+        final Map<AttackType, Integer>[] maps = new Map[maxSlot + 1];
+        for (int i = 1; i <= maxSlot; i++) {
+            maps[i] = new EnumMap<>(AttackType.class);
+        }
+        return maps;
     }
 
     /**
@@ -80,11 +152,17 @@ public class BattlePersonage {
             return false;
         }
         bonusThreat = Math.max(0, bonusThreat - THREAT_LOSE_FROM_DAMAGE);
-        attacker.recordDamageDealt(roll);
         damageBlocked += roll.amount();
         blockCount++;
         final int healthBefore = health;
-        this.health = health - (int) (roll.amount() * defenseReduce());
+        int totalDamage = 0;
+        for (var entry : roll.attack().entrySet()) {
+            totalDamage += (int) (entry.getValue() * defenseReduce.get(entry.getKey()));
+        }
+        totalDamage = RandomUtils.getInPercentRange(totalDamage, RANGE_PERCENT);
+        attacker.recordDamageDealt(totalDamage, roll.crit());
+        actualDamageTaken += totalDamage;
+        this.health = health - totalDamage;
         final int damageTaken = healthBefore - health;
         log.add(new BattleEvent.DamageReceived(id, attacker.id(), roll, damageTaken, health, round));
         return true;
@@ -113,17 +191,20 @@ public class BattlePersonage {
             return false;
         }
 
-        final var target = randomAlivePersonage(this, enemyAliveTeam);
-        if (target == null) {
+        // поддержка списка сразу на будущее
+        final var targets = randomAlivePersonage(this, enemyAliveTeam);
+        if (targets.isEmpty()) {
             stepOneLineTowardEnemy();
             log.add(new BattleEvent.MovedTowardEnemy(id, currentPosition, round));
             return enemyAliveTeam.values().stream().noneMatch(BattlePersonage::isAlive);
         }
-        if (target.receiveDamageFrom(this, rollDamage(), log, round)) {
-            if (!target.isAlive()) {
-                log.add(new BattleEvent.PersonageDefeated(target.id(), id, round));
+        final var target = targets.getFirst();
+        final var personage = target.personage;
+        if (personage.receiveDamageFrom(this, rollDamage(target.range), log, round)) {
+            if (!personage.isAlive()) {
+                log.add(new BattleEvent.PersonageDefeated(personage.id(), id, round));
                 bonusThreat += THREAT_FROM_KILL;
-                enemyAliveTeam.remove(target.id());
+                enemyAliveTeam.remove(personage.id());
             } else {
                 bonusThreat += THREAT_FROM_DAMAGE;
             }
@@ -131,10 +212,9 @@ public class BattlePersonage {
         return false;
     }
 
-    @Nullable
-    private BattlePersonage randomAlivePersonage(BattlePersonage attacker, Map<UUID, BattlePersonage> enemyAliveTeam) {
+    private List<Target> randomAlivePersonage(BattlePersonage attacker, Map<UUID, BattlePersonage> enemyAliveTeam) {
         if (enemyAliveTeam.isEmpty()) {
-            return null;
+            return List.of();
         }
 
         boolean hasAlive = false;
@@ -145,7 +225,7 @@ public class BattlePersonage {
             }
         }
         if (!hasAlive) {
-            return null;
+            return List.of();
         }
 
         final var weightMap = new HashMap<BattlePersonage, Integer>();
@@ -153,20 +233,25 @@ public class BattlePersonage {
             if (!personage.isAlive()) {
                 continue;
             }
-            if (!inStrikeRange(attacker, personage)) {
+            if (!attacker.inStrikeRange(personage)) {
                 continue;
             }
             weightMap.put(personage, personage.totalThreat());
         }
         if (!weightMap.isEmpty()) {
-            return new ProbabilityPicker<>(weightMap).pick(RandomUtils::getWithMax);
+            var target = new ProbabilityPicker<>(weightMap).pick(RandomUtils::getWithMax);
+            return List.of(new Target(attacker.calcRange(target), target));
         }
 
-        return null;
+        return List.of();
     }
 
-    private static boolean inStrikeRange(BattlePersonage attacker, BattlePersonage target) {
-        return Math.abs(attacker.currentPosition() - target.currentPosition()) <= attacker.range();
+    private boolean inStrikeRange(BattlePersonage target) {
+        return calcRange(target) <= range();
+    }
+
+    private int calcRange(BattlePersonage target) {
+        return Math.abs(currentPosition - target.currentPosition());
     }
 
     private void stepOneLineTowardEnemy() {
@@ -206,7 +291,9 @@ public class BattlePersonage {
         return initiative;
     }
 
-    /** Current initiative / turn gauge value (accumulates each tick until a turn is granted, then wraps). */
+    /**
+     * Current initiative / turn gauge value (accumulates each tick until a turn is granted, then wraps).
+     */
     public int initiativeGauge() {
         return nextMove;
     }
@@ -215,14 +302,11 @@ public class BattlePersonage {
         return baseThreat + bonusThreat;
     }
 
-    public DamageRoll rollDamage() {
+    public DamageRoll rollDamage(int range) {
         if (RandomUtils.processChance(critChance)) {
-            return new DamageRoll(
-                RandomUtils.getInPercentRange((int) (attack * critMultiplier), rangePercent),
-                true
-            );
+            return new DamageRoll(rangeAttackCrit[range], true);
         }
-        return new DamageRoll(RandomUtils.getInPercentRange(attack, rangePercent), false);
+        return new DamageRoll(rangeAttack[range], false);
     }
 
     public BattlePersonageStats battlePersonageStats() {
@@ -244,24 +328,32 @@ public class BattlePersonage {
         missesCount++;
     }
 
-    private void recordDamageDealt(DamageRoll roll) {
-        if (roll.crit()) {
-            critDamageDealt += roll.amount();
+    private void recordDamageDealt(int amount, boolean crit) {
+        if (crit) {
+            critDamageDealt += amount;
             critsCount++;
         } else {
-            normalDamageDealt += roll.amount();
+            normalDamageDealt += amount;
             normalAttackCount++;
         }
     }
 
     public double power() {
+        final var attack = rangeAttack[1].values().stream()
+            .mapToInt(i -> i)
+            .sum();
+        final var totalDefense = defense.values().stream()
+            .mapToInt(i -> i)
+            .sum();
+        final var defenseReduce = (1 - (totalDefense / (totalDefense + DEFENSE_COEF)));
         final var critProbability = critChance / 100.0;
         final var effectiveDamage = attack * (1 + critProbability * (critMultiplier - 1));
         final var dodgeProbability = dodgeChance / 100.0;
-        return health * effectiveDamage / defenseReduce() / (1 - dodgeProbability) * ((double) initiative / TURN_INITIATIVE);
+        return health * effectiveDamage / defenseReduce / (1 - dodgeProbability) * ((double) initiative / TURN_INITIATIVE);
     }
 
-    private double defenseReduce() {
-        return (1 - (defense / (defense + defenseCoef)));
-    }
+    private record Target(
+       int range,
+       BattlePersonage personage
+    ){ }
 }
