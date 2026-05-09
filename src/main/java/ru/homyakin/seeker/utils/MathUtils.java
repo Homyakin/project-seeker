@@ -38,4 +38,8 @@ public class MathUtils {
             return Optional.empty();
         }
     }
+
+    public static int addPercent(int value, int percent) {
+        return Math.round(value * (1 + percent / 100.0f));
+    }
 }
