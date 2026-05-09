@@ -1,10 +1,14 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import ru.homyakin.seeker.game.battle.v4.skill.ItemSkill;
+
+import java.util.List;
 import java.util.Optional;
 
 public record Item(
     Optional<ItemAttack> itemAttack,
     Optional<ItemDefense> itemDefense,
+    List<ItemSkill> itemSkills,
     int health
 ) {
 
@@ -12,6 +16,7 @@ public record Item(
         return new Item(
             Optional.of(new ItemAttack(attackType, range, attack)),
             Optional.empty(),
+            List.of(),
             0
         );
     }
@@ -20,6 +25,7 @@ public record Item(
         return new Item(
             Optional.empty(),
             Optional.of(new ItemDefense(defenseType, defense)),
+            List.of(),
             health
         );
     }
@@ -35,6 +41,7 @@ public record Item(
         return new Item(
             Optional.of(new ItemAttack(attackType, range, attack)),
             Optional.of(new ItemDefense(defenseType, defense)),
+            List.of(),
             health
         );
     }

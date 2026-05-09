@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import ru.homyakin.seeker.game.battle.v4.skill.PassiveSkill;
+import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage {
-    private static final int TURN_INITIATIVE = 1000;
+    private static final int REQUIRED_SPEED = 1000;
     private static final int THREAT_FROM_DAMAGE = 5;
     private static final int THREAT_LOSE_FROM_DAMAGE = 8;
     private static final int THREAT_FROM_KILL = THREAT_FROM_DAMAGE * 10;
@@ -53,10 +55,10 @@ public class BattlePersonage {
     private final int critChance;
     private final int dodgeChance;
     private final double critMultiplier;
-    private final int initiative;
+    private final int speed;
     private final int baseThreat;
     private int bonusThreat = 0;
-    private int nextMove;
+    private int cumulativeSpeed;
     private final Position startPosition;
     private int currentPosition = -1;
     private BattleAdvanceDirection advanceDirection;
@@ -78,35 +80,57 @@ public class BattlePersonage {
         int critChance,
         int dodgeChance,
         double critMultiplier,
-        int initiative,
+        int speed,
         int baseThreat,
         Position startPosition
     ) {
         this.defense = new EnumMap<>(DefenseType.class);
+        int percentAttack = 0;
+        int percentDefence = 0;
+        int percentCrit = 0;
+        int percentDodge = 0;
+        int percentSpeed = 0;
         var maxRange = 1;
-        for (final var item : items) {
+        for (final var item: items) {
             if (item.itemAttack().isPresent()) {
                 maxRange = Math.max(maxRange, item.itemAttack().get().range());
             }
-            if (item.itemDefense().isPresent()) {
-                defense.merge(item.itemDefense().get().defenseType(), item.itemDefense().get().defense(), Integer::sum);
+            for (final var skill: item.itemSkills()) {
+                if (skill instanceof PassiveSkill(int attack, int defence, int crit, int dodge, int bonusSpeed)) {
+                    percentAttack += attack;
+                    percentDefence += defence;
+                    percentCrit += crit;
+                    percentDodge += dodge;
+                    percentSpeed += bonusSpeed;
+                }
             }
-            this.health += item.health();
         }
+
         this.rangeAttack = newRangeAttackSlotMaps(maxRange);
         for (final var item : items) {
             if (item.itemAttack().isEmpty()) {
-                continue;
+                final var attack = item.itemAttack().get();
+                for (int i = 1; i <= attack.range(); i++) {
+                    rangeAttack[i].merge(
+                        attack.attackType(),
+                        MathUtils.addPercent(attack.attack(), percentAttack),
+                        Integer::sum
+                    );
+                }
             }
-            final var attack = item.itemAttack().get();
-            for (int i = 1; i <= attack.range(); i++) {
-                rangeAttack[i].merge(attack.attackType(), attack.attack(), Integer::sum);
+            if (item.itemDefense().isPresent()) {
+                defense.merge(
+                    item.itemDefense().get().defenseType(),
+                    MathUtils.addPercent(item.itemDefense().get().defense(), percentDefence),
+                    Integer::sum
+                );
             }
+            this.health += item.health();
         }
         this.rangeAttackCrit = newRangeAttackSlotMaps(maxRange);
         for (int i = 1; i <= maxRange; i++) {
             for (var entry : rangeAttack[i].entrySet()) {
-                rangeAttackCrit[i].put(entry.getKey(), (int) (entry.getValue() * critMultiplier));
+                rangeAttackCrit[i].put(entry.getKey(), MathUtils.addPercent(entry.getValue(), percentCrit));
             }
         }
         this.defenseReduce = new EnumMap<>(AttackType.class);
@@ -122,13 +146,13 @@ public class BattlePersonage {
             );
         }
         this.critChance = critChance;
-        this.dodgeChance = dodgeChance;
+        this.dodgeChance = MathUtils.addPercent(dodgeChance, percentDodge);
         this.critMultiplier = critMultiplier;
-        this.initiative = initiative;
+        this.speed = MathUtils.addPercent(speed, percentSpeed);
         this.baseThreat = baseThreat;
         this.startPosition = startPosition;
         this.range = maxRange;
-        this.nextMove = RandomUtils.getInInterval(0, TURN_INITIATIVE / 2);
+        this.cumulativeSpeed = RandomUtils.getInInterval(0, REQUIRED_SPEED / 2);
     }
 
     @SuppressWarnings("unchecked")
@@ -173,13 +197,13 @@ public class BattlePersonage {
     }
 
     public boolean tick(BattleActionLog log, int round) {
-        nextMove += initiative;
-        if (nextMove >= TURN_INITIATIVE) {
-            nextMove -= TURN_INITIATIVE;
-            log.add(new BattleEvent.InitiativeAfterTick(id, nextMove, true, round));
+        cumulativeSpeed += speed;
+        if (cumulativeSpeed >= REQUIRED_SPEED) {
+            cumulativeSpeed -= REQUIRED_SPEED;
+            log.add(new BattleEvent.InitiativeAfterTick(id, cumulativeSpeed, true, round));
             return true;
         }
-        log.add(new BattleEvent.InitiativeAfterTick(id, nextMove, false, round));
+        log.add(new BattleEvent.InitiativeAfterTick(id, cumulativeSpeed, false, round));
         return false;
     }
 
@@ -288,14 +312,14 @@ public class BattlePersonage {
     }
 
     public int initiative() {
-        return initiative;
+        return speed;
     }
 
     /**
      * Current initiative / turn gauge value (accumulates each tick until a turn is granted, then wraps).
      */
     public int initiativeGauge() {
-        return nextMove;
+        return cumulativeSpeed;
     }
 
     public int totalThreat() {
@@ -349,7 +373,7 @@ public class BattlePersonage {
         final var critProbability = critChance / 100.0;
         final var effectiveDamage = attack * (1 + critProbability * (critMultiplier - 1));
         final var dodgeProbability = dodgeChance / 100.0;
-        return health * effectiveDamage / defenseReduce / (1 - dodgeProbability) * ((double) initiative / TURN_INITIATIVE);
+        return health * effectiveDamage / defenseReduce / (1 - dodgeProbability) * ((double) speed / REQUIRED_SPEED);
     }
 
     private record Target(
