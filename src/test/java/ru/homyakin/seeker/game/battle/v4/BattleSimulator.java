@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.battle.v4;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.junit.jupiter.api.Test;
+import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,30 +13,37 @@ public class BattleSimulator {
     // 🔨 Воин
     // HP=2500, DEF=320 PLATE, ATK=150 BLUNT
     private static final List<Item> warriorItems = List.of(
-        Item.weapon(AttackType.BLUNT,          1, 150),
-        Item.armor (DefenseType.PLATE, 200, 800),
-        Item.armor (DefenseType.PLATE,  50, 500),
-        Item.armor (DefenseType.PLATE,  40, 500),
-        Item.armor (DefenseType.PLATE,  15, 350),
-        Item.armor (DefenseType.PLATE,  15, 350)
+        Item.weapon(AttackType.BLUNT, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), Rarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.THORNS), Rarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.THORNS), Rarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
     );
 
     // 🗹 Ассасин
     // HP=600, DEF=80 LEATHER, ATK=380 PIERCE
     private static final List<Item> assassinItems = List.of(
-        Item.weapon(AttackType.PIERCE,         1, 380),
-        Item.armor (DefenseType.LEATHER, 50, 300),
-        Item.armor (DefenseType.LEATHER, 15, 150),
-        Item.armor (DefenseType.LEATHER, 15, 150)
+        Item.weapon(AttackType.PIERCE,         1, 380, new Modifier(ActiveEnum.BLEEDING), Rarity.LEGENDARY),
+        Item.armor (DefenseType.LEATHER, 50, 300, new Modifier(ActiveEnum.FEINT), Rarity.LEGENDARY),
+        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.LEGENDARY),
+        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.COMMON)
     );
 
     // 🔮 Маг
     // HP=950, DEF=80 CLOTH, ATK=380 MAGICAL
     private static final List<Item> mageItems = List.of(
-        Item.weapon(AttackType.MAGICAL,          3, 380),
-        Item.armor (DefenseType.CLOTH,    50, 600), // ← было 500
-        Item.armor (DefenseType.CLOTH,    15, 200),
-        Item.armor (DefenseType.CLOTH,    15, 150)
+        Item.weapon(AttackType.MAGICAL,          3, 380, new Modifier(ActiveEnum.KNOCKBACK), Rarity.LEGENDARY),
+        Item.armor (DefenseType.CLOTH,    50, 600, new Modifier(ActiveEnum.SELF_HEAL), Rarity.LEGENDARY),
+        Item.armor (DefenseType.CLOTH,    15, 200, new Modifier(ActiveEnum.SELF_HEAL), Rarity.LEGENDARY),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON)
+    );
+
+    private static final List<Item> archerItems = List.of(
+        Item.weapon(AttackType.PIERCE,          2, 380, new Modifier(ActiveEnum.PRECISE_STRIKE), Rarity.LEGENDARY),
+        Item.armor (DefenseType.CLOTH,    50, 300, new Modifier(ActiveEnum.RETREAT), Rarity.LEGENDARY),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.RETREAT), Rarity.LEGENDARY),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON)
     );
 
     private static BattlePersonage warrior(Position position) {
@@ -63,27 +71,6 @@ public class BattleSimulator {
         );
     }
 
-    private static BattlePersonage warriorMixed(Position position) {
-        return new BattlePersonage(
-            List.of(
-                Item.weapon(AttackType.BLUNT,          1, 100),
-                Item.weapon(AttackType.PIERCE,         1,  50),
-                Item.armor (DefenseType.PLATE, 200, 800),
-                Item.armor (DefenseType.PLATE,  50, 500),
-                Item.armor (DefenseType.PLATE,  40, 500),
-                Item.armor (DefenseType.PLATE,  15, 350),
-                Item.armor (DefenseType.PLATE,  15, 350)
-            ),
-            // HP=2500, DEF=320 PLATE, ATK=100 BLUNT + 50 PIERCE
-            5,     // critChance
-            5,     // dodgeChance
-            1.5,   // critMultiplier
-            140,   // initiative
-            100,   // baseThreat
-            position
-        );
-    }
-
     private static BattlePersonage assassin(Position position) {
         return new BattlePersonage(
             assassinItems,
@@ -93,6 +80,18 @@ public class BattleSimulator {
             220,   // initiative
             10,    // baseThreat
             position
+        );
+    }
+
+    private static BattlePersonage archer() {
+        return new BattlePersonage(
+            archerItems,
+            20,    // critChance
+            25,    // dodgeChance
+            2.0,   // critMultiplier
+            220,   // initiative
+            10,    // baseThreat
+            Position.MID
         );
     }
 
@@ -112,8 +111,8 @@ public class BattleSimulator {
         int winsBothAlive = 0;
 
         for (int i = 0; i < iterations; ++i) {
-            final var firstTeam = List.of(assassin(Position.FRONT), warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK));
-            final var secondTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK));
+            final var firstTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK), archer());
+            final var secondTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), archer(), mage(Position.BACK));
 
             //System.out.println(firstTeam.getFirst().power());
             //System.out.println(secondTeam.getFirst().power());
@@ -181,12 +180,15 @@ public class BattleSimulator {
         System.out.println("WARRIOR " + warrior(Position.FRONT).power());
         System.out.println("MAGE " + mage(Position.FRONT).power());
         System.out.println("ASSASIN " + assassin(Position.FRONT).power());
-        System.out.println("WARRIOR MIX " + warriorMixed(Position.FRONT).power());
+        System.out.println("ARCHER " + archer().power());
     }
 
     @Test
     public void logTest() throws Exception {
-        final var result = new Battle().process(List.of(), List.of());
+        final var firstTeam = List.of(assassin(Position.FRONT), warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK));
+        final var secondTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), archer(), mage(Position.BACK));
+
+        final var result = new Battle().process(firstTeam, secondTeam);
         final var mapper = JsonMapper.builder()
             .addModule(new Jdk8Module())
             .build();
@@ -198,30 +200,4 @@ public class BattleSimulator {
         writer.writeValue(initPath.toFile(), result.initState());
         writer.writeValue(logPath.toFile(), result.actionLog().events());
     }
-
-    // 🔨 Воин
-    List<Item> warrior = List.of(
-        Item.weapon(AttackType.BLUNT,          1, 150),
-        Item.armor (DefenseType.PLATE, 200, 800),
-        Item.armor (DefenseType.PLATE,  50, 500),
-        Item.armor (DefenseType.PLATE,  40, 500),
-        Item.armor (DefenseType.PLATE,  15, 350),
-        Item.armor (DefenseType.PLATE,  15, 350)
-    );
-
-    // 🗹 Ассасин
-    List<Item> assassin = List.of(
-        Item.weapon(AttackType.PIERCE,         1, 380),
-        Item.armor (DefenseType.LEATHER, 50, 300),
-        Item.armor (DefenseType.LEATHER, 15, 150),
-        Item.armor (DefenseType.LEATHER, 15, 150)
-    );
-
-    // 🔮 Маг
-    List<Item> mage = List.of(
-        Item.weapon(AttackType.MAGICAL,        3, 380),
-        Item.armor (DefenseType.CLOTH,   50, 500),
-        Item.armor (DefenseType.CLOTH,   15, 200),
-        Item.armor (DefenseType.CLOTH,   15, 150)
-    );
 }

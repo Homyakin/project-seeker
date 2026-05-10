@@ -20,8 +20,12 @@
     --gauge: #f0c24a;
     --gauge-ready: #74e79a;
     --accent: #9a7cff;
-    --crit: #ffd54a;
-    --dodge: #7ad1ff;
+  --crit: #ffd54a;
+  --dodge: #7ad1ff;
+  --heal: #46d17a;
+  --effect: #d97aff;
+  --skill: #ffae5c;
+  --forced: #74e79a;
   }
   * { box-sizing: border-box; }
   html, body {
@@ -130,6 +134,10 @@
   .personage.crit { box-shadow: 0 0 0 2px var(--crit); }
   .personage.dodge-flash { box-shadow: 0 0 0 2px var(--dodge); }
   .personage.gauge-ready { box-shadow: 0 0 0 2px var(--gauge-ready); }
+  .personage.heal-flash  { box-shadow: 0 0 0 2px var(--heal); }
+  .personage.effect-flash { box-shadow: 0 0 0 2px var(--effect); }
+  .personage.skill-flash  { box-shadow: 0 0 0 2px var(--skill); }
+  .personage.forced-flash { box-shadow: 0 0 0 2px var(--forced); }
 
   .personage .name {
     font-weight: 600; font-size: 12px; display: flex; justify-content: space-between; align-items: center;
@@ -164,6 +172,10 @@
   .popup.crit { color: var(--crit); font-size: 15px; }
   .popup.dodge { color: var(--dodge); }
   .popup.defeat { color: var(--team2); font-size: 12px; }
+  .popup.heal { color: var(--heal); }
+  .popup.effect { color: var(--effect); }
+  .popup.skill { color: var(--skill); }
+  .popup.forced { color: var(--forced); font-size: 12px; }
   @keyframes pop {
     0%   { transform: translateY(0) scale(0.7); opacity: 0; }
     15%  { transform: translateY(-4px) scale(1.1); opacity: 1; }
@@ -197,6 +209,10 @@
   .event.move .desc { color: var(--gauge-ready); }
   .event.tick .desc { color: var(--muted); }
   .event.tick.ready .desc { color: var(--gauge); }
+  .event.heal .desc { color: var(--heal); }
+  .event.effect .desc { color: var(--effect); }
+  .event.skill .desc { color: var(--skill); }
+  .event.forced .desc { color: var(--forced); }
 
   .pill {
     display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px;
@@ -450,6 +466,17 @@ function shortId(uuid) {
   return uuid ? uuid.slice(0, 6) : "—";
 }
 
+/** Convert an ActiveEnum value (e.g. "DOUBLE_ATTACK") into a human label ("Double Attack"). */
+function skillName(skill) {
+  if (!skill) return "";
+  return String(skill).toLowerCase().replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** Compact popup label for a skill, with a fallback when the field is missing (legacy logs). */
+function skillLabel(skill, fallback) {
+  return skill ? "(" + skillName(skill) + ")" : (fallback ? "(" + fallback + ")" : "");
+}
+
 function buildInitialLive() {
   const m = {};
   for (const id in initState.personagesById) {
@@ -494,62 +521,120 @@ function bootReplay() {
 // Event application
 // ============================================================================
 
+/**
+ * Returns the discriminator name for an event.
+ * Prefers the explicit `type` field (Jackson @JsonTypeInfo), falls back to
+ * structural detection so older logs without a discriminator still work.
+ */
+function eventType(ev) {
+  if (ev && typeof ev.type === "string") return ev.type;
+  // Legacy fallback (pre-@JsonSubTypes logs):
+  const keys = Object.keys(ev);
+  if (keys.length === 1 && keys[0] === "round") return "RoundStarted";
+  if ("gaugeAfterTick" in ev) return "InitiativeAfterTick";
+  if ("newLineIndex" in ev && "sourceId" in ev) return "PersonageForcedMove";
+  if ("newLineIndex" in ev) return "MovedTowardEnemy";
+  if ("amount" in ev && "remainingHealth" in ev && !("damageTaken" in ev)) return "PersonageHealed";
+  if ("attackerId" in ev && "targetId" in ev && !("damageTaken" in ev)) return "AttackDodged";
+  if ("damageTaken" in ev && "roll" in ev) return "DamageReceived";
+  if ("damageTaken" in ev && "sourceId" in ev) return "SkillDamage"; // EffectDamage shares shape; see note
+  if ("killerId" in ev) return "PersonageDefeated";
+  return "Unknown";
+}
+
 /** Apply one event, mutating `live` and `currentRound`. Returns the event. */
 function applyEvent(ev) {
   clearTransientFlags();
   if ("round" in ev) currentRound = ev.round;
 
-  if (isRoundStart(ev)) {
-    // nothing visual but round
-    return ev;
-  }
-  if ("gaugeAfterTick" in ev) {
-    const p = live[ev.personageId];
-    if (p) {
-      p.gauge = ev.gaugeAfterTick;
-      if (ev.turnGranted) p.flash = "ready";
-    }
-    return ev;
-  }
-  if ("newLineIndex" in ev) {
-    const p = live[ev.personageId];
-    if (p) {
-      p.lineIndex = ev.newLineIndex;
-      p.flash = "move";
-    }
-    return ev;
-  }
-  if (isDodge(ev)) {
-    const t = live[ev.targetId];
-    if (t) { t.flash = "dodge"; t.popup = { text: "DODGE", kind: "dodge" }; }
-    return ev;
-  }
-  if ("damageTaken" in ev) {
-    const t = live[ev.targetId];
-    if (t) {
-      t.health = ev.remainingHealth;
-      t.flash = ev.roll && ev.roll.crit ? "crit" : "hit";
-      t.popup = {
-        text: "-" + ev.damageTaken,
-        kind: ev.roll && ev.roll.crit ? "crit" : "hit",
-      };
-    }
-    return ev;
-  }
-  if ("killerId" in ev) {
-    const t = live[ev.personageId];
-    if (t) { t.alive = false; t.popup = { text: "✝ DEFEATED", kind: "defeat" }; }
-    return ev;
-  }
-  return ev;
-}
+  switch (eventType(ev)) {
+    case "RoundStarted":
+      return ev;
 
-function isRoundStart(ev) {
-  const keys = Object.keys(ev);
-  return keys.length === 1 && keys[0] === "round";
-}
-function isDodge(ev) {
-  return "attackerId" in ev && "targetId" in ev && !("damageTaken" in ev);
+    case "InitiativeAfterTick": {
+      const p = live[ev.personageId];
+      if (p) {
+        p.gauge = ev.gaugeAfterTick;
+        if (ev.turnGranted) p.flash = "ready";
+      }
+      return ev;
+    }
+
+    case "MovedTowardEnemy": {
+      const p = live[ev.personageId];
+      if (p) {
+        p.lineIndex = ev.newLineIndex;
+        p.flash = "move";
+      }
+      return ev;
+    }
+
+    case "PersonageForcedMove": {
+      const p = live[ev.personageId];
+      if (p) {
+        p.lineIndex = ev.newLineIndex;
+        p.flash = "forced";
+        p.popup = { text: skillLabel(ev.skill, "shoved"), kind: "forced" };
+      }
+      return ev;
+    }
+
+    case "AttackDodged": {
+      const t = live[ev.targetId];
+      if (t) { t.flash = "dodge"; t.popup = { text: "DODGE", kind: "dodge" }; }
+      return ev;
+    }
+
+    case "DamageReceived": {
+      const t = live[ev.targetId];
+      if (t) {
+        t.health = ev.remainingHealth;
+        const isCrit = ev.roll && ev.roll.crit;
+        t.flash = isCrit ? "crit" : "hit";
+        t.popup = { text: "-" + ev.damageTaken, kind: isCrit ? "crit" : "hit" };
+      }
+      return ev;
+    }
+
+    case "EffectDamage": {
+      const t = live[ev.targetId];
+      if (t) {
+        t.health = ev.remainingHealth;
+        t.flash = "effect";
+        t.popup = { text: "-" + ev.damageTaken + " " + skillLabel(ev.skill, "dot"), kind: "effect" };
+      }
+      return ev;
+    }
+
+    case "SkillDamage": {
+      const t = live[ev.targetId];
+      if (t) {
+        t.health = ev.remainingHealth;
+        t.flash = "skill";
+        t.popup = { text: "-" + ev.damageTaken + " " + skillLabel(ev.skill, "skill"), kind: "skill" };
+      }
+      return ev;
+    }
+
+    case "PersonageHealed": {
+      const p = live[ev.personageId];
+      if (p) {
+        p.health = ev.remainingHealth;
+        p.flash = "heal";
+        p.popup = { text: "+" + ev.amount + " " + skillLabel(ev.skill, "heal"), kind: "heal" };
+      }
+      return ev;
+    }
+
+    case "PersonageDefeated": {
+      const t = live[ev.personageId];
+      if (t) { t.alive = false; t.popup = { text: "✝ DEFEATED", kind: "defeat" }; }
+      return ev;
+    }
+
+    default:
+      return ev;
+  }
 }
 
 function clearTransientFlags() {
@@ -564,7 +649,9 @@ function clearTransientFlags() {
 // ============================================================================
 
 function shouldSkipEvent(ev) {
-  return el.skipTicks.checked && "gaugeAfterTick" in ev && !ev.turnGranted;
+  return el.skipTicks.checked
+    && eventType(ev) === "InitiativeAfterTick"
+    && !ev.turnGranted;
 }
 
 function stepForward() {
@@ -714,11 +801,15 @@ function renderPersonage(p) {
   const teamCls = p.firstTeam ? "team1" : "team2";
   div.className = `personage ${teamCls}`;
   if (!p.alive) div.classList.add("dead");
-  if (p.flash === "move")  div.classList.add("moved");
-  if (p.flash === "hit")   div.classList.add("hit");
-  if (p.flash === "crit")  div.classList.add("crit");
-  if (p.flash === "dodge") div.classList.add("dodge-flash");
-  if (p.flash === "ready") div.classList.add("gauge-ready");
+  if (p.flash === "move")   div.classList.add("moved");
+  if (p.flash === "hit")    div.classList.add("hit");
+  if (p.flash === "crit")   div.classList.add("crit");
+  if (p.flash === "dodge")  div.classList.add("dodge-flash");
+  if (p.flash === "ready")  div.classList.add("gauge-ready");
+  if (p.flash === "heal")   div.classList.add("heal-flash");
+  if (p.flash === "effect") div.classList.add("effect-flash");
+  if (p.flash === "skill")  div.classList.add("skill-flash");
+  if (p.flash === "forced") div.classList.add("forced-flash");
 
   const hpPct = Math.max(0, Math.min(100, (p.health / p.maxHealth) * 100));
   const hpLow = hpPct < 30;
@@ -769,40 +860,79 @@ function renderEventList() {
 }
 
 function classifyEvent(ev) {
-  if (isRoundStart(ev)) return "round-start";
-  if ("gaugeAfterTick" in ev) return "tick" + (ev.turnGranted ? " ready" : "");
-  if ("newLineIndex" in ev) return "move";
-  if ("killerId" in ev) return "defeat";
-  if ("damageTaken" in ev) return ev.roll && ev.roll.crit ? "damage crit" : "damage";
-  if (isDodge(ev)) return "dodge";
-  return "";
+  switch (eventType(ev)) {
+    case "RoundStarted":        return "round-start";
+    case "InitiativeAfterTick": return "tick" + (ev.turnGranted ? " ready" : "");
+    case "MovedTowardEnemy":    return "move";
+    case "PersonageForcedMove": return "forced";
+    case "AttackDodged":        return "dodge";
+    case "DamageReceived":      return ev.roll && ev.roll.crit ? "damage crit" : "damage";
+    case "EffectDamage":        return "effect";
+    case "SkillDamage":         return "skill";
+    case "PersonageHealed":     return "heal";
+    case "PersonageDefeated":   return "defeat";
+    default: return "";
+  }
 }
 
 function describeEvent(ev) {
-  if (isRoundStart(ev)) return `<b>— Round ${ev.round} —</b>`;
-  if ("gaugeAfterTick" in ev) {
-    const p = initState.personagesById[ev.personageId];
-    const team = teamPill(p?.firstTeam);
-    return `${team} ${shortId(ev.personageId)} tick → gauge ${ev.gaugeAfterTick}${ev.turnGranted ? " <b>(turn!)</b>" : ""}`;
+  switch (eventType(ev)) {
+    case "RoundStarted":
+      return `<b>— Round ${ev.round} —</b>`;
+
+    case "InitiativeAfterTick": {
+      const p = initState.personagesById[ev.personageId];
+      return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} tick → gauge ${ev.gaugeAfterTick}${ev.turnGranted ? " <b>(turn!)</b>" : ""}`;
+    }
+
+    case "MovedTowardEnemy": {
+      const p = initState.personagesById[ev.personageId];
+      return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} advanced → line ${ev.newLineIndex}`;
+    }
+
+    case "PersonageForcedMove": {
+      const p = initState.personagesById[ev.personageId];
+      const skill = ev.skill ? ` <b>${skillName(ev.skill)}</b>` : "";
+      return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} <b>shoved</b>${skill} by ${shortId(ev.sourceId)} → line ${ev.newLineIndex}`;
+    }
+
+    case "AttackDodged": {
+      const a = initState.personagesById[ev.attackerId];
+      return `${teamPill(a?.firstTeam)} ${shortId(ev.attackerId)} → ${shortId(ev.targetId)} <b>DODGED</b>`;
+    }
+
+    case "DamageReceived": {
+      const a = initState.personagesById[ev.attackerId];
+      const crit = ev.roll && ev.roll.crit ? " <b>CRIT</b>" : "";
+      return `${teamPill(a?.firstTeam)} ${shortId(ev.attackerId)} → ${shortId(ev.targetId)} ${ev.damageTaken} dmg${crit} (hp ${ev.remainingHealth})`;
+    }
+
+    case "EffectDamage": {
+      const t = initState.personagesById[ev.targetId];
+      const skill = ev.skill ? `<b>${skillName(ev.skill)}</b>` : "<b>effect</b>";
+      return `${teamPill(t?.firstTeam)} ${shortId(ev.targetId)} ${skill} (${ev.attackType}) ${ev.damageTaken} dmg from ${shortId(ev.sourceId)} (hp ${ev.remainingHealth})`;
+    }
+
+    case "SkillDamage": {
+      const s = initState.personagesById[ev.sourceId];
+      const skill = ev.skill ? `<b>${skillName(ev.skill)}</b>` : "<b>skill</b>";
+      return `${teamPill(s?.firstTeam)} ${shortId(ev.sourceId)} → ${shortId(ev.targetId)} ${skill} (${ev.attackType}) ${ev.damageTaken} dmg (hp ${ev.remainingHealth})`;
+    }
+
+    case "PersonageHealed": {
+      const p = initState.personagesById[ev.personageId];
+      const skill = ev.skill ? ` <b>${skillName(ev.skill)}</b>` : "";
+      return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} healed${skill} <b>+${ev.amount}</b> (hp ${ev.remainingHealth})`;
+    }
+
+    case "PersonageDefeated": {
+      const a = initState.personagesById[ev.killerId];
+      return `${teamPill(a?.firstTeam)} ${shortId(ev.killerId)} defeated ${shortId(ev.personageId)} ✝`;
+    }
+
+    default:
+      return JSON.stringify(ev);
   }
-  if ("newLineIndex" in ev) {
-    const p = initState.personagesById[ev.personageId];
-    return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} advanced → line ${ev.newLineIndex}`;
-  }
-  if (isDodge(ev)) {
-    const a = initState.personagesById[ev.attackerId];
-    return `${teamPill(a?.firstTeam)} ${shortId(ev.attackerId)} → ${shortId(ev.targetId)} <b>DODGED</b>`;
-  }
-  if ("damageTaken" in ev) {
-    const a = initState.personagesById[ev.attackerId];
-    const crit = ev.roll && ev.roll.crit ? " <b>CRIT</b>" : "";
-    return `${teamPill(a?.firstTeam)} ${shortId(ev.attackerId)} → ${shortId(ev.targetId)} ${ev.damageTaken} dmg${crit} (hp ${ev.remainingHealth})`;
-  }
-  if ("killerId" in ev) {
-    const a = initState.personagesById[ev.killerId];
-    return `${teamPill(a?.firstTeam)} ${shortId(ev.killerId)} defeated ${shortId(ev.personageId)} ✝`;
-  }
-  return JSON.stringify(ev);
 }
 
 function teamPill(firstTeam) {

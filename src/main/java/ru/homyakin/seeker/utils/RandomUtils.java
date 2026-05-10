@@ -6,6 +6,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.function.ToIntFunction;
 import java.util.random.RandomGenerator;
 
@@ -82,6 +83,17 @@ public class RandomUtils {
 
     public static <T> T getRandomElement(List<T> list) {
         return list.get(random.nextInt(0, list.size()));
+    }
+
+    public static <T> T getRandomElement(Set<T> set) {
+        var value = random.nextInt(0, set.size());
+        for (final var element: set) {
+            if (value == 0) {
+                return element;
+            }
+            --value;
+        }
+        throw new IllegalStateException("can't get random element for set");
     }
 
     public static <T> T getRandomByWeights(List<T> list, ToIntFunction<T> weightExtractor) {

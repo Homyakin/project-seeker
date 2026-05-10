@@ -10,6 +10,10 @@ public final class BattleActionLog {
         events.add(event);
     }
 
+    void addAll(List<BattleEvent> events) {
+        this.events.addAll(events);
+    }
+
     public List<BattleEvent> events() {
         return events;
     }
