@@ -3,16 +3,32 @@ package ru.homyakin.seeker.game.battle.v4;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-public class BattleMap {
+public class BattleContext {
     /**
      * Ordered from first team's own back toward second team's own back (e.g. {@code [BACK_1, FRONT_1, FRONT_2, BACK_2]} if mids are empty).
      * Callers ensure both teams expose at least one non-empty line toward the other so {@code 0 < firstTeamLineCount < lines.size()}.
      */
     private final List<BattleLine> lines;
+    private final Map<UUID, BattlePersonage> firstAliveTeam;
+    private final Map<UUID, BattlePersonage> secondAliveTeam;
 
-    public BattleMap(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+    public BattleContext(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+        this.firstAliveTeam = new HashMap<>();
+        for (final var p : firstTeam) {
+            if (p.isAlive()) {
+                firstAliveTeam.put(p.id(), p);
+            }
+        }
+        this.secondAliveTeam = new HashMap<>();
+        for (final var p : secondTeam) {
+            if (p.isAlive()) {
+                secondAliveTeam.put(p.id(), p);
+            }
+        }
+
         final var firstLines = linesFromTeam(firstTeam, true);
         final var secondLines = linesFromTeam(secondTeam, false);
         final var combined = new ArrayList<BattleLine>();
@@ -38,6 +54,22 @@ public class BattleMap {
         final int totalLines = lines.size();
         adjustLineIndexForRange(firstTeam, firstTeamLineCount, totalLines, true);
         adjustLineIndexForRange(secondTeam, firstTeamLineCount, totalLines, false);
+    }
+
+    public Map<UUID, BattlePersonage> firstAliveTeam() {
+        return firstAliveTeam;
+    }
+
+    public Map<UUID, BattlePersonage> secondAliveTeam() {
+        return secondAliveTeam;
+    }
+
+    public Map<UUID, BattlePersonage> enemyAliveTeam(BattlePersonage personage) {
+        if (personage.advanceDirection() == BattleAdvanceDirection.TOWARD_SECOND_TEAM) {
+            return secondAliveTeam;
+        } else {
+            return firstAliveTeam;
+        }
     }
 
     /**
@@ -87,6 +119,36 @@ public class BattleMap {
         lines.get(fromIndex).removePersonage(personage.id());
         lines.get(toIndex).addPersonage(personage);
         personage.placeOnBattlefield(toIndex, personage.advanceDirection());
+    }
+
+    public void moveBackward(BattlePersonage personage, int steps) {
+        if (!personage.isAlive() || personage.currentPosition() < 0 || steps <= 0) {
+            return;
+        }
+        final int from = personage.currentPosition();
+        final int backwardDelta = -personage.advanceDirection().indexDelta();
+        int to = from + backwardDelta * steps;
+        final int firstCount = firstTeamLineCount();
+        if (personage.advanceDirection() == BattleAdvanceDirection.TOWARD_SECOND_TEAM) {
+            to = Math.max(0, Math.min(firstCount - 1, to));
+        } else {
+            to = Math.max(firstCount, Math.min(lines.size() - 1, to));
+        }
+        if (to != from) {
+            relocatePersonage(personage, from, to);
+        }
+    }
+
+    private int firstTeamLineCount() {
+        int count = 0;
+        for (final var line : lines) {
+            if (line.firstTeam()) {
+                count++;
+            } else {
+                break;
+            }
+        }
+        return count;
     }
 
     public List<BattleLine> lines() {

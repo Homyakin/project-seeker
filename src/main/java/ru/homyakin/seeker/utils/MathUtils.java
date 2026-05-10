@@ -42,4 +42,23 @@ public class MathUtils {
     public static int addPercent(int value, int percent) {
         return Math.round(value * (1 + percent / 100.0f));
     }
+
+    public static double addPercent(double value, int percent) {
+        return value * (1 + percent / 100.0);
+    }
+
+    public static int removePercent(int value, int percent) {
+        return addPercent(value, -percent);
+    }
+
+    public static double removePercent(double value, int percent) {
+        return addPercent(value, -percent);
+    }
+
+    public static int calcPercent(int max, int current) {
+        if (current >= max) {
+            return 100;
+        }
+        return (int) ((double) current / max * 100);
+    }
 }

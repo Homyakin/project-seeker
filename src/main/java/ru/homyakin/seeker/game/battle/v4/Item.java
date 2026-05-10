@@ -1,31 +1,43 @@
 package ru.homyakin.seeker.game.battle.v4;
 
-import ru.homyakin.seeker.game.battle.v4.skill.ItemSkill;
-
-import java.util.List;
 import java.util.Optional;
 
 public record Item(
     Optional<ItemAttack> itemAttack,
     Optional<ItemDefense> itemDefense,
-    List<ItemSkill> itemSkills,
+    Optional<Modifier> modifier,
+    Rarity rarity,
     int health
 ) {
 
-    public static Item weapon(AttackType attackType, int range, int attack) {
+    public static Item weapon(
+        AttackType attackType,
+        int range,
+        int attack,
+        Modifier modifier,
+        Rarity rarity
+    ) {
         return new Item(
             Optional.of(new ItemAttack(attackType, range, attack)),
             Optional.empty(),
-            List.of(),
+            Optional.of(modifier),
+            rarity,
             0
         );
     }
 
-    public static Item armor(DefenseType defenseType, int defense, int health) {
+    public static Item armor(
+        DefenseType defenseType,
+        int defense,
+        int health,
+        Modifier modifier,
+        Rarity rarity
+    ) {
         return new Item(
             Optional.empty(),
             Optional.of(new ItemDefense(defenseType, defense)),
-            List.of(),
+            Optional.of(modifier),
+            rarity,
             health
         );
     }
@@ -36,12 +48,15 @@ public record Item(
         int attack,
         DefenseType defenseType,
         int defense,
-        int health
+        int health,
+        Modifier modifier,
+        Rarity rarity
     ) {
         return new Item(
             Optional.of(new ItemAttack(attackType, range, attack)),
             Optional.of(new ItemDefense(defenseType, defense)),
-            List.of(),
+            Optional.of(modifier),
+            rarity,
             health
         );
     }

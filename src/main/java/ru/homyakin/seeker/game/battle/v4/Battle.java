@@ -15,16 +15,12 @@ public class Battle {
     private record Mover(BattlePersonage personage, Map<UUID, BattlePersonage> enemyAliveTeam) { }
 
     public BattleResult process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
-        final var battleMap = new BattleMap(firstTeam, secondTeam);
+        final var battleMap = new BattleContext(firstTeam, secondTeam);
         final var initState = captureInitState(battleMap, firstTeam, secondTeam);
         final var actionLog = new BattleActionLog();
 
-        final var firstAliveTeam = firstTeam.stream()
-            .filter(BattlePersonage::isAlive)
-            .collect(Collectors.toMap(BattlePersonage::id, it -> it));
-        final var secondAliveTeam = secondTeam.stream()
-            .filter(BattlePersonage::isAlive)
-            .collect(Collectors.toMap(BattlePersonage::id, it -> it));
+        final var firstAliveTeam = battleMap.firstAliveTeam();
+        final var secondAliveTeam = battleMap.secondAliveTeam();
 
         int rounds = 0;
         while (!firstAliveTeam.isEmpty() && !secondAliveTeam.isEmpty()) {
@@ -47,9 +43,10 @@ public class Battle {
                 if (mover.enemyAliveTeam().isEmpty()) {
                     break;
                 }
-                if (mover.personage().move(mover.enemyAliveTeam(), actionLog, rounds)) {
+                if (mover.personage().move(battleMap, actionLog, rounds)) {
                     break;
                 }
+                pruneDead(firstAliveTeam, secondAliveTeam);
             }
         }
         final var personageStats = new HashMap<UUID, BattlePersonageStats>();
@@ -65,13 +62,21 @@ public class Battle {
         );
     }
 
+    private static void pruneDead(
+        Map<UUID, BattlePersonage> firstAliveTeam,
+        Map<UUID, BattlePersonage> secondAliveTeam
+    ) {
+        firstAliveTeam.entrySet().removeIf(entry -> !entry.getValue().isAlive());
+        secondAliveTeam.entrySet().removeIf(entry -> !entry.getValue().isAlive());
+    }
+
     private static BattleInitState captureInitState(
-        BattleMap battleMap,
+        BattleContext battleContext,
         List<BattlePersonage> firstTeam,
         List<BattlePersonage> secondTeam
     ) {
         final Set<UUID> firstTeamIds = firstTeam.stream().map(BattlePersonage::id).collect(Collectors.toSet());
-        final var lines = battleMap.lines();
+        final var lines = battleContext.lines();
         final var lineSnapshots = new ArrayList<BattleLineInitSnapshot>();
         for (int i = 0; i < lines.size(); i++) {
             final var line = lines.get(i);
