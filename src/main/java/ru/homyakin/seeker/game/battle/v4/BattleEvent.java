@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
     @JsonSubTypes.Type(value = BattleEvent.EffectDamage.class,        name = "EffectDamage"),
     @JsonSubTypes.Type(value = BattleEvent.SkillDamage.class,         name = "SkillDamage"),
     @JsonSubTypes.Type(value = BattleEvent.PersonageHealed.class,     name = "PersonageHealed"),
+    @JsonSubTypes.Type(value = BattleEvent.PersonageAttackBuffed.class, name = "PersonageAttackBuffed"),
     @JsonSubTypes.Type(value = BattleEvent.PersonageForcedMove.class, name = "PersonageForcedMove"),
     @JsonSubTypes.Type(value = BattleEvent.PersonageDefeated.class,   name = "PersonageDefeated"),
 })
@@ -29,6 +30,7 @@ public sealed interface BattleEvent permits
     BattleEvent.EffectDamage,
     BattleEvent.SkillDamage,
     BattleEvent.PersonageHealed,
+    BattleEvent.PersonageAttackBuffed,
     BattleEvent.PersonageForcedMove,
     BattleEvent.PersonageDefeated {
 
@@ -87,6 +89,16 @@ public sealed interface BattleEvent permits
         ActiveEnum skill,
         int amount,
         int remainingHealth,
+        int round
+    ) implements BattleEvent { }
+
+    /**
+     * Flat attack power was increased by a skill (percent applied to each range/type slice), e.g. Berserk.
+     */
+    record PersonageAttackBuffed(
+        UUID personageId,
+        ActiveEnum skill,
+        int attackBonusPercent,
         int round
     ) implements BattleEvent { }
 

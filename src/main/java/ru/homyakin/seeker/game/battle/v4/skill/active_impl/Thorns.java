@@ -6,13 +6,12 @@ import ru.homyakin.seeker.game.battle.v4.AttackType;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.skill.AttackPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.DamageDealSkill;
-import ru.homyakin.seeker.game.battle.v4.skill.SkillPower;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 
-public class Thorns implements DamageDealSkill.OnDamageReceiveSkill {
-    private static final int CHANCE = 50;
+public class Thorns implements DamageDealSkill.OnDamageReceiveSkill, AttackPowerSkill {
     private final SkillRank rank;
     private final int attack;
 
@@ -29,9 +28,7 @@ public class Thorns implements DamageDealSkill.OnDamageReceiveSkill {
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        final double dodgeP = inputs.dodgeChancePercent() / 100.0;
-        // Matches apply(): reflects on each damage receive (CHANCE constant unused in combat).
-        return attack * (1.0 - dodgeP) * SkillPower.RECEIVED_DAMAGE_EVENTS_PER_OWN_ATTACK;
+        return attack * (1.0 - inputs.dodgeChancePercent() / 100.0);
     }
 
     @Override

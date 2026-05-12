@@ -5,11 +5,12 @@ import java.util.List;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.skill.AttackPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.v4.skill.TurnSkill;
 
-public class Berserk implements TurnSkill.TurnStartSkill {
+public class Berserk implements TurnSkill.TurnStartSkill, AttackPowerSkill {
     private static final int PERCENT_HP = 30;
     private final SkillRank rank;
     private final int attack;
@@ -28,8 +29,13 @@ public class Berserk implements TurnSkill.TurnStartSkill {
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        // One-time attack buff below PERCENT_HP; same numeric attack as increaseAttack / decreaseDefense.
-        return attack * 0.45;
+        final double totalFightTurns = inputs.maxHealth() / inputs.expectedDamagePerTurn();
+        final double turnsUntilActivation = inputs.maxHealth()
+            * (1.0 - PERCENT_HP / 100.0)
+            / inputs.expectedDamagePerTurn();
+        final double activeTurns = totalFightTurns - turnsUntilActivation;
+        final double extraDps = inputs.baseAttack() * (attack / 100.0);
+        return extraDps * activeTurns / totalFightTurns;
     }
 
     @Override
@@ -39,7 +45,6 @@ public class Berserk implements TurnSkill.TurnStartSkill {
         }
         wasActive = true;
         self.increaseAttack(attack);
-        self.decreaseDefense(attack);
-        return List.of();
+        return List.of(new BattleEvent.PersonageAttackBuffed(self.id(), ActiveEnum.BERSERK, attack, round));
     }
 }

@@ -5,12 +5,13 @@ import java.util.List;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.skill.AttackPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.DamageDealSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class Feint implements DamageDealSkill.OnDodgeSkill {
+public class Feint implements DamageDealSkill.OnDodgeSkill, AttackPowerSkill {
     private static final int CHANCE = 80;
     private final SkillRank rank;
     private final int attack;

@@ -6,11 +6,12 @@ import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
 import ru.homyakin.seeker.game.battle.v4.skill.DamageDealSkill;
+import ru.homyakin.seeker.game.battle.v4.skill.MovePowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class Retreat implements DamageDealSkill.OnCritReceiveSkill {
+public class Retreat implements DamageDealSkill.OnCritReceiveSkill, MovePowerSkill {
     private static final int RANGE = 1;
     private final SkillRank rank;
     private final int chance;
@@ -28,7 +29,7 @@ public class Retreat implements DamageDealSkill.OnCritReceiveSkill {
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        return chance / 100.0 * (inputs.critChancePercent() / 100.0) * 12.0;
+        return 0;
     }
 
     @Override

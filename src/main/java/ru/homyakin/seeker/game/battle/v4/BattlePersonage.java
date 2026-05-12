@@ -12,7 +12,9 @@ import java.util.UUID;
 import ru.homyakin.seeker.game.battle.v4.effect.PeriodicDamageEffect;
 import ru.homyakin.seeker.game.battle.v4.effect.PersonageBattleEffects;
 import ru.homyakin.seeker.game.battle.v4.effect.TemporaryMaxRangeBonus;
+import ru.homyakin.seeker.game.battle.v4.skill.AttackPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.DamageDealSkill;
+import ru.homyakin.seeker.game.battle.v4.skill.HealthPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.ItemSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.TurnSkill;
@@ -55,6 +57,14 @@ public class BattlePersonage {
             AttackType.MAGICAL, 1.20
         )
     );
+
+    /**
+     * Effective defense weight for {@code defenseType} against {@code attackType} (see {@link #refreshDefenseReduce()}).
+     * Package-private for tests in this package.
+     */
+    static double damageMitigationMultiplier(DefenseType defenseType, AttackType attackType) {
+        return DAMAGE_MATRIX.get(defenseType).get(attackType);
+    }
 
     private final UUID id = UUID.randomUUID();
     private final int maxHealth;
@@ -566,11 +576,28 @@ public class BattlePersonage {
         final var critProbability = critChance / 100.0;
         final var effectiveDamage = slotOneAttackSum * (1 + critProbability * (critMultiplier - 1));
         final var dodgeProbability = dodgeChance / 100.0;
-        final var skillInputs = new SkillPowerInputs(dodgeChance, critChance, maxHealth);
-        final var skillAttackEquivalent = itemSkills.stream()
-            .mapToDouble(skill -> skill.skillPowerRating(skillInputs))
-            .sum();
-        return health * (effectiveDamage + skillAttackEquivalent) / avgDamageTakenMultiplier / (1 - dodgeProbability)
+
+        final double expectedDamagePerTurn = effectiveDamage
+            * avgDamageTakenMultiplier
+            * (1 - dodgeProbability);
+        final var skillInputs = new SkillPowerInputs(
+            dodgeChance,
+            critChance,
+            slotOneAttackSum,
+            maxHealth,
+            expectedDamagePerTurn
+        );
+        double offensiveDps = 0;
+        double hpBonus = 0;
+        for (var skill : itemSkills) {
+            if (skill instanceof HealthPowerSkill) {
+                hpBonus += skill.skillPowerRating(skillInputs);
+            } else if (skill instanceof AttackPowerSkill) {
+                offensiveDps += skill.skillPowerRating(skillInputs);
+            }
+        }
+
+        return (maxHealth + hpBonus) * (effectiveDamage + offensiveDps) / avgDamageTakenMultiplier / (1 - dodgeProbability)
             * ((double) speed / REQUIRED_SPEED);
     }
 

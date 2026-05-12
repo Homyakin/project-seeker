@@ -6,6 +6,8 @@ package ru.homyakin.seeker.game.battle.v4.skill;
 public record SkillPowerInputs(
     int dodgeChancePercent,
     int critChancePercent,
-    int maxHealth
+    int baseAttack,
+    int maxHealth,
+    double expectedDamagePerTurn
 ) {
 }

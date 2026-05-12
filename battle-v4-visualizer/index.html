@@ -25,6 +25,7 @@
   --heal: #46d17a;
   --effect: #d97aff;
   --skill: #ffae5c;
+  --buff: #ffb84d;
   --forced: #74e79a;
   }
   * { box-sizing: border-box; }
@@ -137,6 +138,7 @@
   .personage.heal-flash  { box-shadow: 0 0 0 2px var(--heal); }
   .personage.effect-flash { box-shadow: 0 0 0 2px var(--effect); }
   .personage.skill-flash  { box-shadow: 0 0 0 2px var(--skill); }
+  .personage.buff-flash   { box-shadow: 0 0 0 2px var(--buff); }
   .personage.forced-flash { box-shadow: 0 0 0 2px var(--forced); }
 
   .personage .name {
@@ -175,6 +177,7 @@
   .popup.heal { color: var(--heal); }
   .popup.effect { color: var(--effect); }
   .popup.skill { color: var(--skill); }
+  .popup.buff { color: var(--buff); font-size: 12px; }
   .popup.forced { color: var(--forced); font-size: 12px; }
   @keyframes pop {
     0%   { transform: translateY(0) scale(0.7); opacity: 0; }
@@ -212,6 +215,7 @@
   .event.heal .desc { color: var(--heal); }
   .event.effect .desc { color: var(--effect); }
   .event.skill .desc { color: var(--skill); }
+  .event.buff .desc { color: var(--buff); }
   .event.forced .desc { color: var(--forced); }
 
   .pill {
@@ -534,6 +538,7 @@ function eventType(ev) {
   if ("gaugeAfterTick" in ev) return "InitiativeAfterTick";
   if ("newLineIndex" in ev && "sourceId" in ev) return "PersonageForcedMove";
   if ("newLineIndex" in ev) return "MovedTowardEnemy";
+  if ("attackBonusPercent" in ev && "personageId" in ev) return "PersonageAttackBuffed";
   if ("amount" in ev && "remainingHealth" in ev && !("damageTaken" in ev)) return "PersonageHealed";
   if ("attackerId" in ev && "targetId" in ev && !("damageTaken" in ev)) return "AttackDodged";
   if ("damageTaken" in ev && "roll" in ev) return "DamageReceived";
@@ -622,6 +627,18 @@ function applyEvent(ev) {
         p.health = ev.remainingHealth;
         p.flash = "heal";
         p.popup = { text: "+" + ev.amount + " " + skillLabel(ev.skill, "heal"), kind: "heal" };
+      }
+      return ev;
+    }
+
+    case "PersonageAttackBuffed": {
+      const p = live[ev.personageId];
+      if (p) {
+        p.flash = "buff";
+        p.popup = {
+          text: "+" + ev.attackBonusPercent + "% ATK " + skillLabel(ev.skill, "buff"),
+          kind: "buff",
+        };
       }
       return ev;
     }
@@ -809,6 +826,7 @@ function renderPersonage(p) {
   if (p.flash === "heal")   div.classList.add("heal-flash");
   if (p.flash === "effect") div.classList.add("effect-flash");
   if (p.flash === "skill")  div.classList.add("skill-flash");
+  if (p.flash === "buff")   div.classList.add("buff-flash");
   if (p.flash === "forced") div.classList.add("forced-flash");
 
   const hpPct = Math.max(0, Math.min(100, (p.health / p.maxHealth) * 100));
@@ -870,6 +888,7 @@ function classifyEvent(ev) {
     case "EffectDamage":        return "effect";
     case "SkillDamage":         return "skill";
     case "PersonageHealed":     return "heal";
+    case "PersonageAttackBuffed": return "buff";
     case "PersonageDefeated":   return "defeat";
     default: return "";
   }
@@ -923,6 +942,12 @@ function describeEvent(ev) {
       const p = initState.personagesById[ev.personageId];
       const skill = ev.skill ? ` <b>${skillName(ev.skill)}</b>` : "";
       return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} healed${skill} <b>+${ev.amount}</b> (hp ${ev.remainingHealth})`;
+    }
+
+    case "PersonageAttackBuffed": {
+      const p = initState.personagesById[ev.personageId];
+      const skill = ev.skill ? ` <b>${skillName(ev.skill)}</b>` : "";
+      return `${teamPill(p?.firstTeam)} ${shortId(ev.personageId)} attack buff${skill} <b>+${ev.attackBonusPercent}%</b>`;
     }
 
     case "PersonageDefeated": {

@@ -3,9 +3,9 @@ package ru.homyakin.seeker.game.battle.v4;
 public enum Rarity {
     COMMON(0),
     UNCOMMON(1),
-    RARE(3),
-    EPIC(4),
-    LEGENDARY(5);
+    RARE(2),
+    EPIC(3),
+    LEGENDARY(4);
 
     private final int skillPoints;
 

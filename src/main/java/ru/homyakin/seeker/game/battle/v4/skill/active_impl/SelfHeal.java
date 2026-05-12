@@ -5,15 +5,18 @@ import java.util.List;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.skill.HealthPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.v4.skill.TurnSkill;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class SelfHeal implements TurnSkill.TurnEndSkill {
+public class SelfHeal implements TurnSkill.TurnEndSkill, HealthPowerSkill {
     private static final int CHANCE = 50;
+    private static final int COOLDOWN = 2;
     private final SkillRank rank;
     private final int heal;
+    private int wait = 0;
 
     public SelfHeal(int points) {
         this.rank = SkillRank.forPoints(points);
@@ -28,15 +31,29 @@ public class SelfHeal implements TurnSkill.TurnEndSkill {
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        final int maxHp = Math.max(1, inputs.maxHealth());
-        return heal * (CHANCE / 100.0) * (400.0 / (400.0 + maxHp));
+        final double procsPerTurn = 1.0 / (COOLDOWN + 100.0 / CHANCE);
+        final double healPerTurn = heal * procsPerTurn;
+
+        // Защита от деления на ноль или отрицательного знаменателя
+        final double netDps = inputs.expectedDamagePerTurn() - healPerTurn;
+        if (netDps <= 0) {
+            // Хил перекрывает весь урон — персонаж почти бессмертен
+            return inputs.maxHealth();
+        }
+
+        return inputs.maxHealth() * healPerTurn / netDps;
     }
 
     @Override
     public List<BattleEvent> apply(BattleContext context, BattlePersonage self, int round) {
+        if (wait > 0) {
+            --wait;
+            return List.of();
+        }
         if (!self.isAlive() || !RandomUtils.processChance(CHANCE)) {
             return List.of();
         }
+        wait = COOLDOWN;
         final int before = self.health();
         self.heal(heal);
         final int healed = self.health() - before;
