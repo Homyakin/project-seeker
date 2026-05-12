@@ -5,13 +5,13 @@ import java.util.List;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.skill.AttackPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.DamageDealSkill;
-import ru.homyakin.seeker.game.battle.v4.skill.SkillPower;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class CounterAttack implements DamageDealSkill.OnDamageReceiveSkill {
+public class CounterAttack implements DamageDealSkill.OnDamageReceiveSkill, AttackPowerSkill {
     private static final int CHANCE = 50;
     private final SkillRank rank;
     private final int attack;
@@ -29,8 +29,7 @@ public class CounterAttack implements DamageDealSkill.OnDamageReceiveSkill {
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        final double dodgeP = inputs.dodgeChancePercent() / 100.0;
-        return attack * (CHANCE / 100.0) * (1.0 - dodgeP) * SkillPower.RECEIVED_DAMAGE_EVENTS_PER_OWN_ATTACK;
+        return attack * (CHANCE / 100.0) * (1.0 - inputs.dodgeChancePercent() / 100.0);
     }
 
     @Override

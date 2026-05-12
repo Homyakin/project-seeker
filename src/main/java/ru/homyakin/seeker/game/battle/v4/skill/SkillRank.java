@@ -14,11 +14,15 @@ public enum SkillRank {
     }
 
     public static SkillRank forPoints(int points) {
+        SkillRank best = null;
         for (final var rank : values()) {
-            if (points >= rank.requiredPoints) {
-                return rank;
+            if (points >= rank.requiredPoints && (best == null || rank.requiredPoints > best.requiredPoints)) {
+                best = rank;
             }
         }
-        throw new IllegalArgumentException("No rank found for points: " + points);
+        if (best == null) {
+            throw new IllegalArgumentException("No rank found for points: " + points);
+        }
+        return best;
     }
 }

@@ -13,13 +13,32 @@ public class BattleSimulator {
     // 🔨 Воин
     // HP=2500, DEF=320 PLATE, ATK=150 BLUNT
     private static final List<Item> warriorItems = List.of(
-        Item.weapon(AttackType.BLUNT, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), Rarity.LEGENDARY),
-        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.THORNS), Rarity.LEGENDARY),
-        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.THORNS), Rarity.LEGENDARY),
+        Item.weapon(AttackType.SLASH, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
         Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
         Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
         Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
     );
+    // 🔨 Воин
+    // HP=2500, DEF=320 PLATE, ATK=150 BLUNT
+    private static final List<Item> warriorSkillItems = List.of(
+        Item.weapon(AttackType.SLASH, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.BLEEDING), Rarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.BLEEDING), Rarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
+    );
+
+    // COUNTER_ATTACK - (90.097%) + 100714.81549313999
+    // THORNS - 90.635% + 100714.81549313999
+    // DOUBLE_ATTACK - 89.27% 100714.81549313999
+    // BERSERK - 90.131% 100265.19578111706
+    // BLEEDING - 66.293% 95409.30289126924
+    // SELF_HEAL - 90.403% 96668.23808493349
+    // PRECISE_STRIKE - 52.711% 92621.66067672695
+    // FEINT - 53.817% 92891.43250394074
 
     // 🗹 Ассасин
     // HP=600, DEF=80 LEATHER, ATK=380 PIERCE
@@ -49,6 +68,18 @@ public class BattleSimulator {
     private static BattlePersonage warrior(Position position) {
         return new BattlePersonage(
             warriorItems,
+            5,     // critChance
+            5,     // dodgeChance
+            1.5,   // critMultiplier
+            140,   // initiative
+            100,   // baseThreat
+            position
+        );
+    }
+
+    private static BattlePersonage warriorSkillItems(Position position) {
+        return new BattlePersonage(
+            warriorSkillItems,
             5,     // critChance
             5,     // dodgeChance
             1.5,   // critMultiplier
@@ -110,9 +141,13 @@ public class BattleSimulator {
         int winsSecondAlive = 0;
         int winsBothAlive = 0;
 
+
+        System.out.println("WARRIOR " + warrior(Position.FRONT).power());
+        System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).power());
+
         for (int i = 0; i < iterations; ++i) {
-            final var firstTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK), archer());
-            final var secondTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), archer(), mage(Position.BACK));
+            final var firstTeam = List.of(warriorSkillItems(Position.FRONT));
+            final var secondTeam = List.of(warrior(Position.FRONT));
 
             //System.out.println(firstTeam.getFirst().power());
             //System.out.println(secondTeam.getFirst().power());
@@ -178,6 +213,7 @@ public class BattleSimulator {
     @Test
     public void power() {
         System.out.println("WARRIOR " + warrior(Position.FRONT).power());
+        System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).power());
         System.out.println("MAGE " + mage(Position.FRONT).power());
         System.out.println("ASSASIN " + assassin(Position.FRONT).power());
         System.out.println("ARCHER " + archer().power());
@@ -185,7 +221,7 @@ public class BattleSimulator {
 
     @Test
     public void logTest() throws Exception {
-        final var firstTeam = List.of(assassin(Position.FRONT), warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK));
+        final var firstTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), warrior(Position.FRONT), mage(Position.BACK));
         final var secondTeam = List.of(warrior(Position.FRONT), warrior(Position.FRONT), archer(), mage(Position.BACK));
 
         final var result = new Battle().process(firstTeam, secondTeam);

@@ -5,12 +5,13 @@ import java.util.List;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.skill.MovePowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.v4.skill.TurnSkill;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class HitAndRun implements TurnSkill.TurnStartSkill {
+public class HitAndRun implements TurnSkill.TurnStartSkill, MovePowerSkill {
     private static final int COOLDOWN = 3;
     private static final int RANGE_CHANGE = 1;
     private static final int TURNS = 1;
@@ -31,7 +32,7 @@ public class HitAndRun implements TurnSkill.TurnStartSkill {
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        return chance / 100.0 / (1.0 + COOLDOWN) * (RANGE_CHANGE * 16.0);
+        return 0;
     }
 
     @Override

@@ -7,15 +7,16 @@ import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
 import ru.homyakin.seeker.game.battle.v4.effect.PeriodicDamageEffect;
+import ru.homyakin.seeker.game.battle.v4.skill.AttackPowerSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.DamageDealSkill;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.utils.RandomUtils;
 
-public class Bleeding implements DamageDealSkill.OnHitSkill {
-    private static final int CHANCE = 30;
-    private static final int TURNS = 3;
-    private static final int COOLDOWN = 3;
+public class Bleeding implements DamageDealSkill.OnHitSkill, AttackPowerSkill {
+    private static final int CHANCE = 60;
+    private static final int TURNS = 4;
+    private static final int COOLDOWN = 4;
     private static final AttackType ATTACK_TYPE = AttackType.SLASH;
     private final SkillRank rank;
     private final int attack;
@@ -24,19 +25,18 @@ public class Bleeding implements DamageDealSkill.OnHitSkill {
     public Bleeding(int points) {
         this.rank = SkillRank.forPoints(points);
         this.attack = switch (rank) {
-            case FIRST -> 4;
-            case SECOND -> 6;
-            case THIRD -> 8;
-            case FOURTH -> 10;
-            case FIFTH -> 12;
+            case FIRST -> 5;
+            case SECOND -> 10;
+            case THIRD -> 15;
+            case FOURTH -> 20;
+            case FIFTH -> 25;
         };
     }
 
     @Override
     public double skillPowerRating(SkillPowerInputs inputs) {
-        final double procChance = CHANCE / 100.0;
-        final double avgHitsBetweenAttempts = 1.0 + COOLDOWN;
-        return attack * TURNS * procChance / avgHitsBetweenAttempts;
+        double avgHitsPerProc = COOLDOWN + (100.0 / CHANCE);
+        return attack * TURNS * (1 - inputs.dodgeChancePercent() / 100.0) / avgHitsPerProc;
     }
 
     @Override
