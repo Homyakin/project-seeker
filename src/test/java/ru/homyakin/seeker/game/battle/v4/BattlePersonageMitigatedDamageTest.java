@@ -68,8 +68,8 @@ class BattlePersonageMitigatedDamageTest {
                 Item.armor(defenseType, defenseTotal, 50_000, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
             );
 
-            final var attacker = new BattlePersonage(attackerItems, 0, 0, 1.5, 100, 10, Position.FRONT);
-            final var defender = new BattlePersonage(defenderItems, 0, 0, 1.5, 100, 10, Position.FRONT);
+            final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
+            final var defender = new BattlePersonage(defenderItems, Position.FRONT);
             final var context = new BattleContext(List.of(attacker), List.of(defender));
 
             final int healthBefore = defender.health();
@@ -98,8 +98,8 @@ class BattlePersonageMitigatedDamageTest {
                 Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
             );
 
-            final var attacker = new BattlePersonage(attackerItems, 0, 0, 1.5, 100, 10, Position.FRONT);
-            final var defender = new BattlePersonage(defenderItems, 0, 0, 1.5, 100, 10, Position.FRONT);
+            final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
+            final var defender = new BattlePersonage(defenderItems, Position.FRONT);
             final var context = new BattleContext(List.of(attacker), List.of(defender));
 
             final int healthBefore = defender.health();

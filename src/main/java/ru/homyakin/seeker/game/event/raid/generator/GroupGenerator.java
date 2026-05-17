@@ -1,15 +1,15 @@
 package ru.homyakin.seeker.game.event.raid.generator;
 
-import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.utils.RandomUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
+import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 public class GroupGenerator implements RaidBattlePersonageGenerator {
     @Override
