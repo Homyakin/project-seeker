@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.battle.v4;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.Rarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -131,7 +131,7 @@ public class BattlePersonage {
             if (item.itemAttack().isPresent()) {
                 maxRange = Math.max(maxRange, item.itemAttack().get().range());
             }
-            if (item.modifier().isPresent() && item.rarity() != Rarity.COMMON) {
+            if (item.modifier().isPresent() && item.rarity() != ItemRarity.COMMON) {
                 activeSkills.merge(item.modifier().get().activeEnum(), item.skillPoints(), Integer::sum);
             }
         }

@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale.shop;
 
 import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
@@ -98,7 +99,7 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::notEnoughSpaceInBag);
     }
 
-    public static String successBuy(Language language, LegacyItem item) {
+    public static String successBuy(Language language, PersonageItem item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successBuy),
             Collections.singletonMap("full_item_name", ItemLocalization.fullItem(language, item))

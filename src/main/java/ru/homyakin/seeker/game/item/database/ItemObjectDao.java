@@ -2,13 +2,21 @@ package ru.homyakin.seeker.game.item.database;
 
 import java.sql.Array;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
+import ru.homyakin.seeker.game.item.models.ItemAttack;
+import ru.homyakin.seeker.game.item.models.ItemDefense;
+import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.JsonUtils;
 
@@ -22,6 +30,24 @@ public class ItemObjectDao {
         this.jdbcClient = JdbcClient.create(dataSource);
         this.jsonUtils = jsonUtils;
         this.dataSource = dataSource;
+    }
+
+    public ObjectRow getRandomObject(PersonageSlot slot) {
+        return jdbcClient.sql(RANDOM_OBJECT_SQL)
+            .param("slot_id", slot.id)
+            .query(this::mapRow)
+            .optional()
+            .orElseThrow();
+    }
+
+    public Optional<ObjectRow> getById(int id) {
+        return jdbcClient.sql(GET_BY_ID_SQL)
+            .param("id", id)
+            .query(this::mapRow)
+            .optional();
+    }
+
+    public record ObjectRow(int id, ItemObject object) {
     }
 
     @Transactional
@@ -52,6 +78,60 @@ public class ItemObjectDao {
             throw new IllegalStateException("Failed to create personage_slot_ids array", e);
         }
     }
+
+    private ObjectRow mapRow(ResultSet rs, int rowNum) throws SQLException {
+        final var attackType = rs.getString("attack_type");
+        final var defenseType = rs.getString("defense_type");
+        return new ObjectRow(
+            rs.getInt("id"),
+            new ItemObject(
+                rs.getString("code"),
+                extractSlots(rs.getArray("personage_slot_ids")),
+                attackType == null
+                    ? Optional.empty()
+                    : Optional.of(new ItemAttack(
+                        AttackType.valueOf(attackType),
+                        rs.getInt("attack_range"),
+                        rs.getInt("attack")
+                    )),
+                defenseType == null
+                    ? Optional.empty()
+                    : Optional.of(new ItemDefense(
+                        DefenseType.valueOf(defenseType),
+                        rs.getInt("defense")
+                    )),
+                rs.getInt("health"),
+                rs.getInt("crit_chance"),
+                rs.getInt("dodge_chance"),
+                rs.getDouble("crit_multiplier"),
+                rs.getInt("speed"),
+                rs.getInt("base_threat"),
+                jsonUtils.fromString(rs.getString("locale"), JsonUtils.ITEM_OBJECT_LOCALE)
+            )
+        );
+    }
+
+    private Set<PersonageSlot> extractSlots(Array array) throws SQLException {
+        if (array == null) {
+            return Set.of();
+        }
+        final var ids = (Integer[]) array.getArray();
+        final var slots = new HashSet<PersonageSlot>();
+        for (final var id : ids) {
+            slots.add(PersonageSlot.findById(id));
+        }
+        return slots;
+    }
+
+    private static final String RANDOM_OBJECT_SQL = """
+        SELECT * FROM item_object
+        WHERE :slot_id = ANY(personage_slot_ids)
+        ORDER BY random() LIMIT 1
+        """;
+
+    private static final String GET_BY_ID_SQL = """
+        SELECT * FROM item_object WHERE id = :id
+        """;
 
     private static final String SAVE_SQL = """
         INSERT INTO item_object (

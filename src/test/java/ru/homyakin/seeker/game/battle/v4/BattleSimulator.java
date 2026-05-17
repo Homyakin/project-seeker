@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
-import ru.homyakin.seeker.game.item.models.Rarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,22 +19,22 @@ public class BattleSimulator {
     // 🔨 Воин
     // HP=2500, DEF=320 PLATE, ATK=150 BLUNT
     private static final List<Item> warriorItems = List.of(
-        Item.weapon(AttackType.SLASH, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
+        Item.weapon(AttackType.SLASH, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
     );
     // 🔨 Воин
     // HP=2500, DEF=320 PLATE, ATK=150 BLUNT
     private static final List<Item> warriorSkillItems = List.of(
-        Item.weapon(AttackType.SLASH, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.BLEEDING), Rarity.LEGENDARY),
-        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.BLEEDING), Rarity.LEGENDARY),
-        Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
-        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
+        Item.weapon(AttackType.SLASH, 1, 150, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE, 200, 800, new Modifier(ActiveEnum.BLEEDING), ItemRarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE,  50, 500, new Modifier(ActiveEnum.BLEEDING), ItemRarity.LEGENDARY),
+        Item.armor (DefenseType.PLATE,  40, 500, new Modifier(ActiveEnum.SELF_HEAL), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON),
+        Item.armor (DefenseType.PLATE,  15, 350, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
     );
 
     // COUNTER_ATTACK - (90.097%) + 100714.81549313999
@@ -49,26 +49,26 @@ public class BattleSimulator {
     // 🗹 Ассасин
     // HP=600, DEF=80 LEATHER, ATK=380 PIERCE
     private static final List<Item> assassinItems = List.of(
-        Item.weapon(AttackType.PIERCE,         1, 380, new Modifier(ActiveEnum.BLEEDING), Rarity.COMMON),
-        Item.armor (DefenseType.LEATHER, 50, 300, new Modifier(ActiveEnum.FEINT), Rarity.COMMON),
-        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.COMMON),
-        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.COMMON)
+        Item.weapon(AttackType.PIERCE,         1, 380, new Modifier(ActiveEnum.BLEEDING), ItemRarity.COMMON),
+        Item.armor (DefenseType.LEATHER, 50, 300, new Modifier(ActiveEnum.FEINT), ItemRarity.COMMON),
+        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), ItemRarity.COMMON),
+        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), ItemRarity.COMMON)
     );
 
     // 🔮 Маг
     // HP=950, DEF=80 CLOTH, ATK=380 MAGICAL
     private static final List<Item> mageItems = List.of(
-        Item.weapon(AttackType.MAGICAL,          3, 380, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
-        Item.armor (DefenseType.CLOTH,    50, 600, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
-        Item.armor (DefenseType.CLOTH,    15, 200, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
-        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON)
+        Item.weapon(AttackType.MAGICAL,          3, 380, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    50, 600, new Modifier(ActiveEnum.SELF_HEAL), ItemRarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    15, 200, new Modifier(ActiveEnum.SELF_HEAL), ItemRarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), ItemRarity.COMMON)
     );
 
     private static final List<Item> archerItems = List.of(
-        Item.weapon(AttackType.PIERCE,          2, 380, new Modifier(ActiveEnum.PRECISE_STRIKE), Rarity.COMMON),
-        Item.armor (DefenseType.CLOTH,    50, 300, new Modifier(ActiveEnum.RETREAT), Rarity.COMMON),
-        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.RETREAT), Rarity.COMMON),
-        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON)
+        Item.weapon(AttackType.PIERCE,          2, 380, new Modifier(ActiveEnum.PRECISE_STRIKE), ItemRarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    50, 300, new Modifier(ActiveEnum.RETREAT), ItemRarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.RETREAT), ItemRarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), ItemRarity.COMMON)
     );
 
     private static List<Item> withPersonageStats(

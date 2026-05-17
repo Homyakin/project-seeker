@@ -15,7 +15,7 @@ import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.Modifier;
-import ru.homyakin.seeker.game.item.models.Rarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,10 +67,10 @@ class BattlePersonageMitigatedDamageTest {
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
             final var attackerItems = List.of(
-                Item.weapon(attackType, 1, attackTotal, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON)
+                Item.weapon(attackType, 1, attackTotal, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
             );
             final var defenderItems = List.of(
-                Item.armor(defenseType, defenseTotal, 50_000, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
+                Item.armor(defenseType, defenseTotal, 50_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
             );
 
             final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
@@ -95,12 +95,12 @@ class BattlePersonageMitigatedDamageTest {
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
             final var attackerItems = List.of(
-                Item.weapon(AttackType.SLASH, 1, 40, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
-                Item.weapon(AttackType.SLASH, 1, 60, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON)
+                Item.weapon(AttackType.SLASH, 1, 40, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON),
+                Item.weapon(AttackType.SLASH, 1, 60, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
             );
             final var defenderItems = List.of(
-                Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), Rarity.COMMON),
-                Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), Rarity.COMMON)
+                Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON),
+                Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
             );
 
             final var attacker = new BattlePersonage(attackerItems, Position.FRONT);

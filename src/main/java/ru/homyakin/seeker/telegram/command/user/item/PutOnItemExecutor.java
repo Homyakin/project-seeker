@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.LegacyItemService;
-import ru.homyakin.seeker.game.item.errors.LegacyPutOnItemError;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -15,13 +15,13 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
     private final UserService userService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
 
     public PutOnItemExecutor(
         UserService userService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        LegacyItemService itemService
+        ItemService itemService
     ) {
         this.userService = userService;
         this.personageService = personageService;
@@ -35,9 +35,9 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
         final var text = itemService.putOnItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {
-                    case LegacyPutOnItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
-                    case LegacyPutOnItemError.AlreadyEquipped _ -> ItemLocalization.alreadyEquipped(user.language());
-                    case LegacyPutOnItemError.RequiredFreeSlots requiredFreeSlots ->
+                    case PutOnItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
+                    case PutOnItemError.AlreadyEquipped _ -> ItemLocalization.alreadyEquipped(user.language());
+                    case PutOnItemError.RequiredFreeSlots requiredFreeSlots ->
                         ItemLocalization.requiredFreeSlots(user.language(), requiredFreeSlots.slots());
                 },
                 item -> ItemLocalization.successPutOn(user.language(), item)

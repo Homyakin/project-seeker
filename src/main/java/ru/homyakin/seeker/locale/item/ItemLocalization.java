@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.models.Modifier;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.modifier.models.LegacyModifier;
 import ru.homyakin.seeker.game.item.modifier.models.LegacyModifierType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -21,6 +23,28 @@ public class ItemLocalization {
 
     public static void add(Language language, ItemResource resource) {
         resources.add(language, resource);
+    }
+
+    public static String fullItem(Language requestedlanguage, PersonageItem item) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon());
+        params.put("broken_icon", "");
+        params.put("item", itemText(itemLanguage, item));
+        params.put("characteristics", itemCharacteristics(itemLanguage, item));
+        params.put(
+            "slots",
+            item.object()
+                .slots()
+                .stream()
+                .sorted(Comparator.comparingInt(it -> it.id))
+                .map(it -> it.icon)
+                .collect(Collectors.joining())
+        );
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::fullItem),
+            params
+        );
     }
 
     public static String fullItem(Language requestedlanguage, LegacyItem item) {
@@ -70,7 +94,7 @@ public class ItemLocalization {
         );
     }
 
-    public static String inventory(Language language, Personage personage, List<LegacyItem> items) {
+    public static String inventory(Language language, Personage personage, List<PersonageItem> items) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", personage.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
@@ -88,7 +112,7 @@ public class ItemLocalization {
                 ++itemsInBagCount;
             }
         }
-        final var freeSlots = personage.getFreeSlots(sortedItems)
+        final var freeSlots = personage.getFreeSlotsForItems(sortedItems)
             .stream()
             .sorted(Comparator.comparingInt(ItemLocalization::slotPriority))
             .map(slot -> personageFreeSlot(language, slot))
@@ -109,6 +133,10 @@ public class ItemLocalization {
     }
 
     public static int itemComparator(LegacyItem item1, LegacyItem item2) {
+        return itemPriority(item1) - itemPriority(item2);
+    }
+
+    public static int itemComparator(PersonageItem item1, PersonageItem item2) {
         return itemPriority(item1) - itemPriority(item2);
     }
 
@@ -139,6 +167,20 @@ public class ItemLocalization {
         );
     }
 
+    public static String successPutOn(Language language, PersonageItem item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successPutOn),
+            Collections.singletonMap("item", fullItem(language, item))
+        );
+    }
+
+    public static String successTakeOff(Language language, PersonageItem item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successTakeOff),
+            Collections.singletonMap("item", fullItem(language, item))
+        );
+    }
+
     public static String successPutOn(Language language, LegacyItem item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::successPutOn),
@@ -153,7 +195,7 @@ public class ItemLocalization {
         );
     }
 
-    private static String itemInBag(Language language, LegacyItem item) {
+    private static String itemInBag(Language language, PersonageItem item) {
         final var params = new HashMap<String, Object>();
         params.put("full_item", fullItem(language, item));
         params.put("put_on_command", item.putOnCommand());
@@ -163,7 +205,7 @@ public class ItemLocalization {
         );
     }
 
-    private static String equippedItem(Language language, LegacyItem item) {
+    private static String equippedItem(Language language, PersonageItem item) {
         final var params = new HashMap<String, Object>();
         params.put("full_item", fullItem(language, item));
         params.put("take_off_command", item.takeOffCommand());
@@ -180,10 +222,28 @@ public class ItemLocalization {
         );
     }
 
+    private static String itemWithoutModifiers(Language language, PersonageItem item) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::itemWithoutModifiers),
+            Collections.singletonMap("object", item.object().getLocaleOrDefault(language).text())
+        );
+    }
+
     private static String itemWithoutModifiers(Language language, LegacyItem item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemWithoutModifiers),
             Collections.singletonMap("object", item.object().getLocaleOrDefault(language).text())
+        );
+    }
+
+    private static String itemWithModifier(Language language, PersonageItem item, Modifier modifier) {
+        final var params = new HashMap<String, Object>();
+        final var objectLocale = item.object().getLocaleOrDefault(language);
+        params.put("object", objectLocale.text());
+        params.put("prefix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::itemWithPrefixModifier),
+            params
         );
     }
 
@@ -301,6 +361,21 @@ public class ItemLocalization {
         );
     }
 
+    private static String itemText(Language itemLanguage, PersonageItem item) {
+        if (item.modifier().isEmpty()) {
+            return itemWithoutModifiers(itemLanguage, item);
+        }
+        return itemWithModifier(itemLanguage, item, item.modifier().get());
+    }
+
+    private static String itemCharacteristics(Language language, PersonageItem item) {
+        final var gameItem = item.toItem();
+        final var attack = gameItem.itemAttack().map(a -> a.attack()).orElse(0);
+        final var health = gameItem.health();
+        final var defense = gameItem.itemDefense().map(d -> d.defense()).orElse(0);
+        return characteristics(language, new Characteristics(health, attack, defense, 0, 0, 0));
+    }
+
     private static String itemText(Language itemLanguage, LegacyItem item) {
         if (item.modifiers().isEmpty()) {
             return itemWithoutModifiers(itemLanguage, item);
@@ -325,6 +400,10 @@ public class ItemLocalization {
     }
 
     private static int itemPriority(LegacyItem item) {
+        return item.object().slots().stream().mapToInt(ItemLocalization::slotPriority).min().orElse(Integer.MAX_VALUE);
+    }
+
+    private static int itemPriority(PersonageItem item) {
         return item.object().slots().stream().mapToInt(ItemLocalization::slotPriority).min().orElse(Integer.MAX_VALUE);
     }
 
