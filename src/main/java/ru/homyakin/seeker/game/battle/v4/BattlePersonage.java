@@ -1,5 +1,10 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
+import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.Rarity;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;

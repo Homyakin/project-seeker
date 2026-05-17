@@ -12,16 +12,19 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.EventService;
-import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.ItemCatalogService;
+import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
+import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
+import ru.homyakin.seeker.game.item.modifier.LegacyItemModifierService;
 import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingPersonalQuest;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingWorldRaid;
 import ru.homyakin.seeker.infrastructure.init.saving_models.WorldRaids;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingItemObject;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.SavingModifier;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacySavingItemObject;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacySavingModifier;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacyItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacyItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingBadge;
 import ru.homyakin.seeker.game.badge.action.BadgeService;
 import ru.homyakin.seeker.game.rumor.Rumor;
@@ -47,8 +50,9 @@ public class InitGameData {
     private final MenuService menuService;
     private final RumorService rumorService;
     private final BadgeService badgeService;
-    private final ItemService itemService;
-    private final ItemModifierService itemModifierService;
+    private final LegacyItemService itemService;
+    private final LegacyItemModifierService itemModifierService;
+    private final ItemCatalogService itemCatalogService;
     private final InitGameDataConfig config;
 
     public InitGameData(
@@ -56,8 +60,9 @@ public class InitGameData {
         MenuService menuService,
         RumorService rumorService,
         BadgeService badgeService,
-        ItemService itemService,
-        ItemModifierService itemModifierService,
+        LegacyItemService itemService,
+        LegacyItemModifierService itemModifierService,
+        ItemCatalogService itemCatalogService,
         InitGameDataConfig config
     ) {
         this.eventService = eventService;
@@ -66,6 +71,7 @@ public class InitGameData {
         this.badgeService = badgeService;
         this.itemService = itemService;
         this.itemModifierService = itemModifierService;
+        this.itemCatalogService = itemCatalogService;
         this.config = config;
     }
 
@@ -150,23 +156,48 @@ public class InitGameData {
         ResourceUtils.doAction(
             ITEM_OBJECTS,
             stream -> {
-                final var itemObjects = extractClass(stream, ItemObjects.class);
-                LocalizationCoverage.addItemObjectsInfo(itemObjects);
-                itemObjects.object().forEach(SavingItemObject::validateLocale);
+                final var itemObjects = extractClass(stream, LegacyItemObjects.class);
+                LocalizationCoverage.addLegacyItemObjectsInfo(itemObjects);
+                itemObjects.object().forEach(LegacySavingItemObject::validateLocale);
                 itemService.saveObjects(itemObjects);
             }
         );
         ResourceUtils.doAction(
             ITEM_MODIFIERS,
             stream -> {
-                final var itemModifiers = extractClass(stream, ItemModifiers.class);
-                LocalizationCoverage.addItemModifiersInfo(itemModifiers);
-                itemModifiers.modifier().forEach(SavingModifier::validateLocale);
-                itemModifiers.modifier().forEach(SavingModifier::validateWordForms);
+                final var itemModifiers = extractClass(stream, LegacyItemModifiers.class);
+                LocalizationCoverage.addLegacyItemModifiersInfo(itemModifiers);
+                itemModifiers.modifier().forEach(LegacySavingModifier::validateLocale);
+                itemModifiers.modifier().forEach(LegacySavingModifier::validateWordForms);
                 itemModifierService.saveModifiers(itemModifiers);
             }
         );
         logger.info("loaded items");
+    }
+
+    @EventListener(ApplicationStartedEvent.class)
+    public void loadItemsCatalog() {
+        logger.info("loading items catalog");
+        ResourceUtils.doAction(
+            ITEM_OBJECTS_CATALOG,
+            stream -> {
+                final var itemObjects = extractClass(stream, ItemObjectsToml.class);
+                LocalizationCoverage.addCatalogItemObjectsInfo(itemObjects);
+                itemObjects.item().forEach(ItemObjectsToml.SavingItemObject::validateLocale);
+                itemCatalogService.saveObjects(itemObjects);
+            }
+        );
+        ResourceUtils.doAction(
+            ITEM_MODIFIERS_CATALOG,
+            stream -> {
+                final var itemModifiers = extractClass(stream, ItemModifiersToml.class);
+                LocalizationCoverage.addCatalogItemModifiersInfo(itemModifiers);
+                itemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateLocale);
+                itemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateWordForms);
+                itemCatalogService.saveModifiers(itemModifiers);
+            }
+        );
+        logger.info("loaded items catalog");
     }
 
     @EventListener(ApplicationStartedEvent.class)
@@ -221,4 +252,6 @@ public class InitGameData {
     private static final String BADGES = DATA_FOLDER + "badges.toml";
     private static final String ITEM_OBJECTS = DATA_FOLDER + "item_objects.toml";
     private static final String ITEM_MODIFIERS = DATA_FOLDER + "item_modifiers.toml";
+    private static final String ITEM_OBJECTS_CATALOG = DATA_FOLDER + "item_objects_catalog.toml";
+    private static final String ITEM_MODIFIERS_CATALOG = DATA_FOLDER + "item_modifiers_catalog.toml";
 }

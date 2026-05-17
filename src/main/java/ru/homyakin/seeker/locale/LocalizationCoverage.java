@@ -11,8 +11,10 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.Badges;
 import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.WorldRaids;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemModifiers;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.ItemObjects;
+import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
+import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacyItemModifiers;
+import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacyItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -76,11 +78,19 @@ public class LocalizationCoverage {
         addLocalizedInfo(badges.badge(), TranslateType.BADGES);
     }
 
-    public static void addItemObjectsInfo(ItemObjects itemObjects) {
-        addLocalizedInfo(itemObjects.object(), TranslateType.ITEM_OBJECTS);
+    public static void addLegacyItemObjectsInfo(LegacyItemObjects itemObjects) {
+        addLocalizedInfo(itemObjects.object(), TranslateType.LEGACY_ITEM_OBJECTS);
     }
 
-    public static void addItemModifiersInfo(ItemModifiers itemModifiers) {
+    public static void addLegacyItemModifiersInfo(LegacyItemModifiers itemModifiers) {
+        addLocalizedInfo(itemModifiers.modifier(), TranslateType.LEGACY_ITEM_MODIFIERS);
+    }
+
+    public static void addCatalogItemObjectsInfo(ItemObjectsToml itemObjects) {
+        addLocalizedInfo(itemObjects.item(), TranslateType.ITEM_OBJECTS);
+    }
+
+    public static void addCatalogItemModifiersInfo(ItemModifiersToml itemModifiers) {
         addLocalizedInfo(itemModifiers.modifier(), TranslateType.ITEM_MODIFIERS);
     }
 
@@ -143,6 +153,8 @@ public class LocalizationCoverage {
         RUMORS,
         MENU_ITEMS,
         BADGES,
+        LEGACY_ITEM_OBJECTS,
+        LEGACY_ITEM_MODIFIERS,
         ITEM_OBJECTS,
         ITEM_MODIFIERS,
         WORLD_RAIDS,

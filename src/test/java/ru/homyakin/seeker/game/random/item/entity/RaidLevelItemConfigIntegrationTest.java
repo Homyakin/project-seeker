@@ -2,7 +2,7 @@ package ru.homyakin.seeker.game.random.item.entity;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,11 +20,11 @@ public class RaidLevelItemConfigIntegrationTest {
         final var distribution = config.getBaseRarityDistribution();
         
         // Проверяем, что на уровне 10 доступны только COMMON и UNCOMMON
-        Assertions.assertEquals(60, distribution.get(ItemRarity.COMMON));
-        Assertions.assertEquals(40, distribution.get(ItemRarity.UNCOMMON));
-        Assertions.assertEquals(0, distribution.get(ItemRarity.RARE));
-        Assertions.assertEquals(0, distribution.get(ItemRarity.EPIC));
-        Assertions.assertEquals(0, distribution.get(ItemRarity.LEGENDARY));
+        Assertions.assertEquals(60, distribution.get(LegacyItemRarity.COMMON));
+        Assertions.assertEquals(40, distribution.get(LegacyItemRarity.UNCOMMON));
+        Assertions.assertEquals(0, distribution.get(LegacyItemRarity.RARE));
+        Assertions.assertEquals(0, distribution.get(LegacyItemRarity.EPIC));
+        Assertions.assertEquals(0, distribution.get(LegacyItemRarity.LEGENDARY));
     }
 
     @Test

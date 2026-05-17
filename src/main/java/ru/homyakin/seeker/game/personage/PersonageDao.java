@@ -43,7 +43,7 @@ public class PersonageDao {
                 SUM(attack) item_attack,
                 SUM(health) item_health,
                 SUM(defense) item_defense
-            FROM item WHERE personage_id in (:id_list) AND is_equipped = true
+            FROM legacy_item WHERE personage_id in (:id_list) AND is_equipped = true
             GROUP BY personage_id
         )
         SELECT p.*,

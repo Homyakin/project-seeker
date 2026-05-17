@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.contraband.entity;
 
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.models.IntRange;
 
@@ -20,8 +20,8 @@ public sealed interface ContrabandReward {
         }
     }
 
-    record Item(ProbabilityPicker<ItemRarity> rarityPicker) implements ContrabandReward {
-        public Item(ItemRarity rarity) {
+    record LegacyItem(ProbabilityPicker<LegacyItemRarity> rarityPicker) implements ContrabandReward {
+        public LegacyItem(LegacyItemRarity rarity) {
             this(new ProbabilityPicker<>(Map.of(rarity, 100)));
         }
     }

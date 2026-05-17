@@ -1,8 +1,9 @@
 package ru.homyakin.seeker.game.battle.v4.effect;
 
+import ru.homyakin.seeker.game.item.models.AttackType;
+
 import java.util.UUID;
 
-import ru.homyakin.seeker.game.battle.v4.AttackType;
 import ru.homyakin.seeker.game.battle.v4.BattleActionLog;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
 import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;

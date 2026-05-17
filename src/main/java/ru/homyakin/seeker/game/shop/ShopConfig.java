@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
 import ru.homyakin.seeker.game.shop.models.ShopItemType;
@@ -22,7 +22,7 @@ public class ShopConfig {
     @NotEmpty
     private final List<ShopItem.Buy> buyingItems = new ArrayList<>();
     @NotEmpty
-    private final Map<ItemRarity, Money> sellingPrices = new HashMap<>();
+    private final Map<LegacyItemRarity, Money> sellingPrices = new HashMap<>();
     @NotNull
     private Integer sellDiscountDivider;
     @NotNull
@@ -38,7 +38,7 @@ public class ShopConfig {
         return buyingItems;
     }
 
-    public Money sellingPriceByItem(Item item) {
+    public Money sellingPriceByItem(LegacyItem item) {
         final var basePrice = sellingPrices.getOrDefault(item.rarity(), Money.zero());
         if (item.isBroken()) {
             return basePrice.divide(brokenDiscountDivider);
@@ -55,42 +55,42 @@ public class ShopConfig {
         throw new IllegalStateException("Can't find price for " + type);
     }
 
-    public Money buyingPriceByRarity(ItemRarity rarity) {
+    public Money buyingPriceByRarity(LegacyItemRarity rarity) {
         return buyingPriceByType(typeByRarity(rarity));
     }
 
     public void setCommonPrice(Integer commonPrice) {
         buyingItems.add(new ShopItem.Buy(Money.from(commonPrice), ShopItemType.COMMON));
         if (sellDiscountDivider != null) {
-            sellingPrices.put(ItemRarity.COMMON, Money.from(commonPrice / sellDiscountDivider));
+            sellingPrices.put(LegacyItemRarity.COMMON, Money.from(commonPrice / sellDiscountDivider));
         }
     }
 
     public void setUncommonPrice(Integer uncommonPrice) {
         buyingItems.add(new ShopItem.Buy(Money.from(uncommonPrice), ShopItemType.UNCOMMON));
         if (sellDiscountDivider != null) {
-            sellingPrices.put(ItemRarity.UNCOMMON, Money.from(uncommonPrice / sellDiscountDivider));
+            sellingPrices.put(LegacyItemRarity.UNCOMMON, Money.from(uncommonPrice / sellDiscountDivider));
         }
     }
 
     public void setRarePrice(Integer rarePrice) {
         buyingItems.add(new ShopItem.Buy(Money.from(rarePrice), ShopItemType.RARE));
         if (sellDiscountDivider != null) {
-            sellingPrices.put(ItemRarity.RARE, Money.from(rarePrice / sellDiscountDivider));
+            sellingPrices.put(LegacyItemRarity.RARE, Money.from(rarePrice / sellDiscountDivider));
         }
     }
 
     public void setEpicPrice(Integer epicPrice) {
         buyingItems.add(new ShopItem.Buy(Money.from(epicPrice), ShopItemType.EPIC));
         if (sellDiscountDivider != null) {
-            sellingPrices.put(ItemRarity.EPIC, Money.from(epicPrice / sellDiscountDivider));
+            sellingPrices.put(LegacyItemRarity.EPIC, Money.from(epicPrice / sellDiscountDivider));
         }
     }
 
     public void setLegendaryPrice(Integer legendaryPrice) {
         buyingItems.add(new ShopItem.Buy(Money.from(legendaryPrice), ShopItemType.LEGENDARY));
         if (sellDiscountDivider != null) {
-            sellingPrices.put(ItemRarity.LEGENDARY, Money.from(legendaryPrice / sellDiscountDivider));
+            sellingPrices.put(LegacyItemRarity.LEGENDARY, Money.from(legendaryPrice / sellDiscountDivider));
         }
     }
 
@@ -113,17 +113,17 @@ public class ShopConfig {
         buyingItems.forEach(
             it -> {
                 switch (it.type()) {
-                    case COMMON -> sellingPrices.put(ItemRarity.COMMON, it.price().divide(sellDiscountDivider));
-                    case UNCOMMON -> sellingPrices.put(ItemRarity.UNCOMMON, it.price().divide(sellDiscountDivider));
-                    case RARE -> sellingPrices.put(ItemRarity.RARE, it.price().divide(sellDiscountDivider));
-                    case EPIC -> sellingPrices.put(ItemRarity.EPIC, it.price().divide(sellDiscountDivider));
-                    case LEGENDARY -> sellingPrices.put(ItemRarity.LEGENDARY, it.price().divide(sellDiscountDivider));
+                    case COMMON -> sellingPrices.put(LegacyItemRarity.COMMON, it.price().divide(sellDiscountDivider));
+                    case UNCOMMON -> sellingPrices.put(LegacyItemRarity.UNCOMMON, it.price().divide(sellDiscountDivider));
+                    case RARE -> sellingPrices.put(LegacyItemRarity.RARE, it.price().divide(sellDiscountDivider));
+                    case EPIC -> sellingPrices.put(LegacyItemRarity.EPIC, it.price().divide(sellDiscountDivider));
+                    case LEGENDARY -> sellingPrices.put(LegacyItemRarity.LEGENDARY, it.price().divide(sellDiscountDivider));
                 }
             }
         );
     }
 
-    private ShopItemType typeByRarity(ItemRarity rarity) {
+    private ShopItemType typeByRarity(LegacyItemRarity rarity) {
         return switch (rarity) {
             case COMMON -> ShopItemType.COMMON;
             case UNCOMMON -> ShopItemType.UNCOMMON;

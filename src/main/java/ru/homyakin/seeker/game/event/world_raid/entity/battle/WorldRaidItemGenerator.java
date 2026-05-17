@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.game.event.world_raid.entity.battle;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.models.GenerateItemParams;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.models.LegacyGenerateItemParams;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextWorldRaidItemParams;
@@ -13,12 +13,12 @@ import java.util.Optional;
 
 @Component
 public class WorldRaidItemGenerator {
-    private final ItemService itemService;
+    private final LegacyItemService itemService;
     private final PersonageService personageService;
     private final PersonageNextWorldRaidItemParams personageNextWorldRaidItemParams;
 
     public WorldRaidItemGenerator(
-        ItemService itemService,
+        LegacyItemService itemService,
         PersonageService personageService,
         PersonageNextWorldRaidItemParams personageNextWorldRaidItemParams
     ) {
@@ -27,7 +27,7 @@ public class WorldRaidItemGenerator {
         this.personageNextWorldRaidItemParams = personageNextWorldRaidItemParams;
     }
 
-    public Optional<Item> generate(Personage personage, boolean isWin) {
+    public Optional<LegacyItem> generate(Personage personage, boolean isWin) {
         if (!isWin) {
             return Optional.empty();
         }
@@ -43,7 +43,7 @@ public class WorldRaidItemGenerator {
         final var params = personageNextWorldRaidItemParams.get();
         return itemService.generateItemForPersonage(
             personage,
-            new GenerateItemParams(
+            new LegacyGenerateItemParams(
                 params.rarity(),
                 params.slot(),
                 params.modifiersCount()

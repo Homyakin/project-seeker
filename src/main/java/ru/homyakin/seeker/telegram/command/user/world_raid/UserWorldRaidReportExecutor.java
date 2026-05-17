@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.action.PersonageWorldRaidBattleResultCommand;
-import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.LegacyItemService;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -15,14 +15,14 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class UserWorldRaidReportExecutor extends CommandExecutor<UserWorldRaidReport> {
     private final UserService userService;
     private final LaunchedEventService launchedEventService;
-    private final ItemService itemService;
+    private final LegacyItemService itemService;
     private final PersonageWorldRaidBattleResultCommand personageWorldRaidBattleResultCommand;
     private final TelegramSender telegramSender;
 
     public UserWorldRaidReportExecutor(
         UserService userService,
         LaunchedEventService launchedEventService,
-        ItemService itemService,
+        LegacyItemService itemService,
         PersonageWorldRaidBattleResultCommand personageWorldRaidBattleResultCommand,
         TelegramSender telegramSender
     ) {

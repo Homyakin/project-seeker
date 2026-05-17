@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
@@ -53,7 +53,7 @@ public class PersonageNextRaidItemParamsTest {
 
         // then
         final var expected = new ItemParamsFull(
-            ItemRarity.COMMON,
+            LegacyItemRarity.COMMON,
             PersonageSlot.HELMET,
             1
         );
@@ -61,9 +61,9 @@ public class PersonageNextRaidItemParamsTest {
         Assertions.assertEquals(List.of(PersonageSlot.GLOVES), captor.getValue().slotRandomPool().pool());
     }
 
-    private ProbabilityPicker<ItemRarity> rarityPicker() {
+    private ProbabilityPicker<LegacyItemRarity> rarityPicker() {
         return new ProbabilityPicker<>(
-            Map.of(ItemRarity.COMMON, 1)
+            Map.of(LegacyItemRarity.COMMON, 1)
         );
     }
 

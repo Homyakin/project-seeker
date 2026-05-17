@@ -1,8 +1,9 @@
 package ru.homyakin.seeker.game.battle.v4.skill.active_impl;
 
+import ru.homyakin.seeker.game.item.models.AttackType;
+
 import java.util.List;
 
-import ru.homyakin.seeker.game.battle.v4.AttackType;
 import ru.homyakin.seeker.game.battle.v4.BattleContext;
 import ru.homyakin.seeker.game.battle.v4.BattleEvent;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;

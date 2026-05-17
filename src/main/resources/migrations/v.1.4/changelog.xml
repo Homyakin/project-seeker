@@ -11,4 +11,6 @@
     <include file="changes/2026-04-06_01_add-monolith-for-registered-groups.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-04-11_01_add-last-online.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-04-18_01_widen-pgroup-tag.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-17_01_rename-item-tables-to-legacy.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-17_02_add-item-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

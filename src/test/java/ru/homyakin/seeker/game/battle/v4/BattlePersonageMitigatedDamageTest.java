@@ -11,6 +11,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
 import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
+import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.Modifier;
+import ru.homyakin.seeker.game.item.models.Rarity;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

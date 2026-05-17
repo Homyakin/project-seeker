@@ -19,7 +19,7 @@ public class ManyToManyUpdater {
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    // Обнволение связей id в таблицах many-to-many, например item_object_to_personage_slot
+    // Обнволение связей id в таблицах many-to-many, например legacy_item_object_to_personage_slot
     // Данный код нельзя вызывать с пользовательскими данными
     @Transactional
     public void update(

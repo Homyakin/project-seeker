@@ -16,7 +16,7 @@ import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -149,7 +149,7 @@ public class PersonageService {
                     launchedEvent.id(),
                     result.stats(),
                     result.reward(),
-                    result.generatedItem().map(Item::id),
+                    result.generatedItem().map(LegacyItem::id),
                     Optional.empty()
                 ))
                 .toList()

@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
+import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.errors.LegacyTakeOffItemError;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -15,13 +15,13 @@ public class TakeOffItemExecutor extends CommandExecutor<TakeOffItem> {
     private final UserService userService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
-    private final ItemService itemService;
+    private final LegacyItemService itemService;
 
     public TakeOffItemExecutor(
         UserService userService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        ItemService itemService
+        LegacyItemService itemService
     ) {
         this.userService = userService;
         this.personageService = personageService;
@@ -35,9 +35,9 @@ public class TakeOffItemExecutor extends CommandExecutor<TakeOffItem> {
         final var text = itemService.takeOffItem(personageService.getByIdForce(user.personageId()), command.itemId())
             .fold(
                 error -> switch (error) {
-                    case TakeOffItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
-                    case TakeOffItemError.AlreadyTakenOff _ -> ItemLocalization.alreadyTakenOff(user.language());
-                    case TakeOffItemError.NotEnoughSpaceInBag _ -> ItemLocalization.notEnoughSpaceInBag(user.language());
+                    case LegacyTakeOffItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
+                    case LegacyTakeOffItemError.AlreadyTakenOff _ -> ItemLocalization.alreadyTakenOff(user.language());
+                    case LegacyTakeOffItemError.NotEnoughSpaceInBag _ -> ItemLocalization.notEnoughSpaceInBag(user.language());
                 },
                 item -> ItemLocalization.successTakeOff(user.language(), item)
             );

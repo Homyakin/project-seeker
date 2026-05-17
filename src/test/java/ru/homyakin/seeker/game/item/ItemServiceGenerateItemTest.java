@@ -9,18 +9,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import ru.homyakin.seeker.game.item.characteristics.ItemCharacteristicService;
+import ru.homyakin.seeker.game.item.characteristics.LegacyItemCharacteristicService;
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.database.ItemDao;
-import ru.homyakin.seeker.game.item.database.ItemObjectDao;
-import ru.homyakin.seeker.game.item.models.GenerateItemObject;
-import ru.homyakin.seeker.game.item.models.GenerateItemParams;
-import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
-import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.database.LegacyItemDao;
+import ru.homyakin.seeker.game.item.database.LegacyItemObjectDao;
+import ru.homyakin.seeker.game.item.models.LegacyGenerateItemObject;
+import ru.homyakin.seeker.game.item.models.LegacyGenerateItemParams;
+import ru.homyakin.seeker.game.item.modifier.LegacyItemModifierService;
+import ru.homyakin.seeker.game.item.modifier.models.LegacyGenerateModifier;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.modifier.models.ModifierType;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.modifier.models.LegacyModifierType;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -28,11 +28,11 @@ import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class ItemServiceGenerateItemTest {
-    private final ItemObjectDao itemObjectDao = Mockito.mock(ItemObjectDao.class);
-    private final ItemModifierService itemModifierService = Mockito.mock(ItemModifierService.class);
-    private final ItemDao itemDao = Mockito.mock(ItemDao.class);
-    private final ItemCharacteristicService characteristicService = Mockito.mock(ItemCharacteristicService.class);
-    private final ItemService service = new ItemService(
+    private final LegacyItemObjectDao itemObjectDao = Mockito.mock(LegacyItemObjectDao.class);
+    private final LegacyItemModifierService itemModifierService = Mockito.mock(LegacyItemModifierService.class);
+    private final LegacyItemDao itemDao = Mockito.mock(LegacyItemDao.class);
+    private final LegacyItemCharacteristicService characteristicService = Mockito.mock(LegacyItemCharacteristicService.class);
+    private final LegacyItemService service = new LegacyItemService(
         itemObjectDao,
         itemModifierService,
         itemDao,
@@ -48,18 +48,18 @@ public class ItemServiceGenerateItemTest {
     public void When_ModifierServiceReturnEmptyList_And_ObjectDaoReturnCommonObject_Then_GenerateCommonItemWithoutModifiers() {
 
         Mockito.when(itemDao.getByPersonageId(Mockito.any())).thenReturn(List.of());
-        final var item = new Item(
+        final var item = new LegacyItem(
             0L,
             object.toItemObject(),
-            ItemRarity.COMMON,
+            LegacyItemRarity.COMMON,
             List.of(),
             Optional.of(personageId),
             false,
             false,
             characteristics
         );
-        final var params = new GenerateItemParams(
-            ItemRarity.COMMON,
+        final var params = new LegacyGenerateItemParams(
+            LegacyItemRarity.COMMON,
             PersonageSlot.MAIN_HAND,
             0
         );
@@ -73,7 +73,7 @@ public class ItemServiceGenerateItemTest {
             service.generateItemForPersonage(PersonageUtils.withId(personageId), params);
         }
 
-        final var captor = ArgumentCaptor.forClass(Item.class);
+        final var captor = ArgumentCaptor.forClass(LegacyItem.class);
         Mockito.verify(itemDao).saveItem(captor.capture());
 
 
@@ -83,21 +83,21 @@ public class ItemServiceGenerateItemTest {
     @Test
     public void When_ModifierServiceReturnTwoModifiers_And_ObjectDaoReturnCommonObject_Then_GenerateCommonItemWithTwoModifiers() {
         Mockito.when(itemDao.getByPersonageId(Mockito.any())).thenReturn(List.of());
-        Mockito.when(itemModifierService.generate(ItemRarity.COMMON, 2)).thenReturn(
+        Mockito.when(itemModifierService.generate(LegacyItemRarity.COMMON, 2)).thenReturn(
             List.of(modifier1, modifier2)
         );
-        final var item = new Item(
+        final var item = new LegacyItem(
             0L,
             object.toItemObject(),
-            ItemRarity.COMMON,
+            LegacyItemRarity.COMMON,
             List.of(modifier1.toModifier(), modifier2.toModifier()),
             Optional.of(personageId),
             false,
             false,
             characteristics
         );
-        final var params = new GenerateItemParams(
-            ItemRarity.COMMON,
+        final var params = new LegacyGenerateItemParams(
+            LegacyItemRarity.COMMON,
             PersonageSlot.MAIN_HAND,
             2
         );
@@ -109,7 +109,7 @@ public class ItemServiceGenerateItemTest {
 
         service.generateItemForPersonage(PersonageUtils.withId(personageId), params);
 
-        final var captor = ArgumentCaptor.forClass(Item.class);
+        final var captor = ArgumentCaptor.forClass(LegacyItem.class);
         Mockito.verify(itemDao).saveItem(captor.capture());
 
 
@@ -117,24 +117,24 @@ public class ItemServiceGenerateItemTest {
     }
 
     private final PersonageId personageId = PersonageId.from(0L);
-    private final GenerateItemObject object = new GenerateItemObject(
+    private final LegacyGenerateItemObject object = new LegacyGenerateItemObject(
         0,
         "",
         Set.of(PersonageSlot.MAIN_HAND),
         new ObjectGenerateCharacteristics(List.of()),
         Collections.emptyMap()
     );
-    private final GenerateModifier modifier1 = new GenerateModifier(
+    private final LegacyGenerateModifier modifier1 = new LegacyGenerateModifier(
         0,
         "",
-        ModifierType.PREFIX,
+        LegacyModifierType.PREFIX,
         new ModifierGenerateCharacteristics(List.of()),
         Collections.emptyMap()
     );
-    private final GenerateModifier modifier2 = new GenerateModifier(
+    private final LegacyGenerateModifier modifier2 = new LegacyGenerateModifier(
         1,
         "",
-        ModifierType.PREFIX,
+        LegacyModifierType.PREFIX,
         new ModifierGenerateCharacteristics(List.of()),
         Collections.emptyMap()
     );

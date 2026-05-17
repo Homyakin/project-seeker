@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="rename-item-tables-to-legacy">
+        <renameTable oldTableName="personage_slot" newTableName="legacy_personage_slot"/>
+        <renameTable oldTableName="item_modifier_type" newTableName="legacy_item_modifier_type"/>
+        <renameTable oldTableName="item_rarity" newTableName="legacy_item_rarity"/>
+        <renameTable oldTableName="item_object" newTableName="legacy_item_object"/>
+        <renameTable oldTableName="item_modifier" newTableName="legacy_item_modifier"/>
+        <renameTable oldTableName="item" newTableName="legacy_item"/>
+        <renameTable oldTableName="item_object_to_personage_slot" newTableName="legacy_item_object_to_personage_slot"/>
+        <renameTable oldTableName="item_object_to_item_rarity" newTableName="legacy_item_object_to_item_rarity"/>
+        <renameTable oldTableName="item_modifier_to_item_rarity" newTableName="legacy_item_modifier_to_item_rarity"/>
+        <renameTable oldTableName="item_to_item_modifier" newTableName="legacy_item_to_item_modifier"/>
+
+        <!-- PostgreSQL keeps constraint and sequence names after renameTable; free names for new item_* tables. -->
+        <sql>
+            ALTER SEQUENCE IF EXISTS item_object_id_seq RENAME TO legacy_item_object_id_seq;
+            ALTER SEQUENCE IF EXISTS item_modifier_id_seq RENAME TO legacy_item_modifier_id_seq;
+            ALTER SEQUENCE IF EXISTS item_id_seq RENAME TO legacy_item_id_seq;
+            ALTER SEQUENCE IF EXISTS item_rarity_id_seq RENAME TO legacy_item_rarity_id_seq;
+
+            ALTER TABLE legacy_personage_slot RENAME CONSTRAINT personage_slot_pkey TO legacy_personage_slot_pkey;
+
+            ALTER TABLE legacy_item_modifier_type RENAME CONSTRAINT item_modifier_type_pkey TO legacy_item_modifier_type_pkey;
+
+            ALTER TABLE legacy_item_rarity RENAME CONSTRAINT item_rarity_pkey TO legacy_item_rarity_pkey;
+
+            ALTER TABLE legacy_item_object RENAME CONSTRAINT item_object_pkey TO legacy_item_object_pkey;
+            ALTER TABLE legacy_item_object RENAME CONSTRAINT "item_object-unique_code" TO "legacy_item_object-unique_code";
+
+            ALTER TABLE legacy_item_modifier RENAME CONSTRAINT item_modifier_pkey TO legacy_item_modifier_pkey;
+            ALTER TABLE legacy_item_modifier RENAME CONSTRAINT "item_modifier-unique_code" TO "legacy_item_modifier-unique_code";
+
+            ALTER TABLE legacy_item RENAME CONSTRAINT item_pkey TO legacy_item_pkey;
+
+            ALTER TABLE legacy_item_object_to_personage_slot RENAME CONSTRAINT "item_object_to_personage_slot-pk" TO "legacy_item_object_to_personage_slot-pk";
+
+            ALTER TABLE legacy_item_object_to_item_rarity RENAME CONSTRAINT "item_object_to_item_rarity-pk" TO "legacy_item_object_to_item_rarity-pk";
+
+            ALTER TABLE legacy_item_modifier_to_item_rarity RENAME CONSTRAINT "item_modifier_to_item_rarity-pk" TO "legacy_item_modifier_to_item_rarity-pk";
+
+            ALTER TABLE legacy_item_to_item_modifier RENAME CONSTRAINT "item_to_item_modifier-pk" TO "legacy_item_to_item_modifier-pk";
+
+            ALTER TABLE legacy_item RENAME CONSTRAINT "fk-item-to-personage" TO "fk-legacy_item-to-personage";
+
+            ALTER TABLE legacy_item_object_to_personage_slot RENAME CONSTRAINT "fk-item_object_to_personage_slot-to-item_object" TO "fk-legacy_item_object_to_personage_slot-to-item_object";
+            ALTER TABLE legacy_item_object_to_personage_slot RENAME CONSTRAINT "fk-item_object_to_personage_slot-to-personage_slot" TO "fk-legacy_item_object_to_personage_slot-to-personage_slot";
+
+            ALTER TABLE legacy_item_modifier RENAME CONSTRAINT "fk-item_modifier-to-item_modifier_type" TO "fk-legacy_item_modifier-to-item_modifier_type";
+
+            ALTER TABLE legacy_item_to_item_modifier RENAME CONSTRAINT "fk-item_to_item_modifier-to-item" TO "fk-legacy_item_to_item_modifier-to-item";
+            ALTER TABLE legacy_item_to_item_modifier RENAME CONSTRAINT "fk-item_to_item_modifier-to-item_modifier" TO "fk-legacy_item_to_item_modifier-to-item_modifier";
+
+            ALTER TABLE legacy_item_object_to_item_rarity RENAME CONSTRAINT "fk-item_object_to_item_rarity-to-item_object" TO "fk-legacy_item_object_to_item_rarity-to-item_object";
+            ALTER TABLE legacy_item_object_to_item_rarity RENAME CONSTRAINT "fk-item_object_to_item_rarity-to-item_rarity" TO "fk-legacy_item_object_to_item_rarity-to-item_rarity";
+            ALTER TABLE legacy_item_object_to_item_rarity RENAME CONSTRAINT "fk-item_modifier_to_item_rarity-to-item_rarity" TO "fk-legacy_item_modifier_to_item_rarity-to-item_rarity";
+
+            ALTER TABLE legacy_item_modifier_to_item_rarity RENAME CONSTRAINT "fk-item_modifier_to_item_rarity-to-item_modifier" TO "fk-legacy_item_modifier_to_item_rarity-to-item_modifier";
+        </sql>
+    </changeSet>
+</databaseChangeLog>
