@@ -2,13 +2,19 @@ package ru.homyakin.seeker.game.item.database;
 
 import java.sql.Array;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
+import ru.homyakin.seeker.game.item.models.Modifier;
+import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.JsonUtils;
 
@@ -22,6 +28,26 @@ public class ItemModifierDao {
         this.jdbcClient = JdbcClient.create(dataSource);
         this.jsonUtils = jsonUtils;
         this.dataSource = dataSource;
+    }
+
+    public ModifierRow getRandomModifier(PersonageSlot slot, Set<ModifierType> compatibleTypes) {
+        final var typeIds = compatibleTypes.stream().map(type -> type.id).toList();
+        return jdbcClient.sql(RANDOM_MODIFIER_SQL)
+            .param("slot_id", slot.id)
+            .param("type_ids", typeIds)
+            .query(this::mapRow)
+            .optional()
+            .orElseThrow();
+    }
+
+    public Optional<ModifierRow> getById(int id) {
+        return jdbcClient.sql(GET_BY_ID_SQL)
+            .param("id", id)
+            .query(this::mapRow)
+            .optional();
+    }
+
+    public record ModifierRow(int id, Modifier modifier) {
     }
 
     @Transactional
@@ -43,6 +69,42 @@ public class ItemModifierDao {
             throw new IllegalStateException("Failed to create personage_slot_ids array", e);
         }
     }
+
+    private ModifierRow mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new ModifierRow(
+            rs.getInt("id"),
+            new Modifier(
+                rs.getString("code"),
+                ActiveEnum.valueOf(rs.getString("active_enum")),
+                ModifierType.findById(rs.getInt("type_id")),
+                extractSlots(rs.getArray("personage_slot_ids")),
+                jsonUtils.fromString(rs.getString("locale"), JsonUtils.MODIFIER_LOCALE)
+            )
+        );
+    }
+
+    private Set<PersonageSlot> extractSlots(Array array) throws SQLException {
+        if (array == null) {
+            return Set.of();
+        }
+        final var ids = (Integer[]) array.getArray();
+        final var slots = new HashSet<PersonageSlot>();
+        for (final var id : ids) {
+            slots.add(PersonageSlot.findById(id));
+        }
+        return slots;
+    }
+
+    private static final String RANDOM_MODIFIER_SQL = """
+        SELECT * FROM item_modifier
+        WHERE :slot_id = ANY(personage_slot_ids)
+          AND type_id IN (:type_ids)
+        ORDER BY random() LIMIT 1
+        """;
+
+    private static final String GET_BY_ID_SQL = """
+        SELECT * FROM item_modifier WHERE id = :id
+        """;
 
     private static final String SAVE_SQL = """
         INSERT INTO item_modifier (

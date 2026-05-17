@@ -8,12 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.errors.LegacyPutOnItemError;
 import ru.homyakin.seeker.game.item.errors.LegacyTakeOffItemError;
+import ru.homyakin.seeker.game.item.errors.PutOnItemError;
+import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
@@ -184,6 +188,10 @@ public record Personage(
         return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize();
     }
 
+    public boolean hasSpaceInBagForItems(List<PersonageItem> items) {
+        return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Personage other) {
@@ -252,13 +260,77 @@ public record Personage(
         return Either.right(Success.INSTANCE);
     }
 
-    public List<PersonageSlot> getFreeSlots(List<LegacyItem> personageItems) {
-        final var freeSlots = new HashMap<>(personageAvailableSlots);
-        for (final var item : personageItems) {
-            if (item.isEquipped()) {
-                for (final var slot : item.object().slots()) {
-                    freeSlots.computeIfPresent(slot, (k, v) -> v - 1);
+    public Either<PutOnItemError, Success> canPutOnItem(List<PersonageItem> personageItems, PersonageItem item) {
+        if (!item.personageId().map(it -> it.equals(id)).orElse(false)) {
+            return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
+        }
+        if (item.isEquipped()) {
+            return Either.left(PutOnItemError.AlreadyEquipped.INSTANCE);
+        }
+
+        final var personageBusySlots = new HashMap<PersonageSlot, Integer>();
+        for (final var slot : item.object().slots()) {
+            personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
+            personageBusySlots.putIfAbsent(slot, 1);
+        }
+        for (final var personageItem : personageItems) {
+            if (personageItem.isEquipped()) {
+                for (final var slot : personageItem.object().slots()) {
+                    personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
                 }
+            }
+        }
+        final var missingSlots = new ArrayList<PersonageSlot>();
+        for (final var entry : personageBusySlots.entrySet()) {
+            if (entry.getValue() > personageAvailableSlots.getOrDefault(entry.getKey(), 0)) {
+                missingSlots.add(entry.getKey());
+            }
+        }
+        if (missingSlots.isEmpty()) {
+            return Either.right(Success.INSTANCE);
+        }
+        return Either.left(new PutOnItemError.RequiredFreeSlots(missingSlots));
+    }
+
+    public Either<TakeOffItemError, Success> canTakeOffItem(List<PersonageItem> personageItems, PersonageItem item) {
+        if (!item.personageId().map(it -> it.equals(id)).orElse(false)) {
+            return Either.left(TakeOffItemError.PersonageMissingItem.INSTANCE);
+        }
+        if (!item.isEquipped()) {
+            return Either.left(TakeOffItemError.AlreadyTakenOff.INSTANCE);
+        }
+        int itemsInBag = 0;
+        for (final var personageItem : personageItems) {
+            if (personageItem.isEquipped()) {
+                ++itemsInBag;
+            }
+        }
+
+        if (itemsInBag >= maxBagSize()) {
+            return Either.left(TakeOffItemError.NotEnoughSpaceInBag.INSTANCE);
+        }
+        return Either.right(Success.INSTANCE);
+    }
+
+    public List<PersonageSlot> getFreeSlots(List<LegacyItem> personageItems) {
+        return getFreeSlotsFromEquipped(personageItems.stream()
+            .filter(LegacyItem::isEquipped)
+            .map(item -> item.object().slots())
+            .toList());
+    }
+
+    public List<PersonageSlot> getFreeSlotsForItems(List<PersonageItem> personageItems) {
+        return getFreeSlotsFromEquipped(personageItems.stream()
+            .filter(PersonageItem::isEquipped)
+            .map(item -> item.object().slots())
+            .toList());
+    }
+
+    private List<PersonageSlot> getFreeSlotsFromEquipped(List<Set<PersonageSlot>> equippedItemSlots) {
+        final var freeSlots = new HashMap<>(personageAvailableSlots);
+        for (final var slots : equippedItemSlots) {
+            for (final var slot : slots) {
+                freeSlots.computeIfPresent(slot, (k, v) -> v - 1);
             }
         }
         final var result = new ArrayList<PersonageSlot>();

@@ -42,9 +42,9 @@
 
     [modifier.locales.RU.form]
     MASCULINE = "Гневный"
-    FEMININE = "Гневный"
-    NEUTER = "Гневный"
-    PLURAL = "Гневный"
+    FEMININE = "Гневная"
+    NEUTER = "Гневное"
+    PLURAL = "Гневные"
 
 [[modifier]]
     code = "swift"
@@ -54,9 +54,9 @@
 
     [modifier.locales.RU.form]
     MASCULINE = "Резвый"
-    FEMININE = "Резвый"
-    NEUTER = "Резвый"
-    PLURAL = "Резвый"
+    FEMININE = "Резвая"
+    NEUTER = "Резвое"
+    PLURAL = "Резвые"
 
 [[modifier]]
     code = "sharp"

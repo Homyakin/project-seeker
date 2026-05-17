@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -15,13 +15,13 @@ public class InventoryExecutor extends CommandExecutor<Inventory> {
     private final UserService userService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
 
     public InventoryExecutor(
         UserService userService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        LegacyItemService itemService
+        ItemService itemService
     ) {
         this.userService = userService;
         this.personageService = personageService;

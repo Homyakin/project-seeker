@@ -130,7 +130,7 @@
     attack = 375
 
     [item.locales.RU]
-    text = "Длинный лук"
+    text = "Длинный Лук"
     form = "MASCULINE"
 
 [[item]]
@@ -168,7 +168,7 @@
     attack = 420
 
     [item.locales.RU]
-    text = "Двуручный меч"
+    text = "Двуручный Меч"
     form = "MASCULINE"
 
 [[item]]
@@ -227,7 +227,7 @@
     attack = 50
 
     [item.locales.RU]
-    text = "Короткий меч"
+    text = "Короткий Меч"
     form = "MASCULINE"
 
 [[item]]
@@ -338,7 +338,7 @@
     defense = 30
 
     [item.locales.RU]
-    text = "Башенный щит"
+    text = "Башенный Щит"
     form = "MASCULINE"
 
 [[item]]
@@ -382,24 +382,6 @@
 [[item]]
     code = "cuirass"
     slots = ["BODY"]
-    health = 550
-    critChance = 1
-    dodgeChance = 2
-    critMultiplier = 0.05
-    speed = 30
-    baseThreat = 2
-
-    [item.defense]
-    defenseType = "LEATHER"
-    defense = 50
-
-    [item.locales.RU]
-    text = "Кираса"
-    form = "FEMININE"
-
-[[item]]
-    code = "breastplate"
-    slots = ["BODY"]
     health = 650
     critChance = 0
     dodgeChance = 0
@@ -410,6 +392,24 @@
     [item.defense]
     defenseType = "PLATE"
     defense = 60
+
+    [item.locales.RU]
+    text = "Кираса"
+    form = "FEMININE"
+
+[[item]]
+    code = "breastplate"
+    slots = ["BODY"]
+    health = 550
+    critChance = 1
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 30
+    baseThreat = 2
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 50
 
     [item.locales.RU]
     text = "Нагрудник"
@@ -430,7 +430,7 @@
     defense = 50
 
     [item.locales.RU]
-    text = "Магическая мантия"
+    text = "Магическая Мантия"
     form = "FEMININE"
 
 # PANTS — defense
@@ -450,7 +450,7 @@
     defense = 20
 
     [item.locales.RU]
-    text = "Тканевые шоссы"
+    text = "Тканевые Шоссы"
     form = "PLURAL"
 
 [[item]]
@@ -468,7 +468,7 @@
     defense = 20
 
     [item.locales.RU]
-    text = "Кожаные шоссы"
+    text = "Кожаные Шоссы"
     form = "PLURAL"
 
 [[item]]
@@ -486,7 +486,7 @@
     defense = 25
 
     [item.locales.RU]
-    text = "Латные поножи"
+    text = "Латные Поножи"
     form = "PLURAL"
 
 [[item]]
@@ -504,7 +504,7 @@
     defense = 20
 
     [item.locales.RU]
-    text = "Зачарованные шоссы"
+    text = "Зачарованные Шоссы"
     form = "PLURAL"
 
 # SHOES — defense
@@ -524,7 +524,7 @@
     defense = 12
 
     [item.locales.RU]
-    text = "Тканевые сапоги"
+    text = "Тканевые Сапоги"
     form = "PLURAL"
 
 [[item]]
@@ -560,7 +560,7 @@
     defense = 15
 
     [item.locales.RU]
-    text = "Латные сапоги"
+    text = "Латные Сапоги"
     form = "PLURAL"
 
 [[item]]
@@ -578,7 +578,7 @@
     defense = 12
 
     [item.locales.RU]
-    text = "Магические сапоги"
+    text = "Магические Сапоги"
     form = "PLURAL"
 
 # HELMET — defense
@@ -616,7 +616,7 @@
     defense = 12
 
     [item.locales.RU]
-    text = "Кожаный шлем"
+    text = "Кожаный Шлем"
     form = "MASCULINE"
 
 [[item]]
@@ -634,7 +634,7 @@
     defense = 15
 
     [item.locales.RU]
-    text = "Латный шлем"
+    text = "Латный Шлем"
     form = "MASCULINE"
 
 [[item]]
@@ -690,7 +690,7 @@
     defense = 12
 
     [item.locales.RU]
-    text = "Кожаные перчатки"
+    text = "Кожаные Перчатки"
     form = "PLURAL"
 
 [[item]]
@@ -708,7 +708,7 @@
     defense = 15
 
     [item.locales.RU]
-    text = "Латные рукавицы"
+    text = "Латные Рукавицы"
     form = "PLURAL"
 
 [[item]]
@@ -726,5 +726,5 @@
     defense = 12
 
     [item.locales.RU]
-    text = "Магические перчатки"
+    text = "Магические Перчатки"
     form = "PLURAL"

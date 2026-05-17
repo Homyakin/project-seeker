@@ -6,7 +6,7 @@ import java.util.Set;
 public record Item(
     ItemObject object,
     Optional<Modifier> modifier,
-    Rarity rarity
+    ItemRarity rarity
 ) {
     public Optional<ItemAttack> itemAttack() {
         return object.attack();
@@ -49,7 +49,7 @@ public record Item(
         int range,
         int attack,
         Modifier modifier,
-        Rarity rarity
+        ItemRarity rarity
     ) {
         return new Item(
             new ItemObject(
@@ -75,7 +75,7 @@ public record Item(
         int defense,
         int health,
         Modifier modifier,
-        Rarity rarity
+        ItemRarity rarity
     ) {
         return new Item(
             new ItemObject(
@@ -118,12 +118,12 @@ public record Item(
                 null
             ),
             Optional.empty(),
-            Rarity.COMMON
+            ItemRarity.COMMON
         );
     }
 
     public static Item fromObject(ItemObject object) {
-        return new Item(object, Optional.empty(), Rarity.COMMON);
+        return new Item(object, Optional.empty(), ItemRarity.COMMON);
     }
 
     public static Item hybrid(
@@ -134,7 +134,7 @@ public record Item(
         int defense,
         int health,
         Modifier modifier,
-        Rarity rarity
+        ItemRarity rarity
     ) {
         return new Item(
             new ItemObject(
