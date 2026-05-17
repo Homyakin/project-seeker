@@ -105,17 +105,16 @@ public class ShopConfig {
     }
 
     private void fillSellingPrices() {
-        buyingItems.forEach(
-            it -> {
-                switch (it.type()) {
-                    case COMMON -> sellingPrices.put(ItemRarity.COMMON, it.price().divide(sellDiscountDivider));
-                    case UNCOMMON -> sellingPrices.put(ItemRarity.UNCOMMON, it.price().divide(sellDiscountDivider));
-                    case RARE -> sellingPrices.put(ItemRarity.RARE, it.price().divide(sellDiscountDivider));
-                    case EPIC -> sellingPrices.put(ItemRarity.EPIC, it.price().divide(sellDiscountDivider));
-                    case LEGENDARY -> sellingPrices.put(ItemRarity.LEGENDARY, it.price().divide(sellDiscountDivider));
-                }
+        for (final var item : buyingItems) {
+            switch (item.type()) {
+                case COMMON -> sellingPrices.put(ItemRarity.COMMON, item.price().divide(sellDiscountDivider));
+                case UNCOMMON -> sellingPrices.put(ItemRarity.UNCOMMON, item.price().divide(sellDiscountDivider));
+                case RARE -> sellingPrices.put(ItemRarity.RARE, item.price().divide(sellDiscountDivider));
+                case EPIC -> sellingPrices.put(ItemRarity.EPIC, item.price().divide(sellDiscountDivider));
+                case LEGENDARY -> sellingPrices.put(ItemRarity.LEGENDARY, item.price().divide(sellDiscountDivider));
+                case RANDOM -> { }
             }
-        );
+        }
     }
 
     private ShopItemType typeByRarity(ItemRarity rarity) {

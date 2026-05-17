@@ -1,10 +1,16 @@
 package ru.homyakin.seeker.locale.item;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import ru.homyakin.seeker.game.item.models.DefaultItems;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
@@ -45,6 +51,10 @@ public class ItemLocalization {
             resources.getOrDefault(itemLanguage, ItemResource::fullItem),
             params
         );
+    }
+
+    public static String fullItem(Language requestedlanguage, Item item) {
+        return fullItem(requestedlanguage, toDisplayItem(item));
     }
 
     public static String fullItem(Language requestedlanguage, LegacyItem item) {
@@ -98,32 +108,19 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", personage.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
-        final var equippedItemsBuilder = new StringBuilder();
         int itemsInBagCount = 0;
         final var sortedItems = items.stream().sorted(ItemLocalization::itemComparator).toList();
         for (final var item : sortedItems) {
-            if (item.isEquipped()) {
-                if (!equippedItemsBuilder.isEmpty()) {
-                    equippedItemsBuilder.append("\n");
-                }
-                equippedItemsBuilder.append(equippedItem(language, item));
-            } else {
+            if (!item.isEquipped()) {
                 itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
                 ++itemsInBagCount;
             }
         }
-        final var freeSlots = personage.getFreeSlotsForItems(sortedItems)
-            .stream()
-            .sorted(Comparator.comparingInt(ItemLocalization::slotPriority))
-            .map(slot -> personageFreeSlot(language, slot))
-            .collect(Collectors.joining("\n"));
-        if (equippedItemsBuilder.isEmpty()) {
-            params.put("equipped_items_and_free_slots", freeSlots);
-        } else if (freeSlots.isEmpty()) {
-            params.put("equipped_items_and_free_slots", equippedItemsBuilder.toString());
-        } else {
-            params.put("equipped_items_and_free_slots", equippedItemsBuilder.append("\n").append(freeSlots).toString());
-        }
+        params.put(
+            "equipped_items_and_free_slots",
+            buildEquipmentSlotLines(language, sortedItems, true).stream()
+                .collect(Collectors.joining("\n"))
+        );
         params.put("items_in_bag_count", itemsInBagCount);
         params.put("items_in_bag", itemsInBagBuilder.toString());
         return StringNamedTemplate.format(
@@ -219,6 +216,65 @@ public class ItemLocalization {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::personageFreeSlot),
             Collections.singletonMap("slot", slot.icon)
+        );
+    }
+
+    private static List<String> buildEquipmentSlotLines(
+        Language language,
+        List<PersonageItem> items,
+        boolean withCommands
+    ) {
+        final var equipped = items.stream()
+            .filter(PersonageItem::isEquipped)
+            .sorted(ItemLocalization::itemComparator)
+            .toList();
+        final var occupiedSlots = equipped.stream()
+            .flatMap(item -> item.object().slots().stream())
+            .collect(Collectors.toSet());
+        final var shownItemIds = new HashSet<Long>();
+        final var shownDefaultItemCodes = new HashSet<String>();
+        final var lines = new ArrayList<String>();
+
+        Arrays.stream(PersonageSlot.values())
+            .sorted(Comparator.comparingInt(ItemLocalization::slotPriority))
+            .forEach(slot -> {
+                if (occupiedSlots.contains(slot)) {
+                    equipped.stream()
+                        .filter(item -> item.object().slots().contains(slot))
+                        .findFirst()
+                        .ifPresent(item -> {
+                            if (shownItemIds.add(item.id())) {
+                                lines.add(withCommands
+                                    ? equippedItem(language, item)
+                                    : fullItem(language, item));
+                            }
+                        });
+                } else {
+                    DefaultItems.defaultItemForSlot(slot, occupiedSlots)
+                        .ifPresentOrElse(
+                            item -> {
+                                final var code = item.object().code();
+                                if (code == null || shownDefaultItemCodes.add(code)) {
+                                    lines.add(fullItem(language, item));
+                                }
+                            },
+                            () -> lines.add(personageFreeSlot(language, slot))
+                        );
+                }
+            });
+        return lines;
+    }
+
+    private static PersonageItem toDisplayItem(Item item) {
+        return new PersonageItem(
+            0L,
+            0,
+            item.object(),
+            item.modifier().map(_ -> 0),
+            item.modifier(),
+            item.rarity(),
+            Optional.empty(),
+            true
         );
     }
 
@@ -369,11 +425,7 @@ public class ItemLocalization {
     }
 
     private static String itemCharacteristics(Language language, PersonageItem item) {
-        final var gameItem = item.toItem();
-        final var attack = gameItem.itemAttack().map(a -> a.attack()).orElse(0);
-        final var health = gameItem.health();
-        final var defense = gameItem.itemDefense().map(d -> d.defense()).orElse(0);
-        return characteristics(language, new Characteristics(health, attack, defense, 0, 0, 0));
+        return characteristics(language, item.toItem().visibleCharacteristics());
     }
 
     private static String itemText(Language itemLanguage, LegacyItem item) {

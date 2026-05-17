@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 @Component
@@ -54,34 +54,24 @@ public class ItemDao {
             .list();
     }
 
-    public Characteristics getEquippedCharacteristics(PersonageId personageId) {
-        return getEquippedCharacteristicsByPersonageIds(Set.of(personageId))
-            .getOrDefault(personageId, Characteristics.ZERO);
+    public List<PersonageItem> getEquippedByPersonageId(PersonageId personageId) {
+        return getEquippedByPersonageIds(Set.of(personageId))
+            .getOrDefault(personageId, List.of());
     }
 
-    public Map<PersonageId, Characteristics> getEquippedCharacteristicsByPersonageIds(Set<PersonageId> personageIds) {
+    public Map<PersonageId, List<PersonageItem>> getEquippedByPersonageIds(Set<PersonageId> personageIds) {
         if (personageIds.isEmpty()) {
             return Map.of();
         }
-        final var result = new HashMap<PersonageId, Characteristics>();
-        jdbcClient.sql(EQUIPPED_CHARACTERISTICS_SQL)
-            .param("personage_ids", personageIds.stream().map(PersonageId::value).toList())
-            .query((rs, _) -> Map.entry(
-                PersonageId.from(rs.getLong("personage_id")),
-                new Characteristics(
-                    rs.getInt("health"),
-                    rs.getInt("attack"),
-                    rs.getInt("defense"),
-                    0,
-                    0,
-                    0
-                )
-            ))
-            .list()
-            .forEach(entry -> result.put(entry.getKey(), entry.getValue()));
+        final Map<PersonageId, List<PersonageItem>> result = new HashMap<>();
         for (final var personageId : personageIds) {
-            result.putIfAbsent(personageId, Characteristics.ZERO);
+            result.put(personageId, new ArrayList<>());
         }
+        jdbcClient.sql(SELECT_SQL + " WHERE i.personage_id IN (:personage_ids) AND i.is_equipped = true")
+            .param("personage_ids", personageIds.stream().map(PersonageId::value).toList())
+            .query(this::mapRow)
+            .list()
+            .forEach(item -> item.personageId().ifPresent(id -> result.get(id).add(item)));
         return result;
     }
 
@@ -135,16 +125,5 @@ public class ItemDao {
     private static final String SELECT_SQL = """
         SELECT i.id, i.item_object_id, i.item_modifier_id, i.rarity, i.personage_id, i.is_equipped
         FROM item i
-        """;
-
-    private static final String EQUIPPED_CHARACTERISTICS_SQL = """
-        SELECT i.personage_id,
-            COALESCE(SUM(io.health), 0) AS health,
-            COALESCE(SUM(io.attack), 0) AS attack,
-            COALESCE(SUM(io.defense), 0) AS defense
-        FROM item i
-        INNER JOIN item_object io ON i.item_object_id = io.id
-        WHERE i.personage_id IN (:personage_ids) AND i.is_equipped = true
-        GROUP BY i.personage_id
         """;
 }

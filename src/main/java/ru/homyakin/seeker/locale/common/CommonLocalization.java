@@ -117,7 +117,6 @@ public class CommonLocalization {
             equippedCharacteristics,
             personage
         ).power()));
-        params.put("item_characteristics", ItemLocalization.characteristics(language, equippedCharacteristics));
         if (personage.energy().isFull()) {
             params.put("time_icon", "");
             params.put("remain_duration_for_full_regen", "");

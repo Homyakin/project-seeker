@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.models;
 
 import java.util.Optional;
 import java.util.Set;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 
 public record Item(
     ItemObject object,
@@ -42,6 +43,12 @@ public record Item(
 
     public int skillPoints() {
         return rarity.skillPoints() * object.slots().size();
+    }
+
+    public Characteristics visibleCharacteristics() {
+        final var attack = itemAttack().map(ItemAttack::attack).orElse(0);
+        final var defense = itemDefense().map(ItemDefense::defense).orElse(0);
+        return new Characteristics(health(), attack, defense, 0, 0, 0);
     }
 
     public static Item weapon(
