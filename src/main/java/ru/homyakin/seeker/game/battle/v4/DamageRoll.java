@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import ru.homyakin.seeker.game.item.models.AttackType;
+
 import java.util.Map;
 
 public record DamageRoll(Map<AttackType, Integer> attack, boolean crit) {

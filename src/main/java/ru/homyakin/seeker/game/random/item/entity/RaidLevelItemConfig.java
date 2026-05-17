@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.random.item.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
 
 import java.util.HashMap;
@@ -15,41 +15,41 @@ public class RaidLevelItemConfig {
     /**
      * Базовое распределение редкости предметов для рейдов (уровень 1-10)
      */
-    private Map<ItemRarity, Integer> baseRarityDistribution = new HashMap<>();
+    private Map<LegacyItemRarity, Integer> baseRarityDistribution = new HashMap<>();
 
     /**
      * Множители для улучшения редкости предметов с ростом уровня рейда
      */
-    private Map<ItemRarity, Double> rarityImprovementMultipliers = new HashMap<>();
+    private Map<LegacyItemRarity, Double> rarityImprovementMultipliers = new HashMap<>();
 
     /**
      * Уровни рейда, с которых начинается улучшение для каждой редкости
      */
-    private Map<ItemRarity, Integer> rarityStartLevels = new HashMap<>();
+    private Map<LegacyItemRarity, Integer> rarityStartLevels = new HashMap<>();
     
     public RaidLevelItemConfig() {
         // Базовое распределение редкости предметов для рейдов (уровень 10)
         // Сначала доступны только COMMON и UNCOMMON вещи
-        baseRarityDistribution.put(ItemRarity.COMMON, 60);
-        baseRarityDistribution.put(ItemRarity.UNCOMMON, 40);
-        baseRarityDistribution.put(ItemRarity.RARE, 0);
-        baseRarityDistribution.put(ItemRarity.EPIC, 0);
-        baseRarityDistribution.put(ItemRarity.LEGENDARY, 0);
+        baseRarityDistribution.put(LegacyItemRarity.COMMON, 60);
+        baseRarityDistribution.put(LegacyItemRarity.UNCOMMON, 40);
+        baseRarityDistribution.put(LegacyItemRarity.RARE, 0);
+        baseRarityDistribution.put(LegacyItemRarity.EPIC, 0);
+        baseRarityDistribution.put(LegacyItemRarity.LEGENDARY, 0);
 
         // Множители для улучшения редкости предметов с ростом уровня рейда
         // Вероятности улучшаются каждый уровень
-        rarityImprovementMultipliers.put(ItemRarity.COMMON, 0.85);
-        rarityImprovementMultipliers.put(ItemRarity.UNCOMMON, 0.95);
-        rarityImprovementMultipliers.put(ItemRarity.RARE, 1.5);
-        rarityImprovementMultipliers.put(ItemRarity.EPIC, 1.8);
-        rarityImprovementMultipliers.put(ItemRarity.LEGENDARY, 2.0);
+        rarityImprovementMultipliers.put(LegacyItemRarity.COMMON, 0.85);
+        rarityImprovementMultipliers.put(LegacyItemRarity.UNCOMMON, 0.95);
+        rarityImprovementMultipliers.put(LegacyItemRarity.RARE, 1.5);
+        rarityImprovementMultipliers.put(LegacyItemRarity.EPIC, 1.8);
+        rarityImprovementMultipliers.put(LegacyItemRarity.LEGENDARY, 2.0);
 
         // Уровни рейда, с которых начинается улучшение для каждой редкости
-        rarityStartLevels.put(ItemRarity.COMMON, 10);      // Обычные начинают улучшаться с уровня 10
-        rarityStartLevels.put(ItemRarity.UNCOMMON, 10);    // Необычные начинают улучшаться с уровня 10
-        rarityStartLevels.put(ItemRarity.RARE, 10);        // Редкие начинают появляться с уровня 11 (начинают расти с 10)
-        rarityStartLevels.put(ItemRarity.EPIC, 20);        // Эпические начинают появляться с уровня 21 (начинают расти с 20)
-        rarityStartLevels.put(ItemRarity.LEGENDARY, 30);   // Легендарные начинают появляться с уровня 31 (начинают расти с 30)
+        rarityStartLevels.put(LegacyItemRarity.COMMON, 10);      // Обычные начинают улучшаться с уровня 10
+        rarityStartLevels.put(LegacyItemRarity.UNCOMMON, 10);    // Необычные начинают улучшаться с уровня 10
+        rarityStartLevels.put(LegacyItemRarity.RARE, 10);        // Редкие начинают появляться с уровня 11 (начинают расти с 10)
+        rarityStartLevels.put(LegacyItemRarity.EPIC, 20);        // Эпические начинают появляться с уровня 21 (начинают расти с 20)
+        rarityStartLevels.put(LegacyItemRarity.LEGENDARY, 30);   // Легендарные начинают появляться с уровня 31 (начинают расти с 30)
 
         // Примерное распределение для разных уровней рейда:
         // 10: {COMMON=60.0, RARE=0.0, LEGENDARY=0.0, UNCOMMON=40.0, EPIC=0.0}
@@ -86,8 +86,8 @@ public class RaidLevelItemConfig {
      * @return ProbabilityPicker с распределением редкости предметов для данного уровня
      * @throws IllegalStateException если общий вес распределения неположительный
      */
-    public ProbabilityPicker<ItemRarity> getRarityPickerForLevel(int raidLevel) {
-        final var adjustedDistribution = new HashMap<ItemRarity, Integer>();
+    public ProbabilityPicker<LegacyItemRarity> getRarityPickerForLevel(int raidLevel) {
+        final var adjustedDistribution = new HashMap<LegacyItemRarity, Integer>();
         
         for (final var entry : baseRarityDistribution.entrySet()) {
             final var rarity = entry.getKey();
@@ -137,7 +137,7 @@ public class RaidLevelItemConfig {
      * Получить базовое распределение редкости предметов
      * @return базовое распределение
      */
-    public Map<ItemRarity, Integer> getBaseRarityDistribution() {
+    public Map<LegacyItemRarity, Integer> getBaseRarityDistribution() {
         return new HashMap<>(baseRarityDistribution);
     }
     
@@ -145,7 +145,7 @@ public class RaidLevelItemConfig {
      * Получить множители улучшения редкости
      * @return множители улучшения
      */
-    public Map<ItemRarity, Double> getRarityImprovementMultipliers() {
+    public Map<LegacyItemRarity, Double> getRarityImprovementMultipliers() {
         return new HashMap<>(rarityImprovementMultipliers);
     }
     
@@ -153,7 +153,7 @@ public class RaidLevelItemConfig {
      * Получить уровни начала улучшения для каждой редкости
      * @return уровни начала улучшения
      */
-    public Map<ItemRarity, Integer> getRarityStartLevels() {
+    public Map<LegacyItemRarity, Integer> getRarityStartLevels() {
         return new HashMap<>(rarityStartLevels);
     }
 }

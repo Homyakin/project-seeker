@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.locale.shop;
 
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
@@ -98,7 +98,7 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::notEnoughSpaceInBag);
     }
 
-    public static String successBuy(Language language, Item item) {
+    public static String successBuy(Language language, LegacyItem item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successBuy),
             Collections.singletonMap("full_item_name", ItemLocalization.fullItem(language, item))
@@ -116,11 +116,11 @@ public class ShopLocalization {
         );
     }
 
-    public static String enhanceTable(Language language, List<Item> items) {
+    public static String enhanceTable(Language language, List<LegacyItem> items) {
         final var params = new HashMap<String, Object>();
         final var sortedItems = items.stream().sorted(ItemLocalization::itemComparator).toList();
         final var equipped = sortedItems.stream()
-                .filter(Item::isEquipped)
+                .filter(LegacyItem::isEquipped)
                 .map(it -> enhanceItem(language, it))
                 .collect(Collectors.joining("\n"));
         final var inventory = sortedItems.stream()
@@ -135,7 +135,7 @@ public class ShopLocalization {
         );
     }
 
-    private static String enhanceItem(Language language, Item item) {
+    private static String enhanceItem(Language language, LegacyItem item) {
         final var params = new HashMap<String, Object>();
         params.put("full_item", ItemLocalization.fullItem(language, item));
         params.put("enhance_command", CommandType.ENHANCE_INFO.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
@@ -194,7 +194,7 @@ public class ShopLocalization {
         );
     }
 
-    private static String addModifier(Language language, Item item, Money price) {
+    private static String addModifier(Language language, LegacyItem item, Money price) {
         final var params = new HashMap<String, Object>();
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
@@ -205,7 +205,7 @@ public class ShopLocalization {
         );
     }
 
-    private static String repair(Language language, Item item, Money price) {
+    private static String repair(Language language, LegacyItem item, Money price) {
         final var params = new HashMap<String, Object>();
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);

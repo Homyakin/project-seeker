@@ -4,6 +4,11 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
+import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.Modifier;
+import ru.homyakin.seeker.game.item.models.Rarity;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

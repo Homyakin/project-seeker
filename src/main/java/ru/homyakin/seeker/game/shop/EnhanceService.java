@@ -2,8 +2,8 @@ package ru.homyakin.seeker.game.shop;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -17,11 +17,11 @@ import java.util.Optional;
 
 @Service
 public class EnhanceService {
-    private final ItemService itemService;
+    private final LegacyItemService itemService;
     private final PersonageService personageService;
     private final ShopConfig config;
 
-    public EnhanceService(ItemService itemService, PersonageService personageService, ShopConfig config) {
+    public EnhanceService(LegacyItemService itemService, PersonageService personageService, ShopConfig config) {
         this.itemService = itemService;
         this.personageService = personageService;
         this.config = config;
@@ -78,7 +78,7 @@ public class EnhanceService {
             .map(this::availableAction);
     }
 
-    private AvailableAction availableAction(Item item) {
+    private AvailableAction availableAction(LegacyItem item) {
         if (item.isBroken()) {
             return new AvailableAction(
                 Optional.of(new EnhanceAction.Repair(repairPrice(item))),
@@ -96,13 +96,13 @@ public class EnhanceService {
         );
     }
 
-    private Money addModifierPrice(Item item) {
+    private Money addModifierPrice(LegacyItem item) {
         final var basePrice = config.buyingPriceByRarity(item.rarity());
         final var multiplier = 1.5 + item.modifiers().size();
         return Money.from((int) (basePrice.value() * multiplier));
     }
 
-    private Money repairPrice(Item item) {
+    private Money repairPrice(LegacyItem item) {
         final var basePrice = config.buyingPriceByRarity(item.rarity());
         return Money.from(basePrice.value() + (int) (basePrice.value() * item.modifiers().size() * 2.0));
     }

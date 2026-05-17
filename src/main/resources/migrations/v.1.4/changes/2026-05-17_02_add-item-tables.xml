@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-item-tables">
+        <createTable tableName="item_object">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="health" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crit_chance" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dodge_chance" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crit_multiplier" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="speed" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="base_threat" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="attack_type" type="VARCHAR(20)"/>
+            <column name="attack_range" type="INT"/>
+            <column name="attack" type="INT"/>
+            <column name="defense_type" type="VARCHAR(20)"/>
+            <column name="defense" type="INT"/>
+            <column name="locale" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_slot_ids" type="INTEGER[]" defaultValueComputed="'{}'">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="code"
+                constraintName="item_object-unique_code"
+                tableName="item_object"
+        />
+
+        <sql>
+            CREATE INDEX idx_item_object_personage_slot_ids ON item_object USING GIN (personage_slot_ids);
+        </sql>
+
+        <createTable tableName="item_modifier">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active_enum" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="locale" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_slot_ids" type="INTEGER[]" defaultValueComputed="'{}'">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint
+                columnNames="code"
+                constraintName="item_modifier-unique_code"
+                tableName="item_modifier"
+        />
+
+        <sql>
+            CREATE INDEX idx_item_modifier_personage_slot_ids ON item_modifier USING GIN (personage_slot_ids);
+        </sql>
+
+        <createTable tableName="item">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="item_object_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_modifier_id" type="INT"/>
+            <column name="rarity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT"/>
+            <column name="is_equipped" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="item"
+                baseColumnNames="item_object_id"
+                referencedTableName="item_object"
+                referencedColumnNames="id"
+                constraintName="fk-item-to-item_object"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item"
+                baseColumnNames="item_modifier_id"
+                referencedTableName="item_modifier"
+                referencedColumnNames="id"
+                constraintName="fk-item-to-item_modifier"
+        />
+
+        <addForeignKeyConstraint
+                baseTableName="item"
+                baseColumnNames="personage_id"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+                constraintName="fk-item-to-personage"
+        />
+    </changeSet>
+</databaseChangeLog>

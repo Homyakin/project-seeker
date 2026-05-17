@@ -16,7 +16,7 @@ import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.outpost.entity.OutpostDonateError;
 import ru.homyakin.seeker.game.outpost.entity.OutpostDonateSuccess;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -377,7 +377,7 @@ public class OutpostLocalization {
 
     public static String buildingContributeItemLine(
         Language language,
-        Item item,
+        LegacyItem item,
         int materialsValue,
         String donateCommand
     ) {

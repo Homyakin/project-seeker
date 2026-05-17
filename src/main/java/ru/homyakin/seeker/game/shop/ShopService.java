@@ -3,9 +3,9 @@ package ru.homyakin.seeker.game.shop;
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.item.models.GenerateItemParams;
-import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.models.LegacyGenerateItemParams;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextShopItemParams;
@@ -20,13 +20,13 @@ import java.util.List;
 
 @Service
 public class ShopService {
-    private final ItemService itemService;
+    private final LegacyItemService itemService;
     private final PersonageService personageService;
     private final PersonageNextShopItemParams personageNextShopItemParams;
     private final ShopConfig config;
 
     public ShopService(
-        ItemService itemService,
+        LegacyItemService itemService,
         PersonageService personageService,
         PersonageNextShopItemParams personageNextShopItemParams,
         ShopConfig config
@@ -52,7 +52,7 @@ public class ShopService {
     }
 
     @Transactional
-    public Either<BuyItemError, Item> buyItem(PersonageId personageId, ShopItemType type) {
+    public Either<BuyItemError, LegacyItem> buyItem(PersonageId personageId, ShopItemType type) {
         final var personage = personageService.getByIdForce(personageId);
         final var price = config.buyingPriceByType(type);
         if (personage.money().lessThan(price)) {
@@ -63,7 +63,7 @@ public class ShopService {
         final var params = personageNextShopItemParams.getForShopItemType(personageId, type);
         final var result = itemService.generateItemForPersonage(
             personageWithTakenMoney,
-            new GenerateItemParams(
+            new LegacyGenerateItemParams(
                 params.rarity(),
                 params.slot(),
                 params.modifiersCount()

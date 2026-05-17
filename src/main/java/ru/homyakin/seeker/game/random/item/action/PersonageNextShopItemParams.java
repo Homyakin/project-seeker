@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.random.item.action;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
 import ru.homyakin.seeker.game.random.item.entity.ItemRandomConfig;
@@ -45,13 +45,13 @@ public class PersonageNextShopItemParams {
         return params;
     }
 
-    private Optional<ItemRarity> typeToRarity(ShopItemType type) {
+    private Optional<LegacyItemRarity> typeToRarity(ShopItemType type) {
         return Optional.ofNullable(switch (type) {
-            case COMMON -> ItemRarity.COMMON;
-            case UNCOMMON -> ItemRarity.UNCOMMON;
-            case RARE -> ItemRarity.RARE;
-            case EPIC -> ItemRarity.EPIC;
-            case LEGENDARY -> ItemRarity.LEGENDARY;
+            case COMMON -> LegacyItemRarity.COMMON;
+            case UNCOMMON -> LegacyItemRarity.UNCOMMON;
+            case RARE -> LegacyItemRarity.RARE;
+            case EPIC -> LegacyItemRarity.EPIC;
+            case LEGENDARY -> LegacyItemRarity.LEGENDARY;
             case RANDOM -> null;
         });
     }

@@ -8,9 +8,9 @@ import ru.homyakin.seeker.game.item.characteristics.models.ModifierCharacteristi
 import ru.homyakin.seeker.game.item.characteristics.models.ModifierGenerateCharacteristics;
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectCharacteristicType;
 import ru.homyakin.seeker.game.item.characteristics.models.ObjectGenerateCharacteristics;
-import ru.homyakin.seeker.game.item.models.GenerateItemObject;
-import ru.homyakin.seeker.game.item.modifier.models.GenerateModifier;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyGenerateItemObject;
+import ru.homyakin.seeker.game.item.modifier.models.LegacyGenerateModifier;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 import java.util.Collections;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ItemCharacteristicServiceTest {
-    private final ItemCharacteristicConfig config = new ItemCharacteristicConfig();
-    private final ItemCharacteristicService service = new ItemCharacteristicService(config);
+    private final LegacyItemCharacteristicConfig config = new LegacyItemCharacteristicConfig();
+    private final LegacyItemCharacteristicService service = new LegacyItemCharacteristicService(config);
 
     @BeforeEach
     public void init() {
@@ -32,8 +32,8 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_ObjectWithAttackAndOneSlot_When_CreateCharacteristics_Then_CharacteristicsWithBaseAttack() {
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
         final var characteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
 
         Mockito.when(rarity.multiplier()).thenReturn(1.0);
@@ -52,8 +52,8 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_ObjectWithAttackDefenseHealthAndOneSlot_When_CreateCharacteristics_Then_CharacteristicsWithBaseAttackDefenseHealthDivideBy3() {
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
         final var characteristics = new ObjectGenerateCharacteristics(
             List.of(ObjectCharacteristicType.ATTACK, ObjectCharacteristicType.DEFENSE, ObjectCharacteristicType.HEALTH)
         );
@@ -74,8 +74,8 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_ObjectWithAttackAndTwoSlots_When_CreateCharacteristics_Then_CharacteristicsWithBaseAttackMultiply2() {
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
         final var characteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
 
         Mockito.when(rarity.multiplier()).thenReturn(1.0);
@@ -94,9 +94,9 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_ObjectWithAttackAndOneSlotAndOneModifierWithAttack_When_CreateCharacteristics_Then_CharacteristicsWithBaseAttackPlusModifierImpact() {
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
-        final var modifier1 = Mockito.mock(GenerateModifier.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
+        final var modifier1 = Mockito.mock(LegacyGenerateModifier.class);
         final var objectCharacteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
         final var modifierCharacteristics = new ModifierGenerateCharacteristics(List.of(ModifierCharacteristicType.ATTACK));
 
@@ -117,9 +117,9 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_ObjectWithAttackAndOneSlotAndOneModifierWithDefense_When_CreateCharacteristics_Then_CharacteristicsWithBaseAttackModifierDefense() {
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
-        final var modifier1 = Mockito.mock(GenerateModifier.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
+        final var modifier1 = Mockito.mock(LegacyGenerateModifier.class);
         final var objectCharacteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
         final var modifierCharacteristics = new ModifierGenerateCharacteristics(List.of(ModifierCharacteristicType.DEFENSE));
 
@@ -140,9 +140,9 @@ public class ItemCharacteristicServiceTest {
 
     @Test
     void Given_ObjectWithAttackAndOneSlotAndOneModifierWithDefenseAndMultiplier_When_CreateCharacteristics_Then_CharacteristicsWithBaseAttackModifierDefenseMultiplyModifier() {
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
-        final var modifier1 = Mockito.mock(GenerateModifier.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
+        final var modifier1 = Mockito.mock(LegacyGenerateModifier.class);
         final var objectCharacteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
         final var modifierCharacteristics = new ModifierGenerateCharacteristics(List.of(ModifierCharacteristicType.DEFENSE, ModifierCharacteristicType.MULTIPLIER));
 
@@ -165,9 +165,9 @@ public class ItemCharacteristicServiceTest {
     void Given_SmallAttackAndObjectWithAttackAndOneSlotAndOneModifierWithMultiplier_When_CreateCharacteristics_Then_ModifierImpactIsOne() {
         config.setBaseAttack(1);
         config.setModifierImpact(0.1);
-        final var rarity = Mockito.mock(ItemRarity.class);
-        final var object = Mockito.mock(GenerateItemObject.class);
-        final var modifier1 = Mockito.mock(GenerateModifier.class);
+        final var rarity = Mockito.mock(LegacyItemRarity.class);
+        final var object = Mockito.mock(LegacyGenerateItemObject.class);
+        final var modifier1 = Mockito.mock(LegacyGenerateModifier.class);
         final var objectCharacteristics = new ObjectGenerateCharacteristics(List.of(ObjectCharacteristicType.ATTACK));
         final var modifierCharacteristics = new ModifierGenerateCharacteristics(List.of(ModifierCharacteristicType.MULTIPLIER));
 

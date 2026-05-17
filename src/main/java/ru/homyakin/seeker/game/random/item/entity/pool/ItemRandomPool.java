@@ -1,12 +1,12 @@
 package ru.homyakin.seeker.game.random.item.entity.pool;
 
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
 
 public record ItemRandomPool(
     SlotRandomPool slotRandomPool
 ) {
-    public ItemParamsFull next(int modifiersCount, ItemRarity rarity) {
+    public ItemParamsFull next(int modifiersCount, LegacyItemRarity rarity) {
         return new ItemParamsFull(
             rarity,
             slotRandomPool.next(),

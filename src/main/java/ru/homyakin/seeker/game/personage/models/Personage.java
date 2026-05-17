@@ -11,9 +11,9 @@ import java.util.Optional;
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.errors.PutOnItemError;
-import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
+import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.errors.LegacyPutOnItemError;
+import ru.homyakin.seeker.game.item.errors.LegacyTakeOffItemError;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
@@ -180,7 +180,7 @@ public record Personage(
         return MAX_BAG_SIZE;
     }
 
-    public boolean hasSpaceInBag(List<Item> items) {
+    public boolean hasSpaceInBag(List<LegacyItem> items) {
         return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize();
     }
 
@@ -200,12 +200,12 @@ public record Personage(
         );
     }
 
-    public Either<PutOnItemError, Success> canPutOnItem(List<Item> personageItems, Item item) {
+    public Either<LegacyPutOnItemError, Success> canPutOnItem(List<LegacyItem> personageItems, LegacyItem item) {
         if (!item.personageId().map(it -> it.equals(id)).orElse(false)) {
-            return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
+            return Either.left(LegacyPutOnItemError.PersonageMissingItem.INSTANCE);
         }
         if (item.isEquipped()) {
-            return Either.left(PutOnItemError.AlreadyEquipped.INSTANCE);
+            return Either.left(LegacyPutOnItemError.AlreadyEquipped.INSTANCE);
         }
 
         final var personageBusySlots = new HashMap<PersonageSlot, Integer>();
@@ -229,15 +229,15 @@ public record Personage(
         if (missingSlots.isEmpty()) {
             return Either.right(Success.INSTANCE);
         }
-        return Either.left(new PutOnItemError.RequiredFreeSlots(missingSlots));
+        return Either.left(new LegacyPutOnItemError.RequiredFreeSlots(missingSlots));
     }
 
-    public Either<TakeOffItemError, Success> canTakeOffItem(List<Item> personageItems, Item item) {
+    public Either<LegacyTakeOffItemError, Success> canTakeOffItem(List<LegacyItem> personageItems, LegacyItem item) {
         if (!item.personageId().map(it -> it.equals(id)).orElse(false)) {
-            return Either.left(TakeOffItemError.PersonageMissingItem.INSTANCE);
+            return Either.left(LegacyTakeOffItemError.PersonageMissingItem.INSTANCE);
         }
         if (!item.isEquipped()) {
-            return Either.left(TakeOffItemError.AlreadyTakenOff.INSTANCE);
+            return Either.left(LegacyTakeOffItemError.AlreadyTakenOff.INSTANCE);
         }
         int itemsInBag = 0;
         for (final var personageItem : personageItems) {
@@ -247,12 +247,12 @@ public record Personage(
         }
 
         if (itemsInBag >= maxBagSize()) {
-            return Either.left(TakeOffItemError.NotEnoughSpaceInBag.INSTANCE);
+            return Either.left(LegacyTakeOffItemError.NotEnoughSpaceInBag.INSTANCE);
         }
         return Either.right(Success.INSTANCE);
     }
 
-    public List<PersonageSlot> getFreeSlots(List<Item> personageItems) {
+    public List<PersonageSlot> getFreeSlots(List<LegacyItem> personageItems) {
         final var freeSlots = new HashMap<>(personageAvailableSlots);
         for (final var item : personageItems) {
             if (item.isEquipped()) {

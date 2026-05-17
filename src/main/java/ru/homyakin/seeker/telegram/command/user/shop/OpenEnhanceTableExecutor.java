@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.LegacyItemService;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -13,9 +13,9 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class OpenEnhanceTableExecutor extends CommandExecutor<OpenEnhanceTable> {
     private final UserService userService;
     private final TelegramSender telegramSender;
-    private final ItemService itemService;
+    private final LegacyItemService itemService;
 
-    public OpenEnhanceTableExecutor(UserService userService, TelegramSender telegramSender, ItemService itemService) {
+    public OpenEnhanceTableExecutor(UserService userService, TelegramSender telegramSender, LegacyItemService itemService) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.itemService = itemService;

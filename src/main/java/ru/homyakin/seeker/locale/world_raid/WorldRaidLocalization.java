@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBatt
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -170,7 +170,7 @@ public class WorldRaidLocalization {
         final var params = new HashMap<String, Object>();
         params.put("raid_report_command", CommandType.WORLD_RAID_REPORT.getText());
         params.put("battle_result", battleResult(language, result));
-        final var rarityCountMap = new HashMap<ItemRarity, Integer>();
+        final var rarityCountMap = new HashMap<LegacyItemRarity, Integer>();
         for (final var personageResult : result.personageResults()) {
             if (personageResult.generatedItem().isEmpty()) {
                 continue;
@@ -188,7 +188,7 @@ public class WorldRaidLocalization {
         );
     }
 
-    private static String rarityCount(Language language, ItemRarity rarity, int count) {
+    private static String rarityCount(Language language, LegacyItemRarity rarity, int count) {
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", rarity.icon);
         params.put("count", count);

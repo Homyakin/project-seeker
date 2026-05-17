@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.models.IntRange;
@@ -31,9 +31,9 @@ public class ContrabandConfig {
     private Map<ContrabandTier, ProbabilityPicker<ContrabandReward>> rewards = Map.of(
         ContrabandTier.COMMON, new ProbabilityPicker<>(Map.of(
             new ContrabandReward.Gold(new IntRange(20, 40)), 50,
-            new ContrabandReward.Item(new ProbabilityPicker<>(Map.of(
-                ItemRarity.COMMON, 30,
-                ItemRarity.UNCOMMON, 70
+            new ContrabandReward.LegacyItem(new ProbabilityPicker<>(Map.of(
+                LegacyItemRarity.COMMON, 30,
+                LegacyItemRarity.UNCOMMON, 70
             ))), 30,
             new ContrabandReward.HealthBuff(IntRange.of(5, 10), IntRange.of(5, 10)), 10,
             new ContrabandReward.AttackBuff(IntRange.of(5, 10), IntRange.of(5, 10)), 10
@@ -41,10 +41,10 @@ public class ContrabandConfig {
         ContrabandTier.UNCOMMON, new ProbabilityPicker<>(Map.of(
             new ContrabandReward.Gold(new IntRange(70, 140)), 40,
             new ContrabandReward.Energy(new IntRange(15, 25)), 15,
-            new ContrabandReward.Item(new ProbabilityPicker<>(Map.of(
-                ItemRarity.COMMON, 10,
-                ItemRarity.UNCOMMON, 60,
-                ItemRarity.RARE, 30
+            new ContrabandReward.LegacyItem(new ProbabilityPicker<>(Map.of(
+                LegacyItemRarity.COMMON, 10,
+                LegacyItemRarity.UNCOMMON, 60,
+                LegacyItemRarity.RARE, 30
             ))), 30,
             new ContrabandReward.HealthBuff(IntRange.of(7, 12), IntRange.of(5, 10)), 5,
             new ContrabandReward.AttackBuff(IntRange.of(7, 12), IntRange.of(5, 10)), 5
@@ -52,10 +52,10 @@ public class ContrabandConfig {
         ContrabandTier.RARE, new ProbabilityPicker<>(Map.of(
             new ContrabandReward.Gold(new IntRange(150, 250)), 30,
             new ContrabandReward.Energy(new IntRange(25, 35)), 15,
-            new ContrabandReward.Item(new ProbabilityPicker<>(Map.of(
-                ItemRarity.UNCOMMON, 15,
-                ItemRarity.RARE, 60,
-                ItemRarity.EPIC, 35
+            new ContrabandReward.LegacyItem(new ProbabilityPicker<>(Map.of(
+                LegacyItemRarity.UNCOMMON, 15,
+                LegacyItemRarity.RARE, 60,
+                LegacyItemRarity.EPIC, 35
             ))), 30,
             new ContrabandReward.HealthBuff(IntRange.of(10, 15), IntRange.of(5, 10)), 5,
             new ContrabandReward.AttackBuff(IntRange.of(10, 15), IntRange.of(5, 10)), 5
@@ -63,10 +63,10 @@ public class ContrabandConfig {
         ContrabandTier.EPIC, new ProbabilityPicker<>(Map.of(
             new ContrabandReward.Gold(new IntRange(300, 400)), 40,
             new ContrabandReward.Energy(new IntRange(30, 50)), 20,
-            new ContrabandReward.Item(new ProbabilityPicker<>(Map.of(
-                ItemRarity.RARE, 15,
-                ItemRarity.EPIC, 60,
-                ItemRarity.LEGENDARY, 35
+            new ContrabandReward.LegacyItem(new ProbabilityPicker<>(Map.of(
+                LegacyItemRarity.RARE, 15,
+                LegacyItemRarity.EPIC, 60,
+                LegacyItemRarity.LEGENDARY, 35
             ))), 40
         ))
     );

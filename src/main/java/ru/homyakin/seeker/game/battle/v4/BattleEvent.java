@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.game.battle.v4;
 
+import ru.homyakin.seeker.game.item.models.AttackType;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
