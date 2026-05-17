@@ -1,0 +1,730 @@
+# MAIN_HAND — attack
+
+[[item]]
+    code = "sword"
+    slots = ["MAIN_HAND"]
+    health = 0
+    critChance = 2
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 15
+    baseThreat = 8
+
+    [item.attack]
+    attackType = "SLASH"
+    range = 1
+    attack = 300
+
+    [item.locales.RU]
+    text = "Меч"
+    form = "MASCULINE"
+
+[[item]]
+    code = "rapier"
+    slots = ["MAIN_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 3
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 4
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 1
+    attack = 285
+
+    [item.locales.RU]
+    text = "Рапира"
+    form = "FEMININE"
+
+[[item]]
+    code = "mace"
+    slots = ["MAIN_HAND"]
+    health = 0
+    critChance = 2
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 15
+    baseThreat = 12
+
+    [item.attack]
+    attackType = "BLUNT"
+    range = 1
+    attack = 300
+
+    [item.locales.RU]
+    text = "Булава"
+    form = "FEMININE"
+
+[[item]]
+    code = "spear"
+    slots = ["MAIN_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 10
+    baseThreat = 5
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 2
+    attack = 320
+
+    [item.locales.RU]
+    text = "Копьё"
+    form = "NEUTER"
+
+[[item]]
+    code = "staff"
+    slots = ["MAIN_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 10
+    baseThreat = 5
+
+    [item.attack]
+    attackType = "MAGICAL"
+    range = 3
+    attack = 320
+
+    [item.locales.RU]
+    text = "Посох"
+    form = "MASCULINE"
+
+[[item]]
+    code = "bow"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 35
+    baseThreat = 4
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 2
+    attack = 360
+
+    [item.locales.RU]
+    text = "Лук"
+    form = "MASCULINE"
+
+[[item]]
+    code = "longbow"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 31
+    baseThreat = 5
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 3
+    attack = 375
+
+    [item.locales.RU]
+    text = "Длинный лук"
+    form = "MASCULINE"
+
+[[item]]
+    code = "crossbow"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 35
+    baseThreat = 8
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 4
+    attack = 390
+
+    [item.locales.RU]
+    text = "Арбалет"
+    form = "MASCULINE"
+
+[[item]]
+    code = "two_handed_sword"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 10
+
+    [item.attack]
+    attackType = "SLASH"
+    range = 1
+    attack = 420
+
+    [item.locales.RU]
+    text = "Двуручный меч"
+    form = "MASCULINE"
+
+[[item]]
+    code = "sledgehammer"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    health = 0
+    critChance = 2
+    dodgeChance = 0
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 12
+
+    [item.attack]
+    attackType = "BLUNT"
+    range = 1
+    attack = 438
+
+    [item.locales.RU]
+    text = "Кувалда"
+    form = "FEMININE"
+
+[[item]]
+    code = "halberd"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+    health = 0
+    critChance = 3
+    dodgeChance = 0
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 10
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 2
+    attack = 390
+
+    [item.locales.RU]
+    text = "Алебарда"
+    form = "FEMININE"
+
+# OFF_HAND — attack or defense
+
+[[item]]
+    code = "shortsword"
+    slots = ["OFF_HAND"]
+    health = 0
+    critChance = 2
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 2
+
+    [item.attack]
+    attackType = "SLASH"
+    range = 1
+    attack = 50
+
+    [item.locales.RU]
+    text = "Короткий меч"
+    form = "MASCULINE"
+
+[[item]]
+    code = "club"
+    slots = ["OFF_HAND"]
+    health = 0
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.03
+    speed = 25
+    baseThreat = 8
+
+    [item.attack]
+    attackType = "BLUNT"
+    range = 1
+    attack = 50
+
+    [item.locales.RU]
+    text = "Дубина"
+    form = "FEMININE"
+
+[[item]]
+    code = "dagger"
+    slots = ["OFF_HAND"]
+    health = 0
+    critChance = 2
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 2
+
+    [item.attack]
+    attackType = "PIERCE"
+    range = 1
+    attack = 50
+
+    [item.locales.RU]
+    text = "Кинжал"
+    form = "MASCULINE"
+
+[[item]]
+    code = "orb"
+    slots = ["OFF_HAND"]
+    health = 0
+    critChance = 2
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 2
+
+    [item.attack]
+    attackType = "MAGICAL"
+    range = 2
+    attack = 50
+
+    [item.locales.RU]
+    text = "Сфера"
+    form = "FEMININE"
+
+[[item]]
+    code = "buckler"
+    slots = ["OFF_HAND"]
+    health = 250
+    critChance = 0
+    dodgeChance = 2
+    critMultiplier = 0
+    speed = 20
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "CLOTH"
+    defense = 20
+
+    [item.locales.RU]
+    text = "Баклер"
+    form = "MASCULINE"
+
+[[item]]
+    code = "shield"
+    slots = ["OFF_HAND"]
+    health = 250
+    critChance = 0
+    dodgeChance = 2
+    critMultiplier = 0
+    speed = 20
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 20
+
+    [item.locales.RU]
+    text = "Щит"
+    form = "MASCULINE"
+
+[[item]]
+    code = "tower_shield"
+    slots = ["OFF_HAND"]
+    health = 300
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 15
+    baseThreat = 8
+
+    [item.defense]
+    defenseType = "PLATE"
+    defense = 30
+
+    [item.locales.RU]
+    text = "Башенный щит"
+    form = "MASCULINE"
+
+[[item]]
+    code = "tome"
+    slots = ["OFF_HAND"]
+    health = 250
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 20
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "ARCANE"
+    defense = 20
+
+    [item.locales.RU]
+    text = "Том"
+    form = "MASCULINE"
+
+# BODY — defense
+
+[[item]]
+    code = "robe"
+    slots = ["BODY"]
+    health = 550
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 30
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "CLOTH"
+    defense = 50
+
+    [item.locales.RU]
+    text = "Мантия"
+    form = "FEMININE"
+
+[[item]]
+    code = "cuirass"
+    slots = ["BODY"]
+    health = 550
+    critChance = 1
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 30
+    baseThreat = 2
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 50
+
+    [item.locales.RU]
+    text = "Кираса"
+    form = "FEMININE"
+
+[[item]]
+    code = "breastplate"
+    slots = ["BODY"]
+    health = 650
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 20
+    baseThreat = 12
+
+    [item.defense]
+    defenseType = "PLATE"
+    defense = 60
+
+    [item.locales.RU]
+    text = "Нагрудник"
+    form = "MASCULINE"
+
+[[item]]
+    code = "wizard_robe"
+    slots = ["BODY"]
+    health = 550
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 30
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "ARCANE"
+    defense = 50
+
+    [item.locales.RU]
+    text = "Магическая мантия"
+    form = "FEMININE"
+
+# PANTS — defense
+
+[[item]]
+    code = "cloth_chausses"
+    slots = ["PANTS"]
+    health = 250
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "CLOTH"
+    defense = 20
+
+    [item.locales.RU]
+    text = "Тканевые шоссы"
+    form = "PLURAL"
+
+[[item]]
+    code = "leather_chausses"
+    slots = ["PANTS"]
+    health = 250
+    critChance = 1
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 20
+
+    [item.locales.RU]
+    text = "Кожаные шоссы"
+    form = "PLURAL"
+
+[[item]]
+    code = "greaves"
+    slots = ["PANTS"]
+    health = 300
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 15
+    baseThreat = 8
+
+    [item.defense]
+    defenseType = "PLATE"
+    defense = 25
+
+    [item.locales.RU]
+    text = "Латные поножи"
+    form = "PLURAL"
+
+[[item]]
+    code = "arcane_chausses"
+    slots = ["PANTS"]
+    health = 250
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "ARCANE"
+    defense = 20
+
+    [item.locales.RU]
+    text = "Зачарованные шоссы"
+    form = "PLURAL"
+
+# SHOES — defense
+
+[[item]]
+    code = "cloth_boots"
+    slots = ["SHOES"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "CLOTH"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Тканевые сапоги"
+    form = "PLURAL"
+
+[[item]]
+    code = "boots"
+    slots = ["SHOES"]
+    health = 150
+    critChance = 1
+    dodgeChance = 2
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Сапоги"
+    form = "PLURAL"
+
+[[item]]
+    code = "sabatons"
+    slots = ["SHOES"]
+    health = 200
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 15
+    baseThreat = 6
+
+    [item.defense]
+    defenseType = "PLATE"
+    defense = 15
+
+    [item.locales.RU]
+    text = "Латные сапоги"
+    form = "PLURAL"
+
+[[item]]
+    code = "arcane_boots"
+    slots = ["SHOES"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "ARCANE"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Магические сапоги"
+    form = "PLURAL"
+
+# HELMET — defense
+
+[[item]]
+    code = "hood"
+    slots = ["HELMET"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "CLOTH"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Капюшон"
+    form = "MASCULINE"
+
+[[item]]
+    code = "leather_helm"
+    slots = ["HELMET"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Кожаный шлем"
+    form = "MASCULINE"
+
+[[item]]
+    code = "great_helm"
+    slots = ["HELMET"]
+    health = 200
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 15
+    baseThreat = 6
+
+    [item.defense]
+    defenseType = "PLATE"
+    defense = 15
+
+    [item.locales.RU]
+    text = "Латный шлем"
+    form = "MASCULINE"
+
+[[item]]
+    code = "circlet"
+    slots = ["HELMET"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "ARCANE"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Диадема"
+    form = "FEMININE"
+
+# GLOVES — defense
+
+[[item]]
+    code = "cloth_gloves"
+    slots = ["GLOVES"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "CLOTH"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Перчатки"
+    form = "PLURAL"
+
+[[item]]
+    code = "leather_gloves"
+    slots = ["GLOVES"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 25
+    baseThreat = 1
+
+    [item.defense]
+    defenseType = "LEATHER"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Кожаные перчатки"
+    form = "PLURAL"
+
+[[item]]
+    code = "gauntlets"
+    slots = ["GLOVES"]
+    health = 200
+    critChance = 0
+    dodgeChance = 0
+    critMultiplier = 0
+    speed = 15
+    baseThreat = 4
+
+    [item.defense]
+    defenseType = "PLATE"
+    defense = 15
+
+    [item.locales.RU]
+    text = "Латные рукавицы"
+    form = "PLURAL"
+
+[[item]]
+    code = "arcane_gloves"
+    slots = ["GLOVES"]
+    health = 150
+    critChance = 1
+    dodgeChance = 1
+    critMultiplier = 0.05
+    speed = 20
+    baseThreat = 0
+
+    [item.defense]
+    defenseType = "ARCANE"
+    defense = 12
+
+    [item.locales.RU]
+    text = "Магические перчатки"
+    form = "PLURAL"

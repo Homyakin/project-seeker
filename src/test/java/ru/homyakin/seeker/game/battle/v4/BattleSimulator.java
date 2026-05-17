@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BattleSimulator {
@@ -43,85 +44,72 @@ public class BattleSimulator {
     // 🗹 Ассасин
     // HP=600, DEF=80 LEATHER, ATK=380 PIERCE
     private static final List<Item> assassinItems = List.of(
-        Item.weapon(AttackType.PIERCE,         1, 380, new Modifier(ActiveEnum.BLEEDING), Rarity.LEGENDARY),
-        Item.armor (DefenseType.LEATHER, 50, 300, new Modifier(ActiveEnum.FEINT), Rarity.LEGENDARY),
-        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.LEGENDARY),
+        Item.weapon(AttackType.PIERCE,         1, 380, new Modifier(ActiveEnum.BLEEDING), Rarity.COMMON),
+        Item.armor (DefenseType.LEATHER, 50, 300, new Modifier(ActiveEnum.FEINT), Rarity.COMMON),
+        Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.COMMON),
         Item.armor (DefenseType.LEATHER, 15, 150, new Modifier(ActiveEnum.FEINT), Rarity.COMMON)
     );
 
     // 🔮 Маг
     // HP=950, DEF=80 CLOTH, ATK=380 MAGICAL
     private static final List<Item> mageItems = List.of(
-        Item.weapon(AttackType.MAGICAL,          3, 380, new Modifier(ActiveEnum.KNOCKBACK), Rarity.LEGENDARY),
-        Item.armor (DefenseType.CLOTH,    50, 600, new Modifier(ActiveEnum.SELF_HEAL), Rarity.LEGENDARY),
-        Item.armor (DefenseType.CLOTH,    15, 200, new Modifier(ActiveEnum.SELF_HEAL), Rarity.LEGENDARY),
+        Item.weapon(AttackType.MAGICAL,          3, 380, new Modifier(ActiveEnum.KNOCKBACK), Rarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    50, 600, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    15, 200, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON),
         Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON)
     );
 
     private static final List<Item> archerItems = List.of(
-        Item.weapon(AttackType.PIERCE,          2, 380, new Modifier(ActiveEnum.PRECISE_STRIKE), Rarity.LEGENDARY),
-        Item.armor (DefenseType.CLOTH,    50, 300, new Modifier(ActiveEnum.RETREAT), Rarity.LEGENDARY),
-        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.RETREAT), Rarity.LEGENDARY),
+        Item.weapon(AttackType.PIERCE,          2, 380, new Modifier(ActiveEnum.PRECISE_STRIKE), Rarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    50, 300, new Modifier(ActiveEnum.RETREAT), Rarity.COMMON),
+        Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.RETREAT), Rarity.COMMON),
         Item.armor (DefenseType.CLOTH,    15, 150, new Modifier(ActiveEnum.SELF_HEAL), Rarity.COMMON)
     );
 
+    private static List<Item> withPersonageStats(
+        List<Item> items,
+        int critChance,
+        int dodgeChance,
+        double critMultiplier,
+        int speed,
+        int baseThreat
+    ) {
+        final var list = new ArrayList<>(items);
+        list.add(Item.stats(critChance, dodgeChance, critMultiplier, speed, baseThreat));
+        return List.copyOf(list);
+    }
+
     private static BattlePersonage warrior(Position position) {
         return new BattlePersonage(
-            warriorItems,
-            5,     // critChance
-            5,     // dodgeChance
-            1.5,   // critMultiplier
-            140,   // initiative
-            100,   // baseThreat
+            withPersonageStats(warriorItems, 5, 5, 1.5, 140, 100),
             position
         );
     }
 
     private static BattlePersonage warriorSkillItems(Position position) {
         return new BattlePersonage(
-            warriorSkillItems,
-            5,     // critChance
-            5,     // dodgeChance
-            1.5,   // critMultiplier
-            140,   // initiative
-            100,   // baseThreat
+            withPersonageStats(BattleSimulator.warriorSkillItems, 5, 5, 1.5, 140, 100),
             position
         );
     }
 
     private static BattlePersonage mage(Position position) {
         return new BattlePersonage(
-            mageItems,
-            // HP=850, DEF=80 CLOTH, ATK=380 MAGICAL, range=3
-            15,    // critChance
-            10,    // dodgeChance
-            1.75,  // critMultiplier
-            180,   // initiative
-            5,     // baseThreat
+            withPersonageStats(mageItems, 15, 10, 1.75, 180, 5),
             position
         );
     }
 
     private static BattlePersonage assassin(Position position) {
         return new BattlePersonage(
-            assassinItems,
-            20,    // critChance
-            25,    // dodgeChance
-            2.0,   // critMultiplier
-            220,   // initiative
-            10,    // baseThreat
+            withPersonageStats(assassinItems, 20, 25, 2.0, 220, 10),
             position
         );
     }
 
     private static BattlePersonage archer() {
         return new BattlePersonage(
-            archerItems,
-            20,    // critChance
-            25,    // dodgeChance
-            2.0,   // critMultiplier
-            220,   // initiative
-            10,    // baseThreat
+            withPersonageStats(archerItems, 20, 25, 2.0, 220, 10),
             Position.MID
         );
     }
@@ -213,7 +201,7 @@ public class BattleSimulator {
     @Test
     public void power() {
         System.out.println("WARRIOR " + warrior(Position.FRONT).power());
-        System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).power());
+        // System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).power());
         System.out.println("MAGE " + mage(Position.FRONT).power());
         System.out.println("ASSASIN " + assassin(Position.FRONT).power());
         System.out.println("ARCHER " + archer().power());

@@ -25,6 +25,7 @@ import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage {
+    private static final double BASE_CRIT_MULTIPLIER = 1.2;
     private static final int REQUIRED_SPEED = 1000;
     private static final int THREAT_FROM_DAMAGE = 5;
     private static final int THREAT_LOSE_FROM_DAMAGE = 8;
@@ -107,19 +108,21 @@ public class BattlePersonage {
     private long dodgesCount;
     private long missesCount;
 
-    public BattlePersonage(
-        List<Item> items,
-        int critChance,
-        int dodgeChance,
-        double critMultiplier,
-        int speed,
-        int baseThreat,
-        Position startPosition
-    ) {
+    public BattlePersonage(List<Item> items, Position startPosition) {
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
         var activeSkills = new HashMap<ActiveEnum, Integer>();
-        for (final var item: items) {
+        var totalCritChance = 0;
+        var totalDodgeChance = 0;
+        var totalCritMultiplier = BASE_CRIT_MULTIPLIER;
+        var totalSpeed = 0;
+        var totalBaseThreat = 0;
+        for (final var item : items) {
+            totalCritChance += item.critChance();
+            totalDodgeChance += item.dodgeChance();
+            totalCritMultiplier += item.critMultiplier();
+            totalSpeed += item.speed();
+            totalBaseThreat += item.baseThreat();
             if (item.itemAttack().isPresent()) {
                 maxRange = Math.max(maxRange, item.itemAttack().get().range());
             }
@@ -127,10 +130,11 @@ public class BattlePersonage {
                 activeSkills.merge(item.modifier().get().activeEnum(), item.rarity().skillPoints(), Integer::sum);
             }
         }
+        this.critMultiplier = totalCritMultiplier;
         for (final var entry : activeSkills.entrySet()) {
             itemSkills.add(SkillMapper.map(entry.getKey(), entry.getValue()));
         }
-        for (final var skill: itemSkills) {
+        for (final var skill : itemSkills) {
             switch (skill) {
                 case TurnSkill.TurnStartSkill turnStartSkill -> turnStartSkills.add(turnStartSkill);
                 case TurnSkill.TurnEndSkill turnEndSkill -> turnEndSkills.add(turnEndSkill);
@@ -168,18 +172,17 @@ public class BattlePersonage {
             this.health += item.health();
         }
         this.rangeAttackCrit = newRangeAttackSlotMaps(maxRange);
-        this.critMultiplier = critMultiplier;
         for (int i = 1; i <= maxRange; i++) {
             for (var entry : rangeAttack[i].entrySet()) {
-                rangeAttackCrit[i].put(entry.getKey(), (int) (entry.getValue() * critMultiplier));
+                rangeAttackCrit[i].put(entry.getKey(), (int) (entry.getValue() * this.critMultiplier));
             }
         }
         this.defenseReduce = new EnumMap<>(AttackType.class);
         refreshDefenseReduce();
-        this.critChance = critChance;
-        this.dodgeChance = dodgeChance;
-        this.speed = speed;
-        this.baseThreat = baseThreat;
+        this.critChance = totalCritChance;
+        this.dodgeChance = totalDodgeChance;
+        this.speed = totalSpeed;
+        this.baseThreat = totalBaseThreat;
         this.startPosition = startPosition;
         this.baseMaxRange = maxRange;
         this.cumulativeSpeed = RandomUtils.getInInterval(0, REQUIRED_SPEED / 2);
@@ -566,20 +569,24 @@ public class BattlePersonage {
     }
 
     public double power() {
-        final var slotOneAttackSum = rangeAttack[1].values().stream()
-            .mapToInt(i -> i)
-            .sum();
+        final var slotOneAttackSum = Math.max(
+            1,
+            rangeAttack[1].values().stream()
+                .mapToInt(i -> i)
+                .sum()
+        );
         final var avgDamageTakenMultiplier = defenseReduce.values().stream()
             .mapToDouble(Double::doubleValue)
             .average()
             .orElse(1.0);
         final var critProbability = critChance / 100.0;
-        final var effectiveDamage = slotOneAttackSum * (1 + critProbability * (critMultiplier - 1));
+        final var effectiveDamage = Math.max(1, slotOneAttackSum * (1 + critProbability * (critMultiplier - 1)));
         final var dodgeProbability = dodgeChance / 100.0;
+        final var hitChanceMultiplier = Math.max(1, 1 - dodgeProbability);
 
         final double expectedDamagePerTurn = effectiveDamage
             * avgDamageTakenMultiplier
-            * (1 - dodgeProbability);
+            * hitChanceMultiplier;
         final var skillInputs = new SkillPowerInputs(
             dodgeChance,
             critChance,
@@ -597,12 +604,17 @@ public class BattlePersonage {
             }
         }
 
-        return (maxHealth + hpBonus) * (effectiveDamage + offensiveDps) / avgDamageTakenMultiplier / (1 - dodgeProbability)
-            * ((double) speed / REQUIRED_SPEED);
+        final var healthFactor = Math.max(1, maxHealth + hpBonus);
+        final var damageFactor = Math.max(1, effectiveDamage + offensiveDps);
+        final var speedFactor = Math.max(1, speed);
+
+        return healthFactor * damageFactor / avgDamageTakenMultiplier / hitChanceMultiplier
+            * ((double) speedFactor / REQUIRED_SPEED);
     }
 
     private record Target(
-       int range,
-       BattlePersonage personage
-    ){ }
+        int range,
+        BattlePersonage personage
+    ) {
+    }
 }
