@@ -127,7 +127,7 @@ public class BattlePersonage {
                 maxRange = Math.max(maxRange, item.itemAttack().get().range());
             }
             if (item.modifier().isPresent() && item.rarity() != Rarity.COMMON) {
-                activeSkills.merge(item.modifier().get().activeEnum(), item.rarity().skillPoints(), Integer::sum);
+                activeSkills.merge(item.modifier().get().activeEnum(), item.skillPoints(), Integer::sum);
             }
         }
         this.critMultiplier = totalCritMultiplier;
