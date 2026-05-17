@@ -74,9 +74,6 @@ public class HelpLocalization {
         params.put("health_icon", Icons.HEALTH);
         params.put("attack_icon", Icons.ATTACK);
         params.put("defense_icon", Icons.DEFENSE);
-        params.put("strength_icon", Icons.STRENGTH);
-        params.put("agility_icon", Icons.AGILITY);
-        params.put("wisdom_icon", Icons.WISDOM);
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
         params.put("dodge_icon", Icons.DODGE);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);

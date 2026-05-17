@@ -5,9 +5,6 @@ import ru.homyakin.seeker.infrastructure.Icons;
 public enum EffectCharacteristic {
     ATTACK(Icons.ATTACK),
     HEALTH(Icons.HEALTH),
-    STRENGTH(Icons.STRENGTH),
-    AGILITY(Icons.AGILITY),
-    WISDOM(Icons.WISDOM),
     ;
 
     private final String icon;

@@ -20,7 +20,7 @@ public class BattlePersonagePowerTest {
     public void When_CalculatePower_Then_CorrectValueGraterThanZero() {
         final var personage = new BattlePersonage(
             0,
-            new Characteristics(500, 50, 20, 5, 5, 5),
+            new Characteristics(500, 50, 20),
             null
         );
 
@@ -33,7 +33,7 @@ public class BattlePersonagePowerTest {
     public void Given_CalculatedPower_When_CalculateHealthFromPower_Then_ReturnSameHealth() {
         final var personage = new BattlePersonage(
             0,
-            new Characteristics(500, 50, 20, 5, 5, 5),
+            new Characteristics(500, 50, 20),
             null
         );
 
@@ -46,7 +46,7 @@ public class BattlePersonagePowerTest {
     public void Given_PersonageWithEffect_When_CalculatePower_Then_EffectsDontChangePower() {
         final var personage = new BattlePersonage(
             0,
-            new Characteristics(500, 50, 20, 5, 5, 5),
+            new Characteristics(500, 50, 20),
             new Personage(
                 null,
                 null,

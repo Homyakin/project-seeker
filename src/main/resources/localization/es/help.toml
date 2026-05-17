@@ -50,19 +50,12 @@ También puedes usar ese enlace para ayudar con la traducción del contenido.
 battleSystem = """\
 Características del personaje:
 ${health_icon}Salud ${attack_icon}Ataque ${defense_icon}Defensa
-${strength_icon}Fuerza ${agility_icon}Agilidad ${wisdom_icon}Sabiduría
 
 Reglas del combate:
 1. Si tu ${health_icon}Salud llega a 0, estás muerto.
-2. ${strength_icon}Fuerza vence a ${agility_icon}Agilidad.
-3. ${agility_icon}Agilidad vence a ${wisdom_icon}Sabiduría.
-4. ${wisdom_icon}Sabiduría vence a ${strength_icon}Fuerza.
-5. ${strength_icon}Fuerza mejora los ${normal_attack_icon}ataques normales.
-6. ${agility_icon}Agilidad mejora tu chance de ${dodge_icon}esquivar.
-7. ${wisdom_icon}Sabiduría mejora el daño ${crit_attack_icon}crítico.
-8. ${attack_icon}Ataque sube todo el daño que haces.
-9. ${defense_icon}Defensa reduce el daño recibido.
-10. El combate es por turnos. Cada turno haces un ataque.
+2. ${attack_icon}Ataque sube todo el daño que haces.
+3. ${defense_icon}Defensa reduce el daño recibido.
+4. El combate es por turnos. Cada turno haces un ataque.
 """
 
 seasons = """\

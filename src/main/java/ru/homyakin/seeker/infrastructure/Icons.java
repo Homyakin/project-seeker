@@ -4,9 +4,6 @@ import net.fellbaum.jemoji.EmojiManager;
 
 public class Icons {
     public static final String MONEY = EmojiManager.getByAlias(":moneybag:").orElseThrow().getFirst().getEmoji();
-    public static final String STRENGTH = EmojiManager.getByAlias(":fist:").orElseThrow().getFirst().getEmoji();
-    public static final String AGILITY = EmojiManager.getByAlias(":athletic_shoe:").orElseThrow().getFirst().getEmoji();
-    public static final String WISDOM = EmojiManager.getByAlias(":brain:").orElseThrow().getFirst().getEmoji();
     public static final String ATTACK = EmojiManager.getByAlias(":crossed_swords:").orElseThrow().getFirst().getEmoji();
     public static final String DEFENSE = EmojiManager.getByAlias(":shield:").orElseThrow().getFirst().getEmoji();
     public static final String HEALTH = EmojiManager.getByAlias(":heart:").orElseThrow().getFirst().getEmoji();

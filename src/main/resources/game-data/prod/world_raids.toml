@@ -6,9 +6,6 @@ isEnabled = true
 health = 180000
 attack = 100
 defense = 300
-strength = 9
-agility = 7
-wisdom = 5
 
 [raid.locales.RU]
 intro = """\
@@ -34,9 +31,6 @@ isEnabled = true
 health = 220000
 attack = 80
 defense = 400
-strength = 15
-agility = 1
-wisdom = 1
 
 [raid.locales.RU]
 intro = """\

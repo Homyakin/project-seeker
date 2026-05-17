@@ -160,10 +160,7 @@ public class LegacyItemDao {
                 final var characteristics = new Characteristics(
                     rs.getInt("health"),
                     rs.getInt("attack"),
-                    rs.getInt("defense"),
-                    0,
-                    0,
-                    0
+                    rs.getInt("defense")
                 );
                 final var rarity = LegacyItemRarity.findById(rs.getInt("item_rarity_id"));
                 itemMap.put(

@@ -110,10 +110,7 @@ public class MenuDao {
     private MenuItemWithoutLocale mapMenuItem(ResultSet rs, int rowNum) throws SQLException {
         final var effectCharacteristic = EffectCharacteristic.valueOf(rs.getString("effect_characteristic"));
         final var rarity = MenuItemRarity.findById(rs.getInt("rarity_id"));
-        final Effect effect = switch (effectCharacteristic) {
-            case ATTACK, HEALTH -> new Effect.Multiplier(config.multiplyPercentByRarity(rarity), effectCharacteristic);
-            case STRENGTH, WISDOM, AGILITY -> new Effect.Add(config.addValueByRarity(rarity), effectCharacteristic);
-        };
+        final Effect effect = new Effect.Multiplier(config.multiplyPercentByRarity(rarity), effectCharacteristic);
         return new MenuItemWithoutLocale(
             rs.getInt("id"),
             rs.getString("code"),

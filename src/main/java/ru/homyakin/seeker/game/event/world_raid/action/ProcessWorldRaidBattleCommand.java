@@ -133,10 +133,7 @@ public class ProcessWorldRaidBattleCommand {
         return new WorldRaidBattleInfo(
             stats.remainHealth(),
             stats.characteristics().attack(),
-            stats.characteristics().defense(),
-            stats.characteristics().strength(),
-            stats.characteristics().agility(),
-            stats.characteristics().wisdom()
+            stats.characteristics().defense()
         );
     }
 }
