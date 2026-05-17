@@ -56,6 +56,16 @@ public class ItemDao {
             .update();
     }
 
+    public void updateEnhancement(long id, Integer modifierId, ItemRarity rarity) {
+        jdbcClient.sql("""
+                UPDATE item SET item_modifier_id = :item_modifier_id, rarity = :rarity WHERE id = :id
+                """)
+            .param("id", id)
+            .param("item_modifier_id", modifierId)
+            .param("rarity", rarity.ordinal())
+            .update();
+    }
+
     public void deletePersonageAndMakeEquipFalse(long id) {
         jdbcClient.sql("UPDATE item SET personage_id = null, is_equipped = false WHERE id = :id")
             .param("id", id)

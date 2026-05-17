@@ -41,12 +41,17 @@ enhanceItemInfo = """\
 
 ${available_enhance}
 """
-addModifier = "Agregar modificador: ${add_modifier_command} ${money_icon}${price_value}"
+addModifier = "Agregar modificador: ${enhance_command} ${money_icon}${price_value}"
+upgradeRarity = "Mejorar: ${enhance_command} ${money_icon}${price_value}"
 repair = "Arreglar: ${repair_command} ${money_icon}${price_value}"
-maxModifiers = "Este objeto ya tiene todos los mods que aguanta."
+maxModifiers = "Este objeto ya tiene la rareza máxima."
 brokenItem = "¡Primero arregla el objeto!"
 successAddModifier = """\
 ¡Modificador añadido!
+
+${enhance_item_info}"""
+successUpgradeRarity = """\
+¡Objeto mejorado!
 
 ${enhance_item_info}"""
 notBrokenItem = "Este objeto no está roto."

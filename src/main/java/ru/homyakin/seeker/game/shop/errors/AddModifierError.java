@@ -10,11 +10,7 @@ public sealed interface AddModifierError {
         INSTANCE
     }
 
-    enum MaxModifiers implements AddModifierError {
-        INSTANCE
-    }
-
-    enum ItemIsBroken implements AddModifierError {
+    enum MaxRarity implements AddModifierError {
         INSTANCE
     }
 }

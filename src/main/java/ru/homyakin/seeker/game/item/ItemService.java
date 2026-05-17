@@ -9,14 +9,19 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
+import java.util.Comparator;
+import ru.homyakin.seeker.game.item.errors.EnhanceItemError;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 @Service
 public class ItemService {
@@ -108,5 +113,30 @@ public class ItemService {
         return personage.canTakeOffItem(getPersonageItems(personage.id()), itemResult.get())
             .peek(_ -> itemDao.invertEquip(itemId))
             .map(_ -> getById(itemId).orElseThrow());
+    }
+
+    public Either<EnhanceItemError, PersonageItem> enhance(PersonageItem item) {
+        final var nextRarity = item.rarity().next();
+        if (nextRarity.isEmpty()) {
+            return Either.left(EnhanceItemError.MaxRarity.INSTANCE);
+        }
+
+        if (item.rarity() == ItemRarity.COMMON) {
+            final var modifierRow = itemModifierService.pickModifier(item.object(), primarySlot(item.object()));
+            itemDao.updateEnhancement(item.id(), modifierRow.id(), ItemRarity.UNCOMMON);
+        } else {
+            itemDao.updateEnhancement(
+                item.id(),
+                item.modifierId().orElse(null),
+                nextRarity.get()
+            );
+        }
+        return Either.right(getById(item.id()).orElseThrow());
+    }
+
+    private PersonageSlot primarySlot(ItemObject object) {
+        return object.slots().stream()
+            .min(Comparator.comparingInt(slot -> slot.id))
+            .orElseThrow();
     }
 }
