@@ -40,6 +40,10 @@ public record Item(
         return object.baseThreat();
     }
 
+    public int skillPoints() {
+        return rarity.skillPoints() * object.slots().size();
+    }
+
     public static Item weapon(
         AttackType attackType,
         int range,

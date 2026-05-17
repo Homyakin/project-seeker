@@ -1,0 +1,131 @@
+[[modifier]]
+    code = "counter"
+    activeEnum = "COUNTER_ATTACK"
+    type = "DEFENSE"
+    slots = ["BODY", "PANTS", "HELMET", "GLOVES"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Ответный"
+    FEMININE = "Ответная"
+    NEUTER = "Ответное"
+    PLURAL = "Ответные"
+
+[[modifier]]
+    code = "thorny"
+    activeEnum = "THORNS"
+    type = "DEFENSE"
+    slots = ["BODY", "PANTS", "GLOVES"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Колючий"
+    FEMININE = "Колючая"
+    NEUTER = "Колючее"
+    PLURAL = "Колючие"
+
+[[modifier]]
+    code = "double"
+    activeEnum = "DOUBLE_ATTACK"
+    type = "ATTACK"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Двойной"
+    FEMININE = "Двойная"
+    NEUTER = "Двойное"
+    PLURAL = "Двойные"
+
+[[modifier]]
+    code = "furious"
+    activeEnum = "BERSERK"
+    type = "ANY"
+    slots = ["MAIN_HAND", "OFF_HAND", "BODY"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Гневный"
+    FEMININE = "Гневный"
+    NEUTER = "Гневный"
+    PLURAL = "Гневный"
+
+[[modifier]]
+    code = "swift"
+    activeEnum = "HIT_AND_RUN"
+    type = "DEFENSE"
+    slots = ["SHOES", "HELMET", "GLOVES"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Резвый"
+    FEMININE = "Резвый"
+    NEUTER = "Резвый"
+    PLURAL = "Резвый"
+
+[[modifier]]
+    code = "sharp"
+    activeEnum = "BLEEDING"
+    type = "ATTACK"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Острый"
+    FEMININE = "Острая"
+    NEUTER = "Острое"
+    PLURAL = "Острые"
+
+[[modifier]]
+    code = "knocking"
+    activeEnum = "KNOCKBACK"
+    type = "ANY"
+    slots = ["MAIN_HAND", "OFF_HAND", "SHOES", "GLOVES"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Сбивающий"
+    FEMININE = "Сбивающая"
+    NEUTER = "Сбивающее"
+    PLURAL = "Сбивающие"
+
+[[modifier]]
+    code = "healing"
+    activeEnum = "SELF_HEAL"
+    type = "DEFENSE"
+    slots = ["BODY", "PANTS", "SHOES", "HELMET"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Лечебный"
+    FEMININE = "Лечебная"
+    NEUTER = "Лечебное"
+    PLURAL = "Лечебные"
+
+[[modifier]]
+    code = "precise"
+    activeEnum = "PRECISE_STRIKE"
+    type = "ATTACK"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Точный"
+    FEMININE = "Точная"
+    NEUTER = "Точное"
+    PLURAL = "Точные"
+
+[[modifier]]
+    code = "retreating"
+    activeEnum = "RETREAT"
+    type = "DEFENSE"
+    slots = ["PANTS", "SHOES", "HELMET"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Отступающий"
+    FEMININE = "Отступающая"
+    NEUTER = "Отступающее"
+    PLURAL = "Отступающие"
+
+[[modifier]]
+    code = "cunning"
+    activeEnum = "FEINT"
+    type = "ANY"
+    slots = ["MAIN_HAND", "OFF_HAND", "SHOES", "GLOVES"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Хитрый"
+    FEMININE = "Хитрая"
+    NEUTER = "Хитрое"
+    PLURAL = "Хитрые"
