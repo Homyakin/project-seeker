@@ -3,7 +3,6 @@ profileButton = "👤Профиль"
 languageButton = "🌐Тіл"
 receptionDeskButton = "✍️Қабылдау"
 backButton = "⬅️Артқа"
-resetCharacteristicsButton = "📖Ұмыту кітабы"
 changeNameButton = "🔮Атымды өзгерту"
 
 [changeName]
@@ -20,25 +19,3 @@ internalError = "Сиқырлы шеңбер жыпылықтай бастап, 
 cancelButton = "❌Бас тарту"
 confirmButton = "✅Барлығы дұрыс"
 repeatButton = "🔄Тағы бір рет"
-
-[characteristics]
-resetConfirmation = """\
-Ұмыту кітабын оқу үшін сіз ${money_icon}${money_count} төлеу керекcіз. \
-Ескі дағдыларыңызды ұмытқыңыз келетініне сенімдісіз бе?"""
-successReset = """\
-Кітапты оқыған соң санаң бұлыңғырланып бара жатыр... Жауынгерлік дағдыларыңды ұмытып бара жатырсын. Сізге барлық жолдар қайтадан ашық."""
-canceledReset = "Кітап осында қалады. Қалаған уақытыңызда келдіңіз."
-increasedCharacteristic = "Сіз дағдыңызды арттырдыңыз: ${increased_value}${increased_icon}."
-currentCharacteristics = """\
-Қазіргі сипаттамаларыңыз: ${strength_value}${strength_icon}${agility_value}${agility_icon}${wisdom_value}${wisdom_icon}"""
-chooseCharacteristic = """\
-Нені үйреңгіңіз келетініңізды таңдаңыз:
-(${strength_icon}>${agility_icon}>${wisdom_icon}>${strength_icon})"""
-notEnoughCharacteristicPoints = "Сіз өз шегіңізге жеттіңіз! Егер сіз жекпе-жек стиліңізді өзгерткіңіз келсе, «Ұмыту кітабын» пайдаланыңыз."
-notEnoughMoney = "Ұмыту кітабын алуға ақшаң жетпейді! ${money_icon}${money_count} керек"
-profileLevelUp = "Сіз өз дағдыларыңызды жетілдіре аласыз! Басыңыз ${level_up_command}"
-confirmButton = "📖Оқу"
-cancelButton = "❌Келесі жолы"
-strengthButton = "+1${strength_icon}"
-agilityButton = "+1${agility_icon}"
-wisdomButton = "+1${wisdom_icon}"

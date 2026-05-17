@@ -16,9 +16,9 @@ import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.WorldRaidBattleResultService;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
-import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -29,6 +29,7 @@ import java.util.List;
 public class ProcessWorldRaidBattleCommand {
     private final GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand;
     private final PersonageEventService personageEventService;
+    private final PersonageService personageService;
     private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
     private final WorldRaidBattleGenerator battleGenerator;
     private final ResearchGenerator researchGenerator;
@@ -43,6 +44,7 @@ public class ProcessWorldRaidBattleCommand {
     public ProcessWorldRaidBattleCommand(
         GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand,
         PersonageEventService personageEventService,
+        PersonageService personageService,
         TwoPersonageTeamsBattle twoPersonageTeamsBattle,
         WorldRaidBattleGenerator battleGenerator,
         ResearchGenerator researchGenerator,
@@ -56,6 +58,7 @@ public class ProcessWorldRaidBattleCommand {
     ) {
         this.getOrLaunchWorldRaidCommand = getOrLaunchWorldRaidCommand;
         this.personageEventService = personageEventService;
+        this.personageService = personageService;
         this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
         this.battleGenerator = battleGenerator;
         this.researchGenerator = researchGenerator;
@@ -75,10 +78,9 @@ public class ProcessWorldRaidBattleCommand {
             throw new IllegalStateException("Invalid raid state: " + raid.state());
         }
         final var participants = personageEventService.getWorldRaidParticipants(launchedEvent.id());
-        final var personageTeam = participants.stream()
-            .map(WorldRaidParticipant::personage)
-            .map(Personage::toBattlePersonage)
-            .toList();
+        final var personageTeam = personageService.toBattlePersonages(
+            participants.stream().map(WorldRaidParticipant::personage).toList()
+        );
         final var result = twoPersonageTeamsBattle.battle(
             battleGenerator.generate(raid),
             personageTeam

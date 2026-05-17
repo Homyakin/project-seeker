@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.locale.common;
 
+import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.effect.Effect;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.group.passive.GroupBuildingPassiveEffect;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
@@ -104,13 +106,18 @@ public class CommonLocalization {
         Language language,
         Personage personage,
         CurrentEvents currentEvents,
-        List<GroupPassiveEffect> groupPassiveEffects
+        List<GroupPassiveEffect> groupPassiveEffects,
+        Characteristics equippedCharacteristics
     ) {
-        final var params = profileParams(personage);
+        final var params = profileParams(personage, equippedCharacteristics);
 
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.power((int) personage.toBattlePersonage().power()));
-        params.put("item_characteristics", ItemLocalization.characteristics(language, personage.itemCharacteristics()));
+        params.put("power_value", LocaleUtils.power((int) new BattlePersonage(
+            personage.id().value(),
+            equippedCharacteristics,
+            personage
+        ).power()));
+        params.put("item_characteristics", ItemLocalization.characteristics(language, equippedCharacteristics));
         if (personage.energy().isFull()) {
             params.put("time_icon", "");
             params.put("remain_duration_for_full_regen", "");
@@ -142,15 +149,15 @@ public class CommonLocalization {
         );
     }
 
-    public static String shortProfile(Language language, Personage personage) {
+    public static String shortProfile(Language language, Personage personage, Characteristics equippedCharacteristics) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::shortProfile),
-            profileParams(personage)
+            profileParams(personage, equippedCharacteristics)
         );
     }
 
-    private static HashMap<String, Object> profileParams(Personage personage) {
-        final var characteristics = personage.calcTotalCharacteristicsWithEffects();
+    private static HashMap<String, Object> profileParams(Personage personage, Characteristics equippedCharacteristics) {
+        final var characteristics = equippedCharacteristics.apply(personage.effects());
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);

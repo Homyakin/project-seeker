@@ -27,7 +27,6 @@ import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
-import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
@@ -90,7 +89,9 @@ public class RaidProcessing {
         final var idToParticipant = participants.stream().collect(Collectors.toMap(it -> it.personage().id(), it -> it));
         final var now = TimeUtils.moscowTime();
         final var groupPassiveEffectsCache = new HashMap<GroupId, List<GroupPassiveEffect>>();
-        final var personages = participants.stream().map(RaidParticipant::personage).map(Personage::toBattlePersonage).toList();
+        final var personages = personageService.toBattlePersonages(
+            participants.stream().map(RaidParticipant::personage).toList()
+        );
         final var result = twoPersonageTeamsBattle.battle(
             raidGenerator.generate(raid, raidEvent, personages),
             personages

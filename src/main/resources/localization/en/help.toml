@@ -15,8 +15,7 @@ However, know that the arena is not a free pleasure! Someone has to wash her blo
 personage = """\
 By going to ${bot_username}, you can use the registration desk.
 
-There you can change your name with the help of a magic circle.
-Or you can pay for access to the book of oblivion to forget your fighting skills and learn new ones."""
+There you can change your name with the help of a magic circle."""
 
 info = """\
 Project news can be found on this channel: ${news_channel_username}.

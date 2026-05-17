@@ -26,7 +26,6 @@ import ru.homyakin.seeker.locale.item.ItemResource;
 import ru.homyakin.seeker.locale.personal.BadgeLocalization;
 import ru.homyakin.seeker.locale.personal.BulletinBoardLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
-import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.personal.PersonalResource;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
@@ -97,7 +96,6 @@ public class LocalizationInitializer {
                 it -> {
                     final var resource = extractClass(mapper, it, PersonalResource.class);
                     ChangeNameLocalization.add(language, resource.changeName());
-                    CharacteristicLocalization.add(language, resource.characteristics());
                     MenuLocalization.add(language, resource.menu());
                     BadgeLocalization.add(language, resource.badges());
                     BulletinBoardLocalization.add(language, resource.bulletinBoard());

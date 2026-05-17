@@ -45,7 +45,7 @@ public class GetProfileInPrivateExecutor extends CommandExecutor<GetProfileInPri
             .orElseGet(Collections::emptyList);
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(personage.fullProfile(user.language(), events, groupEffects))
+            .text(personageService.fullProfile(user.language(), personage, events, groupEffects))
             .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
             .build()
         );

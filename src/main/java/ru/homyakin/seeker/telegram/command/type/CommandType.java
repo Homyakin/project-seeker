@@ -19,7 +19,6 @@ public enum CommandType {
     SHOW_HELP("/help", CheckType.EQUALS),
     SELECT_HELP("help", CheckType.EQUALS),
     INIT_CHANGE_NAME(null, CheckType.MAP),
-    LEVEL_UP("/level_up", CheckType.EQUALS),
     START_DUEL("/duel", CheckType.EQUALS),
     ACCEPT_DUEL("acceptDuel", CheckType.EQUALS),
     DECLINE_DUEL("declineDuel", CheckType.EQUALS),
@@ -27,10 +26,6 @@ public enum CommandType {
     ORDER("/order", CheckType.STARTS_WITH),
     RECEPTION_DESK(null, CheckType.MAP),
     BACK(null, CheckType.MAP),
-    RESET_CHARACTERISTICS(null, CheckType.MAP),
-    CONFIRM_RESET_CHARACTERISTICS("confirmReset", CheckType.EQUALS),
-    CANCEL_RESET_CHARACTERISTICS("cancelReset", CheckType.EQUALS),
-    INCREASE_CHARACTERISTIC("increaseCharacteristic", CheckType.EQUALS),
     GROUP_STATS("/stats", CheckType.EQUALS),
     WORKER_OF_DAY("/work", CheckType.EQUALS),
     WORKER_OF_DAY_TOP("/top_work_group", CheckType.EQUALS),
@@ -156,7 +151,6 @@ public enum CommandType {
         CommonUtils.putIfKeyPresents(textToType, resource.languageButton(), CommandType.CHANGE_LANGUAGE);
         CommonUtils.putIfKeyPresents(textToType, resource.receptionDeskButton(), CommandType.RECEPTION_DESK);
         CommonUtils.putIfKeyPresents(textToType, resource.backButton(), CommandType.BACK);
-        CommonUtils.putIfKeyPresents(textToType, resource.resetCharacteristicsButton(), CommandType.RESET_CHARACTERISTICS);
         CommonUtils.putIfKeyPresents(textToType, resource.changeNameButton(), CommandType.INIT_CHANGE_NAME);
         CommonUtils.putIfKeyPresents(textToType, resource.showBadgesButton(), CommandType.SHOW_BADGES);
         CommonUtils.putIfKeyPresents(textToType, resource.inventoryButton(), CommandType.INVENTORY);

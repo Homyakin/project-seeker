@@ -3,14 +3,12 @@ package ru.homyakin.seeker.game.personage.models;
 import io.vavr.control.Either;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
-import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.errors.LegacyPutOnItemError;
@@ -20,19 +18,14 @@ import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
-import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.game.utils.NameError;
-import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.utils.NameValidator;
-import ru.homyakin.seeker.locale.Language;
-import ru.homyakin.seeker.locale.common.CommonLocalization;
-import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.utils.models.Success;
 
@@ -42,10 +35,8 @@ public record Personage(
     Optional<String> tag,
     Optional<GroupId> memberGroupId,
     Money money,
-    Characteristics characteristics,
     Energy energy,
     BadgeView badge,
-    Characteristics itemCharacteristics,
     PersonageEffects effects
 ) {
     public Personage addMoney(Money money) {
@@ -55,55 +46,14 @@ public record Personage(
             tag,
             memberGroupId,
             this.money.add(money),
-            characteristics,
             energy,
             badge,
-            itemCharacteristics,
             effects
         );
     }
 
     public Either<NameError, Personage> changeName(String name) {
         return NameValidator.validateName(name).map(this::copyWithName);
-    }
-
-    public String shortProfile(Language language) {
-        return CommonLocalization.shortProfile(language, this);
-    }
-
-    public String fullProfile(Language language, CurrentEvents currentEvents) {
-        return fullProfile(language, currentEvents, Collections.emptyList());
-    }
-
-    public String fullProfile(
-        Language language,
-        CurrentEvents currentEvents,
-        List<GroupPassiveEffect> groupPassiveEffects
-    ) {
-        final var profile = CommonLocalization.fullProfile(language, this, currentEvents, groupPassiveEffects);
-
-        return characteristics.hasUnspentLevelingPoints()
-            ? CharacteristicLocalization.profileLevelUp(language) + "\n\n" + profile : profile;
-    }
-
-    public Characteristics calcTotalCharacteristics() {
-        return characteristics.add(itemCharacteristics);
-    }
-
-    public Characteristics calcTotalCharacteristicsWithEffects() {
-        return characteristics.add(itemCharacteristics).apply(effects);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementStrength() {
-        return characteristics.incrementStrength().map(this::copyWithCharacteristics);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementAgility() {
-        return characteristics.incrementAgility().map(this::copyWithCharacteristics);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementWisdom() {
-        return characteristics.incrementWisdom().map(this::copyWithCharacteristics);
     }
 
     public Either<StillSame, Personage> updateStateIfNeed(LocalDateTime now) {
@@ -129,10 +79,8 @@ public record Personage(
             tag,
             memberGroupId,
             money,
-            characteristics,
             energyResult.getOrElse(energy),
             badge,
-            itemCharacteristics,
             effectsResult.getOrElse(effects)
         );
         return Either.right(personage);
@@ -151,17 +99,6 @@ public record Personage(
         int energyToAdd
     ) {
         return copyWithEnergy(energy.add(energyToAdd, energyChangeTime));
-    }
-
-    public Either<NotEnoughMoney, Personage> resetStats() {
-        if (money.lessThan(RESET_STATS_COST)) {
-            return Either.left(new NotEnoughMoney(RESET_STATS_COST));
-        }
-
-        return Either.right(
-            addMoney(RESET_STATS_COST.negative())
-                .copyWithCharacteristics(characteristics.reset())
-        );
     }
 
     public Either<NotEnoughMoney, Personage> initChangeName() {
@@ -200,10 +137,10 @@ public record Personage(
         return false;
     }
 
-    public BattlePersonage toBattlePersonage() {
+    public BattlePersonage toBattlePersonage(Characteristics equippedCharacteristics) {
         return new BattlePersonage(
             id.value(),
-            calcTotalCharacteristics(),
+            equippedCharacteristics,
             this
         );
     }
@@ -365,16 +302,13 @@ public record Personage(
             tag,
             memberGroupId,
             money,
-            characteristics,
             energy,
             badge,
-            itemCharacteristics,
             effects
         );
     }
 
     private static final int MAX_BAG_SIZE = 10;
-    public static final Money RESET_STATS_COST = new Money(50);
     public static final Money CHANGE_NAME_COST = new Money(20);
     private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{
         put(PersonageSlot.MAIN_HAND, 1);
@@ -393,25 +327,8 @@ public record Personage(
             tag,
             memberGroupId,
             money,
-            characteristics,
             energy,
             badge,
-            itemCharacteristics,
-            effects
-        );
-    }
-
-    private Personage copyWithCharacteristics(Characteristics characteristics) {
-        return new Personage(
-            id,
-            name,
-            tag,
-            memberGroupId,
-            money,
-            characteristics,
-            energy,
-            badge,
-            itemCharacteristics,
             effects
         );
     }
@@ -423,10 +340,8 @@ public record Personage(
             tag,
             memberGroupId,
             money,
-            characteristics,
             energy,
             badge,
-            itemCharacteristics,
             effects
         );
     }

@@ -36,8 +36,9 @@ public class GetProfileInGroupExecutor extends CommandExecutor<GetProfileInGroup
             .orElseThrow(() -> new IllegalStateException("Personage must be present at user with id " + user))
             ;
 
+        final var profileText = personageService.shortProfile(group.language(), personage);
         telegramSender.send(
-            SendMessageBuilder.builder().chatId(command.groupTgId()).text(personage.shortProfile(group.language())).build()
+            SendMessageBuilder.builder().chatId(command.groupTgId()).text(profileText).build()
         );
     }
 

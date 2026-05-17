@@ -12,13 +12,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
+import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
+import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.BattleType;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -26,10 +31,11 @@ import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
-import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.utils.NameValidator;
+import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
@@ -39,15 +45,64 @@ public class PersonageService {
     private final PersonageDao personageDao;
     private final PersonageBattleResultDao personageBattleResultDao;
     private final PersonageBadgeService personageBadgeService;
+    private final ItemService itemService;
 
     public PersonageService(
         PersonageDao personageDao,
         PersonageBattleResultDao personageBattleResultDao,
-        PersonageBadgeService personageBadgeService
+        PersonageBadgeService personageBadgeService,
+        ItemService itemService
     ) {
         this.personageDao = personageDao;
         this.personageBattleResultDao = personageBattleResultDao;
         this.personageBadgeService = personageBadgeService;
+        this.itemService = itemService;
+    }
+
+    public Characteristics getEquippedCharacteristics(PersonageId personageId) {
+        return getEquippedCharacteristicsByPersonageIds(Set.of(personageId))
+            .getOrDefault(personageId, Characteristics.ZERO);
+    }
+
+    public Map<PersonageId, Characteristics> getEquippedCharacteristicsByPersonageIds(Set<PersonageId> personageIds) {
+        return itemService.getEquippedCharacteristicsByPersonageIds(personageIds);
+    }
+
+    public BattlePersonage toBattlePersonage(Personage personage) {
+        return personage.toBattlePersonage(getEquippedCharacteristics(personage.id()));
+    }
+
+    public List<BattlePersonage> toBattlePersonages(List<Personage> personages) {
+        if (personages.isEmpty()) {
+            return List.of();
+        }
+        final var characteristicsByPersonageId = getEquippedCharacteristicsByPersonageIds(
+            personages.stream().map(Personage::id).collect(Collectors.toSet())
+        );
+        return personages.stream()
+            .map(personage -> personage.toBattlePersonage(
+                characteristicsByPersonageId.getOrDefault(personage.id(), Characteristics.ZERO)
+            ))
+            .toList();
+    }
+
+    public String shortProfile(Language language, Personage personage) {
+        return CommonLocalization.shortProfile(language, personage, getEquippedCharacteristics(personage.id()));
+    }
+
+    public String fullProfile(
+        Language language,
+        Personage personage,
+        CurrentEvents currentEvents,
+        List<GroupPassiveEffect> groupPassiveEffects
+    ) {
+        return CommonLocalization.fullProfile(
+            language,
+            personage,
+            currentEvents,
+            groupPassiveEffects,
+            getEquippedCharacteristics(personage.id())
+        );
     }
 
     public Personage createPersonage() {
@@ -77,6 +132,16 @@ public class PersonageService {
     public Personage getByIdForce(PersonageId personageId) {
         return getById(personageId)
             .orElseThrow(() -> new IllegalStateException("Personage must be present with id " + personageId));
+    }
+
+    public List<Personage> getByIds(Set<PersonageId> ids) {
+        final var now = TimeUtils.moscowTime();
+        return personageDao.getByIds(ids)
+            .stream()
+            .map(personage -> personage.updateStateIfNeed(now)
+                .peek(personageDao::update)
+                .getOrElse(personage))
+            .toList();
     }
 
     public List<Personage> getByIdsWithoutEnergyRegen(Set<PersonageId> ids) {
@@ -177,18 +242,6 @@ public class PersonageService {
         return addMoney(personage, money.negative());
     }
 
-    public Either<NotEnoughLevelingPoints, Personage> incrementStrength(Personage personage) {
-        return personage.incrementStrength().peek(personageDao::update);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementAgility(Personage personage) {
-        return personage.incrementAgility().peek(personageDao::update);
-    }
-
-    public Either<NotEnoughLevelingPoints, Personage> incrementWisdom(Personage personage) {
-        return personage.incrementWisdom().peek(personageDao::update);
-    }
-
     public Either<NameError, Personage> changeName(Personage personage, String name) {
         return personage.changeName(name).peek(personageDao::update);
     }
@@ -203,12 +256,6 @@ public class PersonageService {
 
     public int countSuccessRaidsFromLastContraband(PersonageId personageId) {
         return personageBattleResultDao.countSuccessRaidsFromLastContraband(personageId);
-    }
-
-    public Either<NotEnoughMoney, Personage> resetStats(Personage personage) {
-        return personage
-            .resetStats()
-            .peek(personageDao::update);
     }
 
     /**

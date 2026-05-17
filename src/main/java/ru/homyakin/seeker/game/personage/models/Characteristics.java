@@ -1,11 +1,9 @@
 package ru.homyakin.seeker.game.personage.models;
 
-import io.vavr.control.Either;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
-import ru.homyakin.seeker.game.personage.models.errors.NotEnoughLevelingPoints;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public record Characteristics(
@@ -16,14 +14,6 @@ public record Characteristics(
     int agility,
     int wisdom
 ) implements Cloneable {
-    public static Characteristics createDefault() {
-        return new Characteristics(500, 50, 20, 5, 5, 5);
-    }
-
-    public Characteristics reset() {
-        return new Characteristics(health, attack, defense, 1, 1, 1);
-    }
-
     public Characteristics add(Characteristics other) {
         return new Characteristics(
             health + other.health,
@@ -48,34 +38,6 @@ public record Characteristics(
             }
         }
         return new Characteristics(500, 50, 20, strength, agility, wisdom);
-    }
-
-    public Either<NotEnoughLevelingPoints, Characteristics> incrementStrength() {
-        if (!hasUnspentLevelingPoints()) {
-            return Either.left(new NotEnoughLevelingPoints());
-        }
-        return Either.right(copyWithStrength(strength + 1));
-    }
-
-    public Either<NotEnoughLevelingPoints, Characteristics> incrementAgility() {
-        if (!hasUnspentLevelingPoints()) {
-            return Either.left(new NotEnoughLevelingPoints());
-        }
-        return Either.right(copyWithAgility(agility + 1));
-    }
-
-    public Either<NotEnoughLevelingPoints, Characteristics> incrementWisdom() {
-        if (!hasUnspentLevelingPoints()) {
-            return Either.left(new NotEnoughLevelingPoints());
-        }
-        return Either.right(copyWithWisdom(wisdom + 1));
-    }
-
-    public boolean hasUnspentLevelingPoints() {
-        return levelingPointsSpentOnStrength()
-            + levelingPointsSpentOnAgility()
-            + levelingPointsSpentOnWisdom()
-            < MAX_LEVELING_POINTS;
     }
 
     public double advantage(Characteristics other) {
@@ -115,51 +77,6 @@ public record Characteristics(
             //Не может быть в record
             throw new RuntimeException(e);
         }
-    }
-
-    private int levelingPointsSpentOnStrength() {
-        return strength - 1;
-    }
-
-    private int levelingPointsSpentOnAgility() {
-        return agility - 1;
-    }
-
-    private int levelingPointsSpentOnWisdom() {
-        return wisdom - 1;
-    }
-
-    private Characteristics copyWithStrength(int strength) {
-        return new Characteristics(
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom
-        );
-    }
-
-    private Characteristics copyWithAgility(int agility) {
-        return new Characteristics(
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom
-        );
-    }
-
-    private Characteristics copyWithWisdom(int wisdom) {
-        return new Characteristics(
-            health,
-            attack,
-            defense,
-            strength,
-            agility,
-            wisdom
-        );
     }
 
     private static class EditableCharacteristics {

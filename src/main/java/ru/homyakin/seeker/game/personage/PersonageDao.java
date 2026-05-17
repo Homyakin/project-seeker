@@ -9,9 +9,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -38,31 +36,20 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public class PersonageDao {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String GET_BY_ID = """
-        WITH item_characteristics AS (
-            SELECT personage_id,
-                SUM(attack) item_attack,
-                SUM(health) item_health,
-                SUM(defense) item_defense
-            FROM legacy_item WHERE personage_id in (:id_list) AND is_equipped = true
-            GROUP BY personage_id
-        )
         SELECT p.*,
             b.code as badge_code,
-            ic.*,
             pg.tag as pgroup_member_tag,
             p.member_pgroup_id
         FROM personage p
         LEFT JOIN personage_available_badge pab ON p.id = pab.personage_id AND pab.is_active = true
         LEFT JOIN badge b ON pab.badge_id = b.id
-        LEFT JOIN item_characteristics ic on p.id = ic.personage_id
         LEFT JOIN pgroup pg ON p.member_pgroup_id = pg.id
         WHERE p.id in (:id_list)
         """;
 
     private static final String UPDATE = """
         UPDATE personage
-        SET name = :name, strength = :strength, agility = :agility, wisdom = :wisdom,
-        health = :health, last_energy_change = :last_energy_change, money = :money,
+        SET name = :name, last_energy_change = :last_energy_change, money = :money,
         energy = :energy, effects = :effects,
         energy_recovery_notification_time = CASE
             WHEN NOT :has_full_energy
@@ -87,12 +74,6 @@ public class PersonageDao {
             .usingColumns(
                 "name",
                 "money",
-                "attack",
-                "defense",
-                "health",
-                "strength",
-                "agility",
-                "wisdom",
                 "last_energy_change",
                 "energy",
                 "effects"
@@ -107,15 +88,8 @@ public class PersonageDao {
 
     public PersonageId createDefault(String name) {
         final var params = new HashMap<String, Object>();
-        final var defaultCharacteristics = Characteristics.createDefault();
         params.put("name", name);
         params.put("money", config.defaultMoney());
-        params.put("attack", defaultCharacteristics.attack());
-        params.put("defense", defaultCharacteristics.defense());
-        params.put("health", defaultCharacteristics.health());
-        params.put("strength", defaultCharacteristics.strength());
-        params.put("agility", defaultCharacteristics.agility());
-        params.put("wisdom", defaultCharacteristics.wisdom());
         params.put("last_energy_change", TimeUtils.moscowTime());
         params.put("energy", config.defaultEnergy());
         params.put("effects", jsonUtils.mapToPostgresJson(PersonageEffects.EMPTY));
@@ -131,10 +105,6 @@ public class PersonageDao {
         jdbcClient.sql(UPDATE)
             .param("id", personage.id().value())
             .param("name", personage.name())
-            .param("strength", personage.characteristics().strength())
-            .param("agility", personage.characteristics().agility())
-            .param("wisdom", personage.characteristics().wisdom())
-            .param("health", personage.characteristics().health())
             .param("last_energy_change", personage.energy().lastChange())
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
@@ -176,7 +146,6 @@ public class PersonageDao {
     public Optional<Personage> getById(PersonageId id) {
         return jdbcClient.sql(GET_BY_ID)
             .param("id_list", List.of(id.value()))
-            .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .optional();
     }
@@ -190,7 +159,6 @@ public class PersonageDao {
         }
         final var result = jdbcClient.sql(GET_BY_ID)
             .param("id_list", ids.stream().map(PersonageId::value).toList())
-            .param("active_status_id", EventStatus.LAUNCHED.id())
             .query(this::mapRow)
             .list();
         if (logger.isDebugEnabled()) {
@@ -237,28 +205,12 @@ public class PersonageDao {
             Optional.ofNullable(rs.getString("pgroup_member_tag")),
             DatabaseUtils.getLongOrEmpty(rs, "member_pgroup_id").map(GroupId::from),
             new Money(rs.getInt("money")),
-            new Characteristics(
-                rs.getInt("health"),
-                rs.getInt("attack"),
-                rs.getInt("defense"),
-                rs.getInt("strength"),
-                rs.getInt("agility"),
-                rs.getInt("wisdom")
-            ),
             new Energy(
                 rs.getInt("energy"),
                 rs.getTimestamp("last_energy_change").toLocalDateTime(),
                 config.energyFullRecovery()
             ),
             BadgeView.findByCode(rs.getString("badge_code")),
-            new Characteristics(
-                DatabaseUtils.getIntOrDefault(rs, "item_health", 0),
-                DatabaseUtils.getIntOrDefault(rs, "item_attack", 0),
-                DatabaseUtils.getIntOrDefault(rs, "item_defense", 0),
-                0,
-                0,
-                0
-            ),
             jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class)
         );
     }

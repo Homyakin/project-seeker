@@ -13,4 +13,5 @@
     <include file="changes/2026-04-18_01_widen-pgroup-tag.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-17_01_rename-item-tables-to-legacy.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-17_02_add-item-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-17_03_drop-personage-characteristics.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

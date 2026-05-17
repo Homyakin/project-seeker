@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupProfile;
 import ru.homyakin.seeker.game.group.error.JoinGroupMemberError;
 import ru.homyakin.seeker.game.group.entity.GroupTaxSnapshot;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -380,7 +381,8 @@ public class GroupManagementLocalization {
 
     public static String groupMemberProfileCard(
         Language language,
-        GroupMemberDetails details
+        GroupMemberDetails details,
+        Characteristics equippedCharacteristics
     ) {
         final var now = TimeUtils.moscowTime();
         final var personageLine = groupMemberOnline(language, details.lastOnline().personageLastOnline(), now);
@@ -388,7 +390,7 @@ public class GroupManagementLocalization {
             .map(mt -> groupMemberOnline(language, mt, now))
             .orElseGet(() -> resources.getOrDefault(language, GroupManagementResource::groupMemberNeverOnlineInGroup));
         final var params = new HashMap<String, Object>();
-        params.put("short_profile", CommonLocalization.shortProfile(language, details.personage()));
+        params.put("short_profile", CommonLocalization.shortProfile(language, details.personage(), equippedCharacteristics));
         params.put("duration_since_personage_online", personageLine);
         params.put("duration_since_group_personage_online", groupLine);
         params.put(

@@ -126,9 +126,10 @@ public class DuelService {
         duelDao.updateStatus(duel.id(), DuelStatus.FINISHED);
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
+        final var battlePersonages = personageService.toBattlePersonages(List.of(personage1, personage2));
         final var battleResult = twoPersonageTeamsBattle.battle(
-            List.of(personage1.toBattlePersonage()),
-            List.of(personage2.toBattlePersonage())
+            List.of(battlePersonages.getFirst()),
+            List.of(battlePersonages.get(1))
         );
 
         final PersonageBattleResult winner;
