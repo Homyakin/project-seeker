@@ -3,9 +3,10 @@ package ru.homyakin.seeker.game.event.raid.processing;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
-import ru.homyakin.seeker.game.item.LegacyItemService;
-import ru.homyakin.seeker.game.item.errors.LegacyGenerateItemError;
-import ru.homyakin.seeker.game.item.models.LegacyGenerateItemParams;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.errors.GenerateItemError;
+import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
@@ -16,13 +17,13 @@ import java.util.Optional;
 @Component
 public class RaidItemGenerator {
     private final PersonageService personageService;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final PersonageNextRaidItemParams personageNextRaidItemParams;
     private final ContrabandService contrabandService;
 
     public RaidItemGenerator(
         PersonageService personageService,
-        LegacyItemService itemService,
+        ItemService itemService,
         PersonageNextRaidItemParams personageNextRaidItemParams,
         ContrabandService contrabandService
     ) {
@@ -74,15 +75,14 @@ public class RaidItemGenerator {
             final var result = itemService
                 .generateItemForPersonage(
                     personage,
-                    new LegacyGenerateItemParams(
-                        itemParams.rarity(),
-                        itemParams.slot(),
-                        itemParams.modifiersCount()
+                    new GenerateItemParams(
+                        ItemRarity.valueOf(itemParams.rarity().name()),
+                        itemParams.slot()
                     )
                 )
                 .fold(
                     error -> switch (error) {
-                        case LegacyGenerateItemError.NotEnoughSpace notEnoughSpace ->
+                        case GenerateItemError.NotEnoughSpace notEnoughSpace ->
                             new GeneratedItemResult.NotEnoughSpaceInBag(personage, notEnoughSpace.item());
                     },
                     item -> new GeneratedItemResult.Success(personage, item)

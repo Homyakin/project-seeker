@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
-import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
-import ru.homyakin.seeker.game.event.raid.generator.RaidBattlePersonageGenerator;
-import ru.homyakin.seeker.game.event.raid.generator.SingleBossGenerator;
+import ru.homyakin.seeker.game.event.raid.legacy_generator.GroupGenerator;
+import ru.homyakin.seeker.game.event.raid.legacy_generator.RaidBattlePersonageGenerator;
+import ru.homyakin.seeker.game.event.raid.legacy_generator.SingleBossGenerator;
 
 public enum RaidTemplate {
     SINGLE_BOSS(1, new SingleBossGenerator()),

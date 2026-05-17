@@ -42,8 +42,8 @@ public class UserWorldRaidReportExecutor extends CommandExecutor<UserWorldRaidRe
             text = WorldRaidLocalization.personageWorldRaidReportNotFound(user.language());
         } else {
             final var raidItem = result.get().generatedItemId()
-                .flatMap(itemService::getById)
-                .<RaidItem>map(RaidItem.ItemDrop::new);
+                .flatMap(itemId -> itemService.getById(itemId))
+                .<RaidItem>map(RaidItem.LegacyItemDrop::new);
             text = WorldRaidLocalization.personageWorldRaidReport(
                 user.language(),
                 result.get(),

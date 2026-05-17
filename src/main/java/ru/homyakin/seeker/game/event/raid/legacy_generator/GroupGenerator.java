@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.raid.generator;
+package ru.homyakin.seeker.game.event.raid.legacy_generator;
 
 import java.util.ArrayList;
 import java.util.List;

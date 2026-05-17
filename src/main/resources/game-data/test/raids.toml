@@ -1,31 +1,25 @@
 [[raid]]
     isEnabled = true
-    code = "straw_crow"
-    template = "SINGLE_BOSS"
-
-    [raid.locales.RU]
-    intro = "Появилось соломенное чучело!"
-    description = "Посреди площади появилось уродливое чучело из соломы. Уничтожьте его!"
-
-    [raid.locales.EN]
-    intro = "A straw scarecrow appeared!"
-    description = "An ugly stuffed straw man appeared in the middle of the square. Destroy it!"
-
-[[raid]]
-    isEnabled = true
-    code = "wise_wolf"
+    code = "wolfpack"
     template = "ENEMY_GROUP"
 
     [raid.locales.RU]
-    intro = "Мудрый волк снова мудрит"
+    intro = "Волки сбиваются в стаи у самых дорог."
     description = """\
-    С недавних пор охотники, вернувшиеся из леса, ведут себя странно. \
-    Постоянно бормочат себе под нос, что сила в силе и почему-то очень бояться цирка. \
-    Расправьтесь с причиной этого безумства!"""
+    Охотники сообщают, что обычные волки стали нападать организованно, а во главе каждой стаи идёт огромный альфа. \
+    Тип атаки: рубящий (SLASH). Тип защиты: кожа (LEATHER). \
+    Соберите искателей и разгоните волчью стаю, пока деревни не оказались отрезаны от столицы!"""
 
     [raid.locales.EN]
-    intro = "Wise wolf is wise again"
+    intro = "Wolves are gathering into packs near the roads."
     description = """\
-    Recently, hunters who have returned from the forest have been behaving strangely. \
-    Constantly muttering to himself that strength is in strength and for some reason very \
-    afraid of the circus. Deal with the cause of this madness!"""
+    Hunters report that ordinary wolves have started attacking in formation, with a huge alpha leading each pack. \
+    Attack type: slash (SLASH). Defense type: leather (LEATHER). \
+    Gather the seekers and break up the wolfpack before the villages are cut off from the capital!"""
+
+    [raid.locales.ES]
+    intro = "Los lobos se agrupan en manadas cerca de los caminos."
+    description = """\
+    Los cazadores informan que los lobos comunes han empezado a atacar de forma organizada, con un enorme alfa al frente de cada manada. \
+    Tipo de ataque: cortante (SLASH). Tipo de defensa: cuero (LEATHER). \
+    ¡Reúnan a los exploradores y dispersen la manada antes de que las aldeas queden aisladas de la capital!"""

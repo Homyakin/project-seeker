@@ -675,6 +675,7 @@ public class CommonLocalization {
         }
         return switch (raidItem.get()) {
             case RaidItem.ItemDrop itemDrop -> ItemLocalization.fullItem(language, itemDrop.item());
+            case RaidItem.LegacyItemDrop itemDrop -> ItemLocalization.fullItem(language, itemDrop.item());
             case RaidItem.ContrabandDrop contrabandDrop ->
                 ContrabandLocalization.contrabandDisplayForReport(language, contrabandDrop.contraband());
         };
@@ -686,6 +687,8 @@ public class CommonLocalization {
         }
         return switch (raidItem.get()) {
             case RaidItem.ItemDrop itemDrop -> ItemLocalization.shortItemWithoutCharacteristics(language, itemDrop.item());
+            case RaidItem.LegacyItemDrop itemDrop ->
+                ItemLocalization.shortItemWithoutCharacteristics(language, itemDrop.item());
             case RaidItem.ContrabandDrop contrabandDrop ->
                 ContrabandLocalization.contrabandDisplayForReport(language, contrabandDrop.contraband());
         };
