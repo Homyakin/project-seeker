@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.battle.v4;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
 import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemAttack;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,6 +57,33 @@ class ItemObjectsCombinationTest {
         assertFalse(ranked.isEmpty());
         printObjectPowerStats("objects", ranked);
         printObjectPowerStatsBySlot(ranked);
+    }
+
+    @Test
+    void rankEachDefaultItemsByPower() {
+        final var ranked = Stream.of(
+                DefaultItems.MAIN_FIST,
+                DefaultItems.OFF_FIST,
+                DefaultItems.PANTS,
+                DefaultItems.SHIRT,
+                DefaultItems.SHOES
+            )
+            .map(item -> {
+                final var personage = personageFrom(List.of(item.object()));
+                final var power = personage.power();
+                assertTrue(
+                    Double.isFinite(power) && power > 0,
+                    () -> item + " has invalid power: " + power
+                );
+                return new RankedObject(item.object(), power);
+            })
+            .sorted(Comparator.comparingDouble(RankedObject::power))
+            .toList();
+
+        assertFalse(ranked.isEmpty());
+        for (final var rank: ranked) {
+            System.out.printf("%s: %.2f%n", rank.object().code(), rank.power());
+        }
     }
 
     @Test

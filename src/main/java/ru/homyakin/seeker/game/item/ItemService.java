@@ -12,11 +12,14 @@ import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.errors.EnhanceItemError;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
+import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
@@ -82,11 +85,31 @@ public class ItemService {
     }
 
     public Characteristics getEquippedCharacteristics(PersonageId personageId) {
-        return itemDao.getEquippedCharacteristics(personageId);
+        return getEquippedCharacteristicsByPersonageIds(Set.of(personageId))
+            .getOrDefault(personageId, DefaultItems.characteristicsForFreeSlots(Set.of()));
     }
 
     public Map<PersonageId, Characteristics> getEquippedCharacteristicsByPersonageIds(Set<PersonageId> personageIds) {
-        return itemDao.getEquippedCharacteristicsByPersonageIds(personageIds);
+        if (personageIds.isEmpty()) {
+            return Map.of();
+        }
+        final var equippedByPersonageId = itemDao.getEquippedByPersonageIds(personageIds);
+        return personageIds.stream()
+            .collect(Collectors.toMap(
+                id -> id,
+                id -> calculateEquippedCharacteristics(equippedByPersonageId.getOrDefault(id, List.of()))
+            ));
+    }
+
+    private Characteristics calculateEquippedCharacteristics(List<PersonageItem> equippedItems) {
+        var total = equippedItems.stream()
+            .map(PersonageItem::toItem)
+            .map(Item::visibleCharacteristics)
+            .reduce(Characteristics.ZERO, Characteristics::add);
+        final var occupiedSlots = equippedItems.stream()
+            .flatMap(item -> item.object().slots().stream())
+            .collect(Collectors.toSet());
+        return total.add(DefaultItems.characteristicsForFreeSlots(occupiedSlots));
     }
 
     public Optional<PersonageItem> getPersonageItem(PersonageId personageId, long itemId) {

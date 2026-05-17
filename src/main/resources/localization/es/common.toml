@@ -26,8 +26,7 @@ ${health_icon}Salud: ${health_value}
 ${power_icon}Poder: ${power_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${strength_icon}${strength_value} ${agility_icon}${agility_value} ${wisdom_icon}${wisdom_value}
-${current_event}${personage_effects}${group_effects}
-👤Equipo: ${item_characteristics}"""
+${current_event}${personage_effects}${group_effects}"""
 
 shortProfile = """\
 ${personage_badge_with_name}
