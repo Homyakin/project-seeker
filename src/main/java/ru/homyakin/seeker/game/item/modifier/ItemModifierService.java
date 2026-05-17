@@ -23,7 +23,11 @@ public class ItemModifierService {
         if (rarity == ItemRarity.COMMON) {
             return Optional.empty();
         }
-        return Optional.of(itemModifierDao.getRandomModifier(slot, compatibleModifierTypes(object)));
+        return Optional.of(pickModifier(object, slot));
+    }
+
+    public ModifierRow pickModifier(ItemObject object, PersonageSlot slot) {
+        return itemModifierDao.getRandomModifier(slot, compatibleModifierTypes(object));
     }
 
     private Set<ModifierType> compatibleModifierTypes(ItemObject object) {

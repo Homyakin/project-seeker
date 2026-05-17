@@ -91,6 +91,7 @@ public enum CommandType {
     CHANGE_TAG("/change_tag", CheckType.STARTS_WITH),
     ENHANCE_TABLE(null, CheckType.MAP),
     ENHANCE_INFO("/enhance", CheckType.STARTS_WITH),
+    CONFIRM_ENHANCE("/cenhance", CheckType.STARTS_WITH),
     ADD_MODIFIER("/addmod", CheckType.STARTS_WITH),
     REPAIR("/repair", CheckType.STARTS_WITH),
     THROW_ORDER_TO_GROUP("/gthrow", CheckType.EQUALS),

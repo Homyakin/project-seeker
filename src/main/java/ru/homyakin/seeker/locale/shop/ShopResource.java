@@ -21,10 +21,12 @@ public record ShopResource(
     String enhanceItem,
     String enhanceItemInfo,
     String addModifier,
+    String upgradeRarity,
     String repair,
     String maxModifiers,
     String brokenItem,
     String successAddModifier,
+    String successUpgradeRarity,
     String notBrokenItem,
     String successRepair,
     String emptyEnhance

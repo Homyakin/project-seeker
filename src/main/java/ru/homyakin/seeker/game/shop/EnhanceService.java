@@ -2,26 +2,28 @@ package ru.homyakin.seeker.game.shop;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.item.LegacyItemService;
-import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.shop.errors.AddModifierError;
 import ru.homyakin.seeker.game.shop.errors.NoSuchItemAtPersonage;
-import ru.homyakin.seeker.game.shop.errors.RepairError;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
+import ru.homyakin.seeker.game.shop.models.EnhanceOutcome;
+import ru.homyakin.seeker.game.shop.models.EnhanceResult;
 
 import java.util.Optional;
 
 @Service
 public class EnhanceService {
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final PersonageService personageService;
     private final ShopConfig config;
 
-    public EnhanceService(LegacyItemService itemService, PersonageService personageService, ShopConfig config) {
+    public EnhanceService(ItemService itemService, PersonageService personageService, ShopConfig config) {
         this.itemService = itemService;
         this.personageService = personageService;
         this.config = config;
@@ -35,75 +37,43 @@ public class EnhanceService {
         return Either.right(availableAction(item.get()));
     }
 
-    public Either<AddModifierError, AvailableAction> addModifier(PersonageId personageId, long itemId) {
+    public Either<AddModifierError, EnhanceResult> enhance(PersonageId personageId, long itemId) {
         final var item = itemService.getPersonageItem(personageId, itemId);
         if (item.isEmpty()) {
             return Either.left(AddModifierError.NoSuchItem.INSTANCE);
         }
-        if (item.get().isBroken()) {
-            return Either.left(AddModifierError.ItemIsBroken.INSTANCE);
-        }
-        final var price = addModifierPrice(item.get());
+        final var outcome = item.get().rarity() == ItemRarity.COMMON
+            ? EnhanceOutcome.ADDED_MODIFIER
+            : EnhanceOutcome.UPGRADED_RARITY;
+        final var price = enhancePrice(item.get());
         final var takeMoneyResult = personageService.tryTakeMoney(personageId, price);
         if (takeMoneyResult.isLeft()) {
             return Either.left(new AddModifierError.NotEnoughMoney(price));
         }
-        return itemService.addModifier(item.get())
+        return itemService.enhance(item.get())
             .mapLeft(
                 _ -> {
                     personageService.addMoney(personageId, price);
-                    return (AddModifierError) AddModifierError.MaxModifiers.INSTANCE;
+                    return (AddModifierError) AddModifierError.MaxRarity.INSTANCE;
                 }
             )
-            .map(this::availableAction);
+            .map(enhanced -> new EnhanceResult(availableAction(enhanced), outcome));
     }
 
-    public Either<RepairError, AvailableAction> repair(PersonageId personageId, long itemId) {
-        final var item = itemService.getPersonageItem(personageId, itemId);
-        if (item.isEmpty()) {
-            return Either.left(RepairError.NoSuchItem.INSTANCE);
-        }
-        final var price = repairPrice(item.get());
-        final var takeMoneyResult = personageService.tryTakeMoney(personageId, price);
-        if (takeMoneyResult.isLeft()) {
-            return Either.left(new RepairError.NotEnoughMoney(price));
-        }
-        return itemService.repair(item.get())
-            .mapLeft(
-                _ -> {
-                    personageService.addMoney(personageId, price);
-                    return (RepairError) RepairError.NotBroken.INSTANCE;
-                }
-            )
-            .map(this::availableAction);
-    }
-
-    private AvailableAction availableAction(LegacyItem item) {
-        if (item.isBroken()) {
-            return new AvailableAction(
-                Optional.of(new EnhanceAction.Repair(repairPrice(item))),
-                item
-            );
-        }
-        if (item.modifiers().size() == 2) {
+    private AvailableAction availableAction(PersonageItem item) {
+        if (item.rarity() == ItemRarity.LEGENDARY) {
             return new AvailableAction(Optional.empty(), item);
         }
         return new AvailableAction(
-            Optional.of(
-                new EnhanceAction.AddModifier(addModifierPrice(item))
-            ),
+            Optional.of(new EnhanceAction.Enhance(enhancePrice(item))),
             item
         );
     }
 
-    private Money addModifierPrice(LegacyItem item) {
+    private Money enhancePrice(PersonageItem item) {
         final var basePrice = config.buyingPriceByRarity(item.rarity());
-        final var multiplier = 1.5 + item.modifiers().size();
-        return Money.from((int) (basePrice.value() * multiplier));
-    }
-
-    private Money repairPrice(LegacyItem item) {
-        final var basePrice = config.buyingPriceByRarity(item.rarity());
-        return Money.from(basePrice.value() + (int) (basePrice.value() * item.modifiers().size() * 2.0));
+        final var multiplier = 1.5 + (item.modifier().isPresent() ? 1 : 0);
+        final var slotSize = Math.max(1, item.object().slots().size());
+        return Money.from((int) (basePrice.value() * multiplier * slotSize));
     }
 }

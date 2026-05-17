@@ -1,8 +1,9 @@
 package ru.homyakin.seeker.locale.shop;
 
-import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
@@ -117,11 +118,11 @@ public class ShopLocalization {
         );
     }
 
-    public static String enhanceTable(Language language, List<LegacyItem> items) {
+    public static String enhanceTable(Language language, List<PersonageItem> items) {
         final var params = new HashMap<String, Object>();
         final var sortedItems = items.stream().sorted(ItemLocalization::itemComparator).toList();
         final var equipped = sortedItems.stream()
-                .filter(LegacyItem::isEquipped)
+                .filter(PersonageItem::isEquipped)
                 .map(it -> enhanceItem(language, it))
                 .collect(Collectors.joining("\n"));
         final var inventory = sortedItems.stream()
@@ -136,7 +137,7 @@ public class ShopLocalization {
         );
     }
 
-    private static String enhanceItem(Language language, LegacyItem item) {
+    private static String enhanceItem(Language language, PersonageItem item) {
         final var params = new HashMap<String, Object>();
         params.put("full_item", ItemLocalization.fullItem(language, item));
         params.put("enhance_command", CommandType.ENHANCE_INFO.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
@@ -154,8 +155,7 @@ public class ShopLocalization {
             availableEnhance = emptyEnhance(language);
         } else {
             availableEnhance = switch (action.action().get()) {
-                case EnhanceAction.AddModifier addModifier -> addModifier(language, action.item(), addModifier.price());
-                case EnhanceAction.Repair repair -> repair(language, action.item(), repair.price());
+                case EnhanceAction.Enhance enhance -> enhance(language, action.item(), enhance.price());
             };
         }
         params.put("available_enhance", availableEnhance);
@@ -165,7 +165,7 @@ public class ShopLocalization {
         );
     }
 
-    public static String maxModifiers(Language language) {
+    public static String maxRarity(Language language) {
         return resources.getOrDefault(language, ShopResource::maxModifiers);
     }
 
@@ -186,33 +186,28 @@ public class ShopLocalization {
         );
     }
 
-    public static String successRepair(Language language, AvailableAction action) {
+    public static String successUpgradeRarity(Language language, AvailableAction action) {
         final var params = new HashMap<String, Object>();
         params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, ShopResource::successRepair),
+            resources.getOrDefault(language, ShopResource::successUpgradeRarity),
             params
         );
     }
 
-    private static String addModifier(Language language, LegacyItem item, Money price) {
+    private static String enhance(Language language, PersonageItem item, Money price) {
         final var params = new HashMap<String, Object>();
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
-        params.put("add_modifier_command", CommandType.ADD_MODIFIER.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
+        params.put("enhance_command", CommandType.CONFIRM_ENHANCE.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
+        if (item.rarity() == ItemRarity.COMMON) {
+            return StringNamedTemplate.format(
+                resources.getOrDefault(language, ShopResource::addModifier),
+                params
+            );
+        }
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, ShopResource::addModifier),
-            params
-        );
-    }
-
-    private static String repair(Language language, LegacyItem item, Money price) {
-        final var params = new HashMap<String, Object>();
-        params.put("price_value", price.value());
-        params.put("money_icon", Icons.MONEY);
-        params.put("repair_command", CommandType.REPAIR.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ShopResource::repair),
+            resources.getOrDefault(language, ShopResource::upgradeRarity),
             params
         );
     }

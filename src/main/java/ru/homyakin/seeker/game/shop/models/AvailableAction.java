@@ -1,11 +1,10 @@
 package ru.homyakin.seeker.game.shop.models;
 
-import ru.homyakin.seeker.game.item.models.LegacyItem;
-
 import java.util.Optional;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 
 public record AvailableAction(
     Optional<EnhanceAction> action,
-    LegacyItem item
+    PersonageItem item
 ) {
 }
