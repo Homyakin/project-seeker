@@ -22,7 +22,7 @@
     rarity = "UNCOMMON"
     isAvailable = true
     category = "DRINK"
-    effectCharacteristic = "WISDOM"
+    effectCharacteristic = "HEALTH"
 
     [item.locales.RU]
     name = "Вода в стекле"

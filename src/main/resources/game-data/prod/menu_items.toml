@@ -3,7 +3,7 @@
     rarity = "COMMON"
     isAvailable = true
     category = "DRINK"
-    effectCharacteristic = "STRENGTH"
+    effectCharacteristic = "ATTACK"
 
     [item.locales.RU]
     name = "Пиво"
@@ -63,7 +63,7 @@
     rarity = "COMMON"
     isAvailable = true
     category = "DRINK"
-    effectCharacteristic = "AGILITY"
+    effectCharacteristic = "HEALTH"
 
     [item.locales.RU]
     name = "Гречкин чай"
@@ -91,7 +91,7 @@
     rarity = "UNCOMMON"
     isAvailable = true
     category = "DRINK"
-    effectCharacteristic = "WISDOM"
+    effectCharacteristic = "HEALTH"
 
     [item.locales.RU]
     name = "Монастырское вино"
@@ -172,7 +172,7 @@
     rarity = "RARE"
     isAvailable = true
     category = "MAIN_DISH"
-    effectCharacteristic = "WISDOM"
+    effectCharacteristic = "HEALTH"
 
     [item.locales.RU]
     name = "Жаркое из маггуся"
@@ -239,7 +239,7 @@
     rarity = "RARE"
     isAvailable = false
     category = "DRINK"
-    effectCharacteristic = "WISDOM"
+    effectCharacteristic = "HEALTH"
 
     [item.locales.RU]
     name = "Шампанское"

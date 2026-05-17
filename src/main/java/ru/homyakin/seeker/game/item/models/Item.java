@@ -48,7 +48,7 @@ public record Item(
     public Characteristics visibleCharacteristics() {
         final var attack = itemAttack().map(ItemAttack::attack).orElse(0);
         final var defense = itemDefense().map(ItemDefense::defense).orElse(0);
-        return new Characteristics(health(), attack, defense, 0, 0, 0);
+        return new Characteristics(health(), attack, defense);
     }
 
     public static Item weapon(

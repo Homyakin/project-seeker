@@ -49,10 +49,7 @@ public class LegacyItemCharacteristicService {
         return new Characteristics(
             /*health*/ (int) Math.round(resultCharacteristic(health, multiplier) * rarity.multiplier()),
             /*attack*/ (int) Math.round(resultCharacteristic(attack, multiplier) * rarity.multiplier()),
-            /*defense*/ (int) Math.round(resultCharacteristic(defense, multiplier) * rarity.multiplier()),
-            /*strength*/ 0,
-            /*agility*/ 0,
-            /*wisdom*/ 0
+            /*defense*/ (int) Math.round(resultCharacteristic(defense, multiplier) * rarity.multiplier())
         );
     }
 

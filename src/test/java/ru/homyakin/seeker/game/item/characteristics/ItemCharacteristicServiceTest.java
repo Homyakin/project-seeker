@@ -45,9 +45,6 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.health());
         Assertions.assertEquals(12, result.attack());
         Assertions.assertEquals(0, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 
     @Test
@@ -67,9 +64,6 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(4, result.health());
         Assertions.assertEquals(4, result.attack());
         Assertions.assertEquals(4, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 
     @Test
@@ -87,9 +81,6 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.health());
         Assertions.assertEquals(24, result.attack());
         Assertions.assertEquals(0, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 
     @Test
@@ -110,9 +101,6 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.health());
         Assertions.assertEquals(18, result.attack());
         Assertions.assertEquals(0, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 
     @Test
@@ -133,9 +121,6 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.health());
         Assertions.assertEquals(12, result.attack());
         Assertions.assertEquals(6, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 
     @Test
@@ -156,9 +141,6 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.health());
         Assertions.assertEquals(15, result.attack());
         Assertions.assertEquals(4, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 
     @Test
@@ -181,8 +163,5 @@ public class ItemCharacteristicServiceTest {
         Assertions.assertEquals(0, result.health());
         Assertions.assertEquals(2, result.attack());
         Assertions.assertEquals(0, result.defense());
-        Assertions.assertEquals(0, result.strength());
-        Assertions.assertEquals(0, result.agility());
-        Assertions.assertEquals(0, result.wisdom());
     }
 }

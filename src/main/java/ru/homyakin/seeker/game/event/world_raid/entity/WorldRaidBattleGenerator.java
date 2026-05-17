@@ -14,10 +14,7 @@ public class WorldRaidBattleGenerator {
             new Characteristics(
                 raid.info().health(),
                 raid.info().attack(),
-                raid.info().defense(),
-                raid.info().strength(),
-                raid.info().agility(),
-                raid.info().wisdom()
+                raid.info().defense()
             ),
             null
         );

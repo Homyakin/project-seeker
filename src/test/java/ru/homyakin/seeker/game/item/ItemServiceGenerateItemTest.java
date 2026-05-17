@@ -141,9 +141,6 @@ public class ItemServiceGenerateItemTest {
     private final Characteristics characteristics = new Characteristics(
         0,
         1,
-        0,
-        0,
-        0,
         0
     );
 }

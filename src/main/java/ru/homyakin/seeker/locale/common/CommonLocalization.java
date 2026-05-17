@@ -167,12 +167,6 @@ public class CommonLocalization {
         params.put("attack_value", characteristics.attack());
         params.put("defense_icon", Icons.DEFENSE);
         params.put("defense_value", characteristics.defense());
-        params.put("strength_icon", Icons.STRENGTH);
-        params.put("strength_value", characteristics.strength());
-        params.put("agility_icon", Icons.AGILITY);
-        params.put("agility_value", characteristics.agility());
-        params.put("wisdom_icon", Icons.WISDOM);
-        params.put("wisdom_value", characteristics.wisdom());
         params.put("health_icon", Icons.HEALTH);
         params.put("health_value", characteristics.health());
 
@@ -606,12 +600,6 @@ public class CommonLocalization {
         params.put("attack_value", result.stats().characteristics().attack());
         params.put("defense_icon", Icons.DEFENSE);
         params.put("defense_value", result.stats().characteristics().defense());
-        params.put("strength_icon", Icons.STRENGTH);
-        params.put("strength_value", result.stats().characteristics().strength());
-        params.put("agility_icon", Icons.AGILITY);
-        params.put("agility_value", result.stats().characteristics().agility());
-        params.put("wisdom_icon", Icons.WISDOM);
-        params.put("wisdom_value", result.stats().characteristics().wisdom());
         params.put("normal_damage_value", result.stats().normalDamageDealt());
         params.put("normal_damage_count", result.stats().normalAttackCount());
         params.put("crit_damage_value", result.stats().critDamageDealt());
