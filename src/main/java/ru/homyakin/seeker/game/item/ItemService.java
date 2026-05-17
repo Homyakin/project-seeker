@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.item;
 
 import io.vavr.control.Either;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -89,6 +90,18 @@ public class ItemService {
             .getOrDefault(personageId, DefaultItems.characteristicsForFreeSlots(Set.of()));
     }
 
+    public Map<PersonageId, List<Item>> getEquippedItemsByPersonageIds(Set<PersonageId> personageIds) {
+        if (personageIds.isEmpty()) {
+            return Map.of();
+        }
+        final var equippedByPersonageId = itemDao.getEquippedByPersonageIds(personageIds);
+        return personageIds.stream()
+            .collect(Collectors.toMap(
+                id -> id,
+                id -> equippedItemsWithDefaults(equippedByPersonageId.getOrDefault(id, List.of()))
+            ));
+    }
+
     public Map<PersonageId, Characteristics> getEquippedCharacteristicsByPersonageIds(Set<PersonageId> personageIds) {
         if (personageIds.isEmpty()) {
             return Map.of();
@@ -110,6 +123,19 @@ public class ItemService {
             .flatMap(item -> item.object().slots().stream())
             .collect(Collectors.toSet());
         return total.add(DefaultItems.characteristicsForFreeSlots(occupiedSlots));
+    }
+
+    private List<Item> equippedItemsWithDefaults(List<PersonageItem> equippedItems) {
+        final var items = equippedItems.stream()
+            .map(PersonageItem::toItem)
+            .collect(Collectors.toCollection(ArrayList::new));
+        final var occupiedSlots = equippedItems.stream()
+            .flatMap(item -> item.object().slots().stream())
+            .collect(Collectors.toSet());
+        for (final var slot : PersonageSlot.values()) {
+            DefaultItems.defaultItemForSlot(slot, occupiedSlots).ifPresent(items::add);
+        }
+        return items;
     }
 
     public Optional<PersonageItem> getPersonageItem(PersonageId personageId, long itemId) {

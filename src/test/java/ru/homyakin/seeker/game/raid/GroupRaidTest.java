@@ -3,9 +3,8 @@ package ru.homyakin.seeker.game.raid;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import ru.homyakin.seeker.game.event.raid.generator.GroupGenerator;
+import ru.homyakin.seeker.game.event.raid.legacy_generator.GroupGenerator;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.test_utils.battle.TwoPersonageTeamsBattleUtility;
 

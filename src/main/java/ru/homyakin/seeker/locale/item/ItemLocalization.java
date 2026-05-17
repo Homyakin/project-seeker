@@ -57,6 +57,31 @@ public class ItemLocalization {
         return fullItem(requestedlanguage, toDisplayItem(item));
     }
 
+    public static String shortItem(Language requestedlanguage, PersonageItem item) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon());
+        params.put("broken_icon", "");
+        params.put("item", itemText(itemLanguage, item));
+        params.put("characteristics", itemCharacteristics(itemLanguage, item));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::shortItem),
+            params
+        );
+    }
+
+    public static String shortItemWithoutCharacteristics(Language requestedlanguage, PersonageItem item) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon());
+        params.put("broken_icon", "");
+        params.put("item", itemText(itemLanguage, item));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::shortItemWithoutCharacteristics),
+            params
+        );
+    }
+
     public static String fullItem(Language requestedlanguage, LegacyItem item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();

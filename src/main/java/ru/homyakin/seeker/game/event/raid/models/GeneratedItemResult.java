@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.event.raid.models;
 
 import ru.homyakin.seeker.game.contraband.entity.Contraband;
-import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.models.Personage;
 
 public sealed interface GeneratedItemResult {
@@ -13,9 +13,9 @@ public sealed interface GeneratedItemResult {
         };
     }
 
-    record Success(Personage personage, LegacyItem item) implements GeneratedItemResult {}
+    record Success(Personage personage, PersonageItem item) implements GeneratedItemResult {}
 
-    record NotEnoughSpaceInBag(Personage personage, LegacyItem item) implements GeneratedItemResult {}
+    record NotEnoughSpaceInBag(Personage personage, PersonageItem item) implements GeneratedItemResult {}
 
     record ContrabandDrop(Personage personage, Contraband contraband) implements GeneratedItemResult {}
 }

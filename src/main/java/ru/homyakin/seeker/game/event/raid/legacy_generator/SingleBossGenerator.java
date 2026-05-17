@@ -1,4 +1,4 @@
-package ru.homyakin.seeker.game.event.raid.generator;
+package ru.homyakin.seeker.game.event.raid.legacy_generator;
 
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;

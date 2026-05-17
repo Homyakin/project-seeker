@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
-import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -20,7 +20,7 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
     private final GroupUserService groupUserService;
     private final PersonageService personageService;
     private final GroupEventService groupEventService;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final ContrabandService contrabandService;
     private final TelegramSender telegramSender;
 
@@ -28,7 +28,7 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
         GroupUserService groupUserService,
         PersonageService personageService,
         GroupEventService groupEventService,
-        LegacyItemService itemService,
+        ItemService itemService,
         ContrabandService contrabandService,
         TelegramSender telegramSender
     ) {
@@ -67,10 +67,10 @@ public class RaidReportInGroupExecutor extends CommandExecutor<RaidReportInGroup
 
     private Optional<RaidItem> loadRaidItem(PersonageBattleResult result) {
         return result.generatedItemId()
-            .flatMap(itemService::getById)
+            .flatMap(itemId -> itemService.getById(itemId))
             .<RaidItem>map(RaidItem.ItemDrop::new)
             .or(() -> result.generatedContrabandId()
-                .flatMap(contrabandService::getById)
+                .flatMap(contrabandId -> contrabandService.getById(contrabandId))
                 .map(RaidItem.ContrabandDrop::new));
     }
 

@@ -185,6 +185,7 @@ public class PersonageService {
             switch (result.generatedItem().get()) {
                 case RaidItem.ContrabandDrop c -> generatedContrabandId = c.contraband().id();
                 case RaidItem.ItemDrop i -> generatedItemId = i.item().id();
+                case RaidItem.LegacyItemDrop i -> generatedItemId = i.item().id();
             }
         }
         return new PersonageBattleResult(
