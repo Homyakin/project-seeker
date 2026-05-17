@@ -11,7 +11,6 @@ import ru.homyakin.seeker.game.group.action.personage.ActiveGroupPersonagesServi
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
 import ru.homyakin.seeker.game.personage.PersonageService;
-import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.season.action.SeasonService;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
@@ -82,8 +81,7 @@ public class TopService {
 
     public TopPowerPersonageResult getTopPowerPersonage(GroupId groupId) {
         final var personages = personageService.getByIdsWithoutEnergyRegen(activeGroupPersonagesService.getActiveGroupPersonages(groupId));
-        final var top = personages.stream()
-            .map(Personage::toBattlePersonage)
+        final var top = personageService.toBattlePersonages(personages).stream()
             .sorted(Comparator.comparingDouble(BattlePersonage::power).reversed())
             .map(it -> new TopPowerPersonagePosition(
                 it.personage().id(),

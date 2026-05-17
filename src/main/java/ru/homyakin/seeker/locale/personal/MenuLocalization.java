@@ -34,10 +34,6 @@ public class MenuLocalization {
         return resources.getOrDefault(language, MenuResource::showBadgesButton);
     }
 
-    public static String resetStatsButton(Language language) {
-        return resources.getOrDefault(language, MenuResource::resetCharacteristicsButton);
-    }
-
     public static String inventoryButton(Language language) {
         return resources.getOrDefault(language, MenuResource::inventoryButton);
     }

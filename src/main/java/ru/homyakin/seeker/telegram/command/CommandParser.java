@@ -75,11 +75,6 @@ import ru.homyakin.seeker.telegram.command.user.bulletin_board.ShowWorldRaidInfo
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.TakePersonalQuest;
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.WorldRaidResearchTop;
 import ru.homyakin.seeker.telegram.command.user.change_name.InitChangeName;
-import ru.homyakin.seeker.telegram.command.user.characteristics.CancelResetCharacteristics;
-import ru.homyakin.seeker.telegram.command.user.characteristics.ConfirmResetCharacteristics;
-import ru.homyakin.seeker.telegram.command.user.characteristics.IncreaseCharacteristic;
-import ru.homyakin.seeker.telegram.command.user.characteristics.LevelUp;
-import ru.homyakin.seeker.telegram.command.user.characteristics.ResetCharacteristics;
 import ru.homyakin.seeker.telegram.command.user.contraband.ForceOpenContraband;
 import ru.homyakin.seeker.telegram.command.user.contraband.OpenContrabandAsReceiver;
 import ru.homyakin.seeker.telegram.command.user.contraband.SellContraband;
@@ -196,9 +191,7 @@ public class CommandParser {
                 case START -> StartUser.from(message);
                 case GET_PROFILE, BACK -> GetProfileInPrivate.from(message);
                 case SHOW_HELP -> ShowHelp.from(message);
-                case LEVEL_UP -> LevelUp.from(message);
                 case RECEPTION_DESK -> ReceptionDesk.from(message);
-                case RESET_CHARACTERISTICS -> ResetCharacteristics.from(message);
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
                 case SHOW_BADGES -> ShowPersonageBadges.from(message);
@@ -322,9 +315,6 @@ public class CommandParser {
             .map(commandType -> switch (commandType) {
                 case SELECT_LANGUAGE -> UserSelectLanguage.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);
-                case CONFIRM_RESET_CHARACTERISTICS -> ConfirmResetCharacteristics.from(callback);
-                case CANCEL_RESET_CHARACTERISTICS -> CancelResetCharacteristics.from(callback);
-                case INCREASE_CHARACTERISTIC -> IncreaseCharacteristic.from(callback);
                 case SELECT_BADGE -> SelectPersonageBadge.from(callback);
                 case TOGGLE_PERSONAGE_SETTING -> SetPersonageSetting.from(callback);
                 case LEAVE_GROUP_CONFIRM -> LeaveGroupInPrivateConfirm.from(callback);

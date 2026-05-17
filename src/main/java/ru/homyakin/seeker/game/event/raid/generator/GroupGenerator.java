@@ -2,13 +2,8 @@ package ru.homyakin.seeker.game.event.raid.generator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class GroupGenerator implements RaidBattlePersonageGenerator {
@@ -33,20 +28,7 @@ public class GroupGenerator implements RaidBattlePersonageGenerator {
             final var health = tempPersonage.calculateHealthForTargetPower(power);
             final var characteristics = tempCharacteristics.copyWithHealth((int) health);
 
-            group.add(
-                new Personage(
-                    PersonageId.from(-1 - i),
-                    null,
-                    Optional.empty(),
-                    Optional.empty(),
-                    null,
-                    characteristics,
-                    null,
-                    null,
-                    Characteristics.ZERO,
-                    PersonageEffects.EMPTY
-                ).toBattlePersonage()
-            );
+            group.add(new BattlePersonage(-1 - i, characteristics, null));
         }
         return group;
     }

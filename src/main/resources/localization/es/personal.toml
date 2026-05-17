@@ -3,7 +3,6 @@ profileButton = "👤Perfil"
 languageButton = "🌐Idioma"
 receptionDeskButton = "✍️Mostrador de registro"
 backButton = "⬅️Atrás"
-resetCharacteristicsButton = "📖Libro del Olvido"
 changeNameButton = "🔮Cambiar nombre"
 showBadgesButton = "🔰Insignias"
 inventoryButton = "🎒Mochila"
@@ -33,28 +32,6 @@ internalError = "El círculo mágico parpadea... y se apaga de golpe. Algo sali�
 cancelButton = "❌Cancelar"
 confirmButton = "✅Confirmar"
 repeatButton = "🔄Intentar de nuevo"
-
-[characteristics]
-resetConfirmation = """\
-Leer el libro del olvido cuesta ${money_icon}${money_count}. \
-¿Seguro que quieres olvidar tus habilidades y empezar de nuevo?"""
-successReset = """\
-Después de leer el libro, tu mente se nubla... Olvidas tus viejas habilidades. Todo está por decidirse otra vez."""
-canceledReset = "El libro se queda aquí. Vuelve cuando estés list@."
-increasedCharacteristic = "Has mejorado una habilidad: ${increased_value}${increased_icon}."
-currentCharacteristics = """\
-Tus características actuales: ${strength_value}${strength_icon}${agility_value}${agility_icon}${wisdom_value}${wisdom_icon}"""
-chooseCharacteristic = """\
-Elige qué quieres desarrollar:
-(${strength_icon}>${agility_icon}>${wisdom_icon}>${strength_icon})"""
-notEnoughCharacteristicPoints = "¡Llegaste al límite! Usa el libro del olvido si quieres cambiar de estilo."
-notEnoughMoney = "¡No te alcanza pa'l libro! Te faltan ${money_icon}${money_count}"
-profileLevelUp = "¡Puedes mejorar tus habilidades! Usa ${level_up_command}"
-confirmButton = "📖Leer"
-cancelButton = "❌Después"
-strengthButton = "+1${strength_icon}"
-agilityButton = "+1${agility_icon}"
-wisdomButton = "+1${wisdom_icon}"
 
 [badges]
 availableBadges = """\

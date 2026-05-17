@@ -2,13 +2,8 @@ package ru.homyakin.seeker.game.event.raid.generator;
 
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.game.personage.models.Personage;
-import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
-import ru.homyakin.seeker.game.personage.models.PersonageId;
-
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class SingleBossGenerator implements RaidBattlePersonageGenerator {
     @Override
@@ -26,18 +21,7 @@ public class SingleBossGenerator implements RaidBattlePersonageGenerator {
 
         final var health = tempPersonage.calculateHealthForTargetPower(totalPower);
         final var characteristics = tempCharacteristics.copyWithHealth((int) health);
-        final var boss = new Personage(
-            PersonageId.from(-1),
-            null,
-            Optional.empty(),
-            Optional.empty(),
-            null,
-            characteristics,
-            null,
-            null,
-            Characteristics.ZERO,
-            PersonageEffects.EMPTY
-        ).toBattlePersonage();
+        final var boss = new BattlePersonage(-1, characteristics, null);
         return Collections.singletonList(boss);
     }
 }

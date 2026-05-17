@@ -5,7 +5,6 @@ public record MenuResource(
     String languageButton,
     String receptionDeskButton,
     String backButton,
-    String resetCharacteristicsButton,
     String changeNameButton,
     String showBadgesButton,
     String inventoryButton,

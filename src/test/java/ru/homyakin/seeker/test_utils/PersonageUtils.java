@@ -7,12 +7,10 @@ import java.util.Optional;
 
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
-import ru.homyakin.seeker.utils.RandomUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 public class PersonageUtils {
@@ -31,10 +29,8 @@ public class PersonageUtils {
             Optional.empty(),
             Optional.empty(),
             Money.zero(),
-            Characteristics.random(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
-            Characteristics.ZERO,
             PersonageEffects.EMPTY
         );
     }
@@ -46,10 +42,8 @@ public class PersonageUtils {
             Optional.empty(),
             Optional.empty(),
             Money.zero(),
-            Characteristics.random(),
             new Energy(0, TimeUtils.moscowTime(), timeToRegen),
             BadgeView.STANDARD,
-            Characteristics.ZERO,
             PersonageEffects.EMPTY
         );
     }
@@ -61,17 +55,8 @@ public class PersonageUtils {
             Optional.empty(),
             Optional.empty(),
             Money.zero(),
-            Characteristics.random(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
-            new Characteristics(
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ),
             PersonageEffects.EMPTY
         );
     }

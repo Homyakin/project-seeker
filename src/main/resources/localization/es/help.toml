@@ -38,7 +38,6 @@ personage = """\
 Entra a ${bot_username} para acceder al mostrador de registro.
 
 Allí puedes cambiar tu nombre usando el círculo mágico.
-O pagar por acceso al libro del olvido, para borrar tus habilidades y aprender unas nuevas.
 """
 
 info = """\

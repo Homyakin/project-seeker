@@ -6,7 +6,6 @@ import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
-import ru.homyakin.seeker.game.personage.models.CharacteristicType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
@@ -16,7 +15,6 @@ import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
-import ru.homyakin.seeker.locale.personal.CharacteristicLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
@@ -89,26 +87,6 @@ public class InlineKeyboards {
             .addButton(HelpLocalization.battleSystemButton(language), callbackPrefix + HelpSection.BATTLE_SYSTEM.name())
             .addRow()
             .addButton(HelpLocalization.infoButton(language), callbackPrefix + HelpSection.INFO.name())
-            .build();
-    }
-
-    public static InlineKeyboardMarkup resetCharacteristicsConfirmationKeyboard(Language language) {
-        return InlineKeyboardBuilder
-            .builder()
-            .addRow()
-            .addButton(CharacteristicLocalization.cancelButton(language), CommandType.CANCEL_RESET_CHARACTERISTICS.getText())
-            .addButton(CharacteristicLocalization.confirmButton(language), CommandType.CONFIRM_RESET_CHARACTERISTICS.getText())
-            .build();
-    }
-
-    public static InlineKeyboardMarkup chooseCharacteristicsKeyboard(Language language) {
-        final var callbackPrefix = CommandType.INCREASE_CHARACTERISTIC.getText() + TextConstants.CALLBACK_DELIMITER;
-        return InlineKeyboardBuilder
-            .builder()
-            .addRow()
-            .addButton(CharacteristicLocalization.strengthButton(language), callbackPrefix + CharacteristicType.STRENGTH.name())
-            .addButton(CharacteristicLocalization.agilityButton(language), callbackPrefix + CharacteristicType.AGILITY.name())
-            .addButton(CharacteristicLocalization.wisdomButton(language), callbackPrefix + CharacteristicType.WISDOM.name())
             .build();
     }
 

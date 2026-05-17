@@ -53,10 +53,8 @@ public class BattlePersonagePowerTest {
                 Optional.empty(),
                 Optional.empty(),
                 null,
-                new Characteristics(500, 50, 20, 5, 5, 5),
                 null,
                 null,
-                Characteristics.ZERO,
                 new PersonageEffects(
                     Collections.singletonMap(
                         PersonageEffectType.MENU_ITEM_EFFECT,

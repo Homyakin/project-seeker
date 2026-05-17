@@ -25,10 +25,9 @@ public class ReplyKeyboards {
     public static ReplyKeyboardMarkup receptionDeskKeyboard(Language language) {
         return ReplyKeyboardBuilder.builder()
             .addRow()
-            .addButton(button(MenuLocalization.resetStatsButton(language)))
             .addButton(button(MenuLocalization.languageButton(language)))
-            .addRow()
             .addButton(button(MenuLocalization.changeNameButton(language)))
+            .addRow()
             .addButton(button(MenuLocalization.showBadgesButton(language)))
             .addRow()
             .addButton(button(MenuLocalization.backButton(language)))

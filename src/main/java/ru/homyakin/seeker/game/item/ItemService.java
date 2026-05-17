@@ -10,6 +10,8 @@ import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
 import ru.homyakin.seeker.game.item.errors.EnhanceItemError;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
@@ -19,6 +21,7 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -76,6 +79,14 @@ public class ItemService {
 
     public List<PersonageItem> getPersonageItems(PersonageId personageId) {
         return itemDao.getByPersonageId(personageId);
+    }
+
+    public Characteristics getEquippedCharacteristics(PersonageId personageId) {
+        return itemDao.getEquippedCharacteristics(personageId);
+    }
+
+    public Map<PersonageId, Characteristics> getEquippedCharacteristicsByPersonageIds(Set<PersonageId> personageIds) {
+        return itemDao.getEquippedCharacteristicsByPersonageIds(personageIds);
     }
 
     public Optional<PersonageItem> getPersonageItem(PersonageId personageId, long itemId) {
