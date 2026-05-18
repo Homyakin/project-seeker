@@ -37,6 +37,13 @@ public class GroupDao {
             .update();
     }
 
+    public void lockById(GroupTgId groupId) {
+        jdbcClient.sql("SELECT pg_advisory_xact_lock(hashtextextended(CONCAT('grouptg:', :id), 0))")
+            .param("id", groupId.value())
+            .query((_, _) -> true)
+            .single();
+    }
+
     public Optional<GroupTg> getById(GroupTgId groupId) {
         final var getByDirectId = "SELECT * FROM grouptg WHERE id = :id";
         final var result = jdbcClient.sql(getByDirectId)

@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.group;
 
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.ChangeGroupActivity;
 import ru.homyakin.seeker.game.group.action.CreateGroupCommand;
@@ -32,10 +33,16 @@ public class GroupTgService {
     }
 
     public GroupTg forceGet(GroupId groupId) {
-        return groupDao.getByDomainId(groupId).orElseThrow();
+        var group = groupDao.getByDomainId(groupId);
+        if (group.isEmpty()) {
+            changeGroupActivity.deactivate(groupId);
+        }
+        return group.orElseThrow();
     }
 
+    @Transactional
     public GroupTg getOrCreate(GroupTgId groupId) {
+        groupDao.lockById(groupId);
         final var optionalGroup = getGroup(groupId);
         optionalGroup.ifPresent(group -> changeGroupActivity.activate(group.domainGroupId()));
         return optionalGroup.orElseGet(() -> createGroup(groupId));
