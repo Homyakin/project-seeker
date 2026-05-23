@@ -10,8 +10,9 @@ import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.Duel;
+import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
+import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -74,8 +75,8 @@ public class AcceptDuelExecutorTest {
         Mockito.when(duelService.finishDuel(duel, acceptorPersonage.id())).thenReturn(
             Either.right(
                 new DuelResult(
-                    initiatorPersonage.toBattlePersonage(Characteristics.ZERO).toResult(),
-                    acceptorPersonage.toBattlePersonage(Characteristics.ZERO).toResult()
+                    duelPersonageResult(initiatorPersonage),
+                    duelPersonageResult(acceptorPersonage)
                 )
             )
         );
@@ -97,7 +98,7 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        initiatorPersonage.toBattlePersonage(Characteristics.ZERO).toResult(),
+                        duelPersonageResult(initiatorPersonage),
                         true
                     )
                 )
@@ -105,7 +106,7 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        acceptorPersonage.toBattlePersonage(Characteristics.ZERO).toResult(),
+                        duelPersonageResult(acceptorPersonage),
                         false
                     )
                 )
@@ -138,8 +139,8 @@ public class AcceptDuelExecutorTest {
         Mockito.when(duelService.finishDuel(duel, acceptorPersonage.id())).thenReturn(
             Either.right(
                 new DuelResult(
-                    acceptorPersonage.toBattlePersonage(Characteristics.ZERO).toResult(),
-                    initiatorPersonage.toBattlePersonage(Characteristics.ZERO).toResult()
+                    duelPersonageResult(acceptorPersonage),
+                    duelPersonageResult(initiatorPersonage)
                 )
             )
         );
@@ -161,7 +162,7 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        initiatorPersonage.toBattlePersonage(Characteristics.ZERO).toResult(),
+                        duelPersonageResult(initiatorPersonage),
                         false
                     )
                 )
@@ -169,7 +170,7 @@ public class AcceptDuelExecutorTest {
             mock.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
-                        acceptorPersonage.toBattlePersonage(Characteristics.ZERO).toResult(),
+                        duelPersonageResult(acceptorPersonage),
                         true
                     )
                 )
@@ -194,5 +195,12 @@ public class AcceptDuelExecutorTest {
             .build();
 
         Assertions.assertEquals(expected, captor.getValue());
+    }
+
+    private static DuelPersonageResult duelPersonageResult(Personage personage) {
+        return new DuelPersonageResult(
+            personage,
+            new BattlePersonageStats(100, 50, 10, 1, 5, 0, 0, 0, 0, 0, 0)
+        );
     }
 }

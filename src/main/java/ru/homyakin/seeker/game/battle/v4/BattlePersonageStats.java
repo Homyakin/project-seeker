@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.battle.v4;
 
 public record BattlePersonageStats(
+    int initialHealth,
     int remainHealth,
     long normalDamageDealt,
     long normalAttackCount,
@@ -12,4 +13,7 @@ public record BattlePersonageStats(
     long dodgesCount,
     long missesCount
 ) {
+    public long damageDealt() {
+        return normalDamageDealt + critDamageDealt;
+    }
 }

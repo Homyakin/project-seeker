@@ -2,7 +2,7 @@ package ru.homyakin.seeker.locale.duel;
 
 import java.util.Collections;
 import java.util.HashMap;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleResult;
+import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
@@ -123,7 +123,7 @@ public class DuelLocalization {
         return resources.getOrDefault(language, DuelResource::duelIsLocked);
     }
 
-    public static String personageDuelResult(Language language, PersonageBattleResult result, boolean isWinner) {
+    public static String personageDuelResult(Language language, DuelPersonageResult result, boolean isWinner) {
         final var params = new HashMap<String, Object>();
         params.put("winner_or_loser_icon", isWinner ? Icons.DUEL_WINNER : Icons.DUEL_LOSER);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(result.personage()));

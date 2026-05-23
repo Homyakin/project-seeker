@@ -279,9 +279,10 @@ public class BattlePersonage {
         blockCount++;
         final int healthBefore = health;
         final int withVariance = RandomUtils.getInPercentRange(mitigated, RANGE_PERCENT);
-        actualDamageTaken += withVariance;
-        this.health = health - withVariance;
-        return healthBefore - health;
+        this.health = Math.max(0, health - withVariance);
+        final int damageTaken = healthBefore - health;
+        actualDamageTaken += damageTaken;
+        return damageTaken;
     }
 
     public Set<AttackType> attackTypes() {
@@ -546,6 +547,7 @@ public class BattlePersonage {
 
     public BattlePersonageStats battlePersonageStats() {
         return new BattlePersonageStats(
+            maxHealth,
             health,
             normalDamageDealt,
             normalAttackCount,
