@@ -2,7 +2,7 @@ package ru.homyakin.seeker.game.event.raid.processing;
 
 import org.springframework.stereotype.Component;
 
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
 import ru.homyakin.seeker.utils.MathUtils;
 
 @Component

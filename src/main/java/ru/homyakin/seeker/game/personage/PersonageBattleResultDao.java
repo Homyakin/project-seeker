@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleStats;
+import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.BattleType;
@@ -164,7 +164,7 @@ public class PersonageBattleResultDao {
         return new PersonageBattleResult(
             PersonageId.from(rs.getLong("personage_id")),
             rs.getLong("launched_event_id"),
-            jsonUtils.fromString(rs.getString("stats"), PersonageBattleStats.class),
+            jsonUtils.fromString(rs.getString("stats"), BattlePersonageStats.class),
             Money.from(rs.getInt("reward")),
             Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_item_id")),
             Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_contraband_id"))

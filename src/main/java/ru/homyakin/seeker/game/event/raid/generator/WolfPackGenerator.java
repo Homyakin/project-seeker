@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.game.event.raid.generator;
 
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
-import ru.homyakin.seeker.game.battle.v4.Position;
-import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;

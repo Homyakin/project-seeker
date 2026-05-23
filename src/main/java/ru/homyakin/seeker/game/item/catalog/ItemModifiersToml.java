@@ -2,7 +2,7 @@ package ru.homyakin.seeker.game.item.catalog;
 
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;

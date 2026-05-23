@@ -1,12 +1,13 @@
 package ru.homyakin.seeker.game.top;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.group.action.personage.ActiveGroupPersonagesService;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
@@ -81,16 +82,17 @@ public class TopService {
 
     public TopPowerPersonageResult getTopPowerPersonage(GroupId groupId) {
         final var personages = personageService.getByIdsWithoutEnergyRegen(activeGroupPersonagesService.getActiveGroupPersonages(groupId));
-        final var top = personageService.toBattlePersonages(personages).stream()
-            .sorted(Comparator.comparingDouble(BattlePersonage::power).reversed())
-            .map(it -> new TopPowerPersonagePosition(
-                it.personage().id(),
-                it.personage().name(),
-                it.personage().badge(),
-                it.personage().tag(),
-                (int) it.power()
+        final var battlePersonagesById = personageService.toBattlePersonagesById(personages);
+        final var top = personages.stream()
+            .map(personage -> new TopPowerPersonagePosition(
+                personage.id(),
+                personage.name(),
+                personage.badge(),
+                personage.tag(),
+                (int) battlePersonagesById.get(personage.id()).power()
             ))
-            .toList();
+            .sorted(Comparator.comparingInt(TopPowerPersonagePosition::power).reversed())
+            .collect(Collectors.toCollection(ArrayList::new));
         return new TopPowerPersonageResult(top);
     }
 

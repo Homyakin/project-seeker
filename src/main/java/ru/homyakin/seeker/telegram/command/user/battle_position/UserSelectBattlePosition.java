@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.battle_position;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import ru.homyakin.seeker.game.battle.v4.Position;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.telegram.command.UserCommand;
 import ru.homyakin.seeker.telegram.user.models.UserId;

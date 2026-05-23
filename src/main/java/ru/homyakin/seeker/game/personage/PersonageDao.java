@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
-import ru.homyakin.seeker.game.battle.v4.Position;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;

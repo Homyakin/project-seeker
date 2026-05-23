@@ -2,26 +2,18 @@ package ru.homyakin.seeker.game.event.raid.models;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
-import ru.homyakin.seeker.game.event.raid.legacy_generator.GroupGenerator;
-import ru.homyakin.seeker.game.event.raid.legacy_generator.RaidBattlePersonageGenerator;
-import ru.homyakin.seeker.game.event.raid.legacy_generator.SingleBossGenerator;
-
 public enum RaidTemplate {
-    SINGLE_BOSS(1, new SingleBossGenerator()),
-    ENEMY_GROUP(2, new GroupGenerator()),
+    SINGLE_BOSS(1),
+    ENEMY_GROUP(2),
     ;
 
     private final int id;
-    private final RaidBattlePersonageGenerator generator;
 
-    RaidTemplate(int id, RaidBattlePersonageGenerator generator) {
+    RaidTemplate(int id) {
         this.id = id;
-        this.generator = generator;
     }
 
     public int id() {
@@ -35,9 +27,5 @@ public enum RaidTemplate {
     public static RaidTemplate get(int id) {
         return Optional.ofNullable(map.get(id))
             .orElseThrow(() -> new IllegalStateException("Unexpected raid template id: " + id));
-    }
-
-    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerPercent) {
-        return generator.generate(personages.size(), powerPercent);
     }
 }

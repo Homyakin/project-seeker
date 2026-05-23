@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.game.battle.v4.Position;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
 import ru.homyakin.seeker.game.personage.models.PersonageId;

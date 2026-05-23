@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.locale.common;
 
-import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.group.passive.GroupBuildingPassiveEffect;
@@ -107,16 +106,13 @@ public class CommonLocalization {
         Personage personage,
         CurrentEvents currentEvents,
         List<GroupPassiveEffect> groupPassiveEffects,
-        Characteristics equippedCharacteristics
+        Characteristics equippedCharacteristics,
+        int power
     ) {
         final var params = profileParams(personage, equippedCharacteristics);
 
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.power((int) new BattlePersonage(
-            personage.id().value(),
-            equippedCharacteristics,
-            personage
-        ).power()));
+        params.put("power_value", LocaleUtils.power(power));
         if (personage.energy().isFull()) {
             params.put("time_icon", "");
             params.put("remain_duration_for_full_regen", "");
@@ -598,9 +594,9 @@ public class CommonLocalization {
     private static Map<String, Object> paramsForPersonageBattleReport(PersonageBattleResult result) {
         final var params = new HashMap<String, Object>();
         params.put("attack_icon", Icons.ATTACK);
-        params.put("attack_value", result.stats().characteristics().attack());
+        params.put("attack_value", result.stats().attack());
         params.put("defense_icon", Icons.DEFENSE);
-        params.put("defense_value", result.stats().characteristics().defense());
+        params.put("defense_value", result.stats().defense());
         params.put("normal_damage_value", result.stats().normalDamageDealt());
         params.put("normal_damage_count", result.stats().normalAttackCount());
         params.put("crit_damage_value", result.stats().critDamageDealt());
@@ -611,7 +607,7 @@ public class CommonLocalization {
         params.put("dodged_damage_value", result.stats().damageDodged());
         params.put("dodged_damage_count", result.stats().dodgesCount());
         params.put("remain_health", result.stats().remainHealth());
-        params.put("max_health", result.stats().characteristics().health());
+        params.put("max_health", result.stats().initialHealth());
         params.put("money_icon", Icons.MONEY);
         params.put("reward_value", result.reward().value());
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);

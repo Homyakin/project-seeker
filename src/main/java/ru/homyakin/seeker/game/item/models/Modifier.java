@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.item.models;
 
-import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.locale.Language;

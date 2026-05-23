@@ -110,7 +110,7 @@ public class RaidLocalization {
         long remainEnemiesHealth = 0;
         long remainingEnemies = 0;
         for (final var result : raidResult.raidNpcResults()) {
-            totalEnemiesHealth += result.stats().characteristics().health();
+            totalEnemiesHealth += result.stats().initialHealth();
             remainEnemiesHealth += result.stats().remainHealth();
             if (!result.stats().isDead()) {
                 ++remainingEnemies;
@@ -124,7 +124,7 @@ public class RaidLocalization {
 
         for (final var personageResult : personageResults) {
             participantsHealth += personageResult.stats().remainHealth();
-            participantsMaxHealth += personageResult.stats().characteristics().health();
+            participantsMaxHealth += personageResult.stats().initialHealth();
 
             if (!personageResult.stats().isDead()) {
                 livingParticipants++;

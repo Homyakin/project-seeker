@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.event.world_raid.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import ru.homyakin.seeker.game.battle.v4.Position;
+import ru.homyakin.seeker.game.battle.Position;
 
 import java.util.List;
 
