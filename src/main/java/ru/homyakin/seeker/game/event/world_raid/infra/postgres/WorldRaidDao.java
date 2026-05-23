@@ -12,9 +12,10 @@ import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidState;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidStatus;
 import ru.homyakin.seeker.game.event.world_raid.entity.FinalWorldRaidStatus;
 import ru.homyakin.seeker.game.event.world_raid.entity.PersonageContribution;
-import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidTemplate;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidTemplateBattleInfo;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingWorldRaid;
@@ -99,14 +100,14 @@ public class WorldRaidDao implements WorldRaidStorage {
     }
 
     @Override
-    public void saveActive(WorldRaidTemplate worldRaidTemplate, Money fund, ActiveWorldRaidState.Research research) {
+    public void saveActive(int eventId, WorldRaidLaunchedBattleInfo info, Money fund, ActiveWorldRaidState.Research research) {
         jdbcClient.sql(SAVE_LAUNCHED)
             .param("contribution", research.contribution())
             .param("required_contribution", research.requiredContribution())
-            .param("info", jsonUtils.mapToPostgresJson(worldRaidTemplate.info()))
+            .param("info", jsonUtils.mapToPostgresJson(info))
             .param("fund", fund.value())
             .param("status_id", ActiveWorldRaidStatus.RESEARCH.id())
-            .param("event_id", worldRaidTemplate.eventId())
+            .param("event_id", eventId)
             .param("start_date", TimeUtils.moscowTime())
             .update();
     }
@@ -157,7 +158,7 @@ public class WorldRaidDao implements WorldRaidStorage {
     @Transactional
     public void saveAsContinued(
         ActiveWorldRaid raid,
-        WorldRaidBattleInfo info,
+        WorldRaidLaunchedBattleInfo info,
         Money fund,
         ActiveWorldRaidState.Research research
     ) {
@@ -303,7 +304,7 @@ public class WorldRaidDao implements WorldRaidStorage {
             rs.getInt("id"),
             rs.getInt("event_id"),
             rs.getString("code"),
-            jsonUtils.fromString(rs.getString("info"), WorldRaidBattleInfo.class),
+            jsonUtils.fromString(rs.getString("info"), WorldRaidLaunchedBattleInfo.class),
             Money.from(rs.getInt("fund")),
             state,
             jsonUtils.fromString(rs.getString("locale"), JsonUtils.WORLD_RAID_LOCALE)
@@ -314,7 +315,7 @@ public class WorldRaidDao implements WorldRaidStorage {
         return new WorldRaidTemplate(
             rs.getInt("event_id"),
             rs.getString("code"),
-            jsonUtils.fromString(rs.getString("info"), WorldRaidBattleInfo.class),
+            jsonUtils.fromString(rs.getString("info"), WorldRaidTemplateBattleInfo.class),
             jsonUtils.fromString(rs.getString("locale"), JsonUtils.WORLD_RAID_LOCALE)
         );
     }

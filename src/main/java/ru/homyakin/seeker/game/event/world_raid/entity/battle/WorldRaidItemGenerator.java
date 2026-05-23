@@ -1,9 +1,11 @@
 package ru.homyakin.seeker.game.event.world_raid.entity.battle;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.LegacyItemService;
-import ru.homyakin.seeker.game.item.models.LegacyGenerateItemParams;
-import ru.homyakin.seeker.game.item.models.LegacyItem;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.errors.GenerateItemError;
+import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextWorldRaidItemParams;
@@ -13,12 +15,12 @@ import java.util.Optional;
 
 @Component
 public class WorldRaidItemGenerator {
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final PersonageService personageService;
     private final PersonageNextWorldRaidItemParams personageNextWorldRaidItemParams;
 
     public WorldRaidItemGenerator(
-        LegacyItemService itemService,
+        ItemService itemService,
         PersonageService personageService,
         PersonageNextWorldRaidItemParams personageNextWorldRaidItemParams
     ) {
@@ -27,7 +29,7 @@ public class WorldRaidItemGenerator {
         this.personageNextWorldRaidItemParams = personageNextWorldRaidItemParams;
     }
 
-    public Optional<LegacyItem> generate(Personage personage, boolean isWin) {
+    public Optional<RaidItem> generate(Personage personage, boolean isWin) {
         if (!isWin) {
             return Optional.empty();
         }
@@ -43,14 +45,16 @@ public class WorldRaidItemGenerator {
         final var params = personageNextWorldRaidItemParams.get();
         return itemService.generateItemForPersonage(
             personage,
-            new LegacyGenerateItemParams(
-                params.rarity(),
-                params.slot(),
-                params.modifiersCount()
+            new GenerateItemParams(
+                ItemRarity.valueOf(params.rarity().name()),
+                params.slot()
             )
         ).fold(
-            _ -> Optional.empty(),
-            Optional::of
+            error -> switch (error) {
+                case GenerateItemError.NotEnoughSpace notEnoughSpace ->
+                    Optional.of(new RaidItem.ItemDrop(notEnoughSpace.item()));
+            },
+            item -> Optional.of(new RaidItem.ItemDrop(item))
         );
     }
 

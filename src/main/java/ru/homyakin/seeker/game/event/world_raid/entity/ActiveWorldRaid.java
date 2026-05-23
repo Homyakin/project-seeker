@@ -10,7 +10,7 @@ public record ActiveWorldRaid(
     long id,
     int eventId,
     String code,
-    WorldRaidBattleInfo info,
+    WorldRaidLaunchedBattleInfo info,
     Money fund,
     ActiveWorldRaidState state,
     Map<Language, WorldRaidLocale> locales

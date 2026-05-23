@@ -5,7 +5,7 @@ import ru.homyakin.seeker.game.battle.v3.two_team.GroupBattleResult;
 import ru.homyakin.seeker.game.battle.v3.two_team.TeamResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventResult;
-import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.action.GroupBattleResultService;
 import ru.homyakin.seeker.game.models.Money;
@@ -40,7 +40,7 @@ public class WorldRaidBattleResultService {
         TeamResult result,
         boolean isWin,
         LaunchedEvent launchedEvent,
-        WorldRaidBattleInfo remainInfo
+        WorldRaidLaunchedBattleInfo remainInfo
     ) {
         final var personageTotalImpact = result.personageResults().stream()
             .mapToLong(it -> it.stats().damageDealtAndTaken())

@@ -22,12 +22,13 @@ public class WorldRaidScheduler {
         this.checkGroupsWorldRaidBattleNotificationsCommand = checkGroupsWorldRaidBattleNotificationsCommand;
     }
 
-    @Scheduled(initialDelay = 10 * 1000, fixedRate = 60 * 1000)
+    // TODO
+    @Scheduled(fixedRate = 1000)
     public void completeResearch() {
         completeWorldRaidResearchCommand.execute();
     }
 
-    @Scheduled(initialDelay = 10 * 1000, fixedRate = 60 * 1000)
+    @Scheduled(fixedRate = 10000)
     public void updateBattleInfo() {
         updateWorldRaidBattleInfoCommand.execute();
     }

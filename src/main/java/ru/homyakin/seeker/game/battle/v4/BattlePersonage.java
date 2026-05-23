@@ -3,7 +3,12 @@ package ru.homyakin.seeker.game.battle.v4;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.ItemAttack;
+import ru.homyakin.seeker.game.item.models.ItemDefense;
+import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -114,6 +119,14 @@ public class BattlePersonage {
     private long missesCount;
 
     public BattlePersonage(List<Item> items, Position startPosition) {
+        this(items, startPosition, Map.of());
+    }
+
+    public BattlePersonage(WorldRaidPersonage personage, Position startPosition) {
+        this(itemsFromWorldRaidPersonage(personage), startPosition, skillPointsFromWorldRaidPersonage(personage));
+    }
+
+    public BattlePersonage(List<Item> items, Position startPosition, Map<ActiveEnum, Integer> skillPointsByActive) {
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
         var activeSkills = new HashMap<ActiveEnum, Integer>();
@@ -134,6 +147,9 @@ public class BattlePersonage {
             if (item.modifier().isPresent() && item.rarity() != ItemRarity.COMMON) {
                 activeSkills.merge(item.modifier().get().activeEnum(), item.skillPoints(), Integer::sum);
             }
+        }
+        for (final var entry : skillPointsByActive.entrySet()) {
+            activeSkills.put(entry.getKey(), activeSkills.getOrDefault(entry.getKey(), 0) + entry.getValue());
         }
         this.critMultiplier = totalCritMultiplier;
         for (final var entry : activeSkills.entrySet()) {
@@ -192,6 +208,74 @@ public class BattlePersonage {
         this.baseMaxRange = maxRange;
         this.cumulativeSpeed = RandomUtils.getInInterval(0, REQUIRED_SPEED / 2);
         this.maxHealth = this.health;
+    }
+
+    private static List<Item> itemsFromWorldRaidPersonage(WorldRaidPersonage personage) {
+        final var items = new ArrayList<Item>();
+        items.add(new Item(
+            new ItemObject(
+                "world_raid_personage",
+                Set.of(PersonageSlot.MAIN_HAND),
+                java.util.Optional.empty(),
+                java.util.Optional.empty(),
+                personage.health(),
+                personage.critChance(),
+                personage.dodgeChance(),
+                personage.critMultiplier(),
+                personage.speed(),
+                personage.baseThreat(),
+                Map.of()
+            ),
+            java.util.Optional.empty(),
+            ItemRarity.COMMON
+        ));
+        for (final var attack : personage.attacksOrEmpty()) {
+            items.add(new Item(
+                new ItemObject(
+                    "world_raid_attack",
+                    Set.of(PersonageSlot.MAIN_HAND),
+                    java.util.Optional.of(new ItemAttack(attack.attackType(), attack.range(), attack.attack())),
+                    java.util.Optional.empty(),
+                    0,
+                    0,
+                    0,
+                    0.0,
+                    0,
+                    0,
+                    Map.of()
+                ),
+                java.util.Optional.empty(),
+                ItemRarity.COMMON
+            ));
+        }
+        for (final var defense : personage.defensesOrEmpty()) {
+            items.add(new Item(
+                new ItemObject(
+                    "world_raid_defense",
+                    Set.of(PersonageSlot.BODY),
+                    java.util.Optional.empty(),
+                    java.util.Optional.of(new ItemDefense(defense.defenseType(), defense.defense())),
+                    0,
+                    0,
+                    0,
+                    0.0,
+                    0,
+                    0,
+                    Map.of()
+                ),
+                java.util.Optional.empty(),
+                ItemRarity.COMMON
+            ));
+        }
+        return items;
+    }
+
+    private static Map<ActiveEnum, Integer> skillPointsFromWorldRaidPersonage(WorldRaidPersonage personage) {
+        final var points = new HashMap<ActiveEnum, Integer>();
+        for (final var skill : personage.skillsOrEmpty()) {
+            points.put(skill.activeEnum(), points.getOrDefault(skill.activeEnum(), 0) + skill.rank().requiredPoints());
+        }
+        return points;
     }
 
     @SuppressWarnings("unchecked")

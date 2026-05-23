@@ -13,6 +13,10 @@ public enum SkillRank {
         this.requiredPoints = requiredPoints;
     }
 
+    public int requiredPoints() {
+        return requiredPoints;
+    }
+
     public static SkillRank forPoints(int points) {
         SkillRank best = null;
         for (final var rank : values()) {

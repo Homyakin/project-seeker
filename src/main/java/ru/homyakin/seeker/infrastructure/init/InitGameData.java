@@ -204,7 +204,7 @@ public class InitGameData {
     public void loadWorldRaids() {
         logger.info("loading world raids");
         ResourceUtils.doAction(
-            worldRaidsPath(),
+            worldRaidsV4Path(),
             stream -> {
                 final var raids = extractClass(stream, WorldRaids.class);
                 LocalizationCoverage.addWorldRaidsInfo(raids);
@@ -227,8 +227,8 @@ public class InitGameData {
         return DATA_FOLDER + config.type().folder() + RAIDS;
     }
 
-    private String worldRaidsPath() {
-        return DATA_FOLDER + config.type().folder() + WORLD_RAIDS;
+    private String worldRaidsV4Path() {
+        return DATA_FOLDER + config.type().folder() + WORLD_RAIDS_V4;
     }
 
     private String personalQuestsPath() {
@@ -245,7 +245,7 @@ public class InitGameData {
 
     private static final String DATA_FOLDER = "game-data" + File.separator;
     private static final String RAIDS = File.separator + "raids.toml";
-    private static final String WORLD_RAIDS = File.separator + "world_raids.toml";
+    private static final String WORLD_RAIDS_V4 = File.separator + "world_raids_v4.toml";
     private static final String PERSONAL_QUESTS = DATA_FOLDER + "personal_quests.toml";
     private static final String MENU_ITEMS = File.separator + "menu_items.toml";
     private static final String RUMORS = File.separator + "rumors.toml";
