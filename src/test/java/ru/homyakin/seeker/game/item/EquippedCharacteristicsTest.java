@@ -47,10 +47,10 @@ class EquippedCharacteristicsTest {
     }
 
     private static Characteristics calculate(List<PersonageItem> equippedItems) {
-        var total = equippedItems.stream()
+        final var total = equippedItems.stream()
             .map(PersonageItem::toItem)
             .map(item -> item.visibleCharacteristics())
-            .reduce(Characteristics.ZERO, Characteristics::add);
+            .collect(Characteristics::empty, Characteristics::add, Characteristics::add);
         final var occupiedSlots = equippedItems.stream()
             .flatMap(item -> item.object().slots().stream())
             .collect(java.util.stream.Collectors.toSet());

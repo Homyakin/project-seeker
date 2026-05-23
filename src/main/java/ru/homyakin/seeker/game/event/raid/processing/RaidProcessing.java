@@ -178,9 +178,10 @@ public class RaidProcessing {
             .collect(Collectors.toSet());
         final var equippedItemsByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
         return participants.stream()
-            .map(participant -> new BattlePersonage(
+            .map(participant -> BattlePersonage.forCombat(
                 equippedItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
-                participant.personage().position()
+                participant.personage().position(),
+                participant.personage().effects()
             ))
             .toList();
     }

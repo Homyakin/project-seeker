@@ -115,10 +115,10 @@ public class ItemService {
     }
 
     private Characteristics calculateEquippedCharacteristics(List<PersonageItem> equippedItems) {
-        var total = equippedItems.stream()
+        final var total = equippedItems.stream()
             .map(PersonageItem::toItem)
             .map(Item::visibleCharacteristics)
-            .reduce(Characteristics.ZERO, Characteristics::add);
+            .collect(Characteristics::empty, Characteristics::add, Characteristics::add);
         final var occupiedSlots = equippedItems.stream()
             .flatMap(item -> item.object().slots().stream())
             .collect(Collectors.toSet());

@@ -5,93 +5,97 @@ import ru.homyakin.seeker.game.effect.EffectCharacteristic;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 
-public record Characteristics(
-    int health,
-    int attack,
-    int defense
-) implements Cloneable {
-    public Characteristics add(Characteristics other) {
-        return new Characteristics(
-            health + other.health,
-            attack + other.attack,
-            defense + other.defense
-        );
+import java.util.Objects;
+
+public final class Characteristics {
+    private int health;
+    private int attack;
+    private int defense;
+
+    public Characteristics(int health, int attack, int defense) {
+        this.health = health;
+        this.attack = attack;
+        this.defense = defense;
     }
 
-    public static Characteristics random() {
-        return new Characteristics(500, 50, 20);
+    public Characteristics(Characteristics other) {
+        this(other.health, other.attack, other.defense);
+    }
+
+    public int health() {
+        return health;
+    }
+
+    public int attack() {
+        return attack;
+    }
+
+    public int defense() {
+        return defense;
+    }
+
+    public Characteristics add(Characteristics other) {
+        health += other.health;
+        attack += other.attack;
+        defense += other.defense;
+        return this;
     }
 
     public Characteristics apply(PersonageEffects effects) {
-        return new EditableCharacteristics(this).apply(effects).toFinal();
+        final var result = new Characteristics(this);
+        result.applyEffects(effects);
+        return result;
+    }
+
+    private void applyEffects(PersonageEffects effects) {
+        effects.effects().values().stream().map(PersonageEffect::effect).forEach(this::applyEffect);
+    }
+
+    private void applyEffect(Effect effect) {
+        switch (effect) {
+            case Effect.Add add -> {
+                switch (add.characteristic()) {
+                    case HEALTH -> health = health + add.value();
+                    case ATTACK -> attack = attack + add.value();
+                }
+            }
+            case Effect.Multiplier multiplier -> {
+                final var value = 1 + multiplier.percent() / 100.0;
+                multiplyCharacteristic(value, multiplier.characteristic());
+            }
+            case Effect.MinusMultiplier multiplier -> {
+                final var value = 1 - multiplier.percent() / 100.0;
+                multiplyCharacteristic(value, multiplier.characteristic());
+            }
+            case Effect.RaidGoldRewardPercent _, Effect.ItemFoundChancePercent _ -> {
+                // Group / meta effects: not applied to characteristics.
+            }
+        }
+    }
+
+    private void multiplyCharacteristic(double value, EffectCharacteristic characteristic) {
+        switch (characteristic) {
+            case HEALTH -> health = (int) (health * value);
+            case ATTACK -> attack = (int) (attack * value);
+        }
+    }
+
+    public static Characteristics empty() {
+        return new Characteristics(0, 0, 0);
     }
 
     @Override
-    public Characteristics clone() {
-        try {
-            return (Characteristics) super.clone();
-        } catch (CloneNotSupportedException e) {
-            //Не может быть в record
-            throw new RuntimeException(e);
+    public boolean equals(Object obj) {
+        if (obj instanceof Characteristics other) {
+            return health == other.health
+                && attack == other.attack
+                && defense == other.defense;
         }
+        return false;
     }
 
-    private static class EditableCharacteristics {
-        private int health;
-        private int attack;
-        private int defense;
-
-        public EditableCharacteristics(Characteristics characteristics) {
-            health = characteristics.health();
-            attack = characteristics.attack();
-            defense = characteristics.defense();
-        }
-
-        public EditableCharacteristics apply(PersonageEffects effects) {
-            effects.effects().values().stream().map(PersonageEffect::effect).forEach(this::apply);
-            return this;
-        }
-
-        private void apply(Effect effect) {
-            switch (effect) {
-                case Effect.Add add -> {
-                    switch (add.characteristic()) {
-                        case HEALTH -> health = health + add.value();
-                        case ATTACK -> attack = attack + add.value();
-                    }
-                }
-                case Effect.Multiplier multiplier -> {
-                    final var value = 1 + multiplier.percent() / 100.0;
-                    multiplyCharacteristic(value, multiplier.characteristic());
-                }
-                case Effect.MinusMultiplier multiplier -> {
-                    final var value = 1 - multiplier.percent() / 100.0;
-                    multiplyCharacteristic(value, multiplier.characteristic());
-                }
-                case Effect.RaidGoldRewardPercent _ -> {
-                    // Group / meta effects: not applied to characteristics.
-                }
-                case Effect.ItemFoundChancePercent _ -> {
-                    // Group / meta effects: not applied to characteristics.
-                }
-            }
-        }
-
-        private void multiplyCharacteristic(double value, EffectCharacteristic characteristic) {
-            switch (characteristic) {
-                case HEALTH -> health = (int) (health * value);
-                case ATTACK -> attack = (int) (attack * value);
-            }
-        }
-
-        public Characteristics toFinal() {
-            return new Characteristics(
-                health,
-                attack,
-                defense
-            );
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(health, attack, defense);
     }
-
-    public static final Characteristics ZERO = new Characteristics(0, 0, 0);
 }
