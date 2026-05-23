@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
@@ -299,6 +300,12 @@ public class PersonageService {
 
     public boolean toggleIsHidden(PersonageId personageId) {
         return personageDao.toggleIsHidden(personageId);
+    }
+
+    public Personage setBattlePosition(PersonageId personageId, Position position) {
+        final var personage = getByIdForce(personageId);
+        personageDao.setBattlePosition(personageId, position);
+        return personage.withPosition(position);
     }
 
     public long getActivePersonagesCount(LocalDateTime start) {

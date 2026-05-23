@@ -16,4 +16,5 @@
     <include file="changes/2026-05-17_03_drop-personage-characteristics.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-23_01_drop-old-world-raid-data.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-23_02_raid-result-item-fk-to-new-item.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-23_03_add-battle-position-to-personage.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

@@ -3,7 +3,6 @@ package ru.homyakin.seeker.game.event.world_raid.entity;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
-import ru.homyakin.seeker.game.battle.v4.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class WorldRaidBattleGenerator {
 
     public List<BattlePersonage> generate(WorldRaidLaunchedBattleInfo info) {
         return info.personagesOrEmpty().stream()
-            .map(personage -> new BattlePersonage(personage, Position.FRONT))
+            .map(personage -> new BattlePersonage(personage, personage.position()))
             .toList();
     }
 

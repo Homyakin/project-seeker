@@ -60,7 +60,8 @@ public class BattlePersonagePowerTest {
                         PersonageEffectType.MENU_ITEM_EFFECT,
                         new PersonageEffect(new Effect.Add(100, EffectCharacteristic.ATTACK), null)
                     )
-                )
+                ),
+                null
             )
         );
 

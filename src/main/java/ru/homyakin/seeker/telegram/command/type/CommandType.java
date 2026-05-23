@@ -32,6 +32,8 @@ public enum CommandType {
     CONSUME_MENU_ITEM_ORDER("consume", CheckType.EQUALS),
     PERSONAGE_STATS("/stats_me", CheckType.EQUALS),
     BATTLE_STATS("/battle_stats", CheckType.EQUALS),
+    CHANGE_BATTLE_POSITION("/battle_position", CheckType.EQUALS),
+    SELECT_BATTLE_POSITION("selectBattlePosition", CheckType.EQUALS),
     RAID_REPORT("/report_raid", CheckType.EQUALS),
     SHOW_BADGES(null, CheckType.MAP),
     SELECT_BADGE("selectBadge", CheckType.EQUALS),
