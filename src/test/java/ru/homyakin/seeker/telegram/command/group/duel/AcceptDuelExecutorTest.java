@@ -12,7 +12,7 @@ import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
+import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -200,7 +200,7 @@ public class AcceptDuelExecutorTest {
     private static DuelPersonageResult duelPersonageResult(Personage personage) {
         return new DuelPersonageResult(
             personage,
-            new BattlePersonageStats(100, 50, 10, 1, 5, 0, 0, 0, 0, 0, 0)
+            new BattlePersonageStats(100, 50, 0, 0, 10, 1, 5, 0, 0, 0, 0, 0, 0)
         );
     }
 }

@@ -2,14 +2,13 @@ package ru.homyakin.seeker.game.event.world_raid.action;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.battle.v3.two_team.GroupBattleResult;
-import ru.homyakin.seeker.game.battle.v3.two_team.GroupBattleStats;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleResult;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleStats;
-import ru.homyakin.seeker.game.battle.v3.two_team.TeamResult;
-import ru.homyakin.seeker.game.battle.v4.Battle;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
+import ru.homyakin.seeker.game.battle.result.GroupBattleResult;
+import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.result.TeamResult;
+import ru.homyakin.seeker.game.battle.BattlePersonageStats;
+import ru.homyakin.seeker.game.battle.GroupBattleStats;
+import ru.homyakin.seeker.game.battle.Battle;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
@@ -24,7 +23,6 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -151,33 +149,16 @@ public class ProcessWorldRaidBattleCommand {
         for (int i = 0; i < participants.size(); i++) {
             final var participant = participants.get(i);
             final var stats = personageStats.get(personageTeam.get(i).id());
-            final var mappedStats = toPersonageBattleStats(stats);
-            personageResults.add(new PersonageBattleResult(participant.personage(), mappedStats));
+            personageResults.add(new PersonageBattleResult(participant.personage(), stats));
             participant.personage().tag().ifPresent(tag -> groupAccumulators
                 .computeIfAbsent(tag, _ -> new GroupStatsAccumulator())
-                .add(mappedStats)
+                .add(stats)
             );
         }
         final var groupResults = groupAccumulators.entrySet().stream()
             .map(it -> new GroupBattleResult(it.getKey(), it.getValue().toStats()))
             .toList();
         return new TeamResult(groupResults, personageResults);
-    }
-
-    private PersonageBattleStats toPersonageBattleStats(BattlePersonageStats stats) {
-        return new PersonageBattleStats(
-            stats.remainHealth(),
-            stats.normalDamageDealt(),
-            stats.normalAttackCount(),
-            stats.critDamageDealt(),
-            stats.critsCount(),
-            stats.damageBlocked(),
-            stats.blockCount(),
-            stats.damageDodged(),
-            stats.dodgesCount(),
-            stats.missesCount(),
-            new Characteristics(stats.initialHealth(), 0, 0)
-        );
     }
 
     private static class GroupStatsAccumulator {
@@ -195,9 +176,9 @@ public class ProcessWorldRaidBattleCommand {
         private int totalPersonages = 0;
         private int remainPersonages = 0;
 
-        private void add(PersonageBattleStats stats) {
+        private void add(BattlePersonageStats stats) {
             remainHealth += stats.remainHealth();
-            totalHealth += stats.characteristics().health();
+            totalHealth += stats.initialHealth();
             normalDamageDealt += stats.normalDamageDealt();
             normalAttackCount += stats.normalAttackCount();
             critDamageDealt += stats.critDamageDealt();

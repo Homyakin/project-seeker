@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
-import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
-import ru.homyakin.seeker.game.battle.v4.Position;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
@@ -68,22 +68,32 @@ public class PersonageService {
         return itemService.getEquippedCharacteristicsByPersonageIds(personageIds);
     }
 
-    public BattlePersonage toBattlePersonage(Personage personage) {
-        return personage.toBattlePersonage(getEquippedCharacteristics(personage.id()));
-    }
-
-    public List<BattlePersonage> toBattlePersonages(List<Personage> personages) {
+    public Map<PersonageId, BattlePersonage> toBattlePersonagesById(List<Personage> personages) {
         if (personages.isEmpty()) {
-            return List.of();
+            return Map.of();
         }
-        final var characteristicsByPersonageId = getEquippedCharacteristicsByPersonageIds(
+        final var equippedItemsByPersonageId = itemService.getEquippedItemsByPersonageIds(
             personages.stream().map(Personage::id).collect(Collectors.toSet())
         );
         return personages.stream()
-            .map(personage -> personage.toBattlePersonage(
-                characteristicsByPersonageId.getOrDefault(personage.id(), Characteristics.ZERO)
-            ))
+            .collect(Collectors.toMap(
+                Personage::id,
+                personage -> new BattlePersonage(
+                    equippedItemsByPersonageId.getOrDefault(personage.id(), List.of()),
+                    personage.position()
+                )
+            ));
+    }
+
+    public List<BattlePersonage> toBattlePersonages(List<Personage> personages) {
+        final var battlePersonagesById = toBattlePersonagesById(personages);
+        return personages.stream()
+            .map(personage -> battlePersonagesById.get(personage.id()))
             .toList();
+    }
+
+    public int calculatePower(Personage personage) {
+        return (int) toBattlePersonagesById(List.of(personage)).get(personage.id()).power();
     }
 
     public String shortProfile(Language language, Personage personage) {
@@ -101,7 +111,8 @@ public class PersonageService {
             personage,
             currentEvents,
             groupPassiveEffects,
-            getEquippedCharacteristics(personage.id())
+            getEquippedCharacteristics(personage.id()),
+            calculatePower(personage)
         );
     }
 

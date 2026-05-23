@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.event.raid.generator;
 
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 
 import java.util.List;
 

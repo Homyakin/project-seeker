@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.game.event.world_raid.entity;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 
 import java.util.ArrayList;
 import java.util.List;

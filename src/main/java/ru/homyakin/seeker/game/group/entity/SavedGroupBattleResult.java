@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.group.entity;
 
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.battle.v3.two_team.GroupBattleStats;
+import ru.homyakin.seeker.game.battle.GroupBattleStats;
 
 public record SavedGroupBattleResult(
     GroupId groupId,

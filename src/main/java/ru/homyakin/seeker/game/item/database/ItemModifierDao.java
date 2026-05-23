@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;

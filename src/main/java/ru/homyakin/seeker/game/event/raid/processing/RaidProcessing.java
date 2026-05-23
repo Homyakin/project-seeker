@@ -9,11 +9,10 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleResult;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleStats;
-import ru.homyakin.seeker.game.battle.v4.Battle;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
+import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
+import ru.homyakin.seeker.game.battle.Battle;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidService;
@@ -32,7 +31,6 @@ import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.RaidParticipant;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
@@ -191,22 +189,7 @@ public class RaidProcessing {
         Personage personage,
         BattlePersonageStats stats
     ) {
-        return new PersonageBattleResult(
-            personage,
-            new PersonageBattleStats(
-                stats.remainHealth(),
-                stats.normalDamageDealt(),
-                stats.normalAttackCount(),
-                stats.critDamageDealt(),
-                stats.critsCount(),
-                stats.damageBlocked(),
-                stats.blockCount(),
-                stats.damageDodged(),
-                stats.dodgesCount(),
-                stats.missesCount(),
-                new Characteristics(stats.initialHealth(), 0, 0)
-            )
-        );
+        return new PersonageBattleResult(personage, stats);
     }
 
     private int calculateRaidPoints(int raidLevel, boolean isWin) {

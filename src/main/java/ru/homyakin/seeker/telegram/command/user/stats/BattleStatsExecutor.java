@@ -3,7 +3,7 @@ package ru.homyakin.seeker.telegram.command.user.stats;
 import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;

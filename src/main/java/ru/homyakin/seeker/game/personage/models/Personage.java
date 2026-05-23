@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
-import ru.homyakin.seeker.game.battle.v4.Position;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.errors.LegacyPutOnItemError;
@@ -126,14 +125,6 @@ public record Personage(
             return this.id.equals(other.id);
         }
         return false;
-    }
-
-    public BattlePersonage toBattlePersonage(Characteristics equippedCharacteristics) {
-        return new BattlePersonage(
-            id.value(),
-            equippedCharacteristics,
-            this
-        );
     }
 
     public Either<LegacyPutOnItemError, Success> canPutOnItem(List<LegacyItem> personageItems, LegacyItem item) {

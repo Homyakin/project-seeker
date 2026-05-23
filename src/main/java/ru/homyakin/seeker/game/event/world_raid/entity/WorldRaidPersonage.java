@@ -1,9 +1,9 @@
 package ru.homyakin.seeker.game.event.world_raid.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import ru.homyakin.seeker.game.battle.v4.Position;
-import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
-import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.skill.SkillRank;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 
