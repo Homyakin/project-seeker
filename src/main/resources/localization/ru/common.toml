@@ -25,6 +25,8 @@ ${energy_icon}Энергия: ${energy_value}% ${time_icon}${remain_duration_for
 ${health_icon}Здоровье: ${health_value}
 ${power_icon}Мощь: ${power_value}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
+
+⚔️Боевые характеристики: ${battle_stats_command}
 ${current_event}${personage_effects}${group_effects}"""
 
 shortProfile = """\

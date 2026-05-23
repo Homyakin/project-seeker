@@ -47,6 +47,8 @@ import ru.homyakin.seeker.locale.worker.WorkerOfDayLocalization;
 import ru.homyakin.seeker.locale.worker.WorkerOfDayResource;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidResource;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
+import ru.homyakin.seeker.locale.battle.BattleResource;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.type.FeedbackCommandType;
@@ -72,6 +74,7 @@ public class LocalizationInitializer {
     private static final String VALENTINE_PATH = File.separator + "valentine.toml";
     private static final String CONTRABAND_PATH = File.separator + "contraband.toml";
     private static final String OUTPOST_PATH = File.separator + "outpost.toml";
+    private static final String BATTLE_PATH = File.separator + "battle.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
     public static void initLocale() {
@@ -176,6 +179,11 @@ public class LocalizationInitializer {
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + OUTPOST_PATH,
                 it -> OutpostLocalization.add(language, extractClass(mapper, it, OutpostResource.class))
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + BATTLE_PATH,
+                it -> BattleLocalization.add(language, extractClass(mapper, it, BattleResource.class))
             );
         }
         logger.info("Localization loaded");
