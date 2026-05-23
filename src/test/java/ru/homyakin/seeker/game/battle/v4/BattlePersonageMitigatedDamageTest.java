@@ -114,4 +114,33 @@ class BattlePersonageMitigatedDamageTest {
             assertEquals(healthBefore - expectedDamageTaken, defender.health());
         }
     }
+
+    @Test
+    void givenOverkillDamage_whenReceiveDamage_thenHealthDoesNotGoBelowZero() {
+        try (final var random = Mockito.mockStatic(RandomUtils.class)) {
+            random.when(() -> RandomUtils.getInPercentRange(Mockito.anyInt(), Mockito.anyDouble()))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
+            final var attackerItems = List.of(
+                Item.weapon(AttackType.SLASH, 1, 500, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
+            );
+            final var defenderItems = List.of(
+                Item.armor(DefenseType.PLATE, 10, 100, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
+            );
+
+            final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
+            final var defender = new BattlePersonage(defenderItems, Position.FRONT);
+            final var context = new BattleContext(List.of(attacker), List.of(defender));
+
+            defender.receiveDamageFrom(
+                attacker,
+                new DamageRoll(Map.of(AttackType.SLASH, 500), false),
+                new BattleActionLog(),
+                1,
+                context
+            );
+
+            assertEquals(0, defender.health());
+        }
+    }
 }

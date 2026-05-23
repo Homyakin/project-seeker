@@ -3,16 +3,20 @@ package ru.homyakin.seeker.game.duel;
 import io.vavr.control.Either;
 import java.time.Duration;
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
-import ru.homyakin.seeker.game.battle.v3.two_team.PersonageBattleResult;
-import ru.homyakin.seeker.game.battle.v3.two_team.TwoPersonageTeamsBattle;
+import ru.homyakin.seeker.game.battle.v4.Battle;
+import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.CreateDuelResult;
 import ru.homyakin.seeker.game.duel.models.Duel;
+import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -26,20 +30,21 @@ public class DuelService {
     private final DuelDao duelDao;
     private final Duration duelLifeTime;
     private final PersonageService personageService;
-    private final TwoPersonageTeamsBattle twoPersonageTeamsBattle;
+    private final ItemService itemService;
     private final LockService lockService;
+    private final Battle battle = new Battle();
 
     public DuelService(
         DuelDao duelDao,
         DuelConfig duelConfig,
         PersonageService personageService,
-        TwoPersonageTeamsBattle twoPersonageTeamsBattle,
+        ItemService itemService,
         LockService lockService
     ) {
         this.duelDao = duelDao;
         this.duelLifeTime = duelConfig.lifeTime();
         this.personageService = personageService;
-        this.twoPersonageTeamsBattle = twoPersonageTeamsBattle;
+        this.itemService = itemService;
         this.lockService = lockService;
     }
 
@@ -126,24 +131,42 @@ public class DuelService {
         duelDao.updateStatus(duel.id(), DuelStatus.FINISHED);
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
-        final var battlePersonages = personageService.toBattlePersonages(List.of(personage1, personage2));
-        final var battleResult = twoPersonageTeamsBattle.battle(
-            List.of(battlePersonages.getFirst()),
-            List.of(battlePersonages.get(1))
+        final var equippedItems = itemService.getEquippedItemsByPersonageIds(
+            Set.of(personage1.id(), personage2.id())
+        );
+        final var firstBattlePersonage = new BattlePersonage(
+            equippedItems.getOrDefault(personage1.id(), List.of()),
+            Position.FRONT
+        );
+        final var secondBattlePersonage = new BattlePersonage(
+            equippedItems.getOrDefault(personage2.id(), List.of()),
+            Position.FRONT
+        );
+        final var battleResult = battle.process(
+            List.of(firstBattlePersonage),
+            List.of(secondBattlePersonage)
         );
 
-        final PersonageBattleResult winner;
-        final PersonageBattleResult loser;
-        switch (battleResult.winner()) {
-            case FIRST_TEAM -> {
-                winner = battleResult.firstTeamResults().personageResults().getFirst();
-                loser = battleResult.secondTeamResults().personageResults().getFirst();
-            }
-            case SECOND_TEAM -> {
-                winner = battleResult.secondTeamResults().personageResults().getFirst();
-                loser = battleResult.firstTeamResults().personageResults().getFirst();
-            }
-            default -> throw new IllegalStateException("Unexpected status");
+        final DuelPersonageResult winner;
+        final DuelPersonageResult loser;
+        if (battleResult.firstWin()) {
+            winner = new DuelPersonageResult(
+                personage1,
+                battleResult.personageStats().get(firstBattlePersonage.id())
+            );
+            loser = new DuelPersonageResult(
+                personage2,
+                battleResult.personageStats().get(secondBattlePersonage.id())
+            );
+        } else {
+            winner = new DuelPersonageResult(
+                personage2,
+                battleResult.personageStats().get(secondBattlePersonage.id())
+            );
+            loser = new DuelPersonageResult(
+                personage1,
+                battleResult.personageStats().get(firstBattlePersonage.id())
+            );
         }
         duelDao.addWinnerIdToDuel(duel.id(), winner.personage().id());
         return Either.right(new DuelResult(winner, loser));

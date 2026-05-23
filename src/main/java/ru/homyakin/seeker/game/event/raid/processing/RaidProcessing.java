@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -97,7 +95,6 @@ public class RaidProcessing {
         final var groupPassiveEffectsCache = new HashMap<GroupId, List<GroupPassiveEffect>>();
         final var personages = toBattlePersonages(participants);
         final var enemies = raidGenerator.generate(RaidType.WOLFPACK, raidEvent, personages);
-        final var initialHealth = initialHealth(enemies, personages);
         final var result = battle.process(enemies, personages);
         boolean doesParticipantsWin = !result.firstWin();
 
@@ -109,8 +106,7 @@ public class RaidProcessing {
             final var battlePersonage = personages.get(i);
             final var battleResult = toBattleResult(
                 participant.personage(),
-                result.personageStats().get(battlePersonage.id()),
-                initialHealth.get(battlePersonage.id())
+                result.personageStats().get(battlePersonage.id())
             );
             final var personage = participant.personage();
             final int personageRaidGoldPercent = RaidGoldRewardBonus.sumPersonageEffects(personage.effects(), now);
@@ -157,8 +153,7 @@ public class RaidProcessing {
         final var raidNpcResults = enemies.stream()
             .map(enemy -> toBattleResult(
                 null,
-                result.personageStats().get(enemy.id()),
-                initialHealth.get(enemy.id())
+                result.personageStats().get(enemy.id())
             ))
             .toList();
 
@@ -194,17 +189,9 @@ public class RaidProcessing {
             .toList();
     }
 
-    private Map<UUID, Integer> initialHealth(List<BattlePersonage> enemies, List<BattlePersonage> personages) {
-        final var initialHealth = new HashMap<UUID, Integer>();
-        enemies.forEach(personage -> initialHealth.put(personage.id(), personage.health()));
-        personages.forEach(personage -> initialHealth.put(personage.id(), personage.health()));
-        return initialHealth;
-    }
-
     private PersonageBattleResult toBattleResult(
         Personage personage,
-        BattlePersonageStats stats,
-        int maxHealth
+        BattlePersonageStats stats
     ) {
         return new PersonageBattleResult(
             personage,
@@ -219,7 +206,7 @@ public class RaidProcessing {
                 stats.damageDodged(),
                 stats.dodgesCount(),
                 stats.missesCount(),
-                new Characteristics(maxHealth, 0, 0)
+                new Characteristics(stats.initialHealth(), 0, 0)
             )
         );
     }
