@@ -1,18 +1,21 @@
 package ru.homyakin.seeker.game.item.models;
 
 import java.util.Optional;
+import net.fellbaum.jemoji.EmojiManager;
 
 public enum ItemRarity {
-    COMMON(0),
-    UNCOMMON(1),
-    RARE(2),
-    EPIC(3),
-    LEGENDARY(4);
+    COMMON(0, EmojiManager.getByAlias(":white_circle:").orElseThrow().getFirst().getEmoji()),
+    UNCOMMON(1, EmojiManager.getByAlias(":green_circle:").orElseThrow().getFirst().getEmoji()),
+    RARE(2, EmojiManager.getByAlias(":blue_circle:").orElseThrow().getFirst().getEmoji()),
+    EPIC(3, EmojiManager.getByAlias(":purple_circle:").orElseThrow().getFirst().getEmoji()),
+    LEGENDARY(4, EmojiManager.getByAlias(":orange_circle:").orElseThrow().getFirst().getEmoji());
 
     private final int skillPoints;
+    private final String icon;
 
-    ItemRarity(int skillPoints) {
+    ItemRarity(int skillPoints, String icon) {
         this.skillPoints = skillPoints;
+        this.icon = icon;
     }
 
     public int skillPoints() {
@@ -20,7 +23,7 @@ public enum ItemRarity {
     }
 
     public String icon() {
-        return LegacyItemRarity.valueOf(name()).icon;
+        return icon;
     }
 
     public Optional<ItemRarity> next() {

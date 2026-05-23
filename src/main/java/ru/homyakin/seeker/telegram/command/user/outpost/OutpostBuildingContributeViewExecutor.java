@@ -3,7 +3,7 @@ package ru.homyakin.seeker.telegram.command.user.outpost;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.outpost.action.OutpostService;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlotAccessError;
@@ -23,14 +23,14 @@ import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 public class OutpostBuildingContributeViewExecutor extends CommandExecutor<OutpostBuildingContributeView> {
     private final UserService userService;
     private final OutpostService outpostService;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final ShopConfig shopConfig;
     private final TelegramSender telegramSender;
 
     public OutpostBuildingContributeViewExecutor(
         UserService userService,
         OutpostService outpostService,
-        LegacyItemService itemService,
+        ItemService itemService,
         ShopConfig shopConfig,
         TelegramSender telegramSender
     ) {

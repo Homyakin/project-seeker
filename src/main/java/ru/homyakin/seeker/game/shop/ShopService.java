@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -64,7 +63,7 @@ public class ShopService {
         final var params = personageNextShopItemParams.getForShopItemType(personageId, type);
         final var result = itemService.generateItemForPersonage(
             personageWithTakenMoney,
-            new GenerateItemParams(ItemRarity.valueOf(params.rarity().name()), params.slot())
+            new GenerateItemParams(params.rarity(), params.slot())
         );
         return result.mapLeft(
             _ -> {

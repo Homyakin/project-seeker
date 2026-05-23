@@ -13,8 +13,6 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.WorldRaids;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacyItemModifiers;
-import ru.homyakin.seeker.infrastructure.init.saving_models.item.LegacyItemObjects;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -76,14 +74,6 @@ public class LocalizationCoverage {
 
     public static void addBadgesInfo(Badges badges) {
         addLocalizedInfo(badges.badge(), TranslateType.BADGES);
-    }
-
-    public static void addLegacyItemObjectsInfo(LegacyItemObjects itemObjects) {
-        addLocalizedInfo(itemObjects.object(), TranslateType.LEGACY_ITEM_OBJECTS);
-    }
-
-    public static void addLegacyItemModifiersInfo(LegacyItemModifiers itemModifiers) {
-        addLocalizedInfo(itemModifiers.modifier(), TranslateType.LEGACY_ITEM_MODIFIERS);
     }
 
     public static void addCatalogItemObjectsInfo(ItemObjectsToml itemObjects) {
@@ -153,8 +143,6 @@ public class LocalizationCoverage {
         RUMORS,
         MENU_ITEMS,
         BADGES,
-        LEGACY_ITEM_OBJECTS,
-        LEGACY_ITEM_MODIFIERS,
         ITEM_OBJECTS,
         ITEM_MODIFIERS,
         WORLD_RAIDS,

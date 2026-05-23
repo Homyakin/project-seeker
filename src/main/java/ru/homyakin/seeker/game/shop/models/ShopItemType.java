@@ -1,16 +1,16 @@
 package ru.homyakin.seeker.game.shop.models;
 
-import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.infrastructure.Icons;
 
 import java.util.Optional;
 
 public enum ShopItemType {
-    COMMON(0, "common", LegacyItemRarity.COMMON.icon),
-    UNCOMMON(1, "uncommon", LegacyItemRarity.UNCOMMON.icon),
-    RARE(2, "rare", LegacyItemRarity.RARE.icon),
-    EPIC(3, "epic", LegacyItemRarity.EPIC.icon),
-    LEGENDARY(4, "legendary", LegacyItemRarity.LEGENDARY.icon),
+    COMMON(0, "common", ItemRarity.COMMON.icon()),
+    UNCOMMON(1, "uncommon", ItemRarity.UNCOMMON.icon()),
+    RARE(2, "rare", ItemRarity.RARE.icon()),
+    EPIC(3, "epic", ItemRarity.EPIC.icon()),
+    LEGENDARY(4, "legendary", ItemRarity.LEGENDARY.icon()),
     RANDOM(5, "random", Icons.RANDOM),
     ;
 

@@ -23,9 +23,8 @@ import ru.homyakin.seeker.game.contraband.entity.FinderContrabandError;
 import ru.homyakin.seeker.game.contraband.entity.ReceiverContrabandError;
 import ru.homyakin.seeker.game.effect.Effect;
 import ru.homyakin.seeker.game.effect.EffectCharacteristic;
-import ru.homyakin.seeker.game.item.LegacyItemService;
-import ru.homyakin.seeker.game.item.models.LegacyGenerateItemParams;
-import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -43,7 +42,7 @@ public class ContrabandService {
     private final ContrabandStorage contrabandStorage;
     private final ContrabandConfig config;
     private final PersonageService personageService;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final FindReceiver findReceiver;
     private final LockService lockService;
 
@@ -51,7 +50,7 @@ public class ContrabandService {
         ContrabandStorage contrabandStorage,
         ContrabandConfig config,
         PersonageService personageService,
-        LegacyItemService itemService,
+        ItemService itemService,
         FindReceiver findReceiver,
         LockService lockService
     ) {
@@ -240,12 +239,12 @@ public class ContrabandService {
                 personageService.addEnergy(personageId, amount);
                 yield new ContrabandOpenResult.Success.Energy(amount);
             }
-            case ContrabandReward.LegacyItem item -> {
+            case ContrabandReward.Item item -> {
                 final var rarity = item.rarityPicker().pick(RandomUtils::getWithMax);
                 final var randomSlot = RandomUtils.getRandomElement(PersonageSlot.values());
                 final var generatedItem = itemService.generateItemForPersonage(
                     personageService.getByIdForce(personageId),
-                    new LegacyGenerateItemParams(rarity, randomSlot, rarityModifierCount(rarity))
+                    new GenerateItemParams(rarity, randomSlot)
                 );
                 yield generatedItem.fold(
                     _ -> new ContrabandOpenResult.Success.Gold(new Money(0)),
@@ -313,13 +312,5 @@ public class ContrabandService {
         );
         personageService.addEffect(personageId, PersonageEffectType.CONTRABAND_DEBUFF, effect);
         return effect;
-    }
-
-    private int rarityModifierCount(LegacyItemRarity rarity) {
-        return switch (rarity) {
-            case COMMON, UNCOMMON -> 0;
-            case RARE -> 1;
-            case EPIC, LEGENDARY -> 2;
-        };
     }
 }

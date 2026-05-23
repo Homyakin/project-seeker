@@ -177,8 +177,6 @@ public class WorldRaidLocalization {
             }
             switch (personageResult.generatedItem().get()) {
                 case RaidItem.ItemDrop i -> rarityCountMap.merge(i.item().rarity(), 1, Integer::sum);
-                case RaidItem.LegacyItemDrop i ->
-                    rarityCountMap.merge(ItemRarity.valueOf(i.item().rarity().name()), 1, Integer::sum);
                 case RaidItem.ContrabandDrop _ -> { }
             }
         }

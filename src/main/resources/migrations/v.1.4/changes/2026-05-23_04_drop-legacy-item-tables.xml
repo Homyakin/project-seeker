@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="drop-legacy-item-tables">
+        <dropTable tableName="legacy_item_to_item_modifier"/>
+        <dropTable tableName="legacy_item"/>
+        <dropTable tableName="legacy_item_object_to_personage_slot"/>
+        <dropTable tableName="legacy_item_object_to_item_rarity"/>
+        <dropTable tableName="legacy_item_modifier_to_item_rarity"/>
+        <dropTable tableName="legacy_item_object"/>
+        <dropTable tableName="legacy_item_modifier"/>
+        <dropTable tableName="legacy_item_rarity"/>
+        <dropTable tableName="legacy_item_modifier_type"/>
+        <dropTable tableName="legacy_personage_slot"/>
+    </changeSet>
+</databaseChangeLog>

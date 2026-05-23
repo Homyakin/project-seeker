@@ -12,7 +12,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
-import ru.homyakin.seeker.game.item.LegacyItemService;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.outpost.OutpostBuildingConfig;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostApplyError;
@@ -43,7 +43,7 @@ public class OutpostService {
     private final GroupPersonageStorage groupPersonageStorage;
     private final CheckGroupPersonage checkGroupPersonage;
     private final LockService lockService;
-    private final LegacyItemService itemService;
+    private final ItemService itemService;
     private final ShopConfig shopConfig;
     private final OutpostBuildingConfig outpostBuildingConfig;
     private final GroupTaxService groupTaxService;
@@ -58,7 +58,7 @@ public class OutpostService {
         GroupPersonageStorage groupPersonageStorage,
         CheckGroupPersonage checkGroupPersonage,
         LockService lockService,
-        LegacyItemService itemService,
+        ItemService itemService,
         ShopConfig shopConfig,
         OutpostBuildingConfig outpostBuildingConfig,
         GroupTaxService groupTaxService,
