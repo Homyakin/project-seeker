@@ -129,6 +129,7 @@ public class CommonLocalization {
         }
         params.put("personage_effects", personageProfileEffectsSection(language, personage.effects()));
         params.put("group_effects", groupProfileEffectsSection(language, groupPassiveEffects));
+        params.put("battle_stats_command", CommandType.BATTLE_STATS.getText());
         if (currentEvents.events().isEmpty()) {
             params.put("current_event", "");
         } else {

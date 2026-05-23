@@ -113,6 +113,7 @@ import ru.homyakin.seeker.telegram.command.user.shop.OpenEnhanceTable;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenShop;
 import ru.homyakin.seeker.telegram.command.user.shop.Repair;
 import ru.homyakin.seeker.telegram.command.user.shop.SellItem;
+import ru.homyakin.seeker.telegram.command.user.stats.BattleStats;
 import ru.homyakin.seeker.telegram.command.user.stats.PersonageStatsGlobal;
 import ru.homyakin.seeker.telegram.command.user.world_raid.UserWorldRaidReport;
 import ru.homyakin.seeker.telegram.user.models.UserId;
@@ -207,6 +208,7 @@ public class CommandParser {
                 case TOGGLE_HIDE_PERSONAGE -> ToggleHidePersonage.from(message);
                 case INIT_FEEDBACK -> InitFeedback.from(message);
                 case PERSONAGE_STATS -> PersonageStatsGlobal.from(message);
+                case BATTLE_STATS -> BattleStats.from(message);
                 case SETTINGS -> GetPersonageSettings.from(message);
                 case SHOW_WORLD_RAID_INFO -> ShowWorldRaidInfo.from(message);
                 case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);

@@ -30,6 +30,10 @@ public class Resources<T> {
         return RandomUtils.getRandomElement(getOrDefaultTemplate(language, function));
     }
 
+    public T resolve(Language language) {
+        return getOrDefaultTemplate(language, it -> it);
+    }
+
     /**
      * @param language Запрашиваемый язык. Если в resources нет нужного языка, возвращает <code>Language.DEFAULT</code>
      * @param function Функция, которая возвращает нужный какое-то значение из ресурса. Считается, что в resources всегда

@@ -605,6 +605,35 @@ public class BattlePersonage {
         return health;
     }
 
+    public int maxHealth() {
+        return maxHealth;
+    }
+
+    public int critChance() {
+        return critChance;
+    }
+
+    public int dodgeChance() {
+        return dodgeChance;
+    }
+
+    public double critMultiplier() {
+        return critMultiplier;
+    }
+
+    public Map<DefenseType, Integer> defenses() {
+        return Map.copyOf(defense);
+    }
+
+    public Map<AttackType, Integer> attackAtRange(int distance) {
+        final int slot = Math.min(Math.max(1, distance), baseMaxRange);
+        return Map.copyOf(rangeAttack[slot]);
+    }
+
+    public Map<AttackType, Double> defenseReductions() {
+        return Map.copyOf(defenseReduce);
+    }
+
     public int initiative() {
         return speed;
     }
