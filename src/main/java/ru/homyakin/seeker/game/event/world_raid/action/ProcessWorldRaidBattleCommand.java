@@ -10,7 +10,6 @@ import ru.homyakin.seeker.game.battle.v3.two_team.TeamResult;
 import ru.homyakin.seeker.game.battle.v4.Battle;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonageStats;
-import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
@@ -130,15 +129,14 @@ public class ProcessWorldRaidBattleCommand {
     }
 
     private List<BattlePersonage> toBattlePersonages(List<WorldRaidParticipant> participants) {
-        final var equippedItemsByPersonageId = itemService.getEquippedItemsByPersonageIds(
-            participants.stream()
-                .map(participant -> participant.personage().id())
-                .collect(Collectors.toSet())
-        );
+        final var personageIds = participants.stream()
+            .map(participant -> participant.personage().id())
+            .collect(Collectors.toSet());
+        final var equippedItemsByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
         return participants.stream()
             .map(participant -> new BattlePersonage(
                 equippedItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
-                Position.FRONT
+                participant.personage().position()
             ))
             .toList();
     }

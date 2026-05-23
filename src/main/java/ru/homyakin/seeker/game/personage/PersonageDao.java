@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -50,7 +51,7 @@ public class PersonageDao {
     private static final String UPDATE = """
         UPDATE personage
         SET name = :name, last_energy_change = :last_energy_change, money = :money,
-        energy = :energy, effects = :effects,
+        energy = :energy, effects = :effects, battle_position = :battle_position,
         energy_recovery_notification_time = CASE
             WHEN NOT :has_full_energy
                 THEN :energy_recovery_notification_time
@@ -109,6 +110,7 @@ public class PersonageDao {
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
+            .param("battle_position", personage.position().name())
             // Если энергия полная, то не нужно обновлять время восстановления энерги в null
             // Если энергия полная и дата изменения энергии меньше времени восстановления энергии,
             // то нужно обновить время восстановления энергии на дату изменения энергии
@@ -175,6 +177,17 @@ public class PersonageDao {
             .single();
     }
 
+    public void setBattlePosition(PersonageId id, Position position) {
+        jdbcClient.sql("""
+            UPDATE personage
+            SET battle_position = :battle_position
+            WHERE id = :id
+            """)
+            .param("id", id.value())
+            .param("battle_position", position.name())
+            .update();
+    }
+
     public long getActivePersonagesCount(LocalDateTime start) {
         final var sql = """
             SELECT COUNT(*) FROM personage
@@ -211,7 +224,8 @@ public class PersonageDao {
                 config.energyFullRecovery()
             ),
             BadgeView.findByCode(rs.getString("badge_code")),
-            jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class)
+            jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class),
+            Position.fromString(rs.getString("battle_position"))
         );
     }
 }

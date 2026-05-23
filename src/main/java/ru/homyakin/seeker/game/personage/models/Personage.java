@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import ru.homyakin.seeker.game.battle.v3.two_team.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.errors.LegacyPutOnItemError;
@@ -37,19 +38,11 @@ public record Personage(
     Money money,
     Energy energy,
     BadgeView badge,
-    PersonageEffects effects
+    PersonageEffects effects,
+    Position position
 ) {
     public Personage addMoney(Money money) {
-        return new Personage(
-            id,
-            name,
-            tag,
-            memberGroupId,
-            this.money.add(money),
-            energy,
-            badge,
-            effects
-        );
+        return copyWithMoney(this.money.add(money));
     }
 
     public Either<NameError, Personage> changeName(String name) {
@@ -73,17 +66,15 @@ public record Personage(
             return Either.left(StillSame.INSTANCE);
         }
 
-        final var personage = new Personage(
-            id,
-            name,
-            tag,
-            memberGroupId,
-            money,
+        final var personage = copyWithState(
             energyResult.getOrElse(energy),
-            badge,
             effectsResult.getOrElse(effects)
         );
         return Either.right(personage);
+    }
+
+    public Personage withPosition(Position position) {
+        return copyWithPosition(position);
     }
 
     public Either<NotEnoughEnergy, Personage> reduceEnergy(
@@ -304,7 +295,8 @@ public record Personage(
             money,
             energy,
             badge,
-            effects
+            effects,
+            position
         );
     }
 
@@ -329,7 +321,8 @@ public record Personage(
             money,
             energy,
             badge,
-            effects
+            effects,
+            position
         );
     }
 
@@ -342,7 +335,50 @@ public record Personage(
             money,
             energy,
             badge,
-            effects
+            effects,
+            position
+        );
+    }
+
+    private Personage copyWithMoney(Money money) {
+        return new Personage(
+            id,
+            name,
+            tag,
+            memberGroupId,
+            money,
+            energy,
+            badge,
+            effects,
+            position
+        );
+    }
+
+    private Personage copyWithPosition(Position position) {
+        return new Personage(
+            id,
+            name,
+            tag,
+            memberGroupId,
+            money,
+            energy,
+            badge,
+            effects,
+            position
+        );
+    }
+
+    private Personage copyWithState(Energy energy, PersonageEffects effects) {
+        return new Personage(
+            id,
+            name,
+            tag,
+            memberGroupId,
+            money,
+            energy,
+            badge,
+            effects,
+            position
         );
     }
 }

@@ -1,49 +1,38 @@
-package ru.homyakin.seeker.telegram.command.user.stats;
+package ru.homyakin.seeker.telegram.command.user.battle_position;
 
-import java.util.List;
-import java.util.Set;
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
-import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
-import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
+import ru.homyakin.seeker.telegram.user.UserService;
 
 @Component
-public class BattleStatsExecutor extends CommandExecutor<BattleStats> {
+public class UserChangeBattlePositionExecutor extends CommandExecutor<UserChangeBattlePosition> {
     private final UserService userService;
-    private final ItemService itemService;
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
 
-    public BattleStatsExecutor(
+    public UserChangeBattlePositionExecutor(
         UserService userService,
-        ItemService itemService,
         PersonageService personageService,
         TelegramSender telegramSender
     ) {
         this.userService = userService;
-        this.itemService = itemService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
     }
 
     @Override
-    public void execute(BattleStats command) {
+    public void execute(UserChangeBattlePosition command) {
         final var user = userService.forceGetFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
-        final var equippedItems = itemService.getEquippedItemsByPersonageIds(Set.of(user.personageId()))
-            .getOrDefault(user.personageId(), List.of());
-        final var battlePersonage = new BattlePersonage(equippedItems, personage.position());
-        final var text = BattleLocalization.battleStats(user.language(), battlePersonage, equippedItems);
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(text)
-            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .text(BattleLocalization.chooseBattlePosition(user.language()))
+            .keyboard(InlineKeyboards.battlePositionKeyboard(user.language(), personage.position()))
             .build()
         );
     }

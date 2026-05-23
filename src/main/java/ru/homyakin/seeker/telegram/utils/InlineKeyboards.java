@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -11,6 +12,7 @@ import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
@@ -42,6 +44,28 @@ public class InlineKeyboards {
             builder.addButton(
                 text,
                 CommandType.SELECT_LANGUAGE.getText() + TextConstants.CALLBACK_DELIMITER + languages[i].id()
+            );
+        }
+        return builder.build();
+    }
+
+    public static InlineKeyboardMarkup battlePositionKeyboard(Language language, Position currentPosition) {
+        final var positions = Position.values();
+        final var builder = InlineKeyboardBuilder.builder();
+        for (int i = 0; i < positions.length; ++i) {
+            if (i % 3 == 0) {
+                builder.addRow();
+            }
+            final var position = positions[i];
+            final String text;
+            if (currentPosition == position) {
+                text = selectedIcon + BattleLocalization.positionName(language, position);
+            } else {
+                text = BattleLocalization.positionName(language, position);
+            }
+            builder.addButton(
+                text,
+                CommandType.SELECT_BATTLE_POSITION.getText() + TextConstants.CALLBACK_DELIMITER + position.name()
             );
         }
         return builder.build();

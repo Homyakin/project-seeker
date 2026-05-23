@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.world_raid.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import ru.homyakin.seeker.game.battle.v4.Position;
 
 import java.util.List;
 
@@ -28,7 +29,8 @@ public record WorldRaidTemplateBattleInfo(
         int speed,
         int baseThreat,
         List<WorldRaidPersonage.AttackTemplate> attacks,
-        List<WorldRaidPersonage.DefenseTemplate> defenses
+        List<WorldRaidPersonage.DefenseTemplate> defenses,
+        Position position
     ) {
         public WorldRaidPersonage toPersonage() {
             if (personage != null) {
@@ -59,7 +61,8 @@ public record WorldRaidTemplateBattleInfo(
                 speed,
                 baseThreat,
                 resolvedAttacks,
-                resolvedDefenses
+                resolvedDefenses,
+                position
             );
         }
     }

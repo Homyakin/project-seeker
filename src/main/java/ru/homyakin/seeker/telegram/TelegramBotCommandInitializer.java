@@ -59,6 +59,7 @@ public class TelegramBotCommandInitializer {
         new BotCommand(CommandType.SHOW_OUTPOST.getText(), "Show outpost"),
         new BotCommand(CommandType.PERSONAGE_STATS.getText(), "Get my global statistic"),
         new BotCommand(CommandType.BATTLE_STATS.getText(), "Get battle loadout stats"),
+        new BotCommand(CommandType.CHANGE_BATTLE_POSITION.getText(), "Select battle position for raids"),
         new BotCommand(CommandType.SETTINGS.getText(), "Get my settings"),
         new BotCommand(CommandType.WORLD_RAID_REPORT.getText(), "Show last world raid report")
     );

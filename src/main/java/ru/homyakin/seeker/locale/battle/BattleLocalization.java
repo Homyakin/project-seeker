@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.v4.BattlePersonage;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
@@ -16,6 +17,7 @@ import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class BattleLocalization {
@@ -27,6 +29,8 @@ public class BattleLocalization {
 
     public static String battleStats(Language language, BattlePersonage personage, List<Item> equippedItems) {
         final var params = new HashMap<String, Object>();
+        params.put("position_name", positionName(language, personage.startPosition()));
+        params.put("battle_position_command", CommandType.CHANGE_BATTLE_POSITION.getText());
         params.put("power_icon", Icons.POWER);
         params.put("power_value", LocaleUtils.power((int) personage.power()));
         params.put("health_icon", Icons.HEALTH);
@@ -47,6 +51,18 @@ public class BattleLocalization {
             resources.getOrDefault(language, BattleResource::battleStats),
             params
         );
+    }
+
+    public static String chooseBattlePosition(Language language) {
+        return resources.getOrDefault(language, BattleResource::chooseBattlePosition);
+    }
+
+    public static String positionName(Language language, Position position) {
+        return switch (position) {
+            case FRONT -> resources.getOrDefault(language, BattleResource::positionFront);
+            case MID -> resources.getOrDefault(language, BattleResource::positionMid);
+            case BACK -> resources.getOrDefault(language, BattleResource::positionBack);
+        };
     }
 
     public static String skillDescription(Language language, ActiveEnum activeEnum, int points) {

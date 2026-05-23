@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.world_raid.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import ru.homyakin.seeker.game.battle.v4.Position;
 import ru.homyakin.seeker.game.battle.v4.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.v4.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
@@ -18,7 +19,8 @@ public record WorldRaidPersonage(
     int speed,
     int baseThreat,
     List<AttackTemplate> attacks,
-    List<DefenseTemplate> defenses
+    List<DefenseTemplate> defenses,
+    Position position
 ) {
     public List<PersonageSkill> skillsOrEmpty() {
         return skills == null ? List.of() : skills;
@@ -42,7 +44,8 @@ public record WorldRaidPersonage(
             speed,
             baseThreat,
             attacks,
-            defenses
+            defenses,
+            position
         );
     }
 
