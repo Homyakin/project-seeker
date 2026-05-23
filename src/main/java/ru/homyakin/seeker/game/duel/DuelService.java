@@ -134,13 +134,15 @@ public class DuelService {
         final var equippedItems = itemService.getEquippedItemsByPersonageIds(
             Set.of(personage1.id(), personage2.id())
         );
-        final var firstBattlePersonage = new BattlePersonage(
+        final var firstBattlePersonage = BattlePersonage.forCombat(
             equippedItems.getOrDefault(personage1.id(), List.of()),
-            Position.FRONT
+            Position.FRONT,
+            personage1.effects()
         );
-        final var secondBattlePersonage = new BattlePersonage(
+        final var secondBattlePersonage = BattlePersonage.forCombat(
             equippedItems.getOrDefault(personage2.id(), List.of()),
-            Position.FRONT
+            Position.FRONT,
+            personage2.effects()
         );
         final var battleResult = battle.process(
             List.of(firstBattlePersonage),

@@ -61,7 +61,7 @@ public class PersonageService {
 
     public Characteristics getEquippedCharacteristics(PersonageId personageId) {
         return getEquippedCharacteristicsByPersonageIds(Set.of(personageId))
-            .getOrDefault(personageId, Characteristics.ZERO);
+            .get(personageId);
     }
 
     public Map<PersonageId, Characteristics> getEquippedCharacteristicsByPersonageIds(Set<PersonageId> personageIds) {

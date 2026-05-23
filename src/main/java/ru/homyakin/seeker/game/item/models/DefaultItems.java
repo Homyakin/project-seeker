@@ -148,21 +148,21 @@ public class DefaultItems {
     }
 
     public static Characteristics characteristicsForFreeSlots(Set<PersonageSlot> occupiedSlots) {
-        var result = Characteristics.ZERO;
+        final var result = Characteristics.empty();
         if (!occupiedSlots.contains(PersonageSlot.MAIN_HAND)) {
-            result = result.add(MAIN_FIST.visibleCharacteristics());
+            result.add(MAIN_FIST.visibleCharacteristics());
         }
         if (!occupiedSlots.contains(PersonageSlot.OFF_HAND)) {
-            result = result.add(OFF_FIST.visibleCharacteristics());
+            result.add(OFF_FIST.visibleCharacteristics());
         }
         if (!occupiedSlots.contains(PersonageSlot.BODY)) {
-            result = result.add(SHIRT.visibleCharacteristics());
+            result.add(SHIRT.visibleCharacteristics());
         }
         if (!occupiedSlots.contains(PersonageSlot.PANTS)) {
-            result = result.add(PANTS.visibleCharacteristics());
+            result.add(PANTS.visibleCharacteristics());
         }
         if (!occupiedSlots.contains(PersonageSlot.SHOES)) {
-            result = result.add(SHOES.visibleCharacteristics());
+            result.add(SHOES.visibleCharacteristics());
         }
         return result;
     }

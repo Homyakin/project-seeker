@@ -32,6 +32,23 @@ public record PersonageEffects(
         return Either.right(new PersonageEffects(newEffects));
     }
 
+    public PersonageEffects activeAt(LocalDateTime now) {
+        if (effects.isEmpty()) {
+            return EMPTY;
+        }
+        final var active = new HashMap<PersonageEffectType, PersonageEffect>();
+        for (final var entry : effects.entrySet()) {
+            final var effect = entry.getValue();
+            if (effect.expireDateTime() == null || effect.expireDateTime().isAfter(now)) {
+                active.put(entry.getKey(), effect);
+            }
+        }
+        if (active.size() == effects.size()) {
+            return this;
+        }
+        return new PersonageEffects(active);
+    }
+
     @JsonIgnore
     public boolean isEmpty() {
         return effects.isEmpty();

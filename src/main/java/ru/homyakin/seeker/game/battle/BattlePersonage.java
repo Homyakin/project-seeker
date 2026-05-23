@@ -8,8 +8,12 @@ import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
+import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
+import ru.homyakin.seeker.utils.TimeUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -79,6 +83,8 @@ public class BattlePersonage {
 
     private final UUID id = UUID.randomUUID();
     private final int maxHealth;
+    private final int powerMaxHealth;
+    private final int powerSlotOneAttackSum;
     private int health;
     private final Set<AttackType> attackTypes = new HashSet<>();
     private final List<ItemSkill> itemSkills = new ArrayList<>();
@@ -122,11 +128,25 @@ public class BattlePersonage {
         this(items, startPosition, Map.of());
     }
 
+    public static BattlePersonage forCombat(List<Item> items, Position startPosition, PersonageEffects effects) {
+        return new BattlePersonage(items, startPosition, Map.of(), effects, TimeUtils.moscowTime());
+    }
+
     public BattlePersonage(WorldRaidPersonage personage, Position startPosition) {
         this(itemsFromWorldRaidPersonage(personage), startPosition, skillPointsFromWorldRaidPersonage(personage));
     }
 
     public BattlePersonage(List<Item> items, Position startPosition, Map<ActiveEnum, Integer> skillPointsByActive) {
+        this(items, startPosition, skillPointsByActive, PersonageEffects.EMPTY, null);
+    }
+
+    public BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        PersonageEffects effects,
+        LocalDateTime now
+    ) {
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
         var activeSkills = new HashMap<ActiveEnum, Integer>();
@@ -207,7 +227,43 @@ public class BattlePersonage {
         this.startPosition = startPosition;
         this.baseMaxRange = maxRange;
         this.cumulativeSpeed = RandomUtils.getInInterval(0, REQUIRED_SPEED / 2);
+        this.powerMaxHealth = this.health;
+        this.powerSlotOneAttackSum = slotOneAttackSum();
+        if (now != null && !effects.isEmpty()) {
+            applyPersonageEffects(items, effects.activeAt(now));
+        }
         this.maxHealth = this.health;
+    }
+
+    int slotOneAttackSum() {
+        return rangeAttack[1].values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    private void applyPersonageEffects(List<Item> items, PersonageEffects effects) {
+        if (effects.isEmpty()) {
+            return;
+        }
+        final var baseCharacteristics = items.stream()
+            .map(Item::visibleCharacteristics)
+            .collect(Characteristics::empty, Characteristics::add, Characteristics::add);
+        final var modifiedCharacteristics = baseCharacteristics.apply(effects);
+        health = modifiedCharacteristics.health();
+        final var baseAttack = baseCharacteristics.attack();
+        if (baseAttack > 0) {
+            rescaleRangeAttack((double) modifiedCharacteristics.attack() / baseAttack);
+        }
+    }
+
+    private void rescaleRangeAttack(double factor) {
+        for (int i = 1; i < rangeAttack.length; i++) {
+            for (final var entry : new HashMap<>(rangeAttack[i]).entrySet()) {
+                rangeAttack[i].put(entry.getKey(), Math.max(0, (int) (entry.getValue() * factor)));
+            }
+            rangeAttackCrit[i].clear();
+            for (final var entry : rangeAttack[i].entrySet()) {
+                rangeAttackCrit[i].put(entry.getKey(), (int) (entry.getValue() * critMultiplier));
+            }
+        }
     }
 
     private static List<Item> itemsFromWorldRaidPersonage(WorldRaidPersonage personage) {
@@ -699,12 +755,7 @@ public class BattlePersonage {
     }
 
     public double power() {
-        final var slotOneAttackSum = Math.max(
-            1,
-            rangeAttack[1].values().stream()
-                .mapToInt(i -> i)
-                .sum()
-        );
+        final var slotOneAttackSum = Math.max(1, powerSlotOneAttackSum);
         final var avgDamageTakenMultiplier = defenseReduce.values().stream()
             .mapToDouble(Double::doubleValue)
             .average()
@@ -734,7 +785,7 @@ public class BattlePersonage {
             }
         }
 
-        final var healthFactor = Math.max(1, maxHealth + hpBonus);
+        final var healthFactor = Math.max(1, powerMaxHealth + hpBonus);
         final var damageFactor = Math.max(1, effectiveDamage + offensiveDps);
         final var speedFactor = Math.max(1, speed);
 
