@@ -8,7 +8,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBatt
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
-import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.top.models.TopWorldRaidResearchResult;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -64,8 +64,8 @@ public class WorldRaidLocalization {
     ) {
         final var params = new HashMap<String, Object>();
         params.put("world_raid_intro", worldRaid.getLocaleOrDefault(language).intro());
-        params.put("enemies_health", worldRaid.info().health());
-        params.put("enemies_count", 1);
+        params.put("enemies_health", worldRaid.info().totalHealth());
+        params.put("enemies_count", worldRaid.info().enemiesCount());
         params.put("money_icon", Icons.MONEY);
         params.put("fund_value", worldRaid.fund().value());
         params.put("duration", CommonLocalization.duration(language, event.duration()));
@@ -84,8 +84,8 @@ public class WorldRaidLocalization {
     ) {
         final var params = new HashMap<String, Object>();
         params.put("world_raid_intro", worldRaid.getLocaleOrDefault(language).intro());
-        params.put("enemies_health", worldRaid.info().health());
-        params.put("enemies_count", 1);
+        params.put("enemies_health", worldRaid.info().totalHealth());
+        params.put("enemies_count", worldRaid.info().enemiesCount());
         params.put("money_icon", Icons.MONEY);
         params.put("fund_value", worldRaid.fund().value());
         params.put("optional_participants", worldRaidParticipants(language, groups, participantsCount));
@@ -170,15 +170,20 @@ public class WorldRaidLocalization {
         final var params = new HashMap<String, Object>();
         params.put("raid_report_command", CommandType.WORLD_RAID_REPORT.getText());
         params.put("battle_result", battleResult(language, result));
-        final var rarityCountMap = new HashMap<LegacyItemRarity, Integer>();
+        final var rarityCountMap = new HashMap<ItemRarity, Integer>();
         for (final var personageResult : result.personageResults()) {
             if (personageResult.generatedItem().isEmpty()) {
                 continue;
             }
-            rarityCountMap.merge(personageResult.generatedItem().get().rarity(), 1, Integer::sum);
+            switch (personageResult.generatedItem().get()) {
+                case RaidItem.ItemDrop i -> rarityCountMap.merge(i.item().rarity(), 1, Integer::sum);
+                case RaidItem.LegacyItemDrop i ->
+                    rarityCountMap.merge(ItemRarity.valueOf(i.item().rarity().name()), 1, Integer::sum);
+                case RaidItem.ContrabandDrop _ -> { }
+            }
         }
         final var rarityCounts = rarityCountMap.entrySet().stream()
-            .sorted(Comparator.comparingInt(e -> e.getKey().id))
+            .sorted(Comparator.comparingInt(e -> e.getKey().skillPoints()))
             .map(entry -> rarityCount(language, entry.getKey(), entry.getValue()))
             .toList();
         params.put("rarity_counts", String.join("\n", rarityCounts));
@@ -188,9 +193,9 @@ public class WorldRaidLocalization {
         );
     }
 
-    private static String rarityCount(Language language, LegacyItemRarity rarity, int count) {
+    private static String rarityCount(Language language, ItemRarity rarity, int count) {
         final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", rarity.icon);
+        params.put("rarity_icon", rarity.icon());
         params.put("count", count);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::rarityCount),
@@ -202,8 +207,8 @@ public class WorldRaidLocalization {
         final var params = new HashMap<String, Object>();
         params.put("raid_report_command", CommandType.WORLD_RAID_REPORT.getText());
         params.put("battle_result", battleResult(language, result));
-        params.put("enemies_health", result.remainedInfo().health());
-        params.put("enemies_count", 1);
+        params.put("enemies_health", result.remainedInfo().totalHealth());
+        params.put("enemies_count", result.remainedInfo().enemiesCount());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::failedBattle),
             params

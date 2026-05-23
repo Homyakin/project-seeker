@@ -7,7 +7,7 @@ import java.util.Map;
 public record WorldRaidTemplate(
     int eventId,
     String code,
-    WorldRaidBattleInfo info,
+    WorldRaidTemplateBattleInfo info,
     Map<Language, WorldRaidLocale> locales
 ) {
 }

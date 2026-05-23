@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="raid-result-item-fk-to-new-item">
+        <sql>
+            UPDATE personage_raid_result prr
+            SET generated_item_id = NULL
+        </sql>
+
+        <dropForeignKeyConstraint
+                baseTableName="personage_raid_result"
+                constraintName="fk-personage_raid_result-item"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="generated_item_id"
+                baseTableName="personage_raid_result"
+                constraintName="fk-personage_raid_result-item"
+                referencedColumnNames="id"
+                referencedTableName="item"
+        />
+    </changeSet>
+</databaseChangeLog>

@@ -19,7 +19,8 @@ public interface WorldRaidStorage {
     Optional<WorldRaidTemplate> getRandom();
 
     void saveActive(
-        WorldRaidTemplate worldRaidTemplate,
+        int eventId,
+        WorldRaidLaunchedBattleInfo info,
         Money fund,
         ActiveWorldRaidState.Research research
     );
@@ -35,7 +36,7 @@ public interface WorldRaidStorage {
 
     void saveAsContinued(
         ActiveWorldRaid raid,
-        WorldRaidBattleInfo info,
+        WorldRaidLaunchedBattleInfo info,
         Money fund,
         ActiveWorldRaidState.Research research
     );

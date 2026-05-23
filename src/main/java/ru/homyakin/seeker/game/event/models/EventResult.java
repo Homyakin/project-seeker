@@ -6,7 +6,7 @@ import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
-import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleInfo;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -61,7 +61,7 @@ public sealed interface EventResult {
         boolean isWin,
         List<GroupWorldRaidBattleResult> groupResults,
         List<PersonageWorldRaidBattleResult> personageResults,
-        WorldRaidBattleInfo remainedInfo
+        WorldRaidLaunchedBattleInfo remainedInfo
     ) implements EventResult {
     }
 }

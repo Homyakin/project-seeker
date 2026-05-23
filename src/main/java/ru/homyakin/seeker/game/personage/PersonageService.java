@@ -20,7 +20,6 @@ import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
-import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -179,23 +178,29 @@ public class PersonageService {
     }
 
     private static PersonageBattleResult mapToBattleResult(PersonageRaidResult result, long launchedEventId) {
-        Long generatedItemId = null;
-        Long generatedContrabandId = null;
-        if (result.generatedItem().isPresent()) {
-            switch (result.generatedItem().get()) {
-                case RaidItem.ContrabandDrop c -> generatedContrabandId = c.contraband().id();
-                case RaidItem.ItemDrop i -> generatedItemId = i.item().id();
-                case RaidItem.LegacyItemDrop i -> generatedItemId = i.item().id();
-            }
-        }
         return new PersonageBattleResult(
             result.participant().personage().id(),
             launchedEventId,
             result.stats(),
             result.reward(),
-            Optional.ofNullable(generatedItemId),
-            Optional.ofNullable(generatedContrabandId)
+            generatedItemId(result.generatedItem()),
+            generatedContrabandId(result.generatedItem())
         );
+    }
+
+    private static Optional<Long> generatedItemId(Optional<RaidItem> generatedItem) {
+        return generatedItem.flatMap(item -> switch (item) {
+            case RaidItem.ItemDrop i -> Optional.of(i.item().id());
+            case RaidItem.LegacyItemDrop i -> Optional.of(i.item().id());
+            case RaidItem.ContrabandDrop _ -> Optional.empty();
+        });
+    }
+
+    private static Optional<Long> generatedContrabandId(Optional<RaidItem> generatedItem) {
+        return generatedItem.flatMap(item -> switch (item) {
+            case RaidItem.ContrabandDrop c -> Optional.of(c.contraband().id());
+            case RaidItem.ItemDrop _, RaidItem.LegacyItemDrop _ -> Optional.empty();
+        });
     }
 
     public void saveWorldRaidResults(List<PersonageWorldRaidBattleResult> results, LaunchedEvent launchedEvent) {
@@ -215,8 +220,8 @@ public class PersonageService {
                     launchedEvent.id(),
                     result.stats(),
                     result.reward(),
-                    result.generatedItem().map(LegacyItem::id),
-                    Optional.empty()
+                    generatedItemId(result.generatedItem()),
+                    generatedContrabandId(result.generatedItem())
                 ))
                 .toList()
         );
