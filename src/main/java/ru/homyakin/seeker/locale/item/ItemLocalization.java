@@ -11,11 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.LegacyItem;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
-import ru.homyakin.seeker.game.item.modifier.models.LegacyModifier;
-import ru.homyakin.seeker.game.item.modifier.models.LegacyModifierType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -82,53 +79,6 @@ public class ItemLocalization {
         );
     }
 
-    public static String fullItem(Language requestedlanguage, LegacyItem item) {
-        final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", item.rarity().icon);
-        fillBrokenIcon(params, item);
-        params.put("item", itemText(itemLanguage, item));
-        params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
-        params.put(
-            "slots",
-            item.object()
-                .slots()
-                .stream()
-                .sorted(Comparator.comparingInt(it -> it.id))
-                .map(it -> it.icon)
-                .collect(Collectors.joining())
-        );
-        return StringNamedTemplate.format(
-            resources.getOrDefault(itemLanguage, ItemResource::fullItem),
-            params
-        );
-    }
-
-    public static String shortItem(Language requestedlanguage, LegacyItem item) {
-        final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", item.rarity().icon);
-        fillBrokenIcon(params, item);
-        params.put("item", itemText(itemLanguage, item));
-        params.put("characteristics", characteristics(itemLanguage, item.characteristics()));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(itemLanguage, ItemResource::shortItem),
-            params
-        );
-    }
-
-    public static String shortItemWithoutCharacteristics(Language requestedlanguage, LegacyItem item) {
-        final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", item.rarity().icon);
-        fillBrokenIcon(params, item);
-        params.put("item", itemText(itemLanguage, item));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(itemLanguage, ItemResource::shortItemWithoutCharacteristics),
-            params
-        );
-    }
-
     public static String inventory(Language language, Personage personage, List<PersonageItem> items) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", personage.maxBagSize());
@@ -152,10 +102,6 @@ public class ItemLocalization {
             resources.getOrDefault(language, ItemResource::inventory),
             params
         );
-    }
-
-    public static int itemComparator(LegacyItem item1, LegacyItem item2) {
-        return itemPriority(item1) - itemPriority(item2);
     }
 
     public static int itemComparator(PersonageItem item1, PersonageItem item2) {
@@ -197,20 +143,6 @@ public class ItemLocalization {
     }
 
     public static String successTakeOff(Language language, PersonageItem item) {
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::successTakeOff),
-            Collections.singletonMap("item", fullItem(language, item))
-        );
-    }
-
-    public static String successPutOn(Language language, LegacyItem item) {
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::successPutOn),
-            Collections.singletonMap("item", fullItem(language, item))
-        );
-    }
-
-    public static String successTakeOff(Language language, LegacyItem item) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::successTakeOff),
             Collections.singletonMap("item", fullItem(language, item))
@@ -310,13 +242,6 @@ public class ItemLocalization {
         );
     }
 
-    private static String itemWithoutModifiers(Language language, LegacyItem item) {
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithoutModifiers),
-            Collections.singletonMap("object", item.object().getLocaleOrDefault(language).text())
-        );
-    }
-
     private static String itemWithModifier(Language language, PersonageItem item, Modifier modifier) {
         final var params = new HashMap<String, Object>();
         final var objectLocale = item.object().getLocaleOrDefault(language);
@@ -324,67 +249,6 @@ public class ItemLocalization {
         params.put("prefix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::itemWithPrefixModifier),
-            params
-        );
-    }
-
-    private static String itemWithPrefixModifier(Language language, LegacyItem item, LegacyModifier modifier) {
-        final var params = new HashMap<String, Object>();
-        final var objectLocale = item.object().getLocaleOrDefault(language);
-        params.put("object", objectLocale.text());
-        params.put("prefix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithPrefixModifier),
-            params
-        );
-    }
-
-    private static String itemWithSuffixModifier(Language language, LegacyItem item, LegacyModifier modifier) {
-        final var params = new HashMap<String, Object>();
-        final var objectLocale = item.object().getLocaleOrDefault(language);
-        params.put("object", objectLocale.text());
-        params.put("suffix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithSuffixModifier),
-            params
-        );
-    }
-
-    private static String itemWithPrefixAndSuffixModifier(
-        Language language,
-        LegacyItem item,
-        LegacyModifier prefix,
-        LegacyModifier suffix
-    ) {
-        final var params = new HashMap<String, Object>();
-        final var objectLocale = item.object().getLocaleOrDefault(language);
-        params.put("object", objectLocale.text());
-        params.put("prefix_modifier", prefix.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        params.put("suffix_modifier", suffix.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithPrefixAndSuffixModifier),
-            params
-        );
-    }
-
-    private static String itemWithTwoPrefixModifiers(
-        Language language,
-        LegacyItem item,
-        LegacyModifier modifier1,
-        LegacyModifier modifier2
-    ) {
-        final var params = new HashMap<String, Object>();
-        final var objectLocale = item.object().getLocaleOrDefault(language);
-        params.put("object", objectLocale.text());
-        if (modifier1.id() > modifier2.id()) {
-            params.put("prefix_modifier_one", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-            params.put("prefix_modifier_two", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        } else {
-            params.put("prefix_modifier_one", modifier2.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-            params.put("prefix_modifier_two", modifier1.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        }
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithTwoPrefixModifiers),
             params
         );
     }
@@ -453,33 +317,6 @@ public class ItemLocalization {
         return characteristics(language, item.toItem().visibleCharacteristics());
     }
 
-    private static String itemText(Language itemLanguage, LegacyItem item) {
-        if (item.modifiers().isEmpty()) {
-            return itemWithoutModifiers(itemLanguage, item);
-        } else if (item.modifiers().size() == 1) {
-            final var modifier = item.modifiers().getFirst();
-            return switch (modifier.type()) {
-                case PREFIX -> itemWithPrefixModifier(itemLanguage, item, modifier);
-                case SUFFIX -> itemWithSuffixModifier(itemLanguage, item, modifier);
-            };
-        } else if (item.modifiers().size() == 2) {
-            final var modifier1 = item.modifiers().getFirst();
-            final var modifier2 = item.modifiers().getLast();
-            if (modifier1.type() == LegacyModifierType.PREFIX && modifier2.type() == LegacyModifierType.SUFFIX) {
-                return itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier1, modifier2);
-            } else if (modifier1.type() == LegacyModifierType.SUFFIX && modifier2.type() == LegacyModifierType.PREFIX) {
-                return itemWithPrefixAndSuffixModifier(itemLanguage, item, modifier2, modifier1);
-            } else if (modifier1.type() == LegacyModifierType.PREFIX && modifier2.type() == LegacyModifierType.PREFIX) {
-                return itemWithTwoPrefixModifiers(itemLanguage, item, modifier1, modifier2);
-            }
-        }
-        return itemWithoutModifiers(itemLanguage, item);
-    }
-
-    private static int itemPriority(LegacyItem item) {
-        return item.object().slots().stream().mapToInt(ItemLocalization::slotPriority).min().orElse(Integer.MAX_VALUE);
-    }
-
     private static int itemPriority(PersonageItem item) {
         return item.object().slots().stream().mapToInt(ItemLocalization::slotPriority).min().orElse(Integer.MAX_VALUE);
     }
@@ -494,14 +331,5 @@ public class ItemLocalization {
             case PANTS -> 6;
             case SHOES -> 7;
         };
-    }
-
-    private static void fillBrokenIcon(HashMap<String, Object> params, LegacyItem item) {
-        final var key = "broken_icon";
-        if (item.isBroken()) {
-            params.put(key, Icons.BROKEN_ITEM);
-        } else {
-            params.put(key, "");
-        }
     }
 }

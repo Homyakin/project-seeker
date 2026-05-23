@@ -17,8 +17,7 @@ public class PersonageNextWorldRaidItemParams {
     public ItemParamsFull get() {
         return new ItemParamsFull(
             config.worldRaidRarityPicker().pick(RandomUtils::getWithMax),
-            RandomUtils.getRandomElement(PersonageSlot.values()),
-            config.worldRaidModifierCountPicker().pick(RandomUtils::getWithMax)
+            RandomUtils.getRandomElement(PersonageSlot.values())
         );
     }
 }

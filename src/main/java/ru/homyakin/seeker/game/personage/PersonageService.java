@@ -203,7 +203,6 @@ public class PersonageService {
     private static Optional<Long> generatedItemId(Optional<RaidItem> generatedItem) {
         return generatedItem.flatMap(item -> switch (item) {
             case RaidItem.ItemDrop i -> Optional.of(i.item().id());
-            case RaidItem.LegacyItemDrop i -> Optional.of(i.item().id());
             case RaidItem.ContrabandDrop _ -> Optional.empty();
         });
     }
@@ -211,7 +210,7 @@ public class PersonageService {
     private static Optional<Long> generatedContrabandId(Optional<RaidItem> generatedItem) {
         return generatedItem.flatMap(item -> switch (item) {
             case RaidItem.ContrabandDrop c -> Optional.of(c.contraband().id());
-            case RaidItem.ItemDrop _, RaidItem.LegacyItemDrop _ -> Optional.empty();
+            case RaidItem.ItemDrop _ -> Optional.empty();
         });
     }
 

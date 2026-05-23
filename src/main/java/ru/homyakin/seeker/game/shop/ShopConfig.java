@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
-import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
@@ -52,10 +51,6 @@ public class ShopConfig {
 
     public Money buyingPriceByRarity(ItemRarity rarity) {
         return buyingPriceByType(typeByRarity(rarity));
-    }
-
-    public Money buyingPriceByRarity(LegacyItemRarity rarity) {
-        return buyingPriceByRarity(ItemRarity.valueOf(rarity.name()));
     }
 
     public void setCommonPrice(Integer commonPrice) {

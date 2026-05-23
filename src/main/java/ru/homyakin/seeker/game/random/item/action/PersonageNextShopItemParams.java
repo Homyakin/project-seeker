@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.random.item.action;
 
 import org.springframework.stereotype.Component;
-import ru.homyakin.seeker.game.item.models.LegacyItemRarity;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
 import ru.homyakin.seeker.game.random.item.entity.ItemRandomConfig;
@@ -32,12 +32,8 @@ public class PersonageNextShopItemParams {
 
         final var updatedPool = randomPoolRenew.fullRenewIfEmpty(pool);
         final var params = typeToRarity(itemType)
-            .map(rarity -> updatedPool.next(
-                config.shopModifierCountPicker().pick(RandomUtils::getWithMax),
-                rarity
-            ))
+            .map(updatedPool::next)
             .orElseGet(() -> updatedPool.next(
-                config.shopModifierCountPicker().pick(RandomUtils::getWithMax),
                 config.shopRarityPicker().pick(RandomUtils::getWithMax)
             ));
         repository.savePool(personageId, itemType, updatedPool);
@@ -45,13 +41,13 @@ public class PersonageNextShopItemParams {
         return params;
     }
 
-    private Optional<LegacyItemRarity> typeToRarity(ShopItemType type) {
+    private Optional<ItemRarity> typeToRarity(ShopItemType type) {
         return Optional.ofNullable(switch (type) {
-            case COMMON -> LegacyItemRarity.COMMON;
-            case UNCOMMON -> LegacyItemRarity.UNCOMMON;
-            case RARE -> LegacyItemRarity.RARE;
-            case EPIC -> LegacyItemRarity.EPIC;
-            case LEGENDARY -> LegacyItemRarity.LEGENDARY;
+            case COMMON -> ItemRarity.COMMON;
+            case UNCOMMON -> ItemRarity.UNCOMMON;
+            case RARE -> ItemRarity.RARE;
+            case EPIC -> ItemRarity.EPIC;
+            case LEGENDARY -> ItemRarity.LEGENDARY;
             case RANDOM -> null;
         });
     }

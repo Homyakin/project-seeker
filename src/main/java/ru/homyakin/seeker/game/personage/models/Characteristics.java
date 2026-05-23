@@ -22,14 +22,6 @@ public record Characteristics(
         return new Characteristics(500, 50, 20);
     }
 
-    public Characteristics copyWithHealth(int health) {
-        return new Characteristics(
-            health,
-            attack,
-            defense
-        );
-    }
-
     public Characteristics apply(PersonageEffects effects) {
         return new EditableCharacteristics(this).apply(effects).toFinal();
     }

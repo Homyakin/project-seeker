@@ -6,7 +6,6 @@ import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextRaidItemParams;
@@ -76,7 +75,7 @@ public class RaidItemGenerator {
                 .generateItemForPersonage(
                     personage,
                     new GenerateItemParams(
-                        ItemRarity.valueOf(itemParams.rarity().name()),
+                        itemParams.rarity(),
                         itemParams.slot()
                     )
                 )
