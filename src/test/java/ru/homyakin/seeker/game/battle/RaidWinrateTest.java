@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.battle;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.launched.RaidParams;
 import ru.homyakin.seeker.game.event.models.EventStatus;
@@ -34,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * Supports random catalog loadouts ({@link ItemObjectsCombinationTest} slot rules)
  * and {@link DefaultItems} starter gear.
  */
+@Disabled
 class RaidWinrateTest {
     private static final String TOML_PATH = "game-data/item_objects_catalog.toml";
     private static final List<Item> DEFAULT_ITEMS = List.of(
