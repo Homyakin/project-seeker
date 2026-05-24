@@ -69,7 +69,7 @@ public class LocaleUtils {
     }
 
     public static int power(int power) {
-        return power / 100; // делим на 100, так как слишком большие числа (32052 в дефолте)
+        return power / 100; // делим на 10, так как слишком большие числа
     }
 
     public static String personageNameWithBadge(PersonageLastOnline personage) {
