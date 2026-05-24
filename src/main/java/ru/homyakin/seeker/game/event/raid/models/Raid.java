@@ -7,7 +7,6 @@ import java.util.Map;
 public record Raid(
     int eventId,
     String code,
-    RaidTemplate template,
     Map<Language, RaidLocale> locales
 ) implements Localized<RaidLocale> {
 }

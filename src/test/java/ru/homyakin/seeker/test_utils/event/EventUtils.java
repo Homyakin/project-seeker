@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.raid.models.RaidLocale;
-import ru.homyakin.seeker.game.event.raid.models.RaidTemplate;
+import ru.homyakin.seeker.game.event.raid.models.RaidType;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.test_utils.TestRandom;
 
@@ -19,8 +19,7 @@ public class EventUtils {
             ));
         return new Raid(
             TestRandom.nextInt(),
-            TestRandom.randomAlphanumeric(10),
-            RaidTemplate.ENEMY_GROUP,
+            RaidType.WOLFPACK.code(),
             locale
         );
     }
