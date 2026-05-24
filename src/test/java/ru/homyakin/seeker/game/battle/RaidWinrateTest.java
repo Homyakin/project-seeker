@@ -123,6 +123,41 @@ class RaidWinrateTest {
     }
 
     @Test
+    void maggeseFlockWinrateWithRandomCatalogLoadouts() {
+        final var objectsBySlot = groupBySlot(loadObjects());
+        runWinrateMatrix(
+            RaidType.MAGGEESE_FLOCK,
+            "maggeese flock / random catalog loadouts",
+            groupSize -> randomTeam(objectsBySlot, groupSize)
+        );
+    }
+
+    @Test
+    void maggeseFlockWinrateWithDefaultItems() {
+        final var singlePersonage = defaultPersonage();
+        runWinrateMatrix(
+            RaidType.MAGGEESE_FLOCK,
+            "maggeese flock / default items (power=%.2f)".formatted(singlePersonage.power()),
+            RaidWinrateTest::defaultTeam
+        );
+    }
+
+    /**
+     * Counter pick vs Maggeese Flock: SLASH weapons (exploit CLOTH's lowest resist, ×0.75 effective defence)
+     * + PLATE armour (best resist against the Beak Chargers' SLASH damage, ×1.25 mitigation).
+     */
+    @Test
+    void maggeseFlockWinrateWithCounterPickTeam() {
+        final var objectsBySlot = groupBySlot(loadObjects());
+        final var counterSlots = counterPickSlots(objectsBySlot, AttackType.SLASH, DefenseType.PLATE);
+        runWinrateMatrix(
+            RaidType.MAGGEESE_FLOCK,
+            "maggeese flock / counter pick (SLASH + PLATE)",
+            groupSize -> randomTeam(counterSlots, groupSize)
+        );
+    }
+
+    @Test
     void myconidColonyWinrateWithRandomCatalogLoadouts() {
         final var objectsBySlot = groupBySlot(loadObjects());
         runWinrateMatrix(
