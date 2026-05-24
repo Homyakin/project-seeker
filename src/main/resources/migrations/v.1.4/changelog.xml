@@ -18,7 +18,7 @@
     <include file="changes/2026-05-23_02_raid-result-item-fk-to-new-item.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-23_03_add-battle-position-to-personage.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-23_04_drop-legacy-item-tables.xml" relativeToChangelogFile="true"/>
-    <include file="changes/2026-05-23_05_add-5-season-badge-to-personages.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-23_05_start-season-6.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-23_06_add-5-season-badge-to-groups.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-24_01_drop-legacy-raids.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-24_02_wipe-outpost.xml" relativeToChangelogFile="true"/>
