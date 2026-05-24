@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.event.raid.models;
 
 public enum RaidType {
-    WOLFPACK
+    WOLFPACK,
+    ZOMBIE_HORDE
 }
