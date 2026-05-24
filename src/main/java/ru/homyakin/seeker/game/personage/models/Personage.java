@@ -225,7 +225,7 @@ public record Personage(
         );
     }
 
-    private static final int MAX_BAG_SIZE = 10;
+    private static final int MAX_BAG_SIZE = 15;
     public static final Money CHANGE_NAME_COST = new Money(20);
     private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{
         put(PersonageSlot.MAIN_HAND, 1);
