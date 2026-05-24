@@ -19,6 +19,7 @@ public enum BadgeView {
     NEW_YEAR_2026("new-year-2026", EmojiManager.getByAlias(":sparkles:").orElseThrow().getFirst().getEmoji()),
     VALENTINE("valentine", EmojiManager.getByAlias(":two_hearts:").orElseThrow().getFirst().getEmoji()),
     BUG("bug", EmojiManager.getByAlias(":beetle:").orElseThrow().getFirst().getEmoji()),
+    FIFTH_SEASON("fifth-season", EmojiManager.getByAlias(":frog:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;

@@ -108,3 +108,9 @@ code = "bug"
 
 [badge.locales.RU]
 description = "Охотник На Жуков"
+
+[[badge]]
+code = "fifth-season"
+
+[badge.locales.RU]
+description = "Пятый Сезон"
