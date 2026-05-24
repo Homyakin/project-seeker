@@ -35,13 +35,16 @@ public class BattleLocalization {
         params.put("power_value", LocaleUtils.power((int) personage.power()));
         params.put("health_icon", Icons.HEALTH);
         params.put("health_value", personage.maxHealth());
+        params.put("range_icon", Icons.RANGE);
         params.put("range_value", personage.range());
+        params.put("speed_icon", Icons.SPEED);
         params.put("speed_value", personage.initiative());
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
         params.put("crit_chance_value", personage.critChance());
         params.put("dodge_icon", Icons.DODGE);
         params.put("dodge_chance_value", personage.dodgeChance());
         params.put("crit_multiplier_value", formatCritMultiplier(personage.critMultiplier()));
+        params.put("threat_icon", Icons.THREAT);
         params.put("threat_value", personage.totalThreat());
         params.put("attack_lines", formatAttackLines(language, personage));
         params.put("defense_lines", formatDefenseLines(language, personage));

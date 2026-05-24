@@ -4,12 +4,12 @@ battleStats = """\
 📍Позиция: ${position_name} (${battle_position_command})
 ${power_icon}Сила: ${power_value}
 ${health_icon}Здоровье: ${health_value}
-📏Дальность: ${range_value}
-⚡Скорость: ${speed_value}
+${range_icon}Дальность: ${range_value}
+${speed_icon}Скорость: ${speed_value}
 ${crit_attack_icon}Шанс крита: ${crit_chance_value}%
 ${dodge_icon}Шанс уклонения: ${dodge_chance_value}%
 💥Множитель крита: ${crit_multiplier_value}
-🎯Угроза: ${threat_value}
+${threat_icon}Угроза: ${threat_value}
 
 <b>Атака:</b>
 ${attack_lines}

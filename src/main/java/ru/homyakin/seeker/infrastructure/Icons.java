@@ -17,6 +17,9 @@ public class Icons {
     public static final String BLOCKED_DAMAGE = DEFENSE;
     public static final String MISS = EmojiManager.getByAlias(":o:").orElseThrow().getFirst().getEmoji();
     public static final String DODGE = EmojiManager.getByAlias(":dash:").orElseThrow().getFirst().getEmoji();
+    public static final String SPEED = EmojiManager.getByAlias(":zap:").orElseThrow().getFirst().getEmoji();
+    public static final String RANGE = EmojiManager.getByAlias(":straight_ruler:").orElseThrow().getFirst().getEmoji();
+    public static final String THREAT = EmojiManager.getByAlias(":dart:").orElseThrow().getFirst().getEmoji();
     public static final String ENABLED = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getFirst().getEmoji();
     public static final String DISABLED = EmojiManager.getByAlias(":x:").orElseThrow().getFirst().getEmoji();
     public static final String RANDOM = EmojiManager.getByAlias(":game_die:").orElseThrow().getFirst().getEmoji();

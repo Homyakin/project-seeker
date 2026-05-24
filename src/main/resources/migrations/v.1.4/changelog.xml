@@ -23,4 +23,5 @@
     <include file="changes/2026-05-24_01_drop-legacy-raids.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-24_02_wipe-outpost.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-24_03_wipe-personage.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-24_04_wipe-raid-level.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
