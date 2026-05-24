@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="drop-legacy-raids">
+        <sql>
+            DELETE FROM grouptg_to_launched_event
+            WHERE launched_event_id IN (
+                SELECT le.id FROM launched_event le
+                INNER JOIN event e ON e.id = le.event_id
+                WHERE e.type_id = 1
+            );
+
+            DELETE FROM personage_to_event
+            WHERE launched_event_id IN (
+                SELECT le.id FROM launched_event le
+                INNER JOIN event e ON e.id = le.event_id
+                WHERE e.type_id = 1
+            );
+
+            DELETE FROM personage_raid_result
+            WHERE launched_event_id IN (
+                SELECT le.id FROM launched_event le
+                INNER JOIN event e ON e.id = le.event_id
+                WHERE e.type_id = 1
+            );
+
+            DELETE FROM launched_event_to_pgroup
+            WHERE launched_event_id IN (
+                SELECT le.id FROM launched_event le
+                INNER JOIN event e ON e.id = le.event_id
+                WHERE e.type_id = 1
+            );
+
+            DELETE FROM launched_event
+            WHERE event_id IN (SELECT id FROM event WHERE type_id = 1);
+
+            DELETE FROM raid
+            WHERE event_id IN (
+                SELECT id FROM event
+                WHERE type_id = 1
+                AND code IN (
+                    'grumpy_fairy', 'pied_piper', 'crow_harpy', 'krotokraken', 'myconid',
+                    'mimic_inseminator', 'necromancer', 'bridesmaid', 'ashann_cult', 'valdemar',
+                    'maggeese', 'straw_crow', 'wise_wolf', 'whirlpools', 'weevil',
+                    'goblin-hunting', 'crab-rave', 'zlich'
+                )
+            );
+
+            DELETE FROM event
+            WHERE type_id = 1
+            AND code IN (
+                'grumpy_fairy', 'pied_piper', 'crow_harpy', 'krotokraken', 'myconid',
+                'mimic_inseminator', 'necromancer', 'bridesmaid', 'ashann_cult', 'valdemar',
+                'maggeese', 'straw_crow', 'wise_wolf', 'whirlpools', 'weevil',
+                'goblin-hunting', 'crab-rave', 'zlich'
+            );
+        </sql>
+
+        <dropForeignKeyConstraint baseTableName="raid" constraintName="fk_raid_raid_template"/>
+        <dropColumn tableName="raid" columnName="template_id"/>
+        <dropTable tableName="raid_template"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,7 +1,6 @@
 [[raid]]
     isEnabled = true
     code = "wolfpack"
-    template = "ENEMY_GROUP"
 
     [raid.locales.RU]
     intro = "Волки сбиваются в стаи у самых дорог."
