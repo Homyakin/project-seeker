@@ -1,0 +1,34 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-5-season-badge-to-groups">
+        <sql>
+            <![CDATA[
+            WITH pgroup_points AS (
+                SELECT 
+                    letp.pgroup_id,
+                    SUM(CASE
+                        WHEN le.status_id = 3 THEN 1
+                        WHEN le.status_id = 2 THEN 0.5
+                        ELSE 0
+                    END) AS points
+                FROM launched_event_to_pgroup letp
+                INNER JOIN launched_event le ON letp.launched_event_id = le.id
+                INNER JOIN event e ON le.event_id = e.id AND e.type_id = 1
+                INNER JOIN season s ON s.number = 5
+                WHERE le.end_date >= s.start_date AND le.end_date < s.end_date
+                GROUP BY letp.pgroup_id
+            ),
+            qualified_pgroups AS (
+                SELECT pgroup_id FROM pgroup_points WHERE points >= 21
+            )
+            INSERT INTO pgroup_to_badge (pgroup_id, badge_id)
+            SELECT p.pgroup_id, b.id
+            FROM qualified_pgroups p, badge b
+            WHERE b.code = 'fifth-season';
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>
