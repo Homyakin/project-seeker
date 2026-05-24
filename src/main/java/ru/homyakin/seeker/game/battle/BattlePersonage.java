@@ -173,7 +173,9 @@ public class BattlePersonage {
         }
         this.critMultiplier = totalCritMultiplier;
         for (final var entry : activeSkills.entrySet()) {
-            itemSkills.add(SkillMapper.map(entry.getKey(), entry.getValue()));
+            if (entry.getValue() > 0) {
+                itemSkills.add(SkillMapper.map(entry.getKey(), entry.getValue()));
+            }
         }
         for (final var skill : itemSkills) {
             switch (skill) {

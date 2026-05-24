@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
@@ -35,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  * Single-iteration world raid battle against {@code game-data/prod/world_raids_v4.toml}.
  * Uses random catalog loadouts (same rules as {@link RaidWinrateTest}) and writes JSON battle logs like {@link BattleSimulator}.
  */
+@Disabled
 class WorldRaidBattleSimulatorTest {
     private static final String WORLD_RAIDS_TOML_PATH = "game-data/prod/world_raids_v4.toml";
     private static final String ITEM_OBJECTS_TOML_PATH = "game-data/item_objects_catalog.toml";

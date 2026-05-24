@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.battle;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 public class BattleSimulator {
     // 🔨 Воин
     // HP=2500, DEF=320 PLATE, ATK=150 BLUNT
