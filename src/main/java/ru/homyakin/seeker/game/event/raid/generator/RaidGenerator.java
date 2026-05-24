@@ -15,11 +15,11 @@ public class RaidGenerator {
             + calcPowerBonusFromLevel(event.raidParams().raidLevel());
         return switch (raidType) {
             case WOLFPACK -> new WolfPackGenerator().generate(personages, powerBonus);
+            case ZOMBIE_HORDE -> new ZombieHordeGenerator().generate(personages, powerBonus);
         };
     }
 
     private double calcPowerBonusFromLevel(int raidLevel) {
-        final var levelDiff = raidLevel - 10;
-        return levelDiff * 0.1;
+        return (raidLevel - 10) * 0.06 + 0.14;
     }
 }

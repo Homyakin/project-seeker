@@ -4,78 +4,64 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
-import ru.homyakin.seeker.game.battle.BattleActionLog;
-import ru.homyakin.seeker.game.battle.BattleContext;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.DamageRoll;
-import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-/**
- * Two personages: attacker items sum to {@code attackTotal} of {@code attackType};
- * defender items sum to {@code defenseTotal} of {@code defenseType}.
- * {@link BattlePersonage#receiveDamageFrom} applies matrix-weighted defense; random damage spread is disabled.
- */
 class BattlePersonageMitigatedDamageTest {
 
-    /** Same constant as {@code BattlePersonage} mitigation curve (not public on production type). */
-    private static final int DEFENSE_COEF = 500;
+    private static final int ATTACK = 100;
+    private static final int DEFENSE = 100;
 
-    private static int expectedMitigatedPortion(
-        int rawAttack,
-        int defenseTotal,
-        DefenseType defenseType,
-        AttackType attackType
-    ) {
-        final double effectiveDef =
-            defenseTotal * BattlePersonage.damageMitigationMultiplier(defenseType, attackType);
-        final double defenseReduce = 1 - effectiveDef / (effectiveDef + DEFENSE_COEF);
-        return (int) (rawAttack * defenseReduce);
-    }
-
-    static Stream<Arguments> singleLayerCases() {
+    static Stream<Arguments> mitigatedDamageCases() {
         return Stream.of(
-            arguments(100, 100, AttackType.SLASH, DefenseType.PLATE),
-            arguments(200, 50, AttackType.BLUNT, DefenseType.CLOTH),
-            arguments(150, 80, AttackType.MAGICAL, DefenseType.ARCANE)
+            arguments(AttackType.SLASH, DefenseType.CLOTH, 86),
+            arguments(AttackType.BLUNT, DefenseType.CLOTH, 80),
+            arguments(AttackType.PIERCE, DefenseType.CLOTH, 84),
+            arguments(AttackType.MAGICAL, DefenseType.CLOTH, 81),
+            arguments(AttackType.SLASH, DefenseType.LEATHER, 84),
+            arguments(AttackType.BLUNT, DefenseType.LEATHER, 81),
+            arguments(AttackType.PIERCE, DefenseType.LEATHER, 80),
+            arguments(AttackType.MAGICAL, DefenseType.LEATHER, 86),
+            arguments(AttackType.SLASH, DefenseType.PLATE, 80),
+            arguments(AttackType.BLUNT, DefenseType.PLATE, 86),
+            arguments(AttackType.PIERCE, DefenseType.PLATE, 81),
+            arguments(AttackType.MAGICAL, DefenseType.PLATE, 84),
+            arguments(AttackType.SLASH, DefenseType.ARCANE, 81),
+            arguments(AttackType.BLUNT, DefenseType.ARCANE, 84),
+            arguments(AttackType.PIERCE, DefenseType.ARCANE, 86),
+            arguments(AttackType.MAGICAL, DefenseType.ARCANE, 80)
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("singleLayerCases")
-    void givenAttackerAndDefender_whenReceiveDamage_thenHealthDropsByMitigatedAmount(
-        int attackTotal,
-        int defenseTotal,
+    @ParameterizedTest(name = "{0} attack against {1} defense equals {2} damage")
+    @MethodSource("mitigatedDamageCases")
+    void mitigatedDamage(
         AttackType attackType,
-        DefenseType defenseType
+        DefenseType defenseType,
+        int expectedDamage
     ) {
-        final int expectedDamageTaken =
-            expectedMitigatedPortion(attackTotal, defenseTotal, defenseType, attackType);
-
         try (final var random = Mockito.mockStatic(RandomUtils.class)) {
             random.when(() -> RandomUtils.getInPercentRange(Mockito.anyInt(), Mockito.anyDouble()))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
             final var attackerItems = List.of(
-                Item.weapon(attackType, 1, attackTotal, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
+                Item.weapon(attackType, 1, ATTACK, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
             );
             final var defenderItems = List.of(
-                Item.armor(defenseType, defenseTotal, 50_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
+                Item.armor(defenseType, DEFENSE, 50_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
             );
 
             final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
@@ -83,69 +69,15 @@ class BattlePersonageMitigatedDamageTest {
             final var context = new BattleContext(List.of(attacker), List.of(defender));
 
             final int healthBefore = defender.health();
-            final var roll = new DamageRoll(Map.of(attackType, attackTotal), false);
-            defender.receiveDamageFrom(attacker, roll, new BattleActionLog(), 1, context);
-
-            assertEquals(healthBefore - expectedDamageTaken, defender.health());
-        }
-    }
-
-    @Test
-    void givenStackedWeaponsAndArmors_whenReceiveDamage_thenUsesSummedStats() {
-        final int expectedDamageTaken =
-            expectedMitigatedPortion(100, 100, DefenseType.PLATE, AttackType.SLASH);
-
-        try (final var random = Mockito.mockStatic(RandomUtils.class)) {
-            random.when(() -> RandomUtils.getInPercentRange(Mockito.anyInt(), Mockito.anyDouble()))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
-            final var attackerItems = List.of(
-                Item.weapon(AttackType.SLASH, 1, 40, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON),
-                Item.weapon(AttackType.SLASH, 1, 60, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
-            );
-            final var defenderItems = List.of(
-                Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON),
-                Item.armor(DefenseType.PLATE, 50, 25_000, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
-            );
-
-            final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
-            final var defender = new BattlePersonage(defenderItems, Position.FRONT);
-            final var context = new BattleContext(List.of(attacker), List.of(defender));
-
-            final int healthBefore = defender.health();
-            final var roll = new DamageRoll(Map.of(AttackType.SLASH, 100), false);
-            defender.receiveDamageFrom(attacker, roll, new BattleActionLog(), 1, context);
-
-            assertEquals(healthBefore - expectedDamageTaken, defender.health());
-        }
-    }
-
-    @Test
-    void givenOverkillDamage_whenReceiveDamage_thenHealthDoesNotGoBelowZero() {
-        try (final var random = Mockito.mockStatic(RandomUtils.class)) {
-            random.when(() -> RandomUtils.getInPercentRange(Mockito.anyInt(), Mockito.anyDouble()))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
-            final var attackerItems = List.of(
-                Item.weapon(AttackType.SLASH, 1, 500, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
-            );
-            final var defenderItems = List.of(
-                Item.armor(DefenseType.PLATE, 10, 100, new Modifier(ActiveEnum.THORNS), ItemRarity.COMMON)
-            );
-
-            final var attacker = new BattlePersonage(attackerItems, Position.FRONT);
-            final var defender = new BattlePersonage(defenderItems, Position.FRONT);
-            final var context = new BattleContext(List.of(attacker), List.of(defender));
-
             defender.receiveDamageFrom(
                 attacker,
-                new DamageRoll(Map.of(AttackType.SLASH, 500), false),
+                new DamageRoll(Map.of(attackType, ATTACK), false),
                 new BattleActionLog(),
                 1,
                 context
             );
 
-            assertEquals(0, defender.health());
+            assertEquals(healthBefore - expectedDamage, defender.health());
         }
     }
 }

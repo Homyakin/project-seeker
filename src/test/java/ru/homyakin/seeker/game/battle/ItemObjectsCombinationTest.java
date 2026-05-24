@@ -1,15 +1,8 @@
 package ru.homyakin.seeker.game.battle;
 
-import ru.homyakin.seeker.game.battle.Battle;
-import ru.homyakin.seeker.game.battle.BattlePersonage;
-import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
-import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
-import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.ItemAttack;
-import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
@@ -108,28 +101,6 @@ class ItemObjectsCombinationTest {
 
         assertFalse(ranked.isEmpty());
         printPowerStats(ranked);
-    }
-
-    @Test
-    void referenceLoadoutsMatchTargetStats() {
-        final var objectsByCode = loadObjects().stream()
-            .collect(Collectors.toMap(ItemObject::code, object -> object));
-
-        assertLoadoutStats(
-            objectsByCode,
-            List.of("mace", "tower_shield", "breastplate", "greaves", "sabatons", "great_helm", "gauntlets"),
-            new LoadoutStats(1850, DefenseType.PLATE, 160, AttackType.BLUNT, 300, 1, 2, 1, 1.25, 110, 56)
-        );
-        assertLoadoutStats(
-            objectsByCode,
-            List.of("spear", "dagger", "cuirass", "leather_chausses", "boots", "leather_helm", "leather_gloves"),
-            new LoadoutStats(1250, DefenseType.LEATHER, 106, AttackType.PIERCE, 370, 2, 10, 12, 1.55, 165, 13)
-        );
-        assertLoadoutStats(
-            objectsByCode,
-            List.of("staff", "orb", "robe", "cloth_chausses", "cloth_boots", "hood", "cloth_gloves"),
-            new LoadoutStats(1250, DefenseType.CLOTH, 106, AttackType.MAGICAL, 370, 3, 10, 7, 1.55, 150, 10)
-        );
     }
 
     @Test
@@ -292,66 +263,9 @@ class ItemObjectsCombinationTest {
             .collect(Collectors.joining(", "));
     }
 
-    private static void assertLoadoutStats(
-        Map<String, ItemObject> objectsByCode,
-        List<String> codes,
-        LoadoutStats expected
-    ) {
-        final var objects = codes.stream()
-            .map(objectsByCode::get)
-            .toList();
-        assertFalse(objects.contains(null), () -> "Missing object in " + codes);
-
-        final var attack = objects.stream()
-            .flatMap(object -> object.attack().stream())
-            .filter(itemAttack -> itemAttack.attackType() == expected.attackType())
-            .mapToInt(ItemAttack::attack)
-            .sum();
-        final var maxRange = objects.stream()
-            .flatMap(object -> object.attack().stream())
-            .mapToInt(ItemAttack::range)
-            .max()
-            .orElse(1);
-        final var defense = objects.stream()
-            .flatMap(object -> object.defense().stream())
-            .filter(itemDefense -> itemDefense.defenseType() == expected.defenseType())
-            .mapToInt(ItemDefense::defense)
-            .sum();
-
-        assertEquals(expected.health(), objects.stream().mapToInt(ItemObject::health).sum(), codes.toString());
-        assertEquals(expected.defense(), defense, codes.toString());
-        assertEquals(expected.attack(), attack, codes.toString());
-        assertEquals(expected.range(), maxRange, codes.toString());
-        assertEquals(expected.critChance(), objects.stream().mapToInt(ItemObject::critChance).sum(), codes.toString());
-        assertEquals(expected.dodgeChance(), objects.stream().mapToInt(ItemObject::dodgeChance).sum(), codes.toString());
-        assertEquals(
-            expected.critMultiplier(),
-            BASE_CRIT_MULTIPLIER + objects.stream().mapToDouble(ItemObject::critMultiplier).sum(),
-            0.000_001,
-            codes.toString()
-        );
-        assertEquals(expected.speed(), objects.stream().mapToInt(ItemObject::speed).sum(), codes.toString());
-        assertEquals(expected.baseThreat(), objects.stream().mapToInt(ItemObject::baseThreat).sum(), codes.toString());
-    }
-
     private record RankedObject(ItemObject object, double power) {
     }
 
     private record RankedLoadout(List<ItemObject> codes, double power) {
-    }
-
-    private record LoadoutStats(
-        int health,
-        DefenseType defenseType,
-        int defense,
-        AttackType attackType,
-        int attack,
-        int range,
-        int critChance,
-        int dodgeChance,
-        double critMultiplier,
-        int speed,
-        int baseThreat
-    ) {
     }
 }

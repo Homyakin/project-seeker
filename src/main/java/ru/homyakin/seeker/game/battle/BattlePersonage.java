@@ -49,27 +49,27 @@ public class BattlePersonage {
     private static final Map<DefenseType, Map<AttackType, Double>> DAMAGE_MATRIX = Map.of(
         DefenseType.CLOTH, Map.of(
             AttackType.SLASH, 0.75,
-            AttackType.BLUNT, 1.2,
-            AttackType.PIERCE, 0.8,
-            AttackType.MAGICAL, 1.25
+            AttackType.BLUNT, 1.25,
+            AttackType.PIERCE, 0.9,
+            AttackType.MAGICAL, 1.1
         ),
         DefenseType.LEATHER, Map.of(
-            AttackType.SLASH, 0.8,
-            AttackType.BLUNT, 1.2,
+            AttackType.SLASH, 0.9,
+            AttackType.BLUNT, 1.1,
             AttackType.PIERCE, 1.25,
             AttackType.MAGICAL, 0.75
         ),
         DefenseType.PLATE, Map.of(
             AttackType.SLASH, 1.25,
             AttackType.BLUNT, 0.75,
-            AttackType.PIERCE, 1.2,
-            AttackType.MAGICAL, 0.8
+            AttackType.PIERCE, 1.1,
+            AttackType.MAGICAL, 0.9
         ),
         DefenseType.ARCANE, Map.of(
-            AttackType.SLASH, 1.2,
-            AttackType.BLUNT, 0.85,
+            AttackType.SLASH, 1.1,
+            AttackType.BLUNT, 0.9,
             AttackType.PIERCE, 0.75,
-            AttackType.MAGICAL, 1.20
+            AttackType.MAGICAL, 1.25
         )
     );
 

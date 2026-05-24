@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,16 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
 
     @Override
     public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerBonus) {
-        int wolfsCount = 3 + personages.size() / 3;
+        int wolfsCount = personages.size();
+        final double groupSizeScaling;
+        if (personages.size() <= 13) {
+            groupSizeScaling = 1.0 + MathUtils.log(2.2, wolfsCount) * 0.045;
+        } else {
+            groupSizeScaling = 1.1 + MathUtils.log(10, wolfsCount - 13) * 0.045;
+        }
         final var targetPower = personages.stream()
             .mapToDouble(BattlePersonage::power)
-            .sum() * powerBonus;
+            .sum() * powerBonus * groupSizeScaling;
         final var characteristicsMultiplier = characteristicsMultiplier(wolfsCount, targetPower);
 
         final var wolfPack = new ArrayList<BattlePersonage>();
