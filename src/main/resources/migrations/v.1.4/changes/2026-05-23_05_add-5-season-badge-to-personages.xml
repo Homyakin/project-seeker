@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="start-season-6">
+        <sql endDelimiter="/">
+            <![CDATA[
+            DO $$
+            DECLARE
+                ts timestamp := NOW();
+            BEGIN
+                INSERT INTO season (number, start_date) VALUES (6, ts);
+                UPDATE season SET end_date = ts WHERE number = 5;
+            END $$;
+            /
+            ]]>
+        </sql>
+
+        <sql>
+            <![CDATA[
+            WITH personage_points AS (
+                SELECT 
+                    pte.personage_id, 
+                    SUM(CASE WHEN e.type_id = 2 THEN 0.05 ELSE 1 END) AS points
+                FROM personage_to_event pte
+                LEFT JOIN launched_event le ON pte.launched_event_id = le.id
+                LEFT JOIN event e ON le.event_id = e.id
+                LEFT JOIN season s ON s.number = 5
+                WHERE le.end_date >= s.start_date AND le.end_date < s.end_date
+                GROUP BY pte.personage_id
+            ),
+            qualified_personages AS (
+                SELECT personage_id FROM personage_points WHERE points >= 20
+            )
+            INSERT INTO personage_available_badge (personage_id, badge_id, is_active)
+            SELECT p.personage_id, b.id, false
+            FROM qualified_personages p, badge b
+            WHERE b.code = 'fifth-season';
+            ]]>
+        </sql>
+    </changeSet>
+</databaseChangeLog>
