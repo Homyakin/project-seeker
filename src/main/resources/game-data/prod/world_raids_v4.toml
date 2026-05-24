@@ -1,43 +1,4 @@
 [[raid]]
-code = "ashen_wolves"
-isEnabled = true
-
-[raid.locales.RU]
-intro = """\
-Стая пепельных волков вышла из горных пещер и уже уничтожает обозы на северной дороге.
-Нужно быстро собрать отряд и остановить их, пока хищники не добрались до поселений."""
-
-[raid.info]
-
-[[raid.info.personageTemplates]]
-count = 1
-[raid.info.personageTemplates.personage]
-health = 650
-critChance = 3
-dodgeChance = 1
-critMultiplier = 0.05
-speed = 45
-baseThreat = 22
-position = "FRONT"
-
-[[raid.info.personageTemplates.personage.skills]]
-activeEnum = "BLEEDING"
-rank = "SECOND"
-
-[[raid.info.personageTemplates.personage.skills]]
-activeEnum = "COUNTER_ATTACK"
-rank = "FIRST"
-
-[[raid.info.personageTemplates.personage.attacks]]
-attackType = "SLASH"
-range = 1
-attack = 420
-
-[[raid.info.personageTemplates.personage.defenses]]
-defenseType = "PLATE"
-defense = 60
-
-[[raid]]
 code = "dragon"
 isEnabled = true
 
@@ -49,82 +10,179 @@ intro = """\
 в окрестностях Крезара, однако необходимо срочно уничтожить его, пока он не начал нападать \
 на мирное население."""
 
-[raid.locales.ES]
-intro = """\
-¿Es un pájaro? ¿Es una bola de fuego? ¡Es un dragón! ¡¿UN DRAGÓN???????
-
-Estas criaturas fueron exterminadas antes incluso de que el Imperio apareciera en el mapa del mundo. \
-No sabemos de dónde ha salido en las cercanías de Krezar, pero hay que eliminarlo urgentemente \
-antes de que empiece a atacar a la población pacífica."""
-
 [raid.info]
 
+# две передние лапы дракона
 [[raid.info.personageTemplates]]
-count = 1
-[raid.info.personageTemplates.personage]
-health = 180000
-critChance = 8
-dodgeChance = 3
-critMultiplier = 0.35
-speed = 18
-baseThreat = 12
-position = "BACK"
+    count = 2
+    [raid.info.personageTemplates.personage]
+    health = 60000
+    critChance = 15
+    dodgeChance = 15
+    critMultiplier = 1
+    speed = 400
+    baseThreat = 15
+    position = "FRONT"
 
-[[raid.info.personageTemplates.personage.skills]]
-activeEnum = "BERSERK"
-rank = "THIRD"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "BLEEDING"
+    rank = "FIFTH"
 
-[[raid.info.personageTemplates.personage.attacks]]
-attackType = "MAGICAL"
-range = 2
-attack = 100
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "SLASH"
+    range = 1
+    attack = 300
 
-[[raid.info.personageTemplates.personage.defenses]]
-defenseType = "PLATE"
-defense = 300
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "LEATHER"
+    defense = 400
 
-[[raid]]
-code = "swamp-thing"
-isEnabled = true
-
-[raid.locales.RU]
-intro = """\
-Обнаружена мерзкая болотная тварь!
-
-Похоже на мутировавшую слизь. Умом и сообразительностью не отличается, зато очень даже отличается \
-агрессивностью и живучестью. Несколько крестьян уже успели стать её жертвами, пока ходили в лес за грибами. \
-Убейте её, пока жертв не стало больше."""
-
-[raid.locales.ES]
-intro = """\
-¡Se ha detectado una asquerosa criatura del pantano!
-
-Parece una baba mutada. No se destaca por su inteligencia o astucia, pero sí por ser increíblemente \
-agresiva y resistente. Ya varios campesinos han caído víctimas suyas mientras recogían hongos en el bosque. \
-Mátenla antes de que haya más víctimas."""
-
-[raid.info]
-
+# две задние лапы дракона
 [[raid.info.personageTemplates]]
-count = 1
-[raid.info.personageTemplates.personage]
-health = 220000
-critChance = 2
-dodgeChance = 1
-critMultiplier = 0.1
-speed = 12
-baseThreat = 15
-position = "FRONT"
+    count = 2
+    [raid.info.personageTemplates.personage]
+    health = 60000
+    critChance = 15
+    dodgeChance = 15
+    critMultiplier = 1
+    speed = 400
+    baseThreat = 15
+    position = "BACK"
 
-[[raid.info.personageTemplates.personage.skills]]
-activeEnum = "THORNS"
-rank = "THIRD"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "BLEEDING"
+    rank = "FIFTH"
 
-[[raid.info.personageTemplates.personage.attacks]]
-attackType = "BLUNT"
-range = 1
-attack = 80
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "SLASH"
+    range = 3
+    attack = 300
 
-[[raid.info.personageTemplates.personage.defenses]]
-defenseType = "PLATE"
-defense = 400
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "LEATHER"
+    defense = 400
+
+# голова дракона
+[[raid.info.personageTemplates]]
+    count = 1
+    [raid.info.personageTemplates.personage]
+    health = 80000
+    critChance = 25
+    dodgeChance = 25
+    critMultiplier = 2
+    speed = 350
+    baseThreat = 5
+    position = "FRONT"
+
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "PRECISE_STRIKE"
+    rank = "FIFTH"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "COUNTER_ATTACK"
+    rank = "FIFTH"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "THORNS"
+    rank = "FIFTH"
+
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "SLASH"
+    range = 1
+    attack = 200
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "MAGICAL"
+    range = 2
+    attack = 100
+
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "ARCANE"
+    defense = 400
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "LEATHER"
+    defense = 400
+
+# живот дракона
+[[raid.info.personageTemplates]]
+    count = 1
+    [raid.info.personageTemplates.personage]
+    health = 200000
+    critChance = 5
+    dodgeChance = 5
+    critMultiplier = 0.1
+    speed = 150
+    baseThreat = 40
+    position = "MID"
+
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "THORNS"
+    rank = "FIFTH"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "SELF_HEAL"
+    rank = "FIFTH"
+
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "BLUNT"
+    range = 2
+    attack = 500
+
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "LEATHER"
+    defense = 1000
+
+# крылья дракона
+[[raid.info.personageTemplates]]
+    count = 2
+    [raid.info.personageTemplates.personage]
+    health = 70000
+    critChance = 20
+    dodgeChance = 5
+    critMultiplier = 2
+    speed = 300
+    baseThreat = 40
+    position = "MID"
+
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "THORNS"
+    rank = "FIFTH"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "HIT_AND_RUN"
+    rank = "FIFTH"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "KNOCKBACK"
+    rank = "FIFTH"
+
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "BLUNT"
+    range = 2
+    attack = 400
+
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "LEATHER"
+    defense = 600
+
+# хвост дракона
+[[raid.info.personageTemplates]]
+    count = 1
+    [raid.info.personageTemplates.personage]
+    health = 70000
+    critChance = 20
+    dodgeChance = 20
+    critMultiplier = 1.5
+    speed = 500
+    baseThreat = 20
+    position = "BACK"
+
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "BERSERK"
+    rank = "FIFTH"
+    [[raid.info.personageTemplates.personage.skills]]
+    activeEnum = "KNOCKBACK"
+    rank = "FIFTH"
+
+    [[raid.info.personageTemplates.personage.attacks]]
+    attackType = "PIERCE"
+    range = 4
+    attack = 500
+
+    [[raid.info.personageTemplates.personage.defenses]]
+    defenseType = "LEATHER"
+    defense = 200
