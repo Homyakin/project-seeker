@@ -77,6 +77,9 @@ public class HelpLocalization {
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
         params.put("dodge_icon", Icons.DODGE);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("speed_icon", Icons.SPEED);
+        params.put("range_icon", Icons.RANGE);
+        params.put("threat_icon", Icons.THREAT);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::battleSystem),
             params
