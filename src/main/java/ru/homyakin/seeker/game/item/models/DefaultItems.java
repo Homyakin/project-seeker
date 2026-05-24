@@ -65,10 +65,10 @@ public class DefaultItems {
             Optional.of(
                 new ItemDefense(
                     DefenseType.CLOTH,
-                    50
+                    30
                 )
             ),
-            100,
+            200,
             2,
             2,
             0.1,
@@ -90,12 +90,12 @@ public class DefaultItems {
             Optional.of(
                 new ItemDefense(
                     DefenseType.CLOTH,
-                    50
+                    30
                 )
             ),
-            100,
+            250,
             2,
-            2,
+            5,
             0.1,
             30,
             5,
@@ -115,12 +115,12 @@ public class DefaultItems {
             Optional.of(
                 new ItemDefense(
                     DefenseType.CLOTH,
-                    50
+                    10
                 )
             ),
-            100,
+            200,
             2,
-            2,
+            5,
             0.1,
             30,
             5,
