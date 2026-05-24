@@ -130,7 +130,7 @@ public class MaggeeseFlockGenerator implements RaidBattlePersonageGenerator {
                         BASE_MAGEESE_CRIT_CHANCE, BASE_MAGEESE_DODGE_CHANCE, BASE_MAGEESE_CRIT_MULTI,
                         BASE_MAGEESE_SPEED, BASE_MAGEESE_THREAT, null
                     ),
-                    Optional.of(new Modifier(ActiveEnum.FEINT)),
+                    Optional.of(new Modifier(ActiveEnum.HIT_AND_RUN)),
                     ItemRarity.LEGENDARY
                 )
             ),
