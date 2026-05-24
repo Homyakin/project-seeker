@@ -30,9 +30,9 @@ public class RaidLevelItemConfig {
     public RaidLevelItemConfig() {
         // Базовое распределение редкости предметов для рейдов (уровень 10)
         // Сначала доступны только COMMON и UNCOMMON вещи
-        baseRarityDistribution.put(ItemRarity.COMMON, 60);
+        baseRarityDistribution.put(ItemRarity.COMMON, 40);
         baseRarityDistribution.put(ItemRarity.UNCOMMON, 40);
-        baseRarityDistribution.put(ItemRarity.RARE, 0);
+        baseRarityDistribution.put(ItemRarity.RARE, 30);
         baseRarityDistribution.put(ItemRarity.EPIC, 0);
         baseRarityDistribution.put(ItemRarity.LEGENDARY, 0);
 
