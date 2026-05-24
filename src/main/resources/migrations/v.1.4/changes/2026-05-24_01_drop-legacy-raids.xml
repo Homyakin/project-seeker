@@ -4,63 +4,46 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
 >
-    <changeSet context="legacy" author="Homyakin" id="drop-legacy-raids">
+    <changeSet context="legacy" author="Homyakin" id="drop-legacy-raid-history">
         <sql>
-            DELETE FROM grouptg_to_launched_event
-            WHERE launched_event_id IN (
-                SELECT le.id FROM launched_event le
-                INNER JOIN event e ON e.id = le.event_id
-                WHERE e.type_id = 1
-            );
-
-            DELETE FROM personage_to_event
-            WHERE launched_event_id IN (
-                SELECT le.id FROM launched_event le
-                INNER JOIN event e ON e.id = le.event_id
-                WHERE e.type_id = 1
-            );
-
-            DELETE FROM personage_raid_result
-            WHERE launched_event_id IN (
-                SELECT le.id FROM launched_event le
-                INNER JOIN event e ON e.id = le.event_id
-                WHERE e.type_id = 1
-            );
-
-            DELETE FROM launched_event_to_pgroup
-            WHERE launched_event_id IN (
-                SELECT le.id FROM launched_event le
-                INNER JOIN event e ON e.id = le.event_id
-                WHERE e.type_id = 1
-            );
-
-            DELETE FROM launched_event
-            WHERE event_id IN (SELECT id FROM event WHERE type_id = 1);
-
-            DELETE FROM raid
-            WHERE event_id IN (
-                SELECT id FROM event
-                WHERE type_id = 1
-                AND code IN (
-                    'grumpy_fairy', 'pied_piper', 'crow_harpy', 'krotokraken', 'myconid',
-                    'mimic_inseminator', 'necromancer', 'bridesmaid', 'ashann_cult', 'valdemar',
-                    'maggeese', 'straw_crow', 'wise_wolf', 'whirlpools', 'weevil',
-                    'goblin-hunting', 'crab-rave', 'zlich'
-                )
-            );
-
-            DELETE FROM event
-            WHERE type_id = 1
-            AND code IN (
-                'grumpy_fairy', 'pied_piper', 'crow_harpy', 'krotokraken', 'myconid',
-                'mimic_inseminator', 'necromancer', 'bridesmaid', 'ashann_cult', 'valdemar',
-                'maggeese', 'straw_crow', 'wise_wolf', 'whirlpools', 'weevil',
-                'goblin-hunting', 'crab-rave', 'zlich'
-            );
+            TRUNCATE
+                world_raid_launched_tg,
+                world_raid_launched_pgroup,
+                world_raid_research,
+                world_raid_launched,
+                world_raid_template,
+                grouptg_to_launched_event,
+                personage_to_event,
+                personage_raid_result,
+                launched_event_to_pgroup,
+                pgroup_battle_result,
+                launched_event;
         </sql>
+    </changeSet>
 
+    <changeSet context="legacy" author="Homyakin" id="recreate-raid-table">
         <dropForeignKeyConstraint baseTableName="raid" constraintName="fk_raid_raid_template"/>
-        <dropColumn tableName="raid" columnName="template_id"/>
+        <dropForeignKeyConstraint baseTableName="raid" constraintName="fk_raid_event"/>
+        <dropTable tableName="raid"/>
         <dropTable tableName="raid_template"/>
+
+        <sql>DELETE FROM event WHERE type_id = 1;</sql>
+
+        <createTable tableName="raid">
+            <column name="event_id" type="INTEGER">
+                <constraints primaryKey="true" primaryKeyName="raid_pkey"/>
+            </column>
+            <column name="locale" type="JSON" defaultValue="{}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="event_id"
+                baseTableName="raid"
+                constraintName="fk_raid_event"
+                referencedColumnNames="id"
+                referencedTableName="event"
+        />
     </changeSet>
 </databaseChangeLog>

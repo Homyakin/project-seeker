@@ -1,4 +1,4 @@
-FROM postgres:14.4-alpine
+FROM postgres:18-alpine
 
 ENV POSTGRES_USER=dev
 ENV POSTGRES_PASSWORD=dev
