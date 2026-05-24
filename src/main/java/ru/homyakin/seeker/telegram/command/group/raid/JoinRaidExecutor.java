@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.raid;
 
 import org.springframework.stereotype.Component;
+
 import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -86,7 +87,16 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
         return switch (error) {
             case AddPersonageToRaidError.PersonageInOtherEvent _ ->
                 RaidLocalization.userAlreadyInOtherEvent(group.language());
-            case AddPersonageToRaidError.RaidNotExist _ -> CommonLocalization.internalError(group.language());
+            case AddPersonageToRaidError.RaidNotExist _ -> {
+                final var editText = RaidLocalization.raidNotFound(group.language());
+                telegramSender.send(EditMessageTextBuilder.builder()
+                    .chatId(command.groupTgId())
+                    .messageId(command.messageId())
+                    .text(editText)
+                    .build()
+                );
+                yield editText;
+            }
             case AddPersonageToRaidError.PersonageInThisRaid _ ->
                 RaidLocalization.userAlreadyInThisRaid(group.language());
             case AddPersonageToRaidError.RaidInProcess _ -> RaidLocalization.raidInProcess(group.language());

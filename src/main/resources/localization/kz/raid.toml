@@ -1,6 +1,7 @@
 joinRaidEvent = "Рейдке қосылу🗡 ${energy_icon}${energy_cost}%"
 userAlreadyInOtherEvent = "❌Сіз басқа шараға қатысып жатырсыз!"
 expiredRaid = "❌Рейд аяқталды!"
+raidNotFound = "⚠️Рейд табылмады!"
 raidInProcess = "❌Рейд басталып кетті"
 successRaid = [
     "Шара аяқталды! Рейд сәтті өтті.",

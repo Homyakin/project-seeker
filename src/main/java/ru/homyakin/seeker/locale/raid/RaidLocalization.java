@@ -60,6 +60,10 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::expiredRaid);
     }
 
+    public static String raidNotFound(Language language) {
+        return resources.getOrDefault(language, RaidResource::raidNotFound);
+    }
+
     public static String raidInProcess(Language language) {
         return resources.getOrDefault(language, RaidResource::raidInProcess);
     }

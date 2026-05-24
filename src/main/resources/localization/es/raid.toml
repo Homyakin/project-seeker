@@ -3,6 +3,7 @@ userAlreadyInThisRaid = "❌¡Ya estás participando en este incursión!"
 userAlreadyInOtherEvent = "❌¡Ya estás en otro evento!"
 exhaustedAlert = "⚠️¡Estás molido! Puedes luchar, pero sin recompensa. No se gastará energía."
 expiredRaid = "⚠️¡La incursión ya terminó!"
+raidNotFound = "⚠️¡Incursión no encontrada!"
 raidInProcess = "⚠️La incursión ya empezó"
 successJoinRaid = "✅¡Te uniste a la incursión con éxito!"
 successRaid = [

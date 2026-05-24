@@ -1,6 +1,7 @@
 joinRaidEvent = "Join raid🗡(${energy_icon}${energy_cost}%)"
 userAlreadyInOtherEvent = "❌You are already participating in another event!"
 expiredRaid = "❌This event is over!"
+raidNotFound = "⚠️Raid not found!"
 successRaid = [
     "Raid was successful."
 ]
