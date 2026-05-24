@@ -17,6 +17,7 @@ public class RaidGenerator {
             case WOLFPACK -> new WolfPackGenerator().generate(personages, powerBonus);
             case ZOMBIE_HORDE -> new ZombieHordeGenerator().generate(personages, powerBonus);
             case MYCONID_COLONY -> new MyconidColonyGenerator().generate(personages, powerBonus);
+            case MAGGEESE_FLOCK -> new MaggeeseFlockGenerator().generate(personages, powerBonus);
         };
     }
 
