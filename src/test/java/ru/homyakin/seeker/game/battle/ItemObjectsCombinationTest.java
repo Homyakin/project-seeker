@@ -1,8 +1,12 @@
 package ru.homyakin.seeker.game.battle;
 
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
+import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
+import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.ItemAttack;
+import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 
 import org.apache.commons.math3.stat.descriptive.rank.Percentile;
@@ -104,6 +108,51 @@ class ItemObjectsCombinationTest {
     }
 
     @Test
+    void referenceLoadoutsMatchTargetStats() {
+        final var objectsByCode = loadObjects().stream()
+            .collect(Collectors.toMap(ItemObject::code, object -> object));
+
+        assertLoadoutStats(
+            objectsByCode,
+            List.of("mace", "tower_shield", "cuirass", "greaves", "sabatons", "great_helm", "gauntlets"),
+            new LoadoutStats(2280, DefenseType.PLATE, 198, AttackType.BLUNT, 298, 1, 2, 1, 1.25, 87, 56)
+        );
+        assertLoadoutStats(
+            objectsByCode,
+            List.of("spear", "dagger", "breastplate", "leather_chausses", "boots", "leather_helm", "leather_gloves"),
+            new LoadoutStats(1600, DefenseType.LEATHER, 96, AttackType.PIERCE, 352, 2, 13, 8, 1.6, 128, 12)
+        );
+        assertLoadoutStats(
+            objectsByCode,
+            List.of("sword", "shortsword", "breastplate", "leather_chausses", "boots", "leather_helm", "leather_gloves"),
+            new LoadoutStats(1600, DefenseType.LEATHER, 96, AttackType.SLASH, 350, 1, 9, 9, 1.55, 140, 16)
+        );
+        assertLoadoutStats(
+            objectsByCode,
+            List.of("staff", "orb", "wizard_robe", "arcane_chausses", "arcane_boots", "circlet", "arcane_gloves"),
+            new LoadoutStats(1270, DefenseType.ARCANE, 122, AttackType.MAGICAL, 360, 3, 13, 7, 1.63, 156, 9)
+        );
+        assertLoadoutStats(
+            objectsByCode,
+            List.of("staff", "orb", "robe", "cloth_chausses", "cloth_boots", "hood", "cloth_gloves"),
+            new LoadoutStats(1090, DefenseType.CLOTH, 65, AttackType.MAGICAL, 360, 3, 10, 7, 1.58, 178, 10)
+        );
+    }
+
+    @Test
+    void armorMaterialRulesHoldPerSlot() {
+        final var objectsByCode = loadObjects().stream()
+            .collect(Collectors.toMap(ItemObject::code, object -> object));
+
+        assertArmorSlotRules(objectsByCode, "robe", "wizard_robe", "breastplate", "cuirass");
+        assertArmorSlotRules(objectsByCode, "cloth_chausses", "arcane_chausses", "leather_chausses", "greaves");
+        assertArmorSlotRules(objectsByCode, "cloth_boots", "arcane_boots", "boots", "sabatons");
+        assertArmorSlotRules(objectsByCode, "hood", "circlet", "leather_helm", "great_helm");
+        assertArmorSlotRules(objectsByCode, "cloth_gloves", "arcane_gloves", "leather_gloves", "gauntlets");
+        assertArmorSlotRules(objectsByCode, "buckler", "tome", "shield", "tower_shield");
+    }
+
+    @Test
     void objectStatsStayWithinCaps() {
         for (final var object : loadObjects()) {
             assertTrue(object.critChance() <= 5, () -> object.code() + " critChance is above cap");
@@ -170,8 +219,8 @@ class ItemObjectsCombinationTest {
         }
 
         System.out.printf("min loadout: %.2f  %s%n", powers[0], formatCodes(rankedAscending.getFirst().codes()));
-        assertTrue(powers[0] > 80_000);
         System.out.printf("max loadout: %.2f  %s%n", powers[powers.length - 1], formatCodes(rankedAscending.getLast().codes()));
+        assertTrue(powers[0] > 80_000);
         assertTrue(powers[powers.length - 1] < 105_000);
     }
 
@@ -263,9 +312,99 @@ class ItemObjectsCombinationTest {
             .collect(Collectors.joining(", "));
     }
 
+    private static void assertLoadoutStats(
+        Map<String, ItemObject> objectsByCode,
+        List<String> codes,
+        LoadoutStats expected
+    ) {
+        final var objects = codes.stream()
+            .map(objectsByCode::get)
+            .toList();
+        assertFalse(objects.contains(null), () -> "Missing object in " + codes);
+
+        final var attack = objects.stream()
+            .flatMap(object -> object.attack().stream())
+            .filter(itemAttack -> itemAttack.attackType() == expected.attackType())
+            .mapToInt(ItemAttack::attack)
+            .sum();
+        final var maxRange = objects.stream()
+            .flatMap(object -> object.attack().stream())
+            .mapToInt(ItemAttack::range)
+            .max()
+            .orElse(1);
+        final var defense = objects.stream()
+            .flatMap(object -> object.defense().stream())
+            .filter(itemDefense -> itemDefense.defenseType() == expected.defenseType())
+            .mapToInt(ItemDefense::defense)
+            .sum();
+
+        assertEquals(expected.health(), objects.stream().mapToInt(ItemObject::health).sum(), codes.toString());
+        assertEquals(expected.defense(), defense, codes.toString());
+        assertEquals(expected.attack(), attack, codes.toString());
+        assertEquals(expected.range(), maxRange, codes.toString());
+        assertEquals(expected.critChance(), objects.stream().mapToInt(ItemObject::critChance).sum(), codes.toString());
+        assertEquals(expected.dodgeChance(), objects.stream().mapToInt(ItemObject::dodgeChance).sum(), codes.toString());
+        assertEquals(
+            expected.critMultiplier(),
+            BASE_CRIT_MULTIPLIER + objects.stream().mapToDouble(ItemObject::critMultiplier).sum(),
+            0.000_001,
+            codes.toString()
+        );
+        assertEquals(expected.speed(), objects.stream().mapToInt(ItemObject::speed).sum(), codes.toString());
+        assertEquals(expected.baseThreat(), objects.stream().mapToInt(ItemObject::baseThreat).sum(), codes.toString());
+    }
+
+    private static void assertArmorSlotRules(
+        Map<String, ItemObject> objectsByCode,
+        String clothCode,
+        String arcaneCode,
+        String leatherCode,
+        String plateCode
+    ) {
+        final var cloth = objectsByCode.get(clothCode);
+        final var arcane = objectsByCode.get(arcaneCode);
+        final var leather = objectsByCode.get(leatherCode);
+        final var plate = objectsByCode.get(plateCode);
+        final var slotLabel = clothCode + "/" + arcaneCode + "/" + leatherCode + "/" + plateCode;
+
+        assertTrue(
+            cloth.speed() > arcane.speed()
+                && arcane.speed() > leather.speed()
+                && leather.speed() > plate.speed(),
+            () -> slotLabel + ": speed should rank cloth > arcane > leather > plate"
+        );
+        assertTrue(
+            plate.health() > leather.health()
+                && leather.health() > arcane.health()
+                && arcane.health() > cloth.health(),
+            () -> slotLabel + ": health should rank plate > leather > arcane > cloth"
+        );
+        assertTrue(
+            plate.defense().orElseThrow().defense() > arcane.defense().orElseThrow().defense()
+                && arcane.defense().orElseThrow().defense() > leather.defense().orElseThrow().defense()
+                && leather.defense().orElseThrow().defense() > cloth.defense().orElseThrow().defense(),
+            () -> slotLabel + ": defense should rank plate > arcane > leather > cloth"
+        );
+    }
+
     private record RankedObject(ItemObject object, double power) {
     }
 
     private record RankedLoadout(List<ItemObject> codes, double power) {
+    }
+
+    private record LoadoutStats(
+        int health,
+        DefenseType defenseType,
+        int defense,
+        AttackType attackType,
+        int attack,
+        int range,
+        int critChance,
+        int dodgeChance,
+        double critMultiplier,
+        int speed,
+        int baseThreat
+    ) {
     }
 }
