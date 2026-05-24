@@ -122,6 +122,41 @@ class RaidWinrateTest {
         );
     }
 
+    @Test
+    void myconidColonyWinrateWithRandomCatalogLoadouts() {
+        final var objectsBySlot = groupBySlot(loadObjects());
+        runWinrateMatrix(
+            RaidType.MYCONID_COLONY,
+            "myconid colony / random catalog loadouts",
+            groupSize -> randomTeam(objectsBySlot, groupSize)
+        );
+    }
+
+    @Test
+    void myconidColonyWinrateWithDefaultItems() {
+        final var singlePersonage = defaultPersonage();
+        runWinrateMatrix(
+            RaidType.MYCONID_COLONY,
+            "myconid colony / default items (power=%.2f)".formatted(singlePersonage.power()),
+            RaidWinrateTest::defaultTeam
+        );
+    }
+
+    /**
+     * Counter pick vs Myconid Colony: PIERCE weapons (strong vs ARCANE shields, ×0.75 effective defence)
+     * + ARCANE armor (best resist against the colony's MAGICAL attacks, ×1.25 mitigation).
+     */
+    @Test
+    void myconidColonyWinrateWithCounterPickTeam() {
+        final var objectsBySlot = groupBySlot(loadObjects());
+        final var counterSlots = counterPickSlots(objectsBySlot, AttackType.PIERCE, DefenseType.ARCANE);
+        runWinrateMatrix(
+            RaidType.MYCONID_COLONY,
+            "myconid colony / counter pick (PIERCE + ARCANE)",
+            groupSize -> randomTeam(counterSlots, groupSize)
+        );
+    }
+
     private void runWinrateMatrix(RaidType raidType, String title, IntFunction<List<BattlePersonage>> teamFactory) {
         System.out.printf("%n=== %s ===%n", title);
         printHeader();
