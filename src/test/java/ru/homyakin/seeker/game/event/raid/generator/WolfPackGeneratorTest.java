@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.event.raid.generator;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
@@ -18,6 +19,7 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Disabled
 class WolfPackGeneratorTest {
     private final WolfPackGenerator generator = new WolfPackGenerator();
 

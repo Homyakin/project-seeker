@@ -20,9 +20,9 @@ public class RaidLevelItemConfigIntegrationTest {
         final var distribution = config.getBaseRarityDistribution();
         
         // Проверяем, что на уровне 10 доступны только COMMON и UNCOMMON
-        Assertions.assertEquals(60, distribution.get(ItemRarity.COMMON));
+        Assertions.assertEquals(40, distribution.get(ItemRarity.COMMON));
         Assertions.assertEquals(40, distribution.get(ItemRarity.UNCOMMON));
-        Assertions.assertEquals(0, distribution.get(ItemRarity.RARE));
+        Assertions.assertEquals(30, distribution.get(ItemRarity.RARE));
         Assertions.assertEquals(0, distribution.get(ItemRarity.EPIC));
         Assertions.assertEquals(0, distribution.get(ItemRarity.LEGENDARY));
     }

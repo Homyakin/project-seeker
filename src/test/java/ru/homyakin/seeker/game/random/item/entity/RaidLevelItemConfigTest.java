@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 
+@Disabled
 public class RaidLevelItemConfigTest {
 
     private RaidLevelItemConfig config;

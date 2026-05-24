@@ -119,8 +119,8 @@ class ItemObjectsCombinationTest {
         );
         assertLoadoutStats(
             objectsByCode,
-            List.of("spear", "dagger", "breastplate", "leather_chausses", "boots", "leather_helm", "leather_gloves"),
-            new LoadoutStats(1600, DefenseType.LEATHER, 96, AttackType.PIERCE, 352, 2, 13, 8, 1.6, 128, 12)
+            List.of("spear", "dirk", "breastplate", "leather_chausses", "boots", "leather_helm", "leather_gloves"),
+            new LoadoutStats(1600, DefenseType.LEATHER, 96, AttackType.PIERCE, 362, 2, 10, 12, 1.55, 138, 15)
         );
         assertLoadoutStats(
             objectsByCode,
