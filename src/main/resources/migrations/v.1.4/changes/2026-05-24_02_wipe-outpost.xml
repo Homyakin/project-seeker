@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="wipe-outpost">
+        <sql>
+            DELETE FROM pgroup_outpost WHERE building_id != 1;
+
+            DELETE FROM pgroup_outpost_building_contribution WHERE building_id != 1;
+            DELETE FROM season_pgroup_outpost_build_contribution WHERE building_id != 1;
+
+            UPDATE pgroup_outpost
+            SET level = 1,
+                progress = NULL
+            WHERE building_id = 1
+              AND level > 1;
+
+            UPDATE pgroup_outpost
+            SET progress = NULL
+            WHERE building_id = 1
+              AND level = 1
+              AND progress IS NOT NULL;
+
+            DELETE FROM pgroup_outpost_building_contribution
+            WHERE building_id = 1
+              AND pgroup_id NOT IN (
+                  SELECT pgroup_id
+                  FROM pgroup_outpost
+                  WHERE building_id = 1
+                    AND level = 0
+                    AND progress IS NOT NULL
+              );
+
+            DELETE FROM season_pgroup_outpost_build_contribution
+            WHERE building_id = 1
+              AND pgroup_id NOT IN (
+                  SELECT pgroup_id
+                  FROM pgroup_outpost
+                  WHERE building_id = 1
+                    AND level = 0
+                    AND progress IS NOT NULL
+              );
+
+            DELETE FROM group_leaved_members;
+
+            UPDATE pgroup
+            SET effective_tax = (
+                    SELECT COUNT(*)::int FROM personage pe WHERE pe.member_pgroup_id = pgroup.id
+                ),
+                last_tax_update = NULL;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

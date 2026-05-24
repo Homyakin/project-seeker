@@ -21,4 +21,5 @@
     <include file="changes/2026-05-23_05_add-5-season-badge-to-personages.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-23_06_add-5-season-badge-to-groups.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-05-24_01_drop-legacy-raids.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-05-24_02_wipe-outpost.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
