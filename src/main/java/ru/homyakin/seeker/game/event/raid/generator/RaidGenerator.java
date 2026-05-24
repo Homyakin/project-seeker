@@ -16,6 +16,7 @@ public class RaidGenerator {
         return switch (raidType) {
             case WOLFPACK -> new WolfPackGenerator().generate(personages, powerBonus);
             case ZOMBIE_HORDE -> new ZombieHordeGenerator().generate(personages, powerBonus);
+            case MYCONID_COLONY -> new MyconidColonyGenerator().generate(personages, powerBonus);
         };
     }
 
