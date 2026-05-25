@@ -37,5 +37,5 @@ public class RaidRewardGenerator {
         return (int) Math.round(reward * (100.0 + raidGoldBonusPercentSum) / 100.0);
     }
 
-    private static final int BASE_REWARD = 5;
+    private static final int BASE_REWARD = 10;
 }
