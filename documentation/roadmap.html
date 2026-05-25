@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Дорожная карта — Krezar Tavern</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #161922;
+      --panel-2: #1d2230;
+      --border: #262b38;
+      --text: #e6e8ef;
+      --muted: #8a93a6;
+      --accent: #9a7cff;
+      --accent-dim: #3d2f66;
+      --june: #4aa3ff;
+      --july: #46d17a;
+      --august: #f0c24a;
+      --balance: #ff6b6b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(154, 124, 255, 0.15), transparent),
+        var(--bg);
+    }
+
+    .wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    header {
+      margin-bottom: 48px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 540px;
+    }
+
+    .timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--june),
+        var(--july) 45%,
+        var(--august)
+      );
+      opacity: 0.35;
+    }
+
+    .month {
+      position: relative;
+      padding-left: 56px;
+    }
+
+    .month-marker {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--panel);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      z-index: 1;
+    }
+
+    .month--june .month-marker { border-color: var(--june); box-shadow: 0 0 20px rgba(74, 163, 255, 0.25); }
+    .month--july .month-marker { border-color: var(--july); box-shadow: 0 0 20px rgba(70, 209, 122, 0.25); }
+    .month--august .month-marker { border-color: var(--august); box-shadow: 0 0 20px rgba(240, 194, 74, 0.25); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(154, 124, 255, 0.35);
+    }
+
+    .month--june .card { border-top: 3px solid var(--june); }
+    .month--july .card { border-top: 3px solid var(--july); }
+    .month--august .card { border-top: 3px solid var(--august); }
+
+    .month-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .month-name {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    .month-theme {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+    }
+
+    .month--june .month-theme {
+      color: #8ec5ff;
+      border-color: rgba(74, 163, 255, 0.3);
+      background: rgba(74, 163, 255, 0.08);
+    }
+
+    .items {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .items li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--panel-2);
+      border: 1px solid transparent;
+    }
+
+    .items li:hover {
+      border-color: var(--border);
+    }
+
+    .item-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-text {
+      font-size: 15px;
+    }
+
+    .single-item {
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: var(--panel-2);
+      font-size: 15px;
+    }
+
+    .balance-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(255, 107, 107, 0.08);
+      border: 1px solid rgba(255, 107, 107, 0.25);
+      color: #ffb4b4;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .balance-banner span:first-child {
+      font-size: 16px;
+    }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 32px 16px 64px; }
+      .card { padding: 20px 18px; }
+      .timeline::before { left: 15px; }
+      .month { padding-left: 48px; }
+      .month-marker { width: 32px; height: 32px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">2026</div>
+      <h1>Дорожная карта</h1>
+      <p class="subtitle">Планы развития Krezar Tavern на ближайшие месяцы: баланс, новый контент и социальные механики.</p>
+    </header>
+
+    <div class="timeline">
+      <section class="month month--june">
+        <div class="month-marker" aria-hidden="true">☀</div>
+        <article class="card">
+          <div class="month-header">
+            <h2 class="month-name">Июнь</h2>
+            <span class="month-theme">весь месяц — исправления баланса</span>
+          </div>
+
+          <div class="balance-banner">
+            <span>⚖</span>
+            <span>Фокус месяца: балансировка экономики, боёв и прогрессии</span>
+          </div>
+
+          <ol class="items">
+            <li>
+              <span class="item-num">1</span>
+              <span class="item-text">Новый магазин с предметами</span>
+            </li>
+            <li>
+              <span class="item-num">2</span>
+              <span class="item-text">Новый инвентарь</span>
+            </li>
+            <li>
+              <span class="item-num">3</span>
+              <span class="item-text">Рейды и уровни (возвращение)</span>
+            </li>
+            <li>
+              <span class="item-num">4</span>
+              <span class="item-text">Визуальный боевой лог</span>
+            </li>
+          </ol>
+        </article>
+      </section>
+
+      <section class="month month--july">
+        <div class="month-marker" aria-hidden="true">🌿</div>
+        <article class="card">
+          <div class="month-header">
+            <h2 class="month-name">Июль</h2>
+          </div>
+          <div class="single-item">Механика «группа против группы»</div>
+        </article>
+      </section>
+
+      <section class="month month--august">
+        <div class="month-marker" aria-hidden="true">🔥</div>
+        <article class="card">
+          <div class="month-header">
+            <h2 class="month-name">Август</h2>
+          </div>
+          <div class="single-item">Переработка соло-контента</div>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      Обновлено: май 2026
+    </footer>
+  </div>
+</body>
+</html>
