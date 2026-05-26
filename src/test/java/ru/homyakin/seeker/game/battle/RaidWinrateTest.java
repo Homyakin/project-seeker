@@ -43,7 +43,9 @@ class RaidWinrateTest {
         DefaultItems.OFF_FIST,
         DefaultItems.SHIRT,
         DefaultItems.PANTS,
-        DefaultItems.SHOES
+        DefaultItems.SHOES,
+        DefaultItems.HELMET,
+        DefaultItems.GLOVES
     );
     private static final int ITERATIONS = 1000;
     private static final int MIN_GROUP_SIZE = 1;

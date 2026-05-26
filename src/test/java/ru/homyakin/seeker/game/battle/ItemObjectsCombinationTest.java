@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,33 +54,7 @@ class ItemObjectsCombinationTest {
         assertFalse(ranked.isEmpty());
         printObjectPowerStats("objects", ranked);
         printObjectPowerStatsBySlot(ranked);
-    }
-
-    @Test
-    void rankEachDefaultItemsByPower() {
-        final var ranked = Stream.of(
-                DefaultItems.MAIN_FIST,
-                DefaultItems.OFF_FIST,
-                DefaultItems.PANTS,
-                DefaultItems.SHIRT,
-                DefaultItems.SHOES
-            )
-            .map(item -> {
-                final var personage = personageFrom(List.of(item.object()));
-                final var power = personage.power();
-                assertTrue(
-                    Double.isFinite(power) && power > 0,
-                    () -> item + " has invalid power: " + power
-                );
-                return new RankedObject(item.object(), power);
-            })
-            .sorted(Comparator.comparingDouble(RankedObject::power))
-            .toList();
-
-        assertFalse(ranked.isEmpty());
-        for (final var rank: ranked) {
-            System.out.printf("%s: %.2f%n", rank.object().code(), rank.power());
-        }
+        assertDefaultItemsWeakestPerSlot(ranked);
     }
 
     @Test
@@ -163,16 +136,73 @@ class ItemObjectsCombinationTest {
         }
     }
 
-    private static void printObjectPowerStatsBySlot(List<RankedObject> rankedAscending) {
+    private static void printObjectPowerStatsBySlot(List<RankedObject> catalogRankedAscending) {
+        final var defaultsBySlot = defaultObjectsBySlot();
         System.out.println("objects by slot:");
         for (final var slot : PersonageSlot.values()) {
-            final var slotRanked = rankedAscending.stream()
-                .filter(rankedObject -> rankedObject.object().slots().contains(slot))
-                .toList();
-            if (!slotRanked.isEmpty()) {
-                printObjectPowerStats(slot.name(), slotRanked);
-            }
+            final var slotRanked = rankObjectsForSlot(slot, catalogRankedAscending, defaultsBySlot.get(slot));
+            printObjectPowerStats(slot.name(), slotRanked);
+            printSlotRanking(slot, slotRanked, defaultsBySlot.get(slot));
         }
+    }
+
+    private static void assertDefaultItemsWeakestPerSlot(List<RankedObject> catalogRankedAscending) {
+        final var defaultsBySlot = defaultObjectsBySlot();
+        for (final var slot : PersonageSlot.values()) {
+            final var defaultObject = defaultsBySlot.get(slot);
+            final var slotRanked = rankObjectsForSlot(slot, catalogRankedAscending, defaultObject);
+            final var defaultPower = slotRanked.stream()
+                .filter(ranked -> ranked.object().code().equals(defaultObject.code()))
+                .mapToDouble(RankedObject::power)
+                .findFirst()
+                .orElseThrow();
+            final var minCatalogPower = catalogRankedAscending.stream()
+                .filter(ranked -> ranked.object().slots().contains(slot))
+                .mapToDouble(RankedObject::power)
+                .min()
+                .orElseThrow();
+
+            assertTrue(
+                defaultPower <= minCatalogPower,
+                () -> defaultObject.code() + " power " + defaultPower
+                    + " exceeds weakest catalog object for " + slot + " (" + minCatalogPower + ")"
+            );
+        }
+    }
+
+    private static List<RankedObject> rankObjectsForSlot(
+        PersonageSlot slot,
+        List<RankedObject> catalogRankedAscending,
+        ItemObject defaultObject
+    ) {
+        final var slotRanked = catalogRankedAscending.stream()
+            .filter(rankedObject -> rankedObject.object().slots().contains(slot))
+            .collect(Collectors.toCollection(ArrayList::new));
+        final var defaultPower = personageFrom(List.of(defaultObject)).power();
+        slotRanked.add(new RankedObject(defaultObject, defaultPower));
+        slotRanked.sort(Comparator.comparingDouble(RankedObject::power));
+        return slotRanked;
+    }
+
+    private static void printSlotRanking(PersonageSlot slot, List<RankedObject> slotRankedAscending, ItemObject defaultObject) {
+        System.out.println(slot.name() + " ranking:");
+        for (var i = 0; i < slotRankedAscending.size(); i++) {
+            final var ranked = slotRankedAscending.get(i);
+            final var marker = ranked.object().code().equals(defaultObject.code()) ? " [default]" : "";
+            System.out.printf("%2d. %.2f  %s%s%n", i + 1, ranked.power(), ranked.object().code(), marker);
+        }
+    }
+
+    private static Map<PersonageSlot, ItemObject> defaultObjectsBySlot() {
+        final var defaultsBySlot = new EnumMap<PersonageSlot, ItemObject>(PersonageSlot.class);
+        defaultsBySlot.put(PersonageSlot.MAIN_HAND, DefaultItems.MAIN_FIST.object());
+        defaultsBySlot.put(PersonageSlot.OFF_HAND, DefaultItems.OFF_FIST.object());
+        defaultsBySlot.put(PersonageSlot.BODY, DefaultItems.SHIRT.object());
+        defaultsBySlot.put(PersonageSlot.PANTS, DefaultItems.PANTS.object());
+        defaultsBySlot.put(PersonageSlot.SHOES, DefaultItems.SHOES.object());
+        defaultsBySlot.put(PersonageSlot.HELMET, DefaultItems.HELMET.object());
+        defaultsBySlot.put(PersonageSlot.GLOVES, DefaultItems.GLOVES.object());
+        return defaultsBySlot;
     }
 
     private static void printObjectPowerStats(String title, List<RankedObject> rankedAscending) {

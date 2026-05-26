@@ -65,10 +65,10 @@ public class DefaultItems {
             Optional.of(
                 new ItemDefense(
                     DefenseType.CLOTH,
-                    30
+                    24
                 )
             ),
-            200,
+            180,
             2,
             2,
             0.1,
@@ -93,9 +93,9 @@ public class DefaultItems {
                     30
                 )
             ),
-            250,
+            300,
             2,
-            5,
+            7,
             0.1,
             30,
             5,
@@ -115,17 +115,67 @@ public class DefaultItems {
             Optional.of(
                 new ItemDefense(
                     DefenseType.CLOTH,
-                    10
+                    4
                 )
             ),
-            200,
-            2,
-            5,
-            0.1,
-            30,
-            5,
+            80,
+            1,
+            1,
+            0.05,
+            20,
+            1,
             Map.of(
                 Language.RU, new ItemObjectLocale("Портянки", WordForm.PLURAL)
+            )
+        ),
+        Optional.empty(),
+        ItemRarity.COMMON
+    );
+
+    public static final Item HELMET = new Item(
+        new ItemObject(
+            "panama",
+            Set.of(PersonageSlot.HELMET),
+            Optional.empty(),
+            Optional.of(
+                new ItemDefense(
+                    DefenseType.CLOTH,
+                    3
+                )
+            ),
+            80,
+            1,
+            3,
+            0.05,
+            15,
+            1,
+            Map.of(
+                Language.RU, new ItemObjectLocale("Панамка", WordForm.FEMININE)
+            )
+        ),
+        Optional.empty(),
+        ItemRarity.COMMON
+    );
+
+    public static final Item GLOVES = new Item(
+        new ItemObject(
+            "bandages",
+            Set.of(PersonageSlot.GLOVES),
+            Optional.empty(),
+            Optional.of(
+                new ItemDefense(
+                    DefenseType.CLOTH,
+                    3
+                )
+            ),
+            80,
+            1,
+            3,
+            0.05,
+            15,
+            1,
+            Map.of(
+                Language.RU, new ItemObjectLocale("Бинты", WordForm.PLURAL)
             )
         ),
         Optional.empty(),
@@ -143,7 +193,8 @@ public class DefaultItems {
             case BODY -> occupiedSlots.contains(PersonageSlot.BODY) ? Optional.empty() : Optional.of(SHIRT);
             case PANTS -> occupiedSlots.contains(PersonageSlot.PANTS) ? Optional.empty() : Optional.of(PANTS);
             case SHOES -> occupiedSlots.contains(PersonageSlot.SHOES) ? Optional.empty() : Optional.of(SHOES);
-            case HELMET, GLOVES -> Optional.empty();
+            case HELMET -> occupiedSlots.contains(PersonageSlot.HELMET) ? Optional.empty() : Optional.of(HELMET);
+            case GLOVES -> occupiedSlots.contains(PersonageSlot.GLOVES) ? Optional.empty() : Optional.of(GLOVES);
         };
     }
 
@@ -163,6 +214,12 @@ public class DefaultItems {
         }
         if (!occupiedSlots.contains(PersonageSlot.SHOES)) {
             result.add(SHOES.visibleCharacteristics());
+        }
+        if (!occupiedSlots.contains(PersonageSlot.HELMET)) {
+            result.add(HELMET.visibleCharacteristics());
+        }
+        if (!occupiedSlots.contains(PersonageSlot.GLOVES)) {
+            result.add(GLOVES.visibleCharacteristics());
         }
         return result;
     }
