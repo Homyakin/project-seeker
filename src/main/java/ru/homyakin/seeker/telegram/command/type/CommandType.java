@@ -112,6 +112,7 @@ public enum CommandType {
     OPEN_OUTPOST_BUILDING("/building", CheckType.STARTS_WITH),
     OUTPOST_DONATE_ITEM("/outpost_donate", CheckType.STARTS_WITH),
     SHOP_RANDOM_BOXES("shopRand", CheckType.EQUALS),
+    SHOP_ENHANCE_INLINE("shopEnh", CheckType.EQUALS),
     SHOP_SELECT_SLOT("shopSlot", CheckType.EQUALS),
     ;
 

@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 
@@ -17,6 +18,10 @@ public final class ShopKeyboards {
             .addButton(
                 ShopLocalization.randomBoxesButton(language),
                 CommandType.SHOP_RANDOM_BOXES.getText()
+            )
+            .addButton(
+                MenuLocalization.enhanceButton(language),
+                CommandType.SHOP_ENHANCE_INLINE.getText()
             );
         final var slots = PersonageSlot.values();
         for (int i = 0; i < slots.length; ++i) {

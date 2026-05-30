@@ -35,7 +35,11 @@ public class OpenShopExecutor extends CommandExecutor<OpenShop> {
         final var activeContraband = contrabandService.getActiveContraband(user.personageId());
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(ShopLocalization.menu(user.language(), shopService.getShopItems(user.personageId()), activeContraband))
+            .text(ShopLocalization.menu(
+                user.language(),
+                shopService.getShopItems(user.personageId()),
+                activeContraband
+            ))
             .keyboard(ShopKeyboards.navigationKeyboard(user.language()))
             .build()
         );

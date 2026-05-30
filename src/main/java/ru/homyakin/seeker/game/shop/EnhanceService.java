@@ -42,6 +42,9 @@ public class EnhanceService {
         if (item.isEmpty()) {
             return Either.left(AddModifierError.NoSuchItem.INSTANCE);
         }
+        if (item.get().rarity().next().isEmpty()) {
+            return Either.left(AddModifierError.MaxRarity.INSTANCE);
+        }
         final var outcome = item.get().rarity() == ItemRarity.COMMON
             ? EnhanceOutcome.ADDED_MODIFIER
             : EnhanceOutcome.UPGRADED_RARITY;
@@ -71,9 +74,9 @@ public class EnhanceService {
     }
 
     private Money enhancePrice(PersonageItem item) {
-        final var basePrice = config.buyingPriceByRarity(item.rarity());
-        final var multiplier = 1.5 + (item.modifier().isPresent() ? 1 : 0);
-        final var slotSize = Math.max(1, item.object().slots().size());
-        return Money.from((int) (basePrice.value() * multiplier * slotSize));
+        final var nextRarity = item.rarity().next()
+            .orElseThrow(() -> new IllegalStateException("Legendary items can't be enhanced"));
+        final var basePrice = config.buyingPriceByRarity(nextRarity);
+        return Money.from((int) (basePrice.value() * 1.5));
     }
 }

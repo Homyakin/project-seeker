@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.contraband.entity.Contraband;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.shop.ShopService;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
@@ -17,17 +18,34 @@ import ru.homyakin.seeker.telegram.utils.ShopKeyboards;
 @Component
 public class ShopInlineTgService {
     private final ShopService shopService;
+    private final ItemService itemService;
     private final ContrabandService contrabandService;
     private final TelegramSender telegramSender;
 
     public ShopInlineTgService(
         ShopService shopService,
+        ItemService itemService,
         ContrabandService contrabandService,
         TelegramSender telegramSender
     ) {
         this.shopService = shopService;
+        this.itemService = itemService;
         this.contrabandService = contrabandService;
         this.telegramSender = telegramSender;
+    }
+
+    public void showEnhanceTable(
+        UserId userId,
+        Language language,
+        PersonageId personageId,
+        int messageId
+    ) {
+        sendEdit(
+            userId,
+            messageId,
+            ShopLocalization.enhanceTable(language, itemService.getPersonageItems(personageId)),
+            ShopKeyboards.navigationKeyboard(language)
+        );
     }
 
     public void showRandomBoxes(UserId userId, Language language, PersonageId personageId, int messageId) {

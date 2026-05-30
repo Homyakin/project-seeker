@@ -40,7 +40,6 @@ successSell = "Продано! <code>${full_item_name}</code> +${money_icon}${pr
 
 enhanceTable = """\
 На столе зачарований ты можешь улучшить имеющиеся предметы:
-
 ${equipped_enhance_times}
 
 🎒Инвентарь:
