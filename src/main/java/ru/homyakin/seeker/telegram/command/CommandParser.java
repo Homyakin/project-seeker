@@ -115,6 +115,8 @@ import ru.homyakin.seeker.telegram.command.user.shop.OpenEnhanceTable;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenShop;
 import ru.homyakin.seeker.telegram.command.user.shop.Repair;
 import ru.homyakin.seeker.telegram.command.user.shop.SellItem;
+import ru.homyakin.seeker.telegram.command.user.shop.ShopSelectRandomBoxes;
+import ru.homyakin.seeker.telegram.command.user.shop.ShopSelectSlot;
 import ru.homyakin.seeker.telegram.command.user.stats.BattleStats;
 import ru.homyakin.seeker.telegram.command.user.stats.PersonageStatsGlobal;
 import ru.homyakin.seeker.telegram.command.user.world_raid.UserWorldRaidReport;
@@ -335,6 +337,8 @@ public class CommandParser {
                 case OUTPOST_BUILD_CANCEL -> OutpostCancelStartBuilding.from(callback);
                 case OUTPOST_BUILD_CONTRIBUTE -> OutpostBuildingContributeView.from(callback);
                 case OPEN_OUTPOST_BUILDING_INLINE -> OpenOutpostBuilding.fromInlineCallback(callback);
+                case SHOP_RANDOM_BOXES -> ShopSelectRandomBoxes.from(callback);
+                case SHOP_SELECT_SLOT -> ShopSelectSlot.from(callback);
                 default -> null;
             });
     }

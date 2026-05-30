@@ -1,9 +1,8 @@
 package ru.homyakin.seeker.locale.shop;
 
-import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
@@ -24,12 +23,63 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ru.homyakin.seeker.game.contraband.entity.Contraband;
+import ru.homyakin.seeker.game.item.models.CatalogItemObject;
+import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
 
 public class ShopLocalization {
     private static final Resources<ShopResource> resources = new Resources<>();
 
     public static void add(Language language, ShopResource resource) {
         resources.add(language, resource);
+    }
+
+    public static String randomBoxesMenu(
+        Language language,
+        List<ShopItem> items,
+        Optional<Contraband> activeContraband
+    ) {
+        final var buying = new StringBuilder();
+        final var buyingItems = items.stream()
+            .filter(item -> item instanceof ShopItem.Buy)
+            .map(item -> (ShopItem.Buy) item)
+            .toList();
+        for (int i = 0; i < buyingItems.size(); ++i) {
+            buying.append(buyingItem(language, buyingItems.get(i)));
+            if (i < buyingItems.size() - 1) {
+                buying.append("\n");
+            }
+        }
+        final var params = new HashMap<String, Object>();
+        params.put("buying_items", buying.toString());
+        params.put("optional_contraband_notification", contrabandNotification(language, activeContraband));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::randomBoxesMenu),
+            params
+        );
+    }
+
+    public static String slotObjectsMenu(
+        Language language,
+        PersonageSlot slot,
+        List<CatalogItemObject> objects,
+        Money unitPrice
+    ) {
+        final var objectsText = objects.stream()
+            .map(catalogObject -> slotObjectItem(language, slot, catalogObject, priceForObject(unitPrice, catalogObject.object())))
+            .collect(Collectors.joining("\n"));
+        final var params = new HashMap<String, Object>();
+        params.put("slot_icon", slot.icon);
+        params.put("objects", objectsText);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::slotObjectsMenu),
+            params
+        );
+    }
+
+    public static String randomBoxesButton(Language language) {
+        return resources.getOrDefault(language, ShopResource::randomBoxesButton);
     }
 
     public static String menu(Language language, List<ShopItem> items, Optional<Contraband> activeContraband) {
@@ -250,6 +300,40 @@ public class ShopLocalization {
             case LEGENDARY -> resources.getOrDefault(language, ShopResource::legendary);
             case RANDOM -> resources.getOrDefault(language, ShopResource::random);
         };
+    }
+
+    private static Money priceForObject(Money unitPrice, ItemObject object) {
+        return Money.from(unitPrice.value() * Math.max(1, object.slots().size()));
+    }
+
+    private static String slotObjectItem(
+        Language language,
+        PersonageSlot slot,
+        CatalogItemObject catalogObject,
+        Money price
+    ) {
+        final var previewItem = new PersonageItem(
+            0L,
+            catalogObject.id(),
+            catalogObject.object(),
+            Optional.empty(),
+            Optional.empty(),
+            ItemRarity.COMMON,
+            Optional.empty(),
+            false
+        );
+        final var params = new HashMap<String, Object>();
+        params.put("full_item", ItemLocalization.fullItemForShopSlot(language, previewItem, slot));
+        params.put("price_value", price.value());
+        params.put("money_icon", Icons.MONEY);
+        params.put(
+            "buy_command",
+            CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id()
+        );
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::slotObjectItem),
+            params
+        ).trim();
     }
 
 }

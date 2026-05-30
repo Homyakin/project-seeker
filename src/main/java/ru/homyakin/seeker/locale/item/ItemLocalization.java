@@ -54,6 +54,28 @@ public class ItemLocalization {
         return fullItem(requestedlanguage, toDisplayItem(item));
     }
 
+    public static String fullItemForShopSlot(Language requestedlanguage, PersonageItem item, PersonageSlot shopSlot) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon());
+        params.put("broken_icon", "");
+        params.put("item", itemText(itemLanguage, item));
+        params.put("characteristics", itemCharacteristics(itemLanguage, item));
+        params.put("slots", slotIcons(item, shopSlot));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::fullItem),
+            params
+        ).trim();
+    }
+
+    private static String slotIcons(PersonageItem item, PersonageSlot shopSlot) {
+        final var fromObject = item.object().slots().stream()
+            .sorted(Comparator.comparingInt(it -> it.id))
+            .map(it -> it.icon)
+            .collect(Collectors.joining());
+        return fromObject.isEmpty() ? shopSlot.icon : fromObject;
+    }
+
     public static String shortItem(Language requestedlanguage, PersonageItem item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var params = new HashMap<String, Object>();

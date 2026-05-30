@@ -5,6 +5,8 @@ import ru.homyakin.seeker.game.models.Money;
 public sealed interface BuyItemError {
     enum NotEnoughSpaceInBag implements BuyItemError { INSTANCE }
 
+    enum InvalidItemObject implements BuyItemError { INSTANCE }
+
     record NotEnoughMoney(Money required) implements BuyItemError {
     }
 }

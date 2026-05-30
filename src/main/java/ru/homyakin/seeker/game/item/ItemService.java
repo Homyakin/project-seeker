@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.database.ItemDao;
-import ru.homyakin.seeker.game.item.database.ItemModifierDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import java.util.Comparator;
 import java.util.Map;
@@ -18,6 +17,8 @@ import ru.homyakin.seeker.game.item.errors.EnhanceItemError;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
+import ru.homyakin.seeker.game.item.models.CatalogItemObject;
+import ru.homyakin.seeker.game.item.models.CatalogModifier;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -47,16 +48,39 @@ public class ItemService {
         return itemDao.getById(id);
     }
 
-    public Either<GenerateItemError, PersonageItem> generateItemForPersonage(Personage personage, GenerateItemParams params) {
-        final var objectRow = itemObjectDao.getRandomObject(params.slot());
-        final var modifierRow = itemModifierService.pickModifier(params.rarity(), objectRow.object(), params.slot());
+    public Either<GenerateItemError, PersonageItem> generateItemForPersonage(
+        Personage personage,
+        GenerateItemParams params
+    ) {
+        final var catalogItemObject = itemObjectDao.getRandomObject(params.slot());
+        final var catalogModifier = itemModifierService.pickModifier(
+            params.rarity(),
+            catalogItemObject.object(),
+            params.slot()
+        );
+        return generateItemForPersonage(personage, params.rarity(), catalogModifier, catalogItemObject);
+    }
+
+    public Either<GenerateItemError, PersonageItem> generateItemForPersonage(
+        Personage personage,
+        CatalogItemObject object
+    ) {
+        return generateItemForPersonage(personage, ItemRarity.COMMON, Optional.empty(), object);
+    }
+
+    private Either<GenerateItemError, PersonageItem> generateItemForPersonage(
+        Personage personage,
+        ItemRarity rarity,
+        Optional<CatalogModifier> modifier,
+        CatalogItemObject catalogObject
+    ) {
         final var tempItem = new PersonageItem(
             0L,
-            objectRow.id(),
-            objectRow.object(),
-            modifierRow.map(ItemModifierDao.ModifierRow::id),
-            modifierRow.map(ItemModifierDao.ModifierRow::modifier),
-            params.rarity(),
+            catalogObject.id(),
+            catalogObject.object(),
+            modifier.map(CatalogModifier::id),
+            modifier.map(CatalogModifier::modifier),
+            rarity,
             Optional.of(personage.id()),
             false
         );
@@ -182,8 +206,8 @@ public class ItemService {
         }
 
         if (item.rarity() == ItemRarity.COMMON) {
-            final var modifierRow = itemModifierService.pickModifier(item.object(), primarySlot(item.object()));
-            itemDao.updateEnhancement(item.id(), modifierRow.id(), ItemRarity.UNCOMMON);
+            final var catalogModifier = itemModifierService.pickModifier(item.object(), primarySlot(item.object()));
+            itemDao.updateEnhancement(item.id(), catalogModifier.id(), ItemRarity.UNCOMMON);
         } else {
             itemDao.updateEnhancement(
                 item.id(),

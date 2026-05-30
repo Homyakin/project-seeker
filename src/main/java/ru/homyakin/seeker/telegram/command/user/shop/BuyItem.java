@@ -8,12 +8,19 @@ import ru.homyakin.seeker.telegram.user.models.UserId;
 
 import java.util.Optional;
 
-public record BuyItem(UserId userId, Optional<ShopItemType> type) implements UserCommand {
+public record BuyItem(
+    UserId userId,
+    Optional<ShopItemType> type,
+    Optional<Integer> objectId
+) implements UserCommand {
     public static BuyItem from(Message message) {
-        final var code = message.getText().split(TextConstants.TG_COMMAND_DELIMITER)[1];
-        return new BuyItem(
-            UserId.from(message.getFrom().getId()),
-            ShopItemType.findByCode(code)
-        );
+        final var parts = message.getText().split(TextConstants.TG_COMMAND_DELIMITER);
+        final var suffix = parts.length > 1 ? parts[1] : "";
+        final var userId = UserId.from(message.getFrom().getId());
+        try {
+            return new BuyItem(userId, Optional.empty(), Optional.of(Integer.parseInt(suffix)));
+        } catch (NumberFormatException _) {
+            return new BuyItem(userId, ShopItemType.findByCode(suffix), Optional.empty());
+        }
     }
 }

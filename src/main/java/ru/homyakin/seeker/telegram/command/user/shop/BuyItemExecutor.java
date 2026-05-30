@@ -25,7 +25,7 @@ public class BuyItemExecutor extends CommandExecutor<BuyItem> {
     @Override
     public void execute(BuyItem command) {
         final var user = userService.forceGetFromPrivate(command.userId());
-        if (command.type().isEmpty()) {
+        if (command.type().isEmpty() && command.objectId().isEmpty()) {
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(user.id())
                 .text(ShopLocalization.incorrectBuyingItem(user.language()))
@@ -34,12 +34,15 @@ public class BuyItemExecutor extends CommandExecutor<BuyItem> {
             );
             return;
         }
-        final var text = shopService.buyItem(user.personageId(), command.type().get())
+        final var text = command.objectId()
+            .map(objectId -> shopService.buyItemWithObject(user.personageId(), objectId))
+            .orElseGet(() -> shopService.buyItem(user.personageId(), command.type().get()))
             .fold(
                 error -> switch (error) {
                     case BuyItemError.NotEnoughSpaceInBag _ -> ShopLocalization.notEnoughSpaceInBag(user.language());
                     case BuyItemError.NotEnoughMoney notEnoughMoney ->
                         ShopLocalization.notEnoughMoney(user.language(), notEnoughMoney.required());
+                    case BuyItemError.InvalidItemObject _ -> ShopLocalization.incorrectBuyingItem(user.language());
                 },
                 item -> ShopLocalization.successBuy(user.language(), item)
             );

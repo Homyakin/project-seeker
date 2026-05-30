@@ -4,10 +4,14 @@ import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.game.random.item.action.PersonageNextShopItemParams;
 import ru.homyakin.seeker.game.shop.errors.BuyItemError;
 import ru.homyakin.seeker.game.shop.errors.NoSuchItemAtPersonage;
@@ -21,20 +25,31 @@ import java.util.List;
 @Service
 public class ShopService {
     private final ItemService itemService;
+    private final ItemObjectDao itemObjectDao;
     private final PersonageService personageService;
     private final PersonageNextShopItemParams personageNextShopItemParams;
     private final ShopConfig config;
 
     public ShopService(
         ItemService itemService,
+        ItemObjectDao itemObjectDao,
         PersonageService personageService,
         PersonageNextShopItemParams personageNextShopItemParams,
         ShopConfig config
     ) {
         this.itemService = itemService;
+        this.itemObjectDao = itemObjectDao;
         this.personageService = personageService;
         this.personageNextShopItemParams = personageNextShopItemParams;
         this.config = config;
+    }
+
+    public List<CatalogItemObject> getItemObjectsForSlot(PersonageSlot slot) {
+        return itemObjectDao.listBySlot(slot);
+    }
+
+    public Money specificObjectUnitPrice() {
+        return config.specificObjectUnitPrice();
     }
 
     public List<ShopItem> getShopItems(PersonageId personageId) {
@@ -74,6 +89,37 @@ public class ShopService {
     }
 
     @Transactional
+    public Either<BuyItemError, PersonageItem> buyItemWithObject(PersonageId personageId, int objectId) {
+        final var catalogObject = itemObjectDao.getById(objectId);
+        if (catalogObject.isEmpty()) {
+            return Either.left(BuyItemError.InvalidItemObject.INSTANCE);
+        }
+        return buyItemWithObject(personageId, catalogObject.get());
+    }
+
+    private Either<BuyItemError, PersonageItem> buyItemWithObject(
+        PersonageId personageId,
+        CatalogItemObject catalogObject
+    ) {
+        final var personage = personageService.getByIdForce(personageId);
+        final var price = config.specificObjectBuyPrice(catalogObject.object().slots().size());
+        if (personage.money().lessThan(price)) {
+            return Either.left(new BuyItemError.NotEnoughMoney(price));
+        }
+        final var personageWithTakenMoney = personageService.takeMoney(personage, price);
+        final var result = itemService.generateItemForPersonage(
+            personageWithTakenMoney,
+            catalogObject
+        );
+        return result.mapLeft(
+            _ -> {
+                personageService.addMoney(personageWithTakenMoney, price);
+                return BuyItemError.NotEnoughSpaceInBag.INSTANCE;
+            }
+        );
+    }
+
+    @Transactional
     public Either<NoSuchItemAtPersonage, SoldItem> sellItem(PersonageId personageId, Long itemId) {
         final var removeResult = itemService.removeItem(personageId, itemId);
         if (removeResult.isEmpty()) {
@@ -84,5 +130,4 @@ public class ShopService {
         personageService.addMoney(personageId, price);
         return Either.right(new SoldItem(item, price));
     }
-
 }

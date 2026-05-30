@@ -49,6 +49,16 @@ public class ShopConfig {
         throw new IllegalStateException("Can't find price for " + type);
     }
 
+    public Money specificObjectBuyPrice(int slotCount) {
+        final var unitPrice = specificObjectUnitPrice();
+        return Money.from(unitPrice.value() * Math.max(1, slotCount));
+    }
+
+    public Money specificObjectUnitPrice() {
+        final var commonPrice = buyingPriceByType(ShopItemType.COMMON);
+        return Money.from(commonPrice.value() * 2);
+    }
+
     public Money buyingPriceByRarity(ItemRarity rarity) {
         return buyingPriceByType(typeByRarity(rarity));
     }

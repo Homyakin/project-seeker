@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
+import ru.homyakin.seeker.game.item.models.CatalogModifier;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -30,7 +31,7 @@ public class ItemModifierDao {
         this.dataSource = dataSource;
     }
 
-    public ModifierRow getRandomModifier(PersonageSlot slot, Set<ModifierType> compatibleTypes) {
+    public CatalogModifier getRandomModifier(PersonageSlot slot, Set<ModifierType> compatibleTypes) {
         final var typeIds = compatibleTypes.stream().map(type -> type.id).toList();
         return jdbcClient.sql(RANDOM_MODIFIER_SQL)
             .param("slot_id", slot.id)
@@ -40,14 +41,11 @@ public class ItemModifierDao {
             .orElseThrow();
     }
 
-    public Optional<ModifierRow> getById(int id) {
+    public Optional<CatalogModifier> getById(int id) {
         return jdbcClient.sql(GET_BY_ID_SQL)
             .param("id", id)
             .query(this::mapRow)
             .optional();
-    }
-
-    public record ModifierRow(int id, Modifier modifier) {
     }
 
     @Transactional
@@ -70,8 +68,8 @@ public class ItemModifierDao {
         }
     }
 
-    private ModifierRow mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new ModifierRow(
+    private CatalogModifier mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new CatalogModifier(
             rs.getInt("id"),
             new Modifier(
                 rs.getString("code"),

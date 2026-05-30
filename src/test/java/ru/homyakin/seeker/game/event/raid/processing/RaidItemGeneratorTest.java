@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.random.item.entity.ItemParamsFull;
@@ -65,7 +66,8 @@ public class RaidItemGeneratorTest {
                 .thenReturn(Optional.empty());
             Mockito.when(personageNextRaidItemParams.get(Mockito.any(), Mockito.anyInt()))
                 .thenReturn(new ItemParamsFull(ItemRarity.COMMON, PersonageSlot.MAIN_HAND));
-            Mockito.when(itemService.generateItemForPersonage(Mockito.any(), Mockito.any())).thenReturn(Either.right(expectedItem));
+            Mockito.when(itemService.generateItemForPersonage(Mockito.any(), Mockito.<GenerateItemParams>any()))
+                .thenReturn(Either.right(expectedItem));
 
             final var result = generator.generateItem(true, personage(), false, 10, 0);
 

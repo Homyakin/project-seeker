@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.item.database.ItemModifierDao;
-import ru.homyakin.seeker.game.item.database.ItemModifierDao.ModifierRow;
+import ru.homyakin.seeker.game.item.models.CatalogModifier;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.ModifierType;
@@ -19,14 +19,14 @@ public class ItemModifierService {
         this.itemModifierDao = itemModifierDao;
     }
 
-    public Optional<ModifierRow> pickModifier(ItemRarity rarity, ItemObject object, PersonageSlot slot) {
+    public Optional<CatalogModifier> pickModifier(ItemRarity rarity, ItemObject object, PersonageSlot slot) {
         if (rarity == ItemRarity.COMMON) {
             return Optional.empty();
         }
         return Optional.of(pickModifier(object, slot));
     }
 
-    public ModifierRow pickModifier(ItemObject object, PersonageSlot slot) {
+    public CatalogModifier pickModifier(ItemObject object, PersonageSlot slot) {
         return itemModifierDao.getRandomModifier(slot, compatibleModifierTypes(object));
     }
 

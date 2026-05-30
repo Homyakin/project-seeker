@@ -21,6 +21,16 @@ epic = "Эпическая"
 legendary = "Легендарная"
 random = "Случайная"
 
+randomBoxesMenu = """\
+${optional_contraband_notification}📦Случайные коробки предметов:
+${buying_items}"""
+
+randomBoxesButton = "📦 Случайные коробки"
+slotObjectsMenu = """\
+Предметы для ${slot_icon}:
+${objects}"""
+slotObjectItem = "${full_item} ${money_icon}${price_value} ${buy_command}"
+
 incorrectBuyingItem = "В магазине нет такого предмета."
 noItemAtPersonage = "У вас нет такого предмета."
 notEnoughMoney = "Недостаточно денег. Нужно ${money_icon}${required_value}"

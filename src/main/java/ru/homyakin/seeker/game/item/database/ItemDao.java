@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.item.models.CatalogModifier;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -103,7 +104,7 @@ public class ItemDao {
         final var modifierId = (Integer) rs.getObject("item_modifier_id");
         final var modifier = modifierId == null
             ? Optional.<ru.homyakin.seeker.game.item.models.Modifier>empty()
-            : itemModifierDao.getById(modifierId).map(ItemModifierDao.ModifierRow::modifier);
+            : itemModifierDao.getById(modifierId).map(CatalogModifier::modifier);
         return new PersonageItem(
             rs.getLong("id"),
             objectId,

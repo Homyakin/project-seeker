@@ -7,8 +7,8 @@ import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
+import ru.homyakin.seeker.telegram.utils.ShopKeyboards;
 
 @Component
 public class OpenShopExecutor extends CommandExecutor<OpenShop> {
@@ -36,7 +36,7 @@ public class OpenShopExecutor extends CommandExecutor<OpenShop> {
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(ShopLocalization.menu(user.language(), shopService.getShopItems(user.personageId()), activeContraband))
-            .keyboard(ReplyKeyboards.shopKeyboard(user.language()))
+            .keyboard(ShopKeyboards.navigationKeyboard(user.language()))
             .build()
         );
     }

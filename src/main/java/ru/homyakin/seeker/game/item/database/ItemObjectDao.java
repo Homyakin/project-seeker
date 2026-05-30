@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.sql.DataSource;
@@ -16,6 +17,7 @@ import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.models.ItemDefense;
+import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.JsonUtils;
@@ -32,7 +34,7 @@ public class ItemObjectDao {
         this.dataSource = dataSource;
     }
 
-    public ObjectRow getRandomObject(PersonageSlot slot) {
+    public CatalogItemObject getRandomObject(PersonageSlot slot) {
         return jdbcClient.sql(RANDOM_OBJECT_SQL)
             .param("slot_id", slot.id)
             .query(this::mapRow)
@@ -40,14 +42,18 @@ public class ItemObjectDao {
             .orElseThrow();
     }
 
-    public Optional<ObjectRow> getById(int id) {
+    public Optional<CatalogItemObject> getById(int id) {
         return jdbcClient.sql(GET_BY_ID_SQL)
             .param("id", id)
             .query(this::mapRow)
             .optional();
     }
 
-    public record ObjectRow(int id, ItemObject object) {
+    public List<CatalogItemObject> listBySlot(PersonageSlot slot) {
+        return jdbcClient.sql(LIST_BY_SLOT_SQL)
+            .param("slot_id", slot.id)
+            .query(this::mapRow)
+            .list();
     }
 
     @Transactional
@@ -79,10 +85,10 @@ public class ItemObjectDao {
         }
     }
 
-    private ObjectRow mapRow(ResultSet rs, int rowNum) throws SQLException {
+    private CatalogItemObject mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var attackType = rs.getString("attack_type");
         final var defenseType = rs.getString("defense_type");
-        return new ObjectRow(
+        return new CatalogItemObject(
             rs.getInt("id"),
             new ItemObject(
                 rs.getString("code"),
@@ -131,6 +137,12 @@ public class ItemObjectDao {
 
     private static final String GET_BY_ID_SQL = """
         SELECT * FROM item_object WHERE id = :id
+        """;
+
+    private static final String LIST_BY_SLOT_SQL = """
+        SELECT * FROM item_object
+        WHERE :slot_id = ANY(personage_slot_ids)
+        ORDER BY id
         """;
 
     private static final String SAVE_SQL = """
