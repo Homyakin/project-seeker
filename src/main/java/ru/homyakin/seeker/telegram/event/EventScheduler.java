@@ -15,12 +15,12 @@ public class EventScheduler {
 
     // Если шедулер запускается моментально, то приложение не успевает инициализировать локализацию
     // пока забагфикшено кроном, но это выглядит плохим решением
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 3000)
     public void scheduledEventsLaunch() {
         eventLauncher.launchRaidsInGroups();
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 3000)
     public void scheduledStopEvents() {
         eventStopper.stopEvents();
     }
