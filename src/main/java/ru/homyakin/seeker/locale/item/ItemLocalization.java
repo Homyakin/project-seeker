@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -115,8 +114,7 @@ public class ItemLocalization {
         }
         params.put(
             "equipped_items_and_free_slots",
-            buildEquipmentSlotLines(language, sortedItems, true).stream()
-                .collect(Collectors.joining("\n"))
+            String.join("\n", buildEquipmentSlotLines(language, sortedItems))
         );
         params.put("items_in_bag_count", itemsInBagCount);
         params.put("items_in_bag", itemsInBagBuilder.toString());
@@ -200,8 +198,7 @@ public class ItemLocalization {
 
     private static List<String> buildEquipmentSlotLines(
         Language language,
-        List<PersonageItem> items,
-        boolean withCommands
+        List<PersonageItem> items
     ) {
         final var equipped = items.stream()
             .filter(PersonageItem::isEquipped)
@@ -223,9 +220,7 @@ public class ItemLocalization {
                         .findFirst()
                         .ifPresent(item -> {
                             if (shownItemIds.add(item.id())) {
-                                lines.add(withCommands
-                                    ? equippedItem(language, item)
-                                    : fullItem(language, item));
+                                lines.add(equippedItem(language, item));
                             }
                         });
                 } else {
@@ -254,24 +249,6 @@ public class ItemLocalization {
             item.rarity(),
             Optional.empty(),
             true
-        );
-    }
-
-    private static String itemWithoutModifiers(Language language, PersonageItem item) {
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithoutModifiers),
-            Collections.singletonMap("object", item.object().getLocaleOrDefault(language).text())
-        );
-    }
-
-    private static String itemWithModifier(Language language, PersonageItem item, Modifier modifier) {
-        final var params = new HashMap<String, Object>();
-        final var objectLocale = item.object().getLocaleOrDefault(language);
-        params.put("object", objectLocale.text());
-        params.put("prefix_modifier", modifier.getLocaleOrDefault(language).getFormOrWithout(objectLocale.form()));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemWithPrefixModifier),
-            params
         );
     }
 
@@ -329,10 +306,19 @@ public class ItemLocalization {
     }
 
     private static String itemText(Language itemLanguage, PersonageItem item) {
-        if (item.modifier().isEmpty()) {
-            return itemWithoutModifiers(itemLanguage, item);
-        }
-        return itemWithModifier(itemLanguage, item, item.modifier().get());
+        final var params = new HashMap<String, Object>();
+        final var objectLocale = item.object().getLocaleOrDefault(itemLanguage);
+        params.put("object", objectLocale.text());
+        params.put(
+            "modifier",
+            item.modifier()
+                .map(it -> it.getLocaleOrDefault(itemLanguage).getFormOrWithout(objectLocale.form()) + " ")
+                .orElse("")
+        );
+        return StringNamedTemplate.format(
+            resources.getOrDefault(itemLanguage, ItemResource::itemName),
+            params
+        );
     }
 
     private static String itemCharacteristics(Language language, PersonageItem item) {
