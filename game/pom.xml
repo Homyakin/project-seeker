@@ -276,7 +276,7 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <configLocation>${checkstyle.config.location}</configLocation>
+                            <configLocation>checkstyle.xml</configLocation>
                             <suppressionsLocation>${checkstyle.suppressions.location}</suppressionsLocation>
                             <inputEncoding>UTF-8</inputEncoding>
                             <logViolationsToConsole>true</logViolationsToConsole>

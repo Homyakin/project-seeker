@@ -1,9 +1,9 @@
 # Как добавить новую локализацию?
 
-1. Необходимо зайти в [папку с файлами локализации](../../src/main/resources/localization).
+1. Необходимо зайти в [папку с файлами локализации](../../game/src/main/resources/localization).
 2. Добавить папку с кодом своего языка.
 3. Перевести все `.toml` файлы из других папок
-4. Зайти в [папку с игровыми данными](../../src/main/resources/game-data)
+4. Зайти в [папку с игровыми данными](../../game/src/main/resources/game-data)
 5. Добавить к каждой записи объект со своим переводом. 
 Пример для raids.toml:
 ```toml
@@ -18,10 +18,10 @@ description = "ПЕРЕВОД"
 6. Сделать пулл реквест с добавлением новой локализации
 
 # How to add new localization?
-1. Go to [localization files folder](../../src/main/resources/localization).
+1. Go to [localization files folder](../../game/src/main/resources/localization).
 2. Add a folder with your language code.
 3. Translate all `.toml` files from other folders
-4. Go to [folder with game data](../../src/main/resources/game-data)
+4. Go to [folder with game data](../../game/src/main/resources/game-data)
 5. Add your translation to each object. Example for raids.toml:
 ```toml
 [raid.locales.RU]

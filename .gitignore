@@ -9,7 +9,7 @@ __pycache__/
 .refact/
 .vscode/
 
-src/main/resources/application-dev.properties
+game/src/main/resources/application-dev.properties
 .env
 
 # Eclipse

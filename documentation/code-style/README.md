@@ -24,8 +24,8 @@
 ## Соответствие checkstyle
 
 Для автоматизированной проверки правил кода используется checkstyle. Правила описаны в файлах:
-- [checkstyle.xml](../../checkstyle.xml)
-- [checkstyle-suppression.xml](../../checkstyle-suppression.xml)
+- [checkstyle.xml](../../game/checkstyle.xml)
+- [checkstyle-suppression.xml](../../game/checkstyle-suppression.xml)
 
 ## База данных
 Доступ к базе данных осуществляется с помощью прямых SQL запросов. ORM не используется.
