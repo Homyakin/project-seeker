@@ -35,6 +35,7 @@ import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
@@ -80,7 +81,8 @@ public class PersonageService {
                 Personage::id,
                 personage -> new BattlePersonage(
                     equippedItemsByPersonageId.getOrDefault(personage.id(), List.of()),
-                    personage.position()
+                    personage.position(),
+                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
                 )
             ));
     }

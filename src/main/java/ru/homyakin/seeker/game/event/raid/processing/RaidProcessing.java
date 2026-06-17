@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ import ru.homyakin.seeker.game.personage.event.RaidParticipant;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
@@ -181,7 +183,8 @@ public class RaidProcessing {
             .map(participant -> BattlePersonage.forCombat(
                 equippedItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
                 participant.personage().position(),
-                participant.personage().effects()
+                participant.personage().effects(),
+                Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))
             ))
             .toList();
     }

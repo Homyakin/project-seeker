@@ -25,10 +25,12 @@ import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.game.stats.action.PersonageStatsService;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -135,7 +137,8 @@ public class ProcessWorldRaidBattleCommand {
             .map(participant -> BattlePersonage.forCombat(
                 equippedItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
                 participant.personage().position(),
-                participant.personage().effects()
+                participant.personage().effects(),
+                Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))
             ))
             .toList();
     }

@@ -185,7 +185,7 @@ class WorldRaidBattleSimulatorTest {
         Files.createDirectories(outDir);
 
         writer.writeValue(outDir.resolve("battle-init.json").toFile(), result.initState());
-        writer.writeValue(outDir.resolve("battle-action-log.json").toFile(), result.actionLog().events());
+        writer.writeValue(outDir.resolve("battle-action-log.json").toFile(), result.actionLog());
     }
 
     private static void printBattleSummary(

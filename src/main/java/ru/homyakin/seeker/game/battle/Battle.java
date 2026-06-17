@@ -89,6 +89,7 @@ public class Battle {
                 p.id(),
                 new BattlePersonageInitSnapshot(
                     p.id(),
+                    p.name(),
                     firstTeamIds.contains(p.id()),
                     p.health(),
                     p.currentPosition(),

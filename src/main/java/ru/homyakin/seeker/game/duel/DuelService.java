@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.duel;
 import io.vavr.control.Either;
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
@@ -23,6 +24,7 @@ import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
+import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 @Component
@@ -137,12 +139,14 @@ public class DuelService {
         final var firstBattlePersonage = BattlePersonage.forCombat(
             equippedItems.getOrDefault(personage1.id(), List.of()),
             Position.FRONT,
-            personage1.effects()
+            personage1.effects(),
+            Optional.of(LocaleUtils.personageNameWithBadge(personage1))
         );
         final var secondBattlePersonage = BattlePersonage.forCombat(
             equippedItems.getOrDefault(personage2.id(), List.of()),
             Position.FRONT,
-            personage2.effects()
+            personage2.effects(),
+            Optional.of(LocaleUtils.personageNameWithBadge(personage2))
         );
         final var battleResult = battle.process(
             List.of(firstBattlePersonage),

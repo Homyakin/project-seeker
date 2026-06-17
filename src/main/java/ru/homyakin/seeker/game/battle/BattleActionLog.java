@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.game.battle;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public final class BattleActionLog {
         this.events.addAll(events);
     }
 
+    @JsonProperty("events")
     public List<BattleEvent> events() {
         return events;
     }

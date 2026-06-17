@@ -232,6 +232,6 @@ public class BattleSimulator {
         final var initPath = outDir.resolve("battle-init.json");
         final var logPath = outDir.resolve("battle-action-log.json");
         writer.writeValue(initPath.toFile(), result.initState());
-        writer.writeValue(logPath.toFile(), result.actionLog().events());
+        writer.writeValue(logPath.toFile(), result.actionLog());
     }
 }

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -82,6 +83,7 @@ public class BattlePersonage {
     }
 
     private final UUID id = UUID.randomUUID();
+    private final Optional<String> name;
     private final int maxHealth;
     private final int powerMaxHealth;
     private final int powerSlotOneAttackSum;
@@ -128,8 +130,21 @@ public class BattlePersonage {
         this(items, startPosition, Map.of());
     }
 
+    public BattlePersonage(List<Item> items, Position startPosition, Optional<String> name) {
+        this(items, startPosition, Map.of(), PersonageEffects.EMPTY, null, name);
+    }
+
     public static BattlePersonage forCombat(List<Item> items, Position startPosition, PersonageEffects effects) {
-        return new BattlePersonage(items, startPosition, Map.of(), effects, TimeUtils.moscowTime());
+        return forCombat(items, startPosition, effects, Optional.empty());
+    }
+
+    public static BattlePersonage forCombat(
+        List<Item> items,
+        Position startPosition,
+        PersonageEffects effects,
+        Optional<String> name
+    ) {
+        return new BattlePersonage(items, startPosition, Map.of(), effects, TimeUtils.moscowTime(), name);
     }
 
     public BattlePersonage(WorldRaidPersonage personage, Position startPosition) {
@@ -147,6 +162,18 @@ public class BattlePersonage {
         PersonageEffects effects,
         LocalDateTime now
     ) {
+        this(items, startPosition, skillPointsByActive, effects, now, Optional.empty());
+    }
+
+    public BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        PersonageEffects effects,
+        LocalDateTime now,
+        Optional<String> name
+    ) {
+        this.name = name;
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
         var activeSkills = new HashMap<ActiveEnum, Integer>();
@@ -657,6 +684,10 @@ public class BattlePersonage {
 
     public UUID id() {
         return id;
+    }
+
+    public Optional<String> name() {
+        return name;
     }
 
     public int health() {
