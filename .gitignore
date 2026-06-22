@@ -10,7 +10,8 @@ __pycache__/
 .vscode/
 
 game/src/main/resources/application-dev.properties
-.env
+**/.env
+**/.env.website
 
 # Eclipse
 .checkstyle
