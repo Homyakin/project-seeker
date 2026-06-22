@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Homyakin" id="add-event-battle-log">
+        <createTable tableName="event_battle_log">
+            <column name="launched_event_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="init" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="log" type="JSONB">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="event_battle_log"
+                baseColumnNames="launched_event_id"
+                constraintName="fk-event_battle_log-launched_event"
+                referencedTableName="launched_event"
+                referencedColumnNames="id"
+        />
+    </changeSet>
+</databaseChangeLog>

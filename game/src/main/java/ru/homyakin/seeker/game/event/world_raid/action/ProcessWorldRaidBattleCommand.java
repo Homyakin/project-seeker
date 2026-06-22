@@ -9,6 +9,7 @@ import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.battle.GroupBattleStats;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
@@ -49,6 +50,7 @@ public class ProcessWorldRaidBattleCommand {
     private final GroupStatsService groupStatsService;
     private final PersonageStatsService personageStatsService;
     private final WorldRaidConfig config;
+    private final EventBattleLogService eventBattleLogService;
 
     public ProcessWorldRaidBattleCommand(
         GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand,
@@ -62,7 +64,8 @@ public class ProcessWorldRaidBattleCommand {
         LaunchedEventService launchedEventService,
         GroupStatsService groupStatsService,
         PersonageStatsService personageStatsService,
-        WorldRaidConfig config
+        WorldRaidConfig config,
+        EventBattleLogService eventBattleLogService
     ) {
         this.getOrLaunchWorldRaidCommand = getOrLaunchWorldRaidCommand;
         this.personageEventService = personageEventService;
@@ -76,6 +79,7 @@ public class ProcessWorldRaidBattleCommand {
         this.groupStatsService = groupStatsService;
         this.personageStatsService = personageStatsService;
         this.config = config;
+        this.eventBattleLogService = eventBattleLogService;
     }
 
     @Transactional
@@ -88,6 +92,7 @@ public class ProcessWorldRaidBattleCommand {
         final var personageTeam = toBattlePersonages(participants);
         final var enemies = battleGenerator.generate(raid);
         final var result = battle.process(enemies, personageTeam);
+        eventBattleLogService.save(launchedEvent.id(), result);
         final var remainedInfo = battleGenerator.remainedInfo(raid.info(), enemies, result.personageStats());
         final var doesParticipantsWin = !result.firstWin();
         if (doesParticipantsWin) {

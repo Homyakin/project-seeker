@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
+import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidService;
@@ -52,6 +53,7 @@ public class RaidProcessing {
     private final PersonageEventService personageEventService;
     private final GroupEventService groupEventService;
     private final GroupPassiveEffectsService groupPassiveEffectsService;
+    private final EventBattleLogService eventBattleLogService;
 
     public RaidProcessing(
         PersonageService personageService,
@@ -63,7 +65,8 @@ public class RaidProcessing {
         LaunchedEventService launchedEventService,
         PersonageEventService personageEventService,
         GroupEventService groupEventService,
-        GroupPassiveEffectsService groupPassiveEffectsService
+        GroupPassiveEffectsService groupPassiveEffectsService,
+        EventBattleLogService eventBattleLogService
     ) {
         this.personageService = personageService;
         this.itemService = itemService;
@@ -75,6 +78,7 @@ public class RaidProcessing {
         this.personageEventService = personageEventService;
         this.groupEventService = groupEventService;
         this.groupPassiveEffectsService = groupPassiveEffectsService;
+        this.eventBattleLogService = eventBattleLogService;
     }
 
     public EventResult.RaidResult process(LaunchedEvent launchedEvent) {
@@ -95,6 +99,7 @@ public class RaidProcessing {
         final var personages = toBattlePersonages(participants);
         final var enemies = raidGenerator.generate(RaidType.fromCode(raid.code()), raidEvent, personages);
         final var result = battle.process(enemies, personages);
+        eventBattleLogService.save(launchedEvent.id(), result);
         boolean doesParticipantsWin = !result.firstWin();
 
         final var generatedItems = new ArrayList<GeneratedItemResult>();
