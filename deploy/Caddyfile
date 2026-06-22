@@ -1,0 +1,24 @@
+# Domain is taken from the WEBSITE_DOMAIN env var. A real domain is required so
+# Caddy provisions an HTTPS certificate automatically (HTTP is redirected to HTTPS).
+{$WEBSITE_DOMAIN} {
+	encode gzip
+
+	# API requests are reverse-proxied to the website backend container over the
+	# shared "web" bridge network. The backend already serves under /api, so the
+	# prefix is kept as-is.
+	handle /api/* {
+		reverse_proxy project-seeker-website-backend:8080
+	}
+
+	# Convenience redirect from the site root to the battle visualizer.
+	handle / {
+		redir / /battle-visualizer/ 302
+	}
+
+	# Everything else is served as static files from the mounted website directory.
+	handle {
+		root * /srv/website
+		try_files {path} {path}/
+		file_server
+	}
+}

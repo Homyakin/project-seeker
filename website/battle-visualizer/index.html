@@ -417,7 +417,7 @@
             <h3>No battle loaded</h3>
             <p>Load <code>battle-init.json</code> and <code>battle-action-log.json</code>.</p>
             <p>Generate them with <code>BattleSimulator.logTest()</code> &rarr; <code>target/battle-v4-log/</code>.</p>
-            <p>You can also pass <code>?init=URL&amp;log=URL</code> query params.</p>
+            <p>You can also pass <code>?launchedEventId=ID</code> to load from the server, or <code>?init=URL&amp;log=URL</code> query params.</p>
           </div>
         </div>
       </div>
@@ -581,7 +581,18 @@ window.addEventListener("drop", (e) => {
   e.preventDefault(); handleDroppedFiles(Array.from(e.dataTransfer.files));
 });
 
+// API base for server-backed loading. Defaults to a same-origin "/api" prefix
+// (Caddy reverse-proxies it to the backend), overridable with ?api=URL.
+const API_BASE = (qs.get("api") || "/api").replace(/\/+$/, "");
+
 (function autoFromUrl() {
+  const eventId = qs.get("launchedEventId");
+  if (eventId) {
+    setStatus(`Loading battle for launched event ${eventId}…`);
+    handleInit(`${API_BASE}/launched-event/${encodeURIComponent(eventId)}/battle-init`);
+    handleLog(`${API_BASE}/launched-event/${encodeURIComponent(eventId)}/battle-log`);
+    return;
+  }
   if (qs.get("init")) handleInit(qs.get("init"));
   if (qs.get("log")) handleLog(qs.get("log"));
 })();
