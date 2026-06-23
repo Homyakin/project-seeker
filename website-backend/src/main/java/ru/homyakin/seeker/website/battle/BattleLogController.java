@@ -17,14 +17,14 @@ public class BattleLogController {
     }
 
     @GetMapping("/battle-init")
-    public ResponseEntity<JsonNode> getInitState(@PathVariable long launchedEventId) {
+    public ResponseEntity<JsonNode> getInitState(@PathVariable("launchedEventId") long launchedEventId) {
         return battleLogService.getInitState(launchedEventId)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/battle-log")
-    public ResponseEntity<JsonNode> getActionLog(@PathVariable long launchedEventId) {
+    public ResponseEntity<JsonNode> getActionLog(@PathVariable("launchedEventId") long launchedEventId) {
         return battleLogService.getActionLog(launchedEventId)
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
