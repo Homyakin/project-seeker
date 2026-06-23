@@ -4,6 +4,10 @@ import org.springframework.stereotype.Component;
 
 import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
+import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -18,15 +22,21 @@ import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
     private final GroupUserService groupUserService;
     private final RaidService raidService;
+    private final PersonageService personageService;
+    private final ItemService itemService;
     private final TelegramSender telegramSender;
 
     public JoinRaidExecutor(
         GroupUserService groupUserService,
         RaidService raidService,
+        PersonageService personageService,
+        ItemService itemService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.raidService = raidService;
+        this.personageService = personageService;
+        this.itemService = itemService;
         this.telegramSender = telegramSender;
     }
 
@@ -65,22 +75,38 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
                     )
                     .build()
             );
-            if (result.get().isExhausted()) {
-                telegramSender.send(
-                    TelegramMethods.createAnswerCallbackQuery(
-                        command.callbackId(),
-                        RaidLocalization.exhaustedAlert(group.language())
+            telegramSender.send(
+                TelegramMethods.createAnswerCallbackQuery(
+                    command.callbackId(),
+                    joinRaidCallbackText(
+                        group.language(),
+                        result.get().isExhausted(),
+                        isBagFull(user.personageId())
                     )
-                );
-            } else {
-                telegramSender.send(
-                    TelegramMethods.createAnswerCallbackQuery(
-                        command.callbackId(),
-                        RaidLocalization.successJoinRaid(group.language())
-                    )
-                );
-            }
+                )
+            );
         }
+    }
+
+    private String joinRaidCallbackText(Language language, boolean isExhausted, boolean isBagFull) {
+        final var builder = new StringBuilder();
+        if (isExhausted) {
+            builder.append(RaidLocalization.exhaustedAlert(language));
+        } else {
+            builder.append(RaidLocalization.successJoinRaid(language));
+        }
+        if (isBagFull) {
+            if (!builder.isEmpty()) {
+                builder.append("\n");
+            }
+            builder.append(CommonLocalization.fullBagAlertOnRaidJoin(language));
+        }
+        return builder.toString();
+    }
+
+    private boolean isBagFull(PersonageId personageId) {
+        final var personage = personageService.getByIdForce(personageId);
+        return !personage.hasSpaceInBagForItems(itemService.getPersonageItems(personageId));
     }
 
     private String mapErrorToUserMessage(AddPersonageToRaidError error, GroupTg group, JoinRaid command) {

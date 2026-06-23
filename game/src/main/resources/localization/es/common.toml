@@ -162,3 +162,5 @@ raidGoldRewardPercentEffect = "+${value}% ${money_icon} al oro de incursiones"
 itemFoundChancePercentEffect = "+${value}% a la probabilidad de encontrar un objeto en incursiones"
 groupBuildingEffectLine = "\n<code>-${source_label}: ${effect}${optional_time_suffix}</code>"
 groupInfoPassiveEffectsSection = "\n\n<b>Efectos del grupo</b>${group_effect_lines}"
+
+fullBagAlertOnRaidJoin = "¡La mochila está llena! Libera espacio; si no, el botín de la incursión se perderá."

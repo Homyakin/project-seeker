@@ -675,6 +675,10 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::cancelEventLocked);
     }
 
+    public static String fullBagAlertOnRaidJoin(Language language) {
+        return resources.getOrDefault(language, CommonResource::fullBagAlertOnRaidJoin);
+    }
+
     private static String formatRaidItemFull(Language language, Optional<RaidItem> raidItem) {
         if (raidItem.isEmpty()) {
             return "";
