@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
@@ -200,6 +201,14 @@ public class InlineKeyboards {
                 WorldRaidLocalization.joinWorldRaidButton(language, energy),
                 CommandType.JOIN_WORLD_RAID.getText()
             )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup battleVisualizerKeyboard(Language language, String url) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addUrlButton(BattleLocalization.battleVisualizerButton(language), url)
             .build();
     }
 

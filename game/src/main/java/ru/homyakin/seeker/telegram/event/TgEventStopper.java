@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.service.EventProcessing;
@@ -16,6 +17,7 @@ import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Service
@@ -28,6 +30,7 @@ public class TgEventStopper {
     private final GroupStatsService groupStatsService;
     private final LockService lockService;
     private final TgContrabandNotifier contrabandNotifier;
+    private final BattleVisualizerConfig battleVisualizerConfig;
 
     public TgEventStopper(
         GroupTgService groupTgService,
@@ -36,7 +39,8 @@ public class TgEventStopper {
         EventProcessing eventProcessing,
         GroupStatsService groupStatsService,
         LockService lockService,
-        TgContrabandNotifier contrabandNotifier
+        TgContrabandNotifier contrabandNotifier,
+        BattleVisualizerConfig battleVisualizerConfig
     ) {
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
@@ -45,6 +49,7 @@ public class TgEventStopper {
         this.groupStatsService = groupStatsService;
         this.lockService = lockService;
         this.contrabandNotifier = contrabandNotifier;
+        this.battleVisualizerConfig = battleVisualizerConfig;
     }
 
     public void stopEvents() {
@@ -85,6 +90,10 @@ public class TgEventStopper {
                                 .chatId(groupEvent.groupId())
                                 .text(RaidLocalization.raidResult(group.language(), completed))
                                 .replyMessageId(groupEvent.messageId())
+                                .keyboard(InlineKeyboards.battleVisualizerKeyboard(
+                                    group.language(),
+                                    battleVisualizerConfig.battleUrl(launchedEvent.id())
+                                ))
                                 .build()
                             );
                             for (final var itemResult : completed.generatedItemResults()) {

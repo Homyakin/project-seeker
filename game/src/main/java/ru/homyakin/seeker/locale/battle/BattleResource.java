@@ -7,6 +7,7 @@ public record BattleResource(
     String battleStatsMitigationLine,
     String battleStatsSkillLine,
     String battleStatsSkillsEmpty,
+    String battleVisualizerButton,
     String chooseBattlePosition,
     String positionFront,
     String positionMid,

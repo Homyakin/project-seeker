@@ -60,6 +60,10 @@ public class BattleLocalization {
         return resources.getOrDefault(language, BattleResource::chooseBattlePosition);
     }
 
+    public static String battleVisualizerButton(Language language) {
+        return resources.getOrDefault(language, BattleResource::battleVisualizerButton);
+    }
+
     public static String positionName(Language language, Position position) {
         return switch (position) {
             case FRONT -> resources.getOrDefault(language, BattleResource::positionFront);

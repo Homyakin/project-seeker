@@ -114,7 +114,7 @@ public class ProcessWorldRaidBattleCommand {
             remainedInfo
         );
 
-        sendWorldRaidBattleResultCommand.sendBattleResult(worldRaidResult, raid);
+        sendWorldRaidBattleResultCommand.sendBattleResult(worldRaidResult, raid, launchedEvent.id());
         launchedEventService.updateResult(launchedEvent, worldRaidResult);
         for (final var groupResult : worldRaidResult.groupResults()) {
             if (worldRaidResult.isWin()) {

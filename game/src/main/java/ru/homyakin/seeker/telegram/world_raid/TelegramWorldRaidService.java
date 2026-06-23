@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.world_raid.action.NotifyAboutWorldRaidResearchEndCommand;
@@ -37,6 +38,7 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
     private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
     private final GetGroup getGroup;
+    private final BattleVisualizerConfig battleVisualizerConfig;
 
     public TelegramWorldRaidService(
         TelegramWorldRaidDao dao,
@@ -44,7 +46,8 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
         TopService topService,
         GroupTgService groupTgService,
         TelegramSender telegramSender,
-        GetGroup getGroup
+        GetGroup getGroup,
+        BattleVisualizerConfig battleVisualizerConfig
     ) {
         this.dao = dao;
         this.config = config;
@@ -52,6 +55,7 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
         this.getGroup = getGroup;
+        this.battleVisualizerConfig = battleVisualizerConfig;
     }
 
     @Override
@@ -152,7 +156,8 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
     @Override
     public void sendBattleResult(
         EventResult.WorldRaidBattleResult result,
-        ActiveWorldRaid raid
+        ActiveWorldRaid raid,
+        long launchedEventId
     ) {
         final var telegramWorldRaids = dao.getByWorldRaidId(raid.id());
         for (final var telegramWorldRaid : telegramWorldRaids) {
@@ -173,6 +178,10 @@ public class TelegramWorldRaidService implements NotifyAboutWorldRaidResearchEnd
                     .chatId(telegramWorldRaid.channelId())
                     .text(WorldRaidLocalization.raidBattleResult(telegramWorldRaid.language(), result))
                     .replyMessageId(telegramWorldRaid.messageId())
+                    .keyboard(InlineKeyboards.battleVisualizerKeyboard(
+                        telegramWorldRaid.language(),
+                        battleVisualizerConfig.battleUrl(launchedEventId)
+                    ))
                     .build()
             );
         }

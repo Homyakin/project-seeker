@@ -27,6 +27,7 @@ battleStatsSkillLine = "• ${skill_name} (${skill_rank}, ${skill_points} оч.)
 battleStatsSkillsEmpty = "<i>Нет активных навыков</i>\n"
 
 chooseBattlePosition = "Выберите позицию для рейдов и мировых рейдов:"
+battleVisualizerButton = "📜Смотреть бой"
 positionFront = "🗡Ближняя"
 positionMid = "🏹Дальняя"
 positionBack = "🪨Осадная"

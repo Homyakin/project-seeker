@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaid;
 public interface SendWorldRaidBattleResultCommand {
     void sendBattleResult(
         EventResult.WorldRaidBattleResult result,
-        ActiveWorldRaid raid
+        ActiveWorldRaid raid,
+        long launchedEventId
     );
 }
