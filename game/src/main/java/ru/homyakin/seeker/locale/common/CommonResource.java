@@ -45,6 +45,7 @@ public record CommonResource(
     String raidGoldRewardPercentEffect,
     String itemFoundChancePercentEffect,
     String groupBuildingEffectLine,
-    String groupInfoPassiveEffectsSection
+    String groupInfoPassiveEffectsSection,
+    String fullBagAlertOnRaidJoin
 ) {
 }

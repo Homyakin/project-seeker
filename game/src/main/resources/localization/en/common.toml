@@ -8,3 +8,5 @@ daysShort = "d"
 durationJustNow = "just now"
 
 contrabandEffect = "\n<code>-📦Contraband: ${effect} ${time_icon}${duration}</code>"
+
+fullBagAlertOnRaidJoin = "Your bag is full! Free up space — otherwise loot from the raid will be lost."
