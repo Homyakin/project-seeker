@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.world_raid.action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaid;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.ResearchGenerator;
@@ -34,7 +35,9 @@ public class GetOrLaunchWorldRaidCommand {
     /**
      * @return Если рейд существовал, то возвращает его, иначе создаёт новый
      */
+    @Transactional
     public ActiveWorldRaid execute() {
+        storage.lockForLaunch();
         final var currentActive = storage.getActive();
         if (currentActive.isPresent()) {
             return currentActive.get();

@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface WorldRaidStorage {
     void save(int eventId, SavingWorldRaid raid);
 
+    void lockForLaunch();
+
     Optional<ActiveWorldRaid> getActive();
 
     Optional<WorldRaidTemplate> getRandom();

@@ -61,6 +61,13 @@ public class WorldRaidDao implements WorldRaidStorage {
     }
 
     @Override
+    public void lockForLaunch() {
+        jdbcClient.sql("SELECT pg_advisory_xact_lock(hashtextextended('world_raid_launch', 0))")
+            .query((_, _) -> true)
+            .single();
+    }
+
+    @Override
     public Optional<ActiveWorldRaid> getActive() {
         final var sql = """
             SELECT
