@@ -67,6 +67,7 @@ public class CommonLocalization {
         final var params = new HashMap<String, Object>();
         params.put("help_command", CommandType.SHOW_HELP.getText());
         params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
+        params.put("communal_group_link", TextConstants.COMMUNAL_GROUP_LINK);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::welcomeUser),
             params
