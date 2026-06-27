@@ -321,6 +321,7 @@ public class CommandParser {
         final var text = callback.getData().split(TextConstants.CALLBACK_DELIMITER)[0];
         return CommandType.getFromString(text)
             .map(commandType -> switch (commandType) {
+                case GET_PROFILE -> GetProfileInPrivate.from(callback);
                 case SELECT_LANGUAGE -> UserSelectLanguage.from(callback);
                 case SELECT_BATTLE_POSITION -> UserSelectBattlePosition.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);

@@ -73,6 +73,14 @@ public class CommonLocalization {
         );
     }
 
+    public static String welcomeUserAddBotToGroupButton(Language language) {
+        return resources.getOrDefault(language, CommonResource::welcomeUserAddBotToGroupButton);
+    }
+
+    public static String welcomeUserJoinCommunalGroupButton(Language language) {
+        return resources.getOrDefault(language, CommonResource::welcomeUserJoinCommunalGroupButton);
+    }
+
     public static String chooseLanguage(Language language) {
         return resources.getOrDefault(language, CommonResource::chooseLanguage);
     }

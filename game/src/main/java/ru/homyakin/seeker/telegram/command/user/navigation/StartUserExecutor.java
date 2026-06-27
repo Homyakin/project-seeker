@@ -9,7 +9,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.action.AddUsertgReferer;
 import ru.homyakin.seeker.telegram.user.state.UserStateService;
-import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -46,7 +46,7 @@ public class StartUserExecutor extends CommandExecutor<StartUser> {
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
             .text(CommonLocalization.welcomeUser(user.language()))
-            .keyboard(ReplyKeyboards.mainKeyboard(user.language()))
+            .keyboard(InlineKeyboards.welcomeUserKeyboard(user.language()))
             .build()
         );
     }

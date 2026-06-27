@@ -3,6 +3,8 @@ package ru.homyakin.seeker.locale.common;
 public record CommonResource(
     String welcomeGroup,
     String welcomeUser,
+    String welcomeUserAddBotToGroupButton,
+    String welcomeUserJoinCommunalGroupButton,
     String chooseLanguage,
     String onlyAdminAction,
     String onlyGroupMemberAction,

@@ -100,6 +100,8 @@ Mensaje técnico: el grupo ha sido convertido en supergrupo. Estadísticas trans
 
 # текста для лички
 # TODO перенести куда-нибудь
+welcomeUserAddBotToGroupButton = "➕ Añadir bot al grupo"
+welcomeUserJoinCommunalGroupButton = "👥 Comunal"
 welcomeUser = """
 ¡Bienvenido a la taberna, Explorador!
 

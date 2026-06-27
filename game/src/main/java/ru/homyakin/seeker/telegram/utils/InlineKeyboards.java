@@ -13,15 +13,17 @@ import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
-import ru.homyakin.seeker.locale.battle.BattleLocalization;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
+import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
+import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.telegram.command.user.setting.PersonageSettingsCallbackUtils;
@@ -201,6 +203,22 @@ public class InlineKeyboards {
                 WorldRaidLocalization.joinWorldRaidButton(language, energy),
                 CommandType.JOIN_WORLD_RAID.getText()
             )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup welcomeUserKeyboard(Language language) {
+        final var addToGroupUrl = "https://t.me/%s?startgroup".formatted(TelegramBotConfig.username());
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addUrlButton(CommonLocalization.welcomeUserAddBotToGroupButton(language), addToGroupUrl)
+            .addRow()
+            .addUrlButton(
+                CommonLocalization.welcomeUserJoinCommunalGroupButton(language),
+                TextConstants.COMMUNAL_GROUP_LINK
+            )
+            .addRow()
+            .addButton(MenuLocalization.profileButton(language), CommandType.GET_PROFILE.getText())
             .build();
     }
 
