@@ -91,15 +91,9 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
     private String joinRaidCallbackText(Language language, boolean isExhausted, boolean isBagFull) {
         final var builder = new StringBuilder();
         if (isExhausted) {
-            builder.append(RaidLocalization.exhaustedAlert(language));
+            builder.append(RaidLocalization.exhaustedAlert(language, isBagFull));
         } else {
-            builder.append(RaidLocalization.successJoinRaid(language));
-        }
-        if (isBagFull) {
-            if (!builder.isEmpty()) {
-                builder.append("\n");
-            }
-            builder.append(CommonLocalization.fullBagAlertOnRaidJoin(language));
+            builder.append(RaidLocalization.successJoinRaid(language, isBagFull));
         }
         return builder.toString();
     }

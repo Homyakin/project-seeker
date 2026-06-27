@@ -48,8 +48,12 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::userAlreadyInThisRaid);
     }
 
-    public static String exhaustedAlert(Language language) {
-        return resources.getOrDefault(language, RaidResource::exhaustedAlert);
+    public static String exhaustedAlert(Language language, boolean isBagFull) {
+        final var success = resources.getOrDefault(language, RaidResource::exhaustedAlert);
+        if (isBagFull) {
+            return success + "\n" + CommonLocalization.fullBagAlertOnRaidJoin(language);
+        }
+        return success;
     }
 
     public static String userAlreadyInOtherEvent(Language language) {
@@ -68,8 +72,12 @@ public class RaidLocalization {
         return resources.getOrDefault(language, RaidResource::raidInProcess);
     }
 
-    public static String successJoinRaid(Language language) {
-        return resources.getOrDefault(language, RaidResource::successJoinRaid);
+    public static String successJoinRaid(Language language, boolean isBagFull) {
+        final var success = resources.getOrDefault(language, RaidResource::successJoinRaid);
+        if (isBagFull) {
+            return success + "\n" + CommonLocalization.fullBagAlertOnRaidJoin(language);
+        }
+        return success;
     }
 
     public static String successRaid(Language language) {

@@ -129,8 +129,12 @@ public class WorldRaidLocalization {
         );
     }
 
-    public static String successJoin(Language language) {
-        return resources.getOrDefault(language, WorldRaidResource::successJoin);
+    public static String successJoin(Language language, boolean isBagFull) {
+        final var success = resources.getOrDefault(language, WorldRaidResource::successJoin);
+        if (isBagFull) {
+            return success + "\n" + CommonLocalization.fullBagAlertOnRaidJoin(language);
+        }
+        return success;
     }
 
     public static String joinError(Language language, JoinWorldRaidError error) {
