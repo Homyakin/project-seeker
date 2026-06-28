@@ -22,6 +22,11 @@ personageMissingItem = "No tienes ese objeto"
 alreadyEquipped = "Ya tienes ese objeto equipado"
 alreadyTakenOff = "Ese objeto no está equipado"
 notEnoughSpaceInBag = "No tienes espacio en la mochila para quitar ese objeto"
-requiredFreeSlots = "Los siguientes espacios están ocupados: ${busy_slots}"
+notEnoughSpaceOnPutOnItem = "No tienes espacio en la mochila para quitar los objetos equipados: ${slots}"
 successPutOn = "¡Equipado exitosamente!: ${item}"
+successPutOnWithTakenOff = """\
+Desequipado:
+${taken_off_items}
+
+¡Equipado exitosamente!: ${item}"""
 successTakeOff = "Exitosamente desequipado: ${item}"

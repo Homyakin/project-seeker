@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.item.models.PutOnItemResult;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
@@ -144,21 +145,35 @@ public class ItemLocalization {
         return resources.getOrDefault(language, ItemResource::notEnoughSpaceInBag);
     }
 
-    public static String requiredFreeSlots(Language language, List<PersonageSlot> slots) {
-        final var builder = new StringBuilder();
+    public static String notEnoughSpaceOnPutOnItem(Language language, List<PersonageSlot> slots) {
+        final var slotsBuilder = new StringBuilder();
         for (final var slot : slots) {
-            builder.append(slot.icon);
+            slotsBuilder.append(slot.icon);
         }
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::requiredFreeSlots),
-            Collections.singletonMap("busy_slots", builder.toString())
+            resources.getOrDefault(language, ItemResource::notEnoughSpaceOnPutOnItem),
+            Collections.singletonMap("slots", slotsBuilder.toString())
         );
     }
 
-    public static String successPutOn(Language language, PersonageItem item) {
+    public static String successPutOn(Language language, PutOnItemResult result) {
+        final var params = new HashMap<String, Object>();
+        params.put("item", fullItem(language, result.item()));
+        if (result.takenOffItems().isEmpty()) {
+            return StringNamedTemplate.format(
+                resources.getOrDefault(language, ItemResource::successPutOn),
+                params
+            );
+        }
+        params.put(
+            "taken_off_items",
+            result.takenOffItems().stream()
+                .map(item -> fullItem(language, item))
+                .collect(Collectors.joining("\n"))
+        );
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::successPutOn),
-            Collections.singletonMap("item", fullItem(language, item))
+            resources.getOrDefault(language, ItemResource::successPutOnWithTakenOff),
+            params
         );
     }
 

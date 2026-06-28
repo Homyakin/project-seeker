@@ -37,10 +37,10 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
                 error -> switch (error) {
                     case PutOnItemError.PersonageMissingItem _ -> ItemLocalization.personageMissingItem(user.language());
                     case PutOnItemError.AlreadyEquipped _ -> ItemLocalization.alreadyEquipped(user.language());
-                    case PutOnItemError.RequiredFreeSlots requiredFreeSlots ->
-                        ItemLocalization.requiredFreeSlots(user.language(), requiredFreeSlots.slots());
+                    case PutOnItemError.NotEnoughSpaceOnPutOnItem notEnoughSpaceOnPutOnItem ->
+                        ItemLocalization.notEnoughSpaceOnPutOnItem(user.language(), notEnoughSpaceOnPutOnItem.slots());
                 },
-                item -> ItemLocalization.successPutOn(user.language(), item)
+                result -> ItemLocalization.successPutOn(user.language(), result)
             );
         telegramSender.send(
             SendMessageBuilder.builder()

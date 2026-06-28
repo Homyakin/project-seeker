@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.models;
 
 import io.vavr.control.Either;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public record Inventory(
         return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize();
     }
 
-    public Either<PutOnItemError, Success> canPutOnItem(PersonageId personageId, PersonageItem item) {
+    public Either<PutOnItemError, List<PersonageItem>> canPutOnItem(PersonageId personageId, PersonageItem item) {
         if (!item.personageId().map(it -> it.equals(personageId)).orElse(false)) {
             return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
         }
@@ -31,28 +32,33 @@ public record Inventory(
             return Either.left(PutOnItemError.AlreadyEquipped.INSTANCE);
         }
 
-        final var personageBusySlots = new HashMap<PersonageSlot, Integer>();
-        for (final var slot : item.object().slots()) {
-            personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
-            personageBusySlots.putIfAbsent(slot, 1);
-        }
+        final var requiredSlots = item.object().slots();
+        final var conflictingItems = new ArrayList<PersonageItem>();
         for (final var personageItem : items) {
-            if (personageItem.isEquipped()) {
-                for (final var slot : personageItem.object().slots()) {
-                    personageBusySlots.computeIfPresent(slot, (k, v) -> v + 1);
-                }
+            if (!personageItem.isEquipped()) {
+                continue;
+            }
+            final var conflictsWithRequiredSlots = personageItem.object().slots().stream()
+                .anyMatch(requiredSlots::contains);
+            if (conflictsWithRequiredSlots && conflictingItems.stream().noneMatch(it -> it.id() == personageItem.id())) {
+                conflictingItems.add(personageItem);
             }
         }
-        final var missingSlots = new ArrayList<PersonageSlot>();
-        for (final var entry : personageBusySlots.entrySet()) {
-            if (entry.getValue() > personageAvailableSlots.getOrDefault(entry.getKey(), 0)) {
-                missingSlots.add(entry.getKey());
-            }
+        if (conflictingItems.isEmpty()) {
+            return Either.right(List.of());
         }
-        if (missingSlots.isEmpty()) {
-            return Either.right(Success.INSTANCE);
+
+        final var itemsInBag = items.stream().filter(it -> !it.isEquipped()).count();
+        if (itemsInBag - 1 + conflictingItems.size() > maxBagSize()) {
+            final var occupiedSlots = conflictingItems.stream()
+                .flatMap(conflictingItem -> conflictingItem.object().slots().stream())
+                .filter(requiredSlots::contains)
+                .distinct()
+                .sorted(Comparator.comparingInt(slot -> slot.id))
+                .toList();
+            return Either.left(new PutOnItemError.NotEnoughSpaceOnPutOnItem(occupiedSlots));
         }
-        return Either.left(new PutOnItemError.RequiredFreeSlots(missingSlots));
+        return Either.right(conflictingItems);
     }
 
     public Either<TakeOffItemError, Success> canTakeOffItem(PersonageId personageId, PersonageItem item) {

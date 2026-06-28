@@ -23,6 +23,7 @@ import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.PutOnItemResult;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
@@ -171,7 +172,7 @@ public class ItemService {
             });
     }
 
-    public Either<PutOnItemError, PersonageItem> putOnItem(Personage personage, long itemId) {
+    public Either<PutOnItemError, PutOnItemResult> putOnItem(Personage personage, long itemId) {
         final var itemResult = getPersonageItem(personage.id(), itemId);
         if (itemResult.isEmpty()) {
             logger.debug("Personage {} tried to equip incorrect item with id {}", personage.id(), itemId);
@@ -179,8 +180,16 @@ public class ItemService {
         }
 
         return getPersonageItems(personage.id()).canPutOnItem(personage.id(), itemResult.get())
-            .peek(_ -> itemDao.invertEquip(itemId))
-            .map(_ -> getById(itemId).orElseThrow());
+            .map(itemsToTakeOff -> {
+                for (final var itemToTakeOff : itemsToTakeOff) {
+                    itemDao.invertEquip(itemToTakeOff.id());
+                }
+                itemDao.invertEquip(itemId);
+                final var takenOffItems = itemsToTakeOff.stream()
+                    .map(item -> getById(item.id()).orElseThrow())
+                    .toList();
+                return new PutOnItemResult(getById(itemId).orElseThrow(), takenOffItems);
+            });
     }
 
     public Either<TakeOffItemError, PersonageItem> takeOffItem(Personage personage, long itemId) {

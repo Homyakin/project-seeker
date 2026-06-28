@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.item.errors.GenerateItemError;
 import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
@@ -42,7 +43,7 @@ class ItemServiceGenerateItemTest {
             false
         );
 
-        Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(Collections.emptyList());
+        Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.emptyList()));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(42L);
         Mockito.when(itemDao.getById(42L)).thenReturn(Optional.of(savedItem));
 
@@ -71,7 +72,7 @@ class ItemServiceGenerateItemTest {
         Mockito.when(itemObjectDao.getRandomObject(PersonageSlot.MAIN_HAND)).thenReturn(catalogObject);
         Mockito.when(itemModifierService.pickModifier(ItemRarity.RARE, catalogObject.object(), PersonageSlot.MAIN_HAND))
             .thenReturn(Optional.of(catalogModifier));
-        Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(Collections.emptyList());
+        Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.emptyList()));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(10L);
         Mockito.when(itemDao.getById(10L)).thenReturn(Optional.of(savedItem));
 
@@ -92,7 +93,7 @@ class ItemServiceGenerateItemTest {
         final var bagItem = Mockito.mock(PersonageItem.class);
         Mockito.when(bagItem.isEquipped()).thenReturn(false);
 
-        Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(Collections.nCopies(15, bagItem));
+        Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.nCopies(15, bagItem)));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(99L);
         Mockito.when(itemDao.getById(99L)).thenReturn(Optional.of(Mockito.mock(PersonageItem.class)));
 

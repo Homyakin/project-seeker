@@ -17,8 +17,9 @@ public record ItemResource(
     String alreadyEquipped,
     String alreadyTakenOff,
     String notEnoughSpaceInBag,
-    String requiredFreeSlots,
+    String notEnoughSpaceOnPutOnItem,
     String successPutOn,
+    String successPutOnWithTakenOff,
     String successTakeOff
 ) {
 }

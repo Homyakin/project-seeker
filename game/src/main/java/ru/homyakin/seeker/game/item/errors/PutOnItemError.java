@@ -8,6 +8,6 @@ public sealed interface PutOnItemError {
 
     enum AlreadyEquipped implements PutOnItemError { INSTANCE }
 
-    record RequiredFreeSlots(List<PersonageSlot> slots) implements PutOnItemError {
+    record NotEnoughSpaceOnPutOnItem(List<PersonageSlot> slots) implements PutOnItemError {
     }
 }
