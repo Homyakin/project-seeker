@@ -21,6 +21,7 @@ import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.CatalogModifier;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
+import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
@@ -85,7 +86,7 @@ public class ItemService {
             false
         );
 
-        if (!personage.hasSpaceInBagForItems(getPersonageItems(personage.id()))) {
+        if (!getPersonageItems(personage.id()).hasSpaceInBag()) {
             logger.info("Personage '{}' has no space in bag", personage.id().value());
             final var itemWithoutPersonage = new PersonageItem(
                 tempItem.id(),
@@ -105,13 +106,8 @@ public class ItemService {
         return Either.right(getById(id).orElseThrow());
     }
 
-    public List<PersonageItem> getPersonageItems(PersonageId personageId) {
+    public Inventory getPersonageItems(PersonageId personageId) {
         return itemDao.getByPersonageId(personageId);
-    }
-
-    public Characteristics getEquippedCharacteristics(PersonageId personageId) {
-        return getEquippedCharacteristicsByPersonageIds(Set.of(personageId))
-            .getOrDefault(personageId, DefaultItems.characteristicsForFreeSlots(Set.of()));
     }
 
     public Map<PersonageId, List<Item>> getEquippedItemsByPersonageIds(Set<PersonageId> personageIds) {
@@ -182,7 +178,7 @@ public class ItemService {
             return Either.left(PutOnItemError.PersonageMissingItem.INSTANCE);
         }
 
-        return personage.canPutOnItem(getPersonageItems(personage.id()), itemResult.get())
+        return getPersonageItems(personage.id()).canPutOnItem(personage.id(), itemResult.get())
             .peek(_ -> itemDao.invertEquip(itemId))
             .map(_ -> getById(itemId).orElseThrow());
     }
@@ -194,7 +190,7 @@ public class ItemService {
             return Either.left(TakeOffItemError.PersonageMissingItem.INSTANCE);
         }
 
-        return personage.canTakeOffItem(getPersonageItems(personage.id()), itemResult.get())
+        return getPersonageItems(personage.id()).canTakeOffItem(personage.id(), itemResult.get())
             .peek(_ -> itemDao.invertEquip(itemId))
             .map(_ -> getById(itemId).orElseThrow());
     }

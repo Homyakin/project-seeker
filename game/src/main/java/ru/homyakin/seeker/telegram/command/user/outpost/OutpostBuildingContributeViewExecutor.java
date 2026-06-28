@@ -74,7 +74,7 @@ public class OutpostBuildingContributeViewExecutor extends CommandExecutor<Outpo
 
         final var occupied = occupiedOpt.get();
         final var progress = progressOpt.get();
-        final var bagItems = itemService.getPersonageItems(user.personageId()).stream()
+        final var bagItems = itemService.getPersonageItems(user.personageId()).items().stream()
             .filter(i -> !i.isEquipped())
             .sorted(ItemLocalization::itemComparator)
             .toList();

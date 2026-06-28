@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.models.AddPersonageToRaidError;
 import ru.homyakin.seeker.game.item.ItemService;
-import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.common.CommonLocalization;
@@ -22,20 +21,17 @@ import ru.homyakin.seeker.telegram.utils.TelegramMethods;
 public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
     private final GroupUserService groupUserService;
     private final RaidService raidService;
-    private final PersonageService personageService;
     private final ItemService itemService;
     private final TelegramSender telegramSender;
 
     public JoinRaidExecutor(
         GroupUserService groupUserService,
         RaidService raidService,
-        PersonageService personageService,
         ItemService itemService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.raidService = raidService;
-        this.personageService = personageService;
         this.itemService = itemService;
         this.telegramSender = telegramSender;
     }
@@ -99,8 +95,7 @@ public class JoinRaidExecutor extends CommandExecutor<JoinRaid> {
     }
 
     private boolean isBagFull(PersonageId personageId) {
-        final var personage = personageService.getByIdForce(personageId);
-        return !personage.hasSpaceInBagForItems(itemService.getPersonageItems(personageId));
+        return !itemService.getPersonageItems(personageId).hasSpaceInBag();
     }
 
     private String mapErrorToUserMessage(AddPersonageToRaidError error, GroupTg group, JoinRaid command) {

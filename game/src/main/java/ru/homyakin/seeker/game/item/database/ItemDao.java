@@ -2,17 +2,17 @@ package ru.homyakin.seeker.game.item.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.models.CatalogModifier;
+import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -48,32 +48,27 @@ public class ItemDao {
             .optional();
     }
 
-    public List<PersonageItem> getByPersonageId(PersonageId personageId) {
-        return jdbcClient.sql(SELECT_SQL + " WHERE i.personage_id = :personage_id")
+    public Inventory getByPersonageId(PersonageId personageId) {
+        final var items = jdbcClient.sql(SELECT_SQL + " WHERE i.personage_id = :personage_id")
             .param("personage_id", personageId.value())
             .query(this::mapRow)
             .list();
-    }
-
-    public List<PersonageItem> getEquippedByPersonageId(PersonageId personageId) {
-        return getEquippedByPersonageIds(Set.of(personageId))
-            .getOrDefault(personageId, List.of());
+        return new Inventory(items);
     }
 
     public Map<PersonageId, List<PersonageItem>> getEquippedByPersonageIds(Set<PersonageId> personageIds) {
         if (personageIds.isEmpty()) {
             return Map.of();
         }
-        final Map<PersonageId, List<PersonageItem>> result = new HashMap<>();
-        for (final var personageId : personageIds) {
-            result.put(personageId, new ArrayList<>());
-        }
-        jdbcClient.sql(SELECT_SQL + " WHERE i.personage_id IN (:personage_ids) AND i.is_equipped = true")
+        return jdbcClient.sql(SELECT_SQL + " WHERE i.personage_id IN (:personage_ids) AND i.is_equipped = true")
             .param("personage_ids", personageIds.stream().map(PersonageId::value).toList())
             .query(this::mapRow)
             .list()
-            .forEach(item -> item.personageId().ifPresent(id -> result.get(id).add(item)));
-        return result;
+            .stream()
+            .collect(Collectors.groupingBy(
+                item -> item.personageId().orElseThrow(),
+                Collectors.toList()
+            ));
     }
 
     public void invertEquip(long id) {

@@ -56,7 +56,7 @@ public class ShopService {
         final var items = new ArrayList<ShopItem>();
         final var personageItems = itemService.getPersonageItems(personageId);
 
-        for (final var item : personageItems) {
+        for (final var item : personageItems.items()) {
             if (!item.isEquipped()) {
                 items.add(new ShopItem.Sell(config.sellingPriceByItem(item), item));
             }

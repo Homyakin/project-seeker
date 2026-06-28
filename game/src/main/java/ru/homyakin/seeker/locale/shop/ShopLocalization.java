@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.locale.shop;
 
+import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
@@ -168,19 +169,19 @@ public class ShopLocalization {
         );
     }
 
-    public static String enhanceTable(Language language, List<PersonageItem> items) {
+    public static String enhanceTable(Language language, Inventory inventory) {
         final var params = new HashMap<String, Object>();
-        final var sortedItems = items.stream().sorted(ItemLocalization::itemComparator).toList();
+        final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
         final var equipped = sortedItems.stream()
                 .filter(PersonageItem::isEquipped)
                 .map(it -> enhanceItem(language, it))
                 .collect(Collectors.joining("\n"));
-        final var inventory = sortedItems.stream()
+        final var bagItems = sortedItems.stream()
                 .filter(it -> !it.isEquipped())
                 .map(it -> enhanceItem(language, it))
                 .collect(Collectors.joining("\n"));
         params.put("equipped_enhance_times", equipped);
-        params.put("inventory_enhance_times", inventory);
+        params.put("inventory_enhance_times", bagItems);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::enhanceTable),
             params

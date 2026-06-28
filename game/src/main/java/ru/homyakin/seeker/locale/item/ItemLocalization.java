@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
+import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
-import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
@@ -100,12 +100,12 @@ public class ItemLocalization {
         );
     }
 
-    public static String inventory(Language language, Personage personage, List<PersonageItem> items) {
+    public static String inventory(Language language, Inventory inventory) {
         final var params = new HashMap<String, Object>();
-        params.put("max_items_in_bag", personage.maxBagSize());
+        params.put("max_items_in_bag", Inventory.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
         int itemsInBagCount = 0;
-        final var sortedItems = items.stream().sorted(ItemLocalization::itemComparator).toList();
+        final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
         for (final var item : sortedItems) {
             if (!item.isEquipped()) {
                 itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
