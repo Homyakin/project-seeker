@@ -14,6 +14,7 @@ public class Icons {
     public static final String DUEL_LOSER = DEAD;
     public static final String NORMAL_ATTACK = ATTACK;
     public static final String CRIT_ATTACK = EmojiManager.getByAlias(":boom:").orElseThrow().getFirst().getEmoji();
+    public static final String CRIT_MULTIPLIER = EmojiManager.getByAlias(":comet:").orElseThrow().getFirst().getEmoji();
     public static final String BLOCKED_DAMAGE = DEFENSE;
     public static final String MISS = EmojiManager.getByAlias(":o:").orElseThrow().getFirst().getEmoji();
     public static final String DODGE = EmojiManager.getByAlias(":dash:").orElseThrow().getFirst().getEmoji();

@@ -8,7 +8,7 @@ ${range_icon}Дальность: ${range_value}
 ${speed_icon}Скорость: ${speed_value}
 ${crit_attack_icon}Шанс крита: ${crit_chance_value}%
 ${dodge_icon}Шанс уклонения: ${dodge_chance_value}%
-💥Множитель крита: ${crit_multiplier_value}
+${crit_multiplier_icon}Множитель крита: ${crit_multiplier_value}
 ${threat_icon}Угроза: ${threat_value}
 
 <b>Атака:</b>

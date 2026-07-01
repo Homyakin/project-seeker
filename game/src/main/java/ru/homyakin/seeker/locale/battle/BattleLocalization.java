@@ -43,6 +43,7 @@ public class BattleLocalization {
         params.put("crit_chance_value", personage.critChance());
         params.put("dodge_icon", Icons.DODGE);
         params.put("dodge_chance_value", personage.dodgeChance());
+        params.put("crit_multiplier_icon", Icons.CRIT_MULTIPLIER);
         params.put("crit_multiplier_value", formatCritMultiplier(personage.critMultiplier()));
         params.put("threat_icon", Icons.THREAT);
         params.put("threat_value", personage.totalThreat());
