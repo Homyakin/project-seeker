@@ -87,6 +87,7 @@ import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivateCancel;
 import ru.homyakin.seeker.telegram.command.user.group.LeaveGroupInPrivateConfirm;
 import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
+import ru.homyakin.seeker.telegram.command.user.item.SelectInventory;
 import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
@@ -342,6 +343,7 @@ public class CommandParser {
                 case SHOP_RANDOM_BOXES -> ShopSelectRandomBoxes.from(callback);
                 case SHOP_ENHANCE_INLINE -> ShopOpenEnhanceInline.from(callback);
                 case SHOP_SELECT_SLOT -> ShopSelectSlot.from(callback);
+                case SELECT_INVENTORY -> SelectInventory.from(callback);
                 default -> null;
             });
     }

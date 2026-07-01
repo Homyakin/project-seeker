@@ -10,12 +10,16 @@ itemInBag = "${full_item} ${put_on_command}"
 equippedItem = "${full_item} ${take_off_command}"
 personageFreeSlot = "${slot} <i>Пусто</i>"
 
-inventory = """\
+equipment = """\
 <b>👤Снаряжение:</b>
-${equipped_items_and_free_slots}
+${equipped_items_and_free_slots}"""
 
+bag = """\
 <b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
 ${items_in_bag}"""
+
+equipmentButton = "👤Снаряжение"
+bagButton = "🎒Рюкзак"
 
 personageMissingItem = "У вас нет такого предмета"
 alreadyEquipped = "Вы уже экипировали данный предмет"

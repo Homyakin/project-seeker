@@ -101,7 +101,18 @@ public class ItemLocalization {
         );
     }
 
-    public static String inventory(Language language, Inventory inventory) {
+    public static String equipment(Language language, Inventory inventory) {
+        final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::equipment),
+            Collections.singletonMap(
+                "equipped_items_and_free_slots",
+                String.join("\n", buildEquipmentSlotLines(language, sortedItems))
+            )
+        );
+    }
+
+    public static String bag(Language language, Inventory inventory) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", Inventory.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
@@ -113,16 +124,20 @@ public class ItemLocalization {
                 ++itemsInBagCount;
             }
         }
-        params.put(
-            "equipped_items_and_free_slots",
-            String.join("\n", buildEquipmentSlotLines(language, sortedItems))
-        );
         params.put("items_in_bag_count", itemsInBagCount);
         params.put("items_in_bag", itemsInBagBuilder.toString());
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::inventory),
+            resources.getOrDefault(language, ItemResource::bag),
             params
         );
+    }
+
+    public static String equipmentButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::equipmentButton);
+    }
+
+    public static String bagButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::bagButton);
     }
 
     public static int itemComparator(PersonageItem item1, PersonageItem item2) {

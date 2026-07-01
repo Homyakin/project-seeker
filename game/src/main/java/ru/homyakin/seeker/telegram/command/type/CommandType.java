@@ -45,6 +45,7 @@ public enum CommandType {
     TOP_OUTPOST_BUILD_SESSION("/top_building", CheckType.STARTS_WITH),
     TOP("/top", CheckType.EQUALS),
     INVENTORY(null, CheckType.MAP),
+    SELECT_INVENTORY("selectInventory", CheckType.EQUALS),
     OPEN_SHOP(null, CheckType.MAP),
     BULLETIN_BOARD(null, CheckType.MAP),
     TAKE_PERSONAL_QUEST(null, CheckType.MAP),

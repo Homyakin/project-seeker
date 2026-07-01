@@ -19,6 +19,7 @@ import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
@@ -26,6 +27,7 @@ import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.telegram.command.user.item.InventorySection;
 import ru.homyakin.seeker.telegram.command.user.setting.PersonageSettingsCallbackUtils;
 
 public class InlineKeyboards {
@@ -283,5 +285,15 @@ public class InlineKeyboards {
             );
         }
         return builder.build();
+    }
+
+    public static InlineKeyboardMarkup inventoryKeyboard(Language language) {
+        final var callbackPrefix = CommandType.SELECT_INVENTORY.getText() + TextConstants.CALLBACK_DELIMITER;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(ItemLocalization.equipmentButton(language), callbackPrefix + InventorySection.EQUIPMENT.name())
+            .addButton(ItemLocalization.bagButton(language), callbackPrefix + InventorySection.BAG.name())
+            .build();
     }
 }
