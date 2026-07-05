@@ -115,7 +115,6 @@ public class ItemLocalization {
             "defense_type_icon",
             gameItem.itemDefense().map(defense -> Icons.defenseTypeIcon(defense.defenseType())).orElse("")
         );
-        params.put("characteristics", itemCharacteristics(itemLanguage, item));
         return StringNamedTemplate.format(
             resources.getOrDefault(itemLanguage, ItemResource::shortItem),
             params

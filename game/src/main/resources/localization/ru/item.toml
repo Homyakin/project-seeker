@@ -2,7 +2,7 @@ itemName = "${modifier}${object}"
 fullItem = """\
 ${slots}${rarity_icon}${broken_icon}${item} ${optional_command}
 ${characteristics}"""
-shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item} ${characteristics}"
+shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item}"
 characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}${not_zero_range}${not_zero_speed}${not_zero_crit_chance}${not_zero_dodge_chance}${not_zero_crit_multiplier}${not_zero_threat}"
 attack = "${attack_type_icon}${attack_value}"
 defense = "${defense_type_icon}${defense_value}"
