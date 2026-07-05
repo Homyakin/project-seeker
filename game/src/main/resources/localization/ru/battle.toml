@@ -20,8 +20,8 @@ ${mitigation_lines}
 <b>Навыки:</b>
 ${skills_section}"""
 
-battleStatsAttackLine = "${attack_icon}${attack_type} (дист. ${range_value}): ${attack_value}"
-battleStatsDefenseLine = "${defense_icon}${defense_type}: ${defense_value}"
+battleStatsAttackLine = "${attack_type} (дист. ${range_value}): ${attack_value}"
+battleStatsDefenseLine = "${defense_type}: ${defense_value}"
 battleStatsMitigationLine = "• ${attack_type}: ${mitigation_percent}%"
 battleStatsSkillLine = "• ${skill_name} (${skill_rank}, ${skill_points} оч.): ${skill_description}"
 battleStatsSkillsEmpty = "<i>Нет активных навыков</i>\n"
@@ -32,15 +32,15 @@ positionFront = "🗡Ближняя"
 positionMid = "🏹Дальняя"
 positionBack = "🪨Осадная"
 
-attackTypeSlash = "Рубящий"
-attackTypeBlunt = "Дробящий"
-attackTypePierce = "Колющий"
-attackTypeMagical = "Магический"
+attackTypeSlash = "${slash_icon}Рубящий"
+attackTypeBlunt = "${blunt_icon}Дробящий"
+attackTypePierce = "${pierce_icon}Колющий"
+attackTypeMagical = "${magical_icon}Магический"
 
-defenseTypeCloth = "Ткань"
-defenseTypeLeather = "Кожа"
-defenseTypePlate = "Латы"
-defenseTypeArcane = "Магическая"
+defenseTypeCloth = "${cloth_icon}Ткань"
+defenseTypeLeather = "${leather_icon}Кожа"
+defenseTypePlate = "${plate_icon}Латы"
+defenseTypeArcane = "${arcane_icon}Магическая"
 
 [counterAttack]
 name = "Контрудар"

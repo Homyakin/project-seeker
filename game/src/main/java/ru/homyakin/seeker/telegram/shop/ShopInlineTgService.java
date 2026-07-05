@@ -53,7 +53,7 @@ public class ShopInlineTgService {
         sendEdit(
             userId,
             messageId,
-            ShopLocalization.randomBoxesMenu(language, items, activeContraband(personageId)),
+            ShopLocalization.menu(language, items, activeContraband(personageId)),
             ShopKeyboards.navigationKeyboard(language)
         );
     }

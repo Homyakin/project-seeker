@@ -7,18 +7,21 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.ItemAttack;
+import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.models.PutOnItemResult;
-import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class ItemLocalization {
@@ -29,14 +32,14 @@ public class ItemLocalization {
     }
 
     public static String fullItem(Language requestedlanguage, PersonageItem item) {
-        final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", item.rarity().icon());
-        params.put("broken_icon", "");
-        params.put("item", itemText(itemLanguage, item));
-        params.put("characteristics", itemCharacteristics(itemLanguage, item));
-        params.put(
-            "slots",
+        return fullItem(requestedlanguage, item, "");
+    }
+
+    public static String fullItem(Language requestedlanguage, PersonageItem item, String optionalCommand) {
+        return fullItem(
+            requestedlanguage,
+            item,
+            optionalCommand,
             item.object()
                 .slots()
                 .stream()
@@ -44,6 +47,22 @@ public class ItemLocalization {
                 .map(it -> it.icon)
                 .collect(Collectors.joining())
         );
+    }
+
+    private static String fullItem(
+        Language requestedlanguage,
+        PersonageItem item,
+        String optionalCommand,
+        String slots
+    ) {
+        final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var params = new HashMap<String, Object>();
+        params.put("rarity_icon", item.rarity().icon());
+        params.put("broken_icon", "");
+        params.put("item", itemText(itemLanguage, item));
+        params.put("optional_command", optionalCommand);
+        params.put("characteristics", itemCharacteristics(itemLanguage, item));
+        params.put("slots", slots);
         return StringNamedTemplate.format(
             resources.getOrDefault(itemLanguage, ItemResource::fullItem),
             params
@@ -55,16 +74,20 @@ public class ItemLocalization {
     }
 
     public static String fullItemForShopSlot(Language requestedlanguage, PersonageItem item, PersonageSlot shopSlot) {
-        final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", item.rarity().icon());
-        params.put("broken_icon", "");
-        params.put("item", itemText(itemLanguage, item));
-        params.put("characteristics", itemCharacteristics(itemLanguage, item));
-        params.put("slots", slotIcons(item, shopSlot));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(itemLanguage, ItemResource::fullItem),
-            params
+        return fullItemForShopSlot(requestedlanguage, item, shopSlot, "");
+    }
+
+    public static String fullItemForShopSlot(
+        Language requestedlanguage,
+        PersonageItem item,
+        PersonageSlot shopSlot,
+        String optionalCommand
+    ) {
+        return fullItem(
+            requestedlanguage,
+            item,
+            optionalCommand,
+            slotIcons(item, shopSlot)
         ).trim();
     }
 
@@ -78,10 +101,20 @@ public class ItemLocalization {
 
     public static String shortItem(Language requestedlanguage, PersonageItem item) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
+        final var gameItem = item.toItem();
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon());
         params.put("broken_icon", "");
         params.put("item", itemText(itemLanguage, item));
+        params.put("slots", itemSlots(item));
+        params.put(
+            "attack_type_icon",
+            gameItem.itemAttack().map(attack -> Icons.attackTypeIcon(attack.attackType())).orElse("")
+        );
+        params.put(
+            "defense_type_icon",
+            gameItem.itemDefense().map(defense -> Icons.defenseTypeIcon(defense.defenseType())).orElse("")
+        );
         params.put("characteristics", itemCharacteristics(itemLanguage, item));
         return StringNamedTemplate.format(
             resources.getOrDefault(itemLanguage, ItemResource::shortItem),
@@ -89,26 +122,26 @@ public class ItemLocalization {
         );
     }
 
-    public static String shortItemWithoutCharacteristics(Language requestedlanguage, PersonageItem item) {
-        final var itemLanguage = item.getItemLanguage(requestedlanguage);
-        final var params = new HashMap<String, Object>();
-        params.put("rarity_icon", item.rarity().icon());
-        params.put("broken_icon", "");
-        params.put("item", itemText(itemLanguage, item));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(itemLanguage, ItemResource::shortItemWithoutCharacteristics),
-            params
-        );
+    private static String itemSlots(PersonageItem item) {
+        return item.object()
+            .slots()
+            .stream()
+            .sorted(Comparator.comparingInt(it -> it.id))
+            .map(it -> it.icon)
+            .collect(Collectors.joining());
     }
 
     public static String equipment(Language language, Inventory inventory) {
         final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
+        final var params = new HashMap<String, Object>();
+        params.put(
+            "equipped_items_and_free_slots",
+            String.join("\n", buildEquipmentSlotLines(language, sortedItems))
+        );
+        params.put("battle_stats_command", CommandType.BATTLE_STATS.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::equipment),
-            Collections.singletonMap(
-                "equipped_items_and_free_slots",
-                String.join("\n", buildEquipmentSlotLines(language, sortedItems))
-            )
+            params
         );
     }
 
@@ -200,23 +233,11 @@ public class ItemLocalization {
     }
 
     private static String itemInBag(Language language, PersonageItem item) {
-        final var params = new HashMap<String, Object>();
-        params.put("full_item", fullItem(language, item));
-        params.put("put_on_command", item.putOnCommand());
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::itemInBag),
-            params
-        );
+        return fullItem(language, item, item.putOnCommand());
     }
 
     private static String equippedItem(Language language, PersonageItem item) {
-        final var params = new HashMap<String, Object>();
-        params.put("full_item", fullItem(language, item));
-        params.put("take_off_command", item.takeOffCommand());
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::equippedItem),
-            params
-        );
+        return fullItem(language, item, item.takeOffCommand());
     }
 
     private static String personageFreeSlot(Language language, PersonageSlot slot) {
@@ -282,57 +303,186 @@ public class ItemLocalization {
         );
     }
 
-    public static String characteristics(Language language, Characteristics characteristics) {
+    private static String itemCharacteristics(Language language, PersonageItem item) {
+        return itemCharacteristics(language, item.toItem());
+    }
+
+    private static String itemCharacteristics(Language language, Item item) {
         final var params = new HashMap<String, Object>();
-        if (characteristics.attack() != 0) {
-            params.put("not_zero_attack", attack(language, characteristics.attack()));
-        } else {
-            params.put("not_zero_attack", "");
-        }
-        if (characteristics.health() != 0) {
-            params.put("not_zero_health", health(language, characteristics.health()));
-        } else {
-            params.put("not_zero_health", "");
-        }
-        if (characteristics.defense() != 0) {
-            params.put("not_zero_defense", defense(language, characteristics.defense()));
-        } else {
-            params.put("not_zero_defense", "");
-        }
+        putNotZeroCharacteristic(params, "not_zero_health", item.health(), health(language, item.health()));
+        item.itemAttack().ifPresentOrElse(
+            attack -> putNotZeroCharacteristic(
+                params,
+                "not_zero_attack",
+                attack.attack(),
+                attack(language, attack)
+            ),
+            () -> putEmptyCharacteristic(params, "not_zero_attack")
+        );
+        item.itemDefense().ifPresentOrElse(
+            defense -> putNotZeroCharacteristic(
+                params,
+                "not_zero_defense",
+                defense.defense(),
+                defense(language, defense)
+            ),
+            () -> putEmptyCharacteristic(params, "not_zero_defense")
+        );
+        item.itemAttack().ifPresentOrElse(
+            attack -> putNotZeroCharacteristic(
+                params,
+                "not_zero_range",
+                attack.range(),
+                range(language, attack.range())
+            ),
+            () -> putEmptyCharacteristic(params, "not_zero_range")
+        );
+        putNotZeroCharacteristic(
+            params,
+            "not_zero_speed",
+            item.speed(), speed(language, item.speed())
+        );
+        putNotZeroCharacteristic(
+            params,
+            "not_zero_crit_chance",
+            item.critChance(),
+            critChance(language, item.critChance())
+        );
+        putNotZeroCharacteristic(
+            params,
+            "not_zero_dodge_chance",
+            item.dodgeChance(),
+            dodgeChance(language, item.dodgeChance())
+        );
+        putNotZeroCharacteristic(
+            params,
+            "not_zero_crit_multiplier",
+            item.critMultiplier(),
+            critMultiplier(language, item.critMultiplier())
+        );
+        putNotZeroCharacteristic(params, "not_zero_threat", item.baseThreat(), threat(language, item.baseThreat()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::characteristics),
             params
         );
     }
 
-    private static String attack(Language language, int attack) {
-        final var params = new HashMap<String, Object>();
-        params.put("attack_icon", Icons.ATTACK);
-        params.put("attack_value", attack);
+    private static void putNotZeroCharacteristic(
+        HashMap<String, Object> params,
+        String key,
+        int value,
+        String formatted
+    ) {
+        params.put(key, value != 0 ? formatted : "");
+    }
+
+    private static void putNotZeroCharacteristic(
+        HashMap<String, Object> params,
+        String key,
+        double value,
+        String formatted
+    ) {
+        params.put(key, value != 0 ? formatted : "");
+    }
+
+    private static void putEmptyCharacteristic(HashMap<String, Object> params, String key) {
+        params.put(key, "");
+    }
+
+    private static String attack(Language language, ItemAttack attack) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::attack),
-            params
+            Map.of(
+                "attack_type_icon", Icons.attackTypeIcon(attack.attackType()),
+                "attack_value", attack.attack()
+            )
         );
     }
 
-    private static String health(Language language, int attack) {
-        final var params = new HashMap<String, Object>();
-        params.put("health_icon", Icons.HEALTH);
-        params.put("health_value", attack);
+    private static String attack(Language language, int attack) {
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, ItemResource::health),
-            params
+            resources.getOrDefault(language, ItemResource::attack),
+            Map.of(
+                "attack_type_icon", Icons.ATTACK,
+                "attack_value", attack
+            )
         );
     }
 
-    private static String defense(Language language, int attack) {
-        final var params = new HashMap<String, Object>();
-        params.put("defense_icon", Icons.DEFENSE);
-        params.put("defense_value", attack);
+    private static String defense(Language language, ItemDefense defense) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::defense),
-            params
+            Map.of(
+                "defense_type_icon", Icons.defenseTypeIcon(defense.defenseType()),
+                "defense_value", defense.defense()
+            )
         );
+    }
+
+    private static String defense(Language language, int defense) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::defense),
+            Map.of(
+                "defense_type_icon", "",
+                "defense_value", defense
+            )
+        );
+    }
+
+    private static String health(Language language, int health) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::health),
+            Map.of("health_icon", Icons.HEALTH, "health_value", health)
+        );
+    }
+
+    private static String range(Language language, int range) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::range),
+            Map.of("range_icon", Icons.RANGE, "range_value", range)
+        );
+    }
+
+    private static String speed(Language language, int speed) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::speed),
+            Map.of("speed_icon", Icons.SPEED, "speed_value", speed)
+        );
+    }
+
+    private static String critChance(Language language, int critChance) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::critChance),
+            Map.of("crit_attack_icon", Icons.CRIT_ATTACK, "crit_chance_value", critChance)
+        );
+    }
+
+    private static String dodgeChance(Language language, int dodgeChance) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::dodgeChance),
+            Map.of("dodge_icon", Icons.DODGE, "dodge_chance_value", dodgeChance)
+        );
+    }
+
+    private static String critMultiplier(Language language, double critMultiplier) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::critMultiplier),
+            Map.of(
+                "crit_multiplier_icon", Icons.CRIT_MULTIPLIER,
+                "crit_multiplier_value", formatCritMultiplier(critMultiplier)
+            )
+        );
+    }
+
+    private static String threat(Language language, int threat) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::threat),
+            Map.of("threat_icon", Icons.THREAT, "threat_value", threat)
+        );
+    }
+
+    private static String formatCritMultiplier(double critMultiplier) {
+        return String.format("%.2f", critMultiplier).replace(',', '.');
     }
 
     private static String itemText(Language itemLanguage, PersonageItem item) {
@@ -349,10 +499,6 @@ public class ItemLocalization {
             resources.getOrDefault(itemLanguage, ItemResource::itemName),
             params
         );
-    }
-
-    private static String itemCharacteristics(Language language, PersonageItem item) {
-        return characteristics(language, item.toItem().visibleCharacteristics());
     }
 
     private static int itemPriority(PersonageItem item) {

@@ -112,7 +112,6 @@ public class BattleLocalization {
                 lines.append(StringNamedTemplate.format(
                     resources.getOrDefault(language, BattleResource::battleStatsAttackLine),
                     Map.of(
-                        "attack_icon", Icons.ATTACK,
                         "attack_type", attackTypeName(language, entry.getKey()),
                         "range_value", distance,
                         "attack_value", entry.getValue()
@@ -133,7 +132,6 @@ public class BattleLocalization {
             .map(entry -> StringNamedTemplate.format(
                 resources.getOrDefault(language, BattleResource::battleStatsDefenseLine),
                 Map.of(
-                    "defense_icon", Icons.DEFENSE,
                     "defense_type", defenseTypeName(language, entry.getKey()),
                     "defense_value", entry.getValue()
                 )
@@ -204,19 +202,43 @@ public class BattleLocalization {
 
     private static String attackTypeName(Language language, AttackType attackType) {
         return switch (attackType) {
-            case SLASH -> resources.getOrDefault(language, BattleResource::attackTypeSlash);
-            case BLUNT -> resources.getOrDefault(language, BattleResource::attackTypeBlunt);
-            case PIERCE -> resources.getOrDefault(language, BattleResource::attackTypePierce);
-            case MAGICAL -> resources.getOrDefault(language, BattleResource::attackTypeMagical);
+            case SLASH -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::attackTypeSlash),
+                Map.of("slash_icon", Icons.attackTypeIcon(AttackType.SLASH))
+            );
+            case BLUNT -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::attackTypeBlunt),
+                Map.of("blunt_icon", Icons.attackTypeIcon(AttackType.BLUNT))
+            );
+            case PIERCE -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::attackTypePierce),
+                Map.of("pierce_icon", Icons.attackTypeIcon(AttackType.PIERCE))
+            );
+            case MAGICAL -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::attackTypeMagical),
+                Map.of("magical_icon", Icons.attackTypeIcon(AttackType.MAGICAL))
+            );
         };
     }
 
     private static String defenseTypeName(Language language, DefenseType defenseType) {
         return switch (defenseType) {
-            case CLOTH -> resources.getOrDefault(language, BattleResource::defenseTypeCloth);
-            case LEATHER -> resources.getOrDefault(language, BattleResource::defenseTypeLeather);
-            case PLATE -> resources.getOrDefault(language, BattleResource::defenseTypePlate);
-            case ARCANE -> resources.getOrDefault(language, BattleResource::defenseTypeArcane);
+            case CLOTH -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::defenseTypeCloth),
+                Map.of("cloth_icon", Icons.defenseTypeIcon(DefenseType.CLOTH))
+            );
+            case LEATHER -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::defenseTypeLeather),
+                Map.of("leather_icon", Icons.defenseTypeIcon(DefenseType.LEATHER))
+            );
+            case PLATE -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::defenseTypePlate),
+                Map.of("plate_icon", Icons.defenseTypeIcon(DefenseType.PLATE))
+            );
+            case ARCANE -> StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::defenseTypeArcane),
+                Map.of("arcane_icon", Icons.defenseTypeIcon(DefenseType.ARCANE))
+            );
         };
     }
 

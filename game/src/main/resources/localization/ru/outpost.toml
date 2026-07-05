@@ -104,5 +104,5 @@ buildingContributePicker = """<b>Вклад: ${building_name}</b> · ур. ${lev
 
 <b>🎒 Рюкзак</b>
 ${items_block}"""
-buildingContributeItemLine = "${full_item} ${materials_icon}<b>${materials_value}</b> ${donate_command}"
+buildingContributeItemLine = "${short_item} ${materials_icon}<b>${materials_value}</b> ${donate_command}"
 buildingContributeEmptyBag = "<i>Нет предметов в рюкзаке — сначала сними экипировку.</i>"

@@ -11,7 +11,6 @@ public record ShopResource(
     String epic,
     String legendary,
     String random,
-    String randomBoxesMenu,
     String randomBoxesButton,
     String slotObjectsMenu,
     String slotObjectItem,

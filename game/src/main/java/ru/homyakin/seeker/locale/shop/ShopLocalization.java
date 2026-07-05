@@ -27,38 +27,12 @@ import ru.homyakin.seeker.game.contraband.entity.Contraband;
 import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
-import ru.homyakin.seeker.locale.item.ItemLocalization;
 
 public class ShopLocalization {
     private static final Resources<ShopResource> resources = new Resources<>();
 
     public static void add(Language language, ShopResource resource) {
         resources.add(language, resource);
-    }
-
-    public static String randomBoxesMenu(
-        Language language,
-        List<ShopItem> items,
-        Optional<Contraband> activeContraband
-    ) {
-        final var buying = new StringBuilder();
-        final var buyingItems = items.stream()
-            .filter(item -> item instanceof ShopItem.Buy)
-            .map(item -> (ShopItem.Buy) item)
-            .toList();
-        for (int i = 0; i < buyingItems.size(); ++i) {
-            buying.append(buyingItem(language, buyingItems.get(i)));
-            if (i < buyingItems.size() - 1) {
-                buying.append("\n");
-            }
-        }
-        final var params = new HashMap<String, Object>();
-        params.put("buying_items", buying.toString());
-        params.put("optional_contraband_notification", contrabandNotification(language, activeContraband));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, ShopResource::randomBoxesMenu),
-            params
-        );
     }
 
     public static String slotObjectsMenu(
@@ -190,7 +164,7 @@ public class ShopLocalization {
 
     private static String enhanceItem(Language language, PersonageItem item) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItem(language, item));
+        params.put("short_item", ItemLocalization.shortItem(language, item));
         params.put("enhance_command", CommandType.ENHANCE_INFO.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::enhanceItem),
@@ -269,10 +243,16 @@ public class ShopLocalization {
 
     private static String sellingItem(Language language, ShopItem.Sell item) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItem(language, item.item()));
+        params.put(
+            "full_item",
+            ItemLocalization.fullItem(
+                language,
+                item.item(),
+                CommandType.SELL_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + item.item().id()
+            )
+        );
         params.put("price_value", item.price().value());
         params.put("money_icon", Icons.MONEY);
-        params.put("sell_command", CommandType.SELL_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + item.item().id());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::sellingItem),
             params
@@ -324,13 +304,17 @@ public class ShopLocalization {
             false
         );
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItemForShopSlot(language, previewItem, slot));
+        params.put(
+            "full_item",
+            ItemLocalization.fullItemForShopSlot(
+                language,
+                previewItem,
+                slot,
+                CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id()
+            )
+        );
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
-        params.put(
-            "buy_command",
-            CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id()
-        );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::slotObjectItem),
             params

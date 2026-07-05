@@ -382,7 +382,7 @@ public class OutpostLocalization {
         String donateCommand
     ) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItem(language, item));
+        params.put("short_item", ItemLocalization.shortItem(language, item));
         params.put("materials_icon", Icons.OUTPOST_MATERIALS);
         params.put("materials_value", materialsValue);
         params.put("donate_command", donateCommand);

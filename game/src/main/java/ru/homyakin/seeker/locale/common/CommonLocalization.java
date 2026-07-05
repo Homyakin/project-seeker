@@ -578,7 +578,7 @@ public class CommonLocalization {
     ) {
         final var params = paramsForPersonageBattleReport(result);
         params.put("battle_date_time", TimeUtils.toString(event.endDate()));
-        params.put("optional_full_item", formatRaidItemFull(language, raidItem));
+        params.put("optional_short_item", formatRaidItem(language, raidItem));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageBattleReport),
             params
@@ -593,7 +593,7 @@ public class CommonLocalization {
     ) {
         final var params = paramsForPersonageBattleReport(result);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
-        params.put("optional_short_item_without_characteristics", formatRaidItemShort(language, raidItem));
+        params.put("optional_short_item", formatRaidItem(language, raidItem));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::shortPersonageBattleReport),
             params
@@ -679,23 +679,12 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::fullBagAlertOnRaidJoin);
     }
 
-    private static String formatRaidItemFull(Language language, Optional<RaidItem> raidItem) {
+    private static String formatRaidItem(Language language, Optional<RaidItem> raidItem) {
         if (raidItem.isEmpty()) {
             return "";
         }
         return switch (raidItem.get()) {
-            case RaidItem.ItemDrop itemDrop -> ItemLocalization.fullItem(language, itemDrop.item());
-            case RaidItem.ContrabandDrop contrabandDrop ->
-                ContrabandLocalization.contrabandDisplayForReport(language, contrabandDrop.contraband());
-        };
-    }
-
-    private static String formatRaidItemShort(Language language, Optional<RaidItem> raidItem) {
-        if (raidItem.isEmpty()) {
-            return "";
-        }
-        return switch (raidItem.get()) {
-            case RaidItem.ItemDrop itemDrop -> ItemLocalization.shortItemWithoutCharacteristics(language, itemDrop.item());
+            case RaidItem.ItemDrop itemDrop -> ItemLocalization.shortItem(language, itemDrop.item());
             case RaidItem.ContrabandDrop contrabandDrop ->
                 ContrabandLocalization.contrabandDisplayForReport(language, contrabandDrop.contraband());
         };

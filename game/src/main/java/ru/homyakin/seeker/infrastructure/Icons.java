@@ -2,6 +2,9 @@ package ru.homyakin.seeker.infrastructure;
 
 import net.fellbaum.jemoji.EmojiManager;
 
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
+
 public class Icons {
     public static final String MONEY = EmojiManager.getByAlias(":moneybag:").orElseThrow().getFirst().getEmoji();
     public static final String ATTACK = EmojiManager.getByAlias(":crossed_swords:").orElseThrow().getFirst().getEmoji();
@@ -31,6 +34,36 @@ public class Icons {
     public static final String SUCCESS_QUEST = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getFirst().getEmoji();
     public static final String FAILED_QUEST = EmojiManager.getByAlias(":x:").orElseThrow().getFirst().getEmoji();
     public static final String BROKEN_ITEM = EmojiManager.getByAlias(":broken_chain:").orElseThrow().getFirst().getEmoji();
+
+    // Attack types
+    public static final String ATTACK_TYPE_SLASH = EmojiManager.getByAlias(":dagger:").orElseThrow().getFirst().getEmoji();
+    public static final String ATTACK_TYPE_BLUNT = EmojiManager.getByAlias(":hammer:").orElseThrow().getFirst().getEmoji();
+    public static final String ATTACK_TYPE_PIERCE = EmojiManager.getByAlias(":pushpin:").orElseThrow().getFirst().getEmoji();
+    public static final String ATTACK_TYPE_MAGICAL = EmojiManager.getByAlias(":crystal_ball:").orElseThrow().getFirst().getEmoji();
+
+    // Defense types
+    public static final String DEFENSE_TYPE_CLOTH = EmojiManager.getByAlias(":kimono:").orElseThrow().getFirst().getEmoji();
+    public static final String DEFENSE_TYPE_LEATHER = EmojiManager.getByAlias(":coat:").orElseThrow().getFirst().getEmoji();
+    public static final String DEFENSE_TYPE_PLATE = EmojiManager.getByAlias(":chains:").orElseThrow().getFirst().getEmoji();
+    public static final String DEFENSE_TYPE_ARCANE = EmojiManager.getByAlias(":sparkles:").orElseThrow().getFirst().getEmoji();
+
+    public static String attackTypeIcon(AttackType attackType) {
+        return switch (attackType) {
+            case SLASH -> ATTACK_TYPE_SLASH;
+            case BLUNT -> ATTACK_TYPE_BLUNT;
+            case PIERCE -> ATTACK_TYPE_PIERCE;
+            case MAGICAL -> ATTACK_TYPE_MAGICAL;
+        };
+    }
+
+    public static String defenseTypeIcon(DefenseType defenseType) {
+        return switch (defenseType) {
+            case CLOTH -> DEFENSE_TYPE_CLOTH;
+            case LEATHER -> DEFENSE_TYPE_LEATHER;
+            case PLATE -> DEFENSE_TYPE_PLATE;
+            case ARCANE -> DEFENSE_TYPE_ARCANE;
+        };
+    }
 
     // PersonageSlots
     public static final String MAIN_HAND = EmojiManager.getByAlias(":raised_hand:").orElseThrow().getFirst().getEmoji();

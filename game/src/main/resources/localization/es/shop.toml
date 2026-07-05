@@ -11,7 +11,7 @@ Tienes contrabando por ahí, échale un vistazo ${contraband_command}
 
 """
 
-sellingItem = "${full_item} ${money_icon}${price_value} ${sell_command}"
+sellingItem = "${full_item} ${money_icon}${price_value}"
 buyingItem = "${shop_item_icon}${shop_item_name} ${money_icon}${price_value} ${buy_command}"
 
 common = "Común"
@@ -21,15 +21,11 @@ epic = "Épica"
 legendary = "Legendaria"
 random = "Aleatoria"
 
-randomBoxesMenu = """\
-${optional_contraband_notification}📦Cajitas misteriosas con objetos:
-${buying_items}"""
-
 randomBoxesButton = "📦 Cajas aleatorias"
 slotObjectsMenu = """\
 ${slot_icon} Objetos para la ranura:
 ${objects}"""
-slotObjectItem = "${full_item} ${money_icon}${price_value} ${buy_command}"
+slotObjectItem = "${full_item} ${money_icon}${price_value}"
 
 incorrectBuyingItem = "No tenemos ese objeto en la tienda."
 noItemAtPersonage = "No tienes ese objeto encima."
@@ -45,7 +41,7 @@ ${equipped_enhance_times}
 
 🎒Inventario:
 ${inventory_enhance_times}"""
-enhanceItem = "${full_item} ${enhance_command}"
+enhanceItem = "${short_item} ${enhance_command}"
 enhanceItemInfo = """\
 <code>${full_item}</code>
 

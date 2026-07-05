@@ -145,12 +145,12 @@ ${dodge_icon}Esquives: ${dodged_damage_value} (${dodged_damage_count})
 ${health_icon}Salud: ${remain_health}/${max_health}
 
 ${money_icon}Recompensa: ${reward_value}
-<code>${optional_full_item}</code>"""
+<code>${optional_short_item}</code>"""
 shortPersonageBattleReport = """\
 📜${personage_badge_with_name} ${health_icon}${remain_health}
 ${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count})
 ${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
-+${reward_value}${money_icon} <code>${optional_short_item_without_characteristics}</code>"""
++${reward_value}${money_icon} <code>${optional_short_item}</code>"""
 shortGroupBattleReport = """\
 📜${group_badge_with_name}
 ${participants_icon}${remain_participants}/${total_participants}

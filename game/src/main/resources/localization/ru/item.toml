@@ -1,18 +1,25 @@
 itemName = "${modifier}${object}"
-fullItem = "${slots}${rarity_icon}${broken_icon} ${item} ${characteristics}"
-shortItem = "${rarity_icon}${broken_icon} ${item} ${characteristics}"
-shortItemWithoutCharacteristics = "${rarity_icon}${broken_icon} ${item}"
-characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}"
-attack = "${attack_icon}${attack_value}"
-defense = "${defense_icon}${defense_value}"
+fullItem = """\
+${slots}${rarity_icon}${broken_icon}${item} ${optional_command}
+${characteristics}"""
+shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item} ${characteristics}"
+characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}${not_zero_range}${not_zero_speed}${not_zero_crit_chance}${not_zero_dodge_chance}${not_zero_crit_multiplier}${not_zero_threat}"
+attack = "${attack_type_icon}${attack_value}"
+defense = "${defense_type_icon}${defense_value}"
 health = "${health_icon}${health_value}"
-itemInBag = "${full_item} ${put_on_command}"
-equippedItem = "${full_item} ${take_off_command}"
+range = "${range_icon}${range_value}"
+speed = "${speed_icon}${speed_value}"
+critChance = "${crit_attack_icon}${crit_chance_value}%"
+dodgeChance = "${dodge_icon}${dodge_chance_value}%"
+critMultiplier = "${crit_multiplier_icon}${crit_multiplier_value}"
+threat = "${threat_icon}${threat_value}"
 personageFreeSlot = "${slot} <i>Пусто</i>"
 
 equipment = """\
 <b>👤Снаряжение:</b>
-${equipped_items_and_free_slots}"""
+${equipped_items_and_free_slots}
+
+⚔️Боевые характеристики: ${battle_stats_command}"""
 
 bag = """\
 <b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
