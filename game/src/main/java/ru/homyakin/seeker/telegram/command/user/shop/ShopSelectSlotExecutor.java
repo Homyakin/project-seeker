@@ -22,7 +22,8 @@ public class ShopSelectSlotExecutor extends CommandExecutor<ShopSelectSlot> {
             user.id(),
             user.language(),
             command.messageId(),
-            command.slot()
+            command.slot(),
+            user.personageId()
         );
     }
 }

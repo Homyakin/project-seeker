@@ -3,7 +3,7 @@ itemName = "${modifier}${object}"
 fullItem = """\
 ${slots}${rarity_icon}${broken_icon}${item} ${optional_command}
 ${characteristics}"""
-shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item} ${characteristics}"
+shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item} ${optional_command} ${characteristics}"
 characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}${not_zero_range}${not_zero_speed}${not_zero_crit_chance}${not_zero_dodge_chance}${not_zero_crit_multiplier}${not_zero_threat}"
 attack = "${attack_type_icon}${attack_value} "
 defense = "${defense_type_icon}${defense_value} "
@@ -25,6 +25,15 @@ ${equipped_items_and_free_slots}
 bag = """\
 <b>🎒Mochila (${items_in_bag_count}/${max_items_in_bag}):</b>
 ${items_in_bag}"""
+
+compactInventory = """\
+<b>👤Equipo:</b>
+${equipped_items_and_free_slots}
+
+<b>🎒Mochila (${items_in_bag_count}/${max_items_in_bag}):</b>
+${items_in_bag}
+
+⚔️Estadísticas de combate: ${battle_stats_command}"""
 
 equipmentButton = "👤Equipo"
 bagButton = "🎒Mochila"

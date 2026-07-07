@@ -24,6 +24,7 @@ public class PersonageSettingsCallbackUtils {
         final var setting = switch (split[1]) {
             case NOTIFICATIONS -> PersonageSetting.SEND_NOTIFICATIONS;
             case AUTO_QUESTING -> PersonageSetting.AUTO_QUESTING;
+            case COMPACT_ITEMS -> PersonageSetting.COMPACT_ITEMS;
             default -> throw new IllegalArgumentException("Unknown setting " + split[1]);
         };
         final var value = split[2].equals(TRUE);
@@ -34,6 +35,7 @@ public class PersonageSettingsCallbackUtils {
         return switch (setting) {
             case SEND_NOTIFICATIONS -> NOTIFICATIONS;
             case AUTO_QUESTING -> AUTO_QUESTING;
+            case COMPACT_ITEMS -> COMPACT_ITEMS;
         };
     }
 
@@ -47,6 +49,7 @@ public class PersonageSettingsCallbackUtils {
 
     private static final String NOTIFICATIONS = "notifications";
     private static final String AUTO_QUESTING = "autoQuesting";
+    private static final String COMPACT_ITEMS = "compactItems";
     private static final String TRUE = "t";
     private static final String FALSE = "f";
 }

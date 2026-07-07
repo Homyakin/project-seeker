@@ -16,7 +16,11 @@ public class ConfirmEnhanceExecutor extends CommandExecutor<ConfirmEnhance> {
     private final TelegramSender telegramSender;
     private final EnhanceService enhanceService;
 
-    public ConfirmEnhanceExecutor(UserService userService, TelegramSender telegramSender, EnhanceService enhanceService) {
+    public ConfirmEnhanceExecutor(
+        UserService userService,
+        TelegramSender telegramSender,
+        EnhanceService enhanceService
+    ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.enhanceService = enhanceService;

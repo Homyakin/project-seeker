@@ -2,7 +2,7 @@ itemName = "${modifier}${object}"
 fullItem = """\
 ${slots}${rarity_icon}${broken_icon}${item} ${optional_command}
 ${characteristics}"""
-shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item}"
+shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item} ${optional_command}"
 characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}${not_zero_range}${not_zero_speed}${not_zero_crit_chance}${not_zero_dodge_chance}${not_zero_crit_multiplier}${not_zero_threat}"
 attack = "${attack_type_icon}${attack_value}"
 defense = "${defense_type_icon}${defense_value}"
@@ -25,6 +25,14 @@ bag = """\
 <b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
 ${items_in_bag}"""
 
+compactInventory = """\
+<b>👤Снаряжение:</b>
+${equipped_items_and_free_slots}
+
+<b>🎒Рюкзак (${items_in_bag_count}/${max_items_in_bag}):</b>
+${items_in_bag}
+⚔️Боевые характеристики: ${battle_stats_command}"""
+
 equipmentButton = "👤Снаряжение"
 bagButton = "🎒Рюкзак"
 
@@ -33,11 +41,15 @@ alreadyEquipped = "Вы уже экипировали данный предме�
 alreadyTakenOff = "Данный предмет не экиперован"
 notEnoughSpaceInBag = "В рюкзаке недостаточно места, чтобы снять предмет"
 notEnoughSpaceOnPutOnItem = "В рюкзаке недостаточно места, чтобы снять предметы: ${slots}"
-successPutOn = "Успешно экипировано: ${item}"
+successPutOn = """\
+Успешно экипировано:
+${item}"""
 successPutOnWithTakenOff = """\
 Снято:
 ${taken_off_items}
 
 Экипировано:
 ${item}"""
-successTakeOff = "Успешно снято: ${item}"
+successTakeOff = """\
+Успешно снято:
+${item}"""

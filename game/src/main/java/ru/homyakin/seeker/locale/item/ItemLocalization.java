@@ -100,12 +100,17 @@ public class ItemLocalization {
     }
 
     public static String shortItem(Language requestedlanguage, PersonageItem item) {
+        return shortItem(requestedlanguage, item, "");
+    }
+
+    public static String shortItem(Language requestedlanguage, PersonageItem item, String optionalCommand) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
         final var gameItem = item.toItem();
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon());
         params.put("broken_icon", "");
         params.put("item", itemText(itemLanguage, item));
+        params.put("optional_command", optionalCommand);
         params.put("slots", itemSlots(item));
         params.put(
             "attack_type_icon",
@@ -135,7 +140,7 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put(
             "equipped_items_and_free_slots",
-            String.join("\n", buildEquipmentSlotLines(language, sortedItems))
+            String.join("\n", buildEquipmentSlotLines(language, sortedItems, false))
         );
         params.put("battle_stats_command", CommandType.BATTLE_STATS.getText());
         return StringNamedTemplate.format(
@@ -160,6 +165,31 @@ public class ItemLocalization {
         params.put("items_in_bag", itemsInBagBuilder.toString());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::bag),
+            params
+        );
+    }
+
+    public static String compactInventory(Language language, Inventory inventory) {
+        final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
+        final var params = new HashMap<String, Object>();
+        params.put(
+            "equipped_items_and_free_slots",
+            String.join("\n", buildEquipmentSlotLines(language, sortedItems, true))
+        );
+        params.put("max_items_in_bag", Inventory.maxBagSize());
+        final var itemsInBagBuilder = new StringBuilder();
+        int itemsInBagCount = 0;
+        for (final var item : sortedItems) {
+            if (!item.isEquipped()) {
+                itemsInBagBuilder.append(shortItem(language, item, item.putOnCommand())).append("\n");
+                ++itemsInBagCount;
+            }
+        }
+        params.put("items_in_bag_count", itemsInBagCount);
+        params.put("items_in_bag", itemsInBagBuilder.toString());
+        params.put("battle_stats_command", CommandType.BATTLE_STATS.getText());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::compactInventory),
             params
         );
     }
@@ -248,7 +278,8 @@ public class ItemLocalization {
 
     private static List<String> buildEquipmentSlotLines(
         Language language,
-        List<PersonageItem> items
+        List<PersonageItem> items,
+        boolean compact
     ) {
         final var equipped = items.stream()
             .filter(PersonageItem::isEquipped)
@@ -270,7 +301,11 @@ public class ItemLocalization {
                         .findFirst()
                         .ifPresent(item -> {
                             if (shownItemIds.add(item.id())) {
-                                lines.add(equippedItem(language, item));
+                                lines.add(
+                                    compact
+                                        ? shortItem(language, item, item.takeOffCommand())
+                                        : equippedItem(language, item)
+                                );
                             }
                         });
                 } else {
@@ -279,7 +314,9 @@ public class ItemLocalization {
                             item -> {
                                 final var code = item.object().code();
                                 if (code == null || shownDefaultItemCodes.add(code)) {
-                                    lines.add(fullItem(language, item));
+                                    lines.add(
+                                        compact ? shortItem(language, toDisplayItem(item)) : fullItem(language, item)
+                                    );
                                 }
                             },
                             () -> lines.add(personageFreeSlot(language, slot))

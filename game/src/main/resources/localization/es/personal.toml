@@ -113,6 +113,8 @@ settings = """\
 ⚙️Ajustes:
 
 Notificaciones — avisos sobre eventos en segundo plano: recarga de energía, misiones, etc.
-Misiones automáticas — al llegar al máximo de energía, te lanzas solo a una misión. Gasta más energía, eso sí."""
+Misiones automáticas — al llegar al máximo de energía, te lanzas solo a una misión. Gasta más energía, eso sí.
+Objetos compactos — visualización compacta de objetos."""
 sendNotificationsButton = "${enabled_icon}Notificaciones"
 autoQuestingButton = "${enabled_icon}Misiones automáticas"
+compactItemsButton = "${enabled_icon}Objetos compactos"

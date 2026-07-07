@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.contraband.entity.Contraband;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCommand;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.shop.ShopService;
 import ru.homyakin.seeker.locale.Language;
@@ -20,17 +21,20 @@ public class ShopInlineTgService {
     private final ShopService shopService;
     private final ItemService itemService;
     private final ContrabandService contrabandService;
+    private final GetPersonageSettingsCommand getPersonageSettingsCommand;
     private final TelegramSender telegramSender;
 
     public ShopInlineTgService(
         ShopService shopService,
         ItemService itemService,
         ContrabandService contrabandService,
+        GetPersonageSettingsCommand getPersonageSettingsCommand,
         TelegramSender telegramSender
     ) {
         this.shopService = shopService;
         this.itemService = itemService;
         this.contrabandService = contrabandService;
+        this.getPersonageSettingsCommand = getPersonageSettingsCommand;
         this.telegramSender = telegramSender;
     }
 
@@ -50,10 +54,11 @@ public class ShopInlineTgService {
 
     public void showRandomBoxes(UserId userId, Language language, PersonageId personageId, int messageId) {
         final var items = shopService.getShopItems(personageId);
+        final var compactItems = getPersonageSettingsCommand.execute(personageId).compactItems();
         sendEdit(
             userId,
             messageId,
-            ShopLocalization.menu(language, items, activeContraband(personageId)),
+            ShopLocalization.menu(language, items, activeContraband(personageId), compactItems),
             ShopKeyboards.navigationKeyboard(language)
         );
     }
@@ -62,9 +67,11 @@ public class ShopInlineTgService {
         UserId userId,
         Language language,
         int messageId,
-        PersonageSlot slot
+        PersonageSlot slot,
+        PersonageId personageId
     ) {
         final var objects = shopService.getItemObjectsForSlot(slot);
+        final var compactItems = getPersonageSettingsCommand.execute(personageId).compactItems();
         sendEdit(
             userId,
             messageId,
@@ -72,7 +79,8 @@ public class ShopInlineTgService {
                 language,
                 slot,
                 objects,
-                shopService.specificObjectUnitPrice()
+                shopService.specificObjectUnitPrice(),
+                compactItems
             ),
             ShopKeyboards.navigationKeyboard(language)
         );

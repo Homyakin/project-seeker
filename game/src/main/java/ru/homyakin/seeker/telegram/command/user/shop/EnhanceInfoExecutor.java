@@ -15,7 +15,11 @@ public class EnhanceInfoExecutor extends CommandExecutor<EnhanceInfo> {
     private final TelegramSender telegramSender;
     private final EnhanceService enhanceService;
 
-    public EnhanceInfoExecutor(UserService userService, TelegramSender telegramSender, EnhanceService enhanceService) {
+    public EnhanceInfoExecutor(
+        UserService userService,
+        TelegramSender telegramSender,
+        EnhanceService enhanceService
+    ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.enhanceService = enhanceService;

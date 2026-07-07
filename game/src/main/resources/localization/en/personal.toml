@@ -13,3 +13,16 @@ personageNameInvalidSymbols = """
 Unfortunately, in the magic circle to save the name, you can only use: \
 cyrillic, latin, numbers characters _-.#№: and a space"""
 successNameChange = "Name has been successfully changed!"
+
+[settings]
+personageIsHidden = "You are hidden from global rankings and statistics."
+personageIsUnhidden = "Your achievements are visible to other Seekers again."
+settings = """\
+⚙️Settings:
+
+Notifications — send alerts about background events: energy recovery, quests, etc.
+Auto quests — automatically start a quest when energy is full. Uses more energy.
+Compact items — compact item display."""
+sendNotificationsButton = "${enabled_icon}Notifications"
+autoQuestingButton = "${enabled_icon}Auto quests"
+compactItemsButton = "${enabled_icon}Compact items"

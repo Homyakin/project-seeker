@@ -183,6 +183,7 @@ public class InlineKeyboards {
 
         final var sendNotifications = settings.sendNotifications();
         final var autoQuesting = settings.autoQuesting();
+        final var compactItems = settings.compactItems();
         builder
             .addButton(
                 SettingsLocalization.sendNotificationsButton(language, sendNotifications),
@@ -192,6 +193,11 @@ public class InlineKeyboards {
             .addButton(
                 SettingsLocalization.autoQuestingButton(language, autoQuesting),
                 PersonageSettingsCallbackUtils.createCallback(PersonageSetting.AUTO_QUESTING, autoQuesting)
+            )
+            .addRow()
+            .addButton(
+                SettingsLocalization.compactItemsButton(language, compactItems),
+                PersonageSettingsCallbackUtils.createCallback(PersonageSetting.COMPACT_ITEMS, compactItems)
             );
 
         return builder.build();
@@ -295,5 +301,9 @@ public class InlineKeyboards {
             .addButton(ItemLocalization.equipmentButton(language), callbackPrefix + InventorySection.EQUIPMENT.name())
             .addButton(ItemLocalization.bagButton(language), callbackPrefix + InventorySection.BAG.name())
             .build();
+    }
+
+    public static InlineKeyboardMarkup emptyKeyboard() {
+        return new InlineKeyboardMarkup(List.of());
     }
 }

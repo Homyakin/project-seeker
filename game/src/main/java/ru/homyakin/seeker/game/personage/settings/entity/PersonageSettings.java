@@ -20,6 +20,10 @@ public record PersonageSettings(
         return getOrDefault(PersonageSetting.AUTO_QUESTING);
     }
 
+    public boolean compactItems() {
+        return getOrDefault(PersonageSetting.COMPACT_ITEMS);
+    }
+
     private boolean getOrDefault(PersonageSetting setting) {
         return settings.getOrDefault(setting, setting.defaultValue());
     }

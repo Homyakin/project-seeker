@@ -17,6 +17,7 @@ public record ItemResource(
     String personageFreeSlot,
     String equipment,
     String bag,
+    String compactInventory,
     String equipmentButton,
     String bagButton,
     String personageMissingItem,

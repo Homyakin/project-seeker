@@ -39,10 +39,17 @@ public class ShopLocalization {
         Language language,
         PersonageSlot slot,
         List<CatalogItemObject> objects,
-        Money unitPrice
+        Money unitPrice,
+        boolean compactItems
     ) {
         final var objectsText = objects.stream()
-            .map(catalogObject -> slotObjectItem(language, slot, catalogObject, priceForObject(unitPrice, catalogObject.object())))
+            .map(catalogObject -> slotObjectItem(
+                language,
+                slot,
+                catalogObject,
+                priceForObject(unitPrice, catalogObject.object()),
+                compactItems
+            ))
             .collect(Collectors.joining("\n"));
         final var params = new HashMap<String, Object>();
         params.put("slot_icon", slot.icon);
@@ -57,7 +64,12 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::randomBoxesButton);
     }
 
-    public static String menu(Language language, List<ShopItem> items, Optional<Contraband> activeContraband) {
+    public static String menu(
+        Language language,
+        List<ShopItem> items,
+        Optional<Contraband> activeContraband,
+        boolean compactItems
+    ) {
         final var buying = new StringBuilder();
         final var selling = new StringBuilder();
         final var buyingItems = items.stream()
@@ -76,7 +88,7 @@ public class ShopLocalization {
             }
         }
         for (int i = 0; i < sellingItems.size(); ++i) {
-            selling.append(sellingItem(language, sellingItems.get(i)));
+            selling.append(sellingItem(language, sellingItems.get(i), compactItems));
             if (i < sellingItems.size() - 1) {
                 selling.append("\n");
             }
@@ -164,7 +176,7 @@ public class ShopLocalization {
 
     private static String enhanceItem(Language language, PersonageItem item) {
         final var params = new HashMap<String, Object>();
-        params.put("short_item", ItemLocalization.shortItem(language, item));
+        params.put("item", ItemLocalization.shortItem(language, item));
         params.put("enhance_command", CommandType.ENHANCE_INFO.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::enhanceItem),
@@ -174,7 +186,7 @@ public class ShopLocalization {
 
     public static String enhanceItemInfo(Language language, AvailableAction action) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItem(language, action.item()));
+        params.put("item", ItemLocalization.fullItem(language, action.item()));
         final String availableEnhance;
         if (action.action().isEmpty()) {
             availableEnhance = emptyEnhance(language);
@@ -241,16 +253,10 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::emptyEnhance);
     }
 
-    private static String sellingItem(Language language, ShopItem.Sell item) {
+    private static String sellingItem(Language language, ShopItem.Sell item, boolean compactItems) {
+        final var sellCommand = CommandType.SELL_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + item.item().id();
         final var params = new HashMap<String, Object>();
-        params.put(
-            "full_item",
-            ItemLocalization.fullItem(
-                language,
-                item.item(),
-                CommandType.SELL_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + item.item().id()
-            )
-        );
+        params.put("item", shopItem(language, item.item(), sellCommand, compactItems));
         params.put("price_value", item.price().value());
         params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
@@ -291,7 +297,8 @@ public class ShopLocalization {
         Language language,
         PersonageSlot slot,
         CatalogItemObject catalogObject,
-        Money price
+        Money price,
+        boolean compactItems
     ) {
         final var previewItem = new PersonageItem(
             0L,
@@ -303,22 +310,40 @@ public class ShopLocalization {
             Optional.empty(),
             false
         );
+        final var buyCommand = CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id();
         final var params = new HashMap<String, Object>();
-        params.put(
-            "full_item",
-            ItemLocalization.fullItemForShopSlot(
-                language,
-                previewItem,
-                slot,
-                CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id()
-            )
-        );
+        params.put("item", shopItemForSlot(language, previewItem, slot, buyCommand, compactItems));
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::slotObjectItem),
             params
         ).trim();
+    }
+
+    private static String shopItem(
+        Language language,
+        PersonageItem item,
+        String command,
+        boolean compactItems
+    ) {
+        if (compactItems) {
+            return ItemLocalization.shortItem(language, item, command);
+        }
+        return ItemLocalization.fullItem(language, item, command);
+    }
+
+    private static String shopItemForSlot(
+        Language language,
+        PersonageItem item,
+        PersonageSlot slot,
+        String command,
+        boolean compactItems
+    ) {
+        if (compactItems) {
+            return ItemLocalization.shortItem(language, item, command);
+        }
+        return ItemLocalization.fullItemForShopSlot(language, item, slot, command);
     }
 
 }

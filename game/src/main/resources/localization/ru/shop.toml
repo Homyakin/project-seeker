@@ -10,7 +10,7 @@ contrabandNotification = """\
 
 """
 
-sellingItem = "${full_item} ${money_icon}${price_value}"
+sellingItem = "${item} ${money_icon}${price_value}"
 buyingItem = "${shop_item_icon}${shop_item_name} ${money_icon}${price_value} ${buy_command}"
 
 common = "Обычная"
@@ -24,7 +24,7 @@ randomBoxesButton = "📦 Случайные коробки"
 slotObjectsMenu = """\
 Предметы для ${slot_icon}:
 ${objects}"""
-slotObjectItem = "${full_item} ${money_icon}${price_value}"
+slotObjectItem = "${item} ${money_icon}${price_value}"
 
 incorrectBuyingItem = "В магазине нет такого предмета."
 noItemAtPersonage = "У вас нет такого предмета."
@@ -39,9 +39,9 @@ ${equipped_enhance_times}
 
 🎒Инвентарь:
 ${inventory_enhance_times}"""
-enhanceItem = "${short_item} ${enhance_command}"
+enhanceItem = "${item} ${enhance_command}"
 enhanceItemInfo = """\
-<code>${full_item}</code>
+<code>${item}</code>
 
 ${available_enhance}
 """

@@ -5,6 +5,7 @@ public record SettingsResource(
     String personageIsUnhidden,
     String settings,
     String sendNotificationsButton,
-    String autoQuestingButton
+    String autoQuestingButton,
+    String compactItemsButton
 ) {
 }
