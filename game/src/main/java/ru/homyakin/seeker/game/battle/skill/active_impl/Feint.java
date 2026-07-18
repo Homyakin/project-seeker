@@ -38,6 +38,6 @@ public class Feint implements DamageDealSkill.OnDodgeSkill, AttackPowerSkill {
             return List.of();
         }
         final var attackType = RandomUtils.getRandomElement(self.attackTypes());
-        return target.applySkillDamage(attackType, attack, self.id(), ActiveEnum.FEINT, round);
+        return target.applySkillDamage(attackType, attack, self, ActiveEnum.FEINT, round);
     }
 }

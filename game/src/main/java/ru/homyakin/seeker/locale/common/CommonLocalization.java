@@ -625,6 +625,8 @@ public class CommonLocalization {
         params.put("normal_damage_count", result.stats().normalAttackCount());
         params.put("crit_damage_value", result.stats().critDamageDealt());
         params.put("crit_damage_count", result.stats().critsCount());
+        params.put("skill_damage_value", result.stats().skillDamageDealt());
+        params.put("skill_damage_count", result.stats().skillDamageCount());
         params.put("misses_count", result.stats().missesCount());
         params.put("damage_blocked_value", result.stats().damageBlocked());
         params.put("damage_blocked_count", result.stats().blockCount());
@@ -636,10 +638,13 @@ public class CommonLocalization {
         params.put("reward_value", result.reward().value());
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("skill_attack_icon", Icons.SKILL_ATTACK);
         params.put("miss_icon", Icons.MISS);
         params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
         params.put("dodge_icon", Icons.DODGE);
         params.put("health_icon", Icons.HEALTH);
+        params.put("time_icon", Icons.TIME);
+        params.put("turns_count", result.stats().turnsCount());
         return params;
     }
 
@@ -650,6 +655,8 @@ public class CommonLocalization {
         params.put("normal_damage_count", result.stats().normalAttackCount());
         params.put("crit_damage_value", result.stats().critDamageDealt());
         params.put("crit_damage_count", result.stats().critsCount());
+        params.put("skill_damage_value", result.stats().skillDamageDealt());
+        params.put("skill_damage_count", result.stats().skillDamageCount());
         params.put("misses_count", result.stats().missesCount());
         params.put("damage_blocked_value", result.stats().damageBlocked());
         params.put("damage_blocked_count", result.stats().blockCount());
@@ -657,6 +664,7 @@ public class CommonLocalization {
         params.put("dodged_damage_count", result.stats().dodgesCount());
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("skill_attack_icon", Icons.SKILL_ATTACK);
         params.put("miss_icon", Icons.MISS);
         params.put("damage_blocked_icon", Icons.BLOCKED_DAMAGE);
         params.put("dodge_icon", Icons.DODGE);

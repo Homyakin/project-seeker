@@ -38,6 +38,6 @@ public class CounterAttack implements DamageDealSkill.OnDamageReceiveSkill, Atta
             return List.of();
         }
         final var attackType = RandomUtils.getRandomElement(self.attackTypes());
-        return target.applySkillDamage(attackType, attack, self.id(), ActiveEnum.COUNTER_ATTACK, round);
+        return target.applySkillDamage(attackType, attack, self, ActiveEnum.COUNTER_ATTACK, round);
     }
 }

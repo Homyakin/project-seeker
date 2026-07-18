@@ -39,6 +39,6 @@ public class PreciseStrike implements DamageDealSkill.OnMissSkill, AttackPowerSk
             return List.of();
         }
         final var attackType = RandomUtils.getRandomElement(self.attackTypes());
-        return target.applySkillDamage(attackType, attack, self.id(), ActiveEnum.PRECISE_STRIKE, round);
+        return target.applySkillDamage(attackType, attack, self, ActiveEnum.PRECISE_STRIKE, round);
     }
 }

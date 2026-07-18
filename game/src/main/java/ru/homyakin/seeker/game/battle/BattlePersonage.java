@@ -119,6 +119,8 @@ public class BattlePersonage {
     private long normalAttackCount;
     private long critDamageDealt;
     private long critsCount;
+    private long skillDamageDealt;
+    private long skillDamageCount;
     private long damageBlocked;
     private long actualDamageTaken;
     private long blockCount;
@@ -414,12 +416,13 @@ public class BattlePersonage {
      * Skill-triggered damage: no dodge, mitigation + variance applied, emits {@link BattleEvent.SkillDamage}.
      * Death is NOT logged here — callers are responsible for detecting and logging {@link BattleEvent.PersonageDefeated}.
      */
-    public List<BattleEvent> applySkillDamage(AttackType type, int rawAttack, UUID sourceId, ActiveEnum skill, int round) {
+    public List<BattleEvent> applySkillDamage(AttackType type, int rawAttack, BattlePersonage attacker, ActiveEnum skill, int round) {
         if (!isAlive()) {
             return List.of();
         }
         final int damageTaken = takeDamage(rawAttack, (int) (rawAttack * defenseReduce.get(type)));
-        return List.of(new BattleEvent.SkillDamage(id, sourceId, skill, type, damageTaken, health, round));
+        attacker.recordSkillDamageDealt(damageTaken);
+        return List.of(new BattleEvent.SkillDamage(id, attacker.id(), skill, type, damageTaken, health, round));
     }
 
     /**
@@ -764,7 +767,9 @@ public class BattlePersonage {
             damageDodged,
             dodgesCount,
             missesCount,
-            turnsCount
+            turnsCount,
+            skillDamageDealt,
+            skillDamageCount
         );
     }
 
@@ -788,6 +793,11 @@ public class BattlePersonage {
             normalDamageDealt += amount;
             normalAttackCount++;
         }
+    }
+
+    private void recordSkillDamageDealt(int amount) {
+        skillDamageDealt += amount;
+        skillDamageCount++;
     }
 
     public double power() {

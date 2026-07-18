@@ -37,6 +37,6 @@ public class Thorns implements DamageDealSkill.OnDamageReceiveSkill, AttackPower
         if (!target.isAlive()) {
             return List.of();
         }
-        return target.applySkillDamage(AttackType.PIERCE, attack, self.id(), ActiveEnum.THORNS, round);
+        return target.applySkillDamage(AttackType.PIERCE, attack, self, ActiveEnum.THORNS, round);
     }
 }

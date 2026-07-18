@@ -177,6 +177,8 @@ public class ProcessWorldRaidBattleCommand {
         private long normalAttackCount = 0L;
         private long critDamageDealt = 0L;
         private long critsCount = 0L;
+        private long skillDamageDealt = 0L;
+        private long skillDamageCount = 0L;
         private long damageBlocked = 0L;
         private long blockCount = 0L;
         private long damageDodged = 0L;
@@ -192,6 +194,8 @@ public class ProcessWorldRaidBattleCommand {
             normalAttackCount += stats.normalAttackCount();
             critDamageDealt += stats.critDamageDealt();
             critsCount += stats.critsCount();
+            skillDamageDealt += stats.skillDamageDealt();
+            skillDamageCount += stats.skillDamageCount();
             damageBlocked += stats.damageBlocked();
             blockCount += stats.blockCount();
             damageDodged += stats.damageDodged();
@@ -217,7 +221,9 @@ public class ProcessWorldRaidBattleCommand {
                 dodgesCount,
                 missesCount,
                 totalPersonages,
-                remainPersonages
+                remainPersonages,
+                skillDamageDealt,
+                skillDamageCount
             );
         }
     }

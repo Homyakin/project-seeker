@@ -38,6 +38,6 @@ public class DoubleAttack implements DamageDealSkill.OnHitSkill, AttackPowerSkil
             return List.of();
         }
         final var attackType = RandomUtils.getRandomElement(self.attackTypes());
-        return target.applySkillDamage(attackType, attack, self.id(), ActiveEnum.DOUBLE_ATTACK, round);
+        return target.applySkillDamage(attackType, attack, self, ActiveEnum.DOUBLE_ATTACK, round);
     }
 }

@@ -19,14 +19,16 @@ public record BattlePersonageStats(
     long damageDodged,
     long dodgesCount,
     long missesCount,
-    @JsonProperty(required = false) int turnsCount
+    @JsonProperty(required = false) int turnsCount,
+    @JsonProperty(required = false) long skillDamageDealt,
+    @JsonProperty(required = false) long skillDamageCount
 ) {
     public long damageDealtAndTaken() {
         return damageDealt() + damageTaken();
     }
 
     public long damageDealt() {
-        return normalDamageDealt + critDamageDealt;
+        return normalDamageDealt + critDamageDealt + skillDamageDealt;
     }
 
     public long damageTaken() {

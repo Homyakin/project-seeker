@@ -1,5 +1,9 @@
 package ru.homyakin.seeker.game.battle;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record GroupBattleStats(
     long remainHealth,
     long totalHealth,
@@ -13,14 +17,16 @@ public record GroupBattleStats(
     long dodgesCount,
     long missesCount,
     int totalPersonages,
-    int remainPersonages
+    int remainPersonages,
+    @JsonProperty(required = false) long skillDamageDealt,
+    @JsonProperty(required = false) long skillDamageCount
 ) {
     public long damageDealtAndTaken() {
         return damageDealt() + damageTaken();
     }
 
     public long damageDealt() {
-        return normalDamageDealt + critDamageDealt;
+        return normalDamageDealt + critDamageDealt + skillDamageDealt;
     }
 
     public long damageTaken() {

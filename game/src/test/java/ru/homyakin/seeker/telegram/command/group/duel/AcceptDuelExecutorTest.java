@@ -188,7 +188,7 @@ public class AcceptDuelExecutorTest {
     private static DuelPersonageResult duelPersonageResult(Personage personage) {
         return new DuelPersonageResult(
             personage,
-            new BattlePersonageStats(100, 50, 0, 0, 10, 1, 5, 0, 0, 0, 0, 0, 0, 3)
+            new BattlePersonageStats(100, 50, 0, 0, 10, 1, 5, 0, 0, 0, 0, 0, 0, 3, 0, 0)
         );
     }
 }
