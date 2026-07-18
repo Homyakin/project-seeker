@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.event.database.EventDao;
 import ru.homyakin.seeker.game.event.models.Event;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
 import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.world_raid.action.SaveWorldRaidCommand;
@@ -51,5 +52,9 @@ public class EventService {
 
     public Optional<Event> getEventById(Integer id) {
         return eventDao.getById(id);
+    }
+
+    public Optional<Event> getByType(EventType type) {
+        return eventDao.getByType(type);
     }
 }

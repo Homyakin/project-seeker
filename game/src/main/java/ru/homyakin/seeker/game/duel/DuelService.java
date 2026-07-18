@@ -17,17 +17,17 @@ import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
-import ru.homyakin.seeker.game.event.database.EventDao;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
-import ru.homyakin.seeker.game.personage.event.PersonageEventDao;
+import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
@@ -38,16 +38,14 @@ import ru.homyakin.seeker.utils.models.Success;
 
 @Component
 public class DuelService {
-    public static final String DUEL_EVENT_CODE = "duel";
-
     private final DuelDao duelDao;
     private final DuelConfig duelConfig;
     private final PersonageService personageService;
     private final ItemService itemService;
     private final LockService lockService;
     private final LaunchedEventService launchedEventService;
-    private final EventDao eventDao;
-    private final PersonageEventDao personageEventDao;
+    private final EventService eventService;
+    private final PersonageEventService personageEventService;
     private final EventBattleLogService eventBattleLogService;
     private final Battle battle = new Battle();
 
@@ -58,8 +56,8 @@ public class DuelService {
         ItemService itemService,
         LockService lockService,
         LaunchedEventService launchedEventService,
-        EventDao eventDao,
-        PersonageEventDao personageEventDao,
+        EventService eventService,
+        PersonageEventService personageEventService,
         EventBattleLogService eventBattleLogService
     ) {
         this.duelDao = duelDao;
@@ -68,8 +66,8 @@ public class DuelService {
         this.itemService = itemService;
         this.lockService = lockService;
         this.launchedEventService = launchedEventService;
-        this.eventDao = eventDao;
-        this.personageEventDao = personageEventDao;
+        this.eventService = eventService;
+        this.personageEventService = personageEventService;
         this.eventBattleLogService = eventBattleLogService;
     }
 
@@ -86,7 +84,7 @@ public class DuelService {
             return Either.left(new CreateDuelError.InitiatingPersonageNotEnoughMoney(DUEL_PRICE));
         }
 
-        final var duelEvent = eventDao.getByTypeAndCode(EventType.DUEL, DUEL_EVENT_CODE)
+        final var duelEvent = eventService.getByType(EventType.DUEL)
             .orElseThrow(() -> new IllegalStateException("Duel event template must exist"));
 
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
@@ -100,12 +98,12 @@ public class DuelService {
         );
 
         duelDao.create(launchedEvent.id(), initiatingPersonage.id(), acceptingPersonage.id());
-        personageEventDao.save(new AddPersonageToEventRequest(
+        personageEventService.addPersonageToLaunchedEvent(new AddPersonageToEventRequest(
             launchedEvent.id(), initiatingPersonage.id(), Optional.empty(), 0
-        ));
-        personageEventDao.save(new AddPersonageToEventRequest(
+        )).getOrElseThrow(_ -> new IllegalStateException("Failed to add initiator to duel event"));
+        personageEventService.addPersonageToLaunchedEvent(new AddPersonageToEventRequest(
             launchedEvent.id(), acceptingPersonage.id(), Optional.empty(), 0
-        ));
+        )).getOrElseThrow(_ -> new IllegalStateException("Failed to add acceptor to duel event"));
 
         return Either.right(
             new CreateDuelResult(launchedEvent.id(), initiatingPersonage, acceptingPersonage, DUEL_PRICE)

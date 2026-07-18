@@ -36,13 +36,12 @@ public class EventDao {
             .optional();
     }
 
-    public Optional<Event> getByTypeAndCode(EventType type, String code) {
+    public Optional<Event> getByType(EventType type) {
         final var sql = """
-            SELECT * FROM event WHERE type_id = :type_id AND code = :code
+            SELECT * FROM event WHERE type_id = :type_id LIMIT 1
             """;
         return jdbcClient.sql(sql)
             .param("type_id", type.id())
-            .param("code", code)
             .query(this::mapEvent)
             .optional();
     }
