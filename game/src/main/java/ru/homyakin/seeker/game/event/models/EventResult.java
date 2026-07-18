@@ -64,4 +64,14 @@ public sealed interface EventResult {
         WorldRaidLaunchedBattleInfo remainedInfo
     ) implements EventResult {
     }
+
+    sealed interface DuelResult extends EventResult {
+        enum Expired implements DuelResult {
+            INSTANCE
+        }
+
+        enum AlreadyFinal implements DuelResult {
+            INSTANCE
+        }
+    }
 }

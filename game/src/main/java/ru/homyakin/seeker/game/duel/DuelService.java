@@ -1,39 +1,54 @@
 package ru.homyakin.seeker.game.duel;
 
 import io.vavr.control.Either;
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.CreateDuelResult;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
-import ru.homyakin.seeker.game.duel.models.DuelStatus;
 import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
+import ru.homyakin.seeker.game.event.database.EventDao;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
+import ru.homyakin.seeker.game.personage.event.PersonageEventDao;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.LocaleUtils;
+import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 @Component
 public class DuelService {
+    public static final String DUEL_EVENT_CODE = "duel";
+
     private final DuelDao duelDao;
-    private final Duration duelLifeTime;
+    private final DuelConfig duelConfig;
     private final PersonageService personageService;
     private final ItemService itemService;
     private final LockService lockService;
+    private final LaunchedEventService launchedEventService;
+    private final EventDao eventDao;
+    private final PersonageEventDao personageEventDao;
+    private final EventBattleLogService eventBattleLogService;
     private final Battle battle = new Battle();
 
     public DuelService(
@@ -41,16 +56,24 @@ public class DuelService {
         DuelConfig duelConfig,
         PersonageService personageService,
         ItemService itemService,
-        LockService lockService
+        LockService lockService,
+        LaunchedEventService launchedEventService,
+        EventDao eventDao,
+        PersonageEventDao personageEventDao,
+        EventBattleLogService eventBattleLogService
     ) {
         this.duelDao = duelDao;
-        this.duelLifeTime = duelConfig.lifeTime();
+        this.duelConfig = duelConfig;
         this.personageService = personageService;
         this.itemService = itemService;
         this.lockService = lockService;
+        this.launchedEventService = launchedEventService;
+        this.eventDao = eventDao;
+        this.personageEventDao = personageEventDao;
+        this.eventBattleLogService = eventBattleLogService;
     }
 
-    //TODO прочитать про transactional
+    @Transactional
     public Either<CreateDuelError, CreateDuelResult> createDuel(
         Personage initiatingPersonage,
         Personage acceptingPersonage,
@@ -63,28 +86,46 @@ public class DuelService {
             return Either.left(new CreateDuelError.InitiatingPersonageNotEnoughMoney(DUEL_PRICE));
         }
 
+        final var duelEvent = eventDao.getByTypeAndCode(EventType.DUEL, DUEL_EVENT_CODE)
+            .orElseThrow(() -> new IllegalStateException("Duel event template must exist"));
+
         personageService.takeMoney(initiatingPersonage, DUEL_PRICE);
 
-        final var id = duelDao.create(initiatingPersonage.id(), acceptingPersonage.id(), groupId, duelLifeTime);
+        final var now = TimeUtils.moscowTime();
+        final var launchedEvent = launchedEventService.createFromDuel(
+            duelEvent.id(),
+            now,
+            now.plus(duelConfig.lifeTime()),
+            groupId
+        );
+
+        duelDao.create(launchedEvent.id(), initiatingPersonage.id(), acceptingPersonage.id());
+        personageEventDao.save(new AddPersonageToEventRequest(
+            launchedEvent.id(), initiatingPersonage.id(), Optional.empty(), 0
+        ));
+        personageEventDao.save(new AddPersonageToEventRequest(
+            launchedEvent.id(), acceptingPersonage.id(), Optional.empty(), 0
+        ));
+
         return Either.right(
-            new CreateDuelResult(id, initiatingPersonage, acceptingPersonage, DUEL_PRICE)
+            new CreateDuelResult(launchedEvent.id(), initiatingPersonage, acceptingPersonage, DUEL_PRICE)
         );
     }
 
     public Duel getByIdForce(long duelId) {
         return duelDao.getById(duelId)
-            .orElseThrow(() -> new IllegalStateException("Duel " + duelId + "must exist"));
+            .orElseThrow(() -> new IllegalStateException("Duel " + duelId + " must exist"));
     }
 
     public Either<ProcessDuelError, Success> expireDuel(long duelId) {
         return lockService.<Either<ProcessDuelError, Success>>tryLockAndCalc(
-            duelLockKey(duelId),
+            launchedEventLockKey(duelId),
             () -> {
                 if (getByIdForce(duelId).isFinalStatus()) {
                     return Either.left(ProcessDuelError.DuelIsFinished.INSTANCE);
                 }
                 returnMoneyToInitiator(duelId);
-                duelDao.updateStatus(duelId, DuelStatus.EXPIRED);
+                launchedEventService.updateStatus(duelId, EventStatus.EXPIRED);
                 return Either.right(Success.INSTANCE);
             }
         ).fold(
@@ -93,18 +134,28 @@ public class DuelService {
         );
     }
 
+    public EventResult.DuelResult expireLaunchedDuel(LaunchedEvent launchedEvent) {
+        final var duel = getByIdForce(launchedEvent.id());
+        if (duel.isFinalStatus()) {
+            return EventResult.DuelResult.AlreadyFinal.INSTANCE;
+        }
+        returnMoneyToInitiator(duel.id());
+        launchedEventService.updateStatus(duel.id(), EventStatus.EXPIRED);
+        return EventResult.DuelResult.Expired.INSTANCE;
+    }
+
     public Either<ProcessDuelError, Success> declineDuel(Duel duel, PersonageId acceptor) {
         if (!acceptor.equals(duel.acceptingPersonageId())) {
             return Either.left(ProcessDuelError.NotDuelAcceptor.INSTANCE);
         }
         return lockService.<Either<ProcessDuelError, Success>>tryLockAndCalc(
-            duelLockKey(duel.id()),
+            launchedEventLockKey(duel.id()),
             () -> {
-                if (duel.isFinalStatus()) {
+                if (getByIdForce(duel.id()).isFinalStatus()) {
                     return Either.left(ProcessDuelError.DuelIsFinished.INSTANCE);
                 }
                 returnMoneyToInitiator(duel.id());
-                duelDao.updateStatus(duel.id(), DuelStatus.DECLINED);
+                launchedEventService.cancel(duel.id());
                 return Either.right(Success.INSTANCE);
             }
         ).fold(
@@ -118,19 +169,20 @@ public class DuelService {
             return Either.left(ProcessDuelError.NotDuelAcceptor.INSTANCE);
         }
         return lockService.tryLockAndCalc(
-            duelLockKey(duel.id()),
-            () -> finishDuelLogic(duel)
+            launchedEventLockKey(duel.id()),
+            () -> finishDuelLogic(duel.id())
         ).fold(
             _ -> Either.left(ProcessDuelError.DuelLocked.INSTANCE),
             either -> either
         );
     }
 
-    private Either<ProcessDuelError, DuelResult> finishDuelLogic(Duel duel) {
+    private Either<ProcessDuelError, DuelResult> finishDuelLogic(long duelId) {
+        final var duel = getByIdForce(duelId);
         if (duel.isFinalStatus()) {
             return Either.left(ProcessDuelError.DuelIsFinished.INSTANCE);
         }
-        duelDao.updateStatus(duel.id(), DuelStatus.FINISHED);
+        launchedEventService.updateStatus(duel.id(), EventStatus.SUCCESS);
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
         final var equippedItems = itemService.getEquippedItemsByPersonageIds(
@@ -152,6 +204,7 @@ public class DuelService {
             List.of(firstBattlePersonage),
             List.of(secondBattlePersonage)
         );
+        eventBattleLogService.save(duel.id(), battleResult);
 
         final DuelPersonageResult winner;
         final DuelPersonageResult loser;
@@ -183,9 +236,9 @@ public class DuelService {
         personageService.addMoney(initiatingPersonage, DUEL_PRICE);
     }
 
-    private String duelLockKey(long duelId) {
-        return LockPrefixes.DUEL.name() + "-" + duelId;
+    private String launchedEventLockKey(long launchedEventId) {
+        return LockPrefixes.LAUNCHED_EVENT.name() + launchedEventId;
     }
 
-    private static final Money DUEL_PRICE = new Money(2);
+    public static final Money DUEL_PRICE = new Money(2);
 }

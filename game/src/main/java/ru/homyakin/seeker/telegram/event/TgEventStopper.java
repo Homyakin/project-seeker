@@ -4,18 +4,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
+import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
 import ru.homyakin.seeker.game.event.service.EventProcessing;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
+import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
+import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.contraband.TgContrabandNotifier;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.models.TgPersonageMention;
+import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
@@ -31,6 +36,9 @@ public class TgEventStopper {
     private final LockService lockService;
     private final TgContrabandNotifier contrabandNotifier;
     private final BattleVisualizerConfig battleVisualizerConfig;
+    private final DuelService duelService;
+    private final PersonageService personageService;
+    private final UserService userService;
 
     public TgEventStopper(
         GroupTgService groupTgService,
@@ -40,7 +48,10 @@ public class TgEventStopper {
         GroupStatsService groupStatsService,
         LockService lockService,
         TgContrabandNotifier contrabandNotifier,
-        BattleVisualizerConfig battleVisualizerConfig
+        BattleVisualizerConfig battleVisualizerConfig,
+        DuelService duelService,
+        PersonageService personageService,
+        UserService userService
     ) {
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
@@ -50,6 +61,9 @@ public class TgEventStopper {
         this.lockService = lockService;
         this.contrabandNotifier = contrabandNotifier;
         this.battleVisualizerConfig = battleVisualizerConfig;
+        this.duelService = duelService;
+        this.personageService = personageService;
+        this.userService = userService;
     }
 
     public void stopEvents() {
@@ -67,9 +81,30 @@ public class TgEventStopper {
         switch (result) {
             case EventResult.RaidResult raidResult -> processRaidResult(launchedEvent, raidResult);
             case EventResult.PersonalQuestEventResult _ -> { }
-            case EventResult.WorldRaidBattleResult _ -> {
-            }
+            case EventResult.WorldRaidBattleResult _ -> { }
+            case EventResult.DuelResult.Expired _ -> processExpiredDuel(launchedEvent);
+            case EventResult.DuelResult.AlreadyFinal _ -> { }
         }
+    }
+
+    private void processExpiredDuel(LaunchedEvent launchedEvent) {
+        final var duel = duelService.getByIdForce(launchedEvent.id());
+        final var acceptor = personageService.getByIdForce(duel.acceptingPersonageId());
+        final var user = userService.getByPersonageIdForce(acceptor.id());
+        groupEventService.getByLaunchedEventId(launchedEvent.id())
+            .forEach(groupEvent -> {
+                final var group = groupTgService.getOrCreate(groupEvent.groupId());
+                telegramSender.send(
+                    EditMessageTextBuilder.builder()
+                        .chatId(group.id())
+                        .messageId(groupEvent.messageId())
+                        .text(DuelLocalization.expiredDuel(
+                            group.language(),
+                            TgPersonageMention.of(acceptor, user.id())
+                        ))
+                        .build()
+                );
+            });
     }
 
     private void processRaidResult(LaunchedEvent launchedEvent, EventResult.RaidResult result) {

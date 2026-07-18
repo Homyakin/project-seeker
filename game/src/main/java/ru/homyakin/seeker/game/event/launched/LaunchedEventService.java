@@ -63,6 +63,12 @@ public class LaunchedEventService {
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 
+    public LaunchedEvent createFromDuel(int eventId, LocalDateTime start, LocalDateTime end, GroupId groupId) {
+        final var id = launchedEventDao.save(eventId, start, end);
+        launchedEventGroupDao.save(id, groupId);
+        return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
+    }
+
     public Optional<LaunchedEvent> getById(Long launchedEventId) {
         return launchedEventDao.getById(launchedEventId);
     }
@@ -116,6 +122,10 @@ public class LaunchedEventService {
 
     public void cancel(long launchedEventId) {
         launchedEventDao.updateStatus(launchedEventId, EventStatus.CANCELED);
+    }
+
+    public void updateStatus(long launchedEventId, EventStatus status) {
+        launchedEventDao.updateStatus(launchedEventId, status);
     }
 
     public CurrentEvents getActiveEventsByPersonageId(PersonageId personageId) {

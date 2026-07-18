@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.group.passive.GroupBuildingPassiveEffect;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.event.launched.CurrentEvent;
@@ -449,7 +450,11 @@ public class CommonLocalization {
             case RAID -> personageInRaid(language, event.endDate());
             case PERSONAL_QUEST -> personageInQuest(language, event.endDate());
             case WORLD_RAID -> personageInWorldRaid(language, event.endDate());
+            case DUEL -> personageInDuel(language, event.endDate());
         };
+        if (event.type() == EventType.DUEL) {
+            return text;
+        }
         final var params = new HashMap<String, Object>();
         params.put("personage_in_event", text);
         params.put(
@@ -488,6 +493,16 @@ public class CommonLocalization {
         params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageInWorldRaid),
+            params
+        );
+    }
+
+    private static String personageInDuel(Language language, LocalDateTime end) {
+        final var params = new HashMap<String, Object>();
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInDuel),
             params
         );
     }
@@ -673,6 +688,10 @@ public class CommonLocalization {
 
     public static String cancelEventLocked(Language language) {
         return resources.getOrDefault(language, CommonResource::cancelEventLocked);
+    }
+
+    public static String cancelEventForbiddenForDuel(Language language) {
+        return resources.getOrDefault(language, CommonResource::cancelEventForbiddenForDuel);
     }
 
     public static String fullBagAlertOnRaidJoin(Language language) {

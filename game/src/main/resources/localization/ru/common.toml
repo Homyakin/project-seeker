@@ -54,10 +54,12 @@ personageInEvent = "${personage_in_event} ${cancel_command}"
 personageInRaid = "\nВ рейде ${time_icon}${duration}"
 personageInQuest = "\nВ квесте ${time_icon}${duration}"
 personageInWorldRaid = "\nВ мировом рейде ${time_icon}${duration}"
+personageInDuel = "\nВ дуэли ${time_icon}${duration}"
 
 cancelEventSuccess = "Ты возвращаешься в таверну и экономишь ${energy_icon}${energy_value}%"
 cancelEventNotFound = "Ты не участвуешь в этом событии"
 cancelEventLocked = "Событие уже в процессе, подожди немного."
+cancelEventForbiddenForDuel = "Дуэль нельзя отменить. Дождись ответа соперника или истечения времени."
 
 raidGoldRewardPercentEffect = "+${value}%${money_icon} с рейда"
 itemFoundChancePercentEffect = "+${value}% найти предмет с рейда"

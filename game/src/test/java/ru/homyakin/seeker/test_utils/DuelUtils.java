@@ -1,7 +1,8 @@
 package ru.homyakin.seeker.test_utils;
 
+import java.util.Optional;
 import ru.homyakin.seeker.game.duel.models.Duel;
-import ru.homyakin.seeker.game.duel.models.DuelStatus;
+import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -11,8 +12,9 @@ public class DuelUtils {
             TestRandom.nextLong(),
             initiator,
             acceptor,
+            Optional.empty(),
             TimeUtils.moscowTime(),
-            DuelStatus.WAITING
+            EventStatus.LAUNCHED
         );
     }
 }

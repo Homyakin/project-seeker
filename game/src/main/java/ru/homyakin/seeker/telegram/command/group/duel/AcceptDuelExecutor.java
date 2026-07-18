@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.group.duel;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
@@ -15,6 +16,7 @@ import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.utils.models.Success;
 
 @Component
@@ -22,29 +24,38 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
     private final DuelService duelService;
     private final GroupStatsService groupStatsService;
     private final UserService userService;
+    private final BattleVisualizerConfig battleVisualizerConfig;
 
     public AcceptDuelExecutor(
         GroupUserService groupUserService,
         DuelService duelService,
         TelegramSender telegramSender,
         GroupStatsService groupStatsService,
-        UserService userService
+        UserService userService,
+        BattleVisualizerConfig battleVisualizerConfig
     ) {
         super(telegramSender, groupUserService);
         this.duelService = duelService;
         this.groupStatsService = groupStatsService;
         this.userService = userService;
+        this.battleVisualizerConfig = battleVisualizerConfig;
     }
 
     @Override
     protected Either<ProcessDuelError, Success> processDuel(AcceptDuel command, GroupTg group, User acceptor) {
         final var duel = duelService.getByIdForce(command.duelId());
         return duelService.finishDuel(duel, acceptor.personageId())
-            .peek(result -> processDuelResult(result, acceptor, command, group))
+            .peek(result -> processDuelResult(result, acceptor, command, group, duel.id()))
             .map(_ -> Success.INSTANCE);
     }
 
-    private void processDuelResult(DuelResult result, User acceptor, AcceptDuel command, GroupTg group) {
+    private void processDuelResult(
+        DuelResult result,
+        User acceptor,
+        AcceptDuel command,
+        GroupTg group,
+        long launchedEventId
+    ) {
         final User winnerUser;
         final User loserUser;
         if (result.winner().personage().id().equals(acceptor.personageId())) {
@@ -61,6 +72,10 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
                 .chatId(group.id())
                 .messageId(command.messageId())
                 .text(finishedDuelText(group.language(), result, winnerUser, loserUser))
+                .keyboard(InlineKeyboards.battleVisualizerKeyboard(
+                    group.language(),
+                    battleVisualizerConfig.battleUrl(launchedEventId)
+                ))
                 .build()
         );
     }

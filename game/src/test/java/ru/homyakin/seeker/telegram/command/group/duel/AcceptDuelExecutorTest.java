@@ -8,12 +8,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.Duel;
 import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
@@ -21,6 +23,7 @@ import ru.homyakin.seeker.game.stats.action.GroupStatsService;
 import ru.homyakin.seeker.telegram.models.TgPersonageMention;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.User;
+import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.test_utils.DuelUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.test_utils.TestRandom;
@@ -34,12 +37,14 @@ public class AcceptDuelExecutorTest {
     private final TelegramSender telegramSender = Mockito.mock();
     private final GroupStatsService groupStatsService = Mockito.mock();
     private final UserService userService = Mockito.mock();
+    private final BattleVisualizerConfig battleVisualizerConfig = new BattleVisualizerConfig("https://example.com/?id=");
     private final AcceptDuelExecutor executor = new AcceptDuelExecutor(
         Mockito.mock(),
         duelService,
         telegramSender,
         groupStatsService,
-        userService
+        userService,
+        battleVisualizerConfig
     );
     private GroupTg group;
     private User acceptor;
@@ -84,10 +89,14 @@ public class AcceptDuelExecutorTest {
         final var finishDuelText = TestRandom.randomAlphanumeric(10);
         final var winnerResultText = TestRandom.randomAlphanumeric(10);
         final var loserResultText = TestRandom.randomAlphanumeric(10);
+        final var visualizerButton = TestRandom.randomAlphanumeric(10);
 
-        // when
-        try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {
-            mock.when(() -> DuelLocalization
+        // when / then
+        try (
+            final var duelLocale = Mockito.mockStatic(DuelLocalization.class);
+            final var battleLocale = Mockito.mockStatic(BattleLocalization.class)
+        ) {
+            duelLocale.when(() -> DuelLocalization
                     .finishedDuel(
                         group.language(),
                         TgPersonageMention.of(initiatorPersonage, initiator.id()),
@@ -95,7 +104,7 @@ public class AcceptDuelExecutorTest {
                     )
                 )
                 .thenReturn(finishDuelText);
-            mock.when(() -> DuelLocalization
+            duelLocale.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
                         duelPersonageResult(initiatorPersonage),
@@ -103,7 +112,7 @@ public class AcceptDuelExecutorTest {
                     )
                 )
                 .thenReturn(winnerResultText);
-            mock.when(() -> DuelLocalization
+            duelLocale.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
                         duelPersonageResult(acceptorPersonage),
@@ -111,26 +120,31 @@ public class AcceptDuelExecutorTest {
                     )
                 )
                 .thenReturn(loserResultText);
+            battleLocale.when(() -> BattleLocalization.battleVisualizerButton(group.language()))
+                .thenReturn(visualizerButton);
             executor.processDuel(command, group, acceptor);
+
+            Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(
+                group.domainGroupId(), initiatorPersonage.id(), acceptorPersonage.id()
+            );
+            final var captor = ArgumentCaptor.forClass(EditMessageText.class);
+            Mockito.verify(telegramSender).send(captor.capture());
+
+            final var expected = EditMessageText.builder()
+                .chatId(group.id().value())
+                .messageId(command.messageId())
+                .parseMode(ParseMode.HTML)
+                .disableWebPagePreview(true)
+                .entities(List.of())
+                .text(finishDuelText + "\n\n" + winnerResultText + "\n" + loserResultText)
+                .replyMarkup(InlineKeyboards.battleVisualizerKeyboard(
+                    group.language(),
+                    battleVisualizerConfig.battleUrl(duel.id())
+                ))
+                .build();
+
+            Assertions.assertEquals(expected, captor.getValue());
         }
-
-        // then
-        Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(
-            group.domainGroupId(), initiatorPersonage.id(), acceptorPersonage.id()
-        );
-        final var captor = ArgumentCaptor.forClass(EditMessageText.class);
-        Mockito.verify(telegramSender).send(captor.capture());
-
-        final var expected = EditMessageText.builder()
-            .chatId(group.id().value())
-            .messageId(command.messageId())
-            .parseMode(ParseMode.HTML)
-            .disableWebPagePreview(true)
-            .entities(List.of())
-            .text(finishDuelText + "\n\n" + winnerResultText + "\n" + loserResultText)
-            .build();
-
-        Assertions.assertEquals(expected, captor.getValue());
     }
 
     @Test
@@ -148,10 +162,14 @@ public class AcceptDuelExecutorTest {
         final var finishDuelText = TestRandom.randomAlphanumeric(10);
         final var winnerResultText = TestRandom.randomAlphanumeric(10);
         final var loserResultText = TestRandom.randomAlphanumeric(10);
+        final var visualizerButton = TestRandom.randomAlphanumeric(10);
 
-        // when
-        try (final var mock = Mockito.mockStatic(DuelLocalization.class)) {
-            mock.when(() -> DuelLocalization
+        // when / then
+        try (
+            final var duelLocale = Mockito.mockStatic(DuelLocalization.class);
+            final var battleLocale = Mockito.mockStatic(BattleLocalization.class)
+        ) {
+            duelLocale.when(() -> DuelLocalization
                     .finishedDuel(
                         group.language(),
                         TgPersonageMention.of(acceptorPersonage, acceptor.id()),
@@ -159,7 +177,7 @@ public class AcceptDuelExecutorTest {
                     )
                 )
                 .thenReturn(finishDuelText);
-            mock.when(() -> DuelLocalization
+            duelLocale.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
                         duelPersonageResult(initiatorPersonage),
@@ -167,7 +185,7 @@ public class AcceptDuelExecutorTest {
                     )
                 )
                 .thenReturn(loserResultText);
-            mock.when(() -> DuelLocalization
+            duelLocale.when(() -> DuelLocalization
                     .personageDuelResult(
                         group.language(),
                         duelPersonageResult(acceptorPersonage),
@@ -175,26 +193,30 @@ public class AcceptDuelExecutorTest {
                     )
                 )
                 .thenReturn(winnerResultText);
+            battleLocale.when(() -> BattleLocalization.battleVisualizerButton(group.language()))
+                .thenReturn(visualizerButton);
             executor.processDuel(command, group, acceptor);
+
+            Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(
+                group.domainGroupId(), acceptorPersonage.id(), initiatorPersonage.id()
+            );
+            final var captor = ArgumentCaptor.forClass(EditMessageText.class);
+            Mockito.verify(telegramSender).send(captor.capture());
+            final var expected = EditMessageText.builder()
+                .chatId(group.id().value())
+                .messageId(command.messageId())
+                .parseMode(ParseMode.HTML)
+                .disableWebPagePreview(true)
+                .entities(List.of())
+                .text(finishDuelText + "\n\n" + winnerResultText + "\n" + loserResultText)
+                .replyMarkup(InlineKeyboards.battleVisualizerKeyboard(
+                    group.language(),
+                    battleVisualizerConfig.battleUrl(duel.id())
+                ))
+                .build();
+
+            Assertions.assertEquals(expected, captor.getValue());
         }
-
-        // then
-        Mockito.verify(groupStatsService, Mockito.times(1)).increaseDuelsComplete(
-            group.domainGroupId(), acceptorPersonage.id(), initiatorPersonage.id()
-        );
-        final var captor = ArgumentCaptor.forClass(EditMessageText.class);
-        Mockito.verify(telegramSender).send(captor.capture());
-        System.out.println(captor.getValue());
-        final var expected = EditMessageText.builder()
-            .chatId(group.id().value())
-            .messageId(command.messageId())
-            .parseMode(ParseMode.HTML)
-            .disableWebPagePreview(true)
-            .entities(List.of())
-            .text(finishDuelText + "\n\n" + winnerResultText + "\n" + loserResultText)
-            .build();
-
-        Assertions.assertEquals(expected, captor.getValue());
     }
 
     private static DuelPersonageResult duelPersonageResult(Personage personage) {

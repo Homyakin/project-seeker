@@ -39,9 +39,9 @@ ${equipped_enhance_times}
 
 🎒Инвентарь:
 ${inventory_enhance_times}"""
-enhanceItem = "${item} ${enhance_command}"
+enhanceItem = "${short_item} ${enhance_command}"
 enhanceItemInfo = """\
-<code>${item}</code>
+<code>${full_item}</code>
 
 ${available_enhance}
 """

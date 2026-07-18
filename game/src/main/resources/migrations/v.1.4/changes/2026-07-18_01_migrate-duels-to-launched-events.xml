@@ -1,0 +1,122 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="migrate-duels-to-launched-events">
+        <insert tableName="event_type">
+            <column name="id" value="4"/>
+            <column name="name" value="Дуэль"/>
+        </insert>
+
+        <insert tableName="event">
+            <column name="type_id" value="4"/>
+            <column name="is_enabled" valueBoolean="true"/>
+            <column name="code" value="duel"/>
+        </insert>
+
+        <!-- Refund stake for waiting duels (old callback ids cannot be remapped) -->
+        <sql>
+            UPDATE personage
+            SET money = money + 2
+            WHERE id IN (
+                SELECT initiating_personage_id FROM duel WHERE status_id = 0
+            );
+        </sql>
+
+        <addColumn tableName="duel">
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE duel
+            SET launched_event_id = nextval('launched_event_id_seq');
+        </sql>
+
+        <sql>
+            INSERT INTO launched_event (id, event_id, start_date, end_date, status_id)
+            SELECT
+                d.launched_event_id,
+                (SELECT e.id FROM event e WHERE e.type_id = 4 AND e.code = 'duel'),
+                d.expiring_date,
+                d.expiring_date,
+                CASE d.status_id
+                    WHEN 0 THEN 1 -- WAITING -> EXPIRED
+                    WHEN 1 THEN 5 -- DECLINED -> CANCELED
+                    WHEN 2 THEN 1 -- EXPIRED -> EXPIRED
+                    WHEN 3 THEN 3 -- FINISHED -> SUCCESS
+                END
+            FROM duel d;
+        </sql>
+
+        <sql>
+            SELECT setval(
+                'launched_event_id_seq',
+                (SELECT MAX(id) FROM launched_event)
+            );
+        </sql>
+
+        <sql>
+            INSERT INTO launched_event_to_pgroup (launched_event_id, pgroup_id)
+            SELECT d.launched_event_id, d.pgroupd_id
+            FROM duel d
+            WHERE d.pgroupd_id IS NOT NULL;
+        </sql>
+
+        <!-- Keep TG binding only for non-waiting (already final) duels; waiting were expired -->
+        <sql>
+            INSERT INTO grouptg_to_launched_event (launched_event_id, grouptg_id, message_id)
+            SELECT d.launched_event_id, dt.grouptg_id, dt.message_id
+            FROM duel_tg dt
+            INNER JOIN duel d ON d.id = dt.duel_id
+            WHERE d.status_id != 0;
+        </sql>
+
+        <sql>
+            INSERT INTO personage_to_event (personage_id, launched_event_id, spent_energy)
+            SELECT d.initiating_personage_id, d.launched_event_id, 0
+            FROM duel d
+            UNION ALL
+            SELECT d.accepting_personage_id, d.launched_event_id, 0
+            FROM duel d;
+        </sql>
+
+        <addNotNullConstraint tableName="duel" columnName="launched_event_id"/>
+
+        <addForeignKeyConstraint
+                baseTableName="duel"
+                baseColumnNames="launched_event_id"
+                constraintName="fk-duel-launched_event"
+                referencedTableName="launched_event"
+                referencedColumnNames="id"
+        />
+
+        <addUniqueConstraint
+                tableName="duel"
+                columnNames="launched_event_id"
+                constraintName="duel_launched_event_id_uq"
+        />
+
+        <dropForeignKeyConstraint baseTableName="duel" constraintName="fk_duel_duel_status"/>
+        <dropForeignKeyConstraint baseTableName="duel" constraintName="fk-duel-pgroup"/>
+
+        <dropColumn tableName="duel" columnName="status_id"/>
+        <dropColumn tableName="duel" columnName="expiring_date"/>
+        <dropColumn tableName="duel" columnName="pgroupd_id"/>
+
+        <dropTable tableName="duel_tg"/>
+        <dropTable tableName="duel_status"/>
+
+        <!-- Rebuild PK: launched_event_id becomes the duel identity -->
+        <dropPrimaryKey tableName="duel" constraintName="duel_pkey"/>
+        <dropColumn tableName="duel" columnName="id"/>
+        <addPrimaryKey tableName="duel" columnNames="launched_event_id" constraintName="duel_pkey"/>
+
+        <dropIndex tableName="duel" indexName="idx_duel_initiating_personage_id"/>
+        <createIndex tableName="duel" indexName="idx_duel_initiating_personage_id">
+            <column name="initiating_personage_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

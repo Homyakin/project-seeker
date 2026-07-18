@@ -6,4 +6,6 @@ public sealed interface CancelError {
     enum AlreadyFinished implements CancelError { INSTANCE }
 
     enum Locked implements CancelError { INSTANCE }
+
+    enum ForbiddenForDuel implements CancelError { INSTANCE }
 }

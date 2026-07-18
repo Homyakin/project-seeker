@@ -36,6 +36,7 @@ public class CancelEventExecutor extends CommandExecutor<CancelEvent> {
                     case CancelError.AlreadyFinished _,
                          CancelError.NotFound _ -> CommonLocalization.cancelEventNotFound(language);
                     case CancelError.Locked _ -> CommonLocalization.cancelEventLocked(language);
+                    case CancelError.ForbiddenForDuel _ -> CommonLocalization.cancelEventForbiddenForDuel(language);
                 },
                 spentEnergy -> CommonLocalization.cancelEventSuccess(language, spentEnergy)
             );

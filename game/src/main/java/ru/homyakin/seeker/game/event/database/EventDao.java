@@ -36,6 +36,17 @@ public class EventDao {
             .optional();
     }
 
+    public Optional<Event> getByTypeAndCode(EventType type, String code) {
+        final var sql = """
+            SELECT * FROM event WHERE type_id = :type_id AND code = :code
+            """;
+        return jdbcClient.sql(sql)
+            .param("type_id", type.id())
+            .param("code", code)
+            .query(this::mapEvent)
+            .optional();
+    }
+
     public int save(SavingRaid raid) {
         return jdbcClient.sql(SAVE_EVENT)
             .param("type_id", EventType.RAID.id())

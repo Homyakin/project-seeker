@@ -9,6 +9,7 @@ public enum EventType {
     RAID(1, true),
     PERSONAL_QUEST(2, true),
     WORLD_RAID(3, false),
+    DUEL(4, false),
     ;
 
     private final int id;

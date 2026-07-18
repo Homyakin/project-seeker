@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.PersonalQuestService;
@@ -16,17 +17,20 @@ public class EventProcessing {
     private final RaidProcessing raidProcessing;
     private final PersonalQuestService personalQuestService;
     private final ProcessWorldRaidBattleCommand processWorldRaidBattleCommand;
+    private final DuelService duelService;
 
     public EventProcessing(
         EventService eventService,
         RaidProcessing raidProcessing,
         PersonalQuestService personalQuestService,
-        ProcessWorldRaidBattleCommand processWorldRaidBattleCommand
+        ProcessWorldRaidBattleCommand processWorldRaidBattleCommand,
+        DuelService duelService
     ) {
         this.eventService = eventService;
         this.raidProcessing = raidProcessing;
         this.personalQuestService = personalQuestService;
         this.processWorldRaidBattleCommand = processWorldRaidBattleCommand;
+        this.duelService = duelService;
     }
 
     public EventResult processEvent(LaunchedEvent launchedEvent) {
@@ -40,6 +44,7 @@ public class EventProcessing {
             case RAID -> raidProcessing.process(launchedEvent);
             case PERSONAL_QUEST -> personalQuestService.stopQuest(launchedEvent);
             case WORLD_RAID -> processWorldRaidBattleCommand.execute(launchedEvent);
+            case DUEL -> duelService.expireLaunchedDuel(launchedEvent);
         };
     }
 }

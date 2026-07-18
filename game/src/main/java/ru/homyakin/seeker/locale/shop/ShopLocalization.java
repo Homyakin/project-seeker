@@ -176,7 +176,7 @@ public class ShopLocalization {
 
     private static String enhanceItem(Language language, PersonageItem item) {
         final var params = new HashMap<String, Object>();
-        params.put("item", ItemLocalization.shortItem(language, item));
+        params.put("short_item", ItemLocalization.shortItem(language, item));
         params.put("enhance_command", CommandType.ENHANCE_INFO.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::enhanceItem),
@@ -186,7 +186,7 @@ public class ShopLocalization {
 
     public static String enhanceItemInfo(Language language, AvailableAction action) {
         final var params = new HashMap<String, Object>();
-        params.put("item", ItemLocalization.fullItem(language, action.item()));
+        params.put("full_item", ItemLocalization.fullItem(language, action.item()));
         final String availableEnhance;
         if (action.action().isEmpty()) {
             availableEnhance = emptyEnhance(language);

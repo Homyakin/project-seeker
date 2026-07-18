@@ -57,9 +57,13 @@ public class CancelEventCommand {
             return Either.left(CancelError.AlreadyFinished.INSTANCE);
         }
 
+        final var eventType = eventService.getEventById(launchedEvent.eventId()).orElseThrow().type();
+        if (eventType == EventType.DUEL) {
+            return Either.left(CancelError.ForbiddenForDuel.INSTANCE);
+        }
+
         final var refund = personageService.addEnergy(personageId, Math.max(spentEnergy - 1, 0));
 
-        final var eventType = eventService.getEventById(launchedEvent.eventId()).orElseThrow().type();
         if (eventType == EventType.PERSONAL_QUEST) {
             launchedEventService.cancel(launchedEventId);
         } else {
