@@ -125,6 +125,7 @@ public class BattlePersonage {
     private long damageDodged;
     private long dodgesCount;
     private long missesCount;
+    private int turnsCount;
 
     public BattlePersonage(List<Item> items, Position startPosition) {
         this(items, startPosition, Map.of());
@@ -484,6 +485,7 @@ public class BattlePersonage {
      * @return true if the mover phase should stop (no alive enemies left)
      */
     public boolean move(BattleContext context, BattleActionLog log, int round) {
+        turnsCount++;
         combatEffects.onOwnTurnBegin(this, log, round);
         if (!isAlive()) {
             return false;
@@ -761,7 +763,8 @@ public class BattlePersonage {
             blockCount,
             damageDodged,
             dodgesCount,
-            missesCount
+            missesCount,
+            turnsCount
         );
     }
 

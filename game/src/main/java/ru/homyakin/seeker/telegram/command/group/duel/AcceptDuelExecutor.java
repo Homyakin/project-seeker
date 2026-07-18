@@ -6,7 +6,6 @@ import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.duel.DuelService;
 import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.duel.models.ProcessDuelError;
-import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
@@ -71,28 +70,17 @@ public class AcceptDuelExecutor extends ProcessDuelExecutor<AcceptDuel> {
             EditMessageTextBuilder.builder()
                 .chatId(group.id())
                 .messageId(command.messageId())
-                .text(finishedDuelText(group.language(), result, winnerUser, loserUser))
+                .text(DuelLocalization.finishedDuelResult(
+                    group.language(),
+                    TgPersonageMention.of(result.winner().personage(), winnerUser.id()),
+                    TgPersonageMention.of(result.loser().personage(), loserUser.id()),
+                    result
+                ))
                 .keyboard(InlineKeyboards.battleVisualizerKeyboard(
                     group.language(),
                     battleVisualizerConfig.battleUrl(launchedEventId)
                 ))
                 .build()
         );
-    }
-
-    // TODO в локализацию
-    private String finishedDuelText(
-        Language language,
-        DuelResult duelResult,
-        User winnerUser,
-        User loserUser
-    ) {
-        return DuelLocalization.finishedDuel(
-            language,
-            TgPersonageMention.of(duelResult.winner().personage(), winnerUser.id()),
-            TgPersonageMention.of(duelResult.loser().personage(), loserUser.id())
-        ) + "\n\n" +
-            DuelLocalization.personageDuelResult(language, duelResult.winner(), true) + "\n" +
-            DuelLocalization.personageDuelResult(language, duelResult.loser(), false);
     }
 }

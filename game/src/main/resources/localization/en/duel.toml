@@ -23,5 +23,11 @@ finishedDuel = [
 The seeker ${mention_winner_icon_with_name} got the better of \
 ${mention_loser_icon_with_name}"""
 ]
+finishedDuelResult = """\
+${finished_duel}
+
+${time_icon}Rounds: ${rounds_count}
+${winner_result}
+${loser_result}"""
 acceptDuelButton = "Take the challenge🗡"
 declineDuelButton = "Decline👐"

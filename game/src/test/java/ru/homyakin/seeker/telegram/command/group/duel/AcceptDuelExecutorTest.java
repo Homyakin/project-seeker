@@ -77,18 +77,16 @@ public class AcceptDuelExecutorTest {
     @Test
     public void Given_CorrectAcceptDuel_When_FinishDuel_And_InitiatorIsWinner_Then_SendDuelInitiatorWinnerResultToTelegram() {
         // given
+        final var duelResult = new DuelResult(
+            duelPersonageResult(initiatorPersonage),
+            duelPersonageResult(acceptorPersonage),
+            7
+        );
         Mockito.when(duelService.finishDuel(duel, acceptorPersonage.id())).thenReturn(
-            Either.right(
-                new DuelResult(
-                    duelPersonageResult(initiatorPersonage),
-                    duelPersonageResult(acceptorPersonage)
-                )
-            )
+            Either.right(duelResult)
         );
         Mockito.when(userService.getByPersonageIdForce(initiatorPersonage.id())).thenReturn(initiator);
-        final var finishDuelText = TestRandom.randomAlphanumeric(10);
-        final var winnerResultText = TestRandom.randomAlphanumeric(10);
-        final var loserResultText = TestRandom.randomAlphanumeric(10);
+        final var finishDuelResultText = TestRandom.randomAlphanumeric(10);
         final var visualizerButton = TestRandom.randomAlphanumeric(10);
 
         // when / then
@@ -97,29 +95,14 @@ public class AcceptDuelExecutorTest {
             final var battleLocale = Mockito.mockStatic(BattleLocalization.class)
         ) {
             duelLocale.when(() -> DuelLocalization
-                    .finishedDuel(
+                    .finishedDuelResult(
                         group.language(),
                         TgPersonageMention.of(initiatorPersonage, initiator.id()),
-                        TgPersonageMention.of(acceptorPersonage, acceptor.id())
+                        TgPersonageMention.of(acceptorPersonage, acceptor.id()),
+                        duelResult
                     )
                 )
-                .thenReturn(finishDuelText);
-            duelLocale.when(() -> DuelLocalization
-                    .personageDuelResult(
-                        group.language(),
-                        duelPersonageResult(initiatorPersonage),
-                        true
-                    )
-                )
-                .thenReturn(winnerResultText);
-            duelLocale.when(() -> DuelLocalization
-                    .personageDuelResult(
-                        group.language(),
-                        duelPersonageResult(acceptorPersonage),
-                        false
-                    )
-                )
-                .thenReturn(loserResultText);
+                .thenReturn(finishDuelResultText);
             battleLocale.when(() -> BattleLocalization.battleVisualizerButton(group.language()))
                 .thenReturn(visualizerButton);
             executor.processDuel(command, group, acceptor);
@@ -136,7 +119,7 @@ public class AcceptDuelExecutorTest {
                 .parseMode(ParseMode.HTML)
                 .disableWebPagePreview(true)
                 .entities(List.of())
-                .text(finishDuelText + "\n\n" + winnerResultText + "\n" + loserResultText)
+                .text(finishDuelResultText)
                 .replyMarkup(InlineKeyboards.battleVisualizerKeyboard(
                     group.language(),
                     battleVisualizerConfig.battleUrl(duel.id())
@@ -150,18 +133,16 @@ public class AcceptDuelExecutorTest {
     @Test
     public void Given_CorrectAcceptDuel_When_FinishDuel_And_AcceptorIsWinner_Then_SendDuelAcceptorWinnerResultToTelegram() {
         // given
+        final var duelResult = new DuelResult(
+            duelPersonageResult(acceptorPersonage),
+            duelPersonageResult(initiatorPersonage),
+            5
+        );
         Mockito.when(duelService.finishDuel(duel, acceptorPersonage.id())).thenReturn(
-            Either.right(
-                new DuelResult(
-                    duelPersonageResult(acceptorPersonage),
-                    duelPersonageResult(initiatorPersonage)
-                )
-            )
+            Either.right(duelResult)
         );
         Mockito.when(userService.getByPersonageIdForce(initiatorPersonage.id())).thenReturn(initiator);
-        final var finishDuelText = TestRandom.randomAlphanumeric(10);
-        final var winnerResultText = TestRandom.randomAlphanumeric(10);
-        final var loserResultText = TestRandom.randomAlphanumeric(10);
+        final var finishDuelResultText = TestRandom.randomAlphanumeric(10);
         final var visualizerButton = TestRandom.randomAlphanumeric(10);
 
         // when / then
@@ -170,29 +151,14 @@ public class AcceptDuelExecutorTest {
             final var battleLocale = Mockito.mockStatic(BattleLocalization.class)
         ) {
             duelLocale.when(() -> DuelLocalization
-                    .finishedDuel(
+                    .finishedDuelResult(
                         group.language(),
                         TgPersonageMention.of(acceptorPersonage, acceptor.id()),
-                        TgPersonageMention.of(initiatorPersonage, initiator.id())
+                        TgPersonageMention.of(initiatorPersonage, initiator.id()),
+                        duelResult
                     )
                 )
-                .thenReturn(finishDuelText);
-            duelLocale.when(() -> DuelLocalization
-                    .personageDuelResult(
-                        group.language(),
-                        duelPersonageResult(initiatorPersonage),
-                        false
-                    )
-                )
-                .thenReturn(loserResultText);
-            duelLocale.when(() -> DuelLocalization
-                    .personageDuelResult(
-                        group.language(),
-                        duelPersonageResult(acceptorPersonage),
-                        true
-                    )
-                )
-                .thenReturn(winnerResultText);
+                .thenReturn(finishDuelResultText);
             battleLocale.when(() -> BattleLocalization.battleVisualizerButton(group.language()))
                 .thenReturn(visualizerButton);
             executor.processDuel(command, group, acceptor);
@@ -208,7 +174,7 @@ public class AcceptDuelExecutorTest {
                 .parseMode(ParseMode.HTML)
                 .disableWebPagePreview(true)
                 .entities(List.of())
-                .text(finishDuelText + "\n\n" + winnerResultText + "\n" + loserResultText)
+                .text(finishDuelResultText)
                 .replyMarkup(InlineKeyboards.battleVisualizerKeyboard(
                     group.language(),
                     battleVisualizerConfig.battleUrl(duel.id())
@@ -222,7 +188,7 @@ public class AcceptDuelExecutorTest {
     private static DuelPersonageResult duelPersonageResult(Personage personage) {
         return new DuelPersonageResult(
             personage,
-            new BattlePersonageStats(100, 50, 0, 0, 10, 1, 5, 0, 0, 0, 0, 0, 0)
+            new BattlePersonageStats(100, 50, 0, 0, 10, 1, 5, 0, 0, 0, 0, 0, 0, 3)
         );
     }
 }

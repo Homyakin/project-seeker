@@ -32,6 +32,12 @@ finishedDuel = [
 ${mention_loser_icon_with_name}-нің тас-талқанын шығарды""",
     "${mention_loser_icon_with_name} жеңіліске ұшырады",
 ]
+finishedDuelResult = """\
+${finished_duel}
+
+${time_icon}Раундтар: ${rounds_count}
+${winner_result}
+${loser_result}"""
 acceptDuelButton = "Қабыл алу🗡"
 declineDuelButton = "Бас тарту👐"
 duelWithUnknownUser = [

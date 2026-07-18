@@ -13,6 +13,7 @@ public record DuelResource(
     String[] expiredDuel,
     String[] declinedDuel,
     String[] finishedDuel,
+    String finishedDuelResult,
     String acceptDuelButton,
     String declineDuelButton,
     String[] duelWithUnknownUser,

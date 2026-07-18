@@ -3,6 +3,7 @@ package ru.homyakin.seeker.locale.duel;
 import java.util.Collections;
 import java.util.HashMap;
 import ru.homyakin.seeker.game.duel.models.DuelPersonageResult;
+import ru.homyakin.seeker.game.duel.models.DuelResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.PersonageMention;
@@ -107,6 +108,24 @@ public class DuelLocalization {
         );
     }
 
+    public static String finishedDuelResult(
+        Language language,
+        PersonageMention winnerMention,
+        PersonageMention loserMention,
+        DuelResult duelResult
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("finished_duel", finishedDuel(language, winnerMention, loserMention));
+        params.put("time_icon", Icons.TIME);
+        params.put("rounds_count", duelResult.rounds());
+        params.put("winner_result", personageDuelResult(language, duelResult.winner(), true));
+        params.put("loser_result", personageDuelResult(language, duelResult.loser(), false));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, DuelResource::finishedDuelResult),
+            params
+        );
+    }
+
     public static String acceptDuelButton(Language language) {
         return resources.getOrDefault(language, DuelResource::acceptDuelButton);
     }
@@ -135,6 +154,8 @@ public class DuelLocalization {
         params.put("attack_icon", Icons.ATTACK);
         params.put("crit_icon", Icons.CRIT_ATTACK);
         params.put("dodge_icon", Icons.DODGE);
+        params.put("time_icon", Icons.TIME);
+        params.put("turns_count", result.stats().turnsCount());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, DuelResource::personageDuelResult),
             params

@@ -1,7 +1,10 @@
 package ru.homyakin.seeker.game.battle;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record BattlePersonageStats(
     int initialHealth,
     int remainHealth,
@@ -15,7 +18,8 @@ public record BattlePersonageStats(
     long blockCount,
     long damageDodged,
     long dodgesCount,
-    long missesCount
+    long missesCount,
+    @JsonProperty(required = false) int turnsCount
 ) {
     public long damageDealtAndTaken() {
         return damageDealt() + damageTaken();

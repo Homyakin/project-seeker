@@ -49,6 +49,12 @@ finishedDuel = [
     "La próxima vez, ${mention_loser_icon_with_name} lo pensará dos veces antes de enfrentarse a ${mention_winner_icon_with_name}.",
     "¡Chiki-briki y ${mention_winner_icon_with_name} se alzó con la victoria!",
 ]
+finishedDuelResult = """\
+${finished_duel}
+
+${time_icon}Rondas: ${rounds_count}
+${winner_result}
+${loser_result}"""
 acceptDuelButton = "Aceptar reto🗡"
 declineDuelButton = "Rechazar👐"
 duelWithUnknownUser = [
@@ -59,5 +65,5 @@ Tal vez tu socio aún no ha pasado por esta taberna o cambió de nombre."""
 duelIsLocked = "El duelo está en proceso, intenta más tarde."
 personageDuelResult = """\
 ${winner_or_loser_icon}${personage_badge_with_name}: \
-${remain_health}${health_icon} ${damage_dealt}${attack_icon} (${crits_count}${crit_icon}${dodges_count}${dodge_icon})"""
+${remain_health}${health_icon} ${damage_dealt}${attack_icon} (${crits_count}${crit_icon}${dodges_count}${dodge_icon}) ${time_icon}${turns_count}"""
 duelAlreadyFinished = "El duelo ya había terminado, pero el resultado no se mostró por un error del sistema. Disculpa las molestias."

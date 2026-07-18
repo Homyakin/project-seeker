@@ -49,6 +49,12 @@ finishedDuel = [
     "В следующий раз ${mention_loser_icon_with_name} подумает дважды, прежде чем драться с ${mention_winner_icon_with_name}.",
     "Чики-брики и ${mention_winner_icon_with_name} в дамках!",
 ]
+finishedDuelResult = """\
+${finished_duel}
+
+${time_icon}Раунды: ${rounds_count}
+${winner_result}
+${loser_result}"""
 acceptDuelButton = "Принять вызов🗡"
 declineDuelButton = "Отказаться👐"
 duelWithUnknownUser = [
@@ -59,5 +65,5 @@ duelWithUnknownUser = [
 duelIsLocked = "Дуэль обрабатывается, попробуйте позже."
 personageDuelResult = """\
 ${winner_or_loser_icon}${personage_badge_with_name}: \
-${remain_health}${health_icon} ${damage_dealt}${attack_icon} (${crits_count}${crit_icon}${dodges_count}${dodge_icon})"""
+${remain_health}${health_icon} ${damage_dealt}${attack_icon} (${crits_count}${crit_icon}${dodges_count}${dodge_icon}) ${time_icon}${turns_count}"""
 duelAlreadyFinished = "Дуэль была завершена ранее, но результат не отразился по причине ошибки системы. Приносим свои извинения."

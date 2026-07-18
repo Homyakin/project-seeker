@@ -226,7 +226,7 @@ public class DuelService {
             );
         }
         duelDao.addWinnerIdToDuel(duel.id(), winner.personage().id());
-        return Either.right(new DuelResult(winner, loser));
+        return Either.right(new DuelResult(winner, loser, battleResult.rounds()));
     }
 
     private void returnMoneyToInitiator(long duelId) {
