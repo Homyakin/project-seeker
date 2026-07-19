@@ -146,6 +146,10 @@ public class ItemService {
         return total.add(DefaultItems.characteristicsForFreeSlots(occupiedSlots));
     }
 
+    public List<Item> itemsWithDefaults(List<PersonageItem> wornItems) {
+        return equippedItemsWithDefaults(wornItems);
+    }
+
     private List<Item> equippedItemsWithDefaults(List<PersonageItem> equippedItems) {
         final var items = equippedItems.stream()
             .map(PersonageItem::toItem)

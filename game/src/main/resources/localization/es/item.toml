@@ -37,6 +37,54 @@ ${items_in_bag}
 
 equipmentButton = "👤Equipo"
 bagButton = "🎒Mochila"
+loadoutsButton = "📋Conjuntos"
+
+loadoutsList = """\
+<b>📋Conjuntos de equipo (${count}/${max}):</b>
+${loadouts}"""
+loadoutsEmpty = "<i>Aún no hay conjuntos guardados</i>"
+loadoutListItem = """\
+• <b>${name}</b>
+${stats}"""
+loadoutListStats = "${attack_icon}${attack_value} ${health_icon}${health_value} ${range_icon}${range_value} ${speed_icon}${speed_value} ${crit_attack_icon}${crit_chance_value}% ${dodge_icon}${dodge_chance_value}% ${crit_multiplier_icon}${crit_multiplier_value} ${threat_icon}${threat_value}"
+createLoadoutButton = "➕ Crear"
+openLoadoutButton = "${name}"
+loadoutDetail = """\
+<b>📋Conjunto: ${name}</b>
+
+${items}"""
+loadoutItemOwned = "${item}"
+loadoutItemMissing = "❌ ${item_id}"
+loadoutEmptyItems = "<i>Vacío (solo equipo por defecto)</i>"
+saveLoadoutButton = "💾 Guardar actual"
+applyLoadoutButton = "✅ Equipar"
+renameLoadoutButton = "✏️ Renombrar"
+deleteLoadoutButton = "🗑 Eliminar"
+backToLoadoutsButton = "⬅️ Atrás"
+initCreateLoadout = """\
+<b>📋Nuevo conjunto</b>
+
+${items}
+
+Escribe el nombre. Se guardará tu equipo actual."""
+initRenameLoadout = "Escribe el nuevo nombre para el conjunto «${name}»."
+cancelLoadoutNameButton = "Cancelar"
+loadoutNameInvalidLength = "El nombre debe tener entre ${min_name_length} y ${max_name_length} caracteres"
+loadoutNameInvalidSymbols = "El nombre contiene símbolos no permitidos"
+maxLoadoutsReached = "Solo puedes guardar ${max} conjuntos"
+loadoutNotFound = "Conjunto no encontrado"
+successCreateLoadout = "Conjunto «${name}» creado"
+successSaveLoadout = "Conjunto «${name}» actualizado con tu equipo actual"
+successApplyLoadout = "Conjunto «${name}» equipado"
+successRenameLoadout = "Conjunto renombrado a «${name}»"
+successDeleteLoadout = "Conjunto «${name}» eliminado"
+confirmDeleteLoadout = "¿Eliminar el conjunto «${name}»?"
+confirmDeleteLoadoutButton = "✅ Eliminar"
+cancelDeleteLoadoutButton = "❌ Cancelar"
+applyLoadoutMissingItems = "No se puede equipar: faltan objetos (${missing_count})"
+applyLoadoutNotEnoughSpace = "No hay espacio en la mochila para equipar el conjunto"
+applyLoadoutConflictingSlots = "El conjunto tiene objetos en conflicto"
+cancelLoadoutName = "Se canceló la entrada del nombre del conjunto"
 
 personageMissingItem = "No tienes ese objeto"
 alreadyEquipped = "Ya tienes ese objeto equipado"

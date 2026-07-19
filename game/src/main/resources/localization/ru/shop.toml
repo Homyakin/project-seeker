@@ -31,7 +31,16 @@ noItemAtPersonage = "У вас нет такого предмета."
 notEnoughMoney = "Недостаточно денег. Нужно ${money_icon}${required_value}"
 notEnoughSpaceInBag = "В рюкзаке недостаточно места, чтобы купить предмет."
 successBuy = "Поздравляем с покупкой! <code>${full_item_name}</code>"
-successSell = "Продано! <code>${full_item_name}</code> +${money_icon}${price_value}"
+successSell = "Продано! <code>${full_item_name}</code> +${money_icon}${price_value}${loadout_warning}"
+successSellLoadoutWarning = "\n⚠️ Предмет убран из комплектов: ${loadout_names}"
+confirmSellLoadout = """\
+⚠️ Этот предмет есть в комплектах: ${loadout_names}
+
+<code>${full_item_name}</code>
+Продать за ${money_icon}${price_value}?"""
+confirmSellButton = "✅ Продать"
+cancelSellButton = "❌ Отмена"
+cancelSell = "Продажа отменена"
 
 enhanceTable = """\
 На столе зачарований ты можешь улучшить имеющиеся предметы:

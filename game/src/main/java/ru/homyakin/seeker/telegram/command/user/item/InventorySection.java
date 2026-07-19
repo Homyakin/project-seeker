@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.command.user.item;
 public enum InventorySection {
     EQUIPMENT,
     BAG,
+    LOADOUTS,
     ;
 
     public static InventorySection findForce(String section) {

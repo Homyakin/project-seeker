@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
+import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
@@ -21,6 +22,7 @@ import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
+import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
@@ -300,6 +302,118 @@ public class InlineKeyboards {
             .addRow()
             .addButton(ItemLocalization.equipmentButton(language), callbackPrefix + InventorySection.EQUIPMENT.name())
             .addButton(ItemLocalization.bagButton(language), callbackPrefix + InventorySection.BAG.name())
+            .addRow()
+            .addButton(ItemLocalization.loadoutsButton(language), callbackPrefix + InventorySection.LOADOUTS.name())
+            .build();
+    }
+
+    public static InlineKeyboardMarkup compactInventoryKeyboard(Language language) {
+        final var callbackPrefix = CommandType.SELECT_INVENTORY.getText() + TextConstants.CALLBACK_DELIMITER;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(ItemLocalization.loadoutsButton(language), callbackPrefix + InventorySection.LOADOUTS.name())
+            .build();
+    }
+
+    public static InlineKeyboardMarkup loadoutsListKeyboard(
+        Language language,
+        List<EquipmentLoadout> loadouts,
+        boolean canCreate
+    ) {
+        final var builder = InlineKeyboardBuilder.builder();
+        final var openPrefix = CommandType.OPEN_LOADOUT.getText() + TextConstants.CALLBACK_DELIMITER;
+        for (final var loadout : loadouts) {
+            builder.addRow().addButton(
+                ItemLocalization.openLoadoutButton(language, loadout),
+                openPrefix + loadout.id()
+            );
+        }
+        if (canCreate) {
+            builder.addRow().addButton(
+                ItemLocalization.createLoadoutButton(language),
+                CommandType.CREATE_LOADOUT.getText()
+            );
+        }
+        builder.addRow().addButton(
+            MenuLocalization.inventoryButton(language),
+            CommandType.SELECT_INVENTORY.getText()
+                + TextConstants.CALLBACK_DELIMITER
+                + InventorySection.EQUIPMENT.name()
+        );
+        return builder.build();
+    }
+
+    public static InlineKeyboardMarkup loadoutDetailKeyboard(Language language, long loadoutId) {
+        final var idSuffix = TextConstants.CALLBACK_DELIMITER + loadoutId;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                ItemLocalization.applyLoadoutButton(language),
+                CommandType.APPLY_LOADOUT.getText() + idSuffix
+            )
+            .addButton(
+                ItemLocalization.saveLoadoutButton(language),
+                CommandType.SAVE_LOADOUT.getText() + idSuffix
+            )
+            .addRow()
+            .addButton(
+                ItemLocalization.renameLoadoutButton(language),
+                CommandType.RENAME_LOADOUT.getText() + idSuffix
+            )
+            .addButton(
+                ItemLocalization.deleteLoadoutButton(language),
+                CommandType.DELETE_LOADOUT.getText() + idSuffix
+            )
+            .addRow()
+            .addButton(
+                ItemLocalization.backToLoadoutsButton(language),
+                CommandType.LOADOUTS_LIST.getText()
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup cancelCreateLoadoutKeyboard(Language language) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                ItemLocalization.cancelLoadoutNameButton(language),
+                CommandType.CANCEL_CREATE_LOADOUT.getText()
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup confirmDeleteLoadoutKeyboard(Language language, long loadoutId) {
+        final var idSuffix = TextConstants.CALLBACK_DELIMITER + loadoutId;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                ItemLocalization.cancelDeleteLoadoutButton(language),
+                CommandType.CANCEL_DELETE_LOADOUT.getText() + idSuffix
+            )
+            .addButton(
+                ItemLocalization.confirmDeleteLoadoutButton(language),
+                CommandType.CONFIRM_DELETE_LOADOUT.getText() + idSuffix
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup confirmSellItemKeyboard(Language language, long itemId) {
+        final var idSuffix = TextConstants.CALLBACK_DELIMITER + itemId;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                ShopLocalization.cancelSellButton(language),
+                CommandType.CANCEL_SELL_ITEM.getText() + idSuffix
+            )
+            .addButton(
+                ShopLocalization.confirmSellButton(language),
+                CommandType.CONFIRM_SELL_ITEM.getText() + idSuffix
+            )
             .build();
     }
 

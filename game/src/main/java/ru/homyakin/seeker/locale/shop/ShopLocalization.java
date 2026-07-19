@@ -149,10 +149,44 @@ public class ShopLocalization {
         params.put("full_item_name", ItemLocalization.fullItem(language, item.item()));
         params.put("price_value", item.price().value());
         params.put("money_icon", Icons.MONEY);
+        params.put("loadout_warning", loadoutWarning(
+            language,
+            item.affectedLoadoutNames(),
+            ShopResource::successSellLoadoutWarning
+        ));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successSell),
             params
         );
+    }
+
+    public static String confirmSellLoadout(
+        Language language,
+        PersonageItem item,
+        Money price,
+        List<String> loadoutNames
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("full_item_name", ItemLocalization.fullItem(language, item));
+        params.put("price_value", price.value());
+        params.put("money_icon", Icons.MONEY);
+        params.put("loadout_names", String.join(", ", loadoutNames));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::confirmSellLoadout),
+            params
+        );
+    }
+
+    public static String confirmSellButton(Language language) {
+        return resources.getOrDefault(language, ShopResource::confirmSellButton);
+    }
+
+    public static String cancelSellButton(Language language) {
+        return resources.getOrDefault(language, ShopResource::cancelSellButton);
+    }
+
+    public static String cancelSell(Language language) {
+        return resources.getOrDefault(language, ShopResource::cancelSell);
     }
 
     public static String enhanceTable(Language language, Inventory inventory) {
@@ -262,6 +296,20 @@ public class ShopLocalization {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::sellingItem),
             params
+        );
+    }
+
+    private static String loadoutWarning(
+        Language language,
+        List<String> loadoutNames,
+        java.util.function.Function<ShopResource, String> template
+    ) {
+        if (loadoutNames == null || loadoutNames.isEmpty()) {
+            return "";
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, template),
+            Collections.singletonMap("loadout_names", String.join(", ", loadoutNames))
         );
     }
 

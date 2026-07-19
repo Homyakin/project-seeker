@@ -26,5 +26,7 @@
     <include file="changes/2026-05-24_04_wipe-raid-level.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-06-17_01_add-event-battle-log.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-18_01_migrate-duels-to-launched-events.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-07-19_01_add-equipment-loadouts.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
+
 

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
+import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
@@ -21,6 +23,7 @@ import ru.homyakin.seeker.game.shop.models.SoldItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShopService {
@@ -29,19 +32,22 @@ public class ShopService {
     private final PersonageService personageService;
     private final PersonageNextShopItemParams personageNextShopItemParams;
     private final ShopConfig config;
+    private final EquipmentLoadoutService equipmentLoadoutService;
 
     public ShopService(
         ItemService itemService,
         ItemObjectDao itemObjectDao,
         PersonageService personageService,
         PersonageNextShopItemParams personageNextShopItemParams,
-        ShopConfig config
+        ShopConfig config,
+        EquipmentLoadoutService equipmentLoadoutService
     ) {
         this.itemService = itemService;
         this.itemObjectDao = itemObjectDao;
         this.personageService = personageService;
         this.personageNextShopItemParams = personageNextShopItemParams;
         this.config = config;
+        this.equipmentLoadoutService = equipmentLoadoutService;
     }
 
     public List<CatalogItemObject> getItemObjectsForSlot(PersonageSlot slot) {
@@ -119,6 +125,21 @@ public class ShopService {
         );
     }
 
+    public List<String> loadoutNamesForItem(PersonageId personageId, long itemId) {
+        return equipmentLoadoutService.findByItemId(personageId, itemId).stream()
+            .map(EquipmentLoadout::name)
+            .toList();
+    }
+
+    public Optional<PersonageItem> getSellableItem(PersonageId personageId, long itemId) {
+        return itemService.getPersonageItem(personageId, itemId)
+            .filter(item -> !item.isEquipped());
+    }
+
+    public Money sellingPrice(PersonageItem item) {
+        return config.sellingPriceByItem(item);
+    }
+
     @Transactional
     public Either<NoSuchItemAtPersonage, SoldItem> sellItem(PersonageId personageId, Long itemId) {
         final var removeResult = itemService.removeItem(personageId, itemId);
@@ -126,8 +147,9 @@ public class ShopService {
             return Either.left(NoSuchItemAtPersonage.INSTANCE);
         }
         final var item = removeResult.get();
+        final var affectedLoadoutNames = equipmentLoadoutService.removeItemFromLoadouts(personageId, itemId);
         final var price = config.sellingPriceByItem(item);
         personageService.addMoney(personageId, price);
-        return Either.right(new SoldItem(item, price));
+        return Either.right(new SoldItem(item, price, affectedLoadoutNames));
     }
 }

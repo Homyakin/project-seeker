@@ -77,6 +77,23 @@ public class ItemDao {
             .update();
     }
 
+    public void setEquippedForPersonage(PersonageId personageId, List<Long> equippedItemIds) {
+        if (equippedItemIds.isEmpty()) {
+            jdbcClient.sql("UPDATE item SET is_equipped = false WHERE personage_id = :personage_id")
+                .param("personage_id", personageId.value())
+                .update();
+            return;
+        }
+        jdbcClient.sql("""
+                UPDATE item
+                SET is_equipped = (id IN (:equipped_item_ids))
+                WHERE personage_id = :personage_id
+                """)
+            .param("personage_id", personageId.value())
+            .param("equipped_item_ids", equippedItemIds)
+            .update();
+    }
+
     public void updateEnhancement(long id, Integer modifierId, ItemRarity rarity) {
         jdbcClient.sql("""
                 UPDATE item SET item_modifier_id = :item_modifier_id, rarity = :rarity WHERE id = :id

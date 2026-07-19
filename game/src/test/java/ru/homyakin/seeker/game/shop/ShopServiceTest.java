@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
@@ -20,6 +21,7 @@ import ru.homyakin.seeker.game.shop.errors.BuyItemError;
 import ru.homyakin.seeker.test_utils.CatalogTestUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 class ShopServiceTest {
@@ -27,13 +29,15 @@ class ShopServiceTest {
     private final ItemObjectDao itemObjectDao = Mockito.mock(ItemObjectDao.class);
     private final PersonageService personageService = Mockito.mock(PersonageService.class);
     private final PersonageNextShopItemParams personageNextShopItemParams = Mockito.mock(PersonageNextShopItemParams.class);
+    private final EquipmentLoadoutService equipmentLoadoutService = Mockito.mock(EquipmentLoadoutService.class);
     private final ShopConfig config = new ShopConfig();
     private final ShopService shopService = new ShopService(
         itemService,
         itemObjectDao,
         personageService,
         personageNextShopItemParams,
-        config
+        config,
+        equipmentLoadoutService
     );
 
     private final PersonageId personageId = PersonageId.from(1);
@@ -127,5 +131,20 @@ class ShopServiceTest {
         final var catalogCaptor = ArgumentCaptor.forClass(CatalogItemObject.class);
         Mockito.verify(itemService).generateItemForPersonage(Mockito.eq(personage), catalogCaptor.capture());
         Assertions.assertEquals(catalogObject, catalogCaptor.getValue());
+    }
+
+    @Test
+    void sellItem_prunesItemFromLoadoutsAndReturnsNames() {
+        final var item = Mockito.mock(PersonageItem.class);
+        Mockito.when(itemService.removeItem(personageId, 7L)).thenReturn(Optional.of(item));
+        Mockito.when(equipmentLoadoutService.removeItemFromLoadouts(personageId, 7L))
+            .thenReturn(List.of("Raid", "PvP"));
+        Mockito.when(item.rarity()).thenReturn(ru.homyakin.seeker.game.item.models.ItemRarity.COMMON);
+
+        final var result = shopService.sellItem(personageId, 7L);
+
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertEquals(List.of("Raid", "PvP"), result.get().affectedLoadoutNames());
+        Mockito.verify(equipmentLoadoutService).removeItemFromLoadouts(personageId, 7L);
     }
 }

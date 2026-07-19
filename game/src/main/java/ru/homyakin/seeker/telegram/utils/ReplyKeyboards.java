@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.feedback.FeedbackLocalization;
+import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.ChangeNameLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 
@@ -38,6 +39,13 @@ public class ReplyKeyboards {
         return ReplyKeyboardBuilder.builder()
             .addRow()
             .addButton(button(ChangeNameLocalization.cancelButton(language)))
+            .build();
+    }
+
+    public static ReplyKeyboardMarkup loadoutNameKeyboard(Language language) {
+        return ReplyKeyboardBuilder.builder()
+            .addRow()
+            .addButton(button(ItemLocalization.cancelLoadoutNameButton(language)))
             .build();
     }
 

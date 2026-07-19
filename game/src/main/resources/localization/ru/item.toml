@@ -35,6 +35,54 @@ ${items_in_bag}
 
 equipmentButton = "👤Снаряжение"
 bagButton = "🎒Рюкзак"
+loadoutsButton = "📋Комплекты"
+
+loadoutsList = """\
+<b>📋Комплекты снаряжения (${count}/${max}):</b>
+${loadouts}"""
+loadoutsEmpty = "<i>Пока нет сохранённых комплектов</i>"
+loadoutListItem = """\
+• <b>${name}</b>
+${stats}"""
+loadoutListStats = "${attack_icon}${attack_value} ${health_icon}${health_value} ${range_icon}${range_value} ${speed_icon}${speed_value} ${crit_attack_icon}${crit_chance_value}% ${dodge_icon}${dodge_chance_value}% ${crit_multiplier_icon}${crit_multiplier_value} ${threat_icon}${threat_value}"
+createLoadoutButton = "➕ Создать"
+openLoadoutButton = "${name}"
+loadoutDetail = """\
+<b>📋Комплект: ${name}</b>
+
+${items}"""
+loadoutItemOwned = "${item}"
+loadoutItemMissing = "❌ ${item_id}"
+loadoutEmptyItems = "<i>Пусто (только снаряжение по умолчанию)</i>"
+saveLoadoutButton = "💾 Сохранить текущее"
+applyLoadoutButton = "✅ Надеть"
+renameLoadoutButton = "✏️ Переименовать"
+deleteLoadoutButton = "🗑 Удалить"
+backToLoadoutsButton = "⬅️ Назад"
+initCreateLoadout = """\
+<b>📋Новый комплект</b>
+
+${items}
+
+Введите название. Будет сохранено текущее снаряжение."""
+initRenameLoadout = "Введите новое название для комплекта «${name}»."
+cancelLoadoutNameButton = "⬅️ Отмена"
+loadoutNameInvalidLength = "Название должно быть от ${min_name_length} до ${max_name_length} символов"
+loadoutNameInvalidSymbols = "Название содержит недопустимые символы"
+maxLoadoutsReached = "Можно сохранить не больше ${max} комплектов"
+loadoutNotFound = "Комплект не найден"
+successCreateLoadout = "Комплект «${name}» создан"
+successSaveLoadout = "Комплект «${name}» обновлён текущим снаряжением"
+successApplyLoadout = "Комплект «${name}» надет"
+successRenameLoadout = "Комплект переименован в «${name}»"
+successDeleteLoadout = "Комплект «${name}» удалён"
+confirmDeleteLoadout = "Удалить комплект «${name}»?"
+confirmDeleteLoadoutButton = "✅ Удалить"
+cancelDeleteLoadoutButton = "❌ Отмена"
+applyLoadoutMissingItems = "Нельзя надеть комплект: отсутствуют предметы (${missing_count})"
+applyLoadoutNotEnoughSpace = "В рюкзаке недостаточно места, чтобы надеть комплект"
+applyLoadoutConflictingSlots = "В комплекте конфликтующие предметы"
+cancelLoadoutName = "Ввод названия комплекта отменён"
 
 personageMissingItem = "У вас нет такого предмета"
 alreadyEquipped = "Вы уже экипировали данный предмет"

@@ -32,7 +32,16 @@ noItemAtPersonage = "No tienes ese objeto encima."
 notEnoughMoney = "No te alcanza la plata. Te falta ${money_icon}${required_value}"
 notEnoughSpaceInBag = "Tu mochila está llena, no cabe ni un alfiler más."
 successBuy = "¡Felicidades por la compra! <code>${full_item_name}</code>"
-successSell = "¡Vendido! <code>${full_item_name}</code> +${money_icon}${price_value}"
+successSell = "¡Vendido! <code>${full_item_name}</code> +${money_icon}${price_value}${loadout_warning}"
+successSellLoadoutWarning = "\n⚠️ Objeto quitado de los conjuntos: ${loadout_names}"
+confirmSellLoadout = """\
+⚠️ Este objeto está en conjuntos: ${loadout_names}
+
+<code>${full_item_name}</code>
+¿Vender por ${money_icon}${price_value}?"""
+confirmSellButton = "✅ Vender"
+cancelSellButton = "❌ Cancelar"
+cancelSell = "Venta cancelada"
 
 enhanceTable = """\
 En la mesa de encantamientos puedes mejorar tus objetos actuales:

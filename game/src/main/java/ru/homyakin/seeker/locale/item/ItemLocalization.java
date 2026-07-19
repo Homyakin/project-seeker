@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
+import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
+import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
+import ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameError;
 import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -18,6 +23,7 @@ import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.models.PutOnItemResult;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
@@ -202,6 +208,260 @@ public class ItemLocalization {
         return resources.getOrDefault(language, ItemResource::bagButton);
     }
 
+    public static String loadoutsButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::loadoutsButton);
+    }
+
+    public static String loadoutsList(
+        Language language,
+        List<EquipmentLoadout> loadouts,
+        Map<Long, BattlePersonage> battleStatsByLoadoutId
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("count", loadouts.size());
+        params.put("max", EquipmentLoadoutService.MAX_LOADOUTS);
+        if (loadouts.isEmpty()) {
+            params.put("loadouts", resources.getOrDefault(language, ItemResource::loadoutsEmpty));
+        } else {
+            params.put(
+                "loadouts",
+                loadouts.stream()
+                    .map(loadout -> {
+                        final var itemParams = new HashMap<String, Object>();
+                        itemParams.put("name", loadout.name());
+                        itemParams.put(
+                            "stats",
+                            loadoutListStats(language, battleStatsByLoadoutId.get(loadout.id()))
+                        );
+                        return StringNamedTemplate.format(
+                            resources.getOrDefault(language, ItemResource::loadoutListItem),
+                            itemParams
+                        );
+                    })
+                    .collect(Collectors.joining("\n\n"))
+            );
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::loadoutsList),
+            params
+        );
+    }
+
+    private static String loadoutListStats(Language language, BattlePersonage personage) {
+        if (personage == null) {
+            return "";
+        }
+        final var params = new HashMap<String, Object>();
+        params.put("attack_icon", Icons.ATTACK);
+        params.put(
+            "attack_value",
+            personage.attackAtRange(1).values().stream().mapToInt(Integer::intValue).sum()
+        );
+        params.put("health_icon", Icons.HEALTH);
+        params.put("health_value", personage.maxHealth());
+        params.put("range_icon", Icons.RANGE);
+        params.put("range_value", personage.range());
+        params.put("speed_icon", Icons.SPEED);
+        params.put("speed_value", personage.initiative());
+        params.put("crit_attack_icon", Icons.CRIT_ATTACK);
+        params.put("crit_chance_value", personage.critChance());
+        params.put("dodge_icon", Icons.DODGE);
+        params.put("dodge_chance_value", personage.dodgeChance());
+        params.put("crit_multiplier_icon", Icons.CRIT_MULTIPLIER);
+        params.put("crit_multiplier_value", formatCritMultiplier(personage.critMultiplier()));
+        params.put("threat_icon", Icons.THREAT);
+        params.put("threat_value", personage.totalThreat());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::loadoutListStats),
+            params
+        );
+    }
+
+    public static String createLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::createLoadoutButton);
+    }
+
+    public static String openLoadoutButton(Language language, EquipmentLoadout loadout) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::openLoadoutButton),
+            Collections.singletonMap("name", loadout.name())
+        );
+    }
+
+    public static String loadoutDetail(
+        Language language,
+        EquipmentLoadout loadout,
+        Inventory inventory,
+        boolean compactItems
+    ) {
+        final var ownedById = inventory.items().stream()
+            .collect(Collectors.toMap(PersonageItem::id, item -> item));
+        final var wornItems = new ArrayList<PersonageItem>();
+        final var missingLines = new ArrayList<String>();
+        for (final var itemId : loadout.itemIds()) {
+            final var item = ownedById.get(itemId);
+            if (item == null) {
+                missingLines.add(StringNamedTemplate.format(
+                    resources.getOrDefault(language, ItemResource::loadoutItemMissing),
+                    Collections.singletonMap("item_id", itemId)
+                ));
+            } else {
+                wornItems.add(item);
+            }
+        }
+        final var lines = new ArrayList<>(buildSlotLines(language, wornItems, compactItems, false));
+        lines.addAll(missingLines);
+        final var params = new HashMap<String, Object>();
+        params.put("name", loadout.name());
+        params.put("items", String.join("\n", lines));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::loadoutDetail),
+            params
+        );
+    }
+
+    public static String saveLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::saveLoadoutButton);
+    }
+
+    public static String applyLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::applyLoadoutButton);
+    }
+
+    public static String renameLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::renameLoadoutButton);
+    }
+
+    public static String deleteLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::deleteLoadoutButton);
+    }
+
+    public static String backToLoadoutsButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::backToLoadoutsButton);
+    }
+
+    public static String initCreateLoadout(Language language, Inventory inventory, boolean compactItems) {
+        final var wornItems = inventory.items().stream()
+            .filter(PersonageItem::isEquipped)
+            .toList();
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::initCreateLoadout),
+            Collections.singletonMap("items", String.join("\n", buildSlotLines(language, wornItems, compactItems, false)))
+        );
+    }
+
+    public static String initRenameLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::initRenameLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String cancelLoadoutNameButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::cancelLoadoutNameButton);
+    }
+
+    public static String loadoutNameError(Language language, LoadoutNameError error) {
+        return switch (error) {
+            case LoadoutNameError.InvalidName invalidName -> switch (invalidName.nameError()) {
+                case NameError.InvalidLength invalidLength -> StringNamedTemplate.format(
+                    resources.getOrDefault(language, ItemResource::loadoutNameInvalidLength),
+                    Map.of(
+                        "min_name_length", invalidLength.minLength(),
+                        "max_name_length", invalidLength.maxLength()
+                    )
+                );
+                case NameError.NotAllowedSymbols _ -> resources.getOrDefault(
+                    language,
+                    ItemResource::loadoutNameInvalidSymbols
+                );
+            };
+        };
+    }
+
+    public static String maxLoadoutsReached(Language language) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::maxLoadoutsReached),
+            Collections.singletonMap("max", EquipmentLoadoutService.MAX_LOADOUTS)
+        );
+    }
+
+    public static String loadoutNotFound(Language language) {
+        return resources.getOrDefault(language, ItemResource::loadoutNotFound);
+    }
+
+    public static String successCreateLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successCreateLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String successSaveLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successSaveLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String successApplyLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successApplyLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String successRenameLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successRenameLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String successDeleteLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::successDeleteLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String confirmDeleteLoadout(Language language, String name) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::confirmDeleteLoadout),
+            Collections.singletonMap("name", name)
+        );
+    }
+
+    public static String confirmDeleteLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::confirmDeleteLoadoutButton);
+    }
+
+    public static String cancelDeleteLoadoutButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::cancelDeleteLoadoutButton);
+    }
+
+    public static String applyLoadoutError(Language language, ApplyLoadoutError error) {
+        return switch (error) {
+            case ApplyLoadoutError.LoadoutNotFound _ -> loadoutNotFound(language);
+            case ApplyLoadoutError.MissingItems missing -> StringNamedTemplate.format(
+                resources.getOrDefault(language, ItemResource::applyLoadoutMissingItems),
+                Collections.singletonMap("missing_count", missing.missingItemIds().size())
+            );
+            case ApplyLoadoutError.NotEnoughSpaceInBag _ -> resources.getOrDefault(
+                language,
+                ItemResource::applyLoadoutNotEnoughSpace
+            );
+            case ApplyLoadoutError.ConflictingSlots _ -> resources.getOrDefault(
+                language,
+                ItemResource::applyLoadoutConflictingSlots
+            );
+        };
+    }
+
+    public static String cancelLoadoutName(Language language) {
+        return resources.getOrDefault(language, ItemResource::cancelLoadoutName);
+    }
+
     public static int itemComparator(PersonageItem item1, PersonageItem item2) {
         return itemPriority(item1) - itemPriority(item2);
     }
@@ -281,8 +541,21 @@ public class ItemLocalization {
         List<PersonageItem> items,
         boolean compact
     ) {
-        final var equipped = items.stream()
-            .filter(PersonageItem::isEquipped)
+        return buildSlotLines(
+            language,
+            items.stream().filter(PersonageItem::isEquipped).toList(),
+            compact,
+            true
+        );
+    }
+
+    private static List<String> buildSlotLines(
+        Language language,
+        List<PersonageItem> wornItems,
+        boolean compact,
+        boolean withTakeOffCommand
+    ) {
+        final var equipped = wornItems.stream()
             .sorted(ItemLocalization::itemComparator)
             .toList();
         final var occupiedSlots = equipped.stream()
@@ -301,11 +574,17 @@ public class ItemLocalization {
                         .findFirst()
                         .ifPresent(item -> {
                             if (shownItemIds.add(item.id())) {
-                                lines.add(
-                                    compact
-                                        ? shortItem(language, item, item.takeOffCommand())
-                                        : equippedItem(language, item)
-                                );
+                                if (compact) {
+                                    lines.add(shortItem(
+                                        language,
+                                        item,
+                                        withTakeOffCommand ? item.takeOffCommand() : ""
+                                    ));
+                                } else if (withTakeOffCommand) {
+                                    lines.add(equippedItem(language, item));
+                                } else {
+                                    lines.add(fullItem(language, item));
+                                }
                             }
                         });
                 } else {

@@ -50,6 +50,7 @@ import ru.homyakin.seeker.locale.world_raid.WorldRaidResource;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.locale.battle.BattleResource;
 import ru.homyakin.seeker.telegram.command.type.ChangeNameCommandType;
+import ru.homyakin.seeker.telegram.command.type.LoadoutNameCommandType;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.type.FeedbackCommandType;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -144,7 +145,11 @@ public class LocalizationInitializer {
 
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + ITEM_PATH,
-                it -> ItemLocalization.add(language, extractClass(mapper, it, ItemResource.class))
+                it -> {
+                    final var resource = extractClass(mapper, it, ItemResource.class);
+                    ItemLocalization.add(language, resource);
+                    LoadoutNameCommandType.fillLocaleMap(resource);
+                }
             );
 
             ResourceUtils.doAction(

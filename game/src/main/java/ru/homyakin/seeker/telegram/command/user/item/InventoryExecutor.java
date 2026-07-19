@@ -38,7 +38,9 @@ public class InventoryExecutor extends CommandExecutor<Inventory> {
             .chatId(user.id());
 
         if (settings.compactItems()) {
-            builder.text(ItemLocalization.compactInventory(user.language(), items));
+            builder
+                .text(ItemLocalization.compactInventory(user.language(), items))
+                .keyboard(InlineKeyboards.compactInventoryKeyboard(user.language()));
         } else {
             builder
                 .text(ItemLocalization.equipment(user.language(), items))

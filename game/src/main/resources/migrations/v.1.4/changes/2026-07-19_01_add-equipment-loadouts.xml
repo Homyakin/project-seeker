@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-equipment-loadouts">
+        <createTable tableName="personage_equipment_loadout">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="item_ids" type="BIGINT[]" defaultValueComputed="'{}'">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="personage_equipment_loadout"
+                baseColumnNames="personage_id"
+                constraintName="fk-personage_equipment_loadout-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"
+        />
+
+        <createIndex tableName="personage_equipment_loadout" indexName="idx-personage_equipment_loadout-personage_id">
+            <column name="personage_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
