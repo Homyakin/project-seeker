@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
+import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
@@ -22,6 +23,7 @@ import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
+import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
@@ -413,6 +415,27 @@ public class InlineKeyboards {
             .addButton(
                 ShopLocalization.confirmSellButton(language),
                 CommandType.CONFIRM_SELL_ITEM.getText() + idSuffix
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup confirmOutpostDonateKeyboard(
+        Language language,
+        Building building,
+        long itemId
+    ) {
+        final var idSuffix = TextConstants.CALLBACK_DELIMITER + building.id()
+            + TextConstants.CALLBACK_DELIMITER + itemId;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                OutpostLocalization.cancelDonateButton(language),
+                CommandType.CANCEL_OUTPOST_DONATE.getText() + idSuffix
+            )
+            .addButton(
+                OutpostLocalization.confirmDonateButton(language),
+                CommandType.CONFIRM_OUTPOST_DONATE.getText() + idSuffix
             )
             .build();
     }

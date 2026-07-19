@@ -8,13 +8,23 @@ public record OutpostDonateSuccess(
     int materialsRequired,
     boolean completed,
     int newLevel,
-    List<OutpostContributor> topContributors
+    List<OutpostContributor> topContributors,
+    List<String> affectedLoadoutNames
 ) {
     public static OutpostDonateSuccess inProgress(
         int materialsFromItem,
         int deliveredAfter,
-        int materialsRequired
+        int materialsRequired,
+        List<String> affectedLoadoutNames
     ) {
-        return new OutpostDonateSuccess(materialsFromItem, deliveredAfter, materialsRequired, false, 0, List.of());
+        return new OutpostDonateSuccess(
+            materialsFromItem,
+            deliveredAfter,
+            materialsRequired,
+            false,
+            0,
+            List.of(),
+            affectedLoadoutNames
+        );
     }
 }

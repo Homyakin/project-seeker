@@ -81,10 +81,19 @@ buildingMenuInProgress = """<b>${building_name}</b> · ур. ${level} → ${targ
 notAdminOutpost = "Только администратор группы может начинать строительство."
 startBuildingConflict = "Нельзя построить это здание."
 
-donateItemSuccess = "Передано ${materials_icon} <b>${added}</b> ${materials} · прогресс <b>${delivered}/${required}</b>."
+donateItemSuccess = "Передано ${materials_icon} <b>${added}</b> ${materials} · прогресс <b>${delivered}/${required}</b>.${loadout_warning}"
+donateItemSuccessLoadoutWarning = "\n⚠️ Предмет убран из комплектов: ${loadout_names}"
 donateItemBuildingCompletePrivate = """${donate_item_success}
 
 <b>Строительство завершено.</b> Новый уровень: ${new_level}."""
+confirmDonateLoadout = """\
+⚠️ Этот предмет есть в комплектах: ${loadout_names}
+
+<code>${full_item_name}</code>
+Сдать на стройку за ${materials_icon}<b>${materials_value}</b> ${materials}?"""
+confirmDonateButton = "✅ Сдать"
+cancelDonateButton = "❌ Отмена"
+cancelDonate = "Сдача отменена"
 donateBuildingNotInProgress = "Сейчас это здание не строится — сдать материалы нельзя."
 donateItemEquipped = "Сначала сними предмет, затем сдавай на стройку."
 donateItemNotFound = "Такого предмета у тебя в рюкзаке нет."

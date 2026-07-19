@@ -13,6 +13,9 @@ import ru.homyakin.seeker.game.group.action.GroupTaxService;
 import ru.homyakin.seeker.game.group.action.personage.CheckGroupPersonage;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
+import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
+import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.outpost.OutpostBuildingConfig;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostApplyError;
@@ -44,6 +47,7 @@ public class OutpostService {
     private final CheckGroupPersonage checkGroupPersonage;
     private final LockService lockService;
     private final ItemService itemService;
+    private final EquipmentLoadoutService equipmentLoadoutService;
     private final ShopConfig shopConfig;
     private final OutpostBuildingConfig outpostBuildingConfig;
     private final GroupTaxService groupTaxService;
@@ -59,6 +63,7 @@ public class OutpostService {
         CheckGroupPersonage checkGroupPersonage,
         LockService lockService,
         ItemService itemService,
+        EquipmentLoadoutService equipmentLoadoutService,
         ShopConfig shopConfig,
         OutpostBuildingConfig outpostBuildingConfig,
         GroupTaxService groupTaxService,
@@ -73,10 +78,26 @@ public class OutpostService {
         this.checkGroupPersonage = checkGroupPersonage;
         this.lockService = lockService;
         this.itemService = itemService;
+        this.equipmentLoadoutService = equipmentLoadoutService;
         this.shopConfig = shopConfig;
         this.outpostBuildingConfig = outpostBuildingConfig;
         this.groupTaxService = groupTaxService;
         this.syncGroupTaxCommand = syncGroupTaxCommand;
+    }
+
+    public List<String> loadoutNamesForItem(PersonageId personageId, long itemId) {
+        return equipmentLoadoutService.findByItemId(personageId, itemId).stream()
+            .map(EquipmentLoadout::name)
+            .toList();
+    }
+
+    public Optional<PersonageItem> getDonatableItem(PersonageId personageId, long itemId) {
+        return itemService.getPersonageItem(personageId, itemId)
+            .filter(item -> !item.isEquipped());
+    }
+
+    public int materialsForItem(PersonageItem item) {
+        return shopConfig.buyingPriceByRarity(item.rarity()).value();
     }
 
     private int materialsRequiredInProgressAfterSync(GroupId groupId, OutpostSlot.BuildingSlot slot) {
@@ -322,6 +343,7 @@ public class OutpostService {
         final var newDelivered = completed ? materialsRequired : Math.min(materialsRequired, afterAdd);
 
         itemService.removeItem(personageId, itemId);
+        final var affectedLoadoutNames = equipmentLoadoutService.removeItemFromLoadouts(personageId, itemId);
         contributionStorage.add(groupId, building, personageId, materialsValue);
         final var season = seasonService.currentSeason();
         groupPersonageStatsService.addOutpostBuildingMaterials(groupId, personageId, materialsValue);
@@ -346,7 +368,8 @@ public class OutpostService {
             return Either.right(OutpostDonateSuccess.inProgress(
                 materialsValue,
                 newDelivered,
-                materialsRequired
+                materialsRequired,
+                affectedLoadoutNames
             ));
         }
 
@@ -363,7 +386,8 @@ public class OutpostService {
             materialsRequired,
             true,
             newLevel,
-            topContributors
+            topContributors,
+            affectedLoadoutNames
         ));
     }
 }

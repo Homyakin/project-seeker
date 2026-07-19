@@ -109,6 +109,8 @@ import ru.homyakin.seeker.telegram.command.user.outpost.OpenOutpostMenuInline;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostBuildingContributeView;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostCancelStartBuilding;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostConfirmStartBuilding;
+import ru.homyakin.seeker.telegram.command.user.outpost.CancelOutpostDonate;
+import ru.homyakin.seeker.telegram.command.user.outpost.ConfirmOutpostDonate;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostDonateItem;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostOpenBuildPicker;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostSelectStartBuilding;
@@ -357,6 +359,8 @@ public class CommandParser {
                 case SHOP_SELECT_SLOT -> ShopSelectSlot.from(callback);
                 case CONFIRM_SELL_ITEM -> ConfirmSellItem.from(callback);
                 case CANCEL_SELL_ITEM -> CancelSellItem.from(callback);
+                case CONFIRM_OUTPOST_DONATE -> ConfirmOutpostDonate.from(callback);
+                case CANCEL_OUTPOST_DONATE -> CancelOutpostDonate.from(callback);
                 case SELECT_INVENTORY -> SelectInventory.from(callback);
                 case OPEN_LOADOUT -> OpenLoadout.from(callback);
                 case CREATE_LOADOUT -> CreateLoadout.from(callback);

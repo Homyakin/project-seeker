@@ -430,6 +430,7 @@ public class OutpostLocalization {
         params.put("required", success.materialsRequired());
         params.put("materials_icon", Icons.OUTPOST_MATERIALS);
         params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
+        params.put("loadout_warning", donateLoadoutWarning(language, success.affectedLoadoutNames()));
         final var successLine = StringNamedTemplate.format(
             resources.getOrDefault(language, OutpostResource::donateItemSuccess),
             params
@@ -443,6 +444,46 @@ public class OutpostLocalization {
                 "donate_item_success", successLine,
                 "new_level", success.newLevel()
             )
+        );
+    }
+
+    public static String confirmDonateLoadout(
+        Language language,
+        PersonageItem item,
+        int materialsValue,
+        List<String> loadoutNames
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("full_item_name", ItemLocalization.fullItem(language, item));
+        params.put("materials_icon", Icons.OUTPOST_MATERIALS);
+        params.put("materials_value", materialsValue);
+        params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));
+        params.put("loadout_names", String.join(", ", loadoutNames));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::confirmDonateLoadout),
+            params
+        );
+    }
+
+    public static String confirmDonateButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::confirmDonateButton);
+    }
+
+    public static String cancelDonateButton(Language language) {
+        return resources.getOrDefault(language, OutpostResource::cancelDonateButton);
+    }
+
+    public static String cancelDonate(Language language) {
+        return resources.getOrDefault(language, OutpostResource::cancelDonate);
+    }
+
+    private static String donateLoadoutWarning(Language language, List<String> loadoutNames) {
+        if (loadoutNames == null || loadoutNames.isEmpty()) {
+            return "";
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, OutpostResource::donateItemSuccessLoadoutWarning),
+            Map.of("loadout_names", String.join(", ", loadoutNames))
         );
     }
 

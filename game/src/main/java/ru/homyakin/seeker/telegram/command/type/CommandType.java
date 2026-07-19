@@ -124,6 +124,8 @@ public enum CommandType {
     OPEN_OUTPOST_BUILDING_INLINE("openOutpostBld", CheckType.EQUALS),
     OPEN_OUTPOST_BUILDING("/building", CheckType.STARTS_WITH),
     OUTPOST_DONATE_ITEM("/outpost_donate", CheckType.STARTS_WITH),
+    CONFIRM_OUTPOST_DONATE("confirmOutpostDonate", CheckType.EQUALS),
+    CANCEL_OUTPOST_DONATE("cancelOutpostDonate", CheckType.EQUALS),
     SHOP_RANDOM_BOXES("shopRand", CheckType.EQUALS),
     SHOP_ENHANCE_INLINE("shopEnh", CheckType.EQUALS),
     SHOP_SELECT_SLOT("shopSlot", CheckType.EQUALS),
