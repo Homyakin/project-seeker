@@ -23,7 +23,7 @@ import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.service.EventService;
-import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.AddPersonageToEventRequest;
@@ -41,7 +41,7 @@ public class DuelService {
     private final DuelDao duelDao;
     private final DuelConfig duelConfig;
     private final PersonageService personageService;
-    private final ItemService itemService;
+    private final EquipmentLoadoutService loadoutService;
     private final LockService lockService;
     private final LaunchedEventService launchedEventService;
     private final EventService eventService;
@@ -53,7 +53,7 @@ public class DuelService {
         DuelDao duelDao,
         DuelConfig duelConfig,
         PersonageService personageService,
-        ItemService itemService,
+        EquipmentLoadoutService loadoutService,
         LockService lockService,
         LaunchedEventService launchedEventService,
         EventService eventService,
@@ -63,7 +63,7 @@ public class DuelService {
         this.duelDao = duelDao;
         this.duelConfig = duelConfig;
         this.personageService = personageService;
-        this.itemService = itemService;
+        this.loadoutService = loadoutService;
         this.lockService = lockService;
         this.launchedEventService = launchedEventService;
         this.eventService = eventService;
@@ -183,17 +183,18 @@ public class DuelService {
         launchedEventService.updateStatus(duel.id(), EventStatus.SUCCESS);
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
-        final var equippedItems = itemService.getEquippedItemsByPersonageIds(
-            Set.of(personage1.id(), personage2.id())
+        final var combatItems = loadoutService.resolveCombatItems(
+            Set.of(personage1.id(), personage2.id()),
+            EventType.DUEL
         );
         final var firstBattlePersonage = BattlePersonage.forCombat(
-            equippedItems.getOrDefault(personage1.id(), List.of()),
+            combatItems.getOrDefault(personage1.id(), List.of()),
             Position.FRONT,
             personage1.effects(),
             Optional.of(LocaleUtils.personageNameWithBadge(personage1))
         );
         final var secondBattlePersonage = BattlePersonage.forCombat(
-            equippedItems.getOrDefault(personage2.id(), List.of()),
+            combatItems.getOrDefault(personage2.id(), List.of()),
             Position.FRONT,
             personage2.effects(),
             Optional.of(LocaleUtils.personageNameWithBadge(personage2))

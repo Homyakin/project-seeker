@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
@@ -338,6 +339,60 @@ public class ItemLocalization {
 
     public static String backToLoadoutsButton(Language language) {
         return resources.getOrDefault(language, ItemResource::backToLoadoutsButton);
+    }
+
+    public static String defaultLoadoutsButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::defaultLoadoutsButton);
+    }
+
+    public static String defaultLoadoutsMenu(
+        Language language,
+        Map<EventType, EquipmentLoadout> defaultsByEventType
+    ) {
+        final var assignments = EquipmentLoadoutService.DEFAULT_LOADOUT_EVENT_TYPES.stream()
+            .sorted(Comparator.comparingInt(EventType::id))
+            .map(eventType -> {
+                final var eventName = defaultLoadoutEventName(language, eventType);
+                final var loadout = defaultsByEventType.get(eventType);
+                if (loadout == null) {
+                    return StringNamedTemplate.format(
+                        resources.getOrDefault(language, ItemResource::defaultLoadoutAssignmentEmpty),
+                        Collections.singletonMap("event", eventName)
+                    );
+                }
+                final var params = new HashMap<String, Object>();
+                params.put("event", eventName);
+                params.put("name", loadout.name());
+                return StringNamedTemplate.format(
+                    resources.getOrDefault(language, ItemResource::defaultLoadoutAssignment),
+                    params
+                );
+            })
+            .collect(Collectors.joining("\n"));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::defaultLoadoutsMenu),
+            Collections.singletonMap("assignments", assignments)
+        );
+    }
+
+    public static String defaultLoadoutEventName(Language language, EventType eventType) {
+        return switch (eventType) {
+            case RAID -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventRaid);
+            case WORLD_RAID -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventWorldRaid);
+            case DUEL -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventDuel);
+            default -> eventType.name();
+        };
+    }
+
+    public static String defaultLoadoutForEvent(Language language, EventType eventType) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::defaultLoadoutForEvent),
+            Collections.singletonMap("event", defaultLoadoutEventName(language, eventType))
+        );
+    }
+
+    public static String backToDefaultLoadoutsButton(Language language) {
+        return resources.getOrDefault(language, ItemResource::backToDefaultLoadoutsButton);
     }
 
     public static String initCreateLoadout(Language language, Inventory inventory, boolean compactItems) {

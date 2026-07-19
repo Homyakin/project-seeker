@@ -5,11 +5,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
@@ -35,6 +43,42 @@ public class EquipmentLoadoutDao {
             .param("id", id)
             .query(this::mapRow)
             .optional();
+    }
+
+    public Map<Long, EquipmentLoadout> findByIds(Collection<Long> ids) {
+        if (ids.isEmpty()) {
+            return Map.of();
+        }
+        return jdbcClient.sql(SELECT_SQL + " WHERE id IN (:ids)")
+            .param("ids", ids)
+            .query(this::mapRow)
+            .list()
+            .stream()
+            .collect(Collectors.toMap(EquipmentLoadout::id, Function.identity()));
+    }
+
+    public Map<PersonageId, EquipmentLoadout> findDefaultsByPersonageIdsAndEventType(
+        Set<PersonageId> personageIds,
+        EventType eventType
+    ) {
+        if (personageIds.isEmpty()) {
+            return Map.of();
+        }
+        return jdbcClient.sql(SELECT_SQL + """
+                 WHERE personage_id IN (:personage_ids)
+                   AND :event_type_id = ANY(default_event_type_ids)
+                """)
+            .param("personage_ids", personageIds.stream().map(PersonageId::value).toList())
+            .param("event_type_id", eventType.id())
+            .query(this::mapRow)
+            .list()
+            .stream()
+            .collect(Collectors.toMap(
+                EquipmentLoadout::personageId,
+                Function.identity(),
+                (a, _) -> a,
+                HashMap::new
+            ));
     }
 
     public List<EquipmentLoadout> findByPersonageIdAndItemId(PersonageId personageId, long itemId) {
@@ -79,6 +123,30 @@ public class EquipmentLoadoutDao {
             .update();
     }
 
+    public void clearDefaultEventType(PersonageId personageId, EventType eventType) {
+        jdbcClient.sql("""
+                UPDATE personage_equipment_loadout
+                SET default_event_type_ids = array_remove(default_event_type_ids, :event_type_id)
+                WHERE personage_id = :personage_id
+                  AND :event_type_id = ANY(default_event_type_ids)
+                """)
+            .param("personage_id", personageId.value())
+            .param("event_type_id", eventType.id())
+            .update();
+    }
+
+    public void addDefaultEventType(long loadoutId, EventType eventType) {
+        jdbcClient.sql("""
+                UPDATE personage_equipment_loadout
+                SET default_event_type_ids = array_append(default_event_type_ids, :event_type_id)
+                WHERE id = :id
+                  AND NOT (:event_type_id = ANY(default_event_type_ids))
+                """)
+            .param("id", loadoutId)
+            .param("event_type_id", eventType.id())
+            .update();
+    }
+
     public void delete(long id) {
         jdbcClient.sql("DELETE FROM personage_equipment_loadout WHERE id = :id")
             .param("id", id)
@@ -99,7 +167,8 @@ public class EquipmentLoadoutDao {
             rs.getLong("id"),
             PersonageId.from(rs.getLong("personage_id")),
             rs.getString("name"),
-            extractItemIds(rs.getArray("item_ids"))
+            extractItemIds(rs.getArray("item_ids")),
+            extractEventTypes(rs.getArray("default_event_type_ids"))
         );
     }
 
@@ -117,8 +186,30 @@ public class EquipmentLoadoutDao {
         throw new IllegalStateException("Unexpected item_ids array type: " + raw.getClass());
     }
 
+    private Set<EventType> extractEventTypes(Array array) throws SQLException {
+        if (array == null) {
+            return Set.of();
+        }
+        final var raw = array.getArray();
+        final Integer[] ids;
+        if (raw instanceof Integer[] integers) {
+            ids = integers;
+        } else if (raw instanceof Number[] numbers) {
+            ids = Arrays.stream(numbers).map(Number::intValue).toArray(Integer[]::new);
+        } else {
+            throw new IllegalStateException("Unexpected default_event_type_ids array type: " + raw.getClass());
+        }
+        final var result = new HashSet<EventType>();
+        for (final var id : ids) {
+            if (id != null) {
+                result.add(EventType.get(id));
+            }
+        }
+        return Set.copyOf(result);
+    }
+
     private static final String SELECT_SQL = """
-        SELECT id, personage_id, name, item_ids
+        SELECT id, personage_id, name, item_ids, default_event_type_ids
         FROM personage_equipment_loadout
         """;
 }

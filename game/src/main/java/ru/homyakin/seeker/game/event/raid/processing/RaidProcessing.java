@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.raid.RaidService;
 import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
@@ -27,7 +28,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.effect.ItemFoundChanceBonus;
 import ru.homyakin.seeker.game.effect.RaidGoldRewardBonus;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
-import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -43,7 +44,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 public class RaidProcessing {
     private static final Logger logger = LoggerFactory.getLogger(RaidProcessing.class);
     private final PersonageService personageService;
-    private final ItemService itemService;
+    private final EquipmentLoadoutService loadoutService;
     private final Battle battle = new Battle();
     private final RaidService raidService;
     private final RaidItemGenerator raidItemGenerator;
@@ -57,7 +58,7 @@ public class RaidProcessing {
 
     public RaidProcessing(
         PersonageService personageService,
-        ItemService itemService,
+        EquipmentLoadoutService loadoutService,
         RaidService raidService,
         RaidItemGenerator raidItemGenerator,
         RaidGenerator raidGenerator,
@@ -69,7 +70,7 @@ public class RaidProcessing {
         EventBattleLogService eventBattleLogService
     ) {
         this.personageService = personageService;
-        this.itemService = itemService;
+        this.loadoutService = loadoutService;
         this.raidService = raidService;
         this.raidItemGenerator = raidItemGenerator;
         this.raidGenerator = raidGenerator;
@@ -183,10 +184,10 @@ public class RaidProcessing {
         final var personageIds = participants.stream()
             .map(participant -> participant.personage().id())
             .collect(Collectors.toSet());
-        final var equippedItemsByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
+        final var combatItemsByPersonageId = loadoutService.resolveCombatItems(personageIds, EventType.RAID);
         return participants.stream()
             .map(participant -> BattlePersonage.forCombat(
-                equippedItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
+                combatItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
                 participant.personage().position(),
                 participant.personage().effects(),
                 Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))

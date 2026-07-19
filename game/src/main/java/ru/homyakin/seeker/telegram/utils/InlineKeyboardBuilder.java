@@ -29,16 +29,21 @@ public class InlineKeyboardBuilder {
     }
 
     public InlineKeyboardBuilder addButton(String text, String callbackData) {
+        return addButton(text, callbackData, null);
+    }
+
+    public InlineKeyboardBuilder addButton(String text, String callbackData, InlineButtonStyle style) {
         if (row == null) {
             throw new IllegalStateException("Any row doesn't exist");
         }
-        row.add(
-            InlineKeyboardButton
-                .builder()
-                .callbackData(callbackData)
-                .text(text)
-                .build()
-        );
+        final var builder = InlineKeyboardButton
+            .builder()
+            .callbackData(callbackData)
+            .text(text);
+        if (style != null) {
+            builder.style(style.value());
+        }
+        row.add(builder.build());
         return this;
     }
 

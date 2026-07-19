@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidState;
 import ru.homyakin.seeker.game.event.world_raid.entity.FinalWorldRaidStatus;
 import ru.homyakin.seeker.game.event.world_raid.entity.ResearchGenerator;
@@ -20,7 +21,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.WorldRaidBattleResultService;
-import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
@@ -39,7 +40,7 @@ import java.util.stream.Collectors;
 public class ProcessWorldRaidBattleCommand {
     private final GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand;
     private final PersonageEventService personageEventService;
-    private final ItemService itemService;
+    private final EquipmentLoadoutService loadoutService;
     private final Battle battle = new Battle();
     private final WorldRaidBattleGenerator battleGenerator;
     private final ResearchGenerator researchGenerator;
@@ -55,7 +56,7 @@ public class ProcessWorldRaidBattleCommand {
     public ProcessWorldRaidBattleCommand(
         GetOrLaunchWorldRaidCommand getOrLaunchWorldRaidCommand,
         PersonageEventService personageEventService,
-        ItemService itemService,
+        EquipmentLoadoutService loadoutService,
         WorldRaidBattleGenerator battleGenerator,
         ResearchGenerator researchGenerator,
         WorldRaidStorage storage,
@@ -69,7 +70,7 @@ public class ProcessWorldRaidBattleCommand {
     ) {
         this.getOrLaunchWorldRaidCommand = getOrLaunchWorldRaidCommand;
         this.personageEventService = personageEventService;
-        this.itemService = itemService;
+        this.loadoutService = loadoutService;
         this.battleGenerator = battleGenerator;
         this.researchGenerator = researchGenerator;
         this.storage = storage;
@@ -137,10 +138,10 @@ public class ProcessWorldRaidBattleCommand {
         final var personageIds = participants.stream()
             .map(participant -> participant.personage().id())
             .collect(Collectors.toSet());
-        final var equippedItemsByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
+        final var combatItemsByPersonageId = loadoutService.resolveCombatItems(personageIds, EventType.WORLD_RAID);
         return participants.stream()
             .map(participant -> BattlePersonage.forCombat(
-                equippedItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
+                combatItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
                 participant.personage().position(),
                 participant.personage().effects(),
                 Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))

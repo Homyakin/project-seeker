@@ -59,6 +59,23 @@ applyLoadoutButton = "✅ Надеть"
 renameLoadoutButton = "✏️ Переименовать"
 deleteLoadoutButton = "🗑 Удалить"
 backToLoadoutsButton = "⬅️ Назад"
+defaultLoadoutsButton = "⚔️ Автокомплекты"
+defaultLoadoutsMenu = """\
+<b>⚔️Автокомплекты</b>
+
+Выбранный комплект используется в бою выбранного типа и не меняет надетое снаряжение.
+
+${assignments}"""
+defaultLoadoutAssignment = "• ${event}: <b>${name}</b>"
+defaultLoadoutAssignmentEmpty = "• ${event}: <i>не выбран</i>"
+defaultLoadoutEventRaid = "Рейд"
+defaultLoadoutEventWorldRaid = "Мировой рейд"
+defaultLoadoutEventDuel = "Дуэль"
+defaultLoadoutForEvent = """\
+<b>⚔️Комплект для: ${event}</b>
+
+Выберите комплект для этого типа событий."""
+backToDefaultLoadoutsButton = "⬅️ Назад"
 initCreateLoadout = """\
 <b>📋Новый комплект</b>
 

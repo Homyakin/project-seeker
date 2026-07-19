@@ -1,12 +1,16 @@
 package ru.homyakin.seeker.telegram.utils;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
+import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -337,11 +341,58 @@ public class InlineKeyboards {
                 CommandType.CREATE_LOADOUT.getText()
             );
         }
+        builder.addRow()
+            .addButton(
+                ItemLocalization.defaultLoadoutsButton(language),
+                CommandType.DEFAULT_LOADOUTS.getText()
+            )
+            .addButton(
+                MenuLocalization.inventoryButton(language),
+                CommandType.SELECT_INVENTORY.getText()
+                    + TextConstants.CALLBACK_DELIMITER
+                    + InventorySection.EQUIPMENT.name()
+            );
+        return builder.build();
+    }
+
+    public static InlineKeyboardMarkup defaultLoadoutsMenuKeyboard(Language language) {
+        final var builder = InlineKeyboardBuilder.builder();
+        final var openPrefix = CommandType.OPEN_DEFAULT_LOADOUT_EVENT.getText() + TextConstants.CALLBACK_DELIMITER;
+        EquipmentLoadoutService.DEFAULT_LOADOUT_EVENT_TYPES.stream()
+            .sorted(Comparator.comparingInt(EventType::id))
+            .forEach(eventType -> builder.addRow().addButton(
+                ItemLocalization.defaultLoadoutEventName(language, eventType),
+                openPrefix + eventType.name()
+            ));
         builder.addRow().addButton(
-            MenuLocalization.inventoryButton(language),
-            CommandType.SELECT_INVENTORY.getText()
-                + TextConstants.CALLBACK_DELIMITER
-                + InventorySection.EQUIPMENT.name()
+            ItemLocalization.backToLoadoutsButton(language),
+            CommandType.LOADOUTS_LIST.getText()
+        );
+        return builder.build();
+    }
+
+    public static InlineKeyboardMarkup defaultLoadoutForEventKeyboard(
+        Language language,
+        EventType eventType,
+        List<EquipmentLoadout> loadouts,
+        Optional<Long> selectedLoadoutId
+    ) {
+        final var builder = InlineKeyboardBuilder.builder();
+        final var togglePrefix = CommandType.TOGGLE_DEFAULT_LOADOUT.getText()
+            + TextConstants.CALLBACK_DELIMITER
+            + eventType.name()
+            + TextConstants.CALLBACK_DELIMITER;
+        for (final var loadout : loadouts) {
+            final var isSelected = selectedLoadoutId.isPresent() && selectedLoadoutId.get() == loadout.id();
+            builder.addRow().addButton(
+                ItemLocalization.openLoadoutButton(language, loadout),
+                togglePrefix + loadout.id(),
+                isSelected ? InlineButtonStyle.SUCCESS : null
+            );
+        }
+        builder.addRow().addButton(
+            ItemLocalization.backToDefaultLoadoutsButton(language),
+            CommandType.DEFAULT_LOADOUTS.getText()
         );
         return builder.build();
     }

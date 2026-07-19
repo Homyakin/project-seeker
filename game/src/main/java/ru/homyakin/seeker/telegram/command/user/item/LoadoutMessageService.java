@@ -1,10 +1,13 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
@@ -93,6 +96,43 @@ public class LoadoutMessageService {
                 .messageId(messageId)
                 .text(ItemLocalization.initCreateLoadout(user.language(), inventory, compactItems))
                 .keyboard(InlineKeyboards.cancelCreateLoadoutKeyboard(user.language()))
+                .build()
+        );
+    }
+
+    public void editDefaultLoadoutsMenu(User user, int messageId) {
+        final var loadoutsById = loadoutService.list(user.personageId()).stream()
+            .collect(Collectors.toMap(EquipmentLoadout::id, loadout -> loadout));
+        final var defaultsByEventType = loadoutService.getDefaults(user.personageId()).entrySet().stream()
+            .filter(entry -> loadoutsById.containsKey(entry.getValue()))
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> loadoutsById.get(entry.getValue())
+            ));
+        telegramSender.send(
+            EditMessageTextBuilder.builder()
+                .chatId(user.id())
+                .messageId(messageId)
+                .text(ItemLocalization.defaultLoadoutsMenu(user.language(), defaultsByEventType))
+                .keyboard(InlineKeyboards.defaultLoadoutsMenuKeyboard(user.language()))
+                .build()
+        );
+    }
+
+    public void editDefaultLoadoutForEvent(User user, int messageId, EventType eventType) {
+        final var loadouts = loadoutService.list(user.personageId());
+        final var selectedLoadoutId = Optional.ofNullable(loadoutService.getDefaults(user.personageId()).get(eventType));
+        telegramSender.send(
+            EditMessageTextBuilder.builder()
+                .chatId(user.id())
+                .messageId(messageId)
+                .text(ItemLocalization.defaultLoadoutForEvent(user.language(), eventType))
+                .keyboard(InlineKeyboards.defaultLoadoutForEventKeyboard(
+                    user.language(),
+                    eventType,
+                    loadouts,
+                    selectedLoadoutId
+                ))
                 .build()
         );
     }

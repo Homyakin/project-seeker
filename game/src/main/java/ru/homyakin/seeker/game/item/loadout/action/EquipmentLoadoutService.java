@@ -2,13 +2,17 @@ package ru.homyakin.seeker.game.item.loadout.action;
 
 import io.vavr.control.Either;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
@@ -18,8 +22,11 @@ import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameValidator;
 import ru.homyakin.seeker.game.item.loadout.entity.RenameLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.SaveLoadoutError;
+import ru.homyakin.seeker.game.item.loadout.entity.ToggleDefaultLoadoutError;
+import ru.homyakin.seeker.game.item.loadout.entity.ToggleDefaultLoadoutResult;
 import ru.homyakin.seeker.game.item.loadout.infra.postgres.EquipmentLoadoutDao;
 import ru.homyakin.seeker.game.item.models.Inventory;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -28,6 +35,11 @@ import ru.homyakin.seeker.utils.models.Success;
 @Service
 public class EquipmentLoadoutService {
     public static final int MAX_LOADOUTS = 3;
+    public static final Set<EventType> DEFAULT_LOADOUT_EVENT_TYPES = Set.of(
+        EventType.RAID,
+        EventType.WORLD_RAID,
+        EventType.DUEL
+    );
 
     private final EquipmentLoadoutDao loadoutDao;
     private final ItemService itemService;
@@ -58,6 +70,66 @@ public class EquipmentLoadoutService {
 
     public boolean canCreate(PersonageId personageId) {
         return loadoutDao.countByPersonageId(personageId) < MAX_LOADOUTS;
+    }
+
+    public Map<EventType, Long> getDefaults(PersonageId personageId) {
+        return list(personageId).stream()
+            .flatMap(loadout -> loadout.defaultEventTypes().stream()
+                .filter(DEFAULT_LOADOUT_EVENT_TYPES::contains)
+                .map(eventType -> Map.entry(eventType, loadout.id())))
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, _) -> a));
+    }
+
+    @Transactional
+    public Either<ToggleDefaultLoadoutError, ToggleDefaultLoadoutResult> toggleDefault(
+        PersonageId personageId,
+        long loadoutId,
+        EventType eventType
+    ) {
+        if (!DEFAULT_LOADOUT_EVENT_TYPES.contains(eventType)) {
+            return Either.left(ToggleDefaultLoadoutError.UnsupportedEventType.INSTANCE);
+        }
+        final var loadout = get(personageId, loadoutId);
+        if (loadout.isEmpty()) {
+            return Either.left(ToggleDefaultLoadoutError.LoadoutNotFound.INSTANCE);
+        }
+        if (loadout.get().isDefaultFor(eventType)) {
+            loadoutDao.clearDefaultEventType(personageId, eventType);
+            return Either.right(ToggleDefaultLoadoutResult.CLEARED);
+        }
+        loadoutDao.clearDefaultEventType(personageId, eventType);
+        loadoutDao.addDefaultEventType(loadoutId, eventType);
+        return Either.right(ToggleDefaultLoadoutResult.SET);
+    }
+
+    public Map<PersonageId, List<Item>> resolveCombatItems(Set<PersonageId> personageIds, EventType eventType) {
+        final var equippedByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
+        if (personageIds.isEmpty() || !DEFAULT_LOADOUT_EVENT_TYPES.contains(eventType)) {
+            return equippedByPersonageId;
+        }
+
+        final var defaultLoadouts = loadoutDao.findDefaultsByPersonageIdsAndEventType(personageIds, eventType);
+        if (defaultLoadouts.isEmpty()) {
+            return equippedByPersonageId;
+        }
+
+        final var result = new HashMap<>(equippedByPersonageId);
+        for (final var entry : defaultLoadouts.entrySet()) {
+            final var personageId = entry.getKey();
+            final var loadout = entry.getValue();
+            final var inventory = itemService.getPersonageItems(personageId);
+            final var ownedById = inventory.items().stream()
+                .collect(Collectors.toMap(PersonageItem::id, item -> item));
+            final var ownedLoadoutItems = loadout.itemIds().stream()
+                .map(ownedById::get)
+                .filter(Objects::nonNull)
+                .toList();
+            if (hasSlotConflicts(ownedLoadoutItems)) {
+                continue;
+            }
+            result.put(personageId, itemService.itemsWithDefaults(ownedLoadoutItems));
+        }
+        return result;
     }
 
     @Transactional

@@ -90,15 +90,18 @@ import ru.homyakin.seeker.telegram.command.user.item.CancelCreateLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.CancelDeleteLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.ConfirmDeleteLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.CreateLoadout;
+import ru.homyakin.seeker.telegram.command.user.item.DefaultLoadouts;
 import ru.homyakin.seeker.telegram.command.user.item.DeleteLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.Inventory;
 import ru.homyakin.seeker.telegram.command.user.item.LoadoutsList;
+import ru.homyakin.seeker.telegram.command.user.item.OpenDefaultLoadoutEvent;
 import ru.homyakin.seeker.telegram.command.user.item.OpenLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.PutOnItem;
 import ru.homyakin.seeker.telegram.command.user.item.RenameLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.SaveLoadout;
 import ru.homyakin.seeker.telegram.command.user.item.SelectInventory;
 import ru.homyakin.seeker.telegram.command.user.item.TakeOffItem;
+import ru.homyakin.seeker.telegram.command.user.item.ToggleDefaultLoadout;
 import ru.homyakin.seeker.telegram.command.user.language.UserChangeLanguage;
 import ru.homyakin.seeker.telegram.command.user.language.UserSelectLanguage;
 import ru.homyakin.seeker.telegram.command.user.navigation.ReceptionDesk;
@@ -372,6 +375,9 @@ public class CommandParser {
                 case CANCEL_DELETE_LOADOUT -> CancelDeleteLoadout.from(callback);
                 case LOADOUTS_LIST -> LoadoutsList.from(callback);
                 case CANCEL_CREATE_LOADOUT -> CancelCreateLoadout.from(callback);
+                case DEFAULT_LOADOUTS -> DefaultLoadouts.from(callback);
+                case OPEN_DEFAULT_LOADOUT_EVENT -> OpenDefaultLoadoutEvent.from(callback);
+                case TOGGLE_DEFAULT_LOADOUT -> ToggleDefaultLoadout.from(callback);
                 default -> null;
             });
     }

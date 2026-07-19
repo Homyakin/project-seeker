@@ -61,6 +61,23 @@ applyLoadoutButton = "✅ Equipar"
 renameLoadoutButton = "✏️ Renombrar"
 deleteLoadoutButton = "🗑 Eliminar"
 backToLoadoutsButton = "⬅️ Atrás"
+defaultLoadoutsButton = "⚔️ Automáticos"
+defaultLoadoutsMenu = """\
+<b>⚔️Conjuntos automáticos</b>
+
+El conjunto elegido se usa en la batalla del tipo seleccionado y no cambia el equipo puesto.
+
+${assignments}"""
+defaultLoadoutAssignment = "• ${event}: <b>${name}</b>"
+defaultLoadoutAssignmentEmpty = "• ${event}: <i>sin elegir</i>"
+defaultLoadoutEventRaid = "Raid"
+defaultLoadoutEventWorldRaid = "Raid mundial"
+defaultLoadoutEventDuel = "Duelo"
+defaultLoadoutForEvent = """\
+<b>⚔️Conjunto para: ${event}</b>
+
+Elige el conjunto para este tipo de eventos."""
+backToDefaultLoadoutsButton = "⬅️ Atrás"
 initCreateLoadout = """\
 <b>📋Nuevo conjunto</b>
 
