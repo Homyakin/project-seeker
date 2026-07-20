@@ -51,6 +51,7 @@ createLoadoutButton = "➕ Crear"
 openLoadoutButton = "${name}"
 loadoutDetail = """\
 <b>📋Conjunto: ${name}</b>
+📍Posición: ${position_name}
 
 ${items}"""
 loadoutItemOwned = "${item}"

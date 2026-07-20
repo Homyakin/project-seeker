@@ -28,6 +28,7 @@ import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
@@ -314,6 +315,7 @@ public class ItemLocalization {
         lines.addAll(missingLines);
         final var params = new HashMap<String, Object>();
         params.put("name", loadout.name());
+        params.put("position_name", BattleLocalization.positionName(language, loadout.battlePosition()));
         params.put("items", String.join("\n", lines));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::loadoutDetail),
