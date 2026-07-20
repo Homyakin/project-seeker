@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,17 +180,21 @@ public class RaidProcessing {
     }
 
     private List<BattlePersonage> toBattlePersonages(List<RaidParticipant> participants) {
-        final var personageIds = participants.stream()
-            .map(participant -> participant.personage().id())
-            .collect(Collectors.toSet());
-        final var combatItemsByPersonageId = loadoutService.resolveCombatItems(personageIds, EventType.RAID);
+        final var personages = participants.stream()
+            .map(RaidParticipant::personage)
+            .toList();
+        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personages, EventType.RAID);
         return participants.stream()
-            .map(participant -> BattlePersonage.forCombat(
-                combatItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
-                participant.personage().position(),
-                participant.personage().effects(),
-                Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))
-            ))
+            .map(participant -> {
+                final var personage = participant.personage();
+                final var combatGear = combatGearByPersonageId.get(personage.id());
+                return BattlePersonage.forCombat(
+                    combatGear.items(),
+                    combatGear.battlePosition(),
+                    personage.effects(),
+                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
+                );
+            })
             .toList();
     }
 

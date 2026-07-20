@@ -12,7 +12,6 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
-import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCommand;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -24,27 +23,23 @@ import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 public class LoadoutMessageService {
     private final EquipmentLoadoutService loadoutService;
     private final ItemService itemService;
-    private final PersonageService personageService;
     private final GetPersonageSettingsCommand getPersonageSettingsCommand;
     private final TelegramSender telegramSender;
 
     public LoadoutMessageService(
         EquipmentLoadoutService loadoutService,
         ItemService itemService,
-        PersonageService personageService,
         GetPersonageSettingsCommand getPersonageSettingsCommand,
         TelegramSender telegramSender
     ) {
         this.loadoutService = loadoutService;
         this.itemService = itemService;
-        this.personageService = personageService;
         this.getPersonageSettingsCommand = getPersonageSettingsCommand;
         this.telegramSender = telegramSender;
     }
 
     public void editLoadoutsList(User user, int messageId) {
         final var loadouts = loadoutService.list(user.personageId());
-        final var personage = personageService.getByIdForce(user.personageId());
         final var inventory = itemService.getPersonageItems(user.personageId());
         final var ownedById = inventory.items().stream()
             .collect(Collectors.toMap(PersonageItem::id, item -> item));
@@ -57,7 +52,7 @@ public class LoadoutMessageService {
             final var combatItems = itemService.itemsWithDefaults(wornItems);
             battleStatsByLoadoutId.put(
                 loadout.id(),
-                new BattlePersonage(combatItems, personage.position())
+                new BattlePersonage(combatItems, loadout.battlePosition())
             );
         }
         telegramSender.send(

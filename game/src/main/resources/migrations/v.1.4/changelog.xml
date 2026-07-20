@@ -28,6 +28,7 @@
     <include file="changes/2026-07-18_01_migrate-duels-to-launched-events.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-19_01_add-equipment-loadouts.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-19_02_add-personage-default-loadout.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-07-20_01_add-battle-position-to-loadout.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
 
 

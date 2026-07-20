@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class ProcessWorldRaidBattleCommand {
@@ -135,17 +134,21 @@ public class ProcessWorldRaidBattleCommand {
     }
 
     private List<BattlePersonage> toBattlePersonages(List<WorldRaidParticipant> participants) {
-        final var personageIds = participants.stream()
-            .map(participant -> participant.personage().id())
-            .collect(Collectors.toSet());
-        final var combatItemsByPersonageId = loadoutService.resolveCombatItems(personageIds, EventType.WORLD_RAID);
+        final var personages = participants.stream()
+            .map(WorldRaidParticipant::personage)
+            .toList();
+        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personages, EventType.WORLD_RAID);
         return participants.stream()
-            .map(participant -> BattlePersonage.forCombat(
-                combatItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
-                participant.personage().position(),
-                participant.personage().effects(),
-                Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))
-            ))
+            .map(participant -> {
+                final var personage = participant.personage();
+                final var combatGear = combatGearByPersonageId.get(personage.id());
+                return BattlePersonage.forCombat(
+                    combatGear.items(),
+                    combatGear.battlePosition(),
+                    personage.effects(),
+                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
+                );
+            })
             .toList();
     }
 

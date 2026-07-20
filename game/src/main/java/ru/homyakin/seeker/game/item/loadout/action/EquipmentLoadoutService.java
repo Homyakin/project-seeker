@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.loadout.action;
 
 import io.vavr.control.Either;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,13 +22,15 @@ import ru.homyakin.seeker.game.item.loadout.entity.DeleteLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameValidator;
 import ru.homyakin.seeker.game.item.loadout.entity.RenameLoadoutError;
+import ru.homyakin.seeker.game.item.loadout.entity.ResolvedCombatGear;
 import ru.homyakin.seeker.game.item.loadout.entity.SaveLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.ToggleDefaultLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.ToggleDefaultLoadoutResult;
 import ru.homyakin.seeker.game.item.loadout.infra.postgres.EquipmentLoadoutDao;
 import ru.homyakin.seeker.game.item.models.Inventory;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.models.Success;
@@ -44,15 +47,18 @@ public class EquipmentLoadoutService {
     private final EquipmentLoadoutDao loadoutDao;
     private final ItemService itemService;
     private final ItemDao itemDao;
+    private final PersonageService personageService;
 
     public EquipmentLoadoutService(
         EquipmentLoadoutDao loadoutDao,
         ItemService itemService,
-        ItemDao itemDao
+        ItemDao itemDao,
+        PersonageService personageService
     ) {
         this.loadoutDao = loadoutDao;
         this.itemService = itemService;
         this.itemDao = itemDao;
+        this.personageService = personageService;
     }
 
     public List<EquipmentLoadout> list(PersonageId personageId) {
@@ -102,18 +108,36 @@ public class EquipmentLoadoutService {
         return Either.right(ToggleDefaultLoadoutResult.SET);
     }
 
-    public Map<PersonageId, List<Item>> resolveCombatItems(Set<PersonageId> personageIds, EventType eventType) {
+    public Map<PersonageId, ResolvedCombatGear> resolveCombatGear(
+        Collection<Personage> personages,
+        EventType eventType
+    ) {
+        if (personages.isEmpty()) {
+            return Map.of();
+        }
+        final var personageIds = personages.stream()
+            .map(Personage::id)
+            .collect(Collectors.toSet());
         final var equippedByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
-        if (personageIds.isEmpty() || !DEFAULT_LOADOUT_EVENT_TYPES.contains(eventType)) {
-            return equippedByPersonageId;
+        final var result = new HashMap<PersonageId, ResolvedCombatGear>();
+        for (final var personage : personages) {
+            result.put(
+                personage.id(),
+                new ResolvedCombatGear(
+                    equippedByPersonageId.getOrDefault(personage.id(), List.of()),
+                    personage.position()
+                )
+            );
+        }
+        if (!DEFAULT_LOADOUT_EVENT_TYPES.contains(eventType)) {
+            return result;
         }
 
         final var defaultLoadouts = loadoutDao.findDefaultsByPersonageIdsAndEventType(personageIds, eventType);
         if (defaultLoadouts.isEmpty()) {
-            return equippedByPersonageId;
+            return result;
         }
 
-        final var result = new HashMap<>(equippedByPersonageId);
         for (final var entry : defaultLoadouts.entrySet()) {
             final var personageId = entry.getKey();
             final var loadout = entry.getValue();
@@ -127,7 +151,13 @@ public class EquipmentLoadoutService {
             if (hasSlotConflicts(ownedLoadoutItems)) {
                 continue;
             }
-            result.put(personageId, itemService.itemsWithDefaults(ownedLoadoutItems));
+            result.put(
+                personageId,
+                new ResolvedCombatGear(
+                    itemService.itemsWithDefaults(ownedLoadoutItems),
+                    loadout.battlePosition()
+                )
+            );
         }
         return result;
     }
@@ -142,7 +172,8 @@ public class EquipmentLoadoutService {
             return Either.left(CreateLoadoutError.MaxLoadoutsReached.INSTANCE);
         }
         final var itemIds = currentEquippedItemIds(personageId);
-        final var id = loadoutDao.insert(personageId, validatedName.get(), itemIds);
+        final var battlePosition = personageService.getByIdForce(personageId).position();
+        final var id = loadoutDao.insert(personageId, validatedName.get(), itemIds, battlePosition);
         return Either.right(loadoutDao.findById(id).orElseThrow());
     }
 
@@ -153,7 +184,8 @@ public class EquipmentLoadoutService {
             return Either.left(SaveLoadoutError.LoadoutNotFound.INSTANCE);
         }
         final var itemIds = currentEquippedItemIds(personageId);
-        loadoutDao.updateItemIds(loadoutId, itemIds);
+        final var battlePosition = personageService.getByIdForce(personageId).position();
+        loadoutDao.updateCurrent(loadoutId, itemIds, battlePosition);
         return Either.right(loadoutDao.findById(loadoutId).orElseThrow());
     }
 
@@ -190,6 +222,7 @@ public class EquipmentLoadoutService {
         }
 
         itemDao.setEquippedForPersonage(personageId, loadout.itemIds());
+        personageService.setBattlePosition(personageId, loadout.battlePosition());
         return Either.right(Success.INSTANCE);
     }
 

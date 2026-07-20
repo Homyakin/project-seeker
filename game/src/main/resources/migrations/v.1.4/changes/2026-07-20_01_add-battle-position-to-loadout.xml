@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-battle-position-to-loadout">
+        <addColumn tableName="personage_equipment_loadout">
+            <column name="battle_position" type="VARCHAR(10)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE personage_equipment_loadout pel
+            SET battle_position = p.battle_position
+            FROM personage p
+            WHERE pel.personage_id = p.id
+        </sql>
+
+        <addNotNullConstraint tableName="personage_equipment_loadout" columnName="battle_position"/>
+    </changeSet>
+</databaseChangeLog>
