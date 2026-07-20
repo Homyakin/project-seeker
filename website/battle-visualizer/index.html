@@ -1231,10 +1231,10 @@ function renderDetail(id) {
 }
 
 function itemCodeLabel(item) {
-  if (!item) return "—";
-  if (item.code) return String(item.code);
+  if (!item) return null;
   if (typeof item === "string") return item;
-  return "—";
+  if (item.code) return String(item.code);
+  return null;
 }
 
 function renderItemsSection(p) {
@@ -1254,9 +1254,11 @@ function renderItemsSection(p) {
     const rarity = item.rarity ? String(item.rarity) : "";
     const mod = item.modifier ? String(item.modifier) : "";
     const bits = [];
-    bits.push(`<b>${escapeHtml(code)}</b>`);
+    if (code) bits.push(`<b>${escapeHtml(code)}</b>`);
+    else if (mod) bits.push(`<b>${escapeHtml(mod)}</b>`);
+    else bits.push(`<b>—</b>`);
     if (rarity) bits.push(`<span class="muted">${escapeHtml(rarity)}</span>`);
-    if (mod) bits.push(`<span class="muted">+${escapeHtml(mod)}</span>`);
+    if (code && mod) bits.push(`<span class="muted">+${escapeHtml(mod)}</span>`);
     html += `<span class="tag">${bits.join(" ")}</span>`;
   }
   html += `</div>`;
