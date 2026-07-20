@@ -293,7 +293,7 @@
   #overlay.show { display: flex; }
   #detail {
     background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-    width: 100%; max-width: 520px; max-height: 86vh; max-height: 86dvh;
+    width: 100%; max-width: 560px; max-height: 86vh; max-height: 86dvh;
     display: flex; flex-direction: column; overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
@@ -324,6 +324,25 @@
   }
   .kv .k { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .kv .v { font-size: 15px; font-weight: 700; }
+  .kv .v.small { font-size: 12px; font-weight: 600; word-break: break-word; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px; padding: 4px 8px; border-radius: 6px;
+    background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+    font-family: ui-monospace, monospace;
+  }
+  .tag .muted { color: var(--muted); }
+  .tag.skill { border-color: rgba(120, 200, 255, 0.35); color: var(--skill); }
+  .tag.empty { color: var(--muted-2); font-style: italic; font-family: inherit; }
+  .stat-table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+  }
+  .stat-table th, .stat-table td {
+    text-align: left; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-table th { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .stat-table td.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .stat-table td.mono { font-family: ui-monospace, monospace; font-size: 11px; }
   .timeline { display: flex; flex-direction: column; gap: 0; }
   .timeline .tl {
     font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -672,6 +691,23 @@ function buildInitialLive() {
       lineIndex: p.lineIndex, advanceDirection: p.advanceDirection,
       initiative: p.initiative, gauge: p.initiativeGauge,
       range: p.range, threat: p.totalThreat, baseThreat: p.totalThreat, alive: true,
+      // characteristics / loadout (optional on older battle-init JSON)
+      hasExtendedStats: p.critChance != null
+        || Array.isArray(p.items)
+        || Array.isArray(p.skills)
+        || Array.isArray(p.attacksByRange)
+        || (p.defenses && typeof p.defenses === "object")
+        || (p.damageTakenMultipliers && typeof p.damageTakenMultipliers === "object"),
+      items: Array.isArray(p.items) ? p.items : [],
+      skills: Array.isArray(p.skills) ? p.skills : [],
+      critChance: p.critChance ?? null,
+      dodgeChance: p.dodgeChance ?? null,
+      critMultiplier: p.critMultiplier ?? null,
+      attacksByRange: Array.isArray(p.attacksByRange) ? p.attacksByRange : [],
+      defenses: p.defenses && typeof p.defenses === "object" ? p.defenses : {},
+      damageTakenMultipliers: p.damageTakenMultipliers && typeof p.damageTakenMultipliers === "object"
+        ? p.damageTakenMultipliers : {},
+      attackBuffs: [],
       // accumulated stats
       dmgDealt: 0, dmgTaken: 0, healed: 0, kills: 0, hitsLanded: 0,
       critsDealt: 0, dodged: 0, missed: 0, skillsUsed: 0,
@@ -760,7 +796,11 @@ function applyEvent(ev) {
     }
     case "PersonageAttackBuffed": {
       const p = live[ev.personageId];
-      if (p) { p.flash = "buff"; p.popup = { text: "+" + ev.attackBonusPercent + "% ATK", kind: "buff" }; }
+      if (p) {
+        p.flash = "buff";
+        p.popup = { text: "+" + ev.attackBonusPercent + "% ATK", kind: "buff" };
+        if (typeof ev.attackBonusPercent === "number") p.attackBuffs.push(ev.attackBonusPercent);
+      }
       break;
     }
     case "PersonageDefeated": {
@@ -965,7 +1005,6 @@ function renderCard(p) {
     <div class="mini-stats">
       <span>rng <b>${p.range}</b></span>
       <span>thr <b>${threatText(p)}</b></span>
-      <span>${p.advanceDirection === "TOWARD_SECOND_TEAM" ? "→" : "←"}</span>
     </div>
   `;
   if (p.popup) {
@@ -1161,9 +1200,17 @@ function renderDetail(id) {
   html += stat("Range", p.range);
   html += stat("Threat", threatText(p));
   html += stat("Line", `${p.lineIndex} (${posOfLine(p.lineIndex)})`);
-  html += stat("Advance", p.advanceDirection === "TOWARD_SECOND_TEAM" ? "→ team 2" : "← team 1");
+  if (p.critChance != null) html += stat("Crit chance", `${p.critChance}%`);
+  if (p.dodgeChance != null) html += stat("Dodge chance", `${p.dodgeChance}%`);
+  if (p.critMultiplier != null) html += stat("Crit mult", Number(p.critMultiplier).toFixed(2));
   html += stat("Full ID", `<span style="font-size:11px;font-family:ui-monospace,monospace">${escapeHtml(String(p.id))}</span>`);
   html += `</div>`;
+
+  html += renderItemsSection(p);
+  html += renderSkillsSection(p);
+  html += renderAttacksSection(p);
+  html += renderDefensesSection(p);
+  html += renderDamageTakenSection(p);
 
   html += `<div class="d-section-title">Combat so far</div>`;
   html += `<div class="grid">`;
@@ -1181,6 +1228,143 @@ function renderDetail(id) {
   html += renderTimeline(id);
 
   el.dBody.innerHTML = html;
+}
+
+function itemCodeLabel(item) {
+  if (!item) return "—";
+  if (item.code) return String(item.code);
+  if (typeof item === "string") return item;
+  return "—";
+}
+
+function renderItemsSection(p) {
+  let html = `<div class="d-section-title">Items</div>`;
+  const items = p.items || [];
+  if (!p.hasExtendedStats) {
+    html += `<div class="tag-row"><span class="tag empty">No item data (older battle log)</span></div>`;
+    return html;
+  }
+  if (!items.length) {
+    html += `<div class="tag-row"><span class="tag empty">No items</span></div>`;
+    return html;
+  }
+  html += `<div class="tag-row">`;
+  for (const item of items) {
+    const code = itemCodeLabel(item);
+    const rarity = item.rarity ? String(item.rarity) : "";
+    const mod = item.modifier ? String(item.modifier) : "";
+    const bits = [];
+    bits.push(`<b>${escapeHtml(code)}</b>`);
+    if (rarity) bits.push(`<span class="muted">${escapeHtml(rarity)}</span>`);
+    if (mod) bits.push(`<span class="muted">+${escapeHtml(mod)}</span>`);
+    html += `<span class="tag">${bits.join(" ")}</span>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderSkillsSection(p) {
+  let html = `<div class="d-section-title">Skills</div>`;
+  const skills = p.skills || [];
+  if (!p.hasExtendedStats) {
+    html += `<div class="tag-row"><span class="tag empty">No skill data (older battle log)</span></div>`;
+    return html;
+  }
+  if (!skills.length) {
+    html += `<div class="tag-row"><span class="tag empty">No skills</span></div>`;
+    return html;
+  }
+  html += `<div class="tag-row">`;
+  for (const skill of skills) {
+    const code = typeof skill === "string" ? skill : (skill.code || "");
+    const points = typeof skill === "object" && skill != null && skill.points != null ? skill.points : null;
+    const label = points != null
+      ? `${escapeHtml(String(code))} <span class="muted">×${escapeHtml(String(points))}</span>`
+      : escapeHtml(String(code));
+    html += `<span class="tag skill">${label}</span>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function addPercentInt(value, percent) {
+  return Math.round(Number(value) * (1 + Number(percent) / 100));
+}
+
+function currentAttackValue(base, buffs) {
+  let v = Number(base) || 0;
+  for (const pct of buffs || []) v = addPercentInt(v, pct);
+  return v;
+}
+
+function renderAttacksSection(p) {
+  const rows = p.attacksByRange || [];
+  let html = `<div class="d-section-title">Attack by range`;
+  if ((p.attackBuffs || []).length) {
+    const sum = p.attackBuffs.reduce((a, b) => a + b, 0);
+    html += ` <span style="color:var(--buff);font-weight:600;text-transform:none;letter-spacing:0">(+${sum}% applied)</span>`;
+  }
+  html += `</div>`;
+  if (!rows.length) {
+    html += `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No attacks" : "No attack data (older battle log)"}</span></div>`;
+    return html;
+  }
+  html += `<table class="stat-table"><thead><tr><th>Range</th><th>Type</th><th>Attack</th></tr></thead><tbody>`;
+  for (const slot of rows) {
+    const attack = slot.attack || {};
+    const types = Object.keys(attack);
+    if (!types.length) {
+      html += `<tr><td class="num">${slot.range}</td><td class="mono" colspan="2">—</td></tr>`;
+      continue;
+    }
+    types.forEach((type, i) => {
+      const cur = currentAttackValue(attack[type], p.attackBuffs);
+      const base = Number(attack[type]);
+      const shown = (p.attackBuffs || []).length && cur !== base
+        ? `${cur} <span style="color:var(--muted);font-weight:500">(${base})</span>`
+        : String(cur);
+      html += `<tr>`;
+      html += i === 0 ? `<td class="num" rowspan="${types.length}">${slot.range}</td>` : "";
+      html += `<td class="mono">${escapeHtml(type)}</td><td class="num">${shown}</td></tr>`;
+    });
+  }
+  html += `</tbody></table>`;
+  return html;
+}
+
+function renderDefensesSection(p) {
+  const defenses = p.defenses || {};
+  const types = Object.keys(defenses);
+  let html = `<div class="d-section-title">Defense by type</div>`;
+  if (!types.length) {
+    html += `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No defenses" : "No defense data (older battle log)"}</span></div>`;
+    return html;
+  }
+  html += `<div class="grid">`;
+  for (const type of types) {
+    html += `<div class="kv"><div class="k">${escapeHtml(type)}</div><div class="v">${defenses[type]}</div></div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderDamageTakenSection(p) {
+  const mults = p.damageTakenMultipliers || {};
+  const types = Object.keys(mults);
+  let html = `<div class="d-section-title">Damage taken by attack type</div>`;
+  if (!types.length) {
+    html += `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No mitigation" : "No mitigation data (older battle log)"}</span></div>`;
+    return html;
+  }
+  html += `<table class="stat-table"><thead><tr><th>Attack</th><th>Taken</th><th>Reduced</th></tr></thead><tbody>`;
+  for (const type of types) {
+    const mult = Number(mults[type]);
+    const takenPct = (mult * 100).toFixed(1);
+    const reducedPct = ((1 - mult) * 100).toFixed(1);
+    html += `<tr><td class="mono">${escapeHtml(type)}</td><td class="num">${takenPct}%</td><td class="num">${reducedPct}%</td></tr>`;
+  }
+  html += `</tbody></table>`;
+  return html;
 }
 
 function posOfLine(lineIndex) { const l = lineByIndex[lineIndex]; return l ? l.position : "?"; }
