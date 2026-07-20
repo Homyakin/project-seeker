@@ -22,6 +22,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.WorldRaidBattleResultService;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
+import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
@@ -138,14 +139,22 @@ public class ProcessWorldRaidBattleCommand {
         final var personageIds = participants.stream()
             .map(participant -> participant.personage().id())
             .collect(Collectors.toSet());
-        final var combatItemsByPersonageId = loadoutService.resolveCombatItems(personageIds, EventType.WORLD_RAID);
+        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personageIds, EventType.WORLD_RAID);
         return participants.stream()
-            .map(participant -> BattlePersonage.forCombat(
-                combatItemsByPersonageId.getOrDefault(participant.personage().id(), List.of()),
-                participant.personage().position(),
-                participant.personage().effects(),
-                Optional.of(LocaleUtils.personageNameWithBadge(participant.personage()))
-            ))
+            .map(participant -> {
+                final var personage = participant.personage();
+                final var combatGear = combatGearByPersonageId.get(personage.id());
+                final var items = combatGear == null ? List.<Item>of() : combatGear.items();
+                final var position = combatGear == null
+                    ? personage.position()
+                    : combatGear.positionOr(personage.position());
+                return BattlePersonage.forCombat(
+                    items,
+                    position,
+                    personage.effects(),
+                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
+                );
+            })
             .toList();
     }
 

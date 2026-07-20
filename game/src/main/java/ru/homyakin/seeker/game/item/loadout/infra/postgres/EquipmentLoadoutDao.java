@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -96,15 +97,16 @@ public class EquipmentLoadoutDao {
             .single();
     }
 
-    public long insert(PersonageId personageId, String name, List<Long> itemIds) {
+    public long insert(PersonageId personageId, String name, List<Long> itemIds, Position battlePosition) {
         return jdbcClient.sql("""
-                INSERT INTO personage_equipment_loadout (personage_id, name, item_ids)
-                VALUES (:personage_id, :name, :item_ids)
+                INSERT INTO personage_equipment_loadout (personage_id, name, item_ids, battle_position)
+                VALUES (:personage_id, :name, :item_ids, :battle_position)
                 RETURNING id
                 """)
             .param("personage_id", personageId.value())
             .param("name", name)
             .param("item_ids", itemIdsArray(itemIds))
+            .param("battle_position", battlePosition.name())
             .query((rs, _) -> rs.getLong("id"))
             .single();
     }
@@ -113,6 +115,18 @@ public class EquipmentLoadoutDao {
         jdbcClient.sql("UPDATE personage_equipment_loadout SET item_ids = :item_ids WHERE id = :id")
             .param("id", id)
             .param("item_ids", itemIdsArray(itemIds))
+            .update();
+    }
+
+    public void updateCurrent(long id, List<Long> itemIds, Position battlePosition) {
+        jdbcClient.sql("""
+                UPDATE personage_equipment_loadout
+                SET item_ids = :item_ids, battle_position = :battle_position
+                WHERE id = :id
+                """)
+            .param("id", id)
+            .param("item_ids", itemIdsArray(itemIds))
+            .param("battle_position", battlePosition.name())
             .update();
     }
 
@@ -168,6 +182,7 @@ public class EquipmentLoadoutDao {
             PersonageId.from(rs.getLong("personage_id")),
             rs.getString("name"),
             extractItemIds(rs.getArray("item_ids")),
+            Position.fromString(rs.getString("battle_position")),
             extractEventTypes(rs.getArray("default_event_type_ids"))
         );
     }
@@ -209,7 +224,7 @@ public class EquipmentLoadoutDao {
     }
 
     private static final String SELECT_SQL = """
-        SELECT id, personage_id, name, item_ids, default_event_type_ids
+        SELECT id, personage_id, name, item_ids, battle_position, default_event_type_ids
         FROM personage_equipment_loadout
         """;
 }

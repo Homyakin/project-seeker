@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.database.ItemDao;
@@ -23,6 +24,7 @@ import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.test_utils.CatalogTestUtils;
@@ -32,7 +34,13 @@ class EquipmentLoadoutServiceTest {
     private final EquipmentLoadoutDao loadoutDao = Mockito.mock(EquipmentLoadoutDao.class);
     private final ItemService itemService = Mockito.mock(ItemService.class);
     private final ItemDao itemDao = Mockito.mock(ItemDao.class);
-    private final EquipmentLoadoutService service = new EquipmentLoadoutService(loadoutDao, itemService, itemDao);
+    private final PersonageService personageService = Mockito.mock(PersonageService.class);
+    private final EquipmentLoadoutService service = new EquipmentLoadoutService(
+        loadoutDao,
+        itemService,
+        itemDao,
+        personageService
+    );
 
     @Test
     void createFromCurrent_requiresValidName() {
@@ -54,38 +62,42 @@ class EquipmentLoadoutServiceTest {
     }
 
     @Test
-    void createFromCurrent_savesEquippedItemIds() {
-        final var personageId = PersonageUtils.random().id();
+    void createFromCurrent_savesEquippedItemIdsAndBattlePosition() {
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
         final var equipped = personageItem(1L, personageId, true, PersonageSlot.MAIN_HAND);
         final var bag = personageItem(2L, personageId, false, PersonageSlot.BODY);
-        final var created = loadout(10L, personageId, "Raid", List.of(1L));
+        final var created = loadout(10L, personageId, "Raid", List.of(1L), personage.position());
 
         Mockito.when(loadoutDao.countByPersonageId(personageId)).thenReturn(0);
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(equipped, bag)));
-        Mockito.when(loadoutDao.insert(personageId, "Raid", List.of(1L))).thenReturn(10L);
+        Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
+        Mockito.when(loadoutDao.insert(personageId, "Raid", List.of(1L), personage.position())).thenReturn(10L);
         Mockito.when(loadoutDao.findById(10L)).thenReturn(Optional.of(created));
 
         final var result = service.createFromCurrent(personageId, "Raid");
 
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(created, result.get());
-        Mockito.verify(loadoutDao).insert(personageId, "Raid", List.of(1L));
+        Mockito.verify(loadoutDao).insert(personageId, "Raid", List.of(1L), personage.position());
     }
 
     @Test
-    void saveCurrent_updatesItemIds() {
-        final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(5L, personageId, "Old", List.of(1L));
+    void saveCurrent_updatesItemIdsAndBattlePosition() {
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
+        final var loadout = loadout(5L, personageId, "Old", List.of(1L), Position.FRONT);
         final var equipped = personageItem(3L, personageId, true, PersonageSlot.HELMET);
-        final var updated = loadout(5L, personageId, "Old", List.of(3L));
+        final var updated = loadout(5L, personageId, "Old", List.of(3L), personage.position());
 
         Mockito.when(loadoutDao.findById(5L)).thenReturn(Optional.of(loadout), Optional.of(updated));
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(equipped)));
+        Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
 
         final var result = service.saveCurrent(personageId, 5L);
 
         Assertions.assertTrue(result.isRight());
-        Mockito.verify(loadoutDao).updateItemIds(5L, List.of(3L));
+        Mockito.verify(loadoutDao).updateCurrent(5L, List.of(3L), personage.position());
     }
 
     @Test
@@ -93,7 +105,7 @@ class EquipmentLoadoutServiceTest {
         final var personageId = PersonageUtils.random().id();
         final var other = PersonageUtils.random().id();
         Mockito.when(loadoutDao.findById(5L))
-            .thenReturn(Optional.of(loadout(5L, other, "X", List.of())));
+            .thenReturn(Optional.of(loadout(5L, other, "X", List.of(), Position.MID)));
 
         final var result = service.saveCurrent(personageId, 5L);
 
@@ -104,7 +116,7 @@ class EquipmentLoadoutServiceTest {
     @Test
     void apply_failsWhenItemsMissing() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(1L, personageId, "Raid", List.of(10L, 11L));
+        final var loadout = loadout(1L, personageId, "Raid", List.of(10L, 11L), Position.BACK);
         final var owned = personageItem(10L, personageId, false, PersonageSlot.MAIN_HAND);
 
         Mockito.when(loadoutDao.findById(1L)).thenReturn(Optional.of(loadout));
@@ -115,12 +127,13 @@ class EquipmentLoadoutServiceTest {
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(List.of(11L), ((ApplyLoadoutError.MissingItems) result.getLeft()).missingItemIds());
         Mockito.verify(itemDao, Mockito.never()).setEquippedForPersonage(Mockito.any(), Mockito.any());
+        Mockito.verify(personageService, Mockito.never()).setBattlePosition(Mockito.any(), Mockito.any());
     }
 
     @Test
     void apply_failsWhenBagWouldOverflow() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(1L, personageId, "Raid", List.of());
+        final var loadout = loadout(1L, personageId, "Raid", List.of(), Position.MID);
         // totalOwned=16, targetCount=0 -> unequipped=16 > 15
         final var bagOnly = new ArrayList<PersonageItem>();
         for (long i = 1; i <= 16; i++) {
@@ -137,9 +150,9 @@ class EquipmentLoadoutServiceTest {
     }
 
     @Test
-    void apply_setsEquippedAtomically() {
+    void apply_setsEquippedAndBattlePositionAtomically() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(1L, personageId, "Raid", List.of(2L));
+        final var loadout = loadout(1L, personageId, "Raid", List.of(2L), Position.BACK);
         final var item1 = personageItem(1L, personageId, true, PersonageSlot.MAIN_HAND);
         final var item2 = personageItem(2L, personageId, false, PersonageSlot.BODY);
 
@@ -150,13 +163,14 @@ class EquipmentLoadoutServiceTest {
 
         Assertions.assertTrue(result.isRight());
         Mockito.verify(itemDao).setEquippedForPersonage(personageId, List.of(2L));
+        Mockito.verify(personageService).setBattlePosition(personageId, Position.BACK);
     }
 
     @Test
     void rename_updatesName() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(1L, personageId, "Old", List.of());
-        final var renamed = loadout(1L, personageId, "New", List.of());
+        final var loadout = loadout(1L, personageId, "Old", List.of(), Position.MID);
+        final var renamed = loadout(1L, personageId, "New", List.of(), Position.MID);
 
         Mockito.when(loadoutDao.findById(1L)).thenReturn(Optional.of(loadout), Optional.of(renamed));
 
@@ -171,7 +185,7 @@ class EquipmentLoadoutServiceTest {
     void delete_removesLoadout() {
         final var personageId = PersonageUtils.random().id();
         Mockito.when(loadoutDao.findById(1L))
-            .thenReturn(Optional.of(loadout(1L, personageId, "Raid", List.of())));
+            .thenReturn(Optional.of(loadout(1L, personageId, "Raid", List.of(), Position.FRONT)));
 
         final var result = service.delete(personageId, 1L);
 
@@ -182,8 +196,8 @@ class EquipmentLoadoutServiceTest {
     @Test
     void removeItemFromLoadouts_prunesIdsAndReturnsNames() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout1 = loadout(1L, personageId, "A", List.of(10L, 11L));
-        final var loadout2 = loadout(2L, personageId, "B", List.of(10L));
+        final var loadout1 = loadout(1L, personageId, "A", List.of(10L, 11L), Position.MID);
+        final var loadout2 = loadout(2L, personageId, "B", List.of(10L), Position.FRONT);
 
         Mockito.when(loadoutDao.findByPersonageIdAndItemId(personageId, 10L))
             .thenReturn(List.of(loadout1, loadout2));
@@ -201,7 +215,7 @@ class EquipmentLoadoutServiceTest {
     @Test
     void toggleDefault_setsAndClears() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(1L, personageId, "Raid", List.of(10L));
+        final var loadout = loadout(1L, personageId, "Raid", List.of(10L), Position.MID);
         Mockito.when(loadoutDao.findById(1L)).thenReturn(Optional.of(loadout));
 
         final var setResult = service.toggleDefault(personageId, 1L, EventType.RAID);
@@ -216,6 +230,7 @@ class EquipmentLoadoutServiceTest {
             personageId,
             "Raid",
             List.of(10L),
+            Position.MID,
             Set.of(EventType.RAID)
         );
         Mockito.when(loadoutDao.findById(1L)).thenReturn(Optional.of(selected));
@@ -231,7 +246,7 @@ class EquipmentLoadoutServiceTest {
     @Test
     void toggleDefault_replacesPreviousDefault() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(2L, personageId, "Duel", List.of());
+        final var loadout = loadout(2L, personageId, "Duel", List.of(), Position.FRONT);
         Mockito.when(loadoutDao.findById(2L)).thenReturn(Optional.of(loadout));
 
         final var result = service.toggleDefault(personageId, 2L, EventType.DUEL);
@@ -251,13 +266,14 @@ class EquipmentLoadoutServiceTest {
     }
 
     @Test
-    void resolveCombatItems_usesDefaultLoadoutWithoutEquipping() {
+    void resolveCombatGear_usesDefaultLoadoutWithoutEquipping() {
         final var personageId = PersonageUtils.random().id();
         final var loadout = new EquipmentLoadout(
             1L,
             personageId,
             "Raid",
             List.of(2L),
+            Position.BACK,
             Set.of(EventType.RAID)
         );
         final var ownedLoadoutItem = personageItem(2L, personageId, false, PersonageSlot.BODY);
@@ -272,20 +288,22 @@ class EquipmentLoadoutServiceTest {
             .thenReturn(new Inventory(List.of(ownedLoadoutItem)));
         Mockito.when(itemService.itemsWithDefaults(List.of(ownedLoadoutItem))).thenReturn(loadoutCombatItems);
 
-        final var result = service.resolveCombatItems(Set.of(personageId), EventType.RAID);
+        final var result = service.resolveCombatGear(Set.of(personageId), EventType.RAID);
 
-        Assertions.assertEquals(loadoutCombatItems, result.get(personageId));
+        Assertions.assertEquals(loadoutCombatItems, result.get(personageId).items());
+        Assertions.assertEquals(Optional.of(Position.BACK), result.get(personageId).battlePosition());
         Mockito.verify(itemDao, Mockito.never()).setEquippedForPersonage(Mockito.any(), Mockito.any());
     }
 
     @Test
-    void resolveCombatItems_usesOwnedSubsetWhenSomeItemsMissing() {
+    void resolveCombatGear_usesOwnedSubsetWhenSomeItemsMissing() {
         final var personageId = PersonageUtils.random().id();
         final var loadout = new EquipmentLoadout(
             1L,
             personageId,
             "Raid",
             List.of(2L, 99L),
+            Position.FRONT,
             Set.of(EventType.RAID)
         );
         final var owned = personageItem(2L, personageId, false, PersonageSlot.BODY);
@@ -299,19 +317,21 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(owned)));
         Mockito.when(itemService.itemsWithDefaults(List.of(owned))).thenReturn(loadoutCombatItems);
 
-        final var result = service.resolveCombatItems(Set.of(personageId), EventType.RAID);
+        final var result = service.resolveCombatGear(Set.of(personageId), EventType.RAID);
 
-        Assertions.assertEquals(loadoutCombatItems, result.get(personageId));
+        Assertions.assertEquals(loadoutCombatItems, result.get(personageId).items());
+        Assertions.assertEquals(Optional.of(Position.FRONT), result.get(personageId).battlePosition());
     }
 
     @Test
-    void resolveCombatItems_fallsBackToEquippedOnSlotConflicts() {
+    void resolveCombatGear_fallsBackToEquippedOnSlotConflicts() {
         final var personageId = PersonageUtils.random().id();
         final var loadout = new EquipmentLoadout(
             1L,
             personageId,
             "Raid",
             List.of(2L, 3L),
+            Position.BACK,
             Set.of(EventType.RAID)
         );
         final var item1 = personageItem(2L, personageId, false, PersonageSlot.BODY);
@@ -325,14 +345,15 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(itemService.getPersonageItems(personageId))
             .thenReturn(new Inventory(List.of(item1, item2)));
 
-        final var result = service.resolveCombatItems(Set.of(personageId), EventType.RAID);
+        final var result = service.resolveCombatGear(Set.of(personageId), EventType.RAID);
 
-        Assertions.assertEquals(equippedFallback, result.get(personageId));
+        Assertions.assertEquals(equippedFallback, result.get(personageId).items());
+        Assertions.assertTrue(result.get(personageId).battlePosition().isEmpty());
         Mockito.verify(itemService, Mockito.never()).itemsWithDefaults(Mockito.any());
     }
 
     @Test
-    void resolveCombatItems_fallsBackWhenNoDefault() {
+    void resolveCombatGear_fallsBackWhenNoDefault() {
         final var personageId = PersonageUtils.random().id();
         final var equippedFallback = List.of(Mockito.mock(Item.class));
 
@@ -341,13 +362,20 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(loadoutDao.findDefaultsByPersonageIdsAndEventType(Set.of(personageId), EventType.DUEL))
             .thenReturn(Map.of());
 
-        final var result = service.resolveCombatItems(Set.of(personageId), EventType.DUEL);
+        final var result = service.resolveCombatGear(Set.of(personageId), EventType.DUEL);
 
-        Assertions.assertEquals(equippedFallback, result.get(personageId));
+        Assertions.assertEquals(equippedFallback, result.get(personageId).items());
+        Assertions.assertTrue(result.get(personageId).battlePosition().isEmpty());
     }
 
-    private static EquipmentLoadout loadout(long id, PersonageId personageId, String name, List<Long> itemIds) {
-        return new EquipmentLoadout(id, personageId, name, itemIds, Set.of());
+    private static EquipmentLoadout loadout(
+        long id,
+        PersonageId personageId,
+        String name,
+        List<Long> itemIds,
+        Position battlePosition
+    ) {
+        return new EquipmentLoadout(id, personageId, name, itemIds, battlePosition, Set.of());
     }
 
     private PersonageItem personageItem(long id, PersonageId personageId, boolean equipped, PersonageSlot... slots) {
