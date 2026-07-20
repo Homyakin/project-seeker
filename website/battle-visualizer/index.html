@@ -293,7 +293,7 @@
   #overlay.show { display: flex; }
   #detail {
     background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-    width: 100%; max-width: 520px; max-height: 86vh; max-height: 86dvh;
+    width: 100%; max-width: 560px; max-height: 86vh; max-height: 86dvh;
     display: flex; flex-direction: column; overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
@@ -310,8 +310,31 @@
     width: 36px; height: 36px; border-radius: 8px; font-size: 18px; cursor: pointer; flex: 0 0 auto;
   }
   #detail .d-body { padding: 14px 16px; overflow-y: auto; }
-  #detail .d-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 14px 0 8px; }
-  #detail .d-section-title:first-child { margin-top: 0; }
+  #detail .d-section { margin-top: 12px; }
+  #detail .d-section:first-child { margin-top: 0; }
+  #detail .d-section-toggle {
+    width: 100%; display: flex; align-items: center; gap: 8px;
+    background: transparent; border: none; color: var(--muted); cursor: pointer;
+    padding: 4px 0; margin: 0 0 8px; text-align: left;
+    font: inherit; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  #detail .d-section-toggle:hover { color: var(--text); }
+  #detail .d-section-toggle .chevron {
+    width: 0; height: 0; flex: 0 0 auto;
+    border-left: 5px solid currentColor;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transform: rotate(90deg);
+    transition: transform 140ms ease;
+  }
+  #detail .d-section.collapsed .d-section-toggle .chevron { transform: rotate(0deg); }
+  #detail .d-section.collapsed .d-section-toggle { margin-bottom: 0; }
+  #detail .d-section-title-text { flex: 1; min-width: 0; }
+  #detail .d-section-title-text .hint {
+    text-transform: none; letter-spacing: 0; font-weight: 600;
+  }
+  #detail .d-section-body { display: block; }
+  #detail .d-section.collapsed .d-section-body { display: none; }
   .hp-big { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .hp-big .bar { flex: 1; height: 16px; }
   .hp-big .bar .label { font-size: 11px; }
@@ -324,6 +347,25 @@
   }
   .kv .k { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .kv .v { font-size: 15px; font-weight: 700; }
+  .kv .v.small { font-size: 12px; font-weight: 600; word-break: break-word; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 11px; padding: 4px 8px; border-radius: 6px;
+    background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+    font-family: ui-monospace, monospace;
+  }
+  .tag .muted { color: var(--muted); }
+  .tag.skill { border-color: rgba(120, 200, 255, 0.35); color: var(--skill); }
+  .tag.empty { color: var(--muted-2); font-style: italic; font-family: inherit; }
+  .stat-table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+  }
+  .stat-table th, .stat-table td {
+    text-align: left; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-table th { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .stat-table td.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .stat-table td.mono { font-family: ui-monospace, monospace; font-size: 11px; }
   .timeline { display: flex; flex-direction: column; gap: 0; }
   .timeline .tl {
     font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -496,6 +538,8 @@ let playTimer = null;
 let playSpeedMs = 200;
 let openDetailId = null;
 let nameFilter = ""; // lowercased personage-name query for the log + battlefield
+/** @type {Record<string, boolean>} section key -> collapsed */
+const detailSectionCollapsed = Object.create(null);
 
 const qs = new URLSearchParams(location.search);
 
@@ -672,6 +716,23 @@ function buildInitialLive() {
       lineIndex: p.lineIndex, advanceDirection: p.advanceDirection,
       initiative: p.initiative, gauge: p.initiativeGauge,
       range: p.range, threat: p.totalThreat, baseThreat: p.totalThreat, alive: true,
+      // characteristics / loadout (optional on older battle-init JSON)
+      hasExtendedStats: p.critChance != null
+        || Array.isArray(p.items)
+        || Array.isArray(p.skills)
+        || Array.isArray(p.attacksByRange)
+        || (p.defenses && typeof p.defenses === "object")
+        || (p.damageTakenMultipliers && typeof p.damageTakenMultipliers === "object"),
+      items: Array.isArray(p.items) ? p.items : [],
+      skills: Array.isArray(p.skills) ? p.skills : [],
+      critChance: p.critChance ?? null,
+      dodgeChance: p.dodgeChance ?? null,
+      critMultiplier: p.critMultiplier ?? null,
+      attacksByRange: Array.isArray(p.attacksByRange) ? p.attacksByRange : [],
+      defenses: p.defenses && typeof p.defenses === "object" ? p.defenses : {},
+      damageTakenMultipliers: p.damageTakenMultipliers && typeof p.damageTakenMultipliers === "object"
+        ? p.damageTakenMultipliers : {},
+      attackBuffs: [],
       // accumulated stats
       dmgDealt: 0, dmgTaken: 0, healed: 0, kills: 0, hitsLanded: 0,
       critsDealt: 0, dodged: 0, missed: 0, skillsUsed: 0,
@@ -760,7 +821,11 @@ function applyEvent(ev) {
     }
     case "PersonageAttackBuffed": {
       const p = live[ev.personageId];
-      if (p) { p.flash = "buff"; p.popup = { text: "+" + ev.attackBonusPercent + "% ATK", kind: "buff" }; }
+      if (p) {
+        p.flash = "buff";
+        p.popup = { text: "+" + ev.attackBonusPercent + "% ATK", kind: "buff" };
+        if (typeof ev.attackBonusPercent === "number") p.attackBuffs.push(ev.attackBonusPercent);
+      }
       break;
     }
     case "PersonageDefeated": {
@@ -965,7 +1030,6 @@ function renderCard(p) {
     <div class="mini-stats">
       <span>rng <b>${p.range}</b></span>
       <span>thr <b>${threatText(p)}</b></span>
-      <span>${p.advanceDirection === "TOWARD_SECOND_TEAM" ? "→" : "←"}</span>
     </div>
   `;
   if (p.popup) {
@@ -1134,6 +1198,31 @@ function scrollLogToCursor() {
 function openDetail(id) { openDetailId = id; renderDetail(id); el.overlay.classList.add("show"); }
 function closeDetail() { openDetailId = null; el.overlay.classList.remove("show"); }
 
+function detailSection(key, titleHtml, bodyHtml) {
+  const collapsed = !!detailSectionCollapsed[key];
+  return `<section class="d-section${collapsed ? " collapsed" : ""}" data-section="${escapeHtml(key)}">
+    <button type="button" class="d-section-toggle" aria-expanded="${collapsed ? "false" : "true"}">
+      <span class="chevron" aria-hidden="true"></span>
+      <span class="d-section-title-text">${titleHtml}</span>
+    </button>
+    <div class="d-section-body">${bodyHtml}</div>
+  </section>`;
+}
+
+function bindDetailSections() {
+  el.dBody.querySelectorAll(".d-section-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const section = btn.closest(".d-section");
+      if (!section) return;
+      const key = section.dataset.section;
+      const collapsed = !section.classList.contains("collapsed");
+      section.classList.toggle("collapsed", collapsed);
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      detailSectionCollapsed[key] = collapsed;
+    });
+  });
+}
+
 function renderDetail(id) {
   const p = live[id];
   const m = meta[id];
@@ -1155,32 +1244,182 @@ function renderDetail(id) {
     <div class="bar gauge ${gPct >= 100 ? "ready" : ""}" style="height:12px"><div class="fill" style="width:${gPct}%"></div><div class="label">${p.gauge} / ${GAUGE_MAX} gauge</div></div>
   </div>`;
 
-  html += `<div class="d-section-title">Attributes</div>`;
-  html += `<div class="grid">`;
-  html += stat("Initiative", p.initiative);
-  html += stat("Range", p.range);
-  html += stat("Threat", threatText(p));
-  html += stat("Line", `${p.lineIndex} (${posOfLine(p.lineIndex)})`);
-  html += stat("Advance", p.advanceDirection === "TOWARD_SECOND_TEAM" ? "→ team 2" : "← team 1");
-  html += stat("Full ID", `<span style="font-size:11px;font-family:ui-monospace,monospace">${escapeHtml(String(p.id))}</span>`);
-  html += `</div>`;
+  let attrs = `<div class="grid">`;
+  attrs += stat("Initiative", p.initiative);
+  attrs += stat("Range", p.range);
+  attrs += stat("Threat", threatText(p));
+  attrs += stat("Line", `${p.lineIndex} (${posOfLine(p.lineIndex)})`);
+  if (p.critChance != null) attrs += stat("Crit chance", `${p.critChance}%`);
+  if (p.dodgeChance != null) attrs += stat("Dodge chance", `${p.dodgeChance}%`);
+  if (p.critMultiplier != null) attrs += stat("Crit mult", Number(p.critMultiplier).toFixed(2));
+  attrs += stat("Full ID", `<span style="font-size:11px;font-family:ui-monospace,monospace">${escapeHtml(String(p.id))}</span>`);
+  attrs += `</div>`;
+  html += detailSection("attributes", "Attributes", attrs);
 
-  html += `<div class="d-section-title">Combat so far</div>`;
-  html += `<div class="grid">`;
-  html += stat("Damage dealt", p.dmgDealt);
-  html += stat("Damage taken", p.dmgTaken);
-  html += stat("Hits landed", p.hitsLanded);
-  html += stat("Crits", p.critsDealt);
-  html += stat("Kills", p.kills);
-  html += stat("Healing", p.healed);
-  html += stat("Dodges", p.dodged);
-  html += stat("Skill hits", p.skillsUsed);
-  html += `</div>`;
+  html += renderItemsSection(p);
+  html += renderSkillsSection(p);
+  html += renderAttacksSection(p);
+  html += renderDefensesSection(p);
+  html += renderDamageTakenSection(p);
 
-  html += `<div class="d-section-title">Timeline (up to current step)</div>`;
-  html += renderTimeline(id);
+  let combat = `<div class="grid">`;
+  combat += stat("Damage dealt", p.dmgDealt);
+  combat += stat("Damage taken", p.dmgTaken);
+  combat += stat("Hits landed", p.hitsLanded);
+  combat += stat("Crits", p.critsDealt);
+  combat += stat("Kills", p.kills);
+  combat += stat("Healing", p.healed);
+  combat += stat("Dodges", p.dodged);
+  combat += stat("Skill hits", p.skillsUsed);
+  combat += `</div>`;
+  html += detailSection("combat", "Combat so far", combat);
+
+  html += detailSection("timeline", "Timeline (up to current step)", renderTimeline(id));
 
   el.dBody.innerHTML = html;
+  bindDetailSections();
+}
+
+function itemCodeLabel(item) {
+  if (!item) return null;
+  if (typeof item === "string") return item;
+  if (item.code) return String(item.code);
+  return null;
+}
+
+function itemSkillCode(item) {
+  if (!item || typeof item !== "object") return null;
+  // Prefer skill (ActiveEnum), fall back to legacy modifier field from earlier drafts.
+  if (item.skill) return String(item.skill);
+  if (item.modifier) return String(item.modifier);
+  return null;
+}
+
+function renderItemsSection(p) {
+  const items = p.items || [];
+  let body;
+  if (!p.hasExtendedStats) {
+    body = `<div class="tag-row"><span class="tag empty">No item data (older battle log)</span></div>`;
+  } else if (!items.length) {
+    body = `<div class="tag-row"><span class="tag empty">No items</span></div>`;
+  } else {
+    body = `<div class="tag-row">`;
+    for (const item of items) {
+      const rarity = item.rarity ? String(item.rarity) : "—";
+      const code = itemCodeLabel(item) || "—";
+      const skill = itemSkillCode(item);
+      const bits = [
+        `<span class="muted">${escapeHtml(rarity)}</span>`,
+        `<b>${escapeHtml(code)}</b>`,
+      ];
+      if (skill) bits.push(`<span class="muted">${escapeHtml(skill)}</span>`);
+      body += `<span class="tag">${bits.join(" ")}</span>`;
+    }
+    body += `</div>`;
+  }
+  return detailSection("items", "Items", body);
+}
+
+function renderSkillsSection(p) {
+  const skills = p.skills || [];
+  let body;
+  if (!p.hasExtendedStats) {
+    body = `<div class="tag-row"><span class="tag empty">No skill data (older battle log)</span></div>`;
+  } else if (!skills.length) {
+    body = `<div class="tag-row"><span class="tag empty">No skills</span></div>`;
+  } else {
+    body = `<div class="tag-row">`;
+    for (const skill of skills) {
+      const code = typeof skill === "string" ? skill : (skill.code || "");
+      const points = typeof skill === "object" && skill != null && skill.points != null ? skill.points : null;
+      const label = points != null
+        ? `${escapeHtml(String(code))} <span class="muted">×${escapeHtml(String(points))}</span>`
+        : escapeHtml(String(code));
+      body += `<span class="tag skill">${label}</span>`;
+    }
+    body += `</div>`;
+  }
+  return detailSection("skills", "Skills", body);
+}
+
+function addPercentInt(value, percent) {
+  return Math.round(Number(value) * (1 + Number(percent) / 100));
+}
+
+function currentAttackValue(base, buffs) {
+  let v = Number(base) || 0;
+  for (const pct of buffs || []) v = addPercentInt(v, pct);
+  return v;
+}
+
+function renderAttacksSection(p) {
+  const rows = p.attacksByRange || [];
+  let title = "Attack by range";
+  if ((p.attackBuffs || []).length) {
+    const sum = p.attackBuffs.reduce((a, b) => a + b, 0);
+    title += ` <span class="hint" style="color:var(--buff)">(+${sum}% applied)</span>`;
+  }
+  let body;
+  if (!rows.length) {
+    body = `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No attacks" : "No attack data (older battle log)"}</span></div>`;
+  } else {
+    body = `<table class="stat-table"><thead><tr><th>Range</th><th>Type</th><th>Attack</th></tr></thead><tbody>`;
+    for (const slot of rows) {
+      const attack = slot.attack || {};
+      const types = Object.keys(attack);
+      if (!types.length) {
+        body += `<tr><td class="num">${slot.range}</td><td class="mono" colspan="2">—</td></tr>`;
+        continue;
+      }
+      types.forEach((type, i) => {
+        const cur = currentAttackValue(attack[type], p.attackBuffs);
+        const base = Number(attack[type]);
+        const shown = (p.attackBuffs || []).length && cur !== base
+          ? `${cur} <span style="color:var(--muted);font-weight:500">(${base})</span>`
+          : String(cur);
+        body += `<tr>`;
+        body += i === 0 ? `<td class="num" rowspan="${types.length}">${slot.range}</td>` : "";
+        body += `<td class="mono">${escapeHtml(type)}</td><td class="num">${shown}</td></tr>`;
+      });
+    }
+    body += `</tbody></table>`;
+  }
+  return detailSection("attacks", title, body);
+}
+
+function renderDefensesSection(p) {
+  const defenses = p.defenses || {};
+  const types = Object.keys(defenses);
+  let body;
+  if (!types.length) {
+    body = `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No defenses" : "No defense data (older battle log)"}</span></div>`;
+  } else {
+    body = `<div class="grid">`;
+    for (const type of types) {
+      body += `<div class="kv"><div class="k">${escapeHtml(type)}</div><div class="v">${defenses[type]}</div></div>`;
+    }
+    body += `</div>`;
+  }
+  return detailSection("defenses", "Defense by type", body);
+}
+
+function renderDamageTakenSection(p) {
+  const mults = p.damageTakenMultipliers || {};
+  const types = Object.keys(mults);
+  let body;
+  if (!types.length) {
+    body = `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No mitigation" : "No mitigation data (older battle log)"}</span></div>`;
+  } else {
+    body = `<table class="stat-table"><thead><tr><th>Attack</th><th>Taken</th><th>Reduced</th></tr></thead><tbody>`;
+    for (const type of types) {
+      const mult = Number(mults[type]);
+      const takenPct = (mult * 100).toFixed(1);
+      const reducedPct = ((1 - mult) * 100).toFixed(1);
+      body += `<tr><td class="mono">${escapeHtml(type)}</td><td class="num">${takenPct}%</td><td class="num">${reducedPct}%</td></tr>`;
+    }
+    body += `</tbody></table>`;
+  }
+  return detailSection("damageTaken", "Damage taken by attack type", body);
 }
 
 function posOfLine(lineIndex) { const l = lineByIndex[lineIndex]; return l ? l.position : "?"; }

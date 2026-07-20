@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -90,6 +91,8 @@ public class BattlePersonage {
     private int health;
     private final Set<AttackType> attackTypes = new HashSet<>();
     private final List<ItemSkill> itemSkills = new ArrayList<>();
+    private final List<BattleItemInitSnapshot> itemSnapshots;
+    private final List<BattleSkillInitSnapshot> skillSnapshots;
     private final Map<AttackType, Integer>[] rangeAttack;
     private final Map<AttackType, Integer>[] rangeAttackCrit;
     private final Map<DefenseType, Integer> defense;
@@ -185,6 +188,7 @@ public class BattlePersonage {
         var totalCritMultiplier = BASE_CRIT_MULTIPLIER;
         var totalSpeed = 0;
         var totalBaseThreat = 0;
+        final var builtItemSnapshots = new ArrayList<BattleItemInitSnapshot>();
         for (final var item : items) {
             totalCritChance += item.critChance();
             totalDodgeChance += item.dodgeChance();
@@ -197,16 +201,27 @@ public class BattlePersonage {
             if (item.modifier().isPresent() && item.rarity() != ItemRarity.COMMON) {
                 activeSkills.merge(item.modifier().get().activeEnum(), item.skillPoints(), Integer::sum);
             }
+            if (shouldSnapshotItem(item)) {
+                builtItemSnapshots.add(new BattleItemInitSnapshot(
+                    item.object().code(),
+                    item.rarity(),
+                    item.modifier().map(Modifier::activeEnum)
+                ));
+            }
         }
+        this.itemSnapshots = List.copyOf(builtItemSnapshots);
         for (final var entry : skillPointsByActive.entrySet()) {
             activeSkills.put(entry.getKey(), activeSkills.getOrDefault(entry.getKey(), 0) + entry.getValue());
         }
         this.critMultiplier = totalCritMultiplier;
+        final var builtSkillSnapshots = new ArrayList<BattleSkillInitSnapshot>();
         for (final var entry : activeSkills.entrySet()) {
             if (entry.getValue() > 0) {
                 itemSkills.add(SkillMapper.map(entry.getKey(), entry.getValue()));
+                builtSkillSnapshots.add(new BattleSkillInitSnapshot(entry.getKey(), entry.getValue()));
             }
         }
+        this.skillSnapshots = List.copyOf(builtSkillSnapshots);
         for (final var skill : itemSkills) {
             switch (skill) {
                 case TurnSkill.TurnStartSkill turnStartSkill -> turnStartSkills.add(turnStartSkill);
@@ -269,6 +284,10 @@ public class BattlePersonage {
 
     int slotOneAttackSum() {
         return rangeAttack[1].values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    private static boolean shouldSnapshotItem(Item item) {
+        return item.object().code() != null;
     }
 
     private void applyPersonageEffects(List<Item> items, PersonageEffects effects) {
@@ -724,8 +743,24 @@ public class BattlePersonage {
         return Map.copyOf(rangeAttack[slot]);
     }
 
+    public List<BattleRangeAttackInitSnapshot> attacksByRange() {
+        final var attacks = new ArrayList<BattleRangeAttackInitSnapshot>();
+        for (int i = 1; i < rangeAttack.length; i++) {
+            attacks.add(new BattleRangeAttackInitSnapshot(i, Map.copyOf(rangeAttack[i])));
+        }
+        return List.copyOf(attacks);
+    }
+
     public Map<AttackType, Double> defenseReductions() {
         return Map.copyOf(defenseReduce);
+    }
+
+    public List<BattleItemInitSnapshot> itemSnapshots() {
+        return itemSnapshots;
+    }
+
+    public List<BattleSkillInitSnapshot> skillSnapshots() {
+        return skillSnapshots;
     }
 
     public int initiative() {

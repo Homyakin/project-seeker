@@ -97,7 +97,15 @@ public class Battle {
                     p.initiative(),
                     p.initiativeGauge(),
                     p.range(),
-                    p.totalThreat()
+                    p.totalThreat(),
+                    p.itemSnapshots(),
+                    p.skillSnapshots(),
+                    p.critChance(),
+                    p.dodgeChance(),
+                    p.critMultiplier(),
+                    p.attacksByRange(),
+                    p.defenses(),
+                    p.defenseReductions()
                 )
             )
         );
