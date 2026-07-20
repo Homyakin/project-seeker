@@ -267,7 +267,8 @@ class EquipmentLoadoutServiceTest {
 
     @Test
     void resolveCombatGear_usesDefaultLoadoutWithoutEquipping() {
-        final var personageId = PersonageUtils.random().id();
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
         final var loadout = new EquipmentLoadout(
             1L,
             personageId,
@@ -288,16 +289,17 @@ class EquipmentLoadoutServiceTest {
             .thenReturn(new Inventory(List.of(ownedLoadoutItem)));
         Mockito.when(itemService.itemsWithDefaults(List.of(ownedLoadoutItem))).thenReturn(loadoutCombatItems);
 
-        final var result = service.resolveCombatGear(Set.of(personageId), EventType.RAID);
+        final var result = service.resolveCombatGear(List.of(personage), EventType.RAID);
 
         Assertions.assertEquals(loadoutCombatItems, result.get(personageId).items());
-        Assertions.assertEquals(Optional.of(Position.BACK), result.get(personageId).battlePosition());
+        Assertions.assertEquals(Position.BACK, result.get(personageId).battlePosition());
         Mockito.verify(itemDao, Mockito.never()).setEquippedForPersonage(Mockito.any(), Mockito.any());
     }
 
     @Test
     void resolveCombatGear_usesOwnedSubsetWhenSomeItemsMissing() {
-        final var personageId = PersonageUtils.random().id();
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
         final var loadout = new EquipmentLoadout(
             1L,
             personageId,
@@ -317,15 +319,16 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(owned)));
         Mockito.when(itemService.itemsWithDefaults(List.of(owned))).thenReturn(loadoutCombatItems);
 
-        final var result = service.resolveCombatGear(Set.of(personageId), EventType.RAID);
+        final var result = service.resolveCombatGear(List.of(personage), EventType.RAID);
 
         Assertions.assertEquals(loadoutCombatItems, result.get(personageId).items());
-        Assertions.assertEquals(Optional.of(Position.FRONT), result.get(personageId).battlePosition());
+        Assertions.assertEquals(Position.FRONT, result.get(personageId).battlePosition());
     }
 
     @Test
     void resolveCombatGear_fallsBackToEquippedOnSlotConflicts() {
-        final var personageId = PersonageUtils.random().id();
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
         final var loadout = new EquipmentLoadout(
             1L,
             personageId,
@@ -345,16 +348,17 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(itemService.getPersonageItems(personageId))
             .thenReturn(new Inventory(List.of(item1, item2)));
 
-        final var result = service.resolveCombatGear(Set.of(personageId), EventType.RAID);
+        final var result = service.resolveCombatGear(List.of(personage), EventType.RAID);
 
         Assertions.assertEquals(equippedFallback, result.get(personageId).items());
-        Assertions.assertTrue(result.get(personageId).battlePosition().isEmpty());
+        Assertions.assertEquals(personage.position(), result.get(personageId).battlePosition());
         Mockito.verify(itemService, Mockito.never()).itemsWithDefaults(Mockito.any());
     }
 
     @Test
     void resolveCombatGear_fallsBackWhenNoDefault() {
-        final var personageId = PersonageUtils.random().id();
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
         final var equippedFallback = List.of(Mockito.mock(Item.class));
 
         Mockito.when(itemService.getEquippedItemsByPersonageIds(Set.of(personageId)))
@@ -362,10 +366,10 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(loadoutDao.findDefaultsByPersonageIdsAndEventType(Set.of(personageId), EventType.DUEL))
             .thenReturn(Map.of());
 
-        final var result = service.resolveCombatGear(Set.of(personageId), EventType.DUEL);
+        final var result = service.resolveCombatGear(List.of(personage), EventType.DUEL);
 
         Assertions.assertEquals(equippedFallback, result.get(personageId).items());
-        Assertions.assertTrue(result.get(personageId).battlePosition().isEmpty());
+        Assertions.assertEquals(personage.position(), result.get(personageId).battlePosition());
     }
 
     private static EquipmentLoadout loadout(

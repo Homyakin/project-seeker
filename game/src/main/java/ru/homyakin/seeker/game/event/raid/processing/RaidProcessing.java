@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,6 @@ import ru.homyakin.seeker.game.effect.ItemFoundChanceBonus;
 import ru.homyakin.seeker.game.effect.RaidGoldRewardBonus;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -182,21 +180,17 @@ public class RaidProcessing {
     }
 
     private List<BattlePersonage> toBattlePersonages(List<RaidParticipant> participants) {
-        final var personageIds = participants.stream()
-            .map(participant -> participant.personage().id())
-            .collect(Collectors.toSet());
-        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personageIds, EventType.RAID);
+        final var personages = participants.stream()
+            .map(RaidParticipant::personage)
+            .toList();
+        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personages, EventType.RAID);
         return participants.stream()
             .map(participant -> {
                 final var personage = participant.personage();
                 final var combatGear = combatGearByPersonageId.get(personage.id());
-                final var items = combatGear == null ? List.<Item>of() : combatGear.items();
-                final var position = combatGear == null
-                    ? personage.position()
-                    : combatGear.positionOr(personage.position());
                 return BattlePersonage.forCombat(
-                    items,
-                    position,
+                    combatGear.items(),
+                    combatGear.battlePosition(),
                     personage.effects(),
                     Optional.of(LocaleUtils.personageNameWithBadge(personage))
                 );

@@ -3,7 +3,6 @@ package ru.homyakin.seeker.game.duel;
 import io.vavr.control.Either;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
@@ -184,19 +183,19 @@ public class DuelService {
         final var personage1 = personageService.getByIdForce(duel.initiatingPersonageId());
         final var personage2 = personageService.getByIdForce(duel.acceptingPersonageId());
         final var combatGear = loadoutService.resolveCombatGear(
-            Set.of(personage1.id(), personage2.id()),
+            List.of(personage1, personage2),
             EventType.DUEL
         );
         final var firstGear = combatGear.get(personage1.id());
         final var secondGear = combatGear.get(personage2.id());
         final var firstBattlePersonage = BattlePersonage.forCombat(
-            firstGear == null ? List.of() : firstGear.items(),
+            firstGear.items(),
             Position.FRONT,
             personage1.effects(),
             Optional.of(LocaleUtils.personageNameWithBadge(personage1))
         );
         final var secondBattlePersonage = BattlePersonage.forCombat(
-            secondGear == null ? List.of() : secondGear.items(),
+            secondGear.items(),
             Position.FRONT,
             personage2.effects(),
             Optional.of(LocaleUtils.personageNameWithBadge(personage2))

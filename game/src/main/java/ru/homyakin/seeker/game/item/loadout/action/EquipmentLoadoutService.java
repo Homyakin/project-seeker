@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.loadout.action;
 
 import io.vavr.control.Either;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +30,7 @@ import ru.homyakin.seeker.game.item.loadout.infra.postgres.EquipmentLoadoutDao;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.models.Success;
@@ -106,13 +108,28 @@ public class EquipmentLoadoutService {
         return Either.right(ToggleDefaultLoadoutResult.SET);
     }
 
-    public Map<PersonageId, ResolvedCombatGear> resolveCombatGear(Set<PersonageId> personageIds, EventType eventType) {
+    public Map<PersonageId, ResolvedCombatGear> resolveCombatGear(
+        Collection<Personage> personages,
+        EventType eventType
+    ) {
+        if (personages.isEmpty()) {
+            return Map.of();
+        }
+        final var personageIds = personages.stream()
+            .map(Personage::id)
+            .collect(Collectors.toSet());
         final var equippedByPersonageId = itemService.getEquippedItemsByPersonageIds(personageIds);
         final var result = new HashMap<PersonageId, ResolvedCombatGear>();
-        for (final var entry : equippedByPersonageId.entrySet()) {
-            result.put(entry.getKey(), ResolvedCombatGear.fromEquipped(entry.getValue()));
+        for (final var personage : personages) {
+            result.put(
+                personage.id(),
+                new ResolvedCombatGear(
+                    equippedByPersonageId.getOrDefault(personage.id(), List.of()),
+                    personage.position()
+                )
+            );
         }
-        if (personageIds.isEmpty() || !DEFAULT_LOADOUT_EVENT_TYPES.contains(eventType)) {
+        if (!DEFAULT_LOADOUT_EVENT_TYPES.contains(eventType)) {
             return result;
         }
 
@@ -136,7 +153,7 @@ public class EquipmentLoadoutService {
             }
             result.put(
                 personageId,
-                ResolvedCombatGear.fromLoadout(
+                new ResolvedCombatGear(
                     itemService.itemsWithDefaults(ownedLoadoutItems),
                     loadout.battlePosition()
                 )

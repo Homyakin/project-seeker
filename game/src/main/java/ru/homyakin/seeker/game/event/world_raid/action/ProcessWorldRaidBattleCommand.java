@@ -22,7 +22,6 @@ import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidStorage;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.WorldRaidBattleResultService;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
-import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.event.WorldRaidParticipant;
@@ -35,7 +34,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 public class ProcessWorldRaidBattleCommand {
@@ -136,21 +134,17 @@ public class ProcessWorldRaidBattleCommand {
     }
 
     private List<BattlePersonage> toBattlePersonages(List<WorldRaidParticipant> participants) {
-        final var personageIds = participants.stream()
-            .map(participant -> participant.personage().id())
-            .collect(Collectors.toSet());
-        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personageIds, EventType.WORLD_RAID);
+        final var personages = participants.stream()
+            .map(WorldRaidParticipant::personage)
+            .toList();
+        final var combatGearByPersonageId = loadoutService.resolveCombatGear(personages, EventType.WORLD_RAID);
         return participants.stream()
             .map(participant -> {
                 final var personage = participant.personage();
                 final var combatGear = combatGearByPersonageId.get(personage.id());
-                final var items = combatGear == null ? List.<Item>of() : combatGear.items();
-                final var position = combatGear == null
-                    ? personage.position()
-                    : combatGear.positionOr(personage.position());
                 return BattlePersonage.forCombat(
-                    items,
-                    position,
+                    combatGear.items(),
+                    combatGear.battlePosition(),
                     personage.effects(),
                     Optional.of(LocaleUtils.personageNameWithBadge(personage))
                 );
