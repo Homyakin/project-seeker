@@ -310,8 +310,31 @@
     width: 36px; height: 36px; border-radius: 8px; font-size: 18px; cursor: pointer; flex: 0 0 auto;
   }
   #detail .d-body { padding: 14px 16px; overflow-y: auto; }
-  #detail .d-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 14px 0 8px; }
-  #detail .d-section-title:first-child { margin-top: 0; }
+  #detail .d-section { margin-top: 12px; }
+  #detail .d-section:first-child { margin-top: 0; }
+  #detail .d-section-toggle {
+    width: 100%; display: flex; align-items: center; gap: 8px;
+    background: transparent; border: none; color: var(--muted); cursor: pointer;
+    padding: 4px 0; margin: 0 0 8px; text-align: left;
+    font: inherit; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  #detail .d-section-toggle:hover { color: var(--text); }
+  #detail .d-section-toggle .chevron {
+    width: 0; height: 0; flex: 0 0 auto;
+    border-left: 5px solid currentColor;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transform: rotate(90deg);
+    transition: transform 140ms ease;
+  }
+  #detail .d-section.collapsed .d-section-toggle .chevron { transform: rotate(0deg); }
+  #detail .d-section.collapsed .d-section-toggle { margin-bottom: 0; }
+  #detail .d-section-title-text { flex: 1; min-width: 0; }
+  #detail .d-section-title-text .hint {
+    text-transform: none; letter-spacing: 0; font-weight: 600;
+  }
+  #detail .d-section-body { display: block; }
+  #detail .d-section.collapsed .d-section-body { display: none; }
   .hp-big { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .hp-big .bar { flex: 1; height: 16px; }
   .hp-big .bar .label { font-size: 11px; }
@@ -515,6 +538,8 @@ let playTimer = null;
 let playSpeedMs = 200;
 let openDetailId = null;
 let nameFilter = ""; // lowercased personage-name query for the log + battlefield
+/** @type {Record<string, boolean>} section key -> collapsed */
+const detailSectionCollapsed = Object.create(null);
 
 const qs = new URLSearchParams(location.search);
 
@@ -1173,6 +1198,31 @@ function scrollLogToCursor() {
 function openDetail(id) { openDetailId = id; renderDetail(id); el.overlay.classList.add("show"); }
 function closeDetail() { openDetailId = null; el.overlay.classList.remove("show"); }
 
+function detailSection(key, titleHtml, bodyHtml) {
+  const collapsed = !!detailSectionCollapsed[key];
+  return `<section class="d-section${collapsed ? " collapsed" : ""}" data-section="${escapeHtml(key)}">
+    <button type="button" class="d-section-toggle" aria-expanded="${collapsed ? "false" : "true"}">
+      <span class="chevron" aria-hidden="true"></span>
+      <span class="d-section-title-text">${titleHtml}</span>
+    </button>
+    <div class="d-section-body">${bodyHtml}</div>
+  </section>`;
+}
+
+function bindDetailSections() {
+  el.dBody.querySelectorAll(".d-section-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const section = btn.closest(".d-section");
+      if (!section) return;
+      const key = section.dataset.section;
+      const collapsed = !section.classList.contains("collapsed");
+      section.classList.toggle("collapsed", collapsed);
+      btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      detailSectionCollapsed[key] = collapsed;
+    });
+  });
+}
+
 function renderDetail(id) {
   const p = live[id];
   const m = meta[id];
@@ -1194,17 +1244,17 @@ function renderDetail(id) {
     <div class="bar gauge ${gPct >= 100 ? "ready" : ""}" style="height:12px"><div class="fill" style="width:${gPct}%"></div><div class="label">${p.gauge} / ${GAUGE_MAX} gauge</div></div>
   </div>`;
 
-  html += `<div class="d-section-title">Attributes</div>`;
-  html += `<div class="grid">`;
-  html += stat("Initiative", p.initiative);
-  html += stat("Range", p.range);
-  html += stat("Threat", threatText(p));
-  html += stat("Line", `${p.lineIndex} (${posOfLine(p.lineIndex)})`);
-  if (p.critChance != null) html += stat("Crit chance", `${p.critChance}%`);
-  if (p.dodgeChance != null) html += stat("Dodge chance", `${p.dodgeChance}%`);
-  if (p.critMultiplier != null) html += stat("Crit mult", Number(p.critMultiplier).toFixed(2));
-  html += stat("Full ID", `<span style="font-size:11px;font-family:ui-monospace,monospace">${escapeHtml(String(p.id))}</span>`);
-  html += `</div>`;
+  let attrs = `<div class="grid">`;
+  attrs += stat("Initiative", p.initiative);
+  attrs += stat("Range", p.range);
+  attrs += stat("Threat", threatText(p));
+  attrs += stat("Line", `${p.lineIndex} (${posOfLine(p.lineIndex)})`);
+  if (p.critChance != null) attrs += stat("Crit chance", `${p.critChance}%`);
+  if (p.dodgeChance != null) attrs += stat("Dodge chance", `${p.dodgeChance}%`);
+  if (p.critMultiplier != null) attrs += stat("Crit mult", Number(p.critMultiplier).toFixed(2));
+  attrs += stat("Full ID", `<span style="font-size:11px;font-family:ui-monospace,monospace">${escapeHtml(String(p.id))}</span>`);
+  attrs += `</div>`;
+  html += detailSection("attributes", "Attributes", attrs);
 
   html += renderItemsSection(p);
   html += renderSkillsSection(p);
@@ -1212,22 +1262,22 @@ function renderDetail(id) {
   html += renderDefensesSection(p);
   html += renderDamageTakenSection(p);
 
-  html += `<div class="d-section-title">Combat so far</div>`;
-  html += `<div class="grid">`;
-  html += stat("Damage dealt", p.dmgDealt);
-  html += stat("Damage taken", p.dmgTaken);
-  html += stat("Hits landed", p.hitsLanded);
-  html += stat("Crits", p.critsDealt);
-  html += stat("Kills", p.kills);
-  html += stat("Healing", p.healed);
-  html += stat("Dodges", p.dodged);
-  html += stat("Skill hits", p.skillsUsed);
-  html += `</div>`;
+  let combat = `<div class="grid">`;
+  combat += stat("Damage dealt", p.dmgDealt);
+  combat += stat("Damage taken", p.dmgTaken);
+  combat += stat("Hits landed", p.hitsLanded);
+  combat += stat("Crits", p.critsDealt);
+  combat += stat("Kills", p.kills);
+  combat += stat("Healing", p.healed);
+  combat += stat("Dodges", p.dodged);
+  combat += stat("Skill hits", p.skillsUsed);
+  combat += `</div>`;
+  html += detailSection("combat", "Combat so far", combat);
 
-  html += `<div class="d-section-title">Timeline (up to current step)</div>`;
-  html += renderTimeline(id);
+  html += detailSection("timeline", "Timeline (up to current step)", renderTimeline(id));
 
   el.dBody.innerHTML = html;
+  bindDetailSections();
 }
 
 function itemCodeLabel(item) {
@@ -1246,54 +1296,50 @@ function itemSkillCode(item) {
 }
 
 function renderItemsSection(p) {
-  let html = `<div class="d-section-title">Items</div>`;
   const items = p.items || [];
+  let body;
   if (!p.hasExtendedStats) {
-    html += `<div class="tag-row"><span class="tag empty">No item data (older battle log)</span></div>`;
-    return html;
+    body = `<div class="tag-row"><span class="tag empty">No item data (older battle log)</span></div>`;
+  } else if (!items.length) {
+    body = `<div class="tag-row"><span class="tag empty">No items</span></div>`;
+  } else {
+    body = `<div class="tag-row">`;
+    for (const item of items) {
+      const rarity = item.rarity ? String(item.rarity) : "—";
+      const code = itemCodeLabel(item) || "—";
+      const skill = itemSkillCode(item);
+      const bits = [
+        `<span class="muted">${escapeHtml(rarity)}</span>`,
+        `<b>${escapeHtml(code)}</b>`,
+      ];
+      if (skill) bits.push(`<span class="muted">${escapeHtml(skill)}</span>`);
+      body += `<span class="tag">${bits.join(" ")}</span>`;
+    }
+    body += `</div>`;
   }
-  if (!items.length) {
-    html += `<div class="tag-row"><span class="tag empty">No items</span></div>`;
-    return html;
-  }
-  html += `<div class="tag-row">`;
-  for (const item of items) {
-    const rarity = item.rarity ? String(item.rarity) : "—";
-    const code = itemCodeLabel(item) || "—";
-    const skill = itemSkillCode(item);
-    const bits = [
-      `<span class="muted">${escapeHtml(rarity)}</span>`,
-      `<b>${escapeHtml(code)}</b>`,
-    ];
-    if (skill) bits.push(`<span class="muted">${escapeHtml(skill)}</span>`);
-    html += `<span class="tag">${bits.join(" ")}</span>`;
-  }
-  html += `</div>`;
-  return html;
+  return detailSection("items", "Items", body);
 }
 
 function renderSkillsSection(p) {
-  let html = `<div class="d-section-title">Skills</div>`;
   const skills = p.skills || [];
+  let body;
   if (!p.hasExtendedStats) {
-    html += `<div class="tag-row"><span class="tag empty">No skill data (older battle log)</span></div>`;
-    return html;
+    body = `<div class="tag-row"><span class="tag empty">No skill data (older battle log)</span></div>`;
+  } else if (!skills.length) {
+    body = `<div class="tag-row"><span class="tag empty">No skills</span></div>`;
+  } else {
+    body = `<div class="tag-row">`;
+    for (const skill of skills) {
+      const code = typeof skill === "string" ? skill : (skill.code || "");
+      const points = typeof skill === "object" && skill != null && skill.points != null ? skill.points : null;
+      const label = points != null
+        ? `${escapeHtml(String(code))} <span class="muted">×${escapeHtml(String(points))}</span>`
+        : escapeHtml(String(code));
+      body += `<span class="tag skill">${label}</span>`;
+    }
+    body += `</div>`;
   }
-  if (!skills.length) {
-    html += `<div class="tag-row"><span class="tag empty">No skills</span></div>`;
-    return html;
-  }
-  html += `<div class="tag-row">`;
-  for (const skill of skills) {
-    const code = typeof skill === "string" ? skill : (skill.code || "");
-    const points = typeof skill === "object" && skill != null && skill.points != null ? skill.points : null;
-    const label = points != null
-      ? `${escapeHtml(String(code))} <span class="muted">×${escapeHtml(String(points))}</span>`
-      : escapeHtml(String(code));
-    html += `<span class="tag skill">${label}</span>`;
-  }
-  html += `</div>`;
-  return html;
+  return detailSection("skills", "Skills", body);
 }
 
 function addPercentInt(value, percent) {
@@ -1308,72 +1354,72 @@ function currentAttackValue(base, buffs) {
 
 function renderAttacksSection(p) {
   const rows = p.attacksByRange || [];
-  let html = `<div class="d-section-title">Attack by range`;
+  let title = "Attack by range";
   if ((p.attackBuffs || []).length) {
     const sum = p.attackBuffs.reduce((a, b) => a + b, 0);
-    html += ` <span style="color:var(--buff);font-weight:600;text-transform:none;letter-spacing:0">(+${sum}% applied)</span>`;
+    title += ` <span class="hint" style="color:var(--buff)">(+${sum}% applied)</span>`;
   }
-  html += `</div>`;
+  let body;
   if (!rows.length) {
-    html += `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No attacks" : "No attack data (older battle log)"}</span></div>`;
-    return html;
-  }
-  html += `<table class="stat-table"><thead><tr><th>Range</th><th>Type</th><th>Attack</th></tr></thead><tbody>`;
-  for (const slot of rows) {
-    const attack = slot.attack || {};
-    const types = Object.keys(attack);
-    if (!types.length) {
-      html += `<tr><td class="num">${slot.range}</td><td class="mono" colspan="2">—</td></tr>`;
-      continue;
+    body = `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No attacks" : "No attack data (older battle log)"}</span></div>`;
+  } else {
+    body = `<table class="stat-table"><thead><tr><th>Range</th><th>Type</th><th>Attack</th></tr></thead><tbody>`;
+    for (const slot of rows) {
+      const attack = slot.attack || {};
+      const types = Object.keys(attack);
+      if (!types.length) {
+        body += `<tr><td class="num">${slot.range}</td><td class="mono" colspan="2">—</td></tr>`;
+        continue;
+      }
+      types.forEach((type, i) => {
+        const cur = currentAttackValue(attack[type], p.attackBuffs);
+        const base = Number(attack[type]);
+        const shown = (p.attackBuffs || []).length && cur !== base
+          ? `${cur} <span style="color:var(--muted);font-weight:500">(${base})</span>`
+          : String(cur);
+        body += `<tr>`;
+        body += i === 0 ? `<td class="num" rowspan="${types.length}">${slot.range}</td>` : "";
+        body += `<td class="mono">${escapeHtml(type)}</td><td class="num">${shown}</td></tr>`;
+      });
     }
-    types.forEach((type, i) => {
-      const cur = currentAttackValue(attack[type], p.attackBuffs);
-      const base = Number(attack[type]);
-      const shown = (p.attackBuffs || []).length && cur !== base
-        ? `${cur} <span style="color:var(--muted);font-weight:500">(${base})</span>`
-        : String(cur);
-      html += `<tr>`;
-      html += i === 0 ? `<td class="num" rowspan="${types.length}">${slot.range}</td>` : "";
-      html += `<td class="mono">${escapeHtml(type)}</td><td class="num">${shown}</td></tr>`;
-    });
+    body += `</tbody></table>`;
   }
-  html += `</tbody></table>`;
-  return html;
+  return detailSection("attacks", title, body);
 }
 
 function renderDefensesSection(p) {
   const defenses = p.defenses || {};
   const types = Object.keys(defenses);
-  let html = `<div class="d-section-title">Defense by type</div>`;
+  let body;
   if (!types.length) {
-    html += `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No defenses" : "No defense data (older battle log)"}</span></div>`;
-    return html;
+    body = `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No defenses" : "No defense data (older battle log)"}</span></div>`;
+  } else {
+    body = `<div class="grid">`;
+    for (const type of types) {
+      body += `<div class="kv"><div class="k">${escapeHtml(type)}</div><div class="v">${defenses[type]}</div></div>`;
+    }
+    body += `</div>`;
   }
-  html += `<div class="grid">`;
-  for (const type of types) {
-    html += `<div class="kv"><div class="k">${escapeHtml(type)}</div><div class="v">${defenses[type]}</div></div>`;
-  }
-  html += `</div>`;
-  return html;
+  return detailSection("defenses", "Defense by type", body);
 }
 
 function renderDamageTakenSection(p) {
   const mults = p.damageTakenMultipliers || {};
   const types = Object.keys(mults);
-  let html = `<div class="d-section-title">Damage taken by attack type</div>`;
+  let body;
   if (!types.length) {
-    html += `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No mitigation" : "No mitigation data (older battle log)"}</span></div>`;
-    return html;
+    body = `<div class="tag-row"><span class="tag empty">${p.hasExtendedStats ? "No mitigation" : "No mitigation data (older battle log)"}</span></div>`;
+  } else {
+    body = `<table class="stat-table"><thead><tr><th>Attack</th><th>Taken</th><th>Reduced</th></tr></thead><tbody>`;
+    for (const type of types) {
+      const mult = Number(mults[type]);
+      const takenPct = (mult * 100).toFixed(1);
+      const reducedPct = ((1 - mult) * 100).toFixed(1);
+      body += `<tr><td class="mono">${escapeHtml(type)}</td><td class="num">${takenPct}%</td><td class="num">${reducedPct}%</td></tr>`;
+    }
+    body += `</tbody></table>`;
   }
-  html += `<table class="stat-table"><thead><tr><th>Attack</th><th>Taken</th><th>Reduced</th></tr></thead><tbody>`;
-  for (const type of types) {
-    const mult = Number(mults[type]);
-    const takenPct = (mult * 100).toFixed(1);
-    const reducedPct = ((1 - mult) * 100).toFixed(1);
-    html += `<tr><td class="mono">${escapeHtml(type)}</td><td class="num">${takenPct}%</td><td class="num">${reducedPct}%</td></tr>`;
-  }
-  html += `</tbody></table>`;
-  return html;
+  return detailSection("damageTaken", "Damage taken by attack type", body);
 }
 
 function posOfLine(lineIndex) { const l = lineByIndex[lineIndex]; return l ? l.position : "?"; }
