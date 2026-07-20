@@ -1237,6 +1237,14 @@ function itemCodeLabel(item) {
   return null;
 }
 
+function itemSkillCode(item) {
+  if (!item || typeof item !== "object") return null;
+  // Prefer skill (ActiveEnum), fall back to legacy modifier field from earlier drafts.
+  if (item.skill) return String(item.skill);
+  if (item.modifier) return String(item.modifier);
+  return null;
+}
+
 function renderItemsSection(p) {
   let html = `<div class="d-section-title">Items</div>`;
   const items = p.items || [];
@@ -1250,15 +1258,14 @@ function renderItemsSection(p) {
   }
   html += `<div class="tag-row">`;
   for (const item of items) {
-    const code = itemCodeLabel(item);
-    const rarity = item.rarity ? String(item.rarity) : "";
-    const mod = item.modifier ? String(item.modifier) : "";
-    const bits = [];
-    if (code) bits.push(`<b>${escapeHtml(code)}</b>`);
-    else if (mod) bits.push(`<b>${escapeHtml(mod)}</b>`);
-    else bits.push(`<b>—</b>`);
-    if (rarity) bits.push(`<span class="muted">${escapeHtml(rarity)}</span>`);
-    if (code && mod) bits.push(`<span class="muted">+${escapeHtml(mod)}</span>`);
+    const rarity = item.rarity ? String(item.rarity) : "—";
+    const code = itemCodeLabel(item) || "—";
+    const skill = itemSkillCode(item);
+    const bits = [
+      `<span class="muted">${escapeHtml(rarity)}</span>`,
+      `<b>${escapeHtml(code)}</b>`,
+    ];
+    if (skill) bits.push(`<span class="muted">${escapeHtml(skill)}</span>`);
     html += `<span class="tag">${bits.join(" ")}</span>`;
   }
   html += `</div>`;

@@ -203,9 +203,9 @@ public class BattlePersonage {
             }
             if (shouldSnapshotItem(item)) {
                 builtItemSnapshots.add(new BattleItemInitSnapshot(
-                    Optional.ofNullable(item.object().code()),
+                    item.object().code(),
                     item.rarity(),
-                    item.modifier().map(Modifier::code)
+                    item.modifier().map(Modifier::activeEnum)
                 ));
             }
         }
@@ -287,10 +287,7 @@ public class BattlePersonage {
     }
 
     private static boolean shouldSnapshotItem(Item item) {
-        return item.object().code() != null
-            || item.itemAttack().isPresent()
-            || item.itemDefense().isPresent()
-            || item.modifier().isPresent();
+        return item.object().code() != null;
     }
 
     private void applyPersonageEffects(List<Item> items, PersonageEffects effects) {
