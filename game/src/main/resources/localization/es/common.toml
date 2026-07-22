@@ -52,6 +52,7 @@ personageInRaid = "\nEn incursión ${time_icon}${duration}"
 personageInQuest = "\nEn misión ${time_icon}${duration}"
 personageInWorldRaid = "\nEn incursión mundial ${time_icon}${duration}"
 personageInDuel = "\nEn duelo ${time_icon}${duration}"
+personageInAnomaly = "\nEn anomalía ${time_icon}${duration}"
 cancelEventForbiddenForDuel = "No puedes cancelar un duelo. Espera la respuesta del rival o a que expire."
 
 hoursShort = "h."

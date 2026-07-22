@@ -453,6 +453,7 @@ public class CommonLocalization {
             case PERSONAL_QUEST -> personageInQuest(language, event.endDate());
             case WORLD_RAID -> personageInWorldRaid(language, event.endDate());
             case DUEL -> personageInDuel(language, event.endDate());
+            case ANOMALY -> personageInAnomaly(language, event.endDate());
         };
         if (event.type() == EventType.DUEL) {
             return text;
@@ -505,6 +506,16 @@ public class CommonLocalization {
         params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageInDuel),
+            params
+        );
+    }
+
+    private static String personageInAnomaly(Language language, LocalDateTime end) {
+        final var params = new HashMap<String, Object>();
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInAnomaly),
             params
         );
     }

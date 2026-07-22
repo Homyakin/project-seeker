@@ -1,0 +1,101 @@
+anomalySearchButton = "Поиск Аномалий"
+anomalyMenu = """
+📡<b>Поиск аномалий</b>
+
+Штормовой сканер готов к работе.
+Запусков сегодня: ${starts_left}/1
+${register_warning}"""
+anomalyMenuRegisterWarning = """
+⚠️Запуск доступен только зарегистрированным группам.
+Зарегистрировать: <code>${register_group_command} тэг</code>
+"""
+anomalyMenuActive = """
+📡<b>Активная аномалия</b>
+
+Режим: ${mode}
+Фаза: ${phase}
+Участники: ${participants}/${party_size}
+"""
+anomalyDiscovered = """
+📡<b>Аномалия обнаружена!</b>
+
+Выберите режим экспедиции.
+"""
+anomalyGathering = """
+📡<b>Экспедиция в аномалию</b>
+
+Режим: ${mode}
+Участники (${count}/${party_size}):
+${participants}
+"""
+anomalySearching = """
+📡<b>Поиск противника</b>
+
+Состав зафиксирован (${count}/${party_size}).
+Ищем группу для GvG до ${end_date}.
+"""
+anomalyChallenge = """
+⚔️<b>Вызов аномалии!</b>
+
+Другая группа обнаружила опасную аномалию.
+
+Соберите полный отряд (${party_size}), первый вступивший сможет подтвердить готовность.
+Участники (${count}/${party_size}):
+${participants}
+"""
+anomalySafeCompleted = """
+✅<b>Безопасная экспедиция завершена</b>
+
+Награда: ${reward} ${money_icon} каждому участнику.
+"""
+anomalyNoMatch = """
+⌛<b>Противник не найден</b>
+
+Экспедиция завершена без боя.
+Награда: ${reward} ${money_icon} каждому участнику.
+"""
+anomalyBattleVictory = """
+🏆<b>Победа в аномалии!</b>
+
+Награда: ${reward} ${money_icon} каждому участнику.
+${battle_link}
+"""
+anomalyBattleDefeat = """
+💀<b>Поражение в аномалии</b>
+
+Награда: ${reward} ${money_icon} каждому участнику.
+${battle_link}
+"""
+anomalyExpired = "Экспедиция в аномалию истекла."
+startButton = "🔍 Начать поиск"
+safeModeButton = "🛡 Безопасный"
+dangerousModeButton = "☠ Опасный"
+joinButton = "➕ Вступить"
+readyButton = "✅ Готов"
+backToOutpostButton = "⬅️ К аванпосту"
+modeSafe = "Безопасный"
+modeDangerous = "Опасный"
+phaseChoosing = "Выбор режима"
+phaseGathering = "Сбор отряда"
+phaseSearching = "Поиск противника"
+phaseChallenged = "Ответ на вызов"
+errorNotRegistered = "Только для зарегистрированных групп"
+errorNoStormScanner = "Нужен Штормовой Сканер"
+errorAlreadyStartedToday = "Сегодня поиск уже запускали"
+errorActiveExists = "Уже есть активная аномалия"
+errorNotMember = "Нужно быть участником группы"
+errorNotOwner = "Только организатор может это сделать"
+errorInvalidPhase = "Сейчас это действие недоступно"
+errorPartyNotFull = "Нужен полный отряд"
+errorPartyEmpty = "Нет участников"
+errorRosterLocked = "Состав уже зафиксирован"
+errorAlreadyJoined = "Вы уже в экспедиции"
+errorPartyFull = "Отряд уже полный"
+errorEventLocked = "Попробуйте ещё раз"
+errorFinal = "Экспедиция уже завершена"
+errorNotFound = "Экспедиция не найдена"
+successJoin = "Вы вступили в экспедицию"
+successReadySafe = "Безопасная экспедиция завершена"
+successReadySearch = "Состав зафиксирован, ищем противника"
+successReadyBattle = "Бой начался!"
+participantLine = "• ${name}"

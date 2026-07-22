@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.group.outpost;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.anomaly.action.AnomalyService;
 import ru.homyakin.seeker.game.outpost.action.OutpostService;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -13,15 +14,18 @@ import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 public class ShowOutpostExecutor extends CommandExecutor<ShowOutpost> {
     private final GroupTgService groupTgService;
     private final OutpostService outpostService;
+    private final AnomalyService anomalyService;
     private final TelegramSender telegramSender;
 
     public ShowOutpostExecutor(
         GroupTgService groupTgService,
         OutpostService outpostService,
+        AnomalyService anomalyService,
         TelegramSender telegramSender
     ) {
         this.groupTgService = groupTgService;
         this.outpostService = outpostService;
+        this.anomalyService = anomalyService;
         this.telegramSender = telegramSender;
     }
 
@@ -35,10 +39,11 @@ public class ShowOutpostExecutor extends CommandExecutor<ShowOutpost> {
             slots,
             false
         );
+        final var showAnomaly = anomalyService.isEligibleForMenu(domainGroupId);
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(command.groupTgId())
             .text(text)
-            .keyboard(OutpostKeyboards.openOutpostInPrivateKeyboard(group.language()))
+            .keyboard(OutpostKeyboards.groupOutpostKeyboard(group.language(), showAnomaly))
             .build()
         );
     }

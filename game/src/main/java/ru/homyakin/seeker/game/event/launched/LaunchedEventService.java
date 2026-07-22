@@ -69,6 +69,21 @@ public class LaunchedEventService {
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 
+    public LaunchedEvent createFromAnomaly(
+        int eventId,
+        LocalDateTime start,
+        LocalDateTime end,
+        GroupId groupId
+    ) {
+        final var id = launchedEventDao.save(eventId, start, end);
+        launchedEventGroupDao.save(id, groupId);
+        return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
+    }
+
+    public void updateEndDate(long launchedEventId, LocalDateTime endDate) {
+        launchedEventDao.updateEndDate(launchedEventId, endDate);
+    }
+
     public Optional<LaunchedEvent> getById(Long launchedEventId) {
         return launchedEventDao.getById(launchedEventId);
     }

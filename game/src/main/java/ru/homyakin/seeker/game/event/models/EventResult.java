@@ -74,4 +74,17 @@ public sealed interface EventResult {
             INSTANCE
         }
     }
+
+    sealed interface AnomalyResult extends EventResult {
+        enum ExpiredChoosingOrGathering implements AnomalyResult { INSTANCE }
+
+        record NoMatch(long launchedEventId) implements AnomalyResult { }
+
+        enum AlreadyFinal implements AnomalyResult { INSTANCE }
+
+        record BattleFinished(
+            long winnerLaunchedEventId,
+            long loserLaunchedEventId
+        ) implements AnomalyResult { }
+    }
 }

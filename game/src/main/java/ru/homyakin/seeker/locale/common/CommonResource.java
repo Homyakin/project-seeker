@@ -24,6 +24,7 @@ public record CommonResource(
     String personageInQuest,
     String personageInWorldRaid,
     String personageInDuel,
+    String personageInAnomaly,
     String receptionDesk,
     String hoursShort,
     String minutesShort,

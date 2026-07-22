@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-anomaly-expedition">
+        <insert tableName="event_type">
+            <column name="id" value="5"/>
+            <column name="name" value="Аномалия"/>
+        </insert>
+
+        <insert tableName="event">
+            <column name="type_id" value="5"/>
+            <column name="is_enabled" valueBoolean="true"/>
+            <column name="code" value="anomaly-expedition"/>
+        </insert>
+
+        <addColumn tableName="pgroup">
+            <column name="gvg_rating" type="INTEGER" defaultValueNumeric="1000">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <createTable tableName="anomaly">
+            <column name="launched_event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk-anomaly"/>
+            </column>
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner_personage_id" type="BIGINT"/>
+            <column name="phase" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mode" type="TEXT"/>
+            <column name="modifier_code" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roster_locked" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opponent_launched_event_id" type="BIGINT"/>
+            <column name="gvg_rating_at_start" type="INTEGER"/>
+            <column name="is_challenge" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="launched_event_id"
+                constraintName="fk-anomaly-launched-event"
+                referencedTableName="launched_event"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-anomaly-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="owner_personage_id"
+                constraintName="fk-anomaly-owner-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="opponent_launched_event_id"
+                constraintName="fk-anomaly-opponent-launched-event"
+                referencedTableName="launched_event"
+                referencedColumnNames="id"/>
+        <createIndex tableName="anomaly" indexName="idx-anomaly-pgroup-phase">
+            <column name="pgroup_id"/>
+            <column name="phase"/>
+        </createIndex>
+
+        <createTable tableName="anomaly_recent_opponent">
+            <column name="group_id_low" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="group_id_high" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fought_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey
+                tableName="anomaly_recent_opponent"
+                columnNames="group_id_low, group_id_high"
+                constraintName="pk-anomaly-recent-opponent"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly_recent_opponent"
+                baseColumnNames="group_id_low"
+                constraintName="fk-anomaly-recent-opponent-low"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly_recent_opponent"
+                baseColumnNames="group_id_high"
+                constraintName="fk-anomaly-recent-opponent-high"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

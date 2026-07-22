@@ -15,6 +15,7 @@ import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.game.stats.action.GroupStatsService;
+import ru.homyakin.seeker.telegram.anomaly.TelegramAnomalyService;
 import ru.homyakin.seeker.telegram.contraband.TgContrabandNotifier;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
@@ -39,6 +40,7 @@ public class TgEventStopper {
     private final DuelService duelService;
     private final PersonageService personageService;
     private final UserService userService;
+    private final TelegramAnomalyService telegramAnomalyService;
 
     public TgEventStopper(
         GroupTgService groupTgService,
@@ -51,7 +53,8 @@ public class TgEventStopper {
         BattleVisualizerConfig battleVisualizerConfig,
         DuelService duelService,
         PersonageService personageService,
-        UserService userService
+        UserService userService,
+        TelegramAnomalyService telegramAnomalyService
     ) {
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
@@ -64,6 +67,7 @@ public class TgEventStopper {
         this.duelService = duelService;
         this.personageService = personageService;
         this.userService = userService;
+        this.telegramAnomalyService = telegramAnomalyService;
     }
 
     public void stopEvents() {
@@ -84,6 +88,8 @@ public class TgEventStopper {
             case EventResult.WorldRaidBattleResult _ -> { }
             case EventResult.DuelResult.Expired _ -> processExpiredDuel(launchedEvent);
             case EventResult.DuelResult.AlreadyFinal _ -> { }
+            case EventResult.AnomalyResult anomalyResult ->
+                telegramAnomalyService.notifyExpired(launchedEvent, anomalyResult);
         }
     }
 
