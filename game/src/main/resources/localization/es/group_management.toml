@@ -99,6 +99,8 @@ ${short_profile}
 <b>Actividad</b>
 🌍Globalmente: <code>${duration_since_personage_online}</code>
 👥En el grupo: <code>${duration_since_group_personage_online}</code>
+${online_streak_icon}Seguidos globalmente: ${personage_online_streak}
+${online_streak_icon}Seguidos en el grupo: ${group_online_streak}
 
 🚫Expulsar: <code>${kick_command}</code>"""
 groupMemberNeverOnlineInGroup = "<i>aún no consta en el chat del grupo</i>"

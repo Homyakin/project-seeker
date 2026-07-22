@@ -176,6 +176,8 @@ public class CommonLocalization {
         params.put("defense_value", characteristics.defense());
         params.put("health_icon", Icons.HEALTH);
         params.put("health_value", characteristics.health());
+        params.put("online_streak_icon", Icons.ONLINE_STREAK);
+        params.put("online_streak", personage.onlineStreak().effective(TimeUtils.moscowTime().toLocalDate()));
 
         return params;
     }

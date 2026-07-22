@@ -12,6 +12,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.online.entity.OnlineStreak;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
@@ -225,7 +226,11 @@ public class PersonageDao {
             ),
             BadgeView.findByCode(rs.getString("badge_code")),
             jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class),
-            Position.fromString(rs.getString("battle_position"))
+            Position.fromString(rs.getString("battle_position")),
+            new OnlineStreak(
+                rs.getInt("online_streak"),
+                rs.getTimestamp("last_online").toLocalDateTime()
+            )
         );
     }
 }

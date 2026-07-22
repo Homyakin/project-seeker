@@ -97,6 +97,8 @@ ${short_profile}
 <b>Активность</b>
 🌍Глобально: ${duration_since_personage_online}
 👥В Группе: ${duration_since_group_personage_online}
+${online_streak_icon}Подряд глобально: ${personage_online_streak}
+${online_streak_icon}Подряд в группе: ${group_online_streak}
 
 🚫Выгнать: ${kick_command}"""
 groupMemberNeverOnlineInGroup = "<i>не обнаружено</i>"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-online-streak">
+        <addColumn tableName="personage">
+            <column name="online_streak" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="pgroup_to_personage">
+            <column name="online_streak" type="INT" defaultValueNumeric="1">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <!-- last_online is stored as Moscow wall-clock; compare to Moscow calendar day -->
+        <sql>
+            UPDATE personage
+            SET online_streak = 0
+            WHERE last_online::date &lt; (timezone('Europe/Moscow', now()))::date
+        </sql>
+        <sql>
+            UPDATE pgroup_to_personage
+            SET online_streak = 0
+            WHERE last_online::date &lt; (timezone('Europe/Moscow', now()))::date
+        </sql>
+    </changeSet>
+</databaseChangeLog>

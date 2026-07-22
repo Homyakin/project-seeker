@@ -19,8 +19,20 @@ public class LastOnlinePostgresUpdater implements LastOnlineUpdater {
 
     @Override
     public void touchPersonage(PersonageId personageId, LocalDateTime at) {
-        jdbcClient.sql("UPDATE personage SET last_online = :at WHERE id = :id")
+        final var today = at.toLocalDate();
+        jdbcClient.sql("""
+            UPDATE personage SET
+                online_streak = CASE
+                    WHEN last_online::date = :today THEN online_streak
+                    WHEN last_online::date = :yesterday THEN online_streak + 1
+                    ELSE 1
+                END,
+                last_online = :at
+            WHERE id = :id
+            """)
             .param("at", at)
+            .param("today", today)
+            .param("yesterday", today.minusDays(1))
             .param("id", personageId.value())
             .update();
     }
@@ -35,11 +47,20 @@ public class LastOnlinePostgresUpdater implements LastOnlineUpdater {
 
     @Override
     public void touchActiveMembership(GroupId groupId, PersonageId personageId, LocalDateTime at) {
+        final var today = at.toLocalDate();
         jdbcClient.sql("""
-            UPDATE pgroup_to_personage SET last_online = :at
+            UPDATE pgroup_to_personage SET
+                online_streak = CASE
+                    WHEN last_online::date = :today THEN online_streak
+                    WHEN last_online::date = :yesterday THEN online_streak + 1
+                    ELSE 1
+                END,
+                last_online = :at
             WHERE pgroup_id = :pgroup_id AND personage_id = :personage_id AND is_active = true
             """)
             .param("at", at)
+            .param("today", today)
+            .param("yesterday", today.minusDays(1))
             .param("pgroup_id", groupId.value())
             .param("personage_id", personageId.value())
             .update();

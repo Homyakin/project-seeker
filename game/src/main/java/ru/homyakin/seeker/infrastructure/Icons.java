@@ -29,6 +29,7 @@ public class Icons {
     public static final String DISABLED = EmojiManager.getByAlias(":x:").orElseThrow().getFirst().getEmoji();
     public static final String RANDOM = EmojiManager.getByAlias(":game_die:").orElseThrow().getFirst().getEmoji();
     public static final String TIME = EmojiManager.getByAlias(":hourglass_flowing_sand:").orElseThrow().getFirst().getEmoji();
+    public static final String ONLINE_STREAK = EmojiManager.getByAlias(":fire:").orElseThrow().getFirst().getEmoji();
     public static final String EXHAUSTED = EmojiManager.getByAlias(":yawning_face:").orElseThrow().getFirst().getEmoji();
     public static final String STANDARD_GROUP_BADGE = EmojiManager.getByAlias(":beginner:").orElseThrow().getFirst().getEmoji();
     public static final String PARTICIPANTS = EmojiManager.getByAlias(":bust_in_silhouette:").orElseThrow().getFirst().getEmoji();

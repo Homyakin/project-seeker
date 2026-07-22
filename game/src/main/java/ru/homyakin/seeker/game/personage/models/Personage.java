@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
+import ru.homyakin.seeker.game.online.entity.OnlineStreak;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
@@ -26,7 +27,8 @@ public record Personage(
     Energy energy,
     BadgeView badge,
     PersonageEffects effects,
-    Position position
+    Position position,
+    OnlineStreak onlineStreak
 ) {
     public Personage addMoney(Money money) {
         return copyWithMoney(this.money.add(money));
@@ -129,7 +131,8 @@ public record Personage(
             energy,
             badge,
             effects,
-            position
+            position,
+            onlineStreak
         );
     }
 
@@ -145,7 +148,8 @@ public record Personage(
             energy,
             badge,
             effects,
-            position
+            position,
+            onlineStreak
         );
     }
 
@@ -159,7 +163,8 @@ public record Personage(
             energy,
             badge,
             effects,
-            position
+            position,
+            onlineStreak
         );
     }
 
@@ -173,7 +178,8 @@ public record Personage(
             energy,
             badge,
             effects,
-            position
+            position,
+            onlineStreak
         );
     }
 
@@ -187,7 +193,8 @@ public record Personage(
             energy,
             badge,
             effects,
-            position
+            position,
+            onlineStreak
         );
     }
 
@@ -201,7 +208,8 @@ public record Personage(
             energy,
             badge,
             effects,
-            position
+            position,
+            onlineStreak
         );
     }
 }

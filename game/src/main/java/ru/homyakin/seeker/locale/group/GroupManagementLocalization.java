@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.group.error.JoinGroupMemberError;
 import ru.homyakin.seeker.game.group.entity.GroupTaxSnapshot;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
+import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
@@ -385,6 +386,7 @@ public class GroupManagementLocalization {
         Characteristics equippedCharacteristics
     ) {
         final var now = TimeUtils.moscowTime();
+        final var today = now.toLocalDate();
         final var personageLine = groupMemberOnline(language, details.lastOnline().personageLastOnline(), now);
         final var groupLine = details.lastOnline().membershipLastOnline()
             .map(mt -> groupMemberOnline(language, mt, now))
@@ -393,6 +395,14 @@ public class GroupManagementLocalization {
         params.put("short_profile", CommonLocalization.shortProfile(language, details.personage(), equippedCharacteristics));
         params.put("duration_since_personage_online", personageLine);
         params.put("duration_since_group_personage_online", groupLine);
+        params.put("online_streak_icon", Icons.ONLINE_STREAK);
+        params.put("personage_online_streak", details.personage().onlineStreak().effective(today));
+        params.put(
+            "group_online_streak",
+            details.lastOnline().membershipStreak()
+                .map(streak -> streak.effective(today))
+                .orElse(0)
+        );
         params.put(
             "kick_command",
             CommandType.GROUP_KICK.getText() + TextConstants.TG_COMMAND_DELIMITER + details.personage().id().value()
