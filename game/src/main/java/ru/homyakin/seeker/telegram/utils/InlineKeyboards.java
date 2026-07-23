@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSetting;
 import ru.homyakin.seeker.game.personage.settings.entity.PersonageSettings;
 import ru.homyakin.seeker.game.tavern_menu.menu.models.MenuItem;
@@ -125,6 +126,92 @@ public class InlineKeyboards {
             .addRow()
             .addButton(HelpLocalization.infoButton(language), callbackPrefix + HelpSection.INFO.name())
             .build();
+    }
+
+    public static InlineKeyboardMarkup battleHelpKeyboard(Language language) {
+        final var callbackPrefix = CommandType.SELECT_HELP.getText() + TextConstants.CALLBACK_DELIMITER;
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(MenuLocalization.backButton(language), callbackPrefix + HelpSection.MAIN.name())
+            .addRow()
+            .addButton(
+                HelpLocalization.battleGeneralButton(language),
+                callbackPrefix + HelpSection.BATTLE_GENERAL.name()
+            )
+            .addRow()
+            .addButton(
+                HelpLocalization.battleMatrixButton(language),
+                callbackPrefix + HelpSection.BATTLE_MATRIX.name()
+            )
+            .addRow()
+            .addButton(
+                HelpLocalization.battleSkillsButton(language),
+                battleSkillsCallback(0, Optional.empty())
+            )
+            .build();
+    }
+
+    public static InlineKeyboardMarkup battleSkillsHelpKeyboard(
+        Language language,
+        int page,
+        int totalPages,
+        Optional<PersonageSlot> slotFilter
+    ) {
+        final var builder = InlineKeyboardBuilder.builder();
+        builder.addRow()
+            .addButton(
+                HelpLocalization.battleSkillsAllFilterButton(language),
+                battleSkillsCallback(0, Optional.empty()),
+                slotFilter.isEmpty() ? InlineButtonStyle.SUCCESS : null
+            );
+        final var slots = PersonageSlot.values();
+        for (int i = 0; i < slots.length; ++i) {
+            if (i % 4 == 0) {
+                builder.addRow();
+            }
+            final var slot = slots[i];
+            final var isActive = slotFilter.isPresent() && slotFilter.get() == slot;
+            builder.addButton(
+                slot.icon,
+                battleSkillsCallback(0, Optional.of(slot)),
+                isActive ? InlineButtonStyle.SUCCESS : null
+            );
+        }
+        if (totalPages > 1) {
+            builder.addRow();
+            if (page > 0) {
+                builder.addButton(
+                    HelpLocalization.battleSkillsPrevButton(language),
+                    battleSkillsCallback(page - 1, slotFilter)
+                );
+            }
+            if (page < totalPages - 1) {
+                builder.addButton(
+                    HelpLocalization.battleSkillsNextButton(language),
+                    battleSkillsCallback(page + 1, slotFilter)
+                );
+            }
+        }
+        builder.addRow()
+            .addButton(
+                MenuLocalization.backButton(language),
+                CommandType.SELECT_HELP.getText()
+                    + TextConstants.CALLBACK_DELIMITER
+                    + HelpSection.BATTLE_SYSTEM.name()
+            );
+        return builder.build();
+    }
+
+    private static String battleSkillsCallback(int page, Optional<PersonageSlot> slotFilter) {
+        final var slotPart = slotFilter.map(Enum::name).orElse("ALL");
+        return CommandType.SELECT_HELP.getText()
+            + TextConstants.CALLBACK_DELIMITER
+            + HelpSection.BATTLE_SKILLS.name()
+            + TextConstants.CALLBACK_DELIMITER
+            + page
+            + TextConstants.CALLBACK_DELIMITER
+            + slotPart;
     }
 
     public static InlineKeyboardMarkup badgeSelector(List<AvailableBadge> badges) {

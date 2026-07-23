@@ -8,6 +8,9 @@ public record HelpResource(
     String personage,
     String info,
     String battleSystem,
+    String battleMatrix,
+    String battleSkill,
+    String battleSkillsEmpty,
     String seasons,
     String raidsButton,
     String duelsButton,
@@ -15,6 +18,12 @@ public record HelpResource(
     String personageButton,
     String infoButton,
     String battleSystemButton,
+    String battleGeneralButton,
+    String battleMatrixButton,
+    String battleSkillsButton,
+    String battleSkillsAllFilterButton,
+    String battleSkillsPrevButton,
+    String battleSkillsNextButton,
     String seasonsButton
 ) {
 }

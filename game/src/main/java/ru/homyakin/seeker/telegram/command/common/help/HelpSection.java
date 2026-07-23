@@ -1,12 +1,16 @@
 package ru.homyakin.seeker.telegram.command.common.help;
 
 public enum HelpSection {
+    MAIN,
     RAIDS,
     DUELS,
     MENU,
     PERSONAGE,
     INFO,
     BATTLE_SYSTEM,
+    BATTLE_GENERAL,
+    BATTLE_MATRIX,
+    BATTLE_SKILLS,
     SEASONS,
     ;
 
