@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.battle.skill.ActiveSkillSlots;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
+import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -19,6 +20,9 @@ import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class HelpLocalization {
     private static final Resources<HelpResource> resources = new Resources<>();
+    private static final int MATRIX_COL_WIDTH = 5;
+    /** Telegram monospace cell width of one emoji icon (variation selectors do not add a cell). */
+    private static final int MATRIX_EMOJI_WIDTH = 2;
 
     public static void add(Language language, HelpResource resource) {
         resources.add(language, resource);
@@ -114,20 +118,33 @@ public class HelpLocalization {
         final var attacks = AttackType.values();
         final var defenses = DefenseType.values();
         final var sb = new StringBuilder();
-        sb.append("  ");
+        sb.append(" ".repeat(MATRIX_EMOJI_WIDTH));
         for (final var attack : attacks) {
-            sb.append(' ').append(Icons.attackTypeIcon(attack));
+            sb.append(padEmojiCell(Icons.attackTypeIcon(attack), MATRIX_COL_WIDTH));
         }
         sb.append('\n');
         for (final var defense : defenses) {
             sb.append(Icons.defenseTypeIcon(defense));
             for (final var attack : attacks) {
                 final var percent = BattlePersonage.damageMitigationPercent(defense, attack);
-                sb.append(String.format(" %3d%%", percent));
+                sb.append(String.format("%" + (MATRIX_COL_WIDTH - 1) + "d%%", percent));
             }
             sb.append('\n');
         }
         return sb.toString().stripTrailing();
+    }
+
+    /**
+     * Centers an emoji in a fixed ASCII column. Uses visual width so U+FE0F variation
+     * selectors (e.g. in 🗡️ / ⛓️) do not shift padding relative to single-codepoint icons.
+     */
+    private static String padEmojiCell(String emoji, int width) {
+        final var pad = width - MATRIX_EMOJI_WIDTH;
+        if (pad <= 0) {
+            return emoji;
+        }
+        final var left = pad / 2;
+        return " ".repeat(left) + emoji + " ".repeat(pad - left);
     }
 
     public static String battleSkill(Language language, ActiveEnum activeEnum) {
@@ -138,11 +155,20 @@ public class HelpLocalization {
         final var params = new HashMap<String, Object>();
         params.put("skill_name", BattleLocalization.skillName(language, activeEnum));
         params.put("slots", slots.isEmpty() ? "—" : slots);
+        params.put("skill_type", skillTypeIcon(ActiveSkillSlots.typeFor(activeEnum)));
         params.put("description", BattleLocalization.skillGeneralDescription(language, activeEnum));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::battleSkill),
             params
         );
+    }
+
+    private static String skillTypeIcon(ModifierType type) {
+        return switch (type) {
+            case ATTACK -> Icons.ATTACK;
+            case DEFENSE -> Icons.DEFENSE;
+            case ANY -> Icons.ATTACK + Icons.DEFENSE;
+        };
     }
 
     public static String battleSkillsEmpty(Language language) {

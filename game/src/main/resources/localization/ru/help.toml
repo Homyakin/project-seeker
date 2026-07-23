@@ -69,7 +69,7 @@ battleMatrix = """\
 Атака: ${slash_icon}Рубящий ${blunt_icon}Дробящий ${pierce_icon}Колющий ${magical_icon}Магический
 Защита: ${cloth_icon}Ткань ${leather_icon}Кожа ${plate_icon}Латы ${arcane_icon}Магическая
 
-<code>${matrix_table}</code>
+<pre><code>${matrix_table}</code></pre>
 
 Сильные пары (атака лучше проходит, низкий % защиты):
 • ${slash_icon} → ${cloth_icon}
@@ -79,9 +79,8 @@ battleMatrix = """\
 """
 
 battleSkill = """\
-<b>${skill_name}</b> ${slots}
-${description}
-"""
+<b>${skill_name}</b> ${slots} Для:${skill_type}
+${description}"""
 
 battleSkillsEmpty = "Для выбранных слотов навыков нет."
 

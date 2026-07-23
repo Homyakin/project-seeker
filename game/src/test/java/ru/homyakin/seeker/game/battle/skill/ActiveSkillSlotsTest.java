@@ -5,6 +5,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 public class ActiveSkillSlotsTest {
@@ -37,5 +38,12 @@ public class ActiveSkillSlotsTest {
         Assertions.assertTrue(skills.stream().allMatch(
             skill -> ActiveSkillSlots.slotsFor(skill).containsAll(filters)
         ));
+    }
+
+    @Test
+    void loadsModifierTypesFromCatalog() {
+        Assertions.assertEquals(ModifierType.ATTACK, ActiveSkillSlots.typeFor(ActiveEnum.DOUBLE_ATTACK));
+        Assertions.assertEquals(ModifierType.DEFENSE, ActiveSkillSlots.typeFor(ActiveEnum.THORNS));
+        Assertions.assertEquals(ModifierType.ANY, ActiveSkillSlots.typeFor(ActiveEnum.FEINT));
     }
 }

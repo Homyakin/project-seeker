@@ -9,21 +9,26 @@ import java.util.Set;
 
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
+import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.ResourceUtils;
 
 /**
- * Slot availability for active skills from {@code item_modifiers_catalog.toml}.
+ * Slot availability and modifier type for active skills from {@code item_modifiers_catalog.toml}.
  */
 public final class ActiveSkillSlots {
     private static final String CATALOG_PATH = "game-data/item_modifiers_catalog.toml";
-    private static final Map<ActiveEnum, Set<PersonageSlot>> SLOTS_BY_SKILL = load();
+    private static final CatalogData CATALOG = load();
 
     private ActiveSkillSlots() {
     }
 
     public static Set<PersonageSlot> slotsFor(ActiveEnum activeEnum) {
-        return SLOTS_BY_SKILL.getOrDefault(activeEnum, Set.of());
+        return CATALOG.slotsBySkill().getOrDefault(activeEnum, Set.of());
+    }
+
+    public static ModifierType typeFor(ActiveEnum activeEnum) {
+        return CATALOG.typesBySkill().getOrDefault(activeEnum, ModifierType.ANY);
     }
 
     public static List<ActiveEnum> sortedSkills() {
@@ -45,13 +50,21 @@ public final class ActiveSkillSlots {
             .toList();
     }
 
-    private static Map<ActiveEnum, Set<PersonageSlot>> load() {
-        final var result = new EnumMap<ActiveEnum, Set<PersonageSlot>>(ActiveEnum.class);
+    private static CatalogData load() {
+        final var slotsBySkill = new EnumMap<ActiveEnum, Set<PersonageSlot>>(ActiveEnum.class);
+        final var typesBySkill = new EnumMap<ActiveEnum, ModifierType>(ActiveEnum.class);
         ResourceUtils.calc(CATALOG_PATH, ItemModifiersToml::load).ifPresent(catalog -> {
             for (final var modifier : catalog.modifiers()) {
-                result.put(modifier.activeEnum(), Set.copyOf(modifier.availableOnSlots()));
+                slotsBySkill.put(modifier.activeEnum(), Set.copyOf(modifier.availableOnSlots()));
+                typesBySkill.put(modifier.activeEnum(), modifier.type());
             }
         });
-        return Map.copyOf(result);
+        return new CatalogData(Map.copyOf(slotsBySkill), Map.copyOf(typesBySkill));
+    }
+
+    private record CatalogData(
+        Map<ActiveEnum, Set<PersonageSlot>> slotsBySkill,
+        Map<ActiveEnum, ModifierType> typesBySkill
+    ) {
     }
 }

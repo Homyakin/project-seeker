@@ -40,8 +40,6 @@ public final class HelpInlineKeyboards {
         return InlineKeyboardBuilder
             .builder()
             .addRow()
-            .addButton(MenuLocalization.backButton(language), callbackPrefix + HelpSection.MAIN.name())
-            .addRow()
             .addButton(
                 HelpLocalization.battleGeneralButton(language),
                 callbackPrefix + HelpSection.BATTLE_GENERAL.name()
@@ -56,6 +54,8 @@ public final class HelpInlineKeyboards {
                 HelpLocalization.battleSkillsButton(language),
                 battleSkillsCallback(0, Set.of())
             )
+            .addRow()
+            .addButton(MenuLocalization.backButton(language), callbackPrefix + HelpSection.MAIN.name())
             .build();
     }
 
