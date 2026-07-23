@@ -73,6 +73,14 @@ public class BattleLocalization {
         };
     }
 
+    public static String skillName(Language language, ActiveEnum activeEnum) {
+        return skillEntry(language, activeEnum).name();
+    }
+
+    public static String skillGeneralDescription(Language language, ActiveEnum activeEnum) {
+        return skillEntry(language, activeEnum).description();
+    }
+
     public static String skillDescription(Language language, ActiveEnum activeEnum, int points) {
         final var rank = SkillRank.forPoints(points);
         final var entry = skillEntry(language, activeEnum);

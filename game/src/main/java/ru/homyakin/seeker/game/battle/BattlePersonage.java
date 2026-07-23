@@ -83,6 +83,13 @@ public class BattlePersonage {
         return DAMAGE_MATRIX.get(defenseType).get(attackType);
     }
 
+    /**
+     * Defense effectiveness against attack type as percent (100 = baseline).
+     */
+    public static int damageMitigationPercent(DefenseType defenseType, AttackType attackType) {
+        return (int) Math.round(damageMitigationMultiplier(defenseType, attackType) * 100);
+    }
+
     private final UUID id = UUID.randomUUID();
     private final Optional<String> name;
     private final int maxHealth;

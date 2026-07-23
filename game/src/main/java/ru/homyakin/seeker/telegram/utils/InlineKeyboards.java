@@ -23,7 +23,6 @@ import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.duel.DuelLocalization;
 import ru.homyakin.seeker.locale.group.GroupManagementLocalization;
 import ru.homyakin.seeker.locale.group.GroupSettingsLocalization;
-import ru.homyakin.seeker.locale.help.HelpLocalization;
 import ru.homyakin.seeker.locale.personal.MenuLocalization;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.locale.personal.SettingsLocalization;
@@ -31,7 +30,6 @@ import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
-import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
@@ -106,24 +104,6 @@ public class InlineKeyboards {
             .addButton(
                 DuelLocalization.acceptDuelButton(language), CommandType.ACCEPT_DUEL.getText() + callbackPostfix
             )
-            .build();
-    }
-
-    public static InlineKeyboardMarkup helpKeyboard(Language language) {
-        final var callbackPrefix = CommandType.SELECT_HELP.getText() + TextConstants.CALLBACK_DELIMITER;
-        return InlineKeyboardBuilder
-            .builder()
-            .addRow()
-            .addButton(HelpLocalization.raidsButton(language), callbackPrefix + HelpSection.RAIDS.name())
-            .addButton(HelpLocalization.duelsButton(language), callbackPrefix + HelpSection.DUELS.name())
-            .addRow()
-            .addButton(HelpLocalization.menuButton(language), callbackPrefix + HelpSection.MENU.name())
-            .addButton(HelpLocalization.personageButton(language), callbackPrefix + HelpSection.PERSONAGE.name())
-            .addRow()
-            .addButton(HelpLocalization.seasonsButton(language), callbackPrefix + HelpSection.SEASONS.name())
-            .addButton(HelpLocalization.battleSystemButton(language), callbackPrefix + HelpSection.BATTLE_SYSTEM.name())
-            .addRow()
-            .addButton(HelpLocalization.infoButton(language), callbackPrefix + HelpSection.INFO.name())
             .build();
     }
 
