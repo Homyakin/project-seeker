@@ -66,8 +66,8 @@ battleMatrix = """\
 У оружия есть тип атаки, у брони — тип защиты. Числа ниже — эффективность защиты против типа атаки \
 (из боевого баланса): чем выше процент, тем лучше броня держит этот тип атаки.
 
-Атака: ${slash_icon}SLASH ${blunt_icon}BLUNT ${pierce_icon}PIERCE ${magical_icon}MAGICAL
-Защита: ${cloth_icon}CLOTH ${leather_icon}LEATHER ${plate_icon}PLATE ${arcane_icon}ARCANE
+Атака: ${slash_icon}Рубящий ${blunt_icon}Дробящий ${pierce_icon}Колющий ${magical_icon}Магический
+Защита: ${cloth_icon}Ткань ${leather_icon}Кожа ${plate_icon}Латы ${arcane_icon}Магическая
 
 <code>${matrix_table}</code>
 

@@ -114,16 +114,16 @@ public class HelpLocalization {
         final var attacks = AttackType.values();
         final var defenses = DefenseType.values();
         final var sb = new StringBuilder();
-        sb.append("Def\\Atk");
+        sb.append("  ");
         for (final var attack : attacks) {
-            sb.append(String.format(" %5s", attack.name().substring(0, Math.min(5, attack.name().length()))));
+            sb.append(' ').append(Icons.attackTypeIcon(attack));
         }
         sb.append('\n');
         for (final var defense : defenses) {
-            sb.append(String.format("%-7s", defense.name().substring(0, Math.min(7, defense.name().length()))));
+            sb.append(Icons.defenseTypeIcon(defense));
             for (final var attack : attacks) {
                 final var percent = BattlePersonage.damageMitigationPercent(defense, attack);
-                sb.append(String.format(" %4d%%", percent));
+                sb.append(String.format(" %3d%%", percent));
             }
             sb.append('\n');
         }
