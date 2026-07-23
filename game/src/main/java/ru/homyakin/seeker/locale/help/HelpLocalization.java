@@ -3,8 +3,11 @@ package ru.homyakin.seeker.locale.help;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.stream.Collectors;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.skill.ActiveSkillSlots;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -100,10 +103,31 @@ public class HelpLocalization {
         params.put("leather_icon", Icons.DEFENSE_TYPE_LEATHER);
         params.put("plate_icon", Icons.DEFENSE_TYPE_PLATE);
         params.put("arcane_icon", Icons.DEFENSE_TYPE_ARCANE);
+        params.put("matrix_table", damageMatrixTable());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::battleMatrix),
             params
         );
+    }
+
+    private static String damageMatrixTable() {
+        final var attacks = AttackType.values();
+        final var defenses = DefenseType.values();
+        final var sb = new StringBuilder();
+        sb.append("Def\\Atk");
+        for (final var attack : attacks) {
+            sb.append(String.format(" %5s", attack.name().substring(0, Math.min(5, attack.name().length()))));
+        }
+        sb.append('\n');
+        for (final var defense : defenses) {
+            sb.append(String.format("%-7s", defense.name().substring(0, Math.min(7, defense.name().length()))));
+            for (final var attack : attacks) {
+                final var percent = BattlePersonage.damageMitigationPercent(defense, attack);
+                sb.append(String.format(" %4d%%", percent));
+            }
+            sb.append('\n');
+        }
+        return sb.toString().stripTrailing();
     }
 
     public static String battleSkill(Language language, ActiveEnum activeEnum) {

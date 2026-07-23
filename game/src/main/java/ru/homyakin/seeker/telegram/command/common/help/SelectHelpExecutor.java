@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.common.help;
 
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -19,6 +20,8 @@ import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 
 @Component
 public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
+    public static final int SKILLS_PAGE_SIZE = 5;
+
     private final UserService userService;
     private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
@@ -39,7 +42,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
             language = groupTgService.getOrCreate(GroupTgId.from(command.chatId())).language();
         }
         final var section = HelpSection.findForce(command.helpSection());
-        final var content = contentFor(section, language, command.skillsPage(), command.skillsSlotFilter());
+        final var content = contentFor(section, language, command.skillsPage(), command.skillsSlotFilters());
 
         telegramSender.send(EditMessageTextBuilder.builder()
             .chatId(command.chatId())
@@ -54,7 +57,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         HelpSection section,
         Language language,
         int skillsPage,
-        Optional<PersonageSlot> skillsSlotFilter
+        Set<PersonageSlot> skillsSlotFilters
     ) {
         return switch (section) {
             case MAIN -> new HelpContent(HelpLocalization.main(language), InlineKeyboards.helpKeyboard(language));
@@ -75,23 +78,29 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
                 HelpLocalization.battleMatrix(language),
                 InlineKeyboards.battleHelpKeyboard(language)
             );
-            case BATTLE_SKILLS -> skillsContent(language, skillsPage, skillsSlotFilter);
+            case BATTLE_SKILLS -> skillsContent(language, skillsPage, skillsSlotFilters);
         };
     }
 
-    private HelpContent skillsContent(Language language, int page, Optional<PersonageSlot> slotFilter) {
-        final var skills = ActiveSkillSlots.sortedSkills(slotFilter);
+    private HelpContent skillsContent(Language language, int page, Set<PersonageSlot> slotFilters) {
+        final var skills = ActiveSkillSlots.sortedSkills(slotFilters);
         if (skills.isEmpty()) {
             return new HelpContent(
                 HelpLocalization.battleSkillsEmpty(language),
-                InlineKeyboards.battleSkillsHelpKeyboard(language, 0, 0, slotFilter)
+                InlineKeyboards.battleSkillsHelpKeyboard(language, 0, 0, slotFilters)
             );
         }
-        final var totalPages = skills.size();
+        final var totalPages = (skills.size() + SKILLS_PAGE_SIZE - 1) / SKILLS_PAGE_SIZE;
         final var safePage = Math.min(Math.max(page, 0), totalPages - 1);
+        final var from = safePage * SKILLS_PAGE_SIZE;
+        final var to = Math.min(from + SKILLS_PAGE_SIZE, skills.size());
+        final var pageSkills = skills.subList(from, to);
+        final var text = pageSkills.stream()
+            .map(skill -> HelpLocalization.battleSkill(language, skill))
+            .collect(Collectors.joining("\n\n"));
         return new HelpContent(
-            HelpLocalization.battleSkill(language, skills.get(safePage)),
-            InlineKeyboards.battleSkillsHelpKeyboard(language, safePage, totalPages, slotFilter)
+            text,
+            InlineKeyboards.battleSkillsHelpKeyboard(language, safePage, totalPages, slotFilters)
         );
     }
 

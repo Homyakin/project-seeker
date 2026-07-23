@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
@@ -33,9 +32,16 @@ public final class ActiveSkillSlots {
             .toList();
     }
 
-    public static List<ActiveEnum> sortedSkills(Optional<PersonageSlot> slotFilter) {
+    /**
+     * Skills sorted by enum name. When {@code slotFilters} is non-empty, keeps only skills
+     * available on every selected slot (AND).
+     */
+    public static List<ActiveEnum> sortedSkills(Set<PersonageSlot> slotFilters) {
+        if (slotFilters.isEmpty()) {
+            return sortedSkills();
+        }
         return sortedSkills().stream()
-            .filter(skill -> slotFilter.isEmpty() || slotsFor(skill).contains(slotFilter.get()))
+            .filter(skill -> slotsFor(skill).containsAll(slotFilters))
             .toList();
     }
 

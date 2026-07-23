@@ -1,8 +1,10 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -33,6 +35,7 @@ import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.command.common.help.HelpSection;
+import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.locale.Language;
@@ -147,7 +150,7 @@ public class InlineKeyboards {
             .addRow()
             .addButton(
                 HelpLocalization.battleSkillsButton(language),
-                battleSkillsCallback(0, Optional.empty())
+                battleSkillsCallback(0, Set.of())
             )
             .build();
     }
@@ -156,14 +159,14 @@ public class InlineKeyboards {
         Language language,
         int page,
         int totalPages,
-        Optional<PersonageSlot> slotFilter
+        Set<PersonageSlot> slotFilters
     ) {
         final var builder = InlineKeyboardBuilder.builder();
         builder.addRow()
             .addButton(
                 HelpLocalization.battleSkillsAllFilterButton(language),
-                battleSkillsCallback(0, Optional.empty()),
-                slotFilter.isEmpty() ? InlineButtonStyle.SUCCESS : null
+                battleSkillsCallback(0, Set.of()),
+                slotFilters.isEmpty() ? InlineButtonStyle.SUCCESS : null
             );
         final var slots = PersonageSlot.values();
         for (int i = 0; i < slots.length; ++i) {
@@ -171,10 +174,10 @@ public class InlineKeyboards {
                 builder.addRow();
             }
             final var slot = slots[i];
-            final var isActive = slotFilter.isPresent() && slotFilter.get() == slot;
+            final var isActive = slotFilters.contains(slot);
             builder.addButton(
                 slot.icon,
-                battleSkillsCallback(0, Optional.of(slot)),
+                battleSkillsCallback(0, toggledSlotFilters(slotFilters, slot)),
                 isActive ? InlineButtonStyle.SUCCESS : null
             );
         }
@@ -183,13 +186,13 @@ public class InlineKeyboards {
             if (page > 0) {
                 builder.addButton(
                     HelpLocalization.battleSkillsPrevButton(language),
-                    battleSkillsCallback(page - 1, slotFilter)
+                    battleSkillsCallback(page - 1, slotFilters)
                 );
             }
             if (page < totalPages - 1) {
                 builder.addButton(
                     HelpLocalization.battleSkillsNextButton(language),
-                    battleSkillsCallback(page + 1, slotFilter)
+                    battleSkillsCallback(page + 1, slotFilters)
                 );
             }
         }
@@ -203,15 +206,23 @@ public class InlineKeyboards {
         return builder.build();
     }
 
-    private static String battleSkillsCallback(int page, Optional<PersonageSlot> slotFilter) {
-        final var slotPart = slotFilter.map(Enum::name).orElse("ALL");
+    private static Set<PersonageSlot> toggledSlotFilters(Set<PersonageSlot> current, PersonageSlot slot) {
+        final var next = EnumSet.noneOf(PersonageSlot.class);
+        next.addAll(current);
+        if (!next.add(slot)) {
+            next.remove(slot);
+        }
+        return Set.copyOf(next);
+    }
+
+    private static String battleSkillsCallback(int page, Set<PersonageSlot> slotFilters) {
         return CommandType.SELECT_HELP.getText()
             + TextConstants.CALLBACK_DELIMITER
             + HelpSection.BATTLE_SKILLS.name()
             + TextConstants.CALLBACK_DELIMITER
             + page
             + TextConstants.CALLBACK_DELIMITER
-            + slotPart;
+            + SelectHelp.encodeSlotFilters(slotFilters);
     }
 
     public static InlineKeyboardMarkup badgeSelector(List<AvailableBadge> badges) {

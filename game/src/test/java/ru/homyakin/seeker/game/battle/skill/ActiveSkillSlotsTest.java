@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.battle.skill;
 
-import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,11 +19,23 @@ public class ActiveSkillSlotsTest {
     }
 
     @Test
-    void filtersBySlot() {
-        final var mainHandSkills = ActiveSkillSlots.sortedSkills(Optional.of(PersonageSlot.MAIN_HAND));
+    void filtersBySingleSlot() {
+        final var mainHandSkills = ActiveSkillSlots.sortedSkills(Set.of(PersonageSlot.MAIN_HAND));
         Assertions.assertFalse(mainHandSkills.isEmpty());
         Assertions.assertTrue(mainHandSkills.stream().allMatch(
             skill -> ActiveSkillSlots.slotsFor(skill).contains(PersonageSlot.MAIN_HAND)
+        ));
+    }
+
+    @Test
+    void filtersByMultipleSlotsWithAnd() {
+        final var filters = Set.of(PersonageSlot.MAIN_HAND, PersonageSlot.BODY);
+        final var skills = ActiveSkillSlots.sortedSkills(filters);
+        Assertions.assertFalse(skills.isEmpty());
+        Assertions.assertTrue(skills.contains(ActiveEnum.BERSERK));
+        Assertions.assertFalse(skills.contains(ActiveEnum.DOUBLE_ATTACK));
+        Assertions.assertTrue(skills.stream().allMatch(
+            skill -> ActiveSkillSlots.slotsFor(skill).containsAll(filters)
         ));
     }
 }
