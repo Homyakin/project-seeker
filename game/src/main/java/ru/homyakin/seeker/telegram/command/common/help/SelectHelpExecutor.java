@@ -16,7 +16,7 @@ import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
-import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
+import ru.homyakin.seeker.telegram.utils.HelpInlineKeyboards;
 
 @Component
 public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
@@ -60,23 +60,23 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         Set<PersonageSlot> skillsSlotFilters
     ) {
         return switch (section) {
-            case MAIN -> new HelpContent(HelpLocalization.main(language), InlineKeyboards.helpKeyboard(language));
-            case RAIDS -> new HelpContent(HelpLocalization.raids(language), InlineKeyboards.helpKeyboard(language));
-            case DUELS -> new HelpContent(HelpLocalization.duels(language), InlineKeyboards.helpKeyboard(language));
-            case MENU -> new HelpContent(HelpLocalization.menu(language), InlineKeyboards.helpKeyboard(language));
+            case MAIN -> new HelpContent(HelpLocalization.main(language), HelpInlineKeyboards.helpKeyboard(language));
+            case RAIDS -> new HelpContent(HelpLocalization.raids(language), HelpInlineKeyboards.helpKeyboard(language));
+            case DUELS -> new HelpContent(HelpLocalization.duels(language), HelpInlineKeyboards.helpKeyboard(language));
+            case MENU -> new HelpContent(HelpLocalization.menu(language), HelpInlineKeyboards.helpKeyboard(language));
             case PERSONAGE -> new HelpContent(
                 HelpLocalization.personage(language),
-                InlineKeyboards.helpKeyboard(language)
+                HelpInlineKeyboards.helpKeyboard(language)
             );
-            case INFO -> new HelpContent(HelpLocalization.info(language), InlineKeyboards.helpKeyboard(language));
-            case SEASONS -> new HelpContent(HelpLocalization.seasons(language), InlineKeyboards.helpKeyboard(language));
+            case INFO -> new HelpContent(HelpLocalization.info(language), HelpInlineKeyboards.helpKeyboard(language));
+            case SEASONS -> new HelpContent(HelpLocalization.seasons(language), HelpInlineKeyboards.helpKeyboard(language));
             case BATTLE_SYSTEM, BATTLE_GENERAL -> new HelpContent(
                 HelpLocalization.battleSystem(language),
-                InlineKeyboards.battleHelpKeyboard(language)
+                HelpInlineKeyboards.battleHelpKeyboard(language)
             );
             case BATTLE_MATRIX -> new HelpContent(
                 HelpLocalization.battleMatrix(language),
-                InlineKeyboards.battleHelpKeyboard(language)
+                HelpInlineKeyboards.battleHelpKeyboard(language)
             );
             case BATTLE_SKILLS -> skillsContent(language, skillsPage, skillsSlotFilters);
         };
@@ -87,7 +87,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         if (skills.isEmpty()) {
             return new HelpContent(
                 HelpLocalization.battleSkillsEmpty(language),
-                InlineKeyboards.battleSkillsHelpKeyboard(language, 0, 0, slotFilters)
+                HelpInlineKeyboards.battleSkillsHelpKeyboard(language, 0, 0, slotFilters)
             );
         }
         final var totalPages = (skills.size() + SKILLS_PAGE_SIZE - 1) / SKILLS_PAGE_SIZE;
@@ -100,7 +100,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
             .collect(Collectors.joining("\n\n"));
         return new HelpContent(
             text,
-            InlineKeyboards.battleSkillsHelpKeyboard(language, safePage, totalPages, slotFilters)
+            HelpInlineKeyboards.battleSkillsHelpKeyboard(language, safePage, totalPages, slotFilters)
         );
     }
 
