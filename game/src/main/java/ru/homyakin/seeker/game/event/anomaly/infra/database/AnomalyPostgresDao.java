@@ -37,12 +37,14 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         final var sql = """
             INSERT INTO anomaly (
                 launched_event_id, pgroup_id, owner_personage_id, phase, mode,
-                modifier_code, roster_locked, opponent_launched_event_id,
-                gvg_rating_at_start, is_challenge
+                pve_template_code, opponent_pgroup_id,
+                opponent_owner_personage_id, winner_pgroup_id,
+                gvg_rating_at_start, search_end_date
             ) VALUES (
                 :launched_event_id, :pgroup_id, :owner_personage_id, :phase, :mode,
-                :modifier_code, :roster_locked, :opponent_launched_event_id,
-                :gvg_rating_at_start, :is_challenge
+                :pve_template_code, :opponent_pgroup_id,
+                :opponent_owner_personage_id, :winner_pgroup_id,
+                :gvg_rating_at_start, :search_end_date
             )
             """;
         bind(anomaly, jdbcClient.sql(sql)).update();
@@ -55,11 +57,12 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             SET owner_personage_id = :owner_personage_id,
                 phase = :phase,
                 mode = :mode,
-                modifier_code = :modifier_code,
-                roster_locked = :roster_locked,
-                opponent_launched_event_id = :opponent_launched_event_id,
+                pve_template_code = :pve_template_code,
+                opponent_pgroup_id = :opponent_pgroup_id,
+                opponent_owner_personage_id = :opponent_owner_personage_id,
+                winner_pgroup_id = :winner_pgroup_id,
                 gvg_rating_at_start = :gvg_rating_at_start,
-                is_challenge = :is_challenge
+                search_end_date = :search_end_date
             WHERE launched_event_id = :launched_event_id
             """;
         bind(anomaly, jdbcClient.sql(sql)).update();
@@ -80,7 +83,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             SELECT le.*
             FROM anomaly a
             INNER JOIN launched_event le ON le.id = a.launched_event_id
-            WHERE a.pgroup_id = :pgroup_id
+            WHERE (a.pgroup_id = :pgroup_id OR a.opponent_pgroup_id = :pgroup_id)
               AND le.status_id = :launched_status
             ORDER BY le.id DESC
             LIMIT 1
@@ -100,7 +103,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             INNER JOIN launched_event le ON le.id = a.launched_event_id
             WHERE le.status_id = :launched_status
               AND a.phase = :phase
-              AND a.opponent_launched_event_id IS NULL
+              AND a.opponent_pgroup_id IS NULL
             """;
         return jdbcClient.sql(sql)
             .param("launched_status", EventStatus.LAUNCHED.id())
@@ -121,7 +124,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             FROM anomaly a
             INNER JOIN launched_event le ON le.id = a.launched_event_id
             WHERE a.pgroup_id = :pgroup_id
-              AND a.is_challenge = false
               AND le.start_date::date = :day_date
             """;
         return jdbcClient.sql(sql)
@@ -136,42 +138,38 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         return spec
             .param("launched_event_id", anomaly.launchedEventId())
             .param("pgroup_id", anomaly.groupId().value())
-            .param("owner_personage_id", anomaly.ownerPersonageId().map(PersonageId::value).orElse(null))
+            .param("owner_personage_id", anomaly.ownerPersonageId().value())
             .param("phase", toPhase(anomaly).name())
             .param("mode", toMode(anomaly).map(Enum::name).orElse(null))
-            .param("modifier_code", toModifierCode(anomaly))
-            .param("roster_locked", anomaly.rosterLocked())
-            .param("opponent_launched_event_id", toOpponentId(anomaly).orElse(null))
+            .param("pve_template_code", toPveTemplateCode(anomaly))
+            .param("opponent_pgroup_id", toOpponentGroupId(anomaly).map(GroupId::value).orElse(null))
+            .param(
+                "opponent_owner_personage_id",
+                toOpponentOwnerId(anomaly).map(PersonageId::value).orElse(null)
+            )
+            .param("winner_pgroup_id", toWinnerGroupId(anomaly).map(GroupId::value).orElse(null))
             .param("gvg_rating_at_start", toGvgRating(anomaly).orElse(null))
-            .param("is_challenge", anomaly.isChallenge());
+            .param("search_end_date", toSearchEndDate(anomaly).orElse(null));
     }
 
     private Anomaly mapAnomaly(ResultSet rs, int rowNum) throws SQLException {
         final var launchedEventId = rs.getLong("launched_event_id");
         final var groupId = GroupId.from(rs.getLong("pgroup_id"));
-        final var owner = Optional.ofNullable(rs.getObject("owner_personage_id"))
-            .map(id -> PersonageId.from(((Number) id).longValue()));
+        final var owner = PersonageId.from(rs.getLong("owner_personage_id"));
         final var phase = AnomalyPhase.valueOf(rs.getString("phase"));
         final var mode = Optional.ofNullable(rs.getString("mode")).map(AnomalyMode::valueOf);
-        final var templateCode = rs.getString("modifier_code");
-        final var rosterLocked = rs.getBoolean("roster_locked");
-        final var opponentId = Optional.ofNullable(rs.getObject("opponent_launched_event_id"))
-            .map(id -> ((Number) id).longValue());
+        final var templateCode = rs.getString("pve_template_code");
+        final var opponentGroupId = Optional.ofNullable(rs.getObject("opponent_pgroup_id"))
+            .map(id -> GroupId.from(((Number) id).longValue()));
+        final var opponentOwner = Optional.ofNullable(rs.getObject("opponent_owner_personage_id"))
+            .map(id -> PersonageId.from(((Number) id).longValue()));
+        final var winnerGroupId = Optional.ofNullable(rs.getObject("winner_pgroup_id"))
+            .map(id -> GroupId.from(((Number) id).longValue()));
         final var gvgRating = Optional.ofNullable(rs.getObject("gvg_rating_at_start"))
             .map(id -> ((Number) id).intValue());
-        final var isChallenge = rs.getBoolean("is_challenge");
+        final var searchEnd = Optional.ofNullable(rs.getTimestamp("search_end_date"))
+            .map(java.sql.Timestamp::toLocalDateTime);
 
-        if (isChallenge || phase == AnomalyPhase.CHALLENGED) {
-            return new Anomaly.Challenged(
-                launchedEventId,
-                groupId,
-                owner,
-                opponentId.orElseThrow(() -> new IllegalStateException(
-                    "Challenged anomaly without initiator: " + launchedEventId
-                )),
-                rosterLocked
-            );
-        }
         return switch (phase) {
             case GATHERING -> switch (mode.orElseThrow()) {
                 case SAFE -> new Anomaly.Safe(
@@ -179,17 +177,12 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                     groupId,
                     owner,
                     requireTemplate(templateCode),
-                    Anomaly.Safe.Phase.GATHERING,
-                    rosterLocked
+                    Anomaly.Safe.Phase.GATHERING
                 );
-                case DANGEROUS -> new Anomaly.Dangerous(
+                case DANGEROUS -> new Anomaly.Dangerous.Gathering(
                     launchedEventId,
                     groupId,
-                    owner,
-                    Anomaly.Dangerous.Phase.GATHERING,
-                    rosterLocked,
-                    opponentId,
-                    gvgRating
+                    owner
                 );
             };
             case PVE_WAITING -> new Anomaly.Safe(
@@ -197,19 +190,45 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 groupId,
                 owner,
                 requireTemplate(templateCode),
-                Anomaly.Safe.Phase.PVE_WAITING,
-                rosterLocked
+                Anomaly.Safe.Phase.PVE_WAITING
             );
-            case SEARCHING -> new Anomaly.Dangerous(
+            case SEARCHING -> new Anomaly.Dangerous.Searching(
                 launchedEventId,
                 groupId,
                 owner,
-                Anomaly.Dangerous.Phase.SEARCHING,
-                rosterLocked,
-                opponentId,
-                gvgRating
+                requireGvgRating(gvgRating, launchedEventId),
+                searchEnd.orElseThrow(() -> new IllegalStateException(
+                    "Searching anomaly without search_end_date: " + launchedEventId
+                ))
             );
-            case CHALLENGED -> throw new IllegalStateException("Handled above");
+            case CHALLENGED -> new Anomaly.Dangerous.Challenged(
+                launchedEventId,
+                groupId,
+                owner,
+                opponentGroupId.orElseThrow(() -> new IllegalStateException(
+                    "Challenged anomaly without opponent: " + launchedEventId
+                )),
+                requireGvgRating(gvgRating, launchedEventId),
+                searchEnd.orElseThrow(() -> new IllegalStateException(
+                    "Challenged anomaly without search_end_date: " + launchedEventId
+                ))
+            );
+            case ACCEPTED -> new Anomaly.Dangerous.Accepted(
+                launchedEventId,
+                groupId,
+                owner,
+                opponentGroupId.orElseThrow(() -> new IllegalStateException(
+                    "Accepted anomaly without opponent: " + launchedEventId
+                )),
+                opponentOwner.orElseThrow(() -> new IllegalStateException(
+                    "Accepted anomaly without opponent owner: " + launchedEventId
+                )),
+                winnerGroupId,
+                requireGvgRating(gvgRating, launchedEventId),
+                searchEnd.orElseThrow(() -> new IllegalStateException(
+                    "Accepted anomaly without search_end_date: " + launchedEventId
+                ))
+            );
         };
     }
 
@@ -231,11 +250,10 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 case GATHERING -> AnomalyPhase.GATHERING;
                 case PVE_WAITING -> AnomalyPhase.PVE_WAITING;
             };
-            case Anomaly.Dangerous dangerous -> switch (dangerous.phase()) {
-                case GATHERING -> AnomalyPhase.GATHERING;
-                case SEARCHING -> AnomalyPhase.SEARCHING;
-            };
-            case Anomaly.Challenged _ -> AnomalyPhase.CHALLENGED;
+            case Anomaly.Dangerous.Gathering _ -> AnomalyPhase.GATHERING;
+            case Anomaly.Dangerous.Searching _ -> AnomalyPhase.SEARCHING;
+            case Anomaly.Dangerous.Challenged _ -> AnomalyPhase.CHALLENGED;
+            case Anomaly.Dangerous.Accepted _ -> AnomalyPhase.ACCEPTED;
         };
     }
 
@@ -243,30 +261,63 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         return switch (anomaly) {
             case Anomaly.Safe _ -> Optional.of(AnomalyMode.SAFE);
             case Anomaly.Dangerous _ -> Optional.of(AnomalyMode.DANGEROUS);
-            case Anomaly.Challenged _ -> Optional.empty();
         };
     }
 
-    private static String toModifierCode(Anomaly anomaly) {
+    private static String toPveTemplateCode(Anomaly anomaly) {
         return switch (anomaly) {
             case Anomaly.Safe safe -> safe.template().code();
-            case Anomaly.Dangerous _, Anomaly.Challenged _ -> NONE_CODE;
+            case Anomaly.Dangerous _ -> NONE_CODE;
         };
     }
 
-    private static Optional<Long> toOpponentId(Anomaly anomaly) {
+    private static Optional<GroupId> toOpponentGroupId(Anomaly anomaly) {
         return switch (anomaly) {
-            case Anomaly.Dangerous dangerous -> dangerous.opponentLaunchedEventId();
-            case Anomaly.Challenged challenged -> Optional.of(challenged.initiatorLaunchedEventId());
-            case Anomaly.Safe _ -> Optional.empty();
+            case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.opponentGroupId());
+            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentGroupId());
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
+                Optional.empty();
+        };
+    }
+
+    private static Optional<PersonageId> toOpponentOwnerId(Anomaly anomaly) {
+        return switch (anomaly) {
+            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentOwnerPersonageId());
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _,
+                 Anomaly.Dangerous.Challenged _ -> Optional.empty();
+        };
+    }
+
+    private static Optional<GroupId> toWinnerGroupId(Anomaly anomaly) {
+        return switch (anomaly) {
+            case Anomaly.Dangerous.Accepted accepted -> accepted.winnerGroupId();
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _,
+                 Anomaly.Dangerous.Challenged _ -> Optional.empty();
         };
     }
 
     private static Optional<Integer> toGvgRating(Anomaly anomaly) {
         return switch (anomaly) {
-            case Anomaly.Dangerous dangerous -> dangerous.gvgRatingAtStart();
-            case Anomaly.Safe _, Anomaly.Challenged _ -> Optional.empty();
+            case Anomaly.Dangerous.Searching searching -> Optional.of(searching.gvgRatingAtStart());
+            case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.gvgRatingAtStart());
+            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.gvgRatingAtStart());
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> Optional.empty();
         };
+    }
+
+    private static Optional<java.time.LocalDateTime> toSearchEndDate(Anomaly anomaly) {
+        return switch (anomaly) {
+            case Anomaly.Dangerous.Searching searching -> Optional.of(searching.searchEndDate());
+            case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.searchEndDate());
+            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.searchEndDate());
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> Optional.empty();
+        };
+    }
+
+    private static int requireGvgRating(Optional<Integer> gvgRating, long launchedEventId) {
+        return gvgRating.orElseThrow(() -> new IllegalStateException(
+            "Dangerous anomaly without gvg_rating_at_start: " + launchedEventId
+        ));
     }
 
     private static AnomalyPveTemplate requireTemplate(String code) {

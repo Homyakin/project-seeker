@@ -68,7 +68,7 @@ public class CancelEventCommand {
         }
         if (eventType == EventType.ANOMALY) {
             final var anomaly = anomalyStorage.findByLaunchedEventId(launchedEventId);
-            if (anomaly.isPresent() && isStartedAnomaly(anomaly.get())) {
+            if (anomaly.isPresent() && isLeaveForbidden(anomaly.get(), personageId)) {
                 return Either.left(CancelError.ForbiddenForStartedAnomaly.INSTANCE);
             }
         }
@@ -84,13 +84,19 @@ public class CancelEventCommand {
         return Either.right(refund);
     }
 
-    private static boolean isStartedAnomaly(Anomaly anomaly) {
+    private boolean isLeaveForbidden(Anomaly anomaly, PersonageId personageId) {
         return switch (anomaly) {
-            case Anomaly.Safe safe ->
-                safe.rosterLocked() || safe.phase() == Anomaly.Safe.Phase.PVE_WAITING;
-            case Anomaly.Dangerous dangerous ->
-                dangerous.rosterLocked() || dangerous.phase() == Anomaly.Dangerous.Phase.SEARCHING;
-            case Anomaly.Challenged challenged -> challenged.rosterLocked();
+            case Anomaly.Safe safe -> safe.phase() == Anomaly.Safe.Phase.PVE_WAITING;
+            case Anomaly.Dangerous.Gathering _ -> false;
+            case Anomaly.Dangerous.Searching _ -> true;
+            case Anomaly.Dangerous.Challenged challenged -> {
+                final var personage = personageService.getByIdForce(personageId);
+                yield personage.memberGroupId().filter(challenged.groupId()::equals).isPresent();
+            }
+            case Anomaly.Dangerous.Accepted accepted -> {
+                final var personage = personageService.getByIdForce(personageId);
+                yield personage.memberGroupId().filter(accepted.groupId()::equals).isPresent();
+            }
         };
     }
 }

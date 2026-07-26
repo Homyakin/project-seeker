@@ -42,20 +42,28 @@ public class GroupTgLaunchedEventDao {
     }
 
     public Optional<GroupLaunchedEvent> lastEndedRaidInGroup(GroupTgId groupId) {
+        return lastEndedEventInGroupByType(groupId, EventType.RAID);
+    }
+
+    public Optional<GroupLaunchedEvent> lastEndedAnomalyInGroup(GroupTgId groupId) {
+        return lastEndedEventInGroupByType(groupId, EventType.ANOMALY);
+    }
+
+    private Optional<GroupLaunchedEvent> lastEndedEventInGroupByType(GroupTgId groupId, EventType type) {
         final var sql = """
             SELECT gtle.* FROM grouptg_to_launched_event gtle
             LEFT JOIN launched_event le ON gtle.launched_event_id = le.id
             LEFT JOIN event e ON le.event_id = e.id
             WHERE gtle.grouptg_id = :grouptg_id
             AND le.status_id != :active_status_id
-            AND e.type_id = :raid_id
+            AND e.type_id = :type_id
             ORDER BY le.id DESC
             LIMIT 1
             """;
         return jdbcClient.sql(sql)
             .param("grouptg_id", groupId.value())
             .param("active_status_id", EventStatus.LAUNCHED.id())
-            .param("raid_id", EventType.RAID.id())
+            .param("type_id", type.id())
             .query(this::mapRow)
             .optional();
     }

@@ -1,37 +1,30 @@
 package ru.homyakin.seeker.game.event.anomaly.entity;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
 public sealed interface Anomaly permits
     Anomaly.Safe,
-    Anomaly.Dangerous,
-    Anomaly.Challenged {
+    Anomaly.Dangerous {
 
     long launchedEventId();
 
     GroupId groupId();
 
-    Optional<PersonageId> ownerPersonageId();
-
-    boolean rosterLocked();
+    PersonageId ownerPersonageId();
 
     default boolean isOwner(PersonageId personageId) {
-        return ownerPersonageId().filter(personageId::equals).isPresent();
-    }
-
-    default boolean isChallenge() {
-        return this instanceof Challenged;
+        return ownerPersonageId().equals(personageId);
     }
 
     record Safe(
         long launchedEventId,
         GroupId groupId,
-        Optional<PersonageId> ownerPersonageId,
+        PersonageId ownerPersonageId,
         AnomalyPveTemplate template,
-        Phase phase,
-        boolean rosterLocked
+        Phase phase
     ) implements Anomaly {
         public enum Phase {
             GATHERING,
@@ -44,88 +37,126 @@ public sealed interface Anomaly permits
                 groupId,
                 ownerPersonageId,
                 template,
-                Phase.PVE_WAITING,
-                true
+                Phase.PVE_WAITING
             );
         }
     }
 
-    record Dangerous(
-        long launchedEventId,
-        GroupId groupId,
-        Optional<PersonageId> ownerPersonageId,
-        Phase phase,
-        boolean rosterLocked,
-        Optional<Long> opponentLaunchedEventId,
-        Optional<Integer> gvgRatingAtStart
-    ) implements Anomaly {
-        public enum Phase {
-            GATHERING,
-            SEARCHING,
+    sealed interface Dangerous extends Anomaly permits
+        Dangerous.Gathering,
+        Dangerous.Searching,
+        Dangerous.Challenged,
+        Dangerous.Accepted {
+
+        record Gathering(
+            long launchedEventId,
+            GroupId groupId,
+            PersonageId ownerPersonageId
+        ) implements Dangerous {
+            public Searching startSearching(int gvgRatingAtStart, LocalDateTime searchEndDate) {
+                return new Searching(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
         }
 
-        public Dangerous startSearching(int gvgRating) {
-            return new Dangerous(
-                launchedEventId,
-                groupId,
-                ownerPersonageId,
-                Phase.SEARCHING,
-                true,
-                opponentLaunchedEventId,
-                Optional.of(gvgRating)
-            );
+        record Searching(
+            long launchedEventId,
+            GroupId groupId,
+            PersonageId ownerPersonageId,
+            int gvgRatingAtStart,
+            LocalDateTime searchEndDate
+        ) implements Dangerous {
+            public Challenged withOpponent(GroupId opponentGroupId) {
+                return new Challenged(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    opponentGroupId,
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
         }
 
-        public Dangerous withOpponent(long opponentId) {
-            return new Dangerous(
-                launchedEventId,
-                groupId,
-                ownerPersonageId,
-                phase,
-                rosterLocked,
-                Optional.of(opponentId),
-                gvgRatingAtStart
-            );
+        /**
+         * Opponent invited; no defender has joined yet.
+         */
+        record Challenged(
+            long launchedEventId,
+            GroupId groupId,
+            PersonageId ownerPersonageId,
+            GroupId opponentGroupId,
+            int gvgRatingAtStart,
+            LocalDateTime searchEndDate
+        ) implements Dangerous {
+            public Accepted accept(PersonageId opponentOwnerPersonageId) {
+                return new Accepted(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    opponentGroupId,
+                    opponentOwnerPersonageId,
+                    Optional.empty(),
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
+
+            public Searching clearOpponent() {
+                return new Searching(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
         }
 
-        public Dangerous clearOpponent() {
-            return new Dangerous(
-                launchedEventId,
-                groupId,
-                ownerPersonageId,
-                phase,
-                rosterLocked,
-                Optional.empty(),
-                gvgRatingAtStart
-            );
-        }
-    }
+        /**
+         * At least one defender has joined; opponent owner can Ready.
+         */
+        record Accepted(
+            long launchedEventId,
+            GroupId groupId,
+            PersonageId ownerPersonageId,
+            GroupId opponentGroupId,
+            PersonageId opponentOwnerPersonageId,
+            Optional<GroupId> winnerGroupId,
+            int gvgRatingAtStart,
+            LocalDateTime searchEndDate
+        ) implements Dangerous {
+            public boolean isOpponentOwner(PersonageId personageId) {
+                return opponentOwnerPersonageId.equals(personageId);
+            }
 
-    record Challenged(
-        long launchedEventId,
-        GroupId groupId,
-        Optional<PersonageId> ownerPersonageId,
-        long initiatorLaunchedEventId,
-        boolean rosterLocked
-    ) implements Anomaly {
-        public Challenged withOwner(PersonageId personageId) {
-            return new Challenged(
-                launchedEventId,
-                groupId,
-                Optional.of(personageId),
-                initiatorLaunchedEventId,
-                rosterLocked
-            );
-        }
+            public Searching clearOpponent() {
+                return new Searching(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
 
-        public Challenged lockRoster() {
-            return new Challenged(
-                launchedEventId,
-                groupId,
-                ownerPersonageId,
-                initiatorLaunchedEventId,
-                true
-            );
+            public Accepted withWinner(GroupId winnerGroupId) {
+                return new Accepted(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    opponentGroupId,
+                    opponentOwnerPersonageId,
+                    Optional.of(winnerGroupId),
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
         }
     }
 }

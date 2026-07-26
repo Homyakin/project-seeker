@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgMatchRules;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.SendAnomalyChallengeToGroup;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
-import ru.homyakin.seeker.game.event.models.EventType;
-import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -22,12 +21,10 @@ import ru.homyakin.seeker.utils.TimeUtils;
 @Service
 public class AnomalyMatchmaker {
     private static final Logger logger = LoggerFactory.getLogger(AnomalyMatchmaker.class);
-    private static final long RECENT_OPPONENT_SCORE_PENALTY = 10_000L;
 
     private final AnomalyStorage anomalyStorage;
     private final AnomalyGvgStorage gvgStorage;
     private final AnomalyConfig config;
-    private final EventService eventService;
     private final LaunchedEventService launchedEventService;
     private final SendAnomalyChallengeToGroup sendAnomalyChallengeToGroup;
     private final LockService lockService;
@@ -36,7 +33,6 @@ public class AnomalyMatchmaker {
         AnomalyStorage anomalyStorage,
         AnomalyGvgStorage gvgStorage,
         AnomalyConfig config,
-        EventService eventService,
         LaunchedEventService launchedEventService,
         SendAnomalyChallengeToGroup sendAnomalyChallengeToGroup,
         LockService lockService
@@ -44,7 +40,6 @@ public class AnomalyMatchmaker {
         this.anomalyStorage = anomalyStorage;
         this.gvgStorage = gvgStorage;
         this.config = config;
-        this.eventService = eventService;
         this.launchedEventService = launchedEventService;
         this.sendAnomalyChallengeToGroup = sendAnomalyChallengeToGroup;
         this.lockService = lockService;
@@ -62,32 +57,21 @@ public class AnomalyMatchmaker {
         if (eventOpt.isEmpty() || eventOpt.get().isInFinalStatus()) {
             return;
         }
-        final var searching = eventOpt.get();
+        final var searchingEvent = eventOpt.get();
         final var anomalyOpt = anomalyStorage.findByLaunchedEventId(searchingEventId);
-        if (anomalyOpt.isEmpty()) {
-            return;
-        }
-        if (!(anomalyOpt.get() instanceof Anomaly.Dangerous dangerous)
-            || dangerous.phase() != Anomaly.Dangerous.Phase.SEARCHING
-            || dangerous.opponentLaunchedEventId().isPresent()) {
+        if (!(anomalyOpt.orElse(null) instanceof Anomaly.Dangerous.Searching searching)) {
             return;
         }
 
-        final var initiatorGroupId = dangerous.groupId();
-        final var rating = dangerous.gvgRatingAtStart()
-            .orElseGet(() -> gvgStorage.getRating(initiatorGroupId));
-        final var searchStartedAt = searching.endDate().minus(config.dangerousSearchDuration());
-        final var hoursInSearch = Math.max(
-            0,
-            Duration.between(searchStartedAt, TimeUtils.moscowTime()).toHours()
-        );
-        final int allowedDelta = config.initialRatingDelta()
-            + (int) (hoursInSearch * config.ratingDeltaExpandPerHour());
+        final var initiatorGroupId = searching.groupId();
+        final var rating = searching.gvgRatingAtStart();
         final var now = TimeUtils.moscowTime();
-        final var recentCutoff = now.minus(config.recentOpponentPenaltyHours());
+        final var searchStartedAt = searching.searchEndDate().minus(config.dangerousSearchDuration());
+        final var searchAge = Duration.between(searchStartedAt, now);
+        final int allowedDelta = AnomalyGvgMatchRules.maxAllowedRatingDiff(searchAge);
 
         final var bestTarget = gvgStorage.findEligibleChallengeTargets(initiatorGroupId).stream()
-            .map(targetId -> scoreTarget(initiatorGroupId, targetId, rating, allowedDelta, recentCutoff))
+            .map(targetId -> scoreTarget(initiatorGroupId, targetId, rating, allowedDelta, now))
             .flatMap(Optional::stream)
             .min(Comparator.comparingLong(ScoredTarget::score))
             .map(ScoredTarget::groupId);
@@ -98,32 +82,25 @@ public class AnomalyMatchmaker {
         }
 
         final var targetGroupId = bestTarget.get();
-        final var template = eventService.getByType(EventType.ANOMALY)
-            .orElseThrow(() -> new IllegalStateException("Anomaly event template missing"));
-        final var challenged = launchedEventService.createFromAnomaly(
-            template.id(),
-            now,
-            searching.endDate(),
-            targetGroupId
+        final var challenged = searching.withOpponent(targetGroupId);
+        anomalyStorage.update(challenged);
+        launchedEventService.addGroupToEvent(searchingEvent.id(), targetGroupId);
+
+        final var challengeEnd = now.plus(config.dangerousChallengeDuration());
+        final var searchEnd = searching.searchEndDate();
+        launchedEventService.updateEndDate(
+            searchingEvent.id(),
+            challengeEnd.isBefore(searchEnd) ? challengeEnd : searchEnd
         );
-        anomalyStorage.save(new Anomaly.Challenged(
-            challenged.id(),
-            targetGroupId,
-            Optional.empty(),
-            searching.id(),
-            false
-        ));
-        anomalyStorage.update(dangerous.withOpponent(challenged.id()));
+
         sendAnomalyChallengeToGroup.send(
             targetGroupId,
-            launchedEventService.getById(challenged.id()).orElse(challenged),
-            searching
+            launchedEventService.getById(searchingEvent.id()).orElse(searchingEvent)
         );
         logger.info(
-            "Anomaly {} invited group {} via event {}",
+            "Anomaly {} invited group {}",
             searchingEventId,
-            targetGroupId.value(),
-            challenged.id()
+            targetGroupId.value()
         );
     }
 
@@ -132,19 +109,22 @@ public class AnomalyMatchmaker {
         GroupId targetId,
         int initiatorRating,
         int allowedDelta,
-        java.time.LocalDateTime recentCutoff
+        java.time.LocalDateTime now
     ) {
         final var targetRating = gvgStorage.getRating(targetId);
         final int distance = Math.abs(targetRating - initiatorRating);
         if (distance > allowedDelta) {
             return Optional.empty();
         }
-        long score = distance;
-        final var recentFoughtAt = gvgStorage.findRecentOpponentFoughtAt(initiatorGroupId, targetId);
-        if (recentFoughtAt.filter(at -> at.isAfter(recentCutoff)).isPresent()) {
-            score += RECENT_OPPONENT_SCORE_PENALTY;
-        }
-        return Optional.of(new ScoredTarget(targetId, score));
+        final var recentPenalties = AnomalyGvgMatchRules.sumRecentMeetPenalties(
+            gvgStorage.findOpponentFoughtAtList(initiatorGroupId, targetId),
+            now,
+            config.recentMeetPenaltyFirstDay()
+        );
+        return Optional.of(new ScoredTarget(
+            targetId,
+            AnomalyGvgMatchRules.score(distance, recentPenalties)
+        ));
     }
 
     private record ScoredTarget(GroupId groupId, long score) {

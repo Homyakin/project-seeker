@@ -44,7 +44,9 @@ ${participants}
 anomalySearching = """
 📡<b>Поиск противника</b>
 
-Состав зафиксирован (${count}/${party_size}).
+Состав зафиксирован (${count}/${party_size}):
+${participants}
+
 Ищем группу для GvG: ${duration}
 """
 anomalyChallenge = """
@@ -68,17 +70,15 @@ anomalyNoMatch = """
 Экспедиция завершена без боя.
 Награда: ${reward} ${money_icon} каждому участнику.
 """
-anomalyBattleVictory = """
-🏆<b>Победа в аномалии!</b>
+anomalyBattleResult = """\
+${groups_top}
 
 Награда: ${reward} ${money_icon} каждому участнику.
-"""
-anomalyBattleDefeat = """
-💀<b>Поражение в аномалии</b>
-
-Награда: ${reward} ${money_icon} каждому участнику.
-"""
-anomalyPveBattleResult = """
+Отчёт: ${anomaly_report_command}"""
+anomalyBattleGroupTop = """\
+${result_icon}${group_name_with_badge}:
+${participants_top}"""
+anomalyPveBattleResult = """\
 ${success_or_failure}
 
 Противники: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
@@ -88,7 +88,8 @@ ${success_or_failure}
 ${top_participants_list}
 
 Награда: ${reward} ${money_icon} каждому участнику.
-"""
+Отчёт: ${anomaly_report_command}"""
+
 anomalyPersonageResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
 successPve = [
     "Событие завершилось! Безопасная экспедиция успешна.",
@@ -125,10 +126,16 @@ errorPartyNotFull = "Нужен полный отряд"
 errorPartyEmpty = "Нет участников"
 errorRosterLocked = "Состав уже зафиксирован"
 errorAlreadyJoined = "Вы уже в экспедиции"
+errorAlreadyInAnomaly = "Вы уже участвуете в другой аномалии"
 errorPartyFull = "Отряд уже полный"
 errorEventLocked = "Попробуйте ещё раз"
 errorFinal = "Экспедиция уже завершена"
 errorNotFound = "Экспедиция не найдена"
+report = """\
+📜Ваш отчёт за последнюю аномалию:
+${personage_battle_report}"""
+reportNotPresentForPersonage = "Не смогли найти твой отчёт об аномалии в архивах"
+lastGroupAnomalyReportNotFound = "Не смогли найти отчёт об аномалии в этой группе"
 successJoin = "Вы вступили в экспедицию"
 successReadySafe = "Состав зафиксирован, бой через 3 часа"
 successReadySearch = "Состав зафиксирован, ищем противника"

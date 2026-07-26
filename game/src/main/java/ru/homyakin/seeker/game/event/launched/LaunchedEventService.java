@@ -80,6 +80,14 @@ public class LaunchedEventService {
         return getById(id).orElseThrow(() -> new IllegalStateException("Launched event must be present after create"));
     }
 
+    public void addGroupToEvent(long launchedEventId, GroupId groupId) {
+        launchedEventGroupDao.save(launchedEventId, groupId);
+    }
+
+    public void removeGroupFromEvent(long launchedEventId, GroupId groupId) {
+        launchedEventGroupDao.delete(launchedEventId, groupId);
+    }
+
     public void updateEndDate(long launchedEventId, LocalDateTime endDate) {
         launchedEventDao.updateEndDate(launchedEventId, endDate);
     }

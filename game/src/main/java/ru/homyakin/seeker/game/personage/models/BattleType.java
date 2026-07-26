@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.event.models.EventType;
 public enum BattleType {
     RAID(EventType.RAID),
     WORLD_RAID(EventType.WORLD_RAID),
+    ANOMALY(EventType.ANOMALY),
     ;
 
     private final EventType eventType;

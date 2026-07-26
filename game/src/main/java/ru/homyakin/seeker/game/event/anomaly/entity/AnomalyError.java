@@ -25,6 +25,8 @@ public sealed interface AnomalyError {
 
     enum AlreadyJoined implements AnomalyError { INSTANCE }
 
+    enum AlreadyInAnomaly implements AnomalyError { INSTANCE }
+
     enum PartyFull implements AnomalyError { INSTANCE }
 
     enum EventLocked implements AnomalyError { INSTANCE }

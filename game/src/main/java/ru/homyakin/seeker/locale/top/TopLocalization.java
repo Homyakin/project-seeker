@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.top.models.GroupTopAnomalyRatingPosition;
+import ru.homyakin.seeker.game.top.models.GroupTopAnomalyRatingResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
@@ -95,6 +97,7 @@ public class TopLocalization {
         params.put("top_raid_week_group_command", CommandType.TOP_RAID_WEEK_GROUP.getText());
         params.put("top_group_raid_week_command", CommandType.TOP_GROUP_RAID_WEEK.getText());
         params.put("top_group_raid_level_command", CommandType.TOP_GROUP_RAID_LEVEL.getText());
+        params.put("top_group_anomaly_rating_command", CommandType.TOP_GROUP_ANOMALY_RATING.getText());
         params.put("top_power_personage_command", CommandType.TOP_POWER_GROUP.getText());
         params.put("top_tavern_spent_command", CommandType.TOP_TAVERN_SPENT.getText());
         params.put("top_outpost_season_command", CommandType.TOP_OUTPOST_SEASON_MATERIALS.getText());
@@ -420,5 +423,39 @@ public class TopLocalization {
 
     public static String topRaidLevelEmpty(Language language) {
         return resources.getOrDefault(language, TopResource::topRaidLevelEmpty);
+    }
+
+    public static String topGroupAnomalyRating(
+        Language language,
+        GroupId requestedGroupId,
+        GroupTopAnomalyRatingResult result
+    ) {
+        final var params = new HashMap<String, Object>();
+        final var topGroupList = TopUtils.createTopList(language, requestedGroupId, result);
+        params.put("top_group_list", topGroupList);
+        params.put("total_count", result.positions().size());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topGroupAnomalyRating),
+            params
+        );
+    }
+
+    public static String topGroupAnomalyRatingPosition(
+        Language language,
+        int positionNumber,
+        GroupTopAnomalyRatingPosition position
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put("position", positionNumber);
+        params.put("group_badge_with_name", LocaleUtils.groupNameWithBadge(position));
+        params.put("rating", position.rating());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, TopResource::topGroupAnomalyRatingPosition),
+            params
+        );
+    }
+
+    public static String topAnomalyRatingEmpty(Language language) {
+        return resources.getOrDefault(language, TopResource::topAnomalyRatingEmpty);
     }
 }

@@ -19,9 +19,13 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
+import ru.homyakin.seeker.game.event.launched.CurrentEvent;
+import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
+import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.entity.Group;
@@ -34,6 +38,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.infrastructure.lock.InMemoryLockService;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -53,7 +58,9 @@ public class AnomalyServiceTest {
 
     private AnomalyService service;
     private final GroupId groupId = GroupId.from(10L);
+    private final GroupId opponentGroupId = GroupId.from(20L);
     private final PersonageId personageId = PersonageId.from(1L);
+    private final PersonageId opponentOwnerId = PersonageId.from(2L);
 
     @BeforeEach
     void init() {
@@ -74,12 +81,67 @@ public class AnomalyServiceTest {
         Mockito.when(config.gatheringDuration()).thenReturn(Duration.ofHours(1));
         Mockito.when(config.safePveDuration()).thenReturn(Duration.ofHours(3));
         Mockito.when(config.dangerousSearchDuration()).thenReturn(Duration.ofHours(12));
+        Mockito.when(config.dangerousChallengeDuration()).thenReturn(Duration.ofHours(1));
         Mockito.when(config.safeReward()).thenReturn(Money.from(10));
         Mockito.when(config.noMatchReward()).thenReturn(Money.from(8));
         Mockito.when(lockService.tryLockAndCalc(Mockito.anyString(), Mockito.any()))
             .thenAnswer(invocation -> Either.right(
                 invocation.getArgument(1, java.util.function.Supplier.class).get()
             ));
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(Mockito.any()))
+            .thenReturn(new CurrentEvents(List.of()));
+    }
+
+    @Test
+    void Given_PersonageAlreadyInAnomaly_When_Start_Then_Error() {
+        mockEligibleGroup();
+        final var member = withGroup(PersonageUtils.withId(personageId), groupId);
+        Mockito.when(personageService.getByIdForce(personageId)).thenReturn(member);
+        Mockito.when(anomalyStorage.hasStartOnDate(Mockito.eq(groupId), Mockito.any())).thenReturn(false);
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(personageId))
+            .thenReturn(new CurrentEvents(List.of(
+                new CurrentEvent(999L, EventType.ANOMALY, TimeUtils.moscowTime().plusHours(1))
+            )));
+
+        final var result = service.start(groupId, personageId, AnomalyMode.SAFE);
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(AnomalyError.AlreadyInAnomaly.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    void Given_PersonageAlreadyInOtherAnomaly_When_Join_Then_Error() {
+        final var defender = withGroup(PersonageUtils.withId(opponentOwnerId), opponentGroupId);
+        final var anomaly = new Anomaly.Dangerous.Challenged(
+            106L,
+            groupId,
+            personageId,
+            opponentGroupId,
+            1000,
+            TimeUtils.moscowTime().plusHours(6)
+        );
+        final var event = new LaunchedEvent(
+            106L,
+            5,
+            TimeUtils.moscowTime(),
+            TimeUtils.moscowTime().plusHours(1),
+            EventStatus.LAUNCHED,
+            Optional.empty()
+        );
+        Mockito.when(launchedEventService.getById(106L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(106L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageService.getByIdForce(opponentOwnerId)).thenReturn(defender);
+        Mockito.when(launchedEventService.getActiveEventsByPersonageId(opponentOwnerId))
+            .thenReturn(new CurrentEvents(List.of(
+                new CurrentEvent(999L, EventType.ANOMALY, TimeUtils.moscowTime().plusHours(1))
+            )));
+
+        final var result = service.join(106L, opponentOwnerId);
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(AnomalyError.AlreadyInAnomaly.INSTANCE, result.getLeft());
+        Mockito.verify(personageEventService, Mockito.never())
+            .addPersonageToLaunchedEventAssumingLocked(Mockito.any());
     }
 
     @Test
@@ -102,10 +164,9 @@ public class AnomalyServiceTest {
         final var anomaly = new Anomaly.Safe(
             100L,
             groupId,
-            Optional.of(personageId),
+            personageId,
             AnomalyPveTemplate.CRYSTAL_STORM,
-            Anomaly.Safe.Phase.GATHERING,
-            false
+            Anomaly.Safe.Phase.GATHERING
         );
         final var event = new LaunchedEvent(
             100L,
@@ -127,7 +188,6 @@ public class AnomalyServiceTest {
         Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
             updated instanceof Anomaly.Safe safe
                 && safe.phase() == Anomaly.Safe.Phase.PVE_WAITING
-                && safe.rosterLocked()
         ));
         Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(100L), Mockito.any());
     }
@@ -135,15 +195,7 @@ public class AnomalyServiceTest {
     @Test
     void Given_DangerousIncompleteParty_When_Ready_Then_PartyNotFull() {
         final var owner = withGroup(PersonageUtils.withId(personageId), groupId);
-        final var anomaly = new Anomaly.Dangerous(
-            101L,
-            groupId,
-            Optional.of(personageId),
-            Anomaly.Dangerous.Phase.GATHERING,
-            false,
-            Optional.empty(),
-            Optional.empty()
-        );
+        final var anomaly = new Anomaly.Dangerous.Gathering(101L, groupId, personageId);
         final var event = new LaunchedEvent(
             101L,
             5,
@@ -165,14 +217,12 @@ public class AnomalyServiceTest {
 
     @Test
     void Given_SearchingExpired_When_ProcessExpired_Then_NoMatchReward() {
-        final var anomaly = new Anomaly.Dangerous(
+        final var anomaly = new Anomaly.Dangerous.Searching(
             102L,
             groupId,
-            Optional.of(personageId),
-            Anomaly.Dangerous.Phase.SEARCHING,
-            true,
-            Optional.empty(),
-            Optional.of(1000)
+            personageId,
+            1000,
+            TimeUtils.moscowTime().minusMinutes(1)
         );
         final var event = new LaunchedEvent(
             102L,
@@ -189,12 +239,145 @@ public class AnomalyServiceTest {
 
         final var result = service.processExpired(event);
 
-        Assertions.assertInstanceOf(
-            ru.homyakin.seeker.game.event.models.EventResult.AnomalyResult.NoMatch.class,
-            result
-        );
+        Assertions.assertInstanceOf(EventResult.AnomalyResult.NoMatch.class, result);
         Mockito.verify(personageService).addMoney(member, Money.from(8));
         Mockito.verify(launchedEventService).updateStatus(102L, EventStatus.SUCCESS);
+    }
+
+    @Test
+    void Given_ChallengedExpiredWithSearchLeft_When_ProcessExpired_Then_BackToSearching() {
+        final var searchEnd = TimeUtils.moscowTime().plusHours(6);
+        final var anomaly = new Anomaly.Dangerous.Challenged(
+            103L,
+            groupId,
+            personageId,
+            opponentGroupId,
+            1000,
+            searchEnd
+        );
+        final var event = new LaunchedEvent(
+            103L,
+            5,
+            TimeUtils.moscowTime().minusHours(1),
+            TimeUtils.moscowTime().minusMinutes(1),
+            EventStatus.LAUNCHED,
+            Optional.empty()
+        );
+        final var defender = withGroup(PersonageUtils.withId(opponentOwnerId), opponentGroupId);
+        Mockito.when(anomalyStorage.findByLaunchedEventId(103L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(103L))
+            .thenReturn(List.of(new EventParticipant(defender, Optional.empty())));
+
+        final var result = service.processExpired(event);
+
+        Assertions.assertInstanceOf(EventResult.AnomalyResult.ChallengeTimedOut.class, result);
+        Mockito.verify(personageEventService).removePersonageFromEvent(opponentOwnerId, 103L);
+        Mockito.verify(launchedEventService).removeGroupFromEvent(103L, opponentGroupId);
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Dangerous.Searching
+        ));
+        Mockito.verify(launchedEventService).updateEndDate(103L, searchEnd);
+    }
+
+    @Test
+    void Given_AcceptedFullParty_When_OpponentReady_Then_Battle() {
+        final var initiator = withGroup(PersonageUtils.withId(personageId), groupId);
+        final var defenders = List.of(
+            withGroup(PersonageUtils.withId(PersonageId.from(2L)), opponentGroupId),
+            withGroup(PersonageUtils.withId(PersonageId.from(3L)), opponentGroupId),
+            withGroup(PersonageUtils.withId(PersonageId.from(4L)), opponentGroupId),
+            withGroup(PersonageUtils.withId(PersonageId.from(5L)), opponentGroupId),
+            withGroup(PersonageUtils.withId(PersonageId.from(6L)), opponentGroupId)
+        );
+        final var anomaly = new Anomaly.Dangerous.Accepted(
+            104L,
+            groupId,
+            personageId,
+            opponentGroupId,
+            PersonageId.from(2L),
+            Optional.empty(),
+            1000,
+            TimeUtils.moscowTime().plusHours(6)
+        );
+        final var event = new LaunchedEvent(
+            104L,
+            5,
+            TimeUtils.moscowTime(),
+            TimeUtils.moscowTime().plusHours(1),
+            EventStatus.LAUNCHED,
+            Optional.empty()
+        );
+        final var battleResult = new EventResult.AnomalyResult.BattleFinished(
+            104L, groupId, opponentGroupId, List.of(), List.of()
+        );
+        Mockito.when(launchedEventService.getById(104L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(104L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(104L)).thenReturn(
+            java.util.stream.Stream.concat(
+                java.util.stream.Stream.of(new EventParticipant(initiator, Optional.empty())),
+                defenders.stream().map(d -> new EventParticipant(d, Optional.empty()))
+            ).toList()
+        );
+        Mockito.when(anomalyBattleService.fight(event, anomaly)).thenReturn(battleResult);
+
+        final var result = service.ready(104L, PersonageId.from(2L));
+
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertInstanceOf(AnomalyService.AnomalyReadyResult.BattleCompleted.class, result.get());
+        Mockito.verify(anomalyBattleService).fight(event, anomaly);
+    }
+
+    @Test
+    void Given_Challenged_When_OpponentJoinsUnderRealLock_Then_AcceptedAndSaved() {
+        final var realLock = new InMemoryLockService();
+        service = new AnomalyService(
+            getGroup,
+            outpostStorage,
+            anomalyStorage,
+            gvgStorage,
+            config,
+            eventService,
+            launchedEventService,
+            personageService,
+            personageEventService,
+            anomalyBattleService,
+            realLock
+        );
+        final var defender = withGroup(PersonageUtils.withId(opponentOwnerId), opponentGroupId);
+        final var searchEnd = TimeUtils.moscowTime().plusHours(6);
+        final var anomaly = new Anomaly.Dangerous.Challenged(
+            105L,
+            groupId,
+            personageId,
+            opponentGroupId,
+            1000,
+            searchEnd
+        );
+        final var event = new LaunchedEvent(
+            105L,
+            5,
+            TimeUtils.moscowTime(),
+            TimeUtils.moscowTime().plusHours(1),
+            EventStatus.LAUNCHED,
+            Optional.empty()
+        );
+        Mockito.when(launchedEventService.getById(105L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(105L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageService.getByIdForce(opponentOwnerId)).thenReturn(defender);
+        Mockito.when(personageEventService.getParticipants(105L)).thenReturn(List.of());
+
+        final var result = service.join(105L, opponentOwnerId);
+
+        Assertions.assertTrue(result.isRight());
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Dangerous.Accepted accepted
+                && accepted.opponentOwnerPersonageId().equals(opponentOwnerId)
+        ));
+        Mockito.verify(personageEventService).addPersonageToLaunchedEventAssumingLocked(Mockito.argThat(
+            request -> request.launchedEventId() == 105L
+                && request.personageId().equals(opponentOwnerId)
+        ));
+        Mockito.verify(personageEventService, Mockito.never()).addPersonageToLaunchedEvent(Mockito.any());
     }
 
     private void mockEligibleGroup() {

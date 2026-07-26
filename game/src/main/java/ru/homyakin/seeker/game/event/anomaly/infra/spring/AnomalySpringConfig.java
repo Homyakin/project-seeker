@@ -11,13 +11,12 @@ public class AnomalySpringConfig implements AnomalyConfig {
     private Duration gatheringDuration;
     private Duration safePveDuration;
     private Duration dangerousSearchDuration;
+    private Duration dangerousChallengeDuration;
     private Money safeReward;
     private Money victoryReward;
     private Money defeatReward;
     private Money noMatchReward;
-    private int initialRatingDelta;
-    private int ratingDeltaExpandPerHour;
-    private Duration recentOpponentPenaltyHours;
+    private int recentMeetPenaltyFirstDay = 256;
     private int initialRating;
     private int eloK;
 
@@ -42,6 +41,11 @@ public class AnomalySpringConfig implements AnomalyConfig {
     }
 
     @Override
+    public Duration dangerousChallengeDuration() {
+        return dangerousChallengeDuration;
+    }
+
+    @Override
     public Money safeReward() {
         return safeReward;
     }
@@ -62,18 +66,8 @@ public class AnomalySpringConfig implements AnomalyConfig {
     }
 
     @Override
-    public int initialRatingDelta() {
-        return initialRatingDelta;
-    }
-
-    @Override
-    public int ratingDeltaExpandPerHour() {
-        return ratingDeltaExpandPerHour;
-    }
-
-    @Override
-    public Duration recentOpponentPenaltyHours() {
-        return recentOpponentPenaltyHours;
+    public int recentMeetPenaltyFirstDay() {
+        return recentMeetPenaltyFirstDay;
     }
 
     @Override
@@ -102,6 +96,10 @@ public class AnomalySpringConfig implements AnomalyConfig {
         this.dangerousSearchDuration = dangerousSearchDuration;
     }
 
+    public void setDangerousChallengeDuration(Duration dangerousChallengeDuration) {
+        this.dangerousChallengeDuration = dangerousChallengeDuration;
+    }
+
     public void setRewardSafe(int rewardSafe) {
         this.safeReward = Money.from(rewardSafe);
     }
@@ -118,16 +116,8 @@ public class AnomalySpringConfig implements AnomalyConfig {
         this.noMatchReward = Money.from(rewardNoMatch);
     }
 
-    public void setInitialRatingDelta(int initialRatingDelta) {
-        this.initialRatingDelta = initialRatingDelta;
-    }
-
-    public void setRatingDeltaExpandPerHour(int ratingDeltaExpandPerHour) {
-        this.ratingDeltaExpandPerHour = ratingDeltaExpandPerHour;
-    }
-
-    public void setRecentOpponentPenaltyHours(Duration recentOpponentPenaltyHours) {
-        this.recentOpponentPenaltyHours = recentOpponentPenaltyHours;
+    public void setRecentMeetPenaltyFirstDay(int recentMeetPenaltyFirstDay) {
+        this.recentMeetPenaltyFirstDay = recentMeetPenaltyFirstDay;
     }
 
     public void setInitialRating(int initialRating) {

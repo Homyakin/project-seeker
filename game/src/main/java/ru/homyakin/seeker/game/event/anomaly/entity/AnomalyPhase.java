@@ -5,4 +5,5 @@ public enum AnomalyPhase {
     PVE_WAITING,
     SEARCHING,
     CHALLENGED,
+    ACCEPTED,
 }

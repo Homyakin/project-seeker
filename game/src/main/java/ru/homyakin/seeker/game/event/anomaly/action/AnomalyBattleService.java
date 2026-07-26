@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.BattleResult;
 import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator;
-import ru.homyakin.seeker.game.event.database.GroupEventServiceDao;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
@@ -24,7 +25,6 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
 import ru.homyakin.seeker.locale.LocaleUtils;
-import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class AnomalyBattleService {
@@ -36,7 +36,7 @@ public class AnomalyBattleService {
     private final LaunchedEventService launchedEventService;
     private final AnomalyConfig config;
     private final AnomalyGvgStorage gvgStorage;
-    private final GroupEventServiceDao groupEventServiceDao;
+    private final AnomalyStorage anomalyStorage;
 
     public AnomalyBattleService(
         PersonageEventService personageEventService,
@@ -46,7 +46,7 @@ public class AnomalyBattleService {
         LaunchedEventService launchedEventService,
         AnomalyConfig config,
         AnomalyGvgStorage gvgStorage,
-        GroupEventServiceDao groupEventServiceDao
+        AnomalyStorage anomalyStorage
     ) {
         this.personageEventService = personageEventService;
         this.personageService = personageService;
@@ -55,7 +55,7 @@ public class AnomalyBattleService {
         this.launchedEventService = launchedEventService;
         this.config = config;
         this.gvgStorage = gvgStorage;
-        this.groupEventServiceDao = groupEventServiceDao;
+        this.anomalyStorage = anomalyStorage;
     }
 
     public EventResult.AnomalyResult.PveBattleFinished fightPve(LaunchedEvent event, Anomaly.Safe safe) {
@@ -81,6 +81,7 @@ public class AnomalyBattleService {
         final var enemyStats = enemies.stream()
             .map(enemy -> battleResult.personageStats().get(enemy.id()))
             .toList();
+        personageService.saveAnomalyResults(personageResults, event.id());
         return new EventResult.AnomalyResult.PveBattleFinished(
             event.id(),
             victory,
@@ -91,42 +92,73 @@ public class AnomalyBattleService {
     }
 
     public EventResult.AnomalyResult.BattleFinished fight(
-        LaunchedEvent initiatorEvent,
-        LaunchedEvent challengedEvent
+        LaunchedEvent event,
+        Anomaly.Dangerous.Accepted accepted
     ) {
-        final var initiatorParticipants = personageEventService.getParticipants(initiatorEvent.id());
-        final var challengedParticipants = personageEventService.getParticipants(challengedEvent.id());
+        final var opponentGroupId = accepted.opponentGroupId();
+        final var allParticipants = personageEventService.getParticipants(event.id());
+        final var initiatorParticipants = participantsOfGroup(allParticipants, accepted.groupId());
+        final var challengedParticipants = participantsOfGroup(allParticipants, opponentGroupId);
 
         final var initiatorTeam = toBattlePersonages(initiatorParticipants);
         final var challengedTeam = toBattlePersonages(challengedParticipants);
         final var battleResult = battle.process(initiatorTeam, challengedTeam);
-        eventBattleLogService.save(initiatorEvent.id(), battleResult);
-        eventBattleLogService.save(challengedEvent.id(), battleResult);
+        eventBattleLogService.save(event.id(), battleResult);
 
         final boolean initiatorWins = battleResult.firstWin();
-        final var winnerEvent = initiatorWins ? initiatorEvent : challengedEvent;
-        final var loserEvent = initiatorWins ? challengedEvent : initiatorEvent;
+        final var winnerGroupId = initiatorWins ? accepted.groupId() : opponentGroupId;
+        final var loserGroupId = initiatorWins ? opponentGroupId : accepted.groupId();
         final var winnerParticipants = initiatorWins ? initiatorParticipants : challengedParticipants;
         final var loserParticipants = initiatorWins ? challengedParticipants : initiatorParticipants;
 
-        payRewards(winnerParticipants, config.victoryReward());
-        payRewards(loserParticipants, config.defeatReward());
+        final var victoryReward = config.victoryReward();
+        final var defeatReward = config.defeatReward();
+        payRewards(winnerParticipants, victoryReward);
+        payRewards(loserParticipants, defeatReward);
+        updateElo(accepted.groupId(), opponentGroupId, initiatorWins);
+        anomalyStorage.update(accepted.withWinner(winnerGroupId));
+        launchedEventService.updateStatus(event.id(), EventStatus.SUCCESS);
 
-        final var initiatorGroupId = requireGroup(initiatorEvent.id());
-        final var challengedGroupId = requireGroup(challengedEvent.id());
-        updateElo(initiatorGroupId, challengedGroupId, initiatorWins);
-        gvgStorage.saveRecentOpponent(initiatorGroupId, challengedGroupId, TimeUtils.moscowTime());
-
-        launchedEventService.updateStatus(
-            winnerEvent.id(),
-            EventStatus.SUCCESS
+        final var winnerResults = toPersonageResults(
+            initiatorWins ? initiatorParticipants : challengedParticipants,
+            initiatorWins ? initiatorTeam : challengedTeam,
+            battleResult,
+            victoryReward
         );
-        launchedEventService.updateStatus(
-            loserEvent.id(),
-            EventStatus.FAILED
+        final var loserResults = toPersonageResults(
+            initiatorWins ? challengedParticipants : initiatorParticipants,
+            initiatorWins ? challengedTeam : initiatorTeam,
+            battleResult,
+            defeatReward
         );
+        personageService.saveAnomalyResults(
+            java.util.stream.Stream.concat(winnerResults.stream(), loserResults.stream()).toList(),
+            event.id()
+        );
+        return new EventResult.AnomalyResult.BattleFinished(
+            event.id(),
+            winnerGroupId,
+            loserGroupId,
+            winnerResults,
+            loserResults
+        );
+    }
 
-        return new EventResult.AnomalyResult.BattleFinished(winnerEvent.id(), loserEvent.id());
+    private static List<AnomalyPersonageResult> toPersonageResults(
+        List<EventParticipant> participants,
+        List<BattlePersonage> team,
+        BattleResult battleResult,
+        Money reward
+    ) {
+        final var results = new java.util.ArrayList<AnomalyPersonageResult>(participants.size());
+        for (int i = 0; i < participants.size(); i++) {
+            results.add(new AnomalyPersonageResult(
+                participants.get(i).personage(),
+                battleResult.personageStats().get(team.get(i).id()),
+                reward
+            ));
+        }
+        return results;
     }
 
     private void updateElo(GroupId groupA, GroupId groupB, boolean aWins) {
@@ -135,15 +167,25 @@ public class AnomalyBattleService {
         final double expectedA = 1.0 / (1.0 + Math.pow(10.0, (ratingB - ratingA) / 400.0));
         final double scoreA = aWins ? 1.0 : 0.0;
         final int deltaA = (int) Math.round(config.eloK() * (scoreA - expectedA));
-        final int deltaB = -deltaA;
         gvgStorage.updateRating(groupA, Math.max(1, ratingA + deltaA));
-        gvgStorage.updateRating(groupB, Math.max(1, ratingB + deltaB));
+        gvgStorage.updateRating(groupB, Math.max(1, ratingB - deltaA));
     }
 
     private void payRewards(List<EventParticipant> participants, Money reward) {
         for (final var participant : participants) {
             personageService.addMoney(participant.personage(), reward);
         }
+    }
+
+    private static List<EventParticipant> participantsOfGroup(
+        List<EventParticipant> participants,
+        GroupId groupId
+    ) {
+        return participants.stream()
+            .filter(participant -> participant.personage().memberGroupId()
+                .filter(groupId::equals)
+                .isPresent())
+            .toList();
     }
 
     private List<BattlePersonage> toBattlePersonages(List<EventParticipant> participants) {
@@ -161,13 +203,5 @@ public class AnomalyBattleService {
                 );
             })
             .toList();
-    }
-
-    private GroupId requireGroup(long launchedEventId) {
-        final var groups = groupEventServiceDao.getGroupsByLaunchedEventId(launchedEventId);
-        if (groups.isEmpty()) {
-            throw new IllegalStateException("Anomaly event without group: " + launchedEventId);
-        }
-        return groups.getFirst();
     }
 }

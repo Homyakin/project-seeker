@@ -46,6 +46,7 @@ import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleEvent
 import ru.homyakin.seeker.telegram.command.group.management.settings.ToggleHideGroup;
 import ru.homyakin.seeker.telegram.command.group.profile.GetProfileInGroup;
 import ru.homyakin.seeker.telegram.command.group.raid.JoinRaid;
+import ru.homyakin.seeker.telegram.command.group.report.AnomalyReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.report.RaidReportInGroup;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyBackOutpost;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyChooseMode;
@@ -60,6 +61,7 @@ import ru.homyakin.seeker.telegram.command.group.tavern_menu.GetTavernMenu;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.Order;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ThrowOrder;
 import ru.homyakin.seeker.telegram.command.group.tavern_menu.ThrowOrderToGroup;
+import ru.homyakin.seeker.telegram.command.group.top.TopGroupAnomalyRating;
 import ru.homyakin.seeker.telegram.command.group.top.TopGroupRaidLevel;
 import ru.homyakin.seeker.telegram.command.group.top.TopGroupRaidWeek;
 import ru.homyakin.seeker.telegram.command.group.top.TopList;
@@ -124,6 +126,7 @@ import ru.homyakin.seeker.telegram.command.user.outpost.OutpostOpenBuildPicker;
 import ru.homyakin.seeker.telegram.command.user.outpost.OutpostSelectStartBuilding;
 import ru.homyakin.seeker.telegram.command.user.profile.CancelEvent;
 import ru.homyakin.seeker.telegram.command.user.profile.GetProfileInPrivate;
+import ru.homyakin.seeker.telegram.command.user.report.AnomalyReport;
 import ru.homyakin.seeker.telegram.command.user.report.RaidReport;
 import ru.homyakin.seeker.telegram.command.user.setting.GetPersonageSettings;
 import ru.homyakin.seeker.telegram.command.user.setting.SetPersonageSetting;
@@ -223,6 +226,7 @@ public class CommandParser {
                 case RECEPTION_DESK -> ReceptionDesk.from(message);
                 case INIT_CHANGE_NAME -> InitChangeName.from(message);
                 case RAID_REPORT -> RaidReport.from(message);
+                case ANOMALY_REPORT -> AnomalyReport.from(message);
                 case SHOW_BADGES -> ShowPersonageBadges.from(message);
                 case INVENTORY -> Inventory.from(message);
                 case PUT_ON -> PutOnItem.from(message);
@@ -294,6 +298,7 @@ public class CommandParser {
                 case WORKER_OF_DAY_TOP -> TopWorkerOfDay.from(message);
                 case PERSONAGE_STATS -> GetPersonageStats.from(message);
                 case RAID_REPORT -> RaidReportInGroup.from(message);
+                case ANOMALY_REPORT -> AnomalyReportInGroup.from(message);
                 case TOP_RAID_WEEK -> TopRaidWeek.from(message);
                 case TOP_RAID_WEEK_GROUP -> TopRaidWeekGroup.from(message);
                 case TOP -> TopList.from(message);
@@ -307,6 +312,7 @@ public class CommandParser {
                 case TOGGLE_HIDE_GROUP -> ToggleHideGroup.from(message);
                 case TOP_GROUP_RAID_WEEK -> TopGroupRaidWeek.from(message);
                 case TOP_GROUP_RAID_LEVEL -> TopGroupRaidLevel.from(message);
+                case TOP_GROUP_ANOMALY_RATING -> TopGroupAnomalyRating.from(message);
                 case TOP_POWER_GROUP -> TopPowerGroup.from(message);
                 case GROUP_INFO -> GroupInfo.from(message);
                 case REGISTER_GROUP -> GroupRegistration.from(message);

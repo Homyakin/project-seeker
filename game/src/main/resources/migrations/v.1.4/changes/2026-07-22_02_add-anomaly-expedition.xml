@@ -16,11 +16,20 @@
             <column name="code" value="anomaly-expedition"/>
         </insert>
 
-        <addColumn tableName="pgroup">
-            <column name="gvg_rating" type="INTEGER" defaultValueNumeric="1000">
+        <createTable tableName="anomaly_rating">
+            <column name="pgroup_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk-anomaly-rating"/>
+            </column>
+            <column name="rating" type="INTEGER" defaultValueNumeric="1000">
                 <constraints nullable="false"/>
             </column>
-        </addColumn>
+        </createTable>
+        <addForeignKeyConstraint
+                baseTableName="anomaly_rating"
+                baseColumnNames="pgroup_id"
+                constraintName="fk-anomaly-rating-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"/>
 
         <createTable tableName="anomaly">
             <column name="launched_event_id" type="BIGINT">
@@ -29,22 +38,21 @@
             <column name="pgroup_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="owner_personage_id" type="BIGINT"/>
+            <column name="owner_personage_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="phase" type="TEXT">
                 <constraints nullable="false"/>
             </column>
             <column name="mode" type="TEXT"/>
-            <column name="modifier_code" type="TEXT">
+            <column name="pve_template_code" type="TEXT">
                 <constraints nullable="false"/>
             </column>
-            <column name="roster_locked" type="BOOLEAN" defaultValueBoolean="false">
-                <constraints nullable="false"/>
-            </column>
-            <column name="opponent_launched_event_id" type="BIGINT"/>
+            <column name="opponent_pgroup_id" type="BIGINT"/>
+            <column name="opponent_owner_personage_id" type="BIGINT"/>
+            <column name="winner_pgroup_id" type="BIGINT"/>
             <column name="gvg_rating_at_start" type="INTEGER"/>
-            <column name="is_challenge" type="BOOLEAN" defaultValueBoolean="false">
-                <constraints nullable="false"/>
-            </column>
+            <column name="search_end_date" type="TIMESTAMP"/>
         </createTable>
         <addForeignKeyConstraint
                 baseTableName="anomaly"
@@ -66,41 +74,28 @@
                 referencedColumnNames="id"/>
         <addForeignKeyConstraint
                 baseTableName="anomaly"
-                baseColumnNames="opponent_launched_event_id"
-                constraintName="fk-anomaly-opponent-launched-event"
-                referencedTableName="launched_event"
+                baseColumnNames="opponent_pgroup_id"
+                constraintName="fk-anomaly-opponent-pgroup"
+                referencedTableName="pgroup"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="opponent_owner_personage_id"
+                constraintName="fk-anomaly-opponent-owner-personage"
+                referencedTableName="personage"
+                referencedColumnNames="id"/>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="winner_pgroup_id"
+                constraintName="fk-anomaly-winner-pgroup"
+                referencedTableName="pgroup"
                 referencedColumnNames="id"/>
         <createIndex tableName="anomaly" indexName="idx-anomaly-pgroup-phase">
             <column name="pgroup_id"/>
             <column name="phase"/>
         </createIndex>
-
-        <createTable tableName="anomaly_recent_opponent">
-            <column name="group_id_low" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="group_id_high" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="fought_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <addPrimaryKey
-                tableName="anomaly_recent_opponent"
-                columnNames="group_id_low, group_id_high"
-                constraintName="pk-anomaly-recent-opponent"/>
-        <addForeignKeyConstraint
-                baseTableName="anomaly_recent_opponent"
-                baseColumnNames="group_id_low"
-                constraintName="fk-anomaly-recent-opponent-low"
-                referencedTableName="pgroup"
-                referencedColumnNames="id"/>
-        <addForeignKeyConstraint
-                baseTableName="anomaly_recent_opponent"
-                baseColumnNames="group_id_high"
-                constraintName="fk-anomaly-recent-opponent-high"
-                referencedTableName="pgroup"
-                referencedColumnNames="id"/>
+        <createIndex tableName="anomaly" indexName="idx-anomaly-opponent-pgroup">
+            <column name="opponent_pgroup_id"/>
+        </createIndex>
     </changeSet>
 </databaseChangeLog>

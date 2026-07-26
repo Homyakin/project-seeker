@@ -12,6 +12,8 @@ public interface AnomalyConfig {
 
     Duration dangerousSearchDuration();
 
+    Duration dangerousChallengeDuration();
+
     Money safeReward();
 
     Money victoryReward();
@@ -20,11 +22,10 @@ public interface AnomalyConfig {
 
     Money noMatchReward();
 
-    int initialRatingDelta();
-
-    int ratingDeltaExpandPerHour();
-
-    Duration recentOpponentPenaltyHours();
+    /**
+     * Score penalty for a fight within the last day; halves each next day until 0.
+     */
+    int recentMeetPenaltyFirstDay();
 
     int initialRating();
 

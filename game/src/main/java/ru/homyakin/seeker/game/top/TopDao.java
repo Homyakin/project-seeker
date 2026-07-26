@@ -15,6 +15,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.ActiveWorldRaidStatus;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
+import ru.homyakin.seeker.game.top.models.GroupTopAnomalyRatingPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
 import ru.homyakin.seeker.game.top.models.TopRaidPosition;
@@ -136,6 +137,12 @@ public class TopDao {
             .list();
     }
 
+    public List<GroupTopAnomalyRatingPosition> getUnsortedGroupTopAnomalyRating() {
+        return jdbcClient.sql(TOP_GROUP_ANOMALY_RATING)
+            .query(this::mapGroupTopAnomalyRatingPosition)
+            .list();
+    }
+
     public List<TopOutpostBuildingPosition> getUnsortedTopOutpostSeasonGroup(GroupId groupId, int seasonNumber) {
         return jdbcClient.sql(TOP_OUTPOST_SEASON_MATERIALS_GROUP)
             .param("pgroup_id", groupId.value())
@@ -221,6 +228,17 @@ public class TopDao {
             Optional.ofNullable(rs.getString("tag")),
             rs.getString("name"),
             rs.getInt("raid_level")
+        );
+    }
+
+    private GroupTopAnomalyRatingPosition mapGroupTopAnomalyRatingPosition(ResultSet rs, int rowNum)
+        throws SQLException {
+        return new GroupTopAnomalyRatingPosition(
+            GroupId.from(rs.getLong("id")),
+            BadgeView.findByCode(rs.getString("badge_code")),
+            Optional.ofNullable(rs.getString("tag")),
+            rs.getString("name"),
+            rs.getInt("rating")
         );
     }
 
@@ -332,6 +350,16 @@ public class TopDao {
         WHERE p.is_hidden = false AND p.raid_level > 0
         AND tag is not null
         ORDER BY p.raid_level DESC
+    """;
+
+    private static final String TOP_GROUP_ANOMALY_RATING = """
+        SELECT p.id, p.name, p.tag, ar.rating, b.code badge_code
+        FROM anomaly_rating ar
+        INNER JOIN pgroup p ON p.id = ar.pgroup_id
+        LEFT JOIN badge b ON p.active_badge_id = b.id
+        WHERE p.is_hidden = false
+          AND p.tag IS NOT NULL
+        ORDER BY ar.rating DESC
     """;
 
     private static final String TOP_OUTPOST_SEASON_MATERIALS_GROUP = """

@@ -15,8 +15,11 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveFormation;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.raid.models.RaidItem;
+import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
+import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
@@ -78,14 +81,14 @@ public final class AnomalyLocalization {
             participants,
             partySize,
             event,
-            safe.ownerPersonageId(),
+            Optional.of(safe.ownerPersonageId()),
             pveFormat(language, safe.template())
         );
     }
 
     public static String gathering(
         Language language,
-        Anomaly.Dangerous dangerous,
+        Anomaly.Dangerous.Gathering gathering,
         List<EventParticipant> participants,
         int partySize,
         LaunchedEvent event
@@ -96,7 +99,7 @@ public final class AnomalyLocalization {
             participants,
             partySize,
             event,
-            dangerous.ownerPersonageId(),
+            Optional.of(gathering.ownerPersonageId()),
             ""
         );
     }
@@ -112,7 +115,7 @@ public final class AnomalyLocalization {
         map.put("count", participants.size());
         map.put("party_size", partySize);
         map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
-        map.put("participants", participantsText(language, participants, safe.ownerPersonageId()));
+        map.put("participants", participantsText(language, participants, Optional.of(safe.ownerPersonageId())));
         map.put("pve_format", pveFormat(language, safe.template()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyPveWaiting),
@@ -124,11 +127,13 @@ public final class AnomalyLocalization {
         Language language,
         List<EventParticipant> participants,
         int partySize,
-        LaunchedEvent event
+        LaunchedEvent event,
+        PersonageId ownerPersonageId
     ) {
         final var map = new HashMap<String, Object>();
         map.put("count", participants.size());
         map.put("party_size", partySize);
+        map.put("participants", participantsText(language, participants, Optional.of(ownerPersonageId)));
         map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalySearching),
@@ -138,14 +143,19 @@ public final class AnomalyLocalization {
 
     public static String challenge(
         Language language,
-        Anomaly.Challenged challenged,
+        Anomaly anomaly,
         List<EventParticipant> participants,
         int partySize
     ) {
+        final Optional<PersonageId> opponentOwner = switch (anomaly) {
+            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentOwnerPersonageId());
+            case Anomaly.Dangerous.Challenged _ -> Optional.empty();
+            default -> Optional.empty();
+        };
         final var map = new HashMap<String, Object>();
         map.put("count", participants.size());
         map.put("party_size", partySize);
-        map.put("participants", participantsText(language, participants, challenged.ownerPersonageId()));
+        map.put("participants", participantsText(language, participants, opponentOwner));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyChallenge),
             map
@@ -160,12 +170,56 @@ public final class AnomalyLocalization {
         return rewardText(language, AnomalyResource::anomalyNoMatch, reward, "");
     }
 
-    public static String battleVictory(Language language, Money reward) {
-        return rewardText(language, AnomalyResource::anomalyBattleVictory, reward, "");
+    public static String battleResult(
+        Language language,
+        Group winnerGroup,
+        Group loserGroup,
+        List<AnomalyPersonageResult> winnerResults,
+        List<AnomalyPersonageResult> loserResults,
+        Money reward
+    ) {
+        final var params = new HashMap<String, Object>();
+        params.put(
+            "groups_top",
+            battleGroupTop(language, winnerGroup, winnerResults, true).stripTrailing()
+                + "\n\n"
+                + battleGroupTop(language, loserGroup, loserResults, false).stripTrailing()
+        );
+        params.put("reward", reward.value());
+        params.put("money_icon", Icons.MONEY);
+        params.put("anomaly_report_command", CommandType.ANOMALY_REPORT.getText());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::anomalyBattleResult),
+            params
+        );
     }
 
-    public static String battleDefeat(Language language, Money reward) {
-        return rewardText(language, AnomalyResource::anomalyBattleDefeat, reward, "");
+    private static String battleGroupTop(
+        Language language,
+        Group group,
+        List<AnomalyPersonageResult> results,
+        boolean victory
+    ) {
+        final var sorted = new ArrayList<>(results);
+        sorted.sort(Comparator.comparingLong(
+            (AnomalyPersonageResult it) -> it.stats().damageDealtAndTaken()
+        ).reversed());
+        final var top = new StringBuilder();
+        final int topCount = Math.min(5, sorted.size());
+        for (int i = 0; i < topCount; ++i) {
+            top.append(i + 1).append(". ").append(personageResult(language, sorted.get(i)));
+            if (i < topCount - 1) {
+                top.append("\n");
+            }
+        }
+        final var params = new HashMap<String, Object>();
+        params.put("result_icon", victory ? "🏆" : "💀");
+        params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
+        params.put("participants_top", top.toString());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::anomalyBattleGroupTop),
+            params
+        );
     }
 
     public static String pveBattleResult(Language language, EventResult.AnomalyResult.PveBattleFinished result) {
@@ -219,9 +273,45 @@ public final class AnomalyLocalization {
         params.put("top_participants_list", top.toString());
         params.put("reward", result.reward().value());
         params.put("money_icon", Icons.MONEY);
+        params.put("anomaly_report_command", CommandType.ANOMALY_REPORT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyPveBattleResult),
             params
+        );
+    }
+
+    public static String report(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event
+    ) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::report),
+            Map.of(
+                "personage_battle_report",
+                CommonLocalization.personageBattleReport(language, result, event, Optional.empty())
+            )
+        );
+    }
+
+    public static String reportNotPresentForPersonage(Language language) {
+        return resources.getOrDefault(language, AnomalyResource::reportNotPresentForPersonage);
+    }
+
+    public static String lastGroupAnomalyReportNotFound(Language language) {
+        return resources.getOrDefault(language, AnomalyResource::lastGroupAnomalyReportNotFound);
+    }
+
+    public static String shortGroupReport(
+        Language language,
+        PersonageBattleResult result,
+        ru.homyakin.seeker.game.personage.models.Personage personage
+    ) {
+        return CommonLocalization.shortPersonageBattleReport(
+            language,
+            result,
+            personage,
+            Optional.<RaidItem>empty()
         );
     }
 
@@ -303,6 +393,8 @@ public final class AnomalyLocalization {
                 resources.getOrDefault(language, AnomalyResource::errorRosterLocked);
             case AnomalyError.AlreadyJoined _ ->
                 resources.getOrDefault(language, AnomalyResource::errorAlreadyJoined);
+            case AnomalyError.AlreadyInAnomaly _ ->
+                resources.getOrDefault(language, AnomalyResource::errorAlreadyInAnomaly);
             case AnomalyError.PartyFull _ ->
                 resources.getOrDefault(language, AnomalyResource::errorPartyFull);
             case AnomalyError.EventLocked _ ->

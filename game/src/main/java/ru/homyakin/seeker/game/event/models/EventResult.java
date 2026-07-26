@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.models;
 
 import java.util.List;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
@@ -85,8 +86,16 @@ public sealed interface EventResult {
         enum AlreadyFinal implements AnomalyResult { INSTANCE }
 
         record BattleFinished(
-            long winnerLaunchedEventId,
-            long loserLaunchedEventId
+            long launchedEventId,
+            GroupId winnerGroupId,
+            GroupId loserGroupId,
+            List<AnomalyPersonageResult> winnerResults,
+            List<AnomalyPersonageResult> loserResults
+        ) implements AnomalyResult { }
+
+        record ChallengeTimedOut(
+            long launchedEventId,
+            GroupId opponentGroupId
         ) implements AnomalyResult { }
 
         record PveBattleFinished(

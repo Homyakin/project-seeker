@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.game.event.anomaly.action;
 
 import io.vavr.control.Either;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -108,6 +109,9 @@ public class AnomalyService {
         if (anomalyStorage.hasActiveAnomaly(groupId)) {
             return Either.left(AnomalyError.ActiveAnomalyExists.INSTANCE);
         }
+        if (launchedEventService.getActiveEventsByPersonageId(personageId).hasType(EventType.ANOMALY)) {
+            return Either.left(AnomalyError.AlreadyInAnomaly.INSTANCE);
+        }
 
         final var event = eventService.getByType(EventType.ANOMALY)
             .orElseThrow(() -> new IllegalStateException("Anomaly event template missing"));
@@ -129,19 +133,14 @@ public class AnomalyService {
             case SAFE -> new Anomaly.Safe(
                 launched.id(),
                 groupId,
-                Optional.of(personageId),
+                personageId,
                 AnomalyPveTemplate.random(),
-                Anomaly.Safe.Phase.GATHERING,
-                false
+                Anomaly.Safe.Phase.GATHERING
             );
-            case DANGEROUS -> new Anomaly.Dangerous(
+            case DANGEROUS -> new Anomaly.Dangerous.Gathering(
                 launched.id(),
                 groupId,
-                Optional.of(personageId),
-                Anomaly.Dangerous.Phase.GATHERING,
-                false,
-                Optional.empty(),
-                Optional.empty()
+                personageId
             );
         };
         anomalyStorage.save(anomaly);
@@ -168,18 +167,16 @@ public class AnomalyService {
         return switch (anomalyOpt.get()) {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
                 anomalyBattleService.fightPve(launchedEvent, safe);
-            case Anomaly.Dangerous dangerous when dangerous.phase() == Anomaly.Dangerous.Phase.SEARCHING -> {
-                dangerous.opponentLaunchedEventId().ifPresent(launchedEventService::cancel);
-                payParticipants(launchedEvent.id(), config.noMatchReward());
+            case Anomaly.Dangerous.Challenged challenged ->
+                expireDefense(launchedEvent, challenged.opponentGroupId(), challenged.clearOpponent());
+            case Anomaly.Dangerous.Accepted accepted ->
+                expireDefense(launchedEvent, accepted.opponentGroupId(), accepted.clearOpponent());
+            case Anomaly.Dangerous.Searching searching -> {
+                payParticipantsOfGroup(launchedEvent.id(), searching.groupId(), config.noMatchReward());
                 launchedEventService.updateStatus(launchedEvent.id(), EventStatus.SUCCESS);
                 yield new EventResult.AnomalyResult.NoMatch(launchedEvent.id());
             }
-            case Anomaly.Challenged challenged -> {
-                clearOpponentLinkOnChallengedExpire(challenged);
-                launchedEventService.updateStatus(launchedEvent.id(), EventStatus.EXPIRED);
-                yield EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
-            }
-            case Anomaly.Safe _, Anomaly.Dangerous _ -> {
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> {
                 launchedEventService.updateStatus(launchedEvent.id(), EventStatus.EXPIRED);
                 yield EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
             }
@@ -194,6 +191,26 @@ public class AnomalyService {
         return new ListParticipants(personageEventService.getParticipants(launchedEventId));
     }
 
+    private EventResult expireDefense(
+        LaunchedEvent event,
+        GroupId opponentGroupId,
+        Anomaly.Dangerous.Searching searching
+    ) {
+        removeParticipantsOfGroup(event.id(), opponentGroupId);
+        launchedEventService.removeGroupFromEvent(event.id(), opponentGroupId);
+        anomalyStorage.update(searching);
+
+        final var searchEnd = searching.searchEndDate();
+        final var now = TimeUtils.moscowTime();
+        if (!searchEnd.isAfter(now)) {
+            payParticipantsOfGroup(event.id(), searching.groupId(), config.noMatchReward());
+            launchedEventService.updateStatus(event.id(), EventStatus.SUCCESS);
+            return new EventResult.AnomalyResult.NoMatch(event.id());
+        }
+        launchedEventService.updateEndDate(event.id(), searchEnd);
+        return new EventResult.AnomalyResult.ChallengeTimedOut(event.id(), opponentGroupId);
+    }
+
     private Either<AnomalyError, LaunchedEvent> joinLogic(long launchedEventId, PersonageId personageId) {
         final var launched = requireEvent(launchedEventId);
         if (launched.isLeft()) {
@@ -205,41 +222,71 @@ public class AnomalyService {
             return Either.left(anomalyResult.getLeft());
         }
         final var anomaly = anomalyResult.get();
-        final boolean canJoin = switch (anomaly) {
-            case Anomaly.Safe safe ->
-                safe.phase() == Anomaly.Safe.Phase.GATHERING && !safe.rosterLocked();
-            case Anomaly.Dangerous dangerous ->
-                dangerous.phase() == Anomaly.Dangerous.Phase.GATHERING && !dangerous.rosterLocked();
-            case Anomaly.Challenged challenged -> !challenged.rosterLocked();
-        };
-        if (!canJoin) {
-            if (anomaly.rosterLocked()) {
-                return Either.left(AnomalyError.RosterLocked.INSTANCE);
-            }
-            return Either.left(AnomalyError.InvalidPhase.INSTANCE);
-        }
         final var personage = personageService.getByIdForce(personageId);
-        if (!isMember(personage, anomaly.groupId())) {
+
+        final GroupId joinGroupId;
+        final boolean canJoin;
+        switch (anomaly) {
+            case Anomaly.Safe safe -> {
+                joinGroupId = safe.groupId();
+                canJoin = safe.phase() == Anomaly.Safe.Phase.GATHERING;
+            }
+            case Anomaly.Dangerous.Gathering gathering -> {
+                joinGroupId = gathering.groupId();
+                canJoin = true;
+            }
+            case Anomaly.Dangerous.Challenged challenged -> {
+                joinGroupId = challenged.opponentGroupId();
+                canJoin = true;
+            }
+            case Anomaly.Dangerous.Accepted accepted -> {
+                joinGroupId = accepted.opponentGroupId();
+                canJoin = true;
+            }
+            case Anomaly.Dangerous.Searching searching -> {
+                joinGroupId = searching.groupId();
+                canJoin = false;
+            }
+        }
+
+        if (!canJoin) {
+            return Either.left(
+                switch (anomaly) {
+                    case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
+                        AnomalyError.RosterLocked.INSTANCE;
+                    case Anomaly.Dangerous.Searching _ -> AnomalyError.RosterLocked.INSTANCE;
+                    default -> AnomalyError.InvalidPhase.INSTANCE;
+                }
+            );
+        }
+        if (!isMember(personage, joinGroupId)) {
             return Either.left(AnomalyError.NotGroupMember.INSTANCE);
         }
-        final var participants = personageEventService.getParticipants(event.id());
-        if (participants.stream().anyMatch(it -> it.personage().id().equals(personageId))) {
+        if (launchedEventService.getActiveEventsByPersonageId(personageId)
+            .hasOtherOfType(EventType.ANOMALY, event.id())
+        ) {
+            return Either.left(AnomalyError.AlreadyInAnomaly.INSTANCE);
+        }
+
+        final var sideParticipants = participantsOfGroup(
+            personageEventService.getParticipants(event.id()),
+            joinGroupId
+        );
+        if (sideParticipants.stream().anyMatch(it -> it.personage().id().equals(personageId))) {
             return Either.left(AnomalyError.AlreadyJoined.INSTANCE);
         }
-        if (participants.size() >= config.partySize()) {
+        if (sideParticipants.size() >= config.partySize()) {
             return Either.left(AnomalyError.PartyFull.INSTANCE);
         }
 
-        if (anomaly instanceof Anomaly.Challenged challenged && participants.isEmpty()) {
-            anomalyStorage.update(challenged.withOwner(personageId));
+        if (anomaly instanceof Anomaly.Dangerous.Challenged challenged) {
+            anomalyStorage.update(challenged.accept(personageId));
         }
 
-        final var joinResult = personageEventService.addPersonageToLaunchedEvent(
+        // Already under LAUNCHED_EVENT lock (non-reentrant); do not call addPersonageToLaunchedEvent.
+        personageEventService.addPersonageToLaunchedEventAssumingLocked(
             new AddPersonageToEventRequest(event.id(), personageId, Optional.empty(), 0)
         );
-        if (joinResult.isLeft()) {
-            return Either.left(AnomalyError.EventLocked.INSTANCE);
-        }
         return Either.right(event);
     }
 
@@ -257,22 +304,45 @@ public class AnomalyService {
             return Either.left(anomalyResult.getLeft());
         }
         final var anomaly = anomalyResult.get();
-        if (!anomaly.isOwner(personageId)) {
-            return Either.left(AnomalyError.NotOwner.INSTANCE);
-        }
-        final var participants = personageEventService.getParticipants(event.id());
-        if (participants.isEmpty()) {
-            return Either.left(AnomalyError.PartyEmpty.INSTANCE);
-        }
 
         return switch (anomaly) {
-            case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING ->
-                readySafe(event, safe);
-            case Anomaly.Dangerous dangerous when dangerous.phase() == Anomaly.Dangerous.Phase.GATHERING ->
-                readyDangerous(event, dangerous, participants);
-            case Anomaly.Challenged challenged ->
-                readyChallenged(event, challenged, participants);
-            case Anomaly.Safe _, Anomaly.Dangerous _ ->
+            case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING -> {
+                if (!safe.isOwner(personageId)) {
+                    yield Either.left(AnomalyError.NotOwner.INSTANCE);
+                }
+                final var participants = personageEventService.getParticipants(event.id());
+                if (participants.isEmpty()) {
+                    yield Either.left(AnomalyError.PartyEmpty.INSTANCE);
+                }
+                yield readySafe(event, safe);
+            }
+            case Anomaly.Dangerous.Gathering gathering -> {
+                if (!gathering.isOwner(personageId)) {
+                    yield Either.left(AnomalyError.NotOwner.INSTANCE);
+                }
+                final var participants = participantsOfGroup(
+                    personageEventService.getParticipants(event.id()),
+                    gathering.groupId()
+                );
+                if (participants.isEmpty()) {
+                    yield Either.left(AnomalyError.PartyEmpty.INSTANCE);
+                }
+                yield readyDangerous(event, gathering, participants);
+            }
+            case Anomaly.Dangerous.Accepted accepted -> {
+                if (!accepted.isOpponentOwner(personageId)) {
+                    yield Either.left(AnomalyError.NotOwner.INSTANCE);
+                }
+                final var participants = participantsOfGroup(
+                    personageEventService.getParticipants(event.id()),
+                    accepted.opponentGroupId()
+                );
+                if (participants.isEmpty()) {
+                    yield Either.left(AnomalyError.PartyEmpty.INSTANCE);
+                }
+                yield readyAccepted(event, accepted, participants);
+            }
+            case Anomaly.Safe _, Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Challenged _ ->
                 Either.left(AnomalyError.InvalidPhase.INSTANCE);
         };
     }
@@ -293,60 +363,61 @@ public class AnomalyService {
 
     private Either<AnomalyError, AnomalyReadyResult> readyDangerous(
         LaunchedEvent event,
-        Anomaly.Dangerous dangerous,
-        java.util.List<EventParticipant> participants
+        Anomaly.Dangerous.Gathering gathering,
+        List<EventParticipant> participants
     ) {
         if (participants.size() < config.partySize()) {
             return Either.left(AnomalyError.PartyNotFull.INSTANCE);
         }
-        anomalyStorage.update(dangerous.startSearching(gvgStorage.getRating(dangerous.groupId())));
-        launchedEventService.updateEndDate(
-            event.id(),
-            TimeUtils.moscowTime().plus(config.dangerousSearchDuration())
+        final var searchEnd = TimeUtils.moscowTime().plus(config.dangerousSearchDuration());
+        anomalyStorage.update(
+            gathering.startSearching(gvgStorage.getRating(gathering.groupId()), searchEnd)
         );
+        launchedEventService.updateEndDate(event.id(), searchEnd);
         return Either.right(new AnomalyReadyResult.StartedSearching(
             launchedEventService.getById(event.id()).orElseThrow()
         ));
     }
 
-    private Either<AnomalyError, AnomalyReadyResult> readyChallenged(
-        LaunchedEvent challengedEvent,
-        Anomaly.Challenged challengedAnomaly,
-        java.util.List<EventParticipant> participants
+    private Either<AnomalyError, AnomalyReadyResult> readyAccepted(
+        LaunchedEvent event,
+        Anomaly.Dangerous.Accepted accepted,
+        List<EventParticipant> participants
     ) {
         if (participants.size() < config.partySize()) {
             return Either.left(AnomalyError.PartyNotFull.INSTANCE);
         }
-        final var initiatorEvent = launchedEventService.getById(challengedAnomaly.initiatorLaunchedEventId())
-            .orElseThrow(() -> new IllegalStateException("Initiator anomaly missing"));
-        final var initiatorAnomaly = findAnomaly(initiatorEvent.id())
-            .orElseThrow(() -> new IllegalStateException("Initiator anomaly row missing"));
-        if (initiatorEvent.isInFinalStatus()
-            || !(initiatorAnomaly instanceof Anomaly.Dangerous dangerous)
-            || dangerous.phase() != Anomaly.Dangerous.Phase.SEARCHING) {
-            launchedEventService.cancel(challengedEvent.id());
-            return Either.left(AnomalyError.FinalStatus.INSTANCE);
-        }
-
-        anomalyStorage.update(challengedAnomaly.lockRoster());
-        final var battleResult = anomalyBattleService.fight(initiatorEvent, challengedEvent);
+        final var battleResult = anomalyBattleService.fight(event, accepted);
         return Either.right(new AnomalyReadyResult.BattleCompleted(battleResult));
     }
 
-    private void payParticipants(long launchedEventId, Money reward) {
-        for (final var participant : personageEventService.getParticipants(launchedEventId)) {
+    private void payParticipantsOfGroup(long launchedEventId, GroupId groupId, Money reward) {
+        for (final var participant : participantsOfGroup(
+            personageEventService.getParticipants(launchedEventId),
+            groupId
+        )) {
             personageService.addMoney(participant.personage(), reward);
         }
     }
 
-    private void clearOpponentLinkOnChallengedExpire(Anomaly.Challenged challenged) {
-        findAnomaly(challenged.initiatorLaunchedEventId()).ifPresent(anomaly -> {
-            if (anomaly instanceof Anomaly.Dangerous dangerous
-                && dangerous.opponentLaunchedEventId()
-                .filter(id -> id == challenged.launchedEventId()).isPresent()) {
-                anomalyStorage.update(dangerous.clearOpponent());
-            }
-        });
+    private void removeParticipantsOfGroup(long launchedEventId, GroupId groupId) {
+        for (final var participant : participantsOfGroup(
+            personageEventService.getParticipants(launchedEventId),
+            groupId
+        )) {
+            personageEventService.removePersonageFromEvent(participant.personage().id(), launchedEventId);
+        }
+    }
+
+    private static List<EventParticipant> participantsOfGroup(
+        List<EventParticipant> participants,
+        GroupId groupId
+    ) {
+        return participants.stream()
+            .filter(participant -> participant.personage().memberGroupId()
+                .filter(groupId::equals)
+                .isPresent())
+            .toList();
     }
 
     private Either<AnomalyError, LaunchedEvent> requireEvent(long launchedEventId) {
@@ -386,7 +457,7 @@ public class AnomalyService {
         );
     }
 
-    public record ListParticipants(java.util.List<EventParticipant> list) {
+    public record ListParticipants(List<EventParticipant> list) {
     }
 
     public sealed interface AnomalyReadyResult {

@@ -15,6 +15,7 @@ import io.vavr.control.Either;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
@@ -244,8 +245,27 @@ public class PersonageService {
         return personageBattleResultDao.getLastByPersonage(personageId, BattleType.RAID);
     }
 
+    public Optional<PersonageBattleResult> getLastAnomalyResult(PersonageId personageId) {
+        return personageBattleResultDao.getLastByPersonage(personageId, BattleType.ANOMALY);
+    }
+
     public Optional<PersonageBattleResult> getBattleResult(PersonageId personageId, long launchedEventId) {
         return personageBattleResultDao.getByPersonageAndEvent(personageId, launchedEventId);
+    }
+
+    public void saveAnomalyResults(List<AnomalyPersonageResult> results, long launchedEventId) {
+        personageBattleResultDao.saveBatch(
+            results.stream()
+                .map(result -> new PersonageBattleResult(
+                    result.personage().id(),
+                    launchedEventId,
+                    result.stats(),
+                    result.reward(),
+                    Optional.empty(),
+                    Optional.empty()
+                ))
+                .toList()
+        );
     }
 
     public Either<NotEnoughMoney, Success> tryTakeMoney(PersonageId personageId, Money money) {
