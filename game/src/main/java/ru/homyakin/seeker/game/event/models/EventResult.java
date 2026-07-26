@@ -1,6 +1,9 @@
 package ru.homyakin.seeker.game.event.models;
 
+import java.util.List;
+import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
@@ -9,10 +12,9 @@ import ru.homyakin.seeker.game.event.raid.models.Raid;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.GroupWorldRaidBattleResult;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
+import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageRaidResult;
-
-import java.util.List;
 
 public sealed interface EventResult {
 
@@ -76,7 +78,7 @@ public sealed interface EventResult {
     }
 
     sealed interface AnomalyResult extends EventResult {
-        enum ExpiredChoosingOrGathering implements AnomalyResult { INSTANCE }
+        enum ExpiredGathering implements AnomalyResult { INSTANCE }
 
         record NoMatch(long launchedEventId) implements AnomalyResult { }
 
@@ -85,6 +87,14 @@ public sealed interface EventResult {
         record BattleFinished(
             long winnerLaunchedEventId,
             long loserLaunchedEventId
+        ) implements AnomalyResult { }
+
+        record PveBattleFinished(
+            long launchedEventId,
+            boolean victory,
+            Money reward,
+            List<AnomalyPersonageResult> personageResults,
+            List<BattlePersonageStats> enemyStats
         ) implements AnomalyResult { }
     }
 }

@@ -10,7 +10,6 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
-import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPhase;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.SendAnomalyChallengeToGroup;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
@@ -68,13 +67,14 @@ public class AnomalyMatchmaker {
         if (anomalyOpt.isEmpty()) {
             return;
         }
-        final var anomaly = anomalyOpt.get();
-        if (anomaly.phase() != AnomalyPhase.SEARCHING || anomaly.opponentLaunchedEventId().isPresent()) {
+        if (!(anomalyOpt.get() instanceof Anomaly.Dangerous dangerous)
+            || dangerous.phase() != Anomaly.Dangerous.Phase.SEARCHING
+            || dangerous.opponentLaunchedEventId().isPresent()) {
             return;
         }
 
-        final var initiatorGroupId = anomaly.groupId();
-        final var rating = anomaly.gvgRatingAtStart()
+        final var initiatorGroupId = dangerous.groupId();
+        final var rating = dangerous.gvgRatingAtStart()
             .orElseGet(() -> gvgStorage.getRating(initiatorGroupId));
         final var searchStartedAt = searching.endDate().minus(config.dangerousSearchDuration());
         final var hoursInSearch = Math.max(
@@ -106,19 +106,14 @@ public class AnomalyMatchmaker {
             searching.endDate(),
             targetGroupId
         );
-        anomalyStorage.save(new Anomaly(
+        anomalyStorage.save(new Anomaly.Challenged(
             challenged.id(),
             targetGroupId,
             Optional.empty(),
-            AnomalyPhase.CHALLENGED,
-            Optional.empty(),
-            anomaly.modifierCode(),
-            false,
-            Optional.of(searching.id()),
-            Optional.empty(),
-            true
+            searching.id(),
+            false
         ));
-        anomalyStorage.update(anomaly.withOpponent(challenged.id()));
+        anomalyStorage.update(dangerous.withOpponent(challenged.id()));
         sendAnomalyChallengeToGroup.send(
             targetGroupId,
             launchedEventService.getById(challenged.id()).orElse(challenged),

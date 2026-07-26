@@ -2,7 +2,6 @@ package ru.homyakin.seeker.telegram.command.group.anomaly;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.anomaly.action.AnomalyService;
-import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.anomaly.TelegramAnomalyService;
@@ -17,20 +16,17 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
     private final GroupUserService groupUserService;
     private final AnomalyService anomalyService;
     private final TelegramAnomalyService telegramAnomalyService;
-    private final AnomalyConfig anomalyConfig;
     private final TelegramSender telegramSender;
 
     public AnomalyReadyExecutor(
         GroupUserService groupUserService,
         AnomalyService anomalyService,
         TelegramAnomalyService telegramAnomalyService,
-        AnomalyConfig anomalyConfig,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.anomalyService = anomalyService;
         this.telegramAnomalyService = telegramAnomalyService;
-        this.anomalyConfig = anomalyConfig;
         this.telegramSender = telegramSender;
     }
 
@@ -48,15 +44,15 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
             return;
         }
         final var alert = switch (result.get()) {
-            case AnomalyService.AnomalyReadyResult.SafeCompleted _ -> {
+            case AnomalyService.AnomalyReadyResult.StartedPveWaiting pveWaiting -> {
+                final var event = pveWaiting.launchedEvent();
+                final var anomaly = anomalyService.findAnomaly(event.id()).orElseThrow();
                 telegramSender.send(
                     EditMessageTextBuilder.builder()
                         .chatId(command.groupTgId())
                         .messageId(command.messageId())
-                        .text(AnomalyLocalization.safeCompleted(
-                            group.language(),
-                            anomalyConfig.safeReward()
-                        ))
+                        .text(telegramAnomalyService.eventText(group.language(), event, anomaly))
+                        .keyboard(AnomalyKeyboards.forEvent(group.language(), event.id(), anomaly))
                         .build()
                 );
                 yield AnomalyLocalization.successReadySafe(group.language());

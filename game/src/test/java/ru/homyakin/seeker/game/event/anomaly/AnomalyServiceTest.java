@@ -17,7 +17,7 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyError;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
-import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPhase;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
@@ -72,6 +72,7 @@ public class AnomalyServiceTest {
         );
         Mockito.when(config.partySize()).thenReturn(5);
         Mockito.when(config.gatheringDuration()).thenReturn(Duration.ofHours(1));
+        Mockito.when(config.safePveDuration()).thenReturn(Duration.ofHours(3));
         Mockito.when(config.dangerousSearchDuration()).thenReturn(Duration.ofHours(12));
         Mockito.when(config.safeReward()).thenReturn(Money.from(10));
         Mockito.when(config.noMatchReward()).thenReturn(Money.from(8));
@@ -89,25 +90,21 @@ public class AnomalyServiceTest {
         Mockito.when(anomalyStorage.hasStartOnDate(Mockito.eq(groupId), Mockito.any()))
             .thenReturn(true);
 
-        final var result = service.start(groupId, personageId);
+        final var result = service.start(groupId, personageId, AnomalyMode.SAFE);
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(AnomalyError.AlreadyStartedToday.INSTANCE, result.getLeft());
     }
 
     @Test
-    void Given_GatheringSafeWithMembers_When_Ready_Then_SafeCompleted() {
+    void Given_GatheringSafeWithMembers_When_Ready_Then_StartedPveWaiting() {
         final var member = withGroup(PersonageUtils.withId(personageId), groupId);
-        final var anomaly = new Anomaly(
+        final var anomaly = new Anomaly.Safe(
             100L,
             groupId,
             Optional.of(personageId),
-            AnomalyPhase.GATHERING,
-            Optional.of(AnomalyMode.SAFE),
-            "storm-surge",
-            false,
-            Optional.empty(),
-            Optional.empty(),
+            AnomalyPveTemplate.CRYSTAL_STORM,
+            Anomaly.Safe.Phase.GATHERING,
             false
         );
         final var event = new LaunchedEvent(
@@ -126,25 +123,26 @@ public class AnomalyServiceTest {
         final var result = service.ready(100L, personageId);
 
         Assertions.assertTrue(result.isRight());
-        Assertions.assertInstanceOf(AnomalyService.AnomalyReadyResult.SafeCompleted.class, result.get());
-        Mockito.verify(personageService).addMoney(member, Money.from(10));
-        Mockito.verify(launchedEventService).updateStatus(100L, EventStatus.SUCCESS);
+        Assertions.assertInstanceOf(AnomalyService.AnomalyReadyResult.StartedPveWaiting.class, result.get());
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Safe safe
+                && safe.phase() == Anomaly.Safe.Phase.PVE_WAITING
+                && safe.rosterLocked()
+        ));
+        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(100L), Mockito.any());
     }
 
     @Test
     void Given_DangerousIncompleteParty_When_Ready_Then_PartyNotFull() {
         final var owner = withGroup(PersonageUtils.withId(personageId), groupId);
-        final var anomaly = new Anomaly(
+        final var anomaly = new Anomaly.Dangerous(
             101L,
             groupId,
             Optional.of(personageId),
-            AnomalyPhase.GATHERING,
-            Optional.of(AnomalyMode.DANGEROUS),
-            "storm-surge",
+            Anomaly.Dangerous.Phase.GATHERING,
             false,
             Optional.empty(),
-            Optional.empty(),
-            false
+            Optional.empty()
         );
         final var event = new LaunchedEvent(
             101L,
@@ -167,17 +165,14 @@ public class AnomalyServiceTest {
 
     @Test
     void Given_SearchingExpired_When_ProcessExpired_Then_NoMatchReward() {
-        final var anomaly = new Anomaly(
+        final var anomaly = new Anomaly.Dangerous(
             102L,
             groupId,
             Optional.of(personageId),
-            AnomalyPhase.SEARCHING,
-            Optional.of(AnomalyMode.DANGEROUS),
-            "storm-surge",
+            Anomaly.Dangerous.Phase.SEARCHING,
             true,
             Optional.empty(),
-            Optional.of(1000),
-            false
+            Optional.of(1000)
         );
         final var event = new LaunchedEvent(
             102L,

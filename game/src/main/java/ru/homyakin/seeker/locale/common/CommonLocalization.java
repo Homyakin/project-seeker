@@ -715,6 +715,10 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::cancelEventForbiddenForDuel);
     }
 
+    public static String cancelEventForbiddenForStartedAnomaly(Language language) {
+        return resources.getOrDefault(language, CommonResource::cancelEventForbiddenForStartedAnomaly);
+    }
+
     public static String fullBagAlertOnRaidJoin(Language language) {
         return resources.getOrDefault(language, CommonResource::fullBagAlertOnRaidJoin);
     }

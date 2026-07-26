@@ -52,7 +52,6 @@ import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyChooseMode;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyJoin;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyMenu;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyReady;
-import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyStart;
 import ru.homyakin.seeker.telegram.command.group.outpost.ShowOutpost;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.stats.GetPersonageStats;
@@ -409,7 +408,6 @@ public class CommandParser {
                 case SELECT_BADGE -> SelectGroupBadge.from(callback);
                 case GROUP_MEMBERS_INLINE -> GroupMembers.fromCallback(callback);
                 case ANOMALY_MENU -> AnomalyMenu.from(callback);
-                case ANOMALY_START -> AnomalyStart.from(callback);
                 case ANOMALY_CHOOSE_SAFE -> AnomalyChooseMode.safe(callback);
                 case ANOMALY_CHOOSE_DANGEROUS -> AnomalyChooseMode.dangerous(callback);
                 case ANOMALY_JOIN -> AnomalyJoin.from(callback);

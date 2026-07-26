@@ -120,7 +120,6 @@ public enum CommandType {
     OPEN_OUTPOST_MENU("outpost", CheckType.START_PAYLOAD),
     OPEN_OUTPOST_MENU_INLINE("outpostMenu", CheckType.EQUALS),
     ANOMALY_MENU("anomalyMenu", CheckType.EQUALS),
-    ANOMALY_START("anomalyStart", CheckType.EQUALS),
     ANOMALY_CHOOSE_SAFE("anomalySafe", CheckType.EQUALS),
     ANOMALY_CHOOSE_DANGEROUS("anomalyDanger", CheckType.EQUALS),
     ANOMALY_JOIN("anomalyJoin", CheckType.EQUALS),

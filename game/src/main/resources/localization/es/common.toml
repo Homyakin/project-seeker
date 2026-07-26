@@ -54,6 +54,7 @@ personageInWorldRaid = "\nEn incursión mundial ${time_icon}${duration}"
 personageInDuel = "\nEn duelo ${time_icon}${duration}"
 personageInAnomaly = "\nEn anomalía ${time_icon}${duration}"
 cancelEventForbiddenForDuel = "No puedes cancelar un duelo. Espera la respuesta del rival o a que expire."
+cancelEventForbiddenForStartedAnomaly = "No puedes abandonar una expedición a la anomalía ya iniciada."
 
 hoursShort = "h."
 minutesShort = "min."

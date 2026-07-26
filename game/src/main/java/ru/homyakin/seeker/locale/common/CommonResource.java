@@ -47,6 +47,7 @@ public record CommonResource(
     String cancelEventNotFound,
     String cancelEventLocked,
     String cancelEventForbiddenForDuel,
+    String cancelEventForbiddenForStartedAnomaly,
     String raidGoldRewardPercentEffect,
     String itemFoundChancePercentEffect,
     String groupBuildingEffectLine,

@@ -7,8 +7,11 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.EventBattleLogService;
+import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
+import ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator;
 import ru.homyakin.seeker.game.event.database.GroupEventServiceDao;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
@@ -53,6 +56,38 @@ public class AnomalyBattleService {
         this.config = config;
         this.gvgStorage = gvgStorage;
         this.groupEventServiceDao = groupEventServiceDao;
+    }
+
+    public EventResult.AnomalyResult.PveBattleFinished fightPve(LaunchedEvent event, Anomaly.Safe safe) {
+        final var participants = personageEventService.getParticipants(event.id());
+        final var players = toBattlePersonages(participants);
+        final var enemies = new AnomalySafePveGenerator().generate(safe.template(), players);
+        final var battleResult = battle.process(enemies, players);
+        eventBattleLogService.save(event.id(), battleResult);
+
+        final boolean victory = !battleResult.firstWin();
+        final var reward = victory ? config.victoryReward() : config.defeatReward();
+        payRewards(participants, reward);
+        launchedEventService.updateStatus(event.id(), victory ? EventStatus.SUCCESS : EventStatus.FAILED);
+
+        final var personageResults = new java.util.ArrayList<AnomalyPersonageResult>(participants.size());
+        for (int i = 0; i < participants.size(); i++) {
+            personageResults.add(new AnomalyPersonageResult(
+                participants.get(i).personage(),
+                battleResult.personageStats().get(players.get(i).id()),
+                reward
+            ));
+        }
+        final var enemyStats = enemies.stream()
+            .map(enemy -> battleResult.personageStats().get(enemy.id()))
+            .toList();
+        return new EventResult.AnomalyResult.PveBattleFinished(
+            event.id(),
+            victory,
+            reward,
+            personageResults,
+            enemyStats
+        );
     }
 
     public EventResult.AnomalyResult.BattleFinished fight(

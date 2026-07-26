@@ -8,6 +8,8 @@ public interface AnomalyConfig {
 
     Duration gatheringDuration();
 
+    Duration safePveDuration();
+
     Duration dangerousSearchDuration();
 
     Money safeReward();

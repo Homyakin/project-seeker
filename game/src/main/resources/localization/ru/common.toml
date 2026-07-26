@@ -62,6 +62,7 @@ cancelEventSuccess = "Ты возвращаешься в таверну и эк�
 cancelEventNotFound = "Ты не участвуешь в этом событии"
 cancelEventLocked = "Событие уже в процессе, подожди немного."
 cancelEventForbiddenForDuel = "Дуэль нельзя отменить. Дождись ответа соперника или истечения времени."
+cancelEventForbiddenForStartedAnomaly = "Нельзя покинуть уже начатую экспедицию в аномалию."
 
 raidGoldRewardPercentEffect = "+${value}%${money_icon} с рейда"
 itemFoundChancePercentEffect = "+${value}% найти предмет с рейда"

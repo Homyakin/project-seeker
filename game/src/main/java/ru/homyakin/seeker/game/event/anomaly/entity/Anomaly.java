@@ -4,113 +4,128 @@ import java.util.Optional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
-public record Anomaly(
-    long launchedEventId,
-    GroupId groupId,
-    Optional<PersonageId> ownerPersonageId,
-    AnomalyPhase phase,
-    Optional<AnomalyMode> mode,
-    String modifierCode,
-    boolean rosterLocked,
-    Optional<Long> opponentLaunchedEventId,
-    Optional<Integer> gvgRatingAtStart,
-    boolean isChallenge
-) {
-    public Anomaly withMode(AnomalyMode newMode) {
-        return new Anomaly(
-            launchedEventId,
-            groupId,
-            ownerPersonageId,
-            AnomalyPhase.GATHERING,
-            Optional.of(newMode),
-            modifierCode,
-            rosterLocked,
-            opponentLaunchedEventId,
-            gvgRatingAtStart,
-            isChallenge
-        );
+public sealed interface Anomaly permits
+    Anomaly.Safe,
+    Anomaly.Dangerous,
+    Anomaly.Challenged {
+
+    long launchedEventId();
+
+    GroupId groupId();
+
+    Optional<PersonageId> ownerPersonageId();
+
+    boolean rosterLocked();
+
+    default boolean isOwner(PersonageId personageId) {
+        return ownerPersonageId().filter(personageId::equals).isPresent();
     }
 
-    public Anomaly withPhase(AnomalyPhase newPhase) {
-        return new Anomaly(
-            launchedEventId,
-            groupId,
-            ownerPersonageId,
-            newPhase,
-            mode,
-            modifierCode,
-            rosterLocked,
-            opponentLaunchedEventId,
-            gvgRatingAtStart,
-            isChallenge
-        );
+    default boolean isChallenge() {
+        return this instanceof Challenged;
     }
 
-    public Anomaly withOwner(PersonageId personageId) {
-        return new Anomaly(
-            launchedEventId,
-            groupId,
-            Optional.of(personageId),
-            phase,
-            mode,
-            modifierCode,
-            rosterLocked,
-            opponentLaunchedEventId,
-            gvgRatingAtStart,
-            isChallenge
-        );
+    record Safe(
+        long launchedEventId,
+        GroupId groupId,
+        Optional<PersonageId> ownerPersonageId,
+        AnomalyPveTemplate template,
+        Phase phase,
+        boolean rosterLocked
+    ) implements Anomaly {
+        public enum Phase {
+            GATHERING,
+            PVE_WAITING,
+        }
+
+        public Safe startPveWaiting() {
+            return new Safe(
+                launchedEventId,
+                groupId,
+                ownerPersonageId,
+                template,
+                Phase.PVE_WAITING,
+                true
+            );
+        }
     }
 
-    public Anomaly lockRoster() {
-        return new Anomaly(
-            launchedEventId,
-            groupId,
-            ownerPersonageId,
-            phase,
-            mode,
-            modifierCode,
-            true,
-            opponentLaunchedEventId,
-            gvgRatingAtStart,
-            isChallenge
-        );
+    record Dangerous(
+        long launchedEventId,
+        GroupId groupId,
+        Optional<PersonageId> ownerPersonageId,
+        Phase phase,
+        boolean rosterLocked,
+        Optional<Long> opponentLaunchedEventId,
+        Optional<Integer> gvgRatingAtStart
+    ) implements Anomaly {
+        public enum Phase {
+            GATHERING,
+            SEARCHING,
+        }
+
+        public Dangerous startSearching(int gvgRating) {
+            return new Dangerous(
+                launchedEventId,
+                groupId,
+                ownerPersonageId,
+                Phase.SEARCHING,
+                true,
+                opponentLaunchedEventId,
+                Optional.of(gvgRating)
+            );
+        }
+
+        public Dangerous withOpponent(long opponentId) {
+            return new Dangerous(
+                launchedEventId,
+                groupId,
+                ownerPersonageId,
+                phase,
+                rosterLocked,
+                Optional.of(opponentId),
+                gvgRatingAtStart
+            );
+        }
+
+        public Dangerous clearOpponent() {
+            return new Dangerous(
+                launchedEventId,
+                groupId,
+                ownerPersonageId,
+                phase,
+                rosterLocked,
+                Optional.empty(),
+                gvgRatingAtStart
+            );
+        }
     }
 
-    public Anomaly withOpponent(Long opponentId) {
-        return new Anomaly(
-            launchedEventId,
-            groupId,
-            ownerPersonageId,
-            phase,
-            mode,
-            modifierCode,
-            rosterLocked,
-            Optional.ofNullable(opponentId),
-            gvgRatingAtStart,
-            isChallenge
-        );
-    }
+    record Challenged(
+        long launchedEventId,
+        GroupId groupId,
+        Optional<PersonageId> ownerPersonageId,
+        long initiatorLaunchedEventId,
+        boolean rosterLocked
+    ) implements Anomaly {
+        public Challenged withOwner(PersonageId personageId) {
+            return new Challenged(
+                launchedEventId,
+                groupId,
+                Optional.of(personageId),
+                initiatorLaunchedEventId,
+                rosterLocked
+            );
+        }
 
-    public Anomaly clearOpponent() {
-        return withOpponent(null);
-    }
-
-    public Anomaly withGvgRating(int rating) {
-        return new Anomaly(
-            launchedEventId,
-            groupId,
-            ownerPersonageId,
-            phase,
-            mode,
-            modifierCode,
-            rosterLocked,
-            opponentLaunchedEventId,
-            Optional.of(rating),
-            isChallenge
-        );
-    }
-
-    public boolean isOwner(PersonageId personageId) {
-        return ownerPersonageId.filter(personageId::equals).isPresent();
+        public Challenged lockRoster() {
+            return new Challenged(
+                launchedEventId,
+                groupId,
+                ownerPersonageId,
+                initiatorLaunchedEventId,
+                true
+            );
+        }
     }
 }

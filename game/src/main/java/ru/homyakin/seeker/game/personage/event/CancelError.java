@@ -8,4 +8,6 @@ public sealed interface CancelError {
     enum Locked implements CancelError { INSTANCE }
 
     enum ForbiddenForDuel implements CancelError { INSTANCE }
+
+    enum ForbiddenForStartedAnomaly implements CancelError { INSTANCE }
 }

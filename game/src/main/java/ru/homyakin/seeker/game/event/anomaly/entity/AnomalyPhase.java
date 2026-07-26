@@ -1,8 +1,8 @@
 package ru.homyakin.seeker.game.event.anomaly.entity;
 
 public enum AnomalyPhase {
-    CHOOSING_MODE,
     GATHERING,
+    PVE_WAITING,
     SEARCHING,
     CHALLENGED,
 }

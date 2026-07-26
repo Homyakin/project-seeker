@@ -2,9 +2,11 @@ anomalySearchButton = "Поиск Аномалий"
 anomalyMenu = """
 📡<b>Поиск аномалий</b>
 
-Штормовой сканер готов к работе.
+${scanner_status}
 Запусков сегодня: ${starts_left}/1
 ${register_warning}"""
+anomalyMenuScannerReady = "Штормовой сканер готов к работе."
+anomalyMenuScannerRecharging = "Штормовой сканер перезаряжается."
 anomalyMenuRegisterWarning = """
 ⚠️Запуск доступен только зарегистрированным группам.
 Зарегистрировать: <code>${register_group_command} тэг</code>
@@ -16,30 +18,42 @@ anomalyMenuActive = """
 Фаза: ${phase}
 Участники: ${participants}/${party_size}
 """
-anomalyDiscovered = """
-📡<b>Аномалия обнаружена!</b>
-
-Выберите режим экспедиции.
-"""
 anomalyGathering = """
 📡<b>Экспедиция в аномалию</b>
 
 Режим: ${mode}
+${pve_format}Вступить могут только участники группы.
+Время на подготовку ${duration}
 Участники (${count}/${party_size}):
 ${participants}
+"""
+anomalyPveFormat = """Атака: ${attack}
+Защита: ${defense}
+Формация: ${formation}
+
+"""
+anomalyPveWaiting = """
+📡<b>Безопасная экспедиция начата</b>
+
+${pve_format}Состав зафиксирован (${count}):
+${participants}
+
+Бой через ${duration}
+Покинуть экспедицию нельзя.
 """
 anomalySearching = """
 📡<b>Поиск противника</b>
 
 Состав зафиксирован (${count}/${party_size}).
-Ищем группу для GvG до ${end_date}.
+Ищем группу для GvG: ${duration}
 """
 anomalyChallenge = """
 ⚔️<b>Вызов аномалии!</b>
 
 Другая группа обнаружила опасную аномалию.
 
-Соберите полный отряд (${party_size}), первый вступивший сможет подтвердить готовность.
+Вступить могут только участники группы.
+Соберите полный отряд (${party_size}), первый вступивший станет организатором.
 Участники (${count}/${party_size}):
 ${participants}
 """
@@ -58,16 +72,33 @@ anomalyBattleVictory = """
 🏆<b>Победа в аномалии!</b>
 
 Награда: ${reward} ${money_icon} каждому участнику.
-${battle_link}
 """
 anomalyBattleDefeat = """
 💀<b>Поражение в аномалии</b>
 
 Награда: ${reward} ${money_icon} каждому участнику.
-${battle_link}
 """
+anomalyPveBattleResult = """
+${success_or_failure}
+
+Противники: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
+Искатели: ${participants_health}/${participants_max_health}❤️ ${living_participants}/${total_participants}🔰
+
+Лучшие:
+${top_participants_list}
+
+Награда: ${reward} ${money_icon} каждому участнику.
+"""
+anomalyPersonageResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
+successPve = [
+    "Событие завершилось! Безопасная экспедиция успешна.",
+    "Противники аномалии повержены! Вот ваша награда."
+]
+failurePve = [
+    "Экспедиция провалена. Аномалия оказалась сильнее.",
+    "Бой в аномалии закончился поражением."
+]
 anomalyExpired = "Экспедиция в аномалию истекла."
-startButton = "🔍 Начать поиск"
 safeModeButton = "🛡 Безопасный"
 dangerousModeButton = "☠ Опасный"
 joinButton = "➕ Вступить"
@@ -75,15 +106,19 @@ readyButton = "✅ Готов"
 backToOutpostButton = "⬅️ К аванпосту"
 modeSafe = "Безопасный"
 modeDangerous = "Опасный"
-phaseChoosing = "Выбор режима"
 phaseGathering = "Сбор отряда"
+phasePveWaiting = "Ожидание боя"
 phaseSearching = "Поиск противника"
 phaseChallenged = "Ответ на вызов"
+formationStrongBackLine = "Сильный тыл"
+formationStrongFrontLine = "Сильный фронт"
+formationMidLine = "Средняя линия"
+formationSplitWings = "Разнесённые фланги"
 errorNotRegistered = "Только для зарегистрированных групп"
 errorNoStormScanner = "Нужен Штормовой Сканер"
 errorAlreadyStartedToday = "Сегодня поиск уже запускали"
 errorActiveExists = "Уже есть активная аномалия"
-errorNotMember = "Нужно быть участником группы"
+errorNotMember = "❌Вступить могут только участники группы"
 errorNotOwner = "Только организатор может это сделать"
 errorInvalidPhase = "Сейчас это действие недоступно"
 errorPartyNotFull = "Нужен полный отряд"
@@ -95,7 +130,8 @@ errorEventLocked = "Попробуйте ещё раз"
 errorFinal = "Экспедиция уже завершена"
 errorNotFound = "Экспедиция не найдена"
 successJoin = "Вы вступили в экспедицию"
-successReadySafe = "Безопасная экспедиция завершена"
+successReadySafe = "Состав зафиксирован, бой через 3 часа"
 successReadySearch = "Состав зафиксирован, ищем противника"
 successReadyBattle = "Бой начался!"
 participantLine = "• ${name}"
+participantLineLeader = "• ${name} <b>(организатор)</b>"

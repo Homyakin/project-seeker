@@ -16,29 +16,18 @@ public final class AnomalyKeyboards {
         if (canStart) {
             builder = builder.addRow()
                 .addButton(
-                    AnomalyLocalization.startButton(language),
-                    CommandType.ANOMALY_START.getText()
+                    AnomalyLocalization.safeModeButton(language),
+                    CommandType.ANOMALY_CHOOSE_SAFE.getText()
+                )
+                .addButton(
+                    AnomalyLocalization.dangerousModeButton(language),
+                    CommandType.ANOMALY_CHOOSE_DANGEROUS.getText()
                 );
         }
         return builder.addRow()
             .addButton(
                 AnomalyLocalization.backToOutpostButton(language),
                 CommandType.ANOMALY_BACK_OUTPOST.getText()
-            )
-            .build();
-    }
-
-    public static InlineKeyboardMarkup choosingModeKeyboard(Language language, long launchedEventId) {
-        final var id = TextConstants.CALLBACK_DELIMITER + launchedEventId;
-        return InlineKeyboardBuilder.builder()
-            .addRow()
-            .addButton(
-                AnomalyLocalization.safeModeButton(language),
-                CommandType.ANOMALY_CHOOSE_SAFE.getText() + id
-            )
-            .addButton(
-                AnomalyLocalization.dangerousModeButton(language),
-                CommandType.ANOMALY_CHOOSE_DANGEROUS.getText() + id
             )
             .build();
     }
@@ -64,13 +53,16 @@ public final class AnomalyKeyboards {
         long launchedEventId,
         Anomaly anomaly
     ) {
-        return switch (anomaly.phase()) {
-            case CHOOSING_MODE -> choosingModeKeyboard(language, launchedEventId);
-            case GATHERING, CHALLENGED ->
-                anomaly.rosterLocked()
-                    ? OutpostKeyboards.emptyInlineKeyboard()
-                    : gatheringKeyboard(language, launchedEventId);
-            case SEARCHING -> OutpostKeyboards.emptyInlineKeyboard();
+        return switch (anomaly) {
+            case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING && !safe.rosterLocked() ->
+                gatheringKeyboard(language, launchedEventId);
+            case Anomaly.Dangerous dangerous
+                when dangerous.phase() == Anomaly.Dangerous.Phase.GATHERING && !dangerous.rosterLocked() ->
+                gatheringKeyboard(language, launchedEventId);
+            case Anomaly.Challenged challenged when !challenged.rosterLocked() ->
+                gatheringKeyboard(language, launchedEventId);
+            case Anomaly.Safe _, Anomaly.Dangerous _, Anomaly.Challenged _ ->
+                OutpostKeyboards.emptyInlineKeyboard();
         };
     }
 }

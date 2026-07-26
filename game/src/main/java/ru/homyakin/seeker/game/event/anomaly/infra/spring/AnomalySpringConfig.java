@@ -9,6 +9,7 @@ import ru.homyakin.seeker.game.models.Money;
 public class AnomalySpringConfig implements AnomalyConfig {
     private int partySize;
     private Duration gatheringDuration;
+    private Duration safePveDuration;
     private Duration dangerousSearchDuration;
     private Money safeReward;
     private Money victoryReward;
@@ -28,6 +29,11 @@ public class AnomalySpringConfig implements AnomalyConfig {
     @Override
     public Duration gatheringDuration() {
         return gatheringDuration;
+    }
+
+    @Override
+    public Duration safePveDuration() {
+        return safePveDuration;
     }
 
     @Override
@@ -86,6 +92,10 @@ public class AnomalySpringConfig implements AnomalyConfig {
 
     public void setGatheringDuration(Duration gatheringDuration) {
         this.gatheringDuration = gatheringDuration;
+    }
+
+    public void setSafePveDuration(Duration safePveDuration) {
+        this.safePveDuration = safePveDuration;
     }
 
     public void setDangerousSearchDuration(Duration dangerousSearchDuration) {

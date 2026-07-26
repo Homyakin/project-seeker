@@ -1,20 +1,29 @@
 package ru.homyakin.seeker.locale.anomaly;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyError;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveFormation;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
+import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -36,6 +45,12 @@ public final class AnomalyLocalization {
     public static String menu(Language language, boolean canStart, boolean isRegistered) {
         final var params = new HashMap<String, Object>();
         params.put("starts_left", canStart ? 1 : 0);
+        params.put(
+            "scanner_status",
+            canStart
+                ? resources.getOrDefault(language, AnomalyResource::anomalyMenuScannerReady)
+                : resources.getOrDefault(language, AnomalyResource::anomalyMenuScannerRecharging)
+        );
         params.put("register_warning", isRegistered ? "" : registerWarning(language));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyMenu),
@@ -50,23 +65,57 @@ public final class AnomalyLocalization {
         );
     }
 
-    public static String discovered(Language language) {
-        return resources.getOrDefault(language, AnomalyResource::anomalyDiscovered);
+    public static String gathering(
+        Language language,
+        Anomaly.Safe safe,
+        List<EventParticipant> participants,
+        int partySize,
+        LaunchedEvent event
+    ) {
+        return gathering(
+            language,
+            AnomalyMode.SAFE,
+            participants,
+            partySize,
+            event,
+            safe.ownerPersonageId(),
+            pveFormat(language, safe.template())
+        );
     }
 
     public static String gathering(
         Language language,
-        Anomaly anomaly,
+        Anomaly.Dangerous dangerous,
         List<EventParticipant> participants,
-        int partySize
+        int partySize,
+        LaunchedEvent event
+    ) {
+        return gathering(
+            language,
+            AnomalyMode.DANGEROUS,
+            participants,
+            partySize,
+            event,
+            dangerous.ownerPersonageId(),
+            ""
+        );
+    }
+
+    public static String pveWaiting(
+        Language language,
+        Anomaly.Safe safe,
+        List<EventParticipant> participants,
+        int partySize,
+        LaunchedEvent event
     ) {
         final var map = new HashMap<String, Object>();
-        map.put("mode", modeName(language, anomaly.mode()));
         map.put("count", participants.size());
         map.put("party_size", partySize);
-        map.put("participants", participantsText(language, participants));
+        map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
+        map.put("participants", participantsText(language, participants, safe.ownerPersonageId()));
+        map.put("pve_format", pveFormat(language, safe.template()));
         return StringNamedTemplate.format(
-            resources.getOrDefault(language, AnomalyResource::anomalyGathering),
+            resources.getOrDefault(language, AnomalyResource::anomalyPveWaiting),
             map
         );
     }
@@ -80,7 +129,7 @@ public final class AnomalyLocalization {
         final var map = new HashMap<String, Object>();
         map.put("count", participants.size());
         map.put("party_size", partySize);
-        map.put("end_date", TimeUtils.toString(event.endDate()));
+        map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalySearching),
             map
@@ -89,13 +138,14 @@ public final class AnomalyLocalization {
 
     public static String challenge(
         Language language,
+        Anomaly.Challenged challenged,
         List<EventParticipant> participants,
         int partySize
     ) {
         final var map = new HashMap<String, Object>();
         map.put("count", participants.size());
         map.put("party_size", partySize);
-        map.put("participants", participantsText(language, participants));
+        map.put("participants", participantsText(language, participants, challenged.ownerPersonageId()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyChallenge),
             map
@@ -110,20 +160,87 @@ public final class AnomalyLocalization {
         return rewardText(language, AnomalyResource::anomalyNoMatch, reward, "");
     }
 
-    public static String battleVictory(Language language, Money reward, String battleLink) {
-        return rewardText(language, AnomalyResource::anomalyBattleVictory, reward, battleLink);
+    public static String battleVictory(Language language, Money reward) {
+        return rewardText(language, AnomalyResource::anomalyBattleVictory, reward, "");
     }
 
-    public static String battleDefeat(Language language, Money reward, String battleLink) {
-        return rewardText(language, AnomalyResource::anomalyBattleDefeat, reward, battleLink);
+    public static String battleDefeat(Language language, Money reward) {
+        return rewardText(language, AnomalyResource::anomalyBattleDefeat, reward, "");
+    }
+
+    public static String pveBattleResult(Language language, EventResult.AnomalyResult.PveBattleFinished result) {
+        final var sorted = new ArrayList<>(result.personageResults());
+        sorted.sort(Comparator.comparingLong((AnomalyPersonageResult it) -> it.stats().damageDealtAndTaken()).reversed());
+        final var top = new StringBuilder();
+        final int topCount = Math.min(5, sorted.size());
+        for (int i = 0; i < topCount; ++i) {
+            top.append(i + 1).append(". ").append(personageResult(language, sorted.get(i)));
+            if (i < topCount - 1) {
+                top.append("\n");
+            }
+        }
+
+        long remainEnemiesHealth = 0;
+        long totalEnemiesHealth = 0;
+        long remainEnemies = 0;
+        for (final var enemy : result.enemyStats()) {
+            remainEnemiesHealth += enemy.remainHealth();
+            totalEnemiesHealth += enemy.initialHealth();
+            if (!enemy.isDead()) {
+                ++remainEnemies;
+            }
+        }
+        long participantsHealth = 0;
+        long participantsMaxHealth = 0;
+        long livingParticipants = 0;
+        for (final var personageResult : result.personageResults()) {
+            participantsHealth += personageResult.stats().remainHealth();
+            participantsMaxHealth += personageResult.stats().initialHealth();
+            if (!personageResult.stats().isDead()) {
+                ++livingParticipants;
+            }
+        }
+
+        final var params = new HashMap<String, Object>();
+        params.put(
+            "success_or_failure",
+            result.victory()
+                ? resources.getOrDefaultRandom(language, AnomalyResource::successPve)
+                : resources.getOrDefaultRandom(language, AnomalyResource::failurePve)
+        );
+        params.put("remain_enemies_health", remainEnemiesHealth);
+        params.put("total_enemies_health", totalEnemiesHealth);
+        params.put("remain_enemies_count", remainEnemies);
+        params.put("total_enemies_count", result.enemyStats().size());
+        params.put("participants_health", participantsHealth);
+        params.put("participants_max_health", participantsMaxHealth);
+        params.put("living_participants", livingParticipants);
+        params.put("total_participants", result.personageResults().size());
+        params.put("top_participants_list", top.toString());
+        params.put("reward", result.reward().value());
+        params.put("money_icon", Icons.MONEY);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::anomalyPveBattleResult),
+            params
+        );
+    }
+
+    public static String personageResult(Language language, AnomalyPersonageResult result) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::anomalyPersonageResult),
+            Map.of(
+                "dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "",
+                "personage_badge_with_name", LocaleUtils.personageNameWithBadge(result.personage()),
+                "damage_dealt", result.stats().damageDealt(),
+                "damage_taken", result.stats().damageTaken(),
+                "money", result.reward().value(),
+                "money_icon", Icons.MONEY
+            )
+        );
     }
 
     public static String expired(Language language) {
         return resources.getOrDefault(language, AnomalyResource::anomalyExpired);
-    }
-
-    public static String startButton(Language language) {
-        return resources.getOrDefault(language, AnomalyResource::startButton);
     }
 
     public static String safeModeButton(Language language) {
@@ -197,22 +314,78 @@ public final class AnomalyLocalization {
         };
     }
 
-    private static String modeName(Language language, Optional<AnomalyMode> mode) {
-        return mode.map(value -> switch (value) {
-            case SAFE -> resources.getOrDefault(language, AnomalyResource::modeSafe);
-            case DANGEROUS -> resources.getOrDefault(language, AnomalyResource::modeDangerous);
-        }).orElse("-");
+    private static String gathering(
+        Language language,
+        AnomalyMode mode,
+        List<EventParticipant> participants,
+        int partySize,
+        LaunchedEvent event,
+        Optional<PersonageId> ownerPersonageId,
+        String pveFormat
+    ) {
+        final var map = new HashMap<String, Object>();
+        map.put("mode", modeName(language, mode));
+        map.put("count", participants.size());
+        map.put("party_size", partySize);
+        map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
+        map.put("participants", participantsText(language, participants, ownerPersonageId));
+        map.put("pve_format", pveFormat);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::anomalyGathering),
+            map
+        );
     }
 
-    private static String participantsText(Language language, List<EventParticipant> participants) {
+    private static String modeName(Language language, AnomalyMode mode) {
+        return switch (mode) {
+            case SAFE -> resources.getOrDefault(language, AnomalyResource::modeSafe);
+            case DANGEROUS -> resources.getOrDefault(language, AnomalyResource::modeDangerous);
+        };
+    }
+
+    private static String pveFormat(Language language, AnomalyPveTemplate template) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, AnomalyResource::anomalyPveFormat),
+            Map.of(
+                "attack", BattleLocalization.attackTypeName(language, template.attackType()),
+                "defense", BattleLocalization.defenseTypeName(language, template.defenseType()),
+                "formation", formationName(language, template.formation())
+            )
+        );
+    }
+
+    private static String formationName(Language language, AnomalyPveFormation formation) {
+        return switch (formation) {
+            case STRONG_BACK_LINE ->
+                resources.getOrDefault(language, AnomalyResource::formationStrongBackLine);
+            case STRONG_FRONT_LINE ->
+                resources.getOrDefault(language, AnomalyResource::formationStrongFrontLine);
+            case MID_LINE ->
+                resources.getOrDefault(language, AnomalyResource::formationMidLine);
+            case SPLIT_WINGS ->
+                resources.getOrDefault(language, AnomalyResource::formationSplitWings);
+        };
+    }
+
+    private static String participantsText(
+        Language language,
+        List<EventParticipant> participants,
+        Optional<PersonageId> ownerPersonageId
+    ) {
         if (participants.isEmpty()) {
             return "-";
         }
         return participants.stream()
-            .map(it -> StringNamedTemplate.format(
-                resources.getOrDefault(language, AnomalyResource::participantLine),
-                Map.of("name", LocaleUtils.personageNameWithBadge(it.personage()))
-            ))
+            .map(it -> {
+                final var isLeader = ownerPersonageId.filter(it.personage().id()::equals).isPresent();
+                final var template = isLeader
+                    ? resources.getOrDefault(language, AnomalyResource::participantLineLeader)
+                    : resources.getOrDefault(language, AnomalyResource::participantLine);
+                return StringNamedTemplate.format(
+                    template,
+                    Map.of("name", LocaleUtils.personageNameWithBadge(it.personage()))
+                );
+            })
             .collect(Collectors.joining("\n"));
     }
 

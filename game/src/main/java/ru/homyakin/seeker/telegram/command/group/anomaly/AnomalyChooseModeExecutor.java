@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.group.anomaly;
 
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.anomaly.action.AnomalyService;
+import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.anomaly.TelegramAnomalyService;
@@ -16,17 +17,20 @@ public class AnomalyChooseModeExecutor extends CommandExecutor<AnomalyChooseMode
     private final GroupUserService groupUserService;
     private final AnomalyService anomalyService;
     private final TelegramAnomalyService telegramAnomalyService;
+    private final GroupEventService groupEventService;
     private final TelegramSender telegramSender;
 
     public AnomalyChooseModeExecutor(
         GroupUserService groupUserService,
         AnomalyService anomalyService,
         TelegramAnomalyService telegramAnomalyService,
+        GroupEventService groupEventService,
         TelegramSender telegramSender
     ) {
         this.groupUserService = groupUserService;
         this.anomalyService = anomalyService;
         this.telegramAnomalyService = telegramAnomalyService;
+        this.groupEventService = groupEventService;
         this.telegramSender = telegramSender;
     }
 
@@ -35,8 +39,8 @@ public class AnomalyChooseModeExecutor extends CommandExecutor<AnomalyChooseMode
         final var pair = groupUserService.getAndActivateOrCreate(command.groupTgId(), command.userId());
         final var group = pair.first();
         final var user = pair.second();
-        final var result = anomalyService.chooseMode(
-            command.launchedEventId(),
+        final var result = anomalyService.start(
+            group.domainGroupId(),
             user.personageId(),
             command.mode()
         );
@@ -49,6 +53,7 @@ public class AnomalyChooseModeExecutor extends CommandExecutor<AnomalyChooseMode
         }
         final var event = result.get();
         final var anomaly = anomalyService.findAnomaly(event.id()).orElseThrow();
+        groupEventService.createGroupEvent(event.id(), group, command.messageId());
         telegramSender.send(
             EditMessageTextBuilder.builder()
                 .chatId(command.groupTgId())
