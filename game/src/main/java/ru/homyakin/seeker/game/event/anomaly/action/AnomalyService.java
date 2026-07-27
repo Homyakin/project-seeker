@@ -20,7 +20,6 @@ import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.group.action.GetGroup;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -168,14 +167,15 @@ public class AnomalyService {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
                 anomalyBattleService.fightPve(launchedEvent, safe);
             case Anomaly.Dangerous.Challenged challenged ->
-                expireDefense(launchedEvent, challenged.opponentGroupId(), challenged.clearOpponent());
+                expireDefenseThenPve(launchedEvent, challenged.opponentGroupId(), challenged.clearOpponent());
             case Anomaly.Dangerous.Accepted accepted ->
-                expireDefense(launchedEvent, accepted.opponentGroupId(), accepted.clearOpponent());
-            case Anomaly.Dangerous.Searching searching -> {
-                payParticipantsOfGroup(launchedEvent.id(), searching.groupId(), config.noMatchReward());
-                launchedEventService.updateStatus(launchedEvent.id(), EventStatus.SUCCESS);
-                yield new EventResult.AnomalyResult.NoMatch(launchedEvent.id());
-            }
+                expireDefenseThenPve(launchedEvent, accepted.opponentGroupId(), accepted.clearOpponent());
+            case Anomaly.Dangerous.Searching searching ->
+                anomalyBattleService.fightPveFallback(
+                    launchedEvent,
+                    searching.groupId(),
+                    Optional.empty()
+                );
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> {
                 launchedEventService.updateStatus(launchedEvent.id(), EventStatus.EXPIRED);
                 yield EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
@@ -191,7 +191,7 @@ public class AnomalyService {
         return new ListParticipants(personageEventService.getParticipants(launchedEventId));
     }
 
-    private EventResult expireDefense(
+    private EventResult expireDefenseThenPve(
         LaunchedEvent event,
         GroupId opponentGroupId,
         Anomaly.Dangerous.Searching searching
@@ -199,16 +199,11 @@ public class AnomalyService {
         removeParticipantsOfGroup(event.id(), opponentGroupId);
         launchedEventService.removeGroupFromEvent(event.id(), opponentGroupId);
         anomalyStorage.update(searching);
-
-        final var searchEnd = searching.searchEndDate();
-        final var now = TimeUtils.moscowTime();
-        if (!searchEnd.isAfter(now)) {
-            payParticipantsOfGroup(event.id(), searching.groupId(), config.noMatchReward());
-            launchedEventService.updateStatus(event.id(), EventStatus.SUCCESS);
-            return new EventResult.AnomalyResult.NoMatch(event.id());
-        }
-        launchedEventService.updateEndDate(event.id(), searchEnd);
-        return new EventResult.AnomalyResult.ChallengeTimedOut(event.id(), opponentGroupId);
+        return anomalyBattleService.fightPveFallback(
+            event,
+            searching.groupId(),
+            Optional.of(opponentGroupId)
+        );
     }
 
     private Either<AnomalyError, LaunchedEvent> joinLogic(long launchedEventId, PersonageId personageId) {
@@ -389,15 +384,6 @@ public class AnomalyService {
         }
         final var battleResult = anomalyBattleService.fight(event, accepted);
         return Either.right(new AnomalyReadyResult.BattleCompleted(battleResult));
-    }
-
-    private void payParticipantsOfGroup(long launchedEventId, GroupId groupId, Money reward) {
-        for (final var participant : participantsOfGroup(
-            personageEventService.getParticipants(launchedEventId),
-            groupId
-        )) {
-            personageService.addMoney(participant.personage(), reward);
-        }
     }
 
     private void removeParticipantsOfGroup(long launchedEventId, GroupId groupId) {

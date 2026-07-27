@@ -11,6 +11,12 @@ public interface AnomalyStorage {
 
     void update(Anomaly anomaly);
 
+    /**
+     * Atomically moves a SEARCHING anomaly (no opponent yet) to CHALLENGED with the given opponent.
+     * Returns false if the row was already claimed, or the opponent is already an active opponent elsewhere.
+     */
+    boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged);
+
     Optional<Anomaly> findByLaunchedEventId(long launchedEventId);
 
     Optional<LaunchedEvent> findActiveLaunchedEventByGroupId(GroupId groupId);

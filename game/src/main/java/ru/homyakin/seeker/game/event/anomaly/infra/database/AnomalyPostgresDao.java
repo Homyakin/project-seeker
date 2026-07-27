@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import ru.homyakin.seeker.common.models.GroupId;
@@ -66,6 +67,32 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             WHERE launched_event_id = :launched_event_id
             """;
         bind(anomaly, jdbcClient.sql(sql)).update();
+    }
+
+    @Override
+    public boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged) {
+        final var sql = """
+            UPDATE anomaly
+            SET owner_personage_id = :owner_personage_id,
+                phase = :phase,
+                mode = :mode,
+                pve_template_code = :pve_template_code,
+                opponent_pgroup_id = :opponent_pgroup_id,
+                opponent_owner_personage_id = :opponent_owner_personage_id,
+                winner_pgroup_id = :winner_pgroup_id,
+                gvg_rating_at_start = :gvg_rating_at_start,
+                search_end_date = :search_end_date
+            WHERE launched_event_id = :launched_event_id
+              AND phase = :expected_phase
+              AND opponent_pgroup_id IS NULL
+            """;
+        try {
+            return bind(challenged, jdbcClient.sql(sql))
+                .param("expected_phase", AnomalyPhase.SEARCHING.name())
+                .update() == 1;
+        } catch (DuplicateKeyException e) {
+            return false;
+        }
     }
 
     @Override

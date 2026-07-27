@@ -83,7 +83,6 @@ public class AnomalyServiceTest {
         Mockito.when(config.dangerousSearchDuration()).thenReturn(Duration.ofHours(12));
         Mockito.when(config.dangerousChallengeDuration()).thenReturn(Duration.ofHours(1));
         Mockito.when(config.safeReward()).thenReturn(Money.from(10));
-        Mockito.when(config.noMatchReward()).thenReturn(Money.from(8));
         Mockito.when(lockService.tryLockAndCalc(Mockito.anyString(), Mockito.any()))
             .thenAnswer(invocation -> Either.right(
                 invocation.getArgument(1, java.util.function.Supplier.class).get()
@@ -216,7 +215,7 @@ public class AnomalyServiceTest {
     }
 
     @Test
-    void Given_SearchingExpired_When_ProcessExpired_Then_NoMatchReward() {
+    void Given_SearchingExpired_When_ProcessExpired_Then_PveFallback() {
         final var anomaly = new Anomaly.Dangerous.Searching(
             102L,
             groupId,
@@ -227,25 +226,32 @@ public class AnomalyServiceTest {
         final var event = new LaunchedEvent(
             102L,
             5,
-            TimeUtils.moscowTime().minusHours(12),
+            TimeUtils.moscowTime().minusHours(6),
             TimeUtils.moscowTime().minusMinutes(1),
             EventStatus.LAUNCHED,
             Optional.empty()
         );
-        final var member = withGroup(PersonageUtils.withId(personageId), groupId);
+        final var pveResult = new EventResult.AnomalyResult.PveBattleFinished(
+            102L,
+            groupId,
+            Optional.empty(),
+            true,
+            Money.from(20),
+            List.of(),
+            List.of()
+        );
         Mockito.when(anomalyStorage.findByLaunchedEventId(102L)).thenReturn(Optional.of(anomaly));
-        Mockito.when(personageEventService.getParticipants(102L))
-            .thenReturn(List.of(new EventParticipant(member, Optional.empty())));
+        Mockito.when(anomalyBattleService.fightPveFallback(event, groupId, Optional.empty()))
+            .thenReturn(pveResult);
 
         final var result = service.processExpired(event);
 
-        Assertions.assertInstanceOf(EventResult.AnomalyResult.NoMatch.class, result);
-        Mockito.verify(personageService).addMoney(member, Money.from(8));
-        Mockito.verify(launchedEventService).updateStatus(102L, EventStatus.SUCCESS);
+        Assertions.assertInstanceOf(EventResult.AnomalyResult.PveBattleFinished.class, result);
+        Mockito.verify(anomalyBattleService).fightPveFallback(event, groupId, Optional.empty());
     }
 
     @Test
-    void Given_ChallengedExpiredWithSearchLeft_When_ProcessExpired_Then_BackToSearching() {
+    void Given_ChallengedExpired_When_ProcessExpired_Then_PveFallback() {
         final var searchEnd = TimeUtils.moscowTime().plusHours(6);
         final var anomaly = new Anomaly.Dangerous.Challenged(
             103L,
@@ -264,19 +270,33 @@ public class AnomalyServiceTest {
             Optional.empty()
         );
         final var defender = withGroup(PersonageUtils.withId(opponentOwnerId), opponentGroupId);
+        final var pveResult = new EventResult.AnomalyResult.PveBattleFinished(
+            103L,
+            groupId,
+            Optional.of(opponentGroupId),
+            true,
+            Money.from(20),
+            List.of(),
+            List.of()
+        );
         Mockito.when(anomalyStorage.findByLaunchedEventId(103L)).thenReturn(Optional.of(anomaly));
         Mockito.when(personageEventService.getParticipants(103L))
             .thenReturn(List.of(new EventParticipant(defender, Optional.empty())));
+        Mockito.when(anomalyBattleService.fightPveFallback(
+            event, groupId, Optional.of(opponentGroupId)
+        )).thenReturn(pveResult);
 
         final var result = service.processExpired(event);
 
-        Assertions.assertInstanceOf(EventResult.AnomalyResult.ChallengeTimedOut.class, result);
+        Assertions.assertInstanceOf(EventResult.AnomalyResult.PveBattleFinished.class, result);
         Mockito.verify(personageEventService).removePersonageFromEvent(opponentOwnerId, 103L);
         Mockito.verify(launchedEventService).removeGroupFromEvent(103L, opponentGroupId);
         Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
             updated instanceof Anomaly.Dangerous.Searching
         ));
-        Mockito.verify(launchedEventService).updateEndDate(103L, searchEnd);
+        Mockito.verify(anomalyBattleService).fightPveFallback(
+            event, groupId, Optional.of(opponentGroupId)
+        );
     }
 
     @Test

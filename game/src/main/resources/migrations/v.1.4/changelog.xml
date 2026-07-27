@@ -31,6 +31,7 @@
     <include file="changes/2026-07-20_01_add-battle-position-to-loadout.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-22_01_add-online-streak.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-22_02_add-anomaly-expedition.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-07-27_01_anomaly-unique-active-opponent.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
 
 

@@ -15,7 +15,6 @@ public class AnomalySpringConfig implements AnomalyConfig {
     private Money safeReward;
     private Money victoryReward;
     private Money defeatReward;
-    private Money noMatchReward;
     private int recentMeetPenaltyFirstDay = 256;
     private int initialRating;
     private int eloK;
@@ -58,11 +57,6 @@ public class AnomalySpringConfig implements AnomalyConfig {
     @Override
     public Money defeatReward() {
         return defeatReward;
-    }
-
-    @Override
-    public Money noMatchReward() {
-        return noMatchReward;
     }
 
     @Override
@@ -110,10 +104,6 @@ public class AnomalySpringConfig implements AnomalyConfig {
 
     public void setRewardDefeat(int rewardDefeat) {
         this.defeatReward = Money.from(rewardDefeat);
-    }
-
-    public void setRewardNoMatch(int rewardNoMatch) {
-        this.noMatchReward = Money.from(rewardNoMatch);
     }
 
     public void setRecentMeetPenaltyFirstDay(int recentMeetPenaltyFirstDay) {

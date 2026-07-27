@@ -4,27 +4,32 @@ anomalyMenu = """
 
 ${scanner_status}
 Запусков сегодня: ${starts_left}/1
+
+🛡 <b>Безопасный</b> — разведка на окраине шторма. Свои, без чужих групп.
+☠ <b>Опасный</b> — экспедиция вглубь шторма. Чёрный рынок может слить информацию другой группе.
+
 ${register_warning}"""
-anomalyMenuScannerReady = "Штормовой сканер готов к работе."
-anomalyMenuScannerRecharging = "Штормовой сканер перезаряжается."
+anomalyMenuScannerReady = "Штормовой сканер гудит — можно выходить."
+anomalyMenuScannerRecharging = "Штормовой сканер ещё копит силу."
 anomalyMenuRegisterWarning = """
-⚠️Запуск доступен только зарегистрированным группам.
+⚠️Сканер открывает путь только зарегистрированным группам.
 Зарегистрировать: <code>${register_group_command} тэг</code>
 """
 anomalyMenuActive = """
-📡<b>Активная аномалия</b>
+📡<b>Аномалия уже открыта</b>
 
 Режим: ${mode}
 Фаза: ${phase}
 Участники: ${participants}/${party_size}
 """
 anomalyGathering = """
-📡<b>Экспедиция в аномалию</b>
+📡<b>Экспедиция к аномалии</b>
 
 Режим: ${mode}
-${pve_format}Вступить могут только участники группы.
-Время на подготовку ${duration}
-Участники (${count}/${party_size}):
+${pve_format}В отряд берут только своих.
+Сборы ещё ${duration}
+
+Состав (${count}/${party_size}):
 ${participants}
 """
 anomalyPveFormat = """Атака: ${attack}
@@ -33,47 +38,44 @@ anomalyPveFormat = """Атака: ${attack}
 
 """
 anomalyPveWaiting = """
-📡<b>Безопасная экспедиция начата</b>
+📡<b>Безопасная экспедиция в пути</b>
 
-${pve_format}Состав зафиксирован (${count}):
+${pve_format}Состав (${count}):
 ${participants}
 
 Бой через ${duration}
 Покинуть экспедицию нельзя.
 """
 anomalySearching = """
-📡<b>Поиск противника</b>
+📡<b>Опасная экспедиция начата</b>
 
-Состав зафиксирован (${count}/${party_size}):
+Может занять до ${max_duration} суммарно.
+
+Состав (${count}/${party_size}):
 ${participants}
 
-Ищем группу для GvG: ${duration}
+Осторожно: Чёрный рынок мог передать ваши данные другой группе.
 """
 anomalyChallenge = """
-⚔️<b>Вызов аномалии!</b>
+⚔️<b>Группа в Аномалии</b>
 
-Другая группа обнаружила опасную аномалию.
+Через Теневую Лавку пришла наводка с Чёрного рынка, что ${initiator_group} исследует Аномалию.
 
-Вступить могут только участники группы.
-Соберите полный отряд (${party_size}), первый вступивший станет организатором.
-Участники (${count}/${party_size}):
+В отряд берут только своих.
+Соберите полный состав (${party_size}) — первый вступивший станет организатором.
+
+Состав (${count}/${party_size}):
 ${participants}
 """
 anomalySafeCompleted = """
-✅<b>Безопасная экспедиция завершена</b>
+✅<b>Безопасная экспедиция окончена</b>
 
-Награда: ${reward} ${money_icon} каждому участнику.
-"""
-anomalyNoMatch = """
-⌛<b>Противник не найден</b>
-
-Экспедиция завершена без боя.
-Награда: ${reward} ${money_icon} каждому участнику.
+Награда: ${reward} ${money_icon} каждому.
 """
 anomalyBattleResult = """\
 ${groups_top}
 
-Награда: ${reward} ${money_icon} каждому участнику.
+Награда: ${reward} ${money_icon} каждому.
 Отчёт: ${anomaly_report_command}"""
 anomalyBattleGroupTop = """\
 ${result_icon}${group_name_with_badge}:
@@ -87,19 +89,19 @@ ${success_or_failure}
 Лучшие:
 ${top_participants_list}
 
-Награда: ${reward} ${money_icon} каждому участнику.
+Награда: ${reward} ${money_icon} каждому.
 Отчёт: ${anomaly_report_command}"""
 
 anomalyPersonageResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
 successPve = [
-    "Событие завершилось! Безопасная экспедиция успешна.",
-    "Противники аномалии повержены! Вот ваша награда."
+    "Шторм отступил. Вы выбрались с добычей.",
+    "Аномалия затихла. Вот ваша доля."
 ]
 failurePve = [
-    "Экспедиция провалена. Аномалия оказалась сильнее.",
-    "Бой в аномалии закончился поражением."
+    "Шторм оказался сильнее. Экспедиция сорвалась.",
+    "Аномалия вас выплюнула. В этот раз не вышло."
 ]
-anomalyExpired = "Экспедиция в аномалию истекла."
+anomalyExpired = "Окно в аномалию закрылось."
 safeModeButton = "🛡 Безопасный"
 dangerousModeButton = "☠ Опасный"
 joinButton = "➕ Вступить"
@@ -115,30 +117,30 @@ formationStrongBackLine = "Сильный тыл"
 formationStrongFrontLine = "Сильный фронт"
 formationMidLine = "Средняя линия"
 formationSplitWings = "Разнесённые фланги"
-errorNotRegistered = "Только для зарегистрированных групп"
-errorNoStormScanner = "Нужен Штормовой Сканер"
-errorAlreadyStartedToday = "Сегодня поиск уже запускали"
-errorActiveExists = "Уже есть активная аномалия"
-errorNotMember = "❌Вступить могут только участники группы"
-errorNotOwner = "Только организатор может это сделать"
-errorInvalidPhase = "Сейчас это действие недоступно"
-errorPartyNotFull = "Нужен полный отряд"
-errorPartyEmpty = "Нет участников"
+errorNotRegistered = "Сначала зарегистрируйте группу"
+errorNoStormScanner = "Без Штормового Сканера сюда не пройти"
+errorAlreadyStartedToday = "Сегодня сканер уже отработал"
+errorActiveExists = "У вас уже открыта аномалия"
+errorNotMember = "❌В отряд берут только участников группы"
+errorNotOwner = "Это может только организатор"
+errorInvalidPhase = "Сейчас это уже не сработает"
+errorPartyNotFull = "Отряд ещё не полный"
+errorPartyEmpty = "В отряде никого нет"
 errorRosterLocked = "Состав уже зафиксирован"
 errorAlreadyJoined = "Вы уже в экспедиции"
-errorAlreadyInAnomaly = "Вы уже участвуете в другой аномалии"
+errorAlreadyInAnomaly = "Вы уже в другой аномалии"
 errorPartyFull = "Отряд уже полный"
 errorEventLocked = "Попробуйте ещё раз"
-errorFinal = "Экспедиция уже завершена"
-errorNotFound = "Экспедиция не найдена"
+errorFinal = "Экспедиция уже закончилась"
+errorNotFound = "Такой экспедиции нет"
 report = """\
-📜Ваш отчёт за последнюю аномалию:
+📜Твой отчёт за последнюю аномалию:
 ${personage_battle_report}"""
-reportNotPresentForPersonage = "Не смогли найти твой отчёт об аномалии в архивах"
-lastGroupAnomalyReportNotFound = "Не смогли найти отчёт об аномалии в этой группе"
-successJoin = "Вы вступили в экспедицию"
-successReadySafe = "Состав зафиксирован, бой через 3 часа"
-successReadySearch = "Состав зафиксирован, ищем противника"
+reportNotPresentForPersonage = "В архивах нет твоего отчёта об аномалии"
+lastGroupAnomalyReportNotFound = "В этой группе нет отчёта об аномалии"
+successJoin = "Вы в отряде"
+successReadySafe = "Состав зафиксирован. Бой через 3 часа — назад дороги нет."
+successReadySearch = "Состав зафиксирован. Чёрный рынок уже ищет встречу."
 successReadyBattle = "Бой начался!"
 participantLine = "• ${name}"
 participantLineLeader = "• ${name} <b>(организатор)</b>"

@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
@@ -24,6 +25,7 @@ import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.locale.LocaleUtils;
 
 @Service
@@ -59,9 +61,42 @@ public class AnomalyBattleService {
     }
 
     public EventResult.AnomalyResult.PveBattleFinished fightPve(LaunchedEvent event, Anomaly.Safe safe) {
-        final var participants = personageEventService.getParticipants(event.id());
+        return fightPve(
+            event,
+            safe.groupId(),
+            Optional.empty(),
+            safe.template(),
+            personageEventService.getParticipants(event.id())
+        );
+    }
+
+    public EventResult.AnomalyResult.PveBattleFinished fightPveFallback(
+        LaunchedEvent event,
+        GroupId initiatorGroupId,
+        Optional<GroupId> failedOpponentGroupId
+    ) {
+        final var initiatorParticipants = participantsOfGroup(
+            personageEventService.getParticipants(event.id()),
+            initiatorGroupId
+        );
+        return fightPve(
+            event,
+            initiatorGroupId,
+            failedOpponentGroupId,
+            AnomalyPveTemplate.random(),
+            initiatorParticipants
+        );
+    }
+
+    private EventResult.AnomalyResult.PveBattleFinished fightPve(
+        LaunchedEvent event,
+        GroupId initiatorGroupId,
+        Optional<GroupId> failedOpponentGroupId,
+        AnomalyPveTemplate template,
+        List<EventParticipant> participants
+    ) {
         final var players = toBattlePersonages(participants);
-        final var enemies = new AnomalySafePveGenerator().generate(safe.template(), players);
+        final var enemies = new AnomalySafePveGenerator().generate(template, players);
         final var battleResult = battle.process(enemies, players);
         eventBattleLogService.save(event.id(), battleResult);
 
@@ -84,6 +119,8 @@ public class AnomalyBattleService {
         personageService.saveAnomalyResults(personageResults, event.id());
         return new EventResult.AnomalyResult.PveBattleFinished(
             event.id(),
+            initiatorGroupId,
+            failedOpponentGroupId,
             victory,
             reward,
             personageResults,
@@ -198,7 +235,7 @@ public class AnomalyBattleService {
                 return BattlePersonage.forCombat(
                     gear.items(),
                     gear.battlePosition(),
-                    personage.effects(),
+                    PersonageEffects.EMPTY,
                     Optional.of(LocaleUtils.personageNameWithBadge(personage))
                 );
             })

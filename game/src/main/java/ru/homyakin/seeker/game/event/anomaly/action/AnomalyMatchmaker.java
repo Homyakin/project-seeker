@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgMatchRules;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.SendAnomalyChallengeToGroup;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
@@ -70,28 +71,47 @@ public class AnomalyMatchmaker {
         final var searchAge = Duration.between(searchStartedAt, now);
         final int allowedDelta = AnomalyGvgMatchRules.maxAllowedRatingDiff(searchAge);
 
-        final var bestTarget = gvgStorage.findEligibleChallengeTargets(initiatorGroupId).stream()
+        final var rankedTargets = gvgStorage.findEligibleChallengeTargets(initiatorGroupId).stream()
             .map(targetId -> scoreTarget(initiatorGroupId, targetId, rating, allowedDelta, now))
             .flatMap(Optional::stream)
-            .min(Comparator.comparingLong(ScoredTarget::score))
-            .map(ScoredTarget::groupId);
+            .sorted(Comparator.comparingLong(ScoredTarget::score))
+            .toList();
 
-        if (bestTarget.isEmpty()) {
+        if (rankedTargets.isEmpty()) {
             logger.debug("No anomaly challenge target for event {}", searchingEventId);
             return;
         }
 
-        final var targetGroupId = bestTarget.get();
-        final var challenged = searching.withOpponent(targetGroupId);
-        anomalyStorage.update(challenged);
-        launchedEventService.addGroupToEvent(searchingEvent.id(), targetGroupId);
+        for (final var target : rankedTargets) {
+            final var defenderKey = LockPrefixes.ANOMALY_GROUP.name() + target.groupId().value();
+            final var reserved = lockService.tryLockAndCalc(
+                defenderKey,
+                () -> tryReserveOpponent(searching, searchingEvent, target.groupId(), now)
+            );
+            if (reserved.getOrElse(false)) {
+                return;
+            }
+        }
+        logger.debug("No reservable anomaly challenge target for event {}", searchingEventId);
+    }
 
+    private boolean tryReserveOpponent(
+        Anomaly.Dangerous.Searching searching,
+        LaunchedEvent searchingEvent,
+        GroupId targetGroupId,
+        java.time.LocalDateTime now
+    ) {
+        if (anomalyStorage.hasActiveAnomaly(targetGroupId)) {
+            return false;
+        }
+        final var challenged = searching.withOpponent(targetGroupId);
+        if (!anomalyStorage.tryAssignOpponent(challenged)) {
+            return false;
+        }
+
+        launchedEventService.addGroupToEvent(searchingEvent.id(), targetGroupId);
         final var challengeEnd = now.plus(config.dangerousChallengeDuration());
-        final var searchEnd = searching.searchEndDate();
-        launchedEventService.updateEndDate(
-            searchingEvent.id(),
-            challengeEnd.isBefore(searchEnd) ? challengeEnd : searchEnd
-        );
+        launchedEventService.updateEndDate(searchingEvent.id(), challengeEnd);
 
         sendAnomalyChallengeToGroup.send(
             targetGroupId,
@@ -99,9 +119,10 @@ public class AnomalyMatchmaker {
         );
         logger.info(
             "Anomaly {} invited group {}",
-            searchingEventId,
+            searchingEvent.id(),
             targetGroupId.value()
         );
+        return true;
     }
 
     private Optional<ScoredTarget> scoreTarget(

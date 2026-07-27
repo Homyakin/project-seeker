@@ -80,6 +80,11 @@ public class AnomalyGvgPostgresDao implements AnomalyGvgStorage {
             WHERE p.tag IS NOT NULL
               AND p.is_active = true
               AND p.id <> :exclude_id
+              AND (
+                  SELECT COUNT(*)
+                  FROM personage pe
+                  WHERE pe.member_pgroup_id = p.id
+              ) >= :min_members
               AND NOT EXISTS (
                   SELECT 1
                   FROM anomaly a
@@ -91,6 +96,7 @@ public class AnomalyGvgPostgresDao implements AnomalyGvgStorage {
         return jdbcClient.sql(sql)
             .param("shadow_shop_id", Building.SHADOW_SHOP.id())
             .param("exclude_id", excludeGroupId.value())
+            .param("min_members", config.partySize())
             .param("launched_status", EventStatus.LAUNCHED.id())
             .query((rs, _) -> GroupId.from(rs.getLong("id")))
             .list();

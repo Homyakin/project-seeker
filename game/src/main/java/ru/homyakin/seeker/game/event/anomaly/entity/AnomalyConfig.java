@@ -20,8 +20,6 @@ public interface AnomalyConfig {
 
     Money defeatReward();
 
-    Money noMatchReward();
-
     /**
      * Score penalty for a fight within the last day; halves each next day until 0.
      */

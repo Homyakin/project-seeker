@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.time.Duration;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyError;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
@@ -127,14 +128,14 @@ public final class AnomalyLocalization {
         Language language,
         List<EventParticipant> participants,
         int partySize,
-        LaunchedEvent event,
+        Duration maxDuration,
         PersonageId ownerPersonageId
     ) {
         final var map = new HashMap<String, Object>();
         map.put("count", participants.size());
         map.put("party_size", partySize);
         map.put("participants", participantsText(language, participants, Optional.of(ownerPersonageId)));
-        map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
+        map.put("max_duration", CommonLocalization.duration(language, maxDuration));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalySearching),
             map
@@ -144,6 +145,7 @@ public final class AnomalyLocalization {
     public static String challenge(
         Language language,
         Anomaly anomaly,
+        Group initiatorGroup,
         List<EventParticipant> participants,
         int partySize
     ) {
@@ -156,6 +158,7 @@ public final class AnomalyLocalization {
         map.put("count", participants.size());
         map.put("party_size", partySize);
         map.put("participants", participantsText(language, participants, opponentOwner));
+        map.put("initiator_group", LocaleUtils.groupNameWithBadge(initiatorGroup));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyChallenge),
             map
@@ -164,10 +167,6 @@ public final class AnomalyLocalization {
 
     public static String safeCompleted(Language language, Money reward) {
         return rewardText(language, AnomalyResource::anomalySafeCompleted, reward, "");
-    }
-
-    public static String noMatch(Language language, Money reward) {
-        return rewardText(language, AnomalyResource::anomalyNoMatch, reward, "");
     }
 
     public static String battleResult(
