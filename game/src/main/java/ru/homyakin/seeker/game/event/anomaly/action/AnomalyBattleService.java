@@ -13,6 +13,7 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyReward;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
@@ -21,7 +22,6 @@ import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
 import ru.homyakin.seeker.game.personage.event.PersonageEventService;
@@ -66,7 +66,8 @@ public class AnomalyBattleService {
             safe.groupId(),
             Optional.empty(),
             safe.template(),
-            personageEventService.getParticipants(event.id())
+            personageEventService.getParticipants(event.id()),
+            true
         );
     }
 
@@ -84,7 +85,8 @@ public class AnomalyBattleService {
             initiatorGroupId,
             failedOpponentGroupId,
             AnomalyPveTemplate.random(),
-            initiatorParticipants
+            initiatorParticipants,
+            false
         );
     }
 
@@ -93,7 +95,8 @@ public class AnomalyBattleService {
         GroupId initiatorGroupId,
         Optional<GroupId> failedOpponentGroupId,
         AnomalyPveTemplate template,
-        List<EventParticipant> participants
+        List<EventParticipant> participants,
+        boolean safePve
     ) {
         final var players = toBattlePersonages(participants);
         final var enemies = new AnomalySafePveGenerator().generate(template, players);
@@ -101,7 +104,7 @@ public class AnomalyBattleService {
         eventBattleLogService.save(event.id(), battleResult);
 
         final boolean victory = !battleResult.firstWin();
-        final var reward = victory ? config.victoryReward() : config.defeatReward();
+        final var reward = pveReward(safePve, victory);
         payRewards(participants, reward);
         launchedEventService.updateStatus(event.id(), victory ? EventStatus.SUCCESS : EventStatus.FAILED);
 
@@ -148,8 +151,8 @@ public class AnomalyBattleService {
         final var winnerParticipants = initiatorWins ? initiatorParticipants : challengedParticipants;
         final var loserParticipants = initiatorWins ? challengedParticipants : initiatorParticipants;
 
-        final var victoryReward = config.victoryReward();
-        final var defeatReward = config.defeatReward();
+        final var victoryReward = config.gvgWinReward();
+        final var defeatReward = config.gvgLoseReward();
         payRewards(winnerParticipants, victoryReward);
         payRewards(loserParticipants, defeatReward);
         updateElo(accepted.groupId(), opponentGroupId, initiatorWins);
@@ -181,11 +184,18 @@ public class AnomalyBattleService {
         );
     }
 
+    private AnomalyReward pveReward(boolean safePve, boolean victory) {
+        if (safePve) {
+            return victory ? config.pveWinReward() : config.pveLoseReward();
+        }
+        return victory ? config.gvgFallbackWinReward() : config.gvgFallbackLoseReward();
+    }
+
     private static List<AnomalyPersonageResult> toPersonageResults(
         List<EventParticipant> participants,
         List<BattlePersonage> team,
         BattleResult battleResult,
-        Money reward
+        AnomalyReward reward
     ) {
         final var results = new java.util.ArrayList<AnomalyPersonageResult>(participants.size());
         for (int i = 0; i < participants.size(); i++) {
@@ -208,9 +218,22 @@ public class AnomalyBattleService {
         gvgStorage.updateRating(groupB, Math.max(1, ratingB - deltaA));
     }
 
-    private void payRewards(List<EventParticipant> participants, Money reward) {
-        for (final var participant : participants) {
-            personageService.addMoney(participant.personage(), reward);
+    private void payRewards(List<EventParticipant> participants, AnomalyReward reward) {
+        final var moneyMap = participants.stream()
+            .collect(java.util.stream.Collectors.toMap(
+                participant -> participant.personage().id(),
+                _ -> reward.money(),
+                (a, _) -> a
+            ));
+        personageService.addMoneyBatch(moneyMap);
+        if (!reward.stormShards().isZero()) {
+            final var shardsMap = participants.stream()
+                .collect(java.util.stream.Collectors.toMap(
+                    participant -> participant.personage().id(),
+                    _ -> reward.stormShards(),
+                    (a, _) -> a
+                ));
+            personageService.addStormShardsBatch(shardsMap);
         }
     }
 
@@ -232,8 +255,12 @@ public class AnomalyBattleService {
             .map(participant -> {
                 final var personage = participant.personage();
                 final var gear = combatGear.get(personage.id());
+                // Storm enhance does not work in anomaly
+                final var items = gear.items().stream()
+                    .map(item -> item.withoutStormEnhance())
+                    .toList();
                 return BattlePersonage.forCombat(
-                    gear.items(),
+                    items,
                     gear.battlePosition(),
                     PersonageEffects.EMPTY,
                     Optional.of(LocaleUtils.personageNameWithBadge(personage))

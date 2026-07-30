@@ -167,8 +167,10 @@ public class CommonLocalization {
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);
+        params.put("storm_shard_icon", Icons.STORM_SHARD);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("personage_money", personage.money().value());
+        params.put("personage_storm_shards", personage.stormShards().value());
         params.put("energy_value", personage.energy().value());
         params.put("attack_icon", Icons.ATTACK);
         params.put("attack_value", characteristics.attack());

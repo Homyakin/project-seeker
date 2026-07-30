@@ -14,11 +14,11 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveFormation;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyReward;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.group.entity.Group;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.event.EventParticipant;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -165,7 +165,7 @@ public final class AnomalyLocalization {
         );
     }
 
-    public static String safeCompleted(Language language, Money reward) {
+    public static String safeCompleted(Language language, AnomalyReward reward) {
         return rewardText(language, AnomalyResource::anomalySafeCompleted, reward, "");
     }
 
@@ -175,7 +175,7 @@ public final class AnomalyLocalization {
         Group loserGroup,
         List<AnomalyPersonageResult> winnerResults,
         List<AnomalyPersonageResult> loserResults,
-        Money reward
+        AnomalyReward reward
     ) {
         final var params = new HashMap<String, Object>();
         params.put(
@@ -184,8 +184,7 @@ public final class AnomalyLocalization {
                 + "\n\n"
                 + battleGroupTop(language, loserGroup, loserResults, false).stripTrailing()
         );
-        params.put("reward", reward.value());
-        params.put("money_icon", Icons.MONEY);
+        putRewardParams(params, reward);
         params.put("anomaly_report_command", CommandType.ANOMALY_REPORT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyBattleResult),
@@ -270,8 +269,7 @@ public final class AnomalyLocalization {
         params.put("living_participants", livingParticipants);
         params.put("total_participants", result.personageResults().size());
         params.put("top_participants_list", top.toString());
-        params.put("reward", result.reward().value());
-        params.put("money_icon", Icons.MONEY);
+        putRewardParams(params, result.reward());
         params.put("anomaly_report_command", CommandType.ANOMALY_REPORT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyPveBattleResult),
@@ -322,8 +320,9 @@ public final class AnomalyLocalization {
                 "personage_badge_with_name", LocaleUtils.personageNameWithBadge(result.personage()),
                 "damage_dealt", result.stats().damageDealt(),
                 "damage_taken", result.stats().damageTaken(),
-                "money", result.reward().value(),
-                "money_icon", Icons.MONEY
+                "money", result.reward().money().value(),
+                "money_icon", Icons.MONEY,
+                "storm_shards", stormShardsSuffix(result.reward())
             )
         );
     }
@@ -483,13 +482,32 @@ public final class AnomalyLocalization {
     private static String rewardText(
         Language language,
         java.util.function.Function<AnomalyResource, String> template,
-        Money reward,
+        AnomalyReward reward,
         String battleLink
     ) {
         final var map = new HashMap<String, Object>();
-        map.put("reward", reward.value());
-        map.put("money_icon", Icons.MONEY);
+        putRewardParams(map, reward);
         map.put("battle_link", battleLink == null ? "" : battleLink);
         return StringNamedTemplate.format(resources.getOrDefault(language, template), map);
+    }
+
+    private static void putRewardParams(Map<String, Object> params, AnomalyReward reward) {
+        params.put("reward", reward.money().value());
+        params.put("money_icon", Icons.MONEY);
+        params.put("storm_shards_reward", stormShardsRewardText(reward));
+    }
+
+    private static String stormShardsRewardText(AnomalyReward reward) {
+        if (reward.stormShards().isZero()) {
+            return "";
+        }
+        return " +" + reward.stormShards().value() + Icons.STORM_SHARD;
+    }
+
+    private static String stormShardsSuffix(AnomalyReward reward) {
+        if (reward.stormShards().isZero()) {
+            return "";
+        }
+        return " +" + reward.stormShards().value() + Icons.STORM_SHARD;
     }
 }

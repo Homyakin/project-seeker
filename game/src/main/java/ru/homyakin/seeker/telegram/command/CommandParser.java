@@ -135,6 +135,7 @@ import ru.homyakin.seeker.telegram.command.user.shop.AddModifier;
 import ru.homyakin.seeker.telegram.command.user.shop.CancelSellItem;
 import ru.homyakin.seeker.telegram.command.user.shop.ConfirmEnhance;
 import ru.homyakin.seeker.telegram.command.user.shop.ConfirmSellItem;
+import ru.homyakin.seeker.telegram.command.user.shop.ConfirmStormEnhance;
 import ru.homyakin.seeker.telegram.command.user.shop.BuyItem;
 import ru.homyakin.seeker.telegram.command.user.shop.EnhanceInfo;
 import ru.homyakin.seeker.telegram.command.user.shop.OpenEnhanceTable;
@@ -250,6 +251,7 @@ public class CommandParser {
                 case ENHANCE_TABLE -> OpenEnhanceTable.from(message);
                 case ENHANCE_INFO -> EnhanceInfo.from(message);
                 case CONFIRM_ENHANCE -> ConfirmEnhance.from(message);
+                case CONFIRM_STORM_ENHANCE -> ConfirmStormEnhance.from(message);
                 case ADD_MODIFIER -> AddModifier.from(message);
                 case REPAIR -> Repair.from(message);
                 case CANCEL_EVENT -> CancelEvent.from(message);

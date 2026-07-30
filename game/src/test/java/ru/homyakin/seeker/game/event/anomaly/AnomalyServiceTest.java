@@ -18,6 +18,7 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyError;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyReward;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.launched.CurrentEvent;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
@@ -30,7 +31,6 @@ import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.group.entity.GroupSettings;
-import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
 import ru.homyakin.seeker.game.outpost.entity.OutpostStorage;
@@ -82,7 +82,6 @@ public class AnomalyServiceTest {
         Mockito.when(config.safePveDuration()).thenReturn(Duration.ofHours(3));
         Mockito.when(config.dangerousSearchDuration()).thenReturn(Duration.ofHours(12));
         Mockito.when(config.dangerousChallengeDuration()).thenReturn(Duration.ofHours(1));
-        Mockito.when(config.safeReward()).thenReturn(Money.from(10));
         Mockito.when(lockService.tryLockAndCalc(Mockito.anyString(), Mockito.any()))
             .thenAnswer(invocation -> Either.right(
                 invocation.getArgument(1, java.util.function.Supplier.class).get()
@@ -236,7 +235,7 @@ public class AnomalyServiceTest {
             groupId,
             Optional.empty(),
             true,
-            Money.from(20),
+            AnomalyReward.of(20, 2),
             List.of(),
             List.of()
         );
@@ -275,7 +274,7 @@ public class AnomalyServiceTest {
             groupId,
             Optional.of(opponentGroupId),
             true,
-            Money.from(20),
+            AnomalyReward.of(20, 2),
             List.of(),
             List.of()
         );
@@ -428,6 +427,7 @@ public class AnomalyServiceTest {
             Optional.of("TAG"),
             Optional.of(groupId),
             base.money(),
+            base.stormShards(),
             base.energy(),
             base.badge(),
             base.effects(),

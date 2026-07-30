@@ -40,7 +40,8 @@ class ItemServiceGenerateItemTest {
             Optional.empty(),
             ItemRarity.COMMON,
             Optional.of(personage.id()),
-            false
+            false,
+            0
         );
 
         Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.emptyList()));

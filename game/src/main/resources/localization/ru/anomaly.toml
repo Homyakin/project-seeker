@@ -70,12 +70,12 @@ ${participants}
 anomalySafeCompleted = """
 ✅<b>Безопасная экспедиция окончена</b>
 
-Награда: ${reward} ${money_icon} каждому.
+Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
 """
 anomalyBattleResult = """\
 ${groups_top}
 
-Награда: ${reward} ${money_icon} каждому.
+Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
 Отчёт: ${anomaly_report_command}"""
 anomalyBattleGroupTop = """\
 ${result_icon}${group_name_with_badge}:
@@ -89,10 +89,10 @@ ${success_or_failure}
 Лучшие:
 ${top_participants_list}
 
-Награда: ${reward} ${money_icon} каждому.
+Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
 Отчёт: ${anomaly_report_command}"""
 
-anomalyPersonageResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}"
+anomalyPersonageResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}${storm_shards}"
 successPve = [
     "Шторм отступил. Вы выбрались с добычей.",
     "Аномалия затихла. Вот ваша доля."

@@ -37,6 +37,7 @@ public class ItemDao {
             .param("rarity", item.rarity().ordinal())
             .param("personage_id", item.personageId().map(PersonageId::value).orElse(null))
             .param("is_equipped", item.isEquipped())
+            .param("enhance_level", item.enhanceLevel())
             .query((rs, _) -> rs.getLong("id"))
             .single();
     }
@@ -104,6 +105,13 @@ public class ItemDao {
             .update();
     }
 
+    public void updateEnhanceLevel(long id, int enhanceLevel) {
+        jdbcClient.sql("UPDATE item SET enhance_level = :enhance_level WHERE id = :id")
+            .param("id", id)
+            .param("enhance_level", enhanceLevel)
+            .update();
+    }
+
     public void deletePersonageAndMakeEquipFalse(long id) {
         jdbcClient.sql("UPDATE item SET personage_id = null, is_equipped = false WHERE id = :id")
             .param("id", id)
@@ -125,18 +133,19 @@ public class ItemDao {
             modifier,
             ItemRarity.values()[rs.getInt("rarity")],
             Optional.ofNullable((Long) rs.getObject("personage_id")).map(PersonageId::from),
-            rs.getBoolean("is_equipped")
+            rs.getBoolean("is_equipped"),
+            rs.getInt("enhance_level")
         );
     }
 
     private static final String SAVE_SQL = """
-        INSERT INTO item (item_object_id, item_modifier_id, rarity, personage_id, is_equipped)
-        VALUES (:item_object_id, :item_modifier_id, :rarity, :personage_id, :is_equipped)
+        INSERT INTO item (item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level)
+        VALUES (:item_object_id, :item_modifier_id, :rarity, :personage_id, :is_equipped, :enhance_level)
         RETURNING id
         """;
 
     private static final String SELECT_SQL = """
-        SELECT i.id, i.item_object_id, i.item_modifier_id, i.rarity, i.personage_id, i.is_equipped
+        SELECT i.id, i.item_object_id, i.item_modifier_id, i.rarity, i.personage_id, i.is_equipped, i.enhance_level
         FROM item i
         """;
 }

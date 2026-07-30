@@ -67,6 +67,7 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon());
         params.put("broken_icon", "");
+        params.put("enhance_level", item.enhanceLevel() > 0 ? "+" + item.enhanceLevel() : "");
         params.put("item", itemText(itemLanguage, item));
         params.put("optional_command", optionalCommand);
         params.put("characteristics", itemCharacteristics(itemLanguage, item));
@@ -117,6 +118,7 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon());
         params.put("broken_icon", "");
+        params.put("enhance_level", item.enhanceLevel() > 0 ? "+" + item.enhanceLevel() : "");
         params.put("item", itemText(itemLanguage, item));
         params.put("optional_command", optionalCommand);
         params.put("slots", itemSlots(item));
@@ -671,7 +673,8 @@ public class ItemLocalization {
             item.modifier(),
             item.rarity(),
             Optional.empty(),
-            true
+            true,
+            item.enhanceLevel()
         );
     }
 
