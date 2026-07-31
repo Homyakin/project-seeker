@@ -5,9 +5,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 
 public class InlineKeyboardBuilder {
+    private static final String NOOP_CALLBACK = CommandType.NOOP.getText();
+    private static final String PREV_PAGE_BUTTON = "◀";
+    private static final String NEXT_PAGE_BUTTON = "▶";
+
     private final List<InlineKeyboardRow> rows = new ArrayList<>();
     private InlineKeyboardRow row = null;
 
@@ -57,6 +63,27 @@ public class InlineKeyboardBuilder {
                 .url(url)
                 .text(text)
                 .build()
+        );
+        return this;
+    }
+
+    /**
+     * Adds ◀ | current/total | ▶ when {@code totalPages > 1}. Pages are 0-based.
+     * Edge arrows and the page label use {@link #NOOP_CALLBACK}.
+     */
+    public InlineKeyboardBuilder addPaginationRow(int page, int totalPages, IntFunction<String> callbackForPage) {
+        if (totalPages <= 1) {
+            return this;
+        }
+        addRow();
+        addButton(
+            PREV_PAGE_BUTTON,
+            page > 0 ? callbackForPage.apply(page - 1) : NOOP_CALLBACK
+        );
+        addButton((page + 1) + "/" + totalPages, NOOP_CALLBACK);
+        addButton(
+            NEXT_PAGE_BUTTON,
+            page < totalPages - 1 ? callbackForPage.apply(page + 1) : NOOP_CALLBACK
         );
         return this;
     }

@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMemberUpdated;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 import ru.homyakin.seeker.infrastructure.TextConstants;
+import ru.homyakin.seeker.telegram.command.common.NoopCallback;
 import ru.homyakin.seeker.telegram.command.common.help.SelectHelp;
 import ru.homyakin.seeker.telegram.command.common.help.ShowHelp;
 import ru.homyakin.seeker.telegram.command.common.world_raid.JoinWorldRaid;
@@ -378,6 +379,7 @@ public class CommandParser {
                 case DEFAULT_LOADOUTS -> DefaultLoadouts.from(callback);
                 case OPEN_DEFAULT_LOADOUT_EVENT -> OpenDefaultLoadoutEvent.from(callback);
                 case TOGGLE_DEFAULT_LOADOUT -> ToggleDefaultLoadout.from(callback);
+                case NOOP -> NoopCallback.from(callback);
                 default -> null;
             });
     }
@@ -402,6 +404,7 @@ public class CommandParser {
                 case CANCEL_GROUP_KICK -> CancelKickGroupMember.from(callback);
                 case SELECT_BADGE -> SelectGroupBadge.from(callback);
                 case GROUP_MEMBERS_INLINE -> GroupMembers.fromCallback(callback);
+                case NOOP -> NoopCallback.from(callback);
                 default -> null;
             });
     }

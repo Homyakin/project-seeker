@@ -13,6 +13,15 @@ public final class ShopKeyboards {
     }
 
     public static InlineKeyboardMarkup navigationKeyboard(Language language) {
+        return navigationKeyboard(language, null, 0, 1);
+    }
+
+    public static InlineKeyboardMarkup navigationKeyboard(
+        Language language,
+        CommandType pageCommand,
+        int page,
+        int totalPages
+    ) {
         final var builder = InlineKeyboardBuilder.builder()
             .addRow()
             .addButton(
@@ -33,6 +42,10 @@ public final class ShopKeyboards {
                 slot.icon,
                 CommandType.SHOP_SELECT_SLOT.getText() + TextConstants.CALLBACK_DELIMITER + slot.id
             );
+        }
+        if (pageCommand != null) {
+            final var pageCallbackPrefix = pageCommand.getText() + TextConstants.CALLBACK_DELIMITER;
+            builder.addPaginationRow(page, totalPages, p -> pageCallbackPrefix + p);
         }
         return builder.build();
     }

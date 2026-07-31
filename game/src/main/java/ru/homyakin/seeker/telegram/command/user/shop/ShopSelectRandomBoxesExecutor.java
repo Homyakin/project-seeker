@@ -18,6 +18,12 @@ public class ShopSelectRandomBoxesExecutor extends CommandExecutor<ShopSelectRan
     @Override
     public void execute(ShopSelectRandomBoxes command) {
         final var user = userService.forceGetFromPrivate(command.userId());
-        shopInlineTgService.showRandomBoxes(user.id(), user.language(), user.personageId(), command.messageId());
+        shopInlineTgService.showRandomBoxes(
+            user.id(),
+            user.language(),
+            user.personageId(),
+            command.messageId(),
+            command.page()
+        );
     }
 }
