@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
@@ -27,12 +28,13 @@ import ru.homyakin.seeker.game.item.loadout.entity.SaveLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.ToggleDefaultLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.ToggleDefaultLoadoutResult;
 import ru.homyakin.seeker.game.item.loadout.infra.postgres.EquipmentLoadoutDao;
-import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.utils.TimeUtils;
 import ru.homyakin.seeker.utils.models.Success;
 
 @Service
@@ -48,17 +50,23 @@ public class EquipmentLoadoutService {
     private final ItemService itemService;
     private final ItemDao itemDao;
     private final PersonageService personageService;
+    private final GroupPersonageStorage groupPersonageStorage;
+    private final GroupPassiveEffectsService groupPassiveEffectsService;
 
     public EquipmentLoadoutService(
         EquipmentLoadoutDao loadoutDao,
         ItemService itemService,
         ItemDao itemDao,
-        PersonageService personageService
+        PersonageService personageService,
+        GroupPersonageStorage groupPersonageStorage,
+        GroupPassiveEffectsService groupPassiveEffectsService
     ) {
         this.loadoutDao = loadoutDao;
         this.itemService = itemService;
         this.itemDao = itemDao;
         this.personageService = personageService;
+        this.groupPersonageStorage = groupPersonageStorage;
+        this.groupPassiveEffectsService = groupPassiveEffectsService;
     }
 
     public List<EquipmentLoadout> list(PersonageId personageId) {
@@ -74,8 +82,20 @@ public class EquipmentLoadoutService {
         return loadoutDao.findByPersonageIdAndItemId(personageId, itemId);
     }
 
+    public int maxLoadouts(PersonageId personageId) {
+        return MAX_LOADOUTS + extraLoadoutsBonus(personageId);
+    }
+
     public boolean canCreate(PersonageId personageId) {
-        return loadoutDao.countByPersonageId(personageId) < MAX_LOADOUTS;
+        return loadoutDao.countByPersonageId(personageId) < maxLoadouts(personageId);
+    }
+
+    private int extraLoadoutsBonus(PersonageId personageId) {
+        final var memberGroup = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (memberGroup.groupId().isEmpty()) {
+            return 0;
+        }
+        return groupPassiveEffectsService.extraLoadoutsSum(memberGroup.groupId().get(), TimeUtils.moscowTime());
     }
 
     public Map<EventType, Long> getDefaults(PersonageId personageId) {
@@ -217,7 +237,7 @@ public class EquipmentLoadoutService {
         final var totalOwned = inventory.items().size();
         final var targetCount = targetItems.size();
         final var unequippedCount = totalOwned - targetCount;
-        if (unequippedCount > Inventory.maxBagSize()) {
+        if (unequippedCount > inventory.maxBagSize()) {
             return Either.left(ApplyLoadoutError.NotEnoughSpaceInBag.INSTANCE);
         }
 

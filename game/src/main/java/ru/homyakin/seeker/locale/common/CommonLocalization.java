@@ -444,6 +444,22 @@ public class CommonLocalization {
                     params
                 );
             }
+            case Effect.ExtraLoadouts extraLoadouts -> {
+                final var params = new HashMap<String, Object>();
+                params.put("value", extraLoadouts.value());
+                yield StringNamedTemplate.format(
+                    resources.getOrDefault(language, CommonResource::extraLoadoutsEffect),
+                    params
+                );
+            }
+            case Effect.ExtraBagSpace extraBagSpace -> {
+                final var params = new HashMap<String, Object>();
+                params.put("value", extraBagSpace.value());
+                yield StringNamedTemplate.format(
+                    resources.getOrDefault(language, CommonResource::extraBagSpaceEffect),
+                    params
+                );
+            }
         };
     }
 

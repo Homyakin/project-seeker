@@ -14,14 +14,21 @@ import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.models.Success;
 
 public record Inventory(
-    List<PersonageItem> items
+    List<PersonageItem> items,
+    int maxBagSize
 ) {
-    public static int maxBagSize() {
-        return MAX_BAG_SIZE;
+    private static final int BASE_MAX_BAG_SIZE = 15;
+
+    public Inventory(List<PersonageItem> items) {
+        this(items, BASE_MAX_BAG_SIZE);
+    }
+
+    public static int baseMaxBagSize() {
+        return BASE_MAX_BAG_SIZE;
     }
 
     public boolean hasSpaceInBag() {
-        return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize();
+        return items.stream().filter(it -> !it.isEquipped()).count() < maxBagSize;
     }
 
     public Either<PutOnItemError, List<PersonageItem>> canPutOnItem(PersonageId personageId, PersonageItem item) {
@@ -49,7 +56,7 @@ public record Inventory(
         }
 
         final var itemsInBag = items.stream().filter(it -> !it.isEquipped()).count();
-        if (itemsInBag - 1 + conflictingItems.size() > maxBagSize()) {
+        if (itemsInBag - 1 + conflictingItems.size() > maxBagSize) {
             final var occupiedSlots = conflictingItems.stream()
                 .flatMap(conflictingItem -> conflictingItem.object().slots().stream())
                 .filter(requiredSlots::contains)
@@ -75,7 +82,7 @@ public record Inventory(
             }
         }
 
-        if (itemsInBag >= maxBagSize()) {
+        if (itemsInBag >= maxBagSize) {
             return Either.left(TakeOffItemError.NotEnoughSpaceInBag.INSTANCE);
         }
         return Either.right(Success.INSTANCE);
@@ -104,7 +111,6 @@ public record Inventory(
         return result;
     }
 
-    private static final int MAX_BAG_SIZE = 15;
     private static final Map<PersonageSlot, Integer> personageAvailableSlots = new HashMap<>() {{
         put(PersonageSlot.MAIN_HAND, 1);
         put(PersonageSlot.OFF_HAND, 1);

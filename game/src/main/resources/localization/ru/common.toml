@@ -64,6 +64,8 @@ cancelEventForbiddenForDuel = "Дуэль нельзя отменить. Дож�
 
 raidGoldRewardPercentEffect = "+${value}%${money_icon} с рейда"
 itemFoundChancePercentEffect = "+${value}% найти предмет с рейда"
+extraLoadoutsEffect = "+${value} к комплектам экипировки"
+extraBagSpaceEffect = "+${value} места в рюкзаке"
 groupBuildingEffectLine = "\n<code>-${source_label}: ${effect}${optional_time_suffix}</code>"
 groupInfoPassiveEffectsSection = "\n<b>Эффекты группы</b>${group_effect_lines}"
 

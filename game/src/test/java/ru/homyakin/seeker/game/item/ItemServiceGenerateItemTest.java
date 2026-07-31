@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import ru.homyakin.seeker.game.item.errors.GenerateItemError;
@@ -15,8 +16,10 @@ import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.test_utils.CatalogTestUtils;
+import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
 
 import java.util.Collections;
@@ -26,7 +29,15 @@ class ItemServiceGenerateItemTest {
     private final ItemObjectDao itemObjectDao = Mockito.mock(ItemObjectDao.class);
     private final ItemModifierService itemModifierService = Mockito.mock(ItemModifierService.class);
     private final ItemDao itemDao = Mockito.mock(ItemDao.class);
-    private final ItemService itemService = new ItemService(itemObjectDao, itemModifierService, itemDao);
+    private final GroupPersonageStorage groupPersonageStorage = Mockito.mock(GroupPersonageStorage.class);
+    private final GroupPassiveEffectsService groupPassiveEffectsService = Mockito.mock(GroupPassiveEffectsService.class);
+    private final ItemService itemService = new ItemService(
+        itemObjectDao,
+        itemModifierService,
+        itemDao,
+        groupPersonageStorage,
+        groupPassiveEffectsService
+    );
 
     @Test
     void generateItemForPersonage_fromCatalogObject_createsCommonItemWithoutModifier() {
@@ -43,6 +54,8 @@ class ItemServiceGenerateItemTest {
             false
         );
 
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personage.id()))
+            .thenReturn(PersonageMemberGroupUtils.empty());
         Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.emptyList()));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(42L);
         Mockito.when(itemDao.getById(42L)).thenReturn(Optional.of(savedItem));
@@ -72,6 +85,8 @@ class ItemServiceGenerateItemTest {
         Mockito.when(itemObjectDao.getRandomObject(PersonageSlot.MAIN_HAND)).thenReturn(catalogObject);
         Mockito.when(itemModifierService.pickModifier(ItemRarity.RARE, catalogObject.object(), PersonageSlot.MAIN_HAND))
             .thenReturn(Optional.of(catalogModifier));
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personage.id()))
+            .thenReturn(PersonageMemberGroupUtils.empty());
         Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.emptyList()));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(10L);
         Mockito.when(itemDao.getById(10L)).thenReturn(Optional.of(savedItem));
@@ -93,6 +108,8 @@ class ItemServiceGenerateItemTest {
         final var bagItem = Mockito.mock(PersonageItem.class);
         Mockito.when(bagItem.isEquipped()).thenReturn(false);
 
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personage.id()))
+            .thenReturn(PersonageMemberGroupUtils.empty());
         Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.nCopies(15, bagItem)));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(99L);
         Mockito.when(itemDao.getById(99L)).thenReturn(Optional.of(Mockito.mock(PersonageItem.class)));

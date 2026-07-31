@@ -208,6 +208,7 @@ public class OutpostLocalization {
             case MONOLITH -> resources.getOrDefault(language, OutpostResource::monolith);
             case SHADOW_SHOP -> resources.getOrDefault(language, OutpostResource::shadowShop);
             case STORM_SCANNER -> resources.getOrDefault(language, OutpostResource::stormScanner);
+            case FIELD_ARSENAL -> resources.getOrDefault(language, OutpostResource::fieldArsenal);
         };
     }
 
@@ -238,6 +239,15 @@ public class OutpostLocalization {
                 case 3 -> resources.getOrDefault(language, OutpostResource::stormScannerLevel3);
                 case 4 -> resources.getOrDefault(language, OutpostResource::stormScannerLevel4);
                 case 5 -> resources.getOrDefault(language, OutpostResource::stormScannerLevel5);
+                default -> "";
+            };
+            case FIELD_ARSENAL -> switch (level) {
+                case 0 -> resources.getOrDefault(language, OutpostResource::fieldArsenalLevel0);
+                case 1 -> resources.getOrDefault(language, OutpostResource::fieldArsenalLevel1);
+                case 2 -> resources.getOrDefault(language, OutpostResource::fieldArsenalLevel2);
+                case 3 -> resources.getOrDefault(language, OutpostResource::fieldArsenalLevel3);
+                case 4 -> resources.getOrDefault(language, OutpostResource::fieldArsenalLevel4);
+                case 5 -> resources.getOrDefault(language, OutpostResource::fieldArsenalLevel5);
                 default -> "";
             };
         };

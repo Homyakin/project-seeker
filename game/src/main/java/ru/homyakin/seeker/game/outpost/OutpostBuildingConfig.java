@@ -22,6 +22,16 @@ public class OutpostBuildingConfig {
      */
     private int stormScannerItemFoundPercentPerLevel = 1;
 
+    /**
+     * Extra equipment loadouts = level × this value (Field Arsenal).
+     */
+    private int fieldArsenalLoadoutsPerLevel = 1;
+
+    /**
+     * Extra bag capacity = level × this value (Field Arsenal).
+     */
+    private int fieldArsenalBagSpacePerLevel = 5;
+
     @NotEmpty
     private Map<Building, BuildingLevelMaterials> building;
 
@@ -45,6 +55,28 @@ public class OutpostBuildingConfig {
             throw new IllegalStateException("stormScannerItemFoundPercentPerLevel must be >= 0");
         }
         this.stormScannerItemFoundPercentPerLevel = stormScannerItemFoundPercentPerLevel;
+    }
+
+    public int getFieldArsenalLoadoutsPerLevel() {
+        return fieldArsenalLoadoutsPerLevel;
+    }
+
+    public void setFieldArsenalLoadoutsPerLevel(int fieldArsenalLoadoutsPerLevel) {
+        if (fieldArsenalLoadoutsPerLevel < 0) {
+            throw new IllegalStateException("fieldArsenalLoadoutsPerLevel must be >= 0");
+        }
+        this.fieldArsenalLoadoutsPerLevel = fieldArsenalLoadoutsPerLevel;
+    }
+
+    public int getFieldArsenalBagSpacePerLevel() {
+        return fieldArsenalBagSpacePerLevel;
+    }
+
+    public void setFieldArsenalBagSpacePerLevel(int fieldArsenalBagSpacePerLevel) {
+        if (fieldArsenalBagSpacePerLevel < 0) {
+            throw new IllegalStateException("fieldArsenalBagSpacePerLevel must be >= 0");
+        }
+        this.fieldArsenalBagSpacePerLevel = fieldArsenalBagSpacePerLevel;
     }
 
     public Map<Building, BuildingLevelMaterials> getBuilding() {
@@ -107,8 +139,10 @@ public class OutpostBuildingConfig {
             return 1;
         } else if (monolithLevel < 2) {
             return 2;
-        } else {
+        } else if (monolithLevel < 3) {
             return 3;
+        } else {
+            return 4;
         }
     }
 }

@@ -159,7 +159,7 @@ public class ItemLocalization {
 
     public static String bag(Language language, Inventory inventory) {
         final var params = new HashMap<String, Object>();
-        params.put("max_items_in_bag", Inventory.maxBagSize());
+        params.put("max_items_in_bag", inventory.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
         int itemsInBagCount = 0;
         final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
@@ -184,7 +184,7 @@ public class ItemLocalization {
             "equipped_items_and_free_slots",
             String.join("\n", buildEquipmentSlotLines(language, sortedItems, true))
         );
-        params.put("max_items_in_bag", Inventory.maxBagSize());
+        params.put("max_items_in_bag", inventory.maxBagSize());
         final var itemsInBagBuilder = new StringBuilder();
         int itemsInBagCount = 0;
         for (final var item : sortedItems) {
@@ -217,11 +217,12 @@ public class ItemLocalization {
     public static String loadoutsList(
         Language language,
         List<EquipmentLoadout> loadouts,
-        Map<Long, BattlePersonage> battleStatsByLoadoutId
+        Map<Long, BattlePersonage> battleStatsByLoadoutId,
+        int maxLoadouts
     ) {
         final var params = new HashMap<String, Object>();
         params.put("count", loadouts.size());
-        params.put("max", EquipmentLoadoutService.MAX_LOADOUTS);
+        params.put("max", maxLoadouts);
         if (loadouts.isEmpty()) {
             params.put("loadouts", resources.getOrDefault(language, ItemResource::loadoutsEmpty));
         } else {
@@ -436,10 +437,10 @@ public class ItemLocalization {
         };
     }
 
-    public static String maxLoadoutsReached(Language language) {
+    public static String maxLoadoutsReached(Language language, int maxLoadouts) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::maxLoadoutsReached),
-            Collections.singletonMap("max", EquipmentLoadoutService.MAX_LOADOUTS)
+            Collections.singletonMap("max", maxLoadouts)
         );
     }
 

@@ -33,7 +33,7 @@ class InventoryPutOnItemTest {
         final var inventoryItems = new ArrayList<PersonageItem>();
         inventoryItems.add(oneHandEquipped);
         inventoryItems.add(twoHandedInBag);
-        for (long id = 3; id <= Inventory.maxBagSize() + 1; ++id) {
+        for (long id = 3; id <= Inventory.baseMaxBagSize() + 1; ++id) {
             inventoryItems.add(personageItem(id, personageId, false, PersonageSlot.BODY));
         }
 
@@ -69,7 +69,7 @@ class InventoryPutOnItemTest {
         inventoryItems.add(mainHandEquipped);
         inventoryItems.add(offHandEquipped);
         inventoryItems.add(twoHandedInBag);
-        for (long id = 4; id <= Inventory.maxBagSize() + 2; ++id) {
+        for (long id = 4; id <= Inventory.baseMaxBagSize() + 2; ++id) {
             inventoryItems.add(personageItem(id, personageId, false, PersonageSlot.BODY));
         }
 

@@ -59,7 +59,12 @@ public class LoadoutMessageService {
             EditMessageTextBuilder.builder()
                 .chatId(user.id())
                 .messageId(messageId)
-                .text(ItemLocalization.loadoutsList(user.language(), loadouts, battleStatsByLoadoutId))
+                .text(ItemLocalization.loadoutsList(
+                    user.language(),
+                    loadouts,
+                    battleStatsByLoadoutId,
+                    loadoutService.maxLoadouts(user.personageId())
+                ))
                 .keyboard(InlineKeyboards.loadoutsListKeyboard(
                     user.language(),
                     loadouts,

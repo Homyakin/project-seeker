@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import ru.homyakin.seeker.common.models.GroupId;
+import ru.homyakin.seeker.game.effect.ExtraBagSpaceBonus;
+import ru.homyakin.seeker.game.effect.ExtraLoadoutsBonus;
 import ru.homyakin.seeker.game.effect.ItemFoundChanceBonus;
 import ru.homyakin.seeker.game.effect.RaidGoldRewardBonus;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
@@ -58,7 +60,7 @@ public class GroupPassiveEffectsService {
         for (final var provider : buildingPassiveEffectProviders) {
             final int level = levelByBuilding.getOrDefault(provider.building(), 0);
             if (level > 0) {
-                provider.passiveEffect(level, outpostBuildingConfig).ifPresent(effects::add);
+                effects.addAll(provider.passiveEffects(level, outpostBuildingConfig));
             }
         }
         return effects;
@@ -78,5 +80,21 @@ public class GroupPassiveEffectsService {
      */
     public int itemFoundChanceBonusPercentSum(GroupId groupId, LocalDateTime now) {
         return ItemFoundChanceBonus.sumGroupPassiveEffects(listPassiveEffects(groupId), now);
+    }
+
+    /**
+     * Sum of {@link ru.homyakin.seeker.game.effect.Effect.ExtraLoadouts} from group passives;
+     * one {@link #listPassiveEffects} load per call.
+     */
+    public int extraLoadoutsSum(GroupId groupId, LocalDateTime now) {
+        return ExtraLoadoutsBonus.sumGroupPassiveEffects(listPassiveEffects(groupId), now);
+    }
+
+    /**
+     * Sum of {@link ru.homyakin.seeker.game.effect.Effect.ExtraBagSpace} from group passives;
+     * one {@link #listPassiveEffects} load per call.
+     */
+    public int extraBagSpaceSum(GroupId groupId, LocalDateTime now) {
+        return ExtraBagSpaceBonus.sumGroupPassiveEffects(listPassiveEffects(groupId), now);
     }
 }
