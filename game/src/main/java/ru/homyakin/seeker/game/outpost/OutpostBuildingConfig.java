@@ -103,9 +103,9 @@ public class OutpostBuildingConfig {
     }
 
     public int slotsByMonolithLevel(int monolithLevel) {
-        if (monolithLevel < 2) {
+        if (monolithLevel < 1) {
             return 1;
-        } else if (monolithLevel < 4) {
+        } else if (monolithLevel < 2) {
             return 2;
         } else {
             return 3;
