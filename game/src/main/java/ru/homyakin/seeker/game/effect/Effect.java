@@ -18,4 +18,10 @@ public sealed interface Effect {
 
     record ItemFoundChancePercent(int percent) implements Effect {
     }
+
+    record ExtraLoadouts(int value) implements Effect {
+    }
+
+    record ExtraBagSpace(int value) implements Effect {
+    }
 }

@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.outpost.passive;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -18,16 +19,16 @@ public class ShadowShopRaidGoldPassiveProvider implements BuildingPassiveEffectP
     }
 
     @Override
-    public Optional<GroupPassiveEffect> passiveEffect(int completedLevel, OutpostBuildingConfig config) {
+    public List<GroupPassiveEffect> passiveEffects(int completedLevel, OutpostBuildingConfig config) {
         if (completedLevel <= 0) {
-            return Optional.empty();
+            return List.of();
         }
         final int perLevel = config.getShadowShopRaidGoldPercentPerLevel();
         final int totalPercent = completedLevel * perLevel;
         if (totalPercent <= 0) {
-            return Optional.empty();
+            return List.of();
         }
-        return Optional.of(
+        return List.of(
             new GroupBuildingPassiveEffect(
                 Building.SHADOW_SHOP,
                 new Effect.RaidGoldRewardPercent(totalPercent),

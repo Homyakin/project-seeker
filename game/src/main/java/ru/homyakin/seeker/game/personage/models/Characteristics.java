@@ -67,7 +67,10 @@ public final class Characteristics {
                 final var value = 1 - multiplier.percent() / 100.0;
                 multiplyCharacteristic(value, multiplier.characteristic());
             }
-            case Effect.RaidGoldRewardPercent _, Effect.ItemFoundChancePercent _ -> {
+            case Effect.RaidGoldRewardPercent _,
+                 Effect.ItemFoundChancePercent _,
+                 Effect.ExtraLoadouts _,
+                 Effect.ExtraBagSpace _ -> {
                 // Group / meta effects: not applied to characteristics.
             }
         }

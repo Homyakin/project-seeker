@@ -38,7 +38,10 @@ public class CreateLoadoutExecutor extends CommandExecutor<CreateLoadout> {
         if (!loadoutService.canCreate(user.personageId())) {
             telegramSender.send(TelegramMethods.createAnswerCallbackQuery(
                 command.callbackId(),
-                ItemLocalization.maxLoadoutsReached(user.language())
+                ItemLocalization.maxLoadoutsReached(
+                    user.language(),
+                    loadoutService.maxLoadouts(user.personageId())
+                )
             ));
             return;
         }

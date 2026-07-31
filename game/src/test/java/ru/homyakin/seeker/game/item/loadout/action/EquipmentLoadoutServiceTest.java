@@ -10,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
@@ -24,22 +26,29 @@ import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.test_utils.CatalogTestUtils;
+import ru.homyakin.seeker.test_utils.PersonageMemberGroupUtils;
 import ru.homyakin.seeker.test_utils.PersonageUtils;
+import ru.homyakin.seeker.test_utils.TestRandom;
 
 class EquipmentLoadoutServiceTest {
     private final EquipmentLoadoutDao loadoutDao = Mockito.mock(EquipmentLoadoutDao.class);
     private final ItemService itemService = Mockito.mock(ItemService.class);
     private final ItemDao itemDao = Mockito.mock(ItemDao.class);
     private final PersonageService personageService = Mockito.mock(PersonageService.class);
+    private final GroupPersonageStorage groupPersonageStorage = Mockito.mock(GroupPersonageStorage.class);
+    private final GroupPassiveEffectsService groupPassiveEffectsService = Mockito.mock(GroupPassiveEffectsService.class);
     private final EquipmentLoadoutService service = new EquipmentLoadoutService(
         loadoutDao,
         itemService,
         itemDao,
-        personageService
+        personageService,
+        groupPersonageStorage,
+        groupPassiveEffectsService
     );
 
     @Test
@@ -53,12 +62,37 @@ class EquipmentLoadoutServiceTest {
     @Test
     void createFromCurrent_rejectsWhenMaxReached() {
         final var personageId = PersonageUtils.random().id();
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
         Mockito.when(loadoutDao.countByPersonageId(personageId)).thenReturn(3);
 
         final var result = service.createFromCurrent(personageId, "Raid");
 
         Assertions.assertTrue(result.isLeft());
         Assertions.assertEquals(CreateLoadoutError.MaxLoadoutsReached.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    void createFromCurrent_allowsAboveBaseMaxWithGroupBonus() {
+        final var personage = PersonageUtils.random();
+        final var personageId = personage.id();
+        final var groupId = new GroupId(TestRandom.nextLong());
+        final var created = loadout(11L, personageId, "Raid", List.of(), personage.position());
+
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.withGroup(groupId));
+        Mockito.when(groupPassiveEffectsService.extraLoadoutsSum(Mockito.eq(groupId), Mockito.any()))
+            .thenReturn(1);
+        Mockito.when(loadoutDao.countByPersonageId(personageId)).thenReturn(3);
+        Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of()));
+        Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
+        Mockito.when(loadoutDao.insert(personageId, "Raid", List.of(), personage.position())).thenReturn(11L);
+        Mockito.when(loadoutDao.findById(11L)).thenReturn(Optional.of(created));
+
+        final var result = service.createFromCurrent(personageId, "Raid");
+
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertEquals(4, service.maxLoadouts(personageId));
     }
 
     @Test
@@ -69,6 +103,8 @@ class EquipmentLoadoutServiceTest {
         final var bag = personageItem(2L, personageId, false, PersonageSlot.BODY);
         final var created = loadout(10L, personageId, "Raid", List.of(1L), personage.position());
 
+        Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
+            .thenReturn(PersonageMemberGroupUtils.empty());
         Mockito.when(loadoutDao.countByPersonageId(personageId)).thenReturn(0);
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(equipped, bag)));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
