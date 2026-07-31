@@ -30,6 +30,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.utils.PageUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class ItemLocalization {
@@ -157,19 +158,19 @@ public class ItemLocalization {
         );
     }
 
-    public static String bag(Language language, Inventory inventory) {
+    public static String bag(Language language, Inventory inventory, int page) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", inventory.maxBagSize());
+        final var bagItems = inventory.items().stream()
+            .filter(item -> !item.isEquipped())
+            .sorted(ItemLocalization::itemComparator)
+            .toList();
+        final var pageItems = PageUtils.pageSlice(bagItems, page);
         final var itemsInBagBuilder = new StringBuilder();
-        int itemsInBagCount = 0;
-        final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
-        for (final var item : sortedItems) {
-            if (!item.isEquipped()) {
-                itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
-                ++itemsInBagCount;
-            }
+        for (final var item : pageItems) {
+            itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
         }
-        params.put("items_in_bag_count", itemsInBagCount);
+        params.put("items_in_bag_count", bagItems.size());
         params.put("items_in_bag", itemsInBagBuilder.toString());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::bag),
@@ -177,7 +178,14 @@ public class ItemLocalization {
         );
     }
 
-    public static String compactInventory(Language language, Inventory inventory) {
+    public static int bagTotalPages(Inventory inventory) {
+        final var bagItemsCount = (int) inventory.items().stream()
+            .filter(item -> !item.isEquipped())
+            .count();
+        return PageUtils.totalPages(bagItemsCount);
+    }
+
+    public static String compactInventory(Language language, Inventory inventory, int page) {
         final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
         final var params = new HashMap<String, Object>();
         params.put(
@@ -185,15 +193,14 @@ public class ItemLocalization {
             String.join("\n", buildEquipmentSlotLines(language, sortedItems, true))
         );
         params.put("max_items_in_bag", inventory.maxBagSize());
+        final var bagItems = sortedItems.stream()
+            .filter(item -> !item.isEquipped())
+            .toList();
         final var itemsInBagBuilder = new StringBuilder();
-        int itemsInBagCount = 0;
-        for (final var item : sortedItems) {
-            if (!item.isEquipped()) {
-                itemsInBagBuilder.append(shortItem(language, item, item.putOnCommand())).append("\n");
-                ++itemsInBagCount;
-            }
+        for (final var item : PageUtils.pageSlice(bagItems, page)) {
+            itemsInBagBuilder.append(shortItem(language, item, item.putOnCommand())).append("\n");
         }
-        params.put("items_in_bag_count", itemsInBagCount);
+        params.put("items_in_bag_count", bagItems.size());
         params.put("items_in_bag", itemsInBagBuilder.toString());
         params.put("battle_stats_command", CommandType.BATTLE_STATS.getText());
         return StringNamedTemplate.format(

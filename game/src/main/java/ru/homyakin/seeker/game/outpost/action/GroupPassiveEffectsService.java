@@ -23,18 +23,15 @@ import ru.homyakin.seeker.game.outpost.passive.BuildingPassiveEffectProvider;
 public class GroupPassiveEffectsService {
     private final OutpostStorage outpostStorage;
     private final OutpostBuildingConfig outpostBuildingConfig;
-    private final SyncGroupTaxCommand syncGroupTaxCommand;
     private final List<BuildingPassiveEffectProvider> buildingPassiveEffectProviders;
 
     public GroupPassiveEffectsService(
         OutpostStorage outpostStorage,
         OutpostBuildingConfig outpostBuildingConfig,
-        SyncGroupTaxCommand syncGroupTaxCommand,
         List<BuildingPassiveEffectProvider> buildingPassiveEffectProviders
     ) {
         this.outpostStorage = outpostStorage;
         this.outpostBuildingConfig = outpostBuildingConfig;
-        this.syncGroupTaxCommand = syncGroupTaxCommand;
         this.buildingPassiveEffectProviders = buildingPassiveEffectProviders;
         final var existingTypes = new HashSet<Building>();
         for (final var provider : buildingPassiveEffectProviders) {
@@ -48,8 +45,10 @@ public class GroupPassiveEffectsService {
         }
     }
 
+    /**
+     * Current building levels → passives. Does not run {@link SyncGroupTaxCommand}.
+     */
     public List<GroupPassiveEffect> listPassiveEffects(GroupId groupId) {
-        syncGroupTaxCommand.execute(groupId);
         final var levelByBuilding = new HashMap<Building, Integer>();
         for (final var slot : outpostStorage.listBuildingSlots(groupId)) {
             if (slot.level() != 0) {

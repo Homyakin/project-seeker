@@ -12,9 +12,11 @@ import ru.homyakin.seeker.game.shop.ShopService;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.user.models.UserId;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.ShopKeyboards;
+import ru.homyakin.seeker.utils.PageUtils;
 
 @Component
 public class ShopInlineTgService {
@@ -42,24 +44,46 @@ public class ShopInlineTgService {
         UserId userId,
         Language language,
         PersonageId personageId,
-        int messageId
+        int messageId,
+        int page
     ) {
+        final var inventory = itemService.getPersonageItems(personageId);
+        final var totalPages = ShopLocalization.enhanceBagTotalPages(inventory);
+        final var safePage = PageUtils.clampPage(page, totalPages);
         sendEdit(
             userId,
             messageId,
-            ShopLocalization.enhanceTable(language, itemService.getPersonageItems(personageId)),
-            ShopKeyboards.navigationKeyboard(language)
+            ShopLocalization.enhanceTable(language, inventory, safePage),
+            ShopKeyboards.navigationKeyboard(
+                language,
+                CommandType.SHOP_ENHANCE_INLINE,
+                safePage,
+                totalPages
+            )
         );
     }
 
-    public void showRandomBoxes(UserId userId, Language language, PersonageId personageId, int messageId) {
+    public void showRandomBoxes(
+        UserId userId,
+        Language language,
+        PersonageId personageId,
+        int messageId,
+        int page
+    ) {
         final var items = shopService.getShopItems(personageId);
         final var compactItems = getPersonageSettingsCommand.execute(personageId).compactItems();
+        final var totalPages = ShopLocalization.sellingTotalPages(items);
+        final var safePage = PageUtils.clampPage(page, totalPages);
         sendEdit(
             userId,
             messageId,
-            ShopLocalization.menu(language, items, activeContraband(personageId), compactItems),
-            ShopKeyboards.navigationKeyboard(language)
+            ShopLocalization.menu(language, items, activeContraband(personageId), compactItems, safePage),
+            ShopKeyboards.navigationKeyboard(
+                language,
+                CommandType.SHOP_RANDOM_BOXES,
+                safePage,
+                totalPages
+            )
         );
     }
 

@@ -282,7 +282,12 @@ public class InlineKeyboards {
     }
 
     public static InlineKeyboardMarkup inventoryKeyboard(Language language) {
+        return inventoryKeyboard(language, 0, 1);
+    }
+
+    public static InlineKeyboardMarkup inventoryKeyboard(Language language, int bagPage, int bagTotalPages) {
         final var callbackPrefix = CommandType.SELECT_INVENTORY.getText() + TextConstants.CALLBACK_DELIMITER;
+        final var bagCallbackPrefix = callbackPrefix + InventorySection.BAG.name() + TextConstants.CALLBACK_DELIMITER;
         return InlineKeyboardBuilder
             .builder()
             .addRow()
@@ -290,15 +295,22 @@ public class InlineKeyboards {
             .addButton(ItemLocalization.bagButton(language), callbackPrefix + InventorySection.BAG.name())
             .addRow()
             .addButton(ItemLocalization.loadoutsButton(language), callbackPrefix + InventorySection.LOADOUTS.name())
+            .addPaginationRow(bagPage, bagTotalPages, page -> bagCallbackPrefix + page)
             .build();
     }
 
     public static InlineKeyboardMarkup compactInventoryKeyboard(Language language) {
+        return compactInventoryKeyboard(language, 0, 1);
+    }
+
+    public static InlineKeyboardMarkup compactInventoryKeyboard(Language language, int bagPage, int bagTotalPages) {
         final var callbackPrefix = CommandType.SELECT_INVENTORY.getText() + TextConstants.CALLBACK_DELIMITER;
+        final var bagCallbackPrefix = callbackPrefix + InventorySection.BAG.name() + TextConstants.CALLBACK_DELIMITER;
         return InlineKeyboardBuilder
             .builder()
             .addRow()
             .addButton(ItemLocalization.loadoutsButton(language), callbackPrefix + InventorySection.LOADOUTS.name())
+            .addPaginationRow(bagPage, bagTotalPages, page -> bagCallbackPrefix + page)
             .build();
     }
 

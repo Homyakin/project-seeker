@@ -9,6 +9,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
+import ru.homyakin.seeker.utils.PageUtils;
 
 @Component
 public class SelectInventoryExecutor extends CommandExecutor<SelectInventory> {
@@ -42,27 +43,37 @@ public class SelectInventoryExecutor extends CommandExecutor<SelectInventory> {
         final var items = itemService.getPersonageItems(user.personageId());
         final var compactItems = getPersonageSettingsCommand.execute(user.personageId()).compactItems();
         if (compactItems) {
+            final var totalPages = ItemLocalization.bagTotalPages(items);
+            final var page = PageUtils.clampPage(command.page(), totalPages);
             telegramSender.send(
                 EditMessageTextBuilder.builder()
                     .chatId(user.id())
                     .messageId(command.messageId())
-                    .text(ItemLocalization.compactInventory(user.language(), items))
-                    .keyboard(InlineKeyboards.compactInventoryKeyboard(user.language()))
+                    .text(ItemLocalization.compactInventory(user.language(), items, page))
+                    .keyboard(InlineKeyboards.compactInventoryKeyboard(user.language(), page, totalPages))
                     .build()
             );
             return;
         }
-        final var text = switch (command.section()) {
-            case EQUIPMENT -> ItemLocalization.equipment(user.language(), items);
-            case BAG -> ItemLocalization.bag(user.language(), items);
-            case LOADOUTS -> throw new IllegalStateException("Handled above");
-        };
+        if (command.section() == InventorySection.BAG) {
+            final var totalPages = ItemLocalization.bagTotalPages(items);
+            final var page = PageUtils.clampPage(command.page(), totalPages);
+            telegramSender.send(
+                EditMessageTextBuilder.builder()
+                    .chatId(user.id())
+                    .messageId(command.messageId())
+                    .text(ItemLocalization.bag(user.language(), items, page))
+                    .keyboard(InlineKeyboards.inventoryKeyboard(user.language(), page, totalPages))
+                    .build()
+            );
+            return;
+        }
 
         telegramSender.send(
             EditMessageTextBuilder.builder()
                 .chatId(user.id())
                 .messageId(command.messageId())
-                .text(text)
+                .text(ItemLocalization.equipment(user.language(), items))
                 .keyboard(InlineKeyboards.inventoryKeyboard(user.language()))
                 .build()
         );

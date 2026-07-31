@@ -5,9 +5,11 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
+import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.user.UserService;
-import ru.homyakin.seeker.telegram.utils.ReplyKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
+import ru.homyakin.seeker.telegram.utils.ShopKeyboards;
+import ru.homyakin.seeker.utils.PageUtils;
 
 @Component
 public class OpenEnhanceTableExecutor extends CommandExecutor<OpenEnhanceTable> {
@@ -24,10 +26,18 @@ public class OpenEnhanceTableExecutor extends CommandExecutor<OpenEnhanceTable> 
     @Override
     public void execute(OpenEnhanceTable command) {
         final var user = userService.forceGetFromPrivate(command.userId());
+        final var inventory = itemService.getPersonageItems(user.personageId());
+        final var totalPages = ShopLocalization.enhanceBagTotalPages(inventory);
+        final var page = PageUtils.clampPage(0, totalPages);
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())
-            .text(ShopLocalization.enhanceTable(user.language(), itemService.getPersonageItems(user.personageId())))
-            .keyboard(ReplyKeyboards.shopKeyboard(user.language()))
+            .text(ShopLocalization.enhanceTable(user.language(), inventory, page))
+            .keyboard(ShopKeyboards.navigationKeyboard(
+                user.language(),
+                CommandType.SHOP_ENHANCE_INLINE,
+                page,
+                totalPages
+            ))
             .build()
         );
     }

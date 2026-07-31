@@ -9,6 +9,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
+import ru.homyakin.seeker.utils.PageUtils;
 
 @Component
 public class InventoryExecutor extends CommandExecutor<Inventory> {
@@ -38,9 +39,11 @@ public class InventoryExecutor extends CommandExecutor<Inventory> {
             .chatId(user.id());
 
         if (settings.compactItems()) {
+            final var totalPages = ItemLocalization.bagTotalPages(items);
+            final var page = PageUtils.clampPage(0, totalPages);
             builder
-                .text(ItemLocalization.compactInventory(user.language(), items))
-                .keyboard(InlineKeyboards.compactInventoryKeyboard(user.language()));
+                .text(ItemLocalization.compactInventory(user.language(), items, page))
+                .keyboard(InlineKeyboards.compactInventoryKeyboard(user.language(), page, totalPages));
         } else {
             builder
                 .text(ItemLocalization.equipment(user.language(), items))

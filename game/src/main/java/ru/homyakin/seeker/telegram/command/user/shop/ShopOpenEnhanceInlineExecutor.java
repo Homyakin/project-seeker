@@ -22,7 +22,8 @@ public class ShopOpenEnhanceInlineExecutor extends CommandExecutor<ShopOpenEnhan
             user.id(),
             user.language(),
             user.personageId(),
-            command.messageId()
+            command.messageId(),
+            command.page()
         );
     }
 }
