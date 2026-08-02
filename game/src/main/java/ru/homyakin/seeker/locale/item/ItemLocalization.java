@@ -384,6 +384,7 @@ public class ItemLocalization {
             case RAID -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventRaid);
             case WORLD_RAID -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventWorldRaid);
             case DUEL -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventDuel);
+            case ANOMALY -> resources.getOrDefault(language, ItemResource::defaultLoadoutEventAnomaly);
             default -> eventType.name();
         };
     }

@@ -41,6 +41,7 @@ public record ItemResource(
     String defaultLoadoutEventRaid,
     String defaultLoadoutEventWorldRaid,
     String defaultLoadoutEventDuel,
+    String defaultLoadoutEventAnomaly,
     String defaultLoadoutForEvent,
     String backToDefaultLoadoutsButton,
     String initCreateLoadout,

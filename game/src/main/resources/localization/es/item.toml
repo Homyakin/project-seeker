@@ -72,6 +72,7 @@ defaultLoadoutAssignmentEmpty = "• ${event}: <i>sin elegir</i>"
 defaultLoadoutEventRaid = "Raid"
 defaultLoadoutEventWorldRaid = "Raid mundial"
 defaultLoadoutEventDuel = "Duelo"
+defaultLoadoutEventAnomaly = "Anomalía"
 defaultLoadoutForEvent = """\
 <b>⚔️Conjunto para: ${event}</b>
 
