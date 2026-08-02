@@ -71,7 +71,8 @@ public class AnomalyMatchmaker {
         final var searchAge = Duration.between(searchStartedAt, now);
         final int allowedDelta = AnomalyGvgMatchRules.maxAllowedRatingDiff(searchAge);
 
-        final var rankedTargets = gvgStorage.findEligibleChallengeTargets(initiatorGroupId).stream()
+        final var day = TimeUtils.moscowDate();
+        final var rankedTargets = gvgStorage.findEligibleChallengeTargets(initiatorGroupId, day).stream()
             .map(targetId -> scoreTarget(initiatorGroupId, targetId, rating, allowedDelta, now))
             .flatMap(Optional::stream)
             .sorted(Comparator.comparingLong(ScoredTarget::score))
@@ -86,7 +87,7 @@ public class AnomalyMatchmaker {
             final var defenderKey = LockPrefixes.ANOMALY_GROUP.name() + target.groupId().value();
             final var reserved = lockService.tryLockAndCalc(
                 defenderKey,
-                () -> tryReserveOpponent(searching, searchingEvent, target.groupId(), now)
+                () -> tryReserveOpponent(searching, searchingEvent, target.groupId(), now, day)
             );
             if (reserved.getOrElse(false)) {
                 return;
@@ -99,13 +100,14 @@ public class AnomalyMatchmaker {
         Anomaly.Dangerous.Searching searching,
         LaunchedEvent searchingEvent,
         GroupId targetGroupId,
-        java.time.LocalDateTime now
+        java.time.LocalDateTime now,
+        java.time.LocalDate day
     ) {
         if (anomalyStorage.hasActiveAnomaly(targetGroupId)) {
             return false;
         }
         final var challenged = searching.withOpponent(targetGroupId);
-        if (!anomalyStorage.tryAssignOpponent(challenged)) {
+        if (!anomalyStorage.tryAssignOpponent(challenged, day)) {
             return false;
         }
 

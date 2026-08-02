@@ -67,7 +67,7 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon());
         params.put("broken_icon", "");
-        params.put("enhance_level", item.enhanceLevel() > 0 ? "+" + item.enhanceLevel() : "");
+        params.put("enhance_level", enhanceLevelText(item.enhanceLevel()));
         params.put("item", itemText(itemLanguage, item));
         params.put("optional_command", optionalCommand);
         params.put("characteristics", itemCharacteristics(itemLanguage, item));
@@ -118,7 +118,7 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("rarity_icon", item.rarity().icon());
         params.put("broken_icon", "");
-        params.put("enhance_level", item.enhanceLevel() > 0 ? "+" + item.enhanceLevel() : "");
+        params.put("enhance_level", enhanceLevelText(item.enhanceLevel()));
         params.put("item", itemText(itemLanguage, item));
         params.put("optional_command", optionalCommand);
         params.put("slots", itemSlots(item));
@@ -859,6 +859,10 @@ public class ItemLocalization {
 
     private static String formatCritMultiplier(double critMultiplier) {
         return String.format("%.2f", critMultiplier).replace(',', '.');
+    }
+
+    private static String enhanceLevelText(int enhanceLevel) {
+        return enhanceLevel > 0 ? " [+" + enhanceLevel + "]" : "";
     }
 
     private static String itemText(Language itemLanguage, PersonageItem item) {

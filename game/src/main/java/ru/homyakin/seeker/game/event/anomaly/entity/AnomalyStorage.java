@@ -12,10 +12,12 @@ public interface AnomalyStorage {
     void update(Anomaly anomaly);
 
     /**
-     * Atomically moves a SEARCHING anomaly (no opponent yet) to CHALLENGED with the given opponent.
-     * Returns false if the row was already claimed, or the opponent is already an active opponent elsewhere.
+     * Atomically moves a SEARCHING anomaly (no opponent yet) to CHALLENGED with the given opponent
+     * and claims that opponent's one challenge tip-off for {@code challengeDay}.
+     * Returns false if the row was already claimed, the opponent is already an active opponent elsewhere,
+     * or the opponent already received a challenge tip-off on {@code challengeDay}.
      */
-    boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged);
+    boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged, LocalDate challengeDay);
 
     Optional<Anomaly> findByLaunchedEventId(long launchedEventId);
 

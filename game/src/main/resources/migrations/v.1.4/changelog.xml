@@ -34,6 +34,7 @@
     <include file="changes/2026-07-27_01_anomaly-unique-active-opponent.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-30_01_add-storm-shards-and-item-enhance.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-08-02_01_add-storm-shards-to-raid-result.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-08-02_02_anomaly-challenge-daily.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
 
 

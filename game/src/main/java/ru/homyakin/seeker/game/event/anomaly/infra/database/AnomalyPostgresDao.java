@@ -9,6 +9,8 @@ import javax.sql.DataSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyMode;
@@ -70,7 +72,8 @@ public class AnomalyPostgresDao implements AnomalyStorage {
     }
 
     @Override
-    public boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged) {
+    @Transactional
+    public boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged, LocalDate challengeDay) {
         final var sql = """
             UPDATE anomaly
             SET owner_personage_id = :owner_personage_id,
@@ -85,12 +88,33 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             WHERE launched_event_id = :launched_event_id
               AND phase = :expected_phase
               AND opponent_pgroup_id IS NULL
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM anomaly_challenge_day d
+                  WHERE d.pgroup_id = :opponent_pgroup_id
+                    AND d.day_date = :challenge_day
+              )
             """;
         try {
-            return bind(challenged, jdbcClient.sql(sql))
+            final var assigned = bind(challenged, jdbcClient.sql(sql))
                 .param("expected_phase", AnomalyPhase.SEARCHING.name())
+                .param("challenge_day", challengeDay)
                 .update() == 1;
+            if (!assigned) {
+                return false;
+            }
+            final var claimSql = """
+                INSERT INTO anomaly_challenge_day (pgroup_id, day_date)
+                VALUES (:opponent_pgroup_id, :challenge_day)
+                """;
+            jdbcClient.sql(claimSql)
+                .param("opponent_pgroup_id", challenged.opponentGroupId().value())
+                .param("challenge_day", challengeDay)
+                .update();
+            return true;
         } catch (DuplicateKeyException e) {
+            // Active-opponent unique index or concurrent challenge-day claim.
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }
     }

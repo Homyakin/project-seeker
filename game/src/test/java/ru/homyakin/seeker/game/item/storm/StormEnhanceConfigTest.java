@@ -98,4 +98,19 @@ public class StormEnhanceConfigTest {
         final var config = new StormEnhanceConfig();
         Assertions.assertThrows(IllegalArgumentException.class, () -> config.costForLevel(-1, 1));
     }
+
+    @Test
+    void Given_EnhanceLevel_When_ApplyBonus_Then_UsesBonusPercentPerLevel() {
+        final var config = new StormEnhanceConfig();
+        try {
+            Assertions.assertEquals(5, config.bonusPercentPerLevel());
+            Assertions.assertEquals(110, config.applyBonus(100, 2));
+
+            config.setBonusPercentPerLevel(10);
+            Assertions.assertEquals(120, config.applyBonus(100, 2));
+            Assertions.assertEquals(120, StormEnhanceConfig.applyConfiguredBonus(100, 2));
+        } finally {
+            config.setBonusPercentPerLevel(5);
+        }
+    }
 }

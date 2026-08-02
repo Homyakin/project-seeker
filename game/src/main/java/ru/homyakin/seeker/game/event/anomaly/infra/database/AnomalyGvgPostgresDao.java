@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.event.anomaly.infra.database;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.sql.DataSource;
@@ -69,13 +70,13 @@ public class AnomalyGvgPostgresDao implements AnomalyGvgStorage {
     }
 
     @Override
-    public List<GroupId> findEligibleChallengeTargets(GroupId excludeGroupId) {
+    public List<GroupId> findEligibleChallengeTargets(GroupId excludeGroupId, LocalDate day) {
         final var sql = """
             SELECT p.id
             FROM pgroup p
             INNER JOIN pgroup_outpost po
                 ON po.pgroup_id = p.id
-                AND po.building_id = :shadow_shop_id
+                AND po.building_id = :storm_scanner_id
                 AND po.level > 0
             WHERE p.tag IS NOT NULL
               AND p.is_active = true
@@ -92,12 +93,19 @@ public class AnomalyGvgPostgresDao implements AnomalyGvgStorage {
                   WHERE (a.pgroup_id = p.id OR a.opponent_pgroup_id = p.id)
                     AND le.status_id = :launched_status
               )
+              AND NOT EXISTS (
+                  SELECT 1
+                  FROM anomaly_challenge_day d
+                  WHERE d.pgroup_id = p.id
+                    AND d.day_date = :day_date
+              )
             """;
         return jdbcClient.sql(sql)
-            .param("shadow_shop_id", Building.SHADOW_SHOP.id())
+            .param("storm_scanner_id", Building.STORM_SCANNER.id())
             .param("exclude_id", excludeGroupId.value())
             .param("min_members", config.partySize())
             .param("launched_status", EventStatus.LAUNCHED.id())
+            .param("day_date", day)
             .query((rs, _) -> GroupId.from(rs.getLong("id")))
             .list();
     }

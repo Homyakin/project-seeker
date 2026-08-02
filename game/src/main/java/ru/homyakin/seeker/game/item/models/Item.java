@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.item.models;
 
 import java.util.Optional;
 import java.util.Set;
+import ru.homyakin.seeker.game.item.storm.StormEnhanceConfig;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 
 public record Item(
@@ -10,8 +11,6 @@ public record Item(
     ItemRarity rarity,
     int enhanceLevel
 ) {
-    public static final int STORM_ENHANCE_BONUS_PERCENT_PER_LEVEL = 5;
-
     public Item(ItemObject object, Optional<Modifier> modifier, ItemRarity rarity) {
         this(object, modifier, rarity, 0);
     }
@@ -70,10 +69,7 @@ public record Item(
     }
 
     private int applyEnhance(int base) {
-        if (enhanceLevel <= 0 || base == 0) {
-            return base;
-        }
-        return (int) Math.round(base * (1 + enhanceLevel * STORM_ENHANCE_BONUS_PERCENT_PER_LEVEL / 100.0));
+        return StormEnhanceConfig.applyConfiguredBonus(base, enhanceLevel);
     }
 
     public static Item weapon(

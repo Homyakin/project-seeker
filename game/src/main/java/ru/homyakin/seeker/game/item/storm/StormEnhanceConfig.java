@@ -1,10 +1,13 @@
 package ru.homyakin.seeker.game.item.storm;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.models.StormShards;
 
 @ConfigurationProperties(prefix = "homyakin.seeker.item.storm-enhance")
 public class StormEnhanceConfig {
+    private static volatile int activeBonusPercentPerLevel = 5;
+
     private int bonusPercentPerLevel = 5;
     private int baseCost = 1;
     private double costMultiplier = 2.0;
@@ -21,8 +24,34 @@ public class StormEnhanceConfig {
     private double rollbackBaseWeight = 4;
     private double rollbackGrowMultiplier = 1.25;
 
+    @PostConstruct
+    void activate() {
+        activeBonusPercentPerLevel = bonusPercentPerLevel;
+    }
+
     public int bonusPercentPerLevel() {
         return bonusPercentPerLevel;
+    }
+
+    /**
+     * Applies configured storm-enhance bonus to a base item stat.
+     */
+    public int applyBonus(int base, int enhanceLevel) {
+        return applyBonus(base, enhanceLevel, bonusPercentPerLevel());
+    }
+
+    /**
+     * Applies the active Spring-bound bonus percent. Safe for domain models without DI.
+     */
+    public static int applyConfiguredBonus(int base, int enhanceLevel) {
+        return applyBonus(base, enhanceLevel, activeBonusPercentPerLevel);
+    }
+
+    private static int applyBonus(int base, int enhanceLevel, int percentPerLevel) {
+        if (enhanceLevel <= 0 || base == 0) {
+            return base;
+        }
+        return (int) Math.round(base * (1 + enhanceLevel * percentPerLevel / 100.0));
     }
 
     public int failurePeakLevel() {
@@ -122,6 +151,7 @@ public class StormEnhanceConfig {
             throw new IllegalStateException("bonusPercentPerLevel must be >= 0");
         }
         this.bonusPercentPerLevel = bonusPercentPerLevel;
+        activeBonusPercentPerLevel = bonusPercentPerLevel;
     }
 
     public void setBaseCost(int baseCost) {
