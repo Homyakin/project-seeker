@@ -173,10 +173,6 @@ public class OutpostLocalization {
         return resources.getOrDefault(language, OutpostResource::startBuildingConflict);
     }
 
-    public static String buildingMenuUnknownBuilding(Language language) {
-        return resources.getOrDefault(language, OutpostResource::buildingMenuUnknownBuilding);
-    }
-
     public static String buildingMenu(Language language, Building building, OutpostSlot slot) {
         return switch (slot) {
             case OutpostSlot.EmptySlot _ -> StringNamedTemplate.format(

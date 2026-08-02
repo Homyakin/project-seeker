@@ -43,7 +43,7 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
             ));
             return;
         }
-        final var alert = switch (result.get()) {
+        switch (result.get()) {
             case AnomalyService.AnomalyReadyResult.StartedPveWaiting pveWaiting -> {
                 final var event = pveWaiting.launchedEvent();
                 final var anomaly = anomalyService.findAnomaly(event.id()).orElseThrow();
@@ -59,7 +59,6 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
                         ))
                         .build()
                 );
-                yield AnomalyLocalization.successReadySafe(group.language());
             }
             case AnomalyService.AnomalyReadyResult.StartedSearching searching -> {
                 final var event = searching.launchedEvent();
@@ -76,13 +75,10 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
                         ))
                         .build()
                 );
-                yield AnomalyLocalization.successReadySearch(group.language());
             }
-            case AnomalyService.AnomalyReadyResult.BattleCompleted battle -> {
+            case AnomalyService.AnomalyReadyResult.BattleCompleted battle ->
                 telegramAnomalyService.notifyBattleFinished(battle.result());
-                yield AnomalyLocalization.successReadyBattle(group.language());
-            }
-        };
-        telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), alert));
+        }
+        telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), ""));
     }
 }

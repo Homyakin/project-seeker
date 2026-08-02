@@ -43,7 +43,6 @@ public record OutpostResource(
     String startBuildingSuccessPrivate,
     String startBuildingCanceled,
     String groupBuildingStarted,
-    String buildingMenuUnknownBuilding,
     String buildingMenuEmptySlot,
     String buildingMenuIdle,
     String buildingMenuInProgress,

@@ -40,7 +40,6 @@ successChangeTag = "Тэг успешно изменён на <code>[${tag}]</co
 joinPersonageAlreadyInGroup = "Ты уже состоишь в этой группе!"
 joinPersonageInAnotherGroup = "Ты уже состоишь в другой группе!"
 joinPersonageTimeout = "Ты не можешь вступить в группу в течениe ${duration}"
-groupNotRegisteredAtJoin = "Группа должна быть зарегистрирована для вступления: ${register_group_command}"
 successJoinGroup = "<code>${personage_badge_with_name}</code> теперь состоит в группе <code>${group_name_with_badge}</code>!"
 joinPersonageConfirmationRequired = """\
 Для вступления <code>${personage_badge_with_name}</code> в группу необходимо подтверждение администратора"""

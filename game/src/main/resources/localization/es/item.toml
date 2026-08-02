@@ -54,9 +54,7 @@ loadoutDetail = """\
 📍Posición: ${position_name}
 
 ${items}"""
-loadoutItemOwned = "${item}"
 loadoutItemMissing = "❌ ${item_id}"
-loadoutEmptyItems = "<i>Vacío (solo equipo por defecto)</i>"
 saveLoadoutButton = "💾 Guardar actual"
 applyLoadoutButton = "✅ Equipar"
 renameLoadoutButton = "✏️ Renombrar"

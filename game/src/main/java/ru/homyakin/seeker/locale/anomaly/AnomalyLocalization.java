@@ -165,10 +165,6 @@ public final class AnomalyLocalization {
         );
     }
 
-    public static String safeCompleted(Language language, AnomalyReward reward) {
-        return rewardText(language, AnomalyResource::anomalySafeCompleted, reward, "");
-    }
-
     public static String battleResult(
         Language language,
         Group winnerGroup,
@@ -184,7 +180,7 @@ public final class AnomalyLocalization {
                 + "\n\n"
                 + battleGroupTop(language, loserGroup, loserResults, false).stripTrailing()
         );
-        putRewardParams(params, reward);
+        putRewardParams(language, params, reward);
         params.put("anomaly_report_command", CommandType.ANOMALY_REPORT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyBattleResult),
@@ -269,7 +265,7 @@ public final class AnomalyLocalization {
         params.put("living_participants", livingParticipants);
         params.put("total_participants", result.personageResults().size());
         params.put("top_participants_list", top.toString());
-        putRewardParams(params, result.reward());
+        putRewardParams(language, params, result.reward());
         params.put("anomaly_report_command", CommandType.ANOMALY_REPORT.getText());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyPveBattleResult),
@@ -322,7 +318,7 @@ public final class AnomalyLocalization {
                 "damage_taken", result.stats().damageTaken(),
                 "money", result.reward().money().value(),
                 "money_icon", Icons.MONEY,
-                "storm_shards", stormShardsSuffix(result.reward())
+                "storm_shards", CommonLocalization.stormShardsReward(language, result.reward().stormShards())
             )
         );
     }
@@ -353,18 +349,6 @@ public final class AnomalyLocalization {
 
     public static String successJoin(Language language) {
         return resources.getOrDefault(language, AnomalyResource::successJoin);
-    }
-
-    public static String successReadySafe(Language language) {
-        return resources.getOrDefault(language, AnomalyResource::successReadySafe);
-    }
-
-    public static String successReadySearch(Language language) {
-        return resources.getOrDefault(language, AnomalyResource::successReadySearch);
-    }
-
-    public static String successReadyBattle(Language language) {
-        return resources.getOrDefault(language, AnomalyResource::successReadyBattle);
     }
 
     public static String error(Language language, AnomalyError error) {
@@ -479,35 +463,9 @@ public final class AnomalyLocalization {
             .collect(Collectors.joining("\n"));
     }
 
-    private static String rewardText(
-        Language language,
-        java.util.function.Function<AnomalyResource, String> template,
-        AnomalyReward reward,
-        String battleLink
-    ) {
-        final var map = new HashMap<String, Object>();
-        putRewardParams(map, reward);
-        map.put("battle_link", battleLink == null ? "" : battleLink);
-        return StringNamedTemplate.format(resources.getOrDefault(language, template), map);
-    }
-
-    private static void putRewardParams(Map<String, Object> params, AnomalyReward reward) {
+    private static void putRewardParams(Language language, Map<String, Object> params, AnomalyReward reward) {
         params.put("reward", reward.money().value());
         params.put("money_icon", Icons.MONEY);
-        params.put("storm_shards_reward", stormShardsRewardText(reward));
-    }
-
-    private static String stormShardsRewardText(AnomalyReward reward) {
-        if (reward.stormShards().isZero()) {
-            return "";
-        }
-        return " +" + reward.stormShards().value() + Icons.STORM_SHARD;
-    }
-
-    private static String stormShardsSuffix(AnomalyReward reward) {
-        if (reward.stormShards().isZero()) {
-            return "";
-        }
-        return " +" + reward.stormShards().value() + Icons.STORM_SHARD;
+        params.put("storm_shards_reward", CommonLocalization.stormShardsReward(language, reward.stormShards()));
     }
 }

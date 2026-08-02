@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
@@ -41,6 +42,7 @@ public class PersonageBattleResultDao {
                 .addValue("launched_event_id", result.launchedEventId())
                 .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
                 .addValue("reward", result.reward().value())
+                .addValue("storm_shards", result.stormShards().value())
                 .addValue("generated_item_id", result.generatedItemId().orElse(null))
                 .addValue("generated_contraband_id", result.generatedContrabandId().orElse(null));
             parameters.add(paramSource);
@@ -95,8 +97,13 @@ public class PersonageBattleResultDao {
     }
 
     private static final String SAVE_RESULT = """
-        INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward, generated_item_id, generated_contraband_id)
-        VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :generated_item_id, :generated_contraband_id)
+        INSERT INTO personage_raid_result (
+            personage_id, launched_event_id, stats, reward, storm_shards, generated_item_id, generated_contraband_id
+        )
+        VALUES (
+            :personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :storm_shards,
+            :generated_item_id, :generated_contraband_id
+        )
         """;
 
     private static final String SELECT_LAST_RESULT = """
@@ -166,6 +173,7 @@ public class PersonageBattleResultDao {
             rs.getLong("launched_event_id"),
             jsonUtils.fromString(rs.getString("stats"), BattlePersonageStats.class),
             Money.from(rs.getInt("reward")),
+            StormShards.from(rs.getInt("storm_shards")),
             Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_item_id")),
             Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_contraband_id"))
         );

@@ -214,6 +214,7 @@ public class PersonageService {
             launchedEventId,
             result.stats(),
             result.reward(),
+            StormShards.ZERO,
             generatedItemId(result.generatedItem()),
             generatedContrabandId(result.generatedItem())
         );
@@ -261,6 +262,7 @@ public class PersonageService {
                     launchedEvent.id(),
                     result.stats(),
                     result.reward(),
+                    result.stormShards(),
                     generatedItemId(result.generatedItem()),
                     generatedContrabandId(result.generatedItem())
                 ))
@@ -288,6 +290,7 @@ public class PersonageService {
                     launchedEventId,
                     result.stats(),
                     result.reward().money(),
+                    result.reward().stormShards(),
                     Optional.empty(),
                     Optional.empty()
                 ))

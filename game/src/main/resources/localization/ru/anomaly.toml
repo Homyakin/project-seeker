@@ -15,13 +15,6 @@ anomalyMenuRegisterWarning = """
 ⚠️Сканер открывает путь только зарегистрированным группам.
 Зарегистрировать: <code>${register_group_command} тэг</code>
 """
-anomalyMenuActive = """
-📡<b>Аномалия уже открыта</b>
-
-Режим: ${mode}
-Фаза: ${phase}
-Участники: ${participants}/${party_size}
-"""
 anomalyGathering = """
 📡<b>Экспедиция к аномалии</b>
 
@@ -38,24 +31,19 @@ anomalyPveFormat = """Атака: ${attack}
 
 """
 anomalyPveWaiting = """
-📡<b>Безопасная экспедиция в пути</b>
+📡<b>Экспедиция в пути</b>
 
 ${pve_format}Состав (${count}):
 ${participants}
 
-Бой через ${duration}
-Покинуть экспедицию нельзя.
-"""
+Закончится через ${duration}"""
 anomalySearching = """
-📡<b>Опасная экспедиция начата</b>
-
-Может занять до ${max_duration} суммарно.
+📡<b>Экспедиция начата и может занять до ${max_duration}</b>
 
 Состав (${count}/${party_size}):
 ${participants}
 
-Осторожно: Чёрный рынок мог передать ваши данные другой группе.
-"""
+Осторожно: Чёрный рынок мог передать ваши данные другой группе."""
 anomalyChallenge = """
 ⚔️<b>Группа в Аномалии</b>
 
@@ -66,11 +54,6 @@ anomalyChallenge = """
 
 Состав (${count}/${party_size}):
 ${participants}
-"""
-anomalySafeCompleted = """
-✅<b>Безопасная экспедиция окончена</b>
-
-Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
 """
 anomalyBattleResult = """\
 ${groups_top}
@@ -109,38 +92,31 @@ readyButton = "✅ Готов"
 backToOutpostButton = "⬅️ К аванпосту"
 modeSafe = "Безопасный"
 modeDangerous = "Опасный"
-phaseGathering = "Сбор отряда"
-phasePveWaiting = "Ожидание боя"
-phaseSearching = "Поиск противника"
-phaseChallenged = "Ответ на вызов"
 formationStrongBackLine = "Сильный тыл"
 formationStrongFrontLine = "Сильный фронт"
 formationMidLine = "Средняя линия"
 formationSplitWings = "Разнесённые фланги"
-errorNotRegistered = "Сначала зарегистрируйте группу"
-errorNoStormScanner = "Без Штормового Сканера сюда не пройти"
-errorAlreadyStartedToday = "Сегодня сканер уже отработал"
-errorActiveExists = "У вас уже открыта аномалия"
+errorNotRegistered = "❌Сначала зарегистрируйте группу"
+errorNoStormScanner = "❌Без Штормового Сканера сюда не пройти"
+errorAlreadyStartedToday = "❌Сегодня сканер уже отработал"
+errorActiveExists = "❌У вас уже открыта аномалия"
 errorNotMember = "❌В отряд берут только участников группы"
-errorNotOwner = "Это может только организатор"
-errorInvalidPhase = "Сейчас это уже не сработает"
-errorPartyNotFull = "Отряд ещё не полный"
-errorPartyEmpty = "В отряде никого нет"
+errorNotOwner = "❌Это может только организатор"
+errorInvalidPhase = "❌Сейчас это уже не сработает"
+errorPartyNotFull = "❌Отряд ещё не полный"
+errorPartyEmpty = "❌В отряде никого нет"
 errorRosterLocked = "Состав уже зафиксирован"
-errorAlreadyJoined = "Вы уже в экспедиции"
-errorAlreadyInAnomaly = "Вы уже в другой аномалии"
-errorPartyFull = "Отряд уже полный"
-errorEventLocked = "Попробуйте ещё раз"
-errorFinal = "Экспедиция уже закончилась"
-errorNotFound = "Такой экспедиции нет"
+errorAlreadyJoined = "✅Вы уже в экспедиции"
+errorAlreadyInAnomaly = "❌Вы уже в другой аномалии"
+errorPartyFull = "❌Отряд уже полный"
+errorEventLocked = "❌Попробуйте ещё раз"
+errorFinal = "❌Экспедиция уже закончилась"
+errorNotFound = "❌Такой экспедиции нет"
 report = """\
 📜Твой отчёт за последнюю аномалию:
 ${personage_battle_report}"""
 reportNotPresentForPersonage = "В архивах нет твоего отчёта об аномалии"
 lastGroupAnomalyReportNotFound = "В этой группе нет отчёта об аномалии"
-successJoin = "Вы в отряде"
-successReadySafe = "Состав зафиксирован. Бой через 3 часа — назад дороги нет."
-successReadySearch = "Состав зафиксирован. Чёрный рынок уже ищет встречу."
-successReadyBattle = "Бой начался!"
+successJoin = "✅Вы в отряде"
 participantLine = "• ${name}"
-participantLineLeader = "• ${name} <b>(организатор)</b>"
+participantLineLeader = "• 👑${name}"

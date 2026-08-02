@@ -2,8 +2,6 @@ package ru.homyakin.seeker.locale.raid;
 
 public record RaidResource(
     String joinRaidEvent,
-    String hoursShort,
-    String minutesShort,
     String userAlreadyInThisRaid,
     String userAlreadyInOtherEvent,
     String exhaustedAlert,

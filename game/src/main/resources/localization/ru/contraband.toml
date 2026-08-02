@@ -52,3 +52,4 @@ rewardEnergy = "+${amount}${energy_icon}"
 
 contrabandAlreadyProcessed = "Этот ящик уже обработан."
 contrabandExpiredError = "Ящик истёк и рассыпался в пыль."
+noActiveContraband = "У тебя нет активной контрабанды."

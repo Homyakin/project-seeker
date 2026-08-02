@@ -67,7 +67,6 @@ groupBuildingStarted = """
 ${materials_icon} ${materials}: ${required}
 Инициатор: ${initiator}"""
 
-buildingMenuUnknownBuilding = "Такого здания нет."
 buildingMenuEmptySlot = "В аванпосте ещё нет <b>${building_name}</b> — слот пуст."
 buildingMenuIdle = """<b>${building_name}</b> · ур. ${level}
 <i>${current_description}</i>"""

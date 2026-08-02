@@ -245,10 +245,6 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::maxModifiers);
     }
 
-    public static String brokenItem(Language language) {
-        return resources.getOrDefault(language, ShopResource::brokenItem);
-    }
-
     public static String notBrokenItem(Language language) {
         return resources.getOrDefault(language, ShopResource::notBrokenItem);
     }

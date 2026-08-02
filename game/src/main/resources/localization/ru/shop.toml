@@ -62,9 +62,7 @@ stormEnhance = """\
 - Успех: ${success_percent}%
 - Неудача ${failure_percent}%
 - Откат ${rollback_percent}%"""
-repair = "Починить: ${repair_command} ${money_icon}${price_value}"
 maxModifiers = "У этого предмета уже максимальная редкость."
-brokenItem = "Сначала нужно починить предмет!"
 successAddModifier = """\
 Модификатор добавлен!
 
@@ -86,8 +84,4 @@ rollbackStormEnhance = """\
 
 ${enhance_item_info}"""
 notBrokenItem = "Предмет не нуждается в починке."
-successRepair = """\
-Предмет починен!
-
-${enhance_item_info}"""
 emptyEnhance = "Нет доступных улучшений."

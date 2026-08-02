@@ -60,9 +60,7 @@ ${available_enhance}
 addModifier = "Agregar modificador: ${enhance_command} ${money_icon}${price_value}"
 upgradeRarity = "Mejorar rareza: ${enhance_command} ${money_icon}${price_value}"
 stormEnhance = "Potenciar con tormenta (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value} (${success_percent}%, fallo ${failure_percent}%, retroceso ${rollback_percent}%)"
-repair = "Arreglar: ${repair_command} ${money_icon}${price_value}"
 maxModifiers = "Este objeto ya tiene la rareza máxima."
-brokenItem = "¡Primero arregla el objeto!"
 successAddModifier = """\
 ¡Modificador añadido!
 
@@ -84,8 +82,4 @@ La potencia de tormenta falló — el nivel bajó a +${enhance_level}. Se gastar
 
 ${enhance_item_info}"""
 notBrokenItem = "Este objeto no está roto."
-successRepair = """\
-¡Objeto arreglado!
-
-${enhance_item_info}"""
 emptyEnhance = "No hay mejoras disponibles por ahora."

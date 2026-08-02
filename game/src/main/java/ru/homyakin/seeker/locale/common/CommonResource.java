@@ -40,6 +40,7 @@ public record CommonResource(
     String workerOfDayEffect,
     String contrabandEffect,
     String personageGlobalStats,
+    String stormShardsReward,
     String personageBattleReport,
     String shortPersonageBattleReport,
     String shortGroupBattleReport,

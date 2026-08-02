@@ -52,9 +52,7 @@ loadoutDetail = """\
 📍Позиция: ${position_name}
 
 ${items}"""
-loadoutItemOwned = "${item}"
 loadoutItemMissing = "❌ ${item_id}"
-loadoutEmptyItems = "<i>Пусто (только снаряжение по умолчанию)</i>"
 saveLoadoutButton = "💾 Сохранить текущее"
 applyLoadoutButton = "✅ Надеть"
 renameLoadoutButton = "✏️ Переименовать"

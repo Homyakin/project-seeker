@@ -32,16 +32,13 @@ public record ShopResource(
     String addModifier,
     String upgradeRarity,
     String stormEnhance,
-    String repair,
     String maxModifiers,
-    String brokenItem,
     String successAddModifier,
     String successUpgradeRarity,
     String successStormEnhance,
     String failedStormEnhance,
     String rollbackStormEnhance,
     String notBrokenItem,
-    String successRepair,
     String emptyEnhance
 ) {
 }
