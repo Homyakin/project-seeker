@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.world_raid.infra.spring;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 
 import java.time.Duration;
 
@@ -16,6 +17,7 @@ public class WorldRaidSpringConfig implements WorldRaidConfig {
     private Duration battleDuration;
     private int requiredEnergy;
     private Duration groupNotificationInterval;
+    private StormShards successStormShardsReward = StormShards.from(3);
 
     @Override
     public Money requiredForDonate() {
@@ -57,6 +59,11 @@ public class WorldRaidSpringConfig implements WorldRaidConfig {
         return INIT_FUND;
     }
 
+    @Override
+    public StormShards successStormShardsReward() {
+        return successStormShardsReward;
+    }
+
     public void setRequiredForDonate(int requiredForDonate) {
         this.requiredForDonate = Money.from(requiredForDonate);
     }
@@ -83,5 +90,12 @@ public class WorldRaidSpringConfig implements WorldRaidConfig {
 
     public void setGroupNotificationInterval(Duration groupNotificationInterval) {
         this.groupNotificationInterval = groupNotificationInterval;
+    }
+
+    public void setSuccessStormShardsReward(int successStormShardsReward) {
+        if (successStormShardsReward < 0) {
+            throw new IllegalStateException("successStormShardsReward must be >= 0");
+        }
+        this.successStormShardsReward = StormShards.from(successStormShardsReward);
     }
 }

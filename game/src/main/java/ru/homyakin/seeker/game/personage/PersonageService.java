@@ -23,6 +23,7 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -33,6 +34,7 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughStormShards;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.Language;
@@ -184,6 +186,20 @@ public class PersonageService {
         personageDao.addMoney(moneyMap);
     }
 
+    public Personage addStormShards(Personage personage, StormShards stormShards) {
+        final var updatedPersonage = personage.addStormShards(stormShards);
+        personageDao.update(updatedPersonage);
+        return updatedPersonage;
+    }
+
+    public void addStormShards(PersonageId personageId, StormShards stormShards) {
+        addStormShards(getByIdForce(personageId), stormShards);
+    }
+
+    public void addStormShardsBatch(Map<PersonageId, StormShards> shardsMap) {
+        personageDao.addStormShards(shardsMap);
+    }
+
     public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
         personageBattleResultDao.saveBatch(
             results.stream()
@@ -227,6 +243,17 @@ public class PersonageService {
                     )
                 )
         );
+        final var stormShardsRewards = results.stream()
+            .filter(result -> !result.stormShards().isZero())
+            .collect(
+                Collectors.toMap(
+                    PersonageWorldRaidBattleResult::personageId,
+                    PersonageWorldRaidBattleResult::stormShards
+                )
+            );
+        if (!stormShardsRewards.isEmpty()) {
+            addStormShardsBatch(stormShardsRewards);
+        }
         personageBattleResultDao.saveBatch(
             results.stream()
                 .map(result -> new PersonageBattleResult(
@@ -260,7 +287,7 @@ public class PersonageService {
                     result.personage().id(),
                     launchedEventId,
                     result.stats(),
-                    result.reward(),
+                    result.reward().money(),
                     Optional.empty(),
                     Optional.empty()
                 ))
@@ -275,6 +302,13 @@ public class PersonageService {
         }
         addMoney(personage, money.negative());
         return Either.right(Success.INSTANCE);
+    }
+
+    public Either<NotEnoughStormShards, Success> tryTakeStormShards(PersonageId personageId, StormShards stormShards) {
+        final var personage = getByIdForce(personageId);
+        return personage.takeStormShards(stormShards)
+            .peek(personageDao::update)
+            .map(_ -> Success.INSTANCE);
     }
 
     public Personage takeMoney(Personage personage, Money money) {

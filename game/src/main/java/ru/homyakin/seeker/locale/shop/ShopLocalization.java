@@ -4,11 +4,13 @@ import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.shop.models.AvailableAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceAction;
 import ru.homyakin.seeker.game.shop.models.ShopItem;
 import ru.homyakin.seeker.game.shop.models.ShopItemType;
 import ru.homyakin.seeker.game.shop.models.SoldItem;
+import ru.homyakin.seeker.game.shop.models.StormEnhanceAction;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -17,6 +19,7 @@ import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -221,15 +224,17 @@ public class ShopLocalization {
     public static String enhanceItemInfo(Language language, AvailableAction action) {
         final var params = new HashMap<String, Object>();
         params.put("full_item", ItemLocalization.fullItem(language, action.item()));
-        final String availableEnhance;
-        if (action.action().isEmpty()) {
-            availableEnhance = emptyEnhance(language);
-        } else {
-            availableEnhance = switch (action.action().get()) {
-                case EnhanceAction.Enhance enhance -> enhance(language, action.item(), enhance.price());
-            };
-        }
-        params.put("available_enhance", availableEnhance);
+        final var parts = new ArrayList<String>();
+        action.action().ifPresent(enhanceAction -> {
+            if (enhanceAction instanceof EnhanceAction.Enhance enhance) {
+                parts.add(enhance(language, action.item(), enhance.price()));
+            }
+        });
+        action.stormEnhance().ifPresent(storm -> parts.add(stormEnhance(language, action.item(), storm)));
+        params.put(
+            "available_enhance",
+            parts.isEmpty() ? emptyEnhance(language) : String.join("\n", parts)
+        );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::enhanceItemInfo),
             params
@@ -266,6 +271,45 @@ public class ShopLocalization {
         );
     }
 
+    public static String successStormEnhance(Language language, AvailableAction action) {
+        final var params = new HashMap<String, Object>();
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_level", action.item().enhanceLevel());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::successStormEnhance),
+            params
+        );
+    }
+
+    public static String failedStormEnhance(Language language, AvailableAction action) {
+        final var params = new HashMap<String, Object>();
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::failedStormEnhance),
+            params
+        );
+    }
+
+    public static String rollbackStormEnhance(Language language, AvailableAction action) {
+        final var params = new HashMap<String, Object>();
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_level", action.item().enhanceLevel());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::rollbackStormEnhance),
+            params
+        );
+    }
+
+    public static String notEnoughStormShards(Language language, StormShards required) {
+        final var params = new HashMap<String, Object>();
+        params.put("required_value", required.value());
+        params.put("storm_shard_icon", Icons.STORM_SHARD);
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::notEnoughStormShards),
+            params
+        );
+    }
+
     private static String enhance(Language language, PersonageItem item, Money price) {
         final var params = new HashMap<String, Object>();
         params.put("price_value", price.value());
@@ -279,6 +323,24 @@ public class ShopLocalization {
         }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::upgradeRarity),
+            params
+        );
+    }
+
+    private static String stormEnhance(Language language, PersonageItem item, StormEnhanceAction action) {
+        final var params = new HashMap<String, Object>();
+        params.put("cost_value", action.cost().value());
+        params.put("storm_shard_icon", Icons.STORM_SHARD);
+        params.put("success_percent", action.probabilities().successPercent());
+        params.put("failure_percent", action.probabilities().failurePercent());
+        params.put("rollback_percent", action.probabilities().rollbackPercent());
+        params.put("next_level", action.nextLevel());
+        params.put(
+            "storm_enhance_command",
+            CommandType.CONFIRM_STORM_ENHANCE.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id()
+        );
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::stormEnhance),
             params
         );
     }
@@ -356,7 +418,8 @@ public class ShopLocalization {
             Optional.empty(),
             ItemRarity.COMMON,
             Optional.empty(),
-            false
+            false,
+            0
         );
         final var buyCommand = CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id();
         final var params = new HashMap<String, Object>();

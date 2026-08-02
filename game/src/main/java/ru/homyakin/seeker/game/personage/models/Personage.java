@@ -6,12 +6,14 @@ import java.util.Optional;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.online.entity.OnlineStreak;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughStormShards;
 import ru.homyakin.seeker.game.personage.models.errors.StillSame;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
@@ -24,6 +26,7 @@ public record Personage(
     Optional<String> tag,
     Optional<GroupId> memberGroupId,
     Money money,
+    StormShards stormShards,
     Energy energy,
     BadgeView badge,
     PersonageEffects effects,
@@ -32,6 +35,10 @@ public record Personage(
 ) {
     public Personage addMoney(Money money) {
         return copyWithMoney(this.money.add(money));
+    }
+
+    public Personage addStormShards(StormShards stormShards) {
+        return copyWithStormShards(this.stormShards.add(stormShards));
     }
 
     public Either<NameError, Personage> changeName(String name) {
@@ -93,6 +100,13 @@ public record Personage(
         return Either.right(addMoney(CHANGE_NAME_COST));
     }
 
+    public Either<NotEnoughStormShards, Personage> takeStormShards(StormShards amount) {
+        if (stormShards.lessThan(amount)) {
+            return Either.left(new NotEnoughStormShards(amount));
+        }
+        return Either.right(addStormShards(amount.negative()));
+    }
+
     public boolean hasEnoughEnergy(int requiredEnergy) {
         return energy.isGreaterOrEqual(requiredEnergy);
     }
@@ -128,6 +142,7 @@ public record Personage(
             tag,
             memberGroupId,
             money,
+            stormShards,
             energy,
             badge,
             effects,
@@ -145,6 +160,7 @@ public record Personage(
             tag,
             memberGroupId,
             money,
+            stormShards,
             energy,
             badge,
             effects,
@@ -160,6 +176,7 @@ public record Personage(
             tag,
             memberGroupId,
             money,
+            stormShards,
             energy,
             badge,
             effects,
@@ -175,6 +192,23 @@ public record Personage(
             tag,
             memberGroupId,
             money,
+            stormShards,
+            energy,
+            badge,
+            effects,
+            position,
+            onlineStreak
+        );
+    }
+
+    private Personage copyWithStormShards(StormShards stormShards) {
+        return new Personage(
+            id,
+            name,
+            tag,
+            memberGroupId,
+            money,
+            stormShards,
             energy,
             badge,
             effects,
@@ -190,6 +224,7 @@ public record Personage(
             tag,
             memberGroupId,
             money,
+            stormShards,
             energy,
             badge,
             effects,
@@ -205,6 +240,7 @@ public record Personage(
             tag,
             memberGroupId,
             money,
+            stormShards,
             energy,
             badge,
             effects,

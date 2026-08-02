@@ -15,10 +15,11 @@ public record PersonageItem(
     Optional<Modifier> modifier,
     ItemRarity rarity,
     Optional<PersonageId> personageId,
-    boolean isEquipped
+    boolean isEquipped,
+    int enhanceLevel
 ) {
     public Item toItem() {
-        return new Item(object, modifier, rarity);
+        return new Item(object, modifier, rarity, enhanceLevel);
     }
 
     public Language getItemLanguage(Language requestedLanguage) {

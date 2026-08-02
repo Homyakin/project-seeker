@@ -12,6 +12,7 @@ import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.online.entity.OnlineStreak;
 import ru.homyakin.seeker.game.personage.models.Energy;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -52,6 +53,7 @@ public class PersonageDao {
     private static final String UPDATE = """
         UPDATE personage
         SET name = :name, last_energy_change = :last_energy_change, money = :money,
+        storm_shards = :storm_shards,
         energy = :energy, effects = :effects, battle_position = :battle_position,
         energy_recovery_notification_time = CASE
             WHEN NOT :has_full_energy
@@ -110,6 +112,7 @@ public class PersonageDao {
             .param("last_energy_change", personage.energy().lastChange())
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
+            .param("storm_shards", personage.stormShards().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
             .param("battle_position", personage.position().name())
             // Если энергия полная, то не нужно обновлять время восстановления энерги в null
@@ -141,6 +144,22 @@ public class PersonageDao {
         final var sql = """
             UPDATE personage
             SET money = money + :money
+            WHERE id = :id
+            """;
+        jdbcTemplate.batchUpdate(sql, parameters.toArray(new SqlParameterSource[0]));
+    }
+
+    public void addStormShards(Map<PersonageId, StormShards> shardsMap) {
+        final var parameters = new ArrayList<SqlParameterSource>();
+        for (final var entry : shardsMap.entrySet()) {
+            MapSqlParameterSource paramSource = new MapSqlParameterSource()
+                .addValue("id", entry.getKey().value())
+                .addValue("storm_shards", entry.getValue().value());
+            parameters.add(paramSource);
+        }
+        final var sql = """
+            UPDATE personage
+            SET storm_shards = storm_shards + :storm_shards
             WHERE id = :id
             """;
         jdbcTemplate.batchUpdate(sql, parameters.toArray(new SqlParameterSource[0]));
@@ -219,6 +238,7 @@ public class PersonageDao {
             Optional.ofNullable(rs.getString("pgroup_member_tag")),
             DatabaseUtils.getLongOrEmpty(rs, "member_pgroup_id").map(GroupId::from),
             new Money(rs.getInt("money")),
+            new StormShards(rs.getInt("storm_shards")),
             new Energy(
                 rs.getInt("energy"),
                 rs.getTimestamp("last_energy_change").toLocalDateTime(),

@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.game.event.anomaly.entity;
 
 import java.time.Duration;
-import ru.homyakin.seeker.game.models.Money;
 
 public interface AnomalyConfig {
     int partySize();
@@ -14,11 +13,17 @@ public interface AnomalyConfig {
 
     Duration dangerousChallengeDuration();
 
-    Money safeReward();
+    AnomalyReward gvgWinReward();
 
-    Money victoryReward();
+    AnomalyReward gvgLoseReward();
 
-    Money defeatReward();
+    AnomalyReward gvgFallbackWinReward();
+
+    AnomalyReward gvgFallbackLoseReward();
+
+    AnomalyReward pveWinReward();
+
+    AnomalyReward pveLoseReward();
 
     /**
      * Score penalty for a fight within the last day; halves each next day until 0.

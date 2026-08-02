@@ -29,6 +29,7 @@ slotObjectItem = "${item} ${money_icon}${price_value}"
 incorrectBuyingItem = "В магазине нет такого предмета."
 noItemAtPersonage = "У вас нет такого предмета."
 notEnoughMoney = "Недостаточно денег. Нужно ${money_icon}${required_value}"
+notEnoughStormShards = "Недостаточно осколков шторма. Нужно ${storm_shard_icon}${required_value}"
 notEnoughSpaceInBag = "В рюкзаке недостаточно места, чтобы купить предмет."
 successBuy = "Поздравляем с покупкой! <code>${full_item_name}</code>"
 successSell = "Продано! <code>${full_item_name}</code> +${money_icon}${price_value}${loadout_warning}"
@@ -55,7 +56,12 @@ enhanceItemInfo = """\
 ${available_enhance}
 """
 addModifier = "Добавить модификатор: ${enhance_command} ${money_icon}${price_value}"
-upgradeRarity = "Улучшить: ${enhance_command} ${money_icon}${price_value}"
+upgradeRarity = "Улучшить редкость: ${enhance_command} ${money_icon}${price_value}"
+stormEnhance = """\
+Усилить штормом (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value}
+- Успех: ${success_percent}%
+- Неудача ${failure_percent}%
+- Откат ${rollback_percent}%"""
 repair = "Починить: ${repair_command} ${money_icon}${price_value}"
 maxModifiers = "У этого предмета уже максимальная редкость."
 brokenItem = "Сначала нужно починить предмет!"
@@ -65,6 +71,18 @@ successAddModifier = """\
 ${enhance_item_info}"""
 successUpgradeRarity = """\
 Предмет улучшен!
+
+${enhance_item_info}"""
+successStormEnhance = """\
+Штормовое усиление удалось! +${enhance_level}
+
+${enhance_item_info}"""
+failedStormEnhance = """\
+Штормовое усиление не удалось. Осколки потрачены.
+
+${enhance_item_info}"""
+rollbackStormEnhance = """\
+Штормовое усиление не удалось — уровень упал до +${enhance_level}. Осколки потрачены.
 
 ${enhance_item_info}"""
 notBrokenItem = "Предмет не нуждается в починке."

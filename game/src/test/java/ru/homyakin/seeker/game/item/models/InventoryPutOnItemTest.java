@@ -107,7 +107,8 @@ class InventoryPutOnItemTest {
             Optional.empty(),
             ItemRarity.COMMON,
             Optional.of(personageId),
-            isEquipped
+            isEquipped,
+            0
         );
     }
 }

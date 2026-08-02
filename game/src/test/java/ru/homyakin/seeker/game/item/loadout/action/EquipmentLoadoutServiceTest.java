@@ -391,7 +391,8 @@ class EquipmentLoadoutServiceTest {
             Optional.empty(),
             ItemRarity.COMMON,
             Optional.of(personageId),
-            equipped
+            equipped,
+            0
         );
     }
 }

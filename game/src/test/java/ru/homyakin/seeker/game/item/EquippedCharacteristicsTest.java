@@ -66,7 +66,8 @@ class EquippedCharacteristicsTest {
             Optional.empty(),
             ItemRarity.COMMON,
             Optional.of(PersonageId.from(1L)),
-            isEquipped
+            isEquipped,
+            0
         );
     }
 }

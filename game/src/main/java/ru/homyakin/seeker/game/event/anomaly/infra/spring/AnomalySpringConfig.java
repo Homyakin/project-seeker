@@ -3,7 +3,7 @@ package ru.homyakin.seeker.game.event.anomaly.infra.spring;
 import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
-import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyReward;
 
 @ConfigurationProperties(prefix = "homyakin.seeker.event.anomaly")
 public class AnomalySpringConfig implements AnomalyConfig {
@@ -12,9 +12,7 @@ public class AnomalySpringConfig implements AnomalyConfig {
     private Duration safePveDuration;
     private Duration dangerousSearchDuration;
     private Duration dangerousChallengeDuration;
-    private Money safeReward;
-    private Money victoryReward;
-    private Money defeatReward;
+    private RewardConfig reward = new RewardConfig();
     private int recentMeetPenaltyFirstDay = 256;
     private int initialRating;
     private int eloK;
@@ -45,18 +43,33 @@ public class AnomalySpringConfig implements AnomalyConfig {
     }
 
     @Override
-    public Money safeReward() {
-        return safeReward;
+    public AnomalyReward gvgWinReward() {
+        return reward.gvgWin.toReward();
     }
 
     @Override
-    public Money victoryReward() {
-        return victoryReward;
+    public AnomalyReward gvgLoseReward() {
+        return reward.gvgLose.toReward();
     }
 
     @Override
-    public Money defeatReward() {
-        return defeatReward;
+    public AnomalyReward gvgFallbackWinReward() {
+        return reward.gvgFallbackWin.toReward();
+    }
+
+    @Override
+    public AnomalyReward gvgFallbackLoseReward() {
+        return reward.gvgFallbackLose.toReward();
+    }
+
+    @Override
+    public AnomalyReward pveWinReward() {
+        return reward.pveWin.toReward();
+    }
+
+    @Override
+    public AnomalyReward pveLoseReward() {
+        return reward.pveLose.toReward();
     }
 
     @Override
@@ -94,16 +107,12 @@ public class AnomalySpringConfig implements AnomalyConfig {
         this.dangerousChallengeDuration = dangerousChallengeDuration;
     }
 
-    public void setRewardSafe(int rewardSafe) {
-        this.safeReward = Money.from(rewardSafe);
+    public void setReward(RewardConfig reward) {
+        this.reward = reward;
     }
 
-    public void setRewardVictory(int rewardVictory) {
-        this.victoryReward = Money.from(rewardVictory);
-    }
-
-    public void setRewardDefeat(int rewardDefeat) {
-        this.defeatReward = Money.from(rewardDefeat);
+    public RewardConfig getReward() {
+        return reward;
     }
 
     public void setRecentMeetPenaltyFirstDay(int recentMeetPenaltyFirstDay) {
@@ -116,5 +125,87 @@ public class AnomalySpringConfig implements AnomalyConfig {
 
     public void setEloK(int eloK) {
         this.eloK = eloK;
+    }
+
+    public static class RewardConfig {
+        private OutcomeConfig gvgWin = new OutcomeConfig();
+        private OutcomeConfig gvgLose = new OutcomeConfig();
+        private OutcomeConfig gvgFallbackWin = new OutcomeConfig();
+        private OutcomeConfig gvgFallbackLose = new OutcomeConfig();
+        private OutcomeConfig pveWin = new OutcomeConfig();
+        private OutcomeConfig pveLose = new OutcomeConfig();
+
+        public OutcomeConfig getGvgWin() {
+            return gvgWin;
+        }
+
+        public void setGvgWin(OutcomeConfig gvgWin) {
+            this.gvgWin = gvgWin;
+        }
+
+        public OutcomeConfig getGvgLose() {
+            return gvgLose;
+        }
+
+        public void setGvgLose(OutcomeConfig gvgLose) {
+            this.gvgLose = gvgLose;
+        }
+
+        public OutcomeConfig getGvgFallbackWin() {
+            return gvgFallbackWin;
+        }
+
+        public void setGvgFallbackWin(OutcomeConfig gvgFallbackWin) {
+            this.gvgFallbackWin = gvgFallbackWin;
+        }
+
+        public OutcomeConfig getGvgFallbackLose() {
+            return gvgFallbackLose;
+        }
+
+        public void setGvgFallbackLose(OutcomeConfig gvgFallbackLose) {
+            this.gvgFallbackLose = gvgFallbackLose;
+        }
+
+        public OutcomeConfig getPveWin() {
+            return pveWin;
+        }
+
+        public void setPveWin(OutcomeConfig pveWin) {
+            this.pveWin = pveWin;
+        }
+
+        public OutcomeConfig getPveLose() {
+            return pveLose;
+        }
+
+        public void setPveLose(OutcomeConfig pveLose) {
+            this.pveLose = pveLose;
+        }
+    }
+
+    public static class OutcomeConfig {
+        private int money;
+        private int stormShards;
+
+        public AnomalyReward toReward() {
+            return AnomalyReward.of(money, stormShards);
+        }
+
+        public int getMoney() {
+            return money;
+        }
+
+        public void setMoney(int money) {
+            this.money = money;
+        }
+
+        public int getStormShards() {
+            return stormShards;
+        }
+
+        public void setStormShards(int stormShards) {
+            this.stormShards = stormShards;
+        }
     }
 }

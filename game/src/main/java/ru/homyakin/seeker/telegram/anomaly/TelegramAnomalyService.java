@@ -209,7 +209,7 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
         groupEventService.getByLaunchedEventId(result.launchedEventId()).forEach(groupEvent -> {
             final var group = groupTgService.getOrCreate(groupEvent.groupId());
             final boolean victory = group.domainGroupId().equals(result.winnerGroupId());
-            final var reward = victory ? anomalyConfig.victoryReward() : anomalyConfig.defeatReward();
+            final var reward = victory ? anomalyConfig.gvgWinReward() : anomalyConfig.gvgLoseReward();
             final var text = AnomalyLocalization.battleResult(
                 group.language(),
                 winnerGroup,

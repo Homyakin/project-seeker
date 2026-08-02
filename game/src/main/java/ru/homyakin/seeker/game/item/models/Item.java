@@ -7,18 +7,36 @@ import ru.homyakin.seeker.game.personage.models.Characteristics;
 public record Item(
     ItemObject object,
     Optional<Modifier> modifier,
-    ItemRarity rarity
+    ItemRarity rarity,
+    int enhanceLevel
 ) {
+    public static final int STORM_ENHANCE_BONUS_PERCENT_PER_LEVEL = 5;
+
+    public Item(ItemObject object, Optional<Modifier> modifier, ItemRarity rarity) {
+        this(object, modifier, rarity, 0);
+    }
+
+    public Item withoutStormEnhance() {
+        return enhanceLevel == 0 ? this : new Item(object, modifier, rarity, 0);
+    }
+
     public Optional<ItemAttack> itemAttack() {
-        return object.attack();
+        return object.attack().map(attack -> new ItemAttack(
+            attack.attackType(),
+            attack.range(),
+            applyEnhance(attack.attack())
+        ));
     }
 
     public Optional<ItemDefense> itemDefense() {
-        return object.defense();
+        return object.defense().map(defense -> new ItemDefense(
+            defense.defenseType(),
+            applyEnhance(defense.defense())
+        ));
     }
 
     public int health() {
-        return object.health();
+        return applyEnhance(object.health());
     }
 
     public int critChance() {
@@ -49,6 +67,13 @@ public record Item(
         final var attack = itemAttack().map(ItemAttack::attack).orElse(0);
         final var defense = itemDefense().map(ItemDefense::defense).orElse(0);
         return new Characteristics(health(), attack, defense);
+    }
+
+    private int applyEnhance(int base) {
+        if (enhanceLevel <= 0 || base == 0) {
+            return base;
+        }
+        return (int) Math.round(base * (1 + enhanceLevel * STORM_ENHANCE_BONUS_PERCENT_PER_LEVEL / 100.0));
     }
 
     public static Item weapon(
