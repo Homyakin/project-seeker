@@ -243,6 +243,17 @@ public class PersonageService {
                     )
                 )
         );
+        final var stormShardsRewards = results.stream()
+            .filter(result -> !result.stormShards().isZero())
+            .collect(
+                Collectors.toMap(
+                    PersonageWorldRaidBattleResult::personageId,
+                    PersonageWorldRaidBattleResult::stormShards
+                )
+            );
+        if (!stormShardsRewards.isEmpty()) {
+            addStormShardsBatch(stormShardsRewards);
+        }
         personageBattleResultDao.saveBatch(
             results.stream()
                 .map(result -> new PersonageBattleResult(

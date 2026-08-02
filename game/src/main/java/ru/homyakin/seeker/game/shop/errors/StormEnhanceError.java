@@ -9,8 +9,4 @@ public sealed interface StormEnhanceError {
     enum NoSuchItem implements StormEnhanceError {
         INSTANCE
     }
-
-    enum MaxLevel implements StormEnhanceError {
-        INSTANCE
-    }
 }

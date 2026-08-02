@@ -245,10 +245,6 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::maxModifiers);
     }
 
-    public static String maxStormEnhance(Language language) {
-        return resources.getOrDefault(language, ShopResource::maxStormEnhance);
-    }
-
     public static String brokenItem(Language language) {
         return resources.getOrDefault(language, ShopResource::brokenItem);
     }
@@ -294,6 +290,16 @@ public class ShopLocalization {
         );
     }
 
+    public static String rollbackStormEnhance(Language language, AvailableAction action) {
+        final var params = new HashMap<String, Object>();
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_level", action.item().enhanceLevel());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ShopResource::rollbackStormEnhance),
+            params
+        );
+    }
+
     public static String notEnoughStormShards(Language language, StormShards required) {
         final var params = new HashMap<String, Object>();
         params.put("required_value", required.value());
@@ -325,7 +331,9 @@ public class ShopLocalization {
         final var params = new HashMap<String, Object>();
         params.put("cost_value", action.cost().value());
         params.put("storm_shard_icon", Icons.STORM_SHARD);
-        params.put("success_percent", action.successPercent());
+        params.put("success_percent", action.probabilities().successPercent());
+        params.put("failure_percent", action.probabilities().failurePercent());
+        params.put("rollback_percent", action.probabilities().rollbackPercent());
         params.put("next_level", action.nextLevel());
         params.put(
             "storm_enhance_command",

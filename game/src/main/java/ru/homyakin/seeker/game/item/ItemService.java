@@ -234,6 +234,12 @@ public class ItemService {
         return getById(item.id()).orElseThrow();
     }
 
+    public PersonageItem stormEnhanceRollback(PersonageItem item) {
+        final var nextLevel = Math.max(0, item.enhanceLevel() - 1);
+        itemDao.updateEnhanceLevel(item.id(), nextLevel);
+        return getById(item.id()).orElseThrow();
+    }
+
     private PersonageSlot primarySlot(ItemObject object) {
         return object.slots().stream()
             .min(Comparator.comparingInt(slot -> slot.id))

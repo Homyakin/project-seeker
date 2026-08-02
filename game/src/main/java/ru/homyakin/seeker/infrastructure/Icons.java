@@ -36,7 +36,7 @@ public class Icons {
     public static final String SUCCESS_QUEST = EmojiManager.getByAlias(":white_check_mark:").orElseThrow().getFirst().getEmoji();
     public static final String FAILED_QUEST = EmojiManager.getByAlias(":x:").orElseThrow().getFirst().getEmoji();
     public static final String BROKEN_ITEM = EmojiManager.getByAlias(":broken_chain:").orElseThrow().getFirst().getEmoji();
-    public static final String STORM_SHARD = EmojiManager.getByAlias(":cyclone:").orElseThrow().getFirst().getEmoji();
+    public static final String STORM_SHARD = EmojiManager.getByAlias(":large_blue_diamond:").orElseThrow().getFirst().getEmoji();
     public static final String STORM_ENHANCE = EmojiManager.getByAlias(":zap:").orElseThrow().getFirst().getEmoji();
 
     // Attack types

@@ -57,10 +57,13 @@ ${available_enhance}
 """
 addModifier = "Добавить модификатор: ${enhance_command} ${money_icon}${price_value}"
 upgradeRarity = "Улучшить редкость: ${enhance_command} ${money_icon}${price_value}"
-stormEnhance = "Усилить штормом (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value} (${success_percent}%)"
+stormEnhance = """\
+Усилить штормом (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value}
+- Успех: ${success_percent}%
+- Неудача ${failure_percent}%
+- Откат ${rollback_percent}%"""
 repair = "Починить: ${repair_command} ${money_icon}${price_value}"
 maxModifiers = "У этого предмета уже максимальная редкость."
-maxStormEnhance = "У этого предмета уже максимальное усиление штормом."
 brokenItem = "Сначала нужно починить предмет!"
 successAddModifier = """\
 Модификатор добавлен!
@@ -76,6 +79,10 @@ successStormEnhance = """\
 ${enhance_item_info}"""
 failedStormEnhance = """\
 Штормовое усиление не удалось. Осколки потрачены.
+
+${enhance_item_info}"""
+rollbackStormEnhance = """\
+Штормовое усиление не удалось — уровень упал до +${enhance_level}. Осколки потрачены.
 
 ${enhance_item_info}"""
 notBrokenItem = "Предмет не нуждается в починке."

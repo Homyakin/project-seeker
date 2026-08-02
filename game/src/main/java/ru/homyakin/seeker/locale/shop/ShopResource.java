@@ -34,12 +34,12 @@ public record ShopResource(
     String stormEnhance,
     String repair,
     String maxModifiers,
-    String maxStormEnhance,
     String brokenItem,
     String successAddModifier,
     String successUpgradeRarity,
     String successStormEnhance,
     String failedStormEnhance,
+    String rollbackStormEnhance,
     String notBrokenItem,
     String successRepair,
     String emptyEnhance

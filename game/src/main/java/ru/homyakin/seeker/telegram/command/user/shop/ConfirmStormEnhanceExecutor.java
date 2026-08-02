@@ -33,7 +33,6 @@ public class ConfirmStormEnhanceExecutor extends CommandExecutor<ConfirmStormEnh
             .fold(
                 error -> switch (error) {
                     case StormEnhanceError.NoSuchItem _ -> ShopLocalization.noItemAtPersonage(user.language());
-                    case StormEnhanceError.MaxLevel _ -> ShopLocalization.maxStormEnhance(user.language());
                     case StormEnhanceError.NotEnoughStormShards notEnough ->
                         ShopLocalization.notEnoughStormShards(user.language(), notEnough.required());
                 },
@@ -42,6 +41,8 @@ public class ConfirmStormEnhanceExecutor extends CommandExecutor<ConfirmStormEnh
                         ShopLocalization.successStormEnhance(user.language(), result.action());
                     case StormEnhanceOutcome.FAILURE ->
                         ShopLocalization.failedStormEnhance(user.language(), result.action());
+                    case StormEnhanceOutcome.ROLLBACK ->
+                        ShopLocalization.rollbackStormEnhance(user.language(), result.action());
                 }
             );
         telegramSender.send(SendMessageBuilder.builder()

@@ -19,8 +19,10 @@ import ru.homyakin.seeker.game.shop.models.EnhanceResult;
 import ru.homyakin.seeker.game.shop.models.StormEnhanceAction;
 import ru.homyakin.seeker.game.shop.models.StormEnhanceOutcome;
 import ru.homyakin.seeker.game.shop.models.StormEnhanceResult;
+import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.RandomUtils;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -81,35 +83,41 @@ public class EnhanceService {
         if (item.isEmpty()) {
             return Either.left(StormEnhanceError.NoSuchItem.INSTANCE);
         }
-        if (item.get().enhanceLevel() >= stormEnhanceConfig.maxLevel()) {
-            return Either.left(StormEnhanceError.MaxLevel.INSTANCE);
-        }
-        final var cost = stormEnhanceConfig.costForLevel(item.get().enhanceLevel());
-        final var successPercent = stormEnhanceConfig.successPercentForLevel(item.get().enhanceLevel());
+        final var currentLevel = item.get().enhanceLevel();
+        final var cost = stormEnhanceConfig.costForLevel(currentLevel, item.get().object().slots().size());
+        final var probabilities = stormEnhanceConfig.probabilitiesForLevel(currentLevel);
         final var takeResult = personageService.tryTakeStormShards(personageId, cost);
         if (takeResult.isLeft()) {
             return Either.left(new StormEnhanceError.NotEnoughStormShards(cost));
         }
-        final boolean success = RandomUtils.processChance(successPercent);
-        if (success) {
-            final var enhanced = itemService.stormEnhance(item.get());
-            return Either.right(new StormEnhanceResult(availableAction(enhanced), StormEnhanceOutcome.SUCCESS));
-        }
-        return Either.right(new StormEnhanceResult(availableAction(item.get()), StormEnhanceOutcome.FAILURE));
+        final var outcome = new ProbabilityPicker<>(Map.of(
+            StormEnhanceOutcome.SUCCESS, probabilities.successPercent(),
+            StormEnhanceOutcome.FAILURE, probabilities.failurePercent(),
+            StormEnhanceOutcome.ROLLBACK, probabilities.rollbackPercent()
+        )).pick(RandomUtils::getWithMax);
+        return switch (outcome) {
+            case SUCCESS -> {
+                final var enhanced = itemService.stormEnhance(item.get());
+                yield Either.right(new StormEnhanceResult(availableAction(enhanced), StormEnhanceOutcome.SUCCESS));
+            }
+            case FAILURE -> Either.right(new StormEnhanceResult(availableAction(item.get()), StormEnhanceOutcome.FAILURE));
+            case ROLLBACK -> {
+                final var rolledBack = itemService.stormEnhanceRollback(item.get());
+                yield Either.right(new StormEnhanceResult(availableAction(rolledBack), StormEnhanceOutcome.ROLLBACK));
+            }
+        };
     }
 
     private AvailableAction availableAction(PersonageItem item) {
         final Optional<EnhanceAction> rarityAction = item.rarity() == ItemRarity.LEGENDARY
             ? Optional.empty()
             : Optional.of(new EnhanceAction.Enhance(enhancePrice(item)));
-        final Optional<StormEnhanceAction> stormAction = item.enhanceLevel() >= stormEnhanceConfig.maxLevel()
-            ? Optional.empty()
-            : Optional.of(new StormEnhanceAction(
-                stormEnhanceConfig.costForLevel(item.enhanceLevel()),
-                stormEnhanceConfig.successPercentForLevel(item.enhanceLevel()),
-                item.enhanceLevel(),
-                item.enhanceLevel() + 1
-            ));
+        final Optional<StormEnhanceAction> stormAction = Optional.of(new StormEnhanceAction(
+            stormEnhanceConfig.costForLevel(item.enhanceLevel(), item.object().slots().size()),
+            stormEnhanceConfig.probabilitiesForLevel(item.enhanceLevel()),
+            item.enhanceLevel(),
+            item.enhanceLevel() + 1
+        ));
         return new AvailableAction(rarityAction, stormAction, item);
     }
 
