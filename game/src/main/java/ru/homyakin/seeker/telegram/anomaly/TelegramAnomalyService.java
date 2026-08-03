@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.event.anomaly.action.AnomalyService;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
+import ru.homyakin.seeker.game.event.anomaly.entity.NotifyAnomalyBattleFinished;
 import ru.homyakin.seeker.game.event.anomaly.entity.SendAnomalyChallengeToGroup;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
@@ -25,7 +26,7 @@ import ru.homyakin.seeker.telegram.utils.OutpostKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
-public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
+public class TelegramAnomalyService implements SendAnomalyChallengeToGroup, NotifyAnomalyBattleFinished {
     private final GroupTgService groupTgService;
     private final GetGroup getGroup;
     private final TelegramSender telegramSender;
@@ -160,8 +161,12 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
     }
 
     private java.time.Duration dangerousMaxDuration() {
-        return anomalyConfig.dangerousSearchDuration()
-            .plus(anomalyConfig.dangerousChallengeDuration());
+        return anomalyConfig.dangerousSearchDuration();
+    }
+
+    @Override
+    public void notify(EventResult.AnomalyResult.BattleFinished result) {
+        notifyBattleFinished(result);
     }
 
     private static java.util.List<ru.homyakin.seeker.game.personage.event.EventParticipant> participantsOfGroup(

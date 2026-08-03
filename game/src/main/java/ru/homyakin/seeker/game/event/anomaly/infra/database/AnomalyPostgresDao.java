@@ -120,6 +120,92 @@ public class AnomalyPostgresDao implements AnomalyStorage {
     }
 
     @Override
+    @Transactional
+    public boolean tryMergeSearchingInto(Anomaly.Dangerous.Accepted hostAccepted, long guestLaunchedEventId) {
+        final var hostId = hostAccepted.launchedEventId();
+        if (hostId == guestLaunchedEventId) {
+            return false;
+        }
+        final var updateHostSql = """
+            UPDATE anomaly
+            SET owner_personage_id = :owner_personage_id,
+                phase = :phase,
+                mode = :mode,
+                pve_template_code = :pve_template_code,
+                opponent_pgroup_id = :opponent_pgroup_id,
+                opponent_owner_personage_id = :opponent_owner_personage_id,
+                winner_pgroup_id = :winner_pgroup_id,
+                gvg_rating_at_start = :gvg_rating_at_start,
+                search_end_date = :search_end_date
+            WHERE launched_event_id = :launched_event_id
+              AND phase = :expected_phase
+              AND opponent_pgroup_id IS NULL
+              AND EXISTS (
+                  SELECT 1
+                  FROM anomaly guest
+                  INNER JOIN launched_event guest_le ON guest_le.id = guest.launched_event_id
+                  WHERE guest.launched_event_id = :guest_launched_event_id
+                    AND guest.phase = :expected_phase
+                    AND guest.opponent_pgroup_id IS NULL
+                    AND guest.pgroup_id = :opponent_pgroup_id
+                    AND guest_le.status_id = :launched_status
+              )
+            """;
+        try {
+            final var merged = bind(hostAccepted, jdbcClient.sql(updateHostSql))
+                .param("expected_phase", AnomalyPhase.SEARCHING.name())
+                .param("guest_launched_event_id", guestLaunchedEventId)
+                .param("launched_status", EventStatus.LAUNCHED.id())
+                .update() == 1;
+            if (!merged) {
+                return false;
+            }
+
+            jdbcClient.sql("""
+                    UPDATE personage_to_event
+                    SET launched_event_id = :host_id
+                    WHERE launched_event_id = :guest_id
+                    """)
+                .param("host_id", hostId)
+                .param("guest_id", guestLaunchedEventId)
+                .update();
+
+            jdbcClient.sql("""
+                    UPDATE grouptg_to_launched_event
+                    SET launched_event_id = :host_id
+                    WHERE launched_event_id = :guest_id
+                    """)
+                .param("host_id", hostId)
+                .param("guest_id", guestLaunchedEventId)
+                .update();
+
+            jdbcClient.sql("""
+                    INSERT INTO launched_event_to_pgroup (launched_event_id, pgroup_id)
+                    VALUES (:host_id, :opponent_pgroup_id)
+                    ON CONFLICT DO NOTHING
+                    """)
+                .param("host_id", hostId)
+                .param("opponent_pgroup_id", hostAccepted.opponentGroupId().value())
+                .update();
+
+            jdbcClient.sql("""
+                    UPDATE launched_event
+                    SET status_id = :canceled_status
+                    WHERE id = :guest_id
+                      AND status_id = :launched_status
+                    """)
+                .param("canceled_status", EventStatus.CANCELED.id())
+                .param("guest_id", guestLaunchedEventId)
+                .param("launched_status", EventStatus.LAUNCHED.id())
+                .update();
+            return true;
+        } catch (DuplicateKeyException e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
+        }
+    }
+
+    @Override
     public Optional<Anomaly> findByLaunchedEventId(long launchedEventId) {
         final var sql = "SELECT * FROM anomaly WHERE launched_event_id = :launched_event_id";
         return jdbcClient.sql(sql)

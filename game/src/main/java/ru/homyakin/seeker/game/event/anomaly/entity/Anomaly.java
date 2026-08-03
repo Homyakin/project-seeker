@@ -81,6 +81,22 @@ public sealed interface Anomaly permits
                     searchEndDate
                 );
             }
+
+            /**
+             * Pool match: both sides already gathered, go straight to Accepted.
+             */
+            public Accepted matchWith(GroupId opponentGroupId, PersonageId opponentOwnerPersonageId) {
+                return new Accepted(
+                    launchedEventId,
+                    groupId,
+                    ownerPersonageId,
+                    opponentGroupId,
+                    opponentOwnerPersonageId,
+                    Optional.empty(),
+                    gvgRatingAtStart,
+                    searchEndDate
+                );
+            }
         }
 
         /**
