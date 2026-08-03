@@ -134,7 +134,11 @@ public class AnomalyMatchmaker {
             return Optional.empty();
         }
 
-        final var accepted = host.matchWith(guest.groupId(), guest.ownerPersonageId());
+        final var accepted = host.matchWith(
+            guest.groupId(),
+            guest.ownerPersonageId(),
+            guest.launchedEventId()
+        );
         if (!anomalyStorage.tryMergeSearchingInto(accepted, guestEventId)) {
             return Optional.empty();
         }

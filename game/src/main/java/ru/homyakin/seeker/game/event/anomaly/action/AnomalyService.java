@@ -167,9 +167,19 @@ public class AnomalyService {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
                 anomalyBattleService.fightPve(launchedEvent, safe);
             case Anomaly.Dangerous.Challenged challenged ->
-                expireDefenseThenPve(launchedEvent, challenged.opponentGroupId(), challenged.clearOpponent());
+                expireDefenseThenPve(
+                    launchedEvent,
+                    challenged.opponentGroupId(),
+                    challenged.clearOpponent(),
+                    challenged.opponentLaunchedEventId()
+                );
             case Anomaly.Dangerous.Accepted accepted ->
-                expireDefenseThenPve(launchedEvent, accepted.opponentGroupId(), accepted.clearOpponent());
+                expireDefenseThenPve(
+                    launchedEvent,
+                    accepted.opponentGroupId(),
+                    accepted.clearOpponent(),
+                    accepted.opponentLaunchedEventId()
+                );
             case Anomaly.Dangerous.Searching searching ->
                 anomalyBattleService.fightPveFallback(
                     launchedEvent,
@@ -194,11 +204,21 @@ public class AnomalyService {
     private EventResult expireDefenseThenPve(
         LaunchedEvent event,
         GroupId opponentGroupId,
-        Anomaly.Dangerous.Searching searching
+        Anomaly.Dangerous.Searching searching,
+        Optional<Long> opponentLaunchedEventId
     ) {
         removeParticipantsOfGroup(event.id(), opponentGroupId);
         launchedEventService.removeGroupFromEvent(event.id(), opponentGroupId);
         anomalyStorage.update(searching);
+        opponentLaunchedEventId.ifPresent(opponentEventId ->
+            anomalyStorage.findByLaunchedEventId(opponentEventId).ifPresent(opponent -> {
+                if (opponent instanceof Anomaly.Dangerous.Accepted guestAccepted) {
+                    anomalyStorage.update(guestAccepted.clearOpponent());
+                } else if (opponent instanceof Anomaly.Dangerous.Challenged guestChallenged) {
+                    anomalyStorage.update(guestChallenged.clearOpponent());
+                }
+            })
+        );
         return anomalyBattleService.fightPveFallback(
             event,
             searching.groupId(),

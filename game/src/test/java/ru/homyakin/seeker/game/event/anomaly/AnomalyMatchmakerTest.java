@@ -79,6 +79,7 @@ public class AnomalyMatchmakerTest {
         Mockito.verify(anomalyStorage).tryMergeSearchingInto(acceptedCaptor.capture(), Mockito.eq(guestEventId));
         Assertions.assertEquals(guestGroupId, acceptedCaptor.getValue().opponentGroupId());
         Assertions.assertEquals(guestOwnerId, acceptedCaptor.getValue().opponentOwnerPersonageId());
+        Assertions.assertEquals(Optional.of(guestEventId), acceptedCaptor.getValue().opponentLaunchedEventId());
         Mockito.verify(anomalyBattleService).fight(Mockito.eq(hostEvent), Mockito.eq(acceptedCaptor.getValue()));
         Mockito.verify(notifyAnomalyBattleFinished).notify(battleResult);
     }

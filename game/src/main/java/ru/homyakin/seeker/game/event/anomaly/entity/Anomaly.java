@@ -71,27 +71,37 @@ public sealed interface Anomaly permits
             int gvgRatingAtStart,
             LocalDateTime searchEndDate
         ) implements Dangerous {
+            /**
+             * Idle tip-off challenge: opponent has no own anomaly row.
+             */
             public Challenged withOpponent(GroupId opponentGroupId) {
                 return new Challenged(
                     launchedEventId,
                     groupId,
                     ownerPersonageId,
                     opponentGroupId,
+                    Optional.empty(),
                     gvgRatingAtStart,
                     searchEndDate
                 );
             }
 
             /**
-             * Pool match: both sides already gathered, go straight to Accepted.
+             * Pool match: both sides already gathered, go straight to Accepted
+             * with a link to the opponent anomaly.
              */
-            public Accepted matchWith(GroupId opponentGroupId, PersonageId opponentOwnerPersonageId) {
+            public Accepted matchWith(
+                GroupId opponentGroupId,
+                PersonageId opponentOwnerPersonageId,
+                long opponentLaunchedEventId
+            ) {
                 return new Accepted(
                     launchedEventId,
                     groupId,
                     ownerPersonageId,
                     opponentGroupId,
                     opponentOwnerPersonageId,
+                    Optional.of(opponentLaunchedEventId),
                     Optional.empty(),
                     gvgRatingAtStart,
                     searchEndDate
@@ -101,12 +111,14 @@ public sealed interface Anomaly permits
 
         /**
          * Opponent invited; no defender has joined yet.
+         * {@code opponentLaunchedEventId} is empty for idle tip-offs.
          */
         record Challenged(
             long launchedEventId,
             GroupId groupId,
             PersonageId ownerPersonageId,
             GroupId opponentGroupId,
+            Optional<Long> opponentLaunchedEventId,
             int gvgRatingAtStart,
             LocalDateTime searchEndDate
         ) implements Dangerous {
@@ -117,6 +129,7 @@ public sealed interface Anomaly permits
                     ownerPersonageId,
                     opponentGroupId,
                     opponentOwnerPersonageId,
+                    opponentLaunchedEventId,
                     Optional.empty(),
                     gvgRatingAtStart,
                     searchEndDate
@@ -135,7 +148,8 @@ public sealed interface Anomaly permits
         }
 
         /**
-         * At least one defender has joined; opponent owner can Ready.
+         * At least one defender has joined, or pool match completed gathering.
+         * {@code opponentLaunchedEventId} links to the other group's anomaly when both launched.
          */
         record Accepted(
             long launchedEventId,
@@ -143,6 +157,7 @@ public sealed interface Anomaly permits
             PersonageId ownerPersonageId,
             GroupId opponentGroupId,
             PersonageId opponentOwnerPersonageId,
+            Optional<Long> opponentLaunchedEventId,
             Optional<GroupId> winnerGroupId,
             int gvgRatingAtStart,
             LocalDateTime searchEndDate
@@ -168,6 +183,7 @@ public sealed interface Anomaly permits
                     ownerPersonageId,
                     opponentGroupId,
                     opponentOwnerPersonageId,
+                    opponentLaunchedEventId,
                     Optional.of(winnerGroupId),
                     gvgRatingAtStart,
                     searchEndDate

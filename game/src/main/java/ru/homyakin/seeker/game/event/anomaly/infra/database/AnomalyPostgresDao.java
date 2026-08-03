@@ -40,12 +40,12 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         final var sql = """
             INSERT INTO anomaly (
                 launched_event_id, pgroup_id, owner_personage_id, phase, mode,
-                pve_template_code, opponent_pgroup_id,
+                pve_template_code, opponent_pgroup_id, opponent_launched_event_id,
                 opponent_owner_personage_id, winner_pgroup_id,
                 gvg_rating_at_start, search_end_date
             ) VALUES (
                 :launched_event_id, :pgroup_id, :owner_personage_id, :phase, :mode,
-                :pve_template_code, :opponent_pgroup_id,
+                :pve_template_code, :opponent_pgroup_id, :opponent_launched_event_id,
                 :opponent_owner_personage_id, :winner_pgroup_id,
                 :gvg_rating_at_start, :search_end_date
             )
@@ -62,6 +62,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 mode = :mode,
                 pve_template_code = :pve_template_code,
                 opponent_pgroup_id = :opponent_pgroup_id,
+                opponent_launched_event_id = :opponent_launched_event_id,
                 opponent_owner_personage_id = :opponent_owner_personage_id,
                 winner_pgroup_id = :winner_pgroup_id,
                 gvg_rating_at_start = :gvg_rating_at_start,
@@ -81,6 +82,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 mode = :mode,
                 pve_template_code = :pve_template_code,
                 opponent_pgroup_id = :opponent_pgroup_id,
+                opponent_launched_event_id = :opponent_launched_event_id,
                 opponent_owner_personage_id = :opponent_owner_personage_id,
                 winner_pgroup_id = :winner_pgroup_id,
                 gvg_rating_at_start = :gvg_rating_at_start,
@@ -88,6 +90,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             WHERE launched_event_id = :launched_event_id
               AND phase = :expected_phase
               AND opponent_pgroup_id IS NULL
+              AND opponent_launched_event_id IS NULL
               AND NOT EXISTS (
                   SELECT 1
                   FROM anomaly_challenge_day d
@@ -126,6 +129,9 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         if (hostId == guestLaunchedEventId) {
             return false;
         }
+        if (hostAccepted.opponentLaunchedEventId().filter(id -> id == guestLaunchedEventId).isEmpty()) {
+            return false;
+        }
         final var updateHostSql = """
             UPDATE anomaly
             SET owner_personage_id = :owner_personage_id,
@@ -133,6 +139,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 mode = :mode,
                 pve_template_code = :pve_template_code,
                 opponent_pgroup_id = :opponent_pgroup_id,
+                opponent_launched_event_id = :opponent_launched_event_id,
                 opponent_owner_personage_id = :opponent_owner_personage_id,
                 winner_pgroup_id = :winner_pgroup_id,
                 gvg_rating_at_start = :gvg_rating_at_start,
@@ -140,6 +147,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             WHERE launched_event_id = :launched_event_id
               AND phase = :expected_phase
               AND opponent_pgroup_id IS NULL
+              AND opponent_launched_event_id IS NULL
               AND EXISTS (
                   SELECT 1
                   FROM anomaly guest
@@ -147,6 +155,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                   WHERE guest.launched_event_id = :guest_launched_event_id
                     AND guest.phase = :expected_phase
                     AND guest.opponent_pgroup_id IS NULL
+                    AND guest.opponent_launched_event_id IS NULL
                     AND guest.pgroup_id = :opponent_pgroup_id
                     AND guest_le.status_id = :launched_status
               )
@@ -158,6 +167,29 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 .param("launched_status", EventStatus.LAUNCHED.id())
                 .update() == 1;
             if (!merged) {
+                return false;
+            }
+
+            final var guestLinked = jdbcClient.sql("""
+                    UPDATE anomaly
+                    SET phase = :accepted_phase,
+                        opponent_pgroup_id = :host_pgroup_id,
+                        opponent_launched_event_id = :host_id,
+                        opponent_owner_personage_id = :host_owner_personage_id
+                    WHERE launched_event_id = :guest_id
+                      AND phase = :expected_phase
+                      AND opponent_pgroup_id IS NULL
+                      AND opponent_launched_event_id IS NULL
+                    """)
+                .param("accepted_phase", AnomalyPhase.ACCEPTED.name())
+                .param("host_pgroup_id", hostAccepted.groupId().value())
+                .param("host_id", hostId)
+                .param("host_owner_personage_id", hostAccepted.ownerPersonageId().value())
+                .param("guest_id", guestLaunchedEventId)
+                .param("expected_phase", AnomalyPhase.SEARCHING.name())
+                .update() == 1;
+            if (!guestLinked) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return false;
             }
 
@@ -241,6 +273,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             WHERE le.status_id = :launched_status
               AND a.phase = :phase
               AND a.opponent_pgroup_id IS NULL
+              AND a.opponent_launched_event_id IS NULL
             """;
         return jdbcClient.sql(sql)
             .param("launched_status", EventStatus.LAUNCHED.id())
@@ -280,6 +313,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             .param("mode", toMode(anomaly).map(Enum::name).orElse(null))
             .param("pve_template_code", toPveTemplateCode(anomaly))
             .param("opponent_pgroup_id", toOpponentGroupId(anomaly).map(GroupId::value).orElse(null))
+            .param("opponent_launched_event_id", toOpponentLaunchedEventId(anomaly).orElse(null))
             .param(
                 "opponent_owner_personage_id",
                 toOpponentOwnerId(anomaly).map(PersonageId::value).orElse(null)
@@ -298,6 +332,8 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         final var templateCode = rs.getString("pve_template_code");
         final var opponentGroupId = Optional.ofNullable(rs.getObject("opponent_pgroup_id"))
             .map(id -> GroupId.from(((Number) id).longValue()));
+        final var opponentLaunchedEventId = Optional.ofNullable(rs.getObject("opponent_launched_event_id"))
+            .map(id -> ((Number) id).longValue());
         final var opponentOwner = Optional.ofNullable(rs.getObject("opponent_owner_personage_id"))
             .map(id -> PersonageId.from(((Number) id).longValue()));
         final var winnerGroupId = Optional.ofNullable(rs.getObject("winner_pgroup_id"))
@@ -345,6 +381,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 opponentGroupId.orElseThrow(() -> new IllegalStateException(
                     "Challenged anomaly without opponent: " + launchedEventId
                 )),
+                opponentLaunchedEventId,
                 requireGvgRating(gvgRating, launchedEventId),
                 searchEnd.orElseThrow(() -> new IllegalStateException(
                     "Challenged anomaly without search_end_date: " + launchedEventId
@@ -360,6 +397,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 opponentOwner.orElseThrow(() -> new IllegalStateException(
                     "Accepted anomaly without opponent owner: " + launchedEventId
                 )),
+                opponentLaunchedEventId,
                 winnerGroupId,
                 requireGvgRating(gvgRating, launchedEventId),
                 searchEnd.orElseThrow(() -> new IllegalStateException(
@@ -412,6 +450,15 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         return switch (anomaly) {
             case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.opponentGroupId());
             case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentGroupId());
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
+                Optional.empty();
+        };
+    }
+
+    private static Optional<Long> toOpponentLaunchedEventId(Anomaly anomaly) {
+        return switch (anomaly) {
+            case Anomaly.Dangerous.Challenged challenged -> challenged.opponentLaunchedEventId();
+            case Anomaly.Dangerous.Accepted accepted -> accepted.opponentLaunchedEventId();
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
                 Optional.empty();
         };

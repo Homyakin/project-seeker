@@ -156,7 +156,15 @@ public class AnomalyBattleService {
         payRewards(winnerParticipants, victoryReward);
         payRewards(loserParticipants, defeatReward);
         updateElo(accepted.groupId(), opponentGroupId, initiatorWins);
-        anomalyStorage.update(accepted.withWinner(winnerGroupId));
+        final var finished = accepted.withWinner(winnerGroupId);
+        anomalyStorage.update(finished);
+        accepted.opponentLaunchedEventId().ifPresent(opponentEventId ->
+            anomalyStorage.findByLaunchedEventId(opponentEventId).ifPresent(opponent -> {
+                if (opponent instanceof Anomaly.Dangerous.Accepted guestAccepted) {
+                    anomalyStorage.update(guestAccepted.withWinner(winnerGroupId));
+                }
+            })
+        );
         launchedEventService.updateStatus(event.id(), EventStatus.SUCCESS);
 
         final var winnerResults = toPersonageResults(

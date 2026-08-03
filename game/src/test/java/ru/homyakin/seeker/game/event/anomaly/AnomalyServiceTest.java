@@ -115,6 +115,7 @@ public class AnomalyServiceTest {
             groupId,
             personageId,
             opponentGroupId,
+            Optional.empty(),
             1000,
             TimeUtils.moscowTime().plusHours(6)
         );
@@ -257,6 +258,7 @@ public class AnomalyServiceTest {
             groupId,
             personageId,
             opponentGroupId,
+            Optional.empty(),
             1000,
             searchEnd
         );
@@ -315,6 +317,7 @@ public class AnomalyServiceTest {
             opponentGroupId,
             PersonageId.from(2L),
             Optional.empty(),
+            Optional.empty(),
             1000,
             TimeUtils.moscowTime().plusHours(6)
         );
@@ -369,6 +372,7 @@ public class AnomalyServiceTest {
             groupId,
             personageId,
             opponentGroupId,
+            Optional.empty(),
             1000,
             searchEnd
         );
