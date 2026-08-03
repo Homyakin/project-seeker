@@ -103,19 +103,21 @@ public class AnomalyMatchmakerTest {
 
     @Test
     void Given_RatingTooFar_When_Match_Then_SkipsPartner() {
+        // Fresh search (~0s age) only allows |Δrating| <= 10.
+        final var searchEnd = TimeUtils.moscowTime().plus(Duration.ofHours(12));
         final var host = new Anomaly.Dangerous.Searching(
             hostEventId,
             hostGroupId,
             hostOwnerId,
             1000,
-            TimeUtils.moscowTime().plusHours(11)
+            searchEnd
         );
         final var guest = new Anomaly.Dangerous.Searching(
             guestEventId,
             guestGroupId,
             guestOwnerId,
-            2000,
-            TimeUtils.moscowTime().plusHours(11)
+            1100,
+            searchEnd
         );
         final var hostEvent = launchedEvent(hostEventId);
         final var guestEvent = launchedEvent(guestEventId);
