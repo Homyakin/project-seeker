@@ -57,10 +57,10 @@ public class AnomalyMenuExecutor extends CommandExecutor<AnomalyMenu> {
                     .chatId(command.groupTgId())
                     .messageId(command.messageId())
                     .text(telegramAnomalyService.eventText(
-                        group.language(), event, anomaly, group.domainGroupId()
+                        group.language(), event, anomaly
                     ))
                     .keyboard(AnomalyKeyboards.forEvent(
-                        group.language(), event.id(), anomaly, group.domainGroupId()
+                        group.language(), event.id(), anomaly
                     ))
                     .build()
             );

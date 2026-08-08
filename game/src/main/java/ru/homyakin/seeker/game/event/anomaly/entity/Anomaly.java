@@ -45,7 +45,6 @@ public sealed interface Anomaly permits
     sealed interface Dangerous extends Anomaly permits
         Dangerous.Gathering,
         Dangerous.Searching,
-        Dangerous.Challenged,
         Dangerous.Accepted {
 
         record Gathering(
@@ -71,47 +70,23 @@ public sealed interface Anomaly permits
             int gvgRatingAtStart,
             LocalDateTime searchEndDate
         ) implements Dangerous {
-            public Challenged withOpponent(GroupId opponentGroupId) {
-                return new Challenged(
-                    launchedEventId,
-                    groupId,
-                    ownerPersonageId,
-                    opponentGroupId,
-                    gvgRatingAtStart,
-                    searchEndDate
-                );
-            }
-        }
-
-        /**
-         * Opponent invited; no defender has joined yet.
-         */
-        record Challenged(
-            long launchedEventId,
-            GroupId groupId,
-            PersonageId ownerPersonageId,
-            GroupId opponentGroupId,
-            int gvgRatingAtStart,
-            LocalDateTime searchEndDate
-        ) implements Dangerous {
-            public Accepted accept(PersonageId opponentOwnerPersonageId) {
+            /**
+             * Pool match: both sides already gathered, go straight to Accepted
+             * with a link to the opponent anomaly.
+             */
+            public Accepted matchWith(
+                GroupId opponentGroupId,
+                PersonageId opponentOwnerPersonageId,
+                long opponentLaunchedEventId
+            ) {
                 return new Accepted(
                     launchedEventId,
                     groupId,
                     ownerPersonageId,
                     opponentGroupId,
                     opponentOwnerPersonageId,
+                    Optional.of(opponentLaunchedEventId),
                     Optional.empty(),
-                    gvgRatingAtStart,
-                    searchEndDate
-                );
-            }
-
-            public Searching clearOpponent() {
-                return new Searching(
-                    launchedEventId,
-                    groupId,
-                    ownerPersonageId,
                     gvgRatingAtStart,
                     searchEndDate
                 );
@@ -119,7 +94,8 @@ public sealed interface Anomaly permits
         }
 
         /**
-         * At least one defender has joined; opponent owner can Ready.
+         * Pool match completed; battle starts immediately via matchmaker.
+         * {@code opponentLaunchedEventId} links to the other group's anomaly.
          */
         record Accepted(
             long launchedEventId,
@@ -127,24 +103,11 @@ public sealed interface Anomaly permits
             PersonageId ownerPersonageId,
             GroupId opponentGroupId,
             PersonageId opponentOwnerPersonageId,
+            Optional<Long> opponentLaunchedEventId,
             Optional<GroupId> winnerGroupId,
             int gvgRatingAtStart,
             LocalDateTime searchEndDate
         ) implements Dangerous {
-            public boolean isOpponentOwner(PersonageId personageId) {
-                return opponentOwnerPersonageId.equals(personageId);
-            }
-
-            public Searching clearOpponent() {
-                return new Searching(
-                    launchedEventId,
-                    groupId,
-                    ownerPersonageId,
-                    gvgRatingAtStart,
-                    searchEndDate
-                );
-            }
-
             public Accepted withWinner(GroupId winnerGroupId) {
                 return new Accepted(
                     launchedEventId,
@@ -152,6 +115,7 @@ public sealed interface Anomaly permits
                     ownerPersonageId,
                     opponentGroupId,
                     opponentOwnerPersonageId,
+                    opponentLaunchedEventId,
                     Optional.of(winnerGroupId),
                     gvgRatingAtStart,
                     searchEndDate

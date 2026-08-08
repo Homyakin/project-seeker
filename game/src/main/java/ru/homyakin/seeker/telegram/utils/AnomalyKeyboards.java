@@ -1,7 +1,6 @@
 package ru.homyakin.seeker.telegram.utils;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
@@ -52,23 +51,14 @@ public final class AnomalyKeyboards {
     public static InlineKeyboardMarkup forEvent(
         Language language,
         long launchedEventId,
-        Anomaly anomaly,
-        GroupId viewerGroupId
+        Anomaly anomaly
     ) {
         return switch (anomaly) {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING ->
                 gatheringKeyboard(language, launchedEventId);
             case Anomaly.Dangerous.Gathering _ ->
                 gatheringKeyboard(language, launchedEventId);
-            case Anomaly.Dangerous.Challenged challenged
-                when challenged.opponentGroupId().equals(viewerGroupId) ->
-                gatheringKeyboard(language, launchedEventId);
-            case Anomaly.Dangerous.Accepted accepted
-                when accepted.opponentGroupId().equals(viewerGroupId)
-                    && accepted.winnerGroupId().isEmpty() ->
-                gatheringKeyboard(language, launchedEventId);
-            case Anomaly.Safe _, Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Challenged _,
-                 Anomaly.Dangerous.Accepted _ ->
+            case Anomaly.Safe _, Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Accepted _ ->
                 OutpostKeyboards.emptyInlineKeyboard();
         };
     }

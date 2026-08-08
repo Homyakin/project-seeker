@@ -341,7 +341,7 @@ public class CommonLocalization {
         if (hours.isBlank()) {
             return minutes;
         }
-        return hours + " " + minutes;
+        return (hours + " " + minutes).trim();
     }
 
     public static String durationWithDays(Language language, Duration duration) {

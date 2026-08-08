@@ -6,11 +6,9 @@ import ru.homyakin.seeker.game.battle.BattleVisualizerConfig;
 import ru.homyakin.seeker.game.event.anomaly.action.AnomalyService;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
-import ru.homyakin.seeker.game.event.anomaly.entity.SendAnomalyChallengeToGroup;
+import ru.homyakin.seeker.game.event.anomaly.entity.NotifyAnomalyBattleFinished;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
-import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventResult;
-import ru.homyakin.seeker.game.event.models.GroupLaunchedEvent;
 import ru.homyakin.seeker.game.event.service.GroupEventService;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.locale.Language;
@@ -18,19 +16,15 @@ import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
 import ru.homyakin.seeker.telegram.group.models.GroupTg;
-import ru.homyakin.seeker.telegram.utils.AnomalyKeyboards;
-import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
-import ru.homyakin.seeker.telegram.utils.OutpostKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
-public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
+public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
     private final GroupTgService groupTgService;
     private final GetGroup getGroup;
     private final TelegramSender telegramSender;
     private final GroupEventService groupEventService;
-    private final LaunchedEventService launchedEventService;
     private final AnomalyService anomalyService;
     private final AnomalyConfig anomalyConfig;
     private final BattleVisualizerConfig battleVisualizerConfig;
@@ -40,7 +34,6 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
         GetGroup getGroup,
         TelegramSender telegramSender,
         GroupEventService groupEventService,
-        LaunchedEventService launchedEventService,
         AnomalyService anomalyService,
         AnomalyConfig anomalyConfig,
         BattleVisualizerConfig battleVisualizerConfig
@@ -49,54 +42,12 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
         this.getGroup = getGroup;
         this.telegramSender = telegramSender;
         this.groupEventService = groupEventService;
-        this.launchedEventService = launchedEventService;
         this.anomalyService = anomalyService;
         this.anomalyConfig = anomalyConfig;
         this.battleVisualizerConfig = battleVisualizerConfig;
     }
 
-    @Override
-    public void send(GroupId defenderGroupId, LaunchedEvent event) {
-        if (!getGroup.forceGet(defenderGroupId).isActive()) {
-            return;
-        }
-        final var anomaly = anomalyService.findAnomaly(event.id()).orElseThrow();
-        if (!(anomaly instanceof Anomaly.Dangerous.Challenged)
-            && !(anomaly instanceof Anomaly.Dangerous.Accepted)) {
-            throw new IllegalStateException("Expected defense anomaly for event " + event.id());
-        }
-        final var groupTg = groupTgService.forceGet(defenderGroupId);
-        final var participants = anomalyService.participants(event.id()).list().stream()
-            .filter(participant -> participant.personage().memberGroupId()
-                .filter(defenderGroupId::equals)
-                .isPresent())
-            .toList();
-        final var result = telegramSender.send(
-            SendMessageBuilder.builder()
-                .chatId(groupTg.id())
-                .text(AnomalyLocalization.challenge(
-                    groupTg.language(),
-                    anomaly,
-                    getGroup.forceGet(anomaly.groupId()),
-                    participants,
-                    anomalyConfig.partySize()
-                ))
-                .keyboard(AnomalyKeyboards.forEvent(
-                    groupTg.language(), event.id(), anomaly, defenderGroupId
-                ))
-                .build()
-        );
-        result.peek(message ->
-            groupEventService.createGroupEvent(event.id(), groupTg, message.getMessageId())
-        );
-    }
-
-    public String eventText(
-        Language language,
-        LaunchedEvent event,
-        Anomaly anomaly,
-        GroupId viewerGroupId
-    ) {
+    public String eventText(Language language, LaunchedEvent event, Anomaly anomaly) {
         final var participants = anomalyService.participants(event.id()).list();
         return switch (anomaly) {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING ->
@@ -116,52 +67,17 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
                     language,
                     participantsOfGroup(participants, searching.groupId()),
                     anomalyConfig.partySize(),
-                    dangerousMaxDuration(),
+                    anomalyConfig.dangerousSearchDuration(),
                     searching.ownerPersonageId()
                 );
-            case Anomaly.Dangerous.Challenged challenged -> {
-                if (viewerGroupId.equals(challenged.opponentGroupId())) {
-                    yield AnomalyLocalization.challenge(
-                        language,
-                        challenged,
-                        getGroup.forceGet(challenged.groupId()),
-                        participantsOfGroup(participants, challenged.opponentGroupId()),
-                        anomalyConfig.partySize()
-                    );
-                }
-                yield AnomalyLocalization.searching(
-                    language,
-                    participantsOfGroup(participants, challenged.groupId()),
-                    anomalyConfig.partySize(),
-                    dangerousMaxDuration(),
-                    challenged.ownerPersonageId()
-                );
-            }
-            case Anomaly.Dangerous.Accepted accepted -> {
-                if (viewerGroupId.equals(accepted.opponentGroupId())) {
-                    yield AnomalyLocalization.challenge(
-                        language,
-                        accepted,
-                        getGroup.forceGet(accepted.groupId()),
-                        participantsOfGroup(participants, accepted.opponentGroupId()),
-                        anomalyConfig.partySize()
-                    );
-                }
-                yield AnomalyLocalization.searching(
-                    language,
-                    participantsOfGroup(participants, accepted.groupId()),
-                    anomalyConfig.partySize(),
-                    dangerousMaxDuration(),
-                    accepted.ownerPersonageId()
-                );
-            }
+            case Anomaly.Dangerous.Accepted _ -> AnomalyLocalization.expired(language);
             case Anomaly.Safe _ -> AnomalyLocalization.expired(language);
         };
     }
 
-    private java.time.Duration dangerousMaxDuration() {
-        return anomalyConfig.dangerousSearchDuration()
-            .plus(anomalyConfig.dangerousChallengeDuration());
+    @Override
+    public void notify(EventResult.AnomalyResult.BattleFinished result) {
+        notifyBattleFinished(result);
     }
 
     private static java.util.List<ru.homyakin.seeker.game.personage.event.EventParticipant> participantsOfGroup(
@@ -181,17 +97,6 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
                 notifyPveBattleFinished(pve);
             case EventResult.AnomalyResult.BattleFinished battle ->
                 notifyBattleFinished(battle);
-            case EventResult.AnomalyResult.ChallengeTimedOut timedOut -> {
-                clearEventKeyboardsForDomainGroup(
-                    timedOut.launchedEventId(),
-                    timedOut.opponentGroupId()
-                );
-                replyToGroupEventsForDomainGroup(
-                    timedOut.launchedEventId(),
-                    timedOut.opponentGroupId(),
-                    group -> AnomalyLocalization.expired(group.language())
-                );
-            }
             case EventResult.AnomalyResult.ExpiredGathering _,
                  EventResult.AnomalyResult.AlreadyFinal _ ->
                 replyToGroupEvents(
@@ -205,7 +110,6 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
         final var link = battleVisualizerConfig.battleUrl(result.launchedEventId());
         final var winnerGroup = getGroup.forceGet(result.winnerGroupId());
         final var loserGroup = getGroup.forceGet(result.loserGroupId());
-        clearEventKeyboards(result.launchedEventId());
         groupEventService.getByLaunchedEventId(result.launchedEventId()).forEach(groupEvent -> {
             final var group = groupTgService.getOrCreate(groupEvent.groupId());
             final boolean victory = group.domainGroupId().equals(result.winnerGroupId());
@@ -231,15 +135,6 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
 
     private void notifyPveBattleFinished(EventResult.AnomalyResult.PveBattleFinished result) {
         final var link = battleVisualizerConfig.battleUrl(result.launchedEventId());
-        result.failedOpponentGroupId().ifPresent(opponentGroupId -> {
-            clearEventKeyboardsForDomainGroup(result.launchedEventId(), opponentGroupId);
-            replyToGroupEventsForDomainGroup(
-                result.launchedEventId(),
-                opponentGroupId,
-                group -> AnomalyLocalization.expired(group.language())
-            );
-        });
-        clearEventKeyboardsForDomainGroup(result.launchedEventId(), result.initiatorGroupId());
         groupEventService.getByLaunchedEventId(result.launchedEventId()).forEach(groupEvent -> {
             final var group = groupTgService.getOrCreate(groupEvent.groupId());
             if (!group.domainGroupId().equals(result.initiatorGroupId())) {
@@ -256,74 +151,12 @@ public class TelegramAnomalyService implements SendAnomalyChallengeToGroup {
         });
     }
 
-    private void clearEventKeyboards(long launchedEventId) {
-        final var event = launchedEventService.getById(launchedEventId).orElse(null);
-        final var anomaly = anomalyService.findAnomaly(launchedEventId).orElse(null);
-        if (event == null || anomaly == null) {
-            return;
-        }
-        groupEventService.getByLaunchedEventId(launchedEventId).forEach(groupEvent ->
-            clearEventKeyboard(groupEvent, event, anomaly)
-        );
-    }
-
-    private void clearEventKeyboardsForDomainGroup(long launchedEventId, GroupId domainGroupId) {
-        final var event = launchedEventService.getById(launchedEventId).orElse(null);
-        final var anomaly = anomalyService.findAnomaly(launchedEventId).orElse(null);
-        if (event == null || anomaly == null) {
-            return;
-        }
-        groupEventService.getByLaunchedEventId(launchedEventId).forEach(groupEvent -> {
-            final var group = groupTgService.getOrCreate(groupEvent.groupId());
-            if (!group.domainGroupId().equals(domainGroupId)) {
-                return;
-            }
-            clearEventKeyboard(groupEvent, event, anomaly);
-        });
-    }
-
-    private void clearEventKeyboard(
-        GroupLaunchedEvent groupEvent,
-        LaunchedEvent event,
-        Anomaly anomaly
-    ) {
-        final var group = groupTgService.getOrCreate(groupEvent.groupId());
-        telegramSender.send(
-            EditMessageTextBuilder.builder()
-                .chatId(group.id())
-                .messageId(groupEvent.messageId())
-                .text(eventText(group.language(), event, anomaly, group.domainGroupId()))
-                .keyboard(OutpostKeyboards.emptyInlineKeyboard())
-                .build()
-        );
-    }
-
     private void replyToGroupEvents(
         long launchedEventId,
         java.util.function.Function<GroupTg, String> text
     ) {
         groupEventService.getByLaunchedEventId(launchedEventId).forEach(groupEvent -> {
             final var group = groupTgService.getOrCreate(groupEvent.groupId());
-            telegramSender.send(
-                SendMessageBuilder.builder()
-                    .chatId(group.id())
-                    .replyMessageId(groupEvent.messageId())
-                    .text(text.apply(group))
-                    .build()
-            );
-        });
-    }
-
-    private void replyToGroupEventsForDomainGroup(
-        long launchedEventId,
-        GroupId domainGroupId,
-        java.util.function.Function<GroupTg, String> text
-    ) {
-        groupEventService.getByLaunchedEventId(launchedEventId).forEach(groupEvent -> {
-            final var group = groupTgService.getOrCreate(groupEvent.groupId());
-            if (!group.domainGroupId().equals(domainGroupId)) {
-                return;
-            }
             telegramSender.send(
                 SendMessageBuilder.builder()
                     .chatId(group.id())

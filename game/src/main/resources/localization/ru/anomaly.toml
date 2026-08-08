@@ -1,12 +1,12 @@
-anomalySearchButton = "Поиск Аномалий"
+anomalySearchButton = "📡Поиск Аномалий"
 anomalyMenu = """
 📡<b>Поиск аномалий</b>
 
 ${scanner_status}
 Запусков сегодня: ${starts_left}/1
 
-🛡 <b>Безопасный</b> — разведка на окраине шторма. Свои, без чужих групп.
-☠ <b>Опасный</b> — экспедиция вглубь шторма. Чёрный рынок может слить информацию другой группе.
+🛡 <b>Безопасный</b> — разведка на окраине шторма. Без столкновений с другими группами.
+☠ <b>Опасный</b> — экспедиция вглубь шторма. Высокая вероятность встретить враждебную группу.
 
 ${register_warning}"""
 anomalyMenuScannerReady = "Штормовой сканер гудит — можно выходить."
@@ -38,30 +38,17 @@ ${participants}
 
 Закончится через ${duration}"""
 anomalySearching = """
-📡<b>Экспедиция начата и может занять до ${max_duration}</b>
+📡<b>Экспедиция в процессе (до ${max_duration})</b>
 
 Состав (${count}/${party_size}):
-${participants}
-
-Осторожно: Чёрный рынок мог передать ваши данные другой группе."""
-anomalyChallenge = """
-⚔️<b>Группа в Аномалии</b>
-
-Штормовой Сканер перехватил наводку с Чёрного рынка: ${initiator_group} исследует Аномалию.
-
-В отряд берут только своих.
-Соберите полный состав (${party_size}) — первый вступивший станет организатором.
-
-Состав (${count}/${party_size}):
-${participants}
-"""
+${participants}"""
 anomalyBattleResult = """\
 ${groups_top}
 
 Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
 Отчёт: ${anomaly_report_command}"""
 anomalyBattleGroupTop = """\
-${result_icon}${group_name_with_badge}:
+${result_icon}${group_name_with_badge}: ${participants_health}/${participants_max_health}❤️ ${living_participants}/${total_participants}🔰
 ${participants_top}"""
 anomalyPveBattleResult = """\
 ${success_or_failure}

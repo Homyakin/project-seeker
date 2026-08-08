@@ -10,7 +10,6 @@ public record AnomalyResource(
     String anomalyPveFormat,
     String anomalyPveWaiting,
     String anomalySearching,
-    String anomalyChallenge,
     String anomalyBattleResult,
     String anomalyBattleGroupTop,
     String anomalyPveBattleResult,

@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.event.anomaly.action;
 
 import java.time.Duration;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,7 @@ import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgMatchRules;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
-import ru.homyakin.seeker.game.event.anomaly.entity.SendAnomalyChallengeToGroup;
+import ru.homyakin.seeker.game.event.anomaly.entity.NotifyAnomalyBattleFinished;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
@@ -27,7 +28,8 @@ public class AnomalyMatchmaker {
     private final AnomalyGvgStorage gvgStorage;
     private final AnomalyConfig config;
     private final LaunchedEventService launchedEventService;
-    private final SendAnomalyChallengeToGroup sendAnomalyChallengeToGroup;
+    private final AnomalyBattleService anomalyBattleService;
+    private final NotifyAnomalyBattleFinished notifyAnomalyBattleFinished;
     private final LockService lockService;
 
     public AnomalyMatchmaker(
@@ -35,121 +37,183 @@ public class AnomalyMatchmaker {
         AnomalyGvgStorage gvgStorage,
         AnomalyConfig config,
         LaunchedEventService launchedEventService,
-        SendAnomalyChallengeToGroup sendAnomalyChallengeToGroup,
+        AnomalyBattleService anomalyBattleService,
+        NotifyAnomalyBattleFinished notifyAnomalyBattleFinished,
         LockService lockService
     ) {
         this.anomalyStorage = anomalyStorage;
         this.gvgStorage = gvgStorage;
         this.config = config;
         this.launchedEventService = launchedEventService;
-        this.sendAnomalyChallengeToGroup = sendAnomalyChallengeToGroup;
+        this.anomalyBattleService = anomalyBattleService;
+        this.notifyAnomalyBattleFinished = notifyAnomalyBattleFinished;
         this.lockService = lockService;
     }
 
     public void matchSearchingExpeditions() {
+        final var matched = new HashSet<Long>();
         for (final var searching : anomalyStorage.findActiveSearchingWithoutOpponent()) {
+            if (matched.contains(searching.id())) {
+                continue;
+            }
             final var key = LockPrefixes.LAUNCHED_EVENT.name() + searching.id();
-            lockService.tryLockAndExecute(key, () -> tryInvite(searching.id()));
+            lockService.tryLockAndExecute(
+                key,
+                () -> tryMatchAsHost(searching.id()).ifPresent(guestId -> {
+                    matched.add(searching.id());
+                    matched.add(guestId);
+                })
+            );
         }
     }
 
-    private void tryInvite(long searchingEventId) {
-        final var eventOpt = launchedEventService.getById(searchingEventId);
-        if (eventOpt.isEmpty() || eventOpt.get().isInFinalStatus()) {
-            return;
+    private Optional<Long> tryMatchAsHost(long hostEventId) {
+        final var hostEventOpt = launchedEventService.getById(hostEventId);
+        if (hostEventOpt.isEmpty() || hostEventOpt.get().isInFinalStatus()) {
+            return Optional.empty();
         }
-        final var searchingEvent = eventOpt.get();
-        final var anomalyOpt = anomalyStorage.findByLaunchedEventId(searchingEventId);
-        if (!(anomalyOpt.orElse(null) instanceof Anomaly.Dangerous.Searching searching)) {
-            return;
+        final var hostEvent = hostEventOpt.get();
+        final var hostAnomalyOpt = anomalyStorage.findByLaunchedEventId(hostEventId);
+        if (!(hostAnomalyOpt.orElse(null) instanceof Anomaly.Dangerous.Searching host)) {
+            return Optional.empty();
         }
 
-        final var initiatorGroupId = searching.groupId();
-        final var rating = searching.gvgRatingAtStart();
         final var now = TimeUtils.moscowTime();
-        final var searchStartedAt = searching.searchEndDate().minus(config.dangerousSearchDuration());
-        final var searchAge = Duration.between(searchStartedAt, now);
-        final int allowedDelta = AnomalyGvgMatchRules.maxAllowedRatingDiff(searchAge);
-
-        final var day = TimeUtils.moscowDate();
-        final var rankedTargets = gvgStorage.findEligibleChallengeTargets(initiatorGroupId, day).stream()
-            .map(targetId -> scoreTarget(initiatorGroupId, targetId, rating, allowedDelta, now))
+        final var hostSearchAge = searchAge(host, now);
+        if (hostSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0) {
+            return Optional.empty();
+        }
+        final var rankedGuests = anomalyStorage.findActiveSearchingWithoutOpponent().stream()
+            .filter(event -> event.id() != hostEventId)
+            .map(event -> scoreGuest(host, event, hostSearchAge, now))
             .flatMap(Optional::stream)
-            .sorted(Comparator.comparingLong(ScoredTarget::score))
+            .sorted(Comparator.comparingLong(ScoredGuest::score))
             .toList();
 
-        if (rankedTargets.isEmpty()) {
-            logger.debug("No anomaly challenge target for event {}", searchingEventId);
-            return;
+        if (rankedGuests.isEmpty()) {
+            logger.debug("No anomaly pool partner for event {}", hostEventId);
+            return Optional.empty();
         }
 
-        for (final var target : rankedTargets) {
-            final var defenderKey = LockPrefixes.ANOMALY_GROUP.name() + target.groupId().value();
-            final var reserved = lockService.tryLockAndCalc(
-                defenderKey,
-                () -> tryReserveOpponent(searching, searchingEvent, target.groupId(), now, day)
+        for (final var guest : rankedGuests) {
+            final var guestKey = LockPrefixes.LAUNCHED_EVENT.name() + guest.eventId();
+            final var matchedGuest = lockService.tryLockAndCalc(
+                guestKey,
+                () -> tryMergeAndFight(host, hostEvent, guest.eventId(), now)
             );
-            if (reserved.getOrElse(false)) {
-                return;
+            if (matchedGuest.getOrElse(Optional.empty()).isPresent()) {
+                return matchedGuest.get();
             }
         }
-        logger.debug("No reservable anomaly challenge target for event {}", searchingEventId);
+        logger.debug("No reservable anomaly pool partner for event {}", hostEventId);
+        return Optional.empty();
     }
 
-    private boolean tryReserveOpponent(
-        Anomaly.Dangerous.Searching searching,
-        LaunchedEvent searchingEvent,
-        GroupId targetGroupId,
-        java.time.LocalDateTime now,
-        java.time.LocalDate day
-    ) {
-        if (anomalyStorage.hasActiveAnomaly(targetGroupId)) {
-            return false;
-        }
-        final var challenged = searching.withOpponent(targetGroupId);
-        if (!anomalyStorage.tryAssignOpponent(challenged, day)) {
-            return false;
-        }
-
-        launchedEventService.addGroupToEvent(searchingEvent.id(), targetGroupId);
-        final var challengeEnd = now.plus(config.dangerousChallengeDuration());
-        launchedEventService.updateEndDate(searchingEvent.id(), challengeEnd);
-
-        sendAnomalyChallengeToGroup.send(
-            targetGroupId,
-            launchedEventService.getById(searchingEvent.id()).orElse(searchingEvent)
-        );
-        logger.info(
-            "Anomaly {} invited group {}",
-            searchingEvent.id(),
-            targetGroupId.value()
-        );
-        return true;
-    }
-
-    private Optional<ScoredTarget> scoreTarget(
-        GroupId initiatorGroupId,
-        GroupId targetId,
-        int initiatorRating,
-        int allowedDelta,
+    private Optional<Long> tryMergeAndFight(
+        Anomaly.Dangerous.Searching host,
+        LaunchedEvent hostEvent,
+        long guestEventId,
         java.time.LocalDateTime now
     ) {
-        final var targetRating = gvgStorage.getRating(targetId);
-        final int distance = Math.abs(targetRating - initiatorRating);
+        final var guestEventOpt = launchedEventService.getById(guestEventId);
+        if (guestEventOpt.isEmpty() || guestEventOpt.get().isInFinalStatus()) {
+            return Optional.empty();
+        }
+        final var guestAnomalyOpt = anomalyStorage.findByLaunchedEventId(guestEventId);
+        if (!(guestAnomalyOpt.orElse(null) instanceof Anomaly.Dangerous.Searching guest)) {
+            return Optional.empty();
+        }
+        if (guest.groupId().equals(host.groupId())) {
+            return Optional.empty();
+        }
+
+        final var hostSearchAge = searchAge(host, now);
+        final var guestSearchAge = searchAge(guest, now);
+        if (hostSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0
+            || guestSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0
+        ) {
+            return Optional.empty();
+        }
+        final int allowedDelta = maxAllowedRatingDiff(hostSearchAge, guestSearchAge);
+        final int distance = Math.abs(guest.gvgRatingAtStart() - host.gvgRatingAtStart());
+        if (distance > allowedDelta) {
+            return Optional.empty();
+        }
+
+        final var accepted = host.matchWith(
+            guest.groupId(),
+            guest.ownerPersonageId(),
+            guest.launchedEventId()
+        );
+        if (!anomalyStorage.tryMergeSearchingInto(accepted, guestEventId)) {
+            return Optional.empty();
+        }
+
+        final var battleResult = anomalyBattleService.fight(
+            launchedEventService.getById(hostEvent.id()).orElse(hostEvent),
+            accepted
+        );
+        notifyAnomalyBattleFinished.notify(battleResult);
+        logger.info(
+            "Anomaly pool matched host {} (group {}) with guest {} (group {})",
+            host.launchedEventId(),
+            host.groupId().value(),
+            guestEventId,
+            guest.groupId().value()
+        );
+        return Optional.of(guestEventId);
+    }
+
+    private Optional<ScoredGuest> scoreGuest(
+        Anomaly.Dangerous.Searching host,
+        LaunchedEvent guestEvent,
+        Duration hostSearchAge,
+        java.time.LocalDateTime now
+    ) {
+        final var guestAnomalyOpt = anomalyStorage.findByLaunchedEventId(guestEvent.id());
+        if (!(guestAnomalyOpt.orElse(null) instanceof Anomaly.Dangerous.Searching guest)) {
+            return Optional.empty();
+        }
+        if (guest.groupId().equals(host.groupId())) {
+            return Optional.empty();
+        }
+        final var guestSearchAge = searchAge(guest, now);
+        if (guestSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0) {
+            return Optional.empty();
+        }
+        final int allowedDelta = maxAllowedRatingDiff(hostSearchAge, guestSearchAge);
+        final int distance = Math.abs(guest.gvgRatingAtStart() - host.gvgRatingAtStart());
         if (distance > allowedDelta) {
             return Optional.empty();
         }
         final var recentPenalties = AnomalyGvgMatchRules.sumRecentMeetPenalties(
-            gvgStorage.findOpponentFoughtAtList(initiatorGroupId, targetId),
+            gvgStorage.findOpponentFoughtAtList(host.groupId(), guest.groupId()),
             now,
             config.recentMeetPenaltyFirstDay()
         );
-        return Optional.of(new ScoredTarget(
-            targetId,
+        return Optional.of(new ScoredGuest(
+            guestEvent.id(),
+            guest.groupId(),
             AnomalyGvgMatchRules.score(distance, recentPenalties)
         ));
     }
 
-    private record ScoredTarget(GroupId groupId, long score) {
+    private int maxAllowedRatingDiff(Duration hostSearchAge, Duration guestSearchAge) {
+        final var searchAge = hostSearchAge.compareTo(guestSearchAge) >= 0
+            ? hostSearchAge
+            : guestSearchAge;
+        return AnomalyGvgMatchRules.maxAllowedRatingDiff(
+            searchAge,
+            config.dangerousMinSearchDuration(),
+            config.dangerousSearchDuration()
+        );
+    }
+
+    private Duration searchAge(Anomaly.Dangerous.Searching searching, java.time.LocalDateTime now) {
+        final var searchStartedAt = searching.searchEndDate().minus(config.dangerousSearchDuration());
+        return Duration.between(searchStartedAt, now);
+    }
+
+    private record ScoredGuest(long eventId, GroupId groupId, long score) {
     }
 }

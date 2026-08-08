@@ -9,9 +9,15 @@ public interface AnomalyConfig {
 
     Duration safePveDuration();
 
-    Duration dangerousSearchDuration();
+    /**
+     * Minimum time in SEARCHING before a pool match is allowed.
+     */
+    Duration dangerousMinSearchDuration();
 
-    Duration dangerousChallengeDuration();
+    /**
+     * Maximum SEARCHING duration; then PvE fallback.
+     */
+    Duration dangerousSearchDuration();
 
     AnomalyReward gvgWinReward();
 

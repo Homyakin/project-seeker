@@ -10,8 +10,8 @@ public class AnomalySpringConfig implements AnomalyConfig {
     private int partySize;
     private Duration gatheringDuration;
     private Duration safePveDuration;
+    private Duration dangerousMinSearchDuration;
     private Duration dangerousSearchDuration;
-    private Duration dangerousChallengeDuration;
     private RewardConfig reward = new RewardConfig();
     private int recentMeetPenaltyFirstDay = 256;
     private int initialRating;
@@ -33,13 +33,13 @@ public class AnomalySpringConfig implements AnomalyConfig {
     }
 
     @Override
-    public Duration dangerousSearchDuration() {
-        return dangerousSearchDuration;
+    public Duration dangerousMinSearchDuration() {
+        return dangerousMinSearchDuration;
     }
 
     @Override
-    public Duration dangerousChallengeDuration() {
-        return dangerousChallengeDuration;
+    public Duration dangerousSearchDuration() {
+        return dangerousSearchDuration;
     }
 
     @Override
@@ -99,12 +99,12 @@ public class AnomalySpringConfig implements AnomalyConfig {
         this.safePveDuration = safePveDuration;
     }
 
-    public void setDangerousSearchDuration(Duration dangerousSearchDuration) {
-        this.dangerousSearchDuration = dangerousSearchDuration;
+    public void setDangerousMinSearchDuration(Duration dangerousMinSearchDuration) {
+        this.dangerousMinSearchDuration = dangerousMinSearchDuration;
     }
 
-    public void setDangerousChallengeDuration(Duration dangerousChallengeDuration) {
-        this.dangerousChallengeDuration = dangerousChallengeDuration;
+    public void setDangerousSearchDuration(Duration dangerousSearchDuration) {
+        this.dangerousSearchDuration = dangerousSearchDuration;
     }
 
     public void setReward(RewardConfig reward) {

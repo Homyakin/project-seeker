@@ -142,29 +142,6 @@ public final class AnomalyLocalization {
         );
     }
 
-    public static String challenge(
-        Language language,
-        Anomaly anomaly,
-        Group initiatorGroup,
-        List<EventParticipant> participants,
-        int partySize
-    ) {
-        final Optional<PersonageId> opponentOwner = switch (anomaly) {
-            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentOwnerPersonageId());
-            case Anomaly.Dangerous.Challenged _ -> Optional.empty();
-            default -> Optional.empty();
-        };
-        final var map = new HashMap<String, Object>();
-        map.put("count", participants.size());
-        map.put("party_size", partySize);
-        map.put("participants", participantsText(language, participants, opponentOwner));
-        map.put("initiator_group", LocaleUtils.groupNameWithBadge(initiatorGroup));
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, AnomalyResource::anomalyChallenge),
-            map
-        );
-    }
-
     public static String battleResult(
         Language language,
         Group winnerGroup,
@@ -206,9 +183,23 @@ public final class AnomalyLocalization {
                 top.append("\n");
             }
         }
+        long participantsHealth = 0;
+        long participantsMaxHealth = 0;
+        long livingParticipants = 0;
+        for (final var personageResult : results) {
+            participantsHealth += personageResult.stats().remainHealth();
+            participantsMaxHealth += personageResult.stats().initialHealth();
+            if (!personageResult.stats().isDead()) {
+                ++livingParticipants;
+            }
+        }
         final var params = new HashMap<String, Object>();
         params.put("result_icon", victory ? "🏆" : "💀");
         params.put("group_name_with_badge", LocaleUtils.groupNameWithBadge(group));
+        params.put("participants_health", participantsHealth);
+        params.put("participants_max_health", participantsMaxHealth);
+        params.put("living_participants", livingParticipants);
+        params.put("total_participants", results.size());
         params.put("participants_top", top.toString());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::anomalyBattleGroupTop),
