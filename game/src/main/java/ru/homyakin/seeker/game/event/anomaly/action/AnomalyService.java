@@ -166,26 +166,12 @@ public class AnomalyService {
         return switch (anomalyOpt.get()) {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
                 anomalyBattleService.fightPve(launchedEvent, safe);
-            case Anomaly.Dangerous.Challenged challenged ->
-                expireDefenseThenPve(
-                    launchedEvent,
-                    challenged.opponentGroupId(),
-                    challenged.clearOpponent(),
-                    challenged.opponentLaunchedEventId()
-                );
+            case Anomaly.Dangerous.Accepted accepted when accepted.winnerGroupId().isPresent() ->
+                EventResult.AnomalyResult.AlreadyFinal.INSTANCE;
             case Anomaly.Dangerous.Accepted accepted ->
-                expireDefenseThenPve(
-                    launchedEvent,
-                    accepted.opponentGroupId(),
-                    accepted.clearOpponent(),
-                    accepted.opponentLaunchedEventId()
-                );
+                anomalyBattleService.fight(launchedEvent, accepted);
             case Anomaly.Dangerous.Searching searching ->
-                anomalyBattleService.fightPveFallback(
-                    launchedEvent,
-                    searching.groupId(),
-                    Optional.empty()
-                );
+                anomalyBattleService.fightPveFallback(launchedEvent, searching.groupId());
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> {
                 launchedEventService.updateStatus(launchedEvent.id(), EventStatus.EXPIRED);
                 yield EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
@@ -199,31 +185,6 @@ public class AnomalyService {
 
     public ListParticipants participants(long launchedEventId) {
         return new ListParticipants(personageEventService.getParticipants(launchedEventId));
-    }
-
-    private EventResult expireDefenseThenPve(
-        LaunchedEvent event,
-        GroupId opponentGroupId,
-        Anomaly.Dangerous.Searching searching,
-        Optional<Long> opponentLaunchedEventId
-    ) {
-        removeParticipantsOfGroup(event.id(), opponentGroupId);
-        launchedEventService.removeGroupFromEvent(event.id(), opponentGroupId);
-        anomalyStorage.update(searching);
-        opponentLaunchedEventId.ifPresent(opponentEventId ->
-            anomalyStorage.findByLaunchedEventId(opponentEventId).ifPresent(opponent -> {
-                if (opponent instanceof Anomaly.Dangerous.Accepted guestAccepted) {
-                    anomalyStorage.update(guestAccepted.clearOpponent());
-                } else if (opponent instanceof Anomaly.Dangerous.Challenged guestChallenged) {
-                    anomalyStorage.update(guestChallenged.clearOpponent());
-                }
-            })
-        );
-        return anomalyBattleService.fightPveFallback(
-            event,
-            searching.groupId(),
-            Optional.of(opponentGroupId)
-        );
     }
 
     private Either<AnomalyError, LaunchedEvent> joinLogic(long launchedEventId, PersonageId personageId) {
@@ -250,16 +211,8 @@ public class AnomalyService {
                 joinGroupId = gathering.groupId();
                 canJoin = true;
             }
-            case Anomaly.Dangerous.Challenged challenged -> {
-                joinGroupId = challenged.opponentGroupId();
-                canJoin = true;
-            }
-            case Anomaly.Dangerous.Accepted accepted -> {
-                joinGroupId = accepted.opponentGroupId();
-                canJoin = true;
-            }
-            case Anomaly.Dangerous.Searching searching -> {
-                joinGroupId = searching.groupId();
+            case Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Accepted _ -> {
+                joinGroupId = anomaly.groupId();
                 canJoin = false;
             }
         }
@@ -292,10 +245,6 @@ public class AnomalyService {
         }
         if (sideParticipants.size() >= config.partySize()) {
             return Either.left(AnomalyError.PartyFull.INSTANCE);
-        }
-
-        if (anomaly instanceof Anomaly.Dangerous.Challenged challenged) {
-            anomalyStorage.update(challenged.accept(personageId));
         }
 
         // Already under LAUNCHED_EVENT lock (non-reentrant); do not call addPersonageToLaunchedEvent.
@@ -344,20 +293,7 @@ public class AnomalyService {
                 }
                 yield readyDangerous(event, gathering, participants);
             }
-            case Anomaly.Dangerous.Accepted accepted -> {
-                if (!accepted.isOpponentOwner(personageId)) {
-                    yield Either.left(AnomalyError.NotOwner.INSTANCE);
-                }
-                final var participants = participantsOfGroup(
-                    personageEventService.getParticipants(event.id()),
-                    accepted.opponentGroupId()
-                );
-                if (participants.isEmpty()) {
-                    yield Either.left(AnomalyError.PartyEmpty.INSTANCE);
-                }
-                yield readyAccepted(event, accepted, participants);
-            }
-            case Anomaly.Safe _, Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Challenged _ ->
+            case Anomaly.Safe _, Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Accepted _ ->
                 Either.left(AnomalyError.InvalidPhase.INSTANCE);
         };
     }
@@ -392,27 +328,6 @@ public class AnomalyService {
         return Either.right(new AnomalyReadyResult.StartedSearching(
             launchedEventService.getById(event.id()).orElseThrow()
         ));
-    }
-
-    private Either<AnomalyError, AnomalyReadyResult> readyAccepted(
-        LaunchedEvent event,
-        Anomaly.Dangerous.Accepted accepted,
-        List<EventParticipant> participants
-    ) {
-        if (participants.size() < config.partySize()) {
-            return Either.left(AnomalyError.PartyNotFull.INSTANCE);
-        }
-        final var battleResult = anomalyBattleService.fight(event, accepted);
-        return Either.right(new AnomalyReadyResult.BattleCompleted(battleResult));
-    }
-
-    private void removeParticipantsOfGroup(long launchedEventId, GroupId groupId) {
-        for (final var participant : participantsOfGroup(
-            personageEventService.getParticipants(launchedEventId),
-            groupId
-        )) {
-            personageEventService.removePersonageFromEvent(participant.personage().id(), launchedEventId);
-        }
     }
 
     private static List<EventParticipant> participantsOfGroup(
@@ -471,9 +386,6 @@ public class AnomalyService {
         }
 
         record StartedSearching(LaunchedEvent launchedEvent) implements AnomalyReadyResult {
-        }
-
-        record BattleCompleted(EventResult.AnomalyResult.BattleFinished result) implements AnomalyReadyResult {
         }
     }
 }

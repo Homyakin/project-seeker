@@ -53,6 +53,7 @@ public class AnomalyMatchmakerTest {
             notifyAnomalyBattleFinished,
             new InMemoryLockService()
         );
+        Mockito.when(config.dangerousMinSearchDuration()).thenReturn(Duration.ofHours(1));
         Mockito.when(config.dangerousSearchDuration()).thenReturn(Duration.ofHours(12));
         Mockito.when(config.recentMeetPenaltyFirstDay()).thenReturn(256);
     }
@@ -103,9 +104,37 @@ public class AnomalyMatchmakerTest {
     }
 
     @Test
-    void Given_RatingTooFar_When_Match_Then_SkipsPartner() {
-        // Fresh search (~0s age) only allows |Δrating| <= 10.
+    void Given_BeforeMinSearch_When_Match_Then_SkipsPartner() {
+        // searchAge ≈ 0 < dangerousMinSearchDuration (1h)
         final var searchEnd = TimeUtils.moscowTime().plus(Duration.ofHours(12));
+        final var host = new Anomaly.Dangerous.Searching(
+            hostEventId,
+            hostGroupId,
+            hostOwnerId,
+            1000,
+            searchEnd
+        );
+        final var guest = new Anomaly.Dangerous.Searching(
+            guestEventId,
+            guestGroupId,
+            guestOwnerId,
+            1000,
+            searchEnd
+        );
+        final var hostEvent = launchedEvent(hostEventId);
+        final var guestEvent = launchedEvent(guestEventId);
+        mockPool(host, guest, hostEvent, guestEvent);
+
+        matchmaker.matchSearchingExpeditions();
+
+        Mockito.verify(anomalyStorage, Mockito.never()).tryMergeSearchingInto(Mockito.any(), Mockito.anyLong());
+        Mockito.verifyNoInteractions(anomalyBattleService);
+    }
+
+    @Test
+    void Given_RatingTooFar_When_Match_Then_SkipsPartner() {
+        // After 1h min search, allowed |Δrating| is 50.
+        final var searchEnd = TimeUtils.moscowTime().plus(Duration.ofHours(11));
         final var host = new Anomaly.Dangerous.Searching(
             hostEventId,
             hostGroupId,

@@ -52,10 +52,10 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
                         .chatId(command.groupTgId())
                         .messageId(command.messageId())
                         .text(telegramAnomalyService.eventText(
-                            group.language(), event, anomaly, group.domainGroupId()
+                            group.language(), event, anomaly
                         ))
                         .keyboard(AnomalyKeyboards.forEvent(
-                            group.language(), event.id(), anomaly, group.domainGroupId()
+                            group.language(), event.id(), anomaly
                         ))
                         .build()
                 );
@@ -68,16 +68,14 @@ public class AnomalyReadyExecutor extends CommandExecutor<AnomalyReady> {
                         .chatId(command.groupTgId())
                         .messageId(command.messageId())
                         .text(telegramAnomalyService.eventText(
-                            group.language(), event, anomaly, group.domainGroupId()
+                            group.language(), event, anomaly
                         ))
                         .keyboard(AnomalyKeyboards.forEvent(
-                            group.language(), event.id(), anomaly, group.domainGroupId()
+                            group.language(), event.id(), anomaly
                         ))
                         .build()
                 );
             }
-            case AnomalyService.AnomalyReadyResult.BattleCompleted battle ->
-                telegramAnomalyService.notifyBattleFinished(battle.result());
         }
         telegramSender.send(TelegramMethods.createAnswerCallbackQuery(command.callbackId(), ""));
     }

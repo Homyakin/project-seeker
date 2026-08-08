@@ -80,6 +80,9 @@ public class AnomalyMatchmaker {
 
         final var now = TimeUtils.moscowTime();
         final var hostSearchAge = searchAge(host, now);
+        if (hostSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0) {
+            return Optional.empty();
+        }
         final var rankedGuests = anomalyStorage.findActiveSearchingWithoutOpponent().stream()
             .filter(event -> event.id() != hostEventId)
             .map(event -> scoreGuest(host, event, hostSearchAge, now))
@@ -126,9 +129,12 @@ public class AnomalyMatchmaker {
 
         final var hostSearchAge = searchAge(host, now);
         final var guestSearchAge = searchAge(guest, now);
-        final int allowedDelta = AnomalyGvgMatchRules.maxAllowedRatingDiff(
-            hostSearchAge.compareTo(guestSearchAge) >= 0 ? hostSearchAge : guestSearchAge
-        );
+        if (hostSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0
+            || guestSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0
+        ) {
+            return Optional.empty();
+        }
+        final int allowedDelta = maxAllowedRatingDiff(hostSearchAge, guestSearchAge);
         final int distance = Math.abs(guest.gvgRatingAtStart() - host.gvgRatingAtStart());
         if (distance > allowedDelta) {
             return Optional.empty();
@@ -172,9 +178,10 @@ public class AnomalyMatchmaker {
             return Optional.empty();
         }
         final var guestSearchAge = searchAge(guest, now);
-        final int allowedDelta = AnomalyGvgMatchRules.maxAllowedRatingDiff(
-            hostSearchAge.compareTo(guestSearchAge) >= 0 ? hostSearchAge : guestSearchAge
-        );
+        if (guestSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0) {
+            return Optional.empty();
+        }
+        final int allowedDelta = maxAllowedRatingDiff(hostSearchAge, guestSearchAge);
         final int distance = Math.abs(guest.gvgRatingAtStart() - host.gvgRatingAtStart());
         if (distance > allowedDelta) {
             return Optional.empty();
@@ -189,6 +196,17 @@ public class AnomalyMatchmaker {
             guest.groupId(),
             AnomalyGvgMatchRules.score(distance, recentPenalties)
         ));
+    }
+
+    private int maxAllowedRatingDiff(Duration hostSearchAge, Duration guestSearchAge) {
+        final var searchAge = hostSearchAge.compareTo(guestSearchAge) >= 0
+            ? hostSearchAge
+            : guestSearchAge;
+        return AnomalyGvgMatchRules.maxAllowedRatingDiff(
+            searchAge,
+            config.dangerousMinSearchDuration(),
+            config.dangerousSearchDuration()
+        );
     }
 
     private Duration searchAge(Anomaly.Dangerous.Searching searching, java.time.LocalDateTime now) {

@@ -64,7 +64,6 @@ public class AnomalyBattleService {
         return fightPve(
             event,
             safe.groupId(),
-            Optional.empty(),
             safe.template(),
             personageEventService.getParticipants(event.id()),
             true
@@ -73,8 +72,7 @@ public class AnomalyBattleService {
 
     public EventResult.AnomalyResult.PveBattleFinished fightPveFallback(
         LaunchedEvent event,
-        GroupId initiatorGroupId,
-        Optional<GroupId> failedOpponentGroupId
+        GroupId initiatorGroupId
     ) {
         final var initiatorParticipants = participantsOfGroup(
             personageEventService.getParticipants(event.id()),
@@ -83,7 +81,6 @@ public class AnomalyBattleService {
         return fightPve(
             event,
             initiatorGroupId,
-            failedOpponentGroupId,
             AnomalyPveTemplate.random(),
             initiatorParticipants,
             false
@@ -93,7 +90,6 @@ public class AnomalyBattleService {
     private EventResult.AnomalyResult.PveBattleFinished fightPve(
         LaunchedEvent event,
         GroupId initiatorGroupId,
-        Optional<GroupId> failedOpponentGroupId,
         AnomalyPveTemplate template,
         List<EventParticipant> participants,
         boolean safePve
@@ -123,7 +119,6 @@ public class AnomalyBattleService {
         return new EventResult.AnomalyResult.PveBattleFinished(
             event.id(),
             initiatorGroupId,
-            failedOpponentGroupId,
             victory,
             reward,
             personageResults,
@@ -138,18 +133,18 @@ public class AnomalyBattleService {
         final var opponentGroupId = accepted.opponentGroupId();
         final var allParticipants = personageEventService.getParticipants(event.id());
         final var initiatorParticipants = participantsOfGroup(allParticipants, accepted.groupId());
-        final var challengedParticipants = participantsOfGroup(allParticipants, opponentGroupId);
+        final var opponentParticipants = participantsOfGroup(allParticipants, opponentGroupId);
 
         final var initiatorTeam = toBattlePersonages(initiatorParticipants);
-        final var challengedTeam = toBattlePersonages(challengedParticipants);
-        final var battleResult = battle.process(initiatorTeam, challengedTeam);
+        final var opponentTeam = toBattlePersonages(opponentParticipants);
+        final var battleResult = battle.process(initiatorTeam, opponentTeam);
         eventBattleLogService.save(event.id(), battleResult);
 
         final boolean initiatorWins = battleResult.firstWin();
         final var winnerGroupId = initiatorWins ? accepted.groupId() : opponentGroupId;
         final var loserGroupId = initiatorWins ? opponentGroupId : accepted.groupId();
-        final var winnerParticipants = initiatorWins ? initiatorParticipants : challengedParticipants;
-        final var loserParticipants = initiatorWins ? challengedParticipants : initiatorParticipants;
+        final var winnerParticipants = initiatorWins ? initiatorParticipants : opponentParticipants;
+        final var loserParticipants = initiatorWins ? opponentParticipants : initiatorParticipants;
 
         final var victoryReward = config.gvgWinReward();
         final var defeatReward = config.gvgLoseReward();
@@ -168,14 +163,14 @@ public class AnomalyBattleService {
         launchedEventService.updateStatus(event.id(), EventStatus.SUCCESS);
 
         final var winnerResults = toPersonageResults(
-            initiatorWins ? initiatorParticipants : challengedParticipants,
-            initiatorWins ? initiatorTeam : challengedTeam,
+            initiatorWins ? initiatorParticipants : opponentParticipants,
+            initiatorWins ? initiatorTeam : opponentTeam,
             battleResult,
             victoryReward
         );
         final var loserResults = toPersonageResults(
-            initiatorWins ? challengedParticipants : initiatorParticipants,
-            initiatorWins ? challengedTeam : initiatorTeam,
+            initiatorWins ? opponentParticipants : initiatorParticipants,
+            initiatorWins ? opponentTeam : initiatorTeam,
             battleResult,
             defeatReward
         );

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
@@ -276,6 +277,17 @@ public class PersonageService {
 
     public Optional<PersonageBattleResult> getLastAnomalyResult(PersonageId personageId) {
         return personageBattleResultDao.getLastByPersonage(personageId, BattleType.ANOMALY);
+    }
+
+    public Optional<PersonageBattleResult> getLastAnomalyResultInGroup(
+        PersonageId personageId,
+        GroupId groupId
+    ) {
+        return personageBattleResultDao.getLastByPersonageAndGroup(
+            personageId,
+            groupId,
+            BattleType.ANOMALY
+        );
     }
 
     public Optional<PersonageBattleResult> getBattleResult(PersonageId personageId, long launchedEventId) {

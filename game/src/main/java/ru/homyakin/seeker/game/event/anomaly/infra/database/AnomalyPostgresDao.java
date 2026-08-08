@@ -74,56 +74,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
 
     @Override
     @Transactional
-    public boolean tryAssignOpponent(Anomaly.Dangerous.Challenged challenged, LocalDate challengeDay) {
-        final var sql = """
-            UPDATE anomaly
-            SET owner_personage_id = :owner_personage_id,
-                phase = :phase,
-                mode = :mode,
-                pve_template_code = :pve_template_code,
-                opponent_pgroup_id = :opponent_pgroup_id,
-                opponent_launched_event_id = :opponent_launched_event_id,
-                opponent_owner_personage_id = :opponent_owner_personage_id,
-                winner_pgroup_id = :winner_pgroup_id,
-                gvg_rating_at_start = :gvg_rating_at_start,
-                search_end_date = :search_end_date
-            WHERE launched_event_id = :launched_event_id
-              AND phase = :expected_phase
-              AND opponent_pgroup_id IS NULL
-              AND opponent_launched_event_id IS NULL
-              AND NOT EXISTS (
-                  SELECT 1
-                  FROM anomaly_challenge_day d
-                  WHERE d.pgroup_id = :opponent_pgroup_id
-                    AND d.day_date = :challenge_day
-              )
-            """;
-        try {
-            final var assigned = bind(challenged, jdbcClient.sql(sql))
-                .param("expected_phase", AnomalyPhase.SEARCHING.name())
-                .param("challenge_day", challengeDay)
-                .update() == 1;
-            if (!assigned) {
-                return false;
-            }
-            final var claimSql = """
-                INSERT INTO anomaly_challenge_day (pgroup_id, day_date)
-                VALUES (:opponent_pgroup_id, :challenge_day)
-                """;
-            jdbcClient.sql(claimSql)
-                .param("opponent_pgroup_id", challenged.opponentGroupId().value())
-                .param("challenge_day", challengeDay)
-                .update();
-            return true;
-        } catch (DuplicateKeyException e) {
-            // Active-opponent unique index or concurrent challenge-day claim.
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return false;
-        }
-    }
-
-    @Override
-    @Transactional
     public boolean tryMergeSearchingInto(Anomaly.Dangerous.Accepted hostAccepted, long guestLaunchedEventId) {
         final var hostId = hostAccepted.launchedEventId();
         if (hostId == guestLaunchedEventId) {
@@ -374,19 +324,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                     "Searching anomaly without search_end_date: " + launchedEventId
                 ))
             );
-            case CHALLENGED -> new Anomaly.Dangerous.Challenged(
-                launchedEventId,
-                groupId,
-                owner,
-                opponentGroupId.orElseThrow(() -> new IllegalStateException(
-                    "Challenged anomaly without opponent: " + launchedEventId
-                )),
-                opponentLaunchedEventId,
-                requireGvgRating(gvgRating, launchedEventId),
-                searchEnd.orElseThrow(() -> new IllegalStateException(
-                    "Challenged anomaly without search_end_date: " + launchedEventId
-                ))
-            );
             case ACCEPTED -> new Anomaly.Dangerous.Accepted(
                 launchedEventId,
                 groupId,
@@ -427,7 +364,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             };
             case Anomaly.Dangerous.Gathering _ -> AnomalyPhase.GATHERING;
             case Anomaly.Dangerous.Searching _ -> AnomalyPhase.SEARCHING;
-            case Anomaly.Dangerous.Challenged _ -> AnomalyPhase.CHALLENGED;
             case Anomaly.Dangerous.Accepted _ -> AnomalyPhase.ACCEPTED;
         };
     }
@@ -448,7 +384,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
 
     private static Optional<GroupId> toOpponentGroupId(Anomaly anomaly) {
         return switch (anomaly) {
-            case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.opponentGroupId());
             case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentGroupId());
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
                 Optional.empty();
@@ -457,7 +392,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
 
     private static Optional<Long> toOpponentLaunchedEventId(Anomaly anomaly) {
         return switch (anomaly) {
-            case Anomaly.Dangerous.Challenged challenged -> challenged.opponentLaunchedEventId();
             case Anomaly.Dangerous.Accepted accepted -> accepted.opponentLaunchedEventId();
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
                 Optional.empty();
@@ -467,23 +401,22 @@ public class AnomalyPostgresDao implements AnomalyStorage {
     private static Optional<PersonageId> toOpponentOwnerId(Anomaly anomaly) {
         return switch (anomaly) {
             case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.opponentOwnerPersonageId());
-            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _,
-                 Anomaly.Dangerous.Challenged _ -> Optional.empty();
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
+                Optional.empty();
         };
     }
 
     private static Optional<GroupId> toWinnerGroupId(Anomaly anomaly) {
         return switch (anomaly) {
             case Anomaly.Dangerous.Accepted accepted -> accepted.winnerGroupId();
-            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _,
-                 Anomaly.Dangerous.Challenged _ -> Optional.empty();
+            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _, Anomaly.Dangerous.Searching _ ->
+                Optional.empty();
         };
     }
 
     private static Optional<Integer> toGvgRating(Anomaly anomaly) {
         return switch (anomaly) {
             case Anomaly.Dangerous.Searching searching -> Optional.of(searching.gvgRatingAtStart());
-            case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.gvgRatingAtStart());
             case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.gvgRatingAtStart());
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> Optional.empty();
         };
@@ -492,7 +425,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
     private static Optional<java.time.LocalDateTime> toSearchEndDate(Anomaly anomaly) {
         return switch (anomaly) {
             case Anomaly.Dangerous.Searching searching -> Optional.of(searching.searchEndDate());
-            case Anomaly.Dangerous.Challenged challenged -> Optional.of(challenged.searchEndDate());
             case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.searchEndDate());
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> Optional.empty();
         };

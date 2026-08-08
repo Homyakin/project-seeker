@@ -8,14 +8,31 @@ import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgMatchRules;
 
 public class AnomalyGvgMatchRulesTest {
+    private static final Duration MIN_SEARCH = Duration.ofHours(1);
+    private static final Duration MAX_SEARCH = Duration.ofHours(12);
 
     @Test
-    void maxAllowedRatingDiff_onePer3_6SecondsWithMin10() {
-        Assertions.assertEquals(10, AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ZERO));
-        Assertions.assertEquals(10, AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ofSeconds(36)));
-        Assertions.assertEquals(11, AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ofSeconds(40)));
-        Assertions.assertEquals(100, AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ofSeconds(360)));
-        Assertions.assertEquals(1000, AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ofHours(1)));
+    void maxAllowedRatingDiff_linearFrom50AtMinTo1000AtMax() {
+        Assertions.assertEquals(
+            50,
+            AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ZERO, MIN_SEARCH, MAX_SEARCH)
+        );
+        Assertions.assertEquals(
+            50,
+            AnomalyGvgMatchRules.maxAllowedRatingDiff(MIN_SEARCH, MIN_SEARCH, MAX_SEARCH)
+        );
+        Assertions.assertEquals(
+            525,
+            AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ofHours(6).plusMinutes(30), MIN_SEARCH, MAX_SEARCH)
+        );
+        Assertions.assertEquals(
+            1000,
+            AnomalyGvgMatchRules.maxAllowedRatingDiff(MAX_SEARCH, MIN_SEARCH, MAX_SEARCH)
+        );
+        Assertions.assertEquals(
+            1000,
+            AnomalyGvgMatchRules.maxAllowedRatingDiff(Duration.ofHours(20), MIN_SEARCH, MAX_SEARCH)
+        );
     }
 
     @Test
