@@ -1,8 +1,8 @@
 itemName = "${modifier}${object}"
 fullItem = """\
-${slots}${rarity_icon}${broken_icon}${item} ${optional_command}
+${slots}${rarity_icon} ${broken_icon}${item}${enhance_level} ${optional_command}
 ${characteristics}"""
-shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item} ${optional_command}"
+shortItem = "${slots}${rarity_icon}${broken_icon}${attack_type_icon}${defense_type_icon} ${item}${enhance_level} ${optional_command}"
 characteristics = "${not_zero_health}${not_zero_attack}${not_zero_defense}${not_zero_range}${not_zero_speed}${not_zero_crit_chance}${not_zero_dodge_chance}${not_zero_crit_multiplier}${not_zero_threat}"
 attack = "${attack_type_icon}${attack_value}"
 defense = "${defense_type_icon}${defense_value}"
@@ -52,9 +52,7 @@ loadoutDetail = """\
 📍Позиция: ${position_name}
 
 ${items}"""
-loadoutItemOwned = "${item}"
 loadoutItemMissing = "❌ ${item_id}"
-loadoutEmptyItems = "<i>Пусто (только снаряжение по умолчанию)</i>"
 saveLoadoutButton = "💾 Сохранить текущее"
 applyLoadoutButton = "✅ Надеть"
 renameLoadoutButton = "✏️ Переименовать"
@@ -72,6 +70,7 @@ defaultLoadoutAssignmentEmpty = "• ${event}: <i>не выбран</i>"
 defaultLoadoutEventRaid = "Рейд"
 defaultLoadoutEventWorldRaid = "Мировой рейд"
 defaultLoadoutEventDuel = "Дуэль"
+defaultLoadoutEventAnomaly = "Аномалия"
 defaultLoadoutForEvent = """\
 <b>⚔️Комплект для: ${event}</b>
 

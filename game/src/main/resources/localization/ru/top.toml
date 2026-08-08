@@ -32,7 +32,8 @@ topList = """\
 
 👥Топы Групп:
 🗡Топ Групп в рейдах за неделю ${top_group_raid_week_command}
-🏆Топ Групп по уровню рейда ${top_group_raid_level_command}"""
+🏆Топ Групп по уровню рейда ${top_group_raid_level_command}
+📡Топ Групп по рейтингу аномалий ${top_group_anomaly_rating_command}"""
 topWorkerOfDayEmpty = "Никто ещё не был назначен работягой в этой группе."
 topWorkerOfDayGroup = """\
 ⚒Топ работяг в группе за всё время:
@@ -100,4 +101,12 @@ ${top_group_list}
 Всего групп: ${total_count}"""
 topGroupRaidLevelPosition = "${position}. ${group_badge_with_name}: ${raid_level}"
 topRaidLevelEmpty = "Пока нет групп с рейдами"
+topGroupAnomalyRating = """\
+📡Топ Групп по рейтингу аномалий:
+
+${top_group_list}
+
+Всего групп: ${total_count}"""
+topGroupAnomalyRatingPosition = "${position}. ${group_badge_with_name}: ${rating}"
+topAnomalyRatingEmpty = "Пока нет групп с рейтингом аномалий"
 selectedPosition = "<b>${position}</b>"

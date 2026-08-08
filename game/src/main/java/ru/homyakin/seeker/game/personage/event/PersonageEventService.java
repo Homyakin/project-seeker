@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.event.models.EventLocked;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestPersonageParams;
 import ru.homyakin.seeker.game.event.raid.models.RaidPersonageParams;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.infrastructure.lock.LockPrefixes;
 import ru.homyakin.seeker.infrastructure.lock.LockService;
 import ru.homyakin.seeker.utils.models.Success;
@@ -35,6 +36,14 @@ public class PersonageEventService {
         ).mapLeft(_ -> EventLocked.INSTANCE);
     }
 
+    /**
+     * Caller must already hold {@link LockPrefixes#LAUNCHED_EVENT} for the event id.
+     * Non-reentrant locks make nested {@link #addPersonageToLaunchedEvent} fail.
+     */
+    public void addPersonageToLaunchedEventAssumingLocked(AddPersonageToEventRequest request) {
+        personageEventDao.save(request);
+    }
+
     public List<RaidParticipant> getRaidParticipants(long launchedEventId) {
         return getEventParticipants(launchedEventId).stream()
             .map(it -> new RaidParticipant(
@@ -57,6 +66,14 @@ public class PersonageEventService {
         return getEventParticipants(launchedEventId).stream()
             .map(it -> new WorldRaidParticipant(it.personage()))
             .toList();
+    }
+
+    public List<EventParticipant> getParticipants(long launchedEventId) {
+        return getEventParticipants(launchedEventId);
+    }
+
+    public void removePersonageFromEvent(PersonageId personageId, long launchedEventId) {
+        personageEventDao.delete(personageId, launchedEventId);
     }
 
     private List<EventParticipant> getEventParticipants(long launchedEventId) {

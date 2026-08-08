@@ -5,10 +5,12 @@ import ru.homyakin.seeker.game.battle.result.GroupBattleResult;
 import ru.homyakin.seeker.game.battle.result.TeamResult;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.models.EventResult;
+import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidConfig;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
 import ru.homyakin.seeker.game.group.action.GetGroup;
 import ru.homyakin.seeker.game.group.action.GroupBattleResultService;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.personage.PersonageService;
 
 import java.util.stream.Collectors;
@@ -19,17 +21,20 @@ public class WorldRaidBattleResultService {
     private final WorldRaidItemGenerator worldRaidItemGenerator;
     private final PersonageService personageService;
     private final GroupBattleResultService groupBattleResultService;
+    private final WorldRaidConfig worldRaidConfig;
 
     public WorldRaidBattleResultService(
         GetGroup getGroup,
         WorldRaidItemGenerator worldRaidItemGenerator,
         PersonageService personageService,
-        GroupBattleResultService groupBattleResultService
+        GroupBattleResultService groupBattleResultService,
+        WorldRaidConfig worldRaidConfig
     ) {
         this.getGroup = getGroup;
         this.worldRaidItemGenerator = worldRaidItemGenerator;
         this.personageService = personageService;
         this.groupBattleResultService = groupBattleResultService;
+        this.worldRaidConfig = worldRaidConfig;
     }
 
     /**
@@ -46,11 +51,16 @@ public class WorldRaidBattleResultService {
             .mapToLong(it -> it.stats().damageDealtAndTaken())
             .sum();
 
+        final var stormShardsReward = isWin
+            ? worldRaidConfig.successStormShardsReward()
+            : StormShards.zero();
+
         final var personageResults = result.personageResults().stream()
             .map(it -> new PersonageWorldRaidBattleResult(
                 it.personage(),
                 it.stats(),
                 Money.from((int) (fund.value() * it.stats().damageDealtAndTaken() / personageTotalImpact)),
+                stormShardsReward,
                 worldRaidItemGenerator.generate(it.personage(), isWin)
             ))
             .toList();

@@ -32,7 +32,8 @@ topList = """\
 
 👥Tops de Grupos:
 🗡Top de Grupos en incursiones de la semana ${top_group_raid_week_command}
-🏆Top de Grupos por nivel de incursión ${top_group_raid_level_command}"""
+🏆Top de Grupos por nivel de incursión ${top_group_raid_level_command}
+📡Top de Grupos por rating de anomalías ${top_group_anomaly_rating_command}"""
 topWorkerOfDayEmpty = "Todavía nadie ha sido elegido como el trabajador del grupo."
 topWorkerOfDayGroup = """\
 ⚒Top de trabajadores del grupo de todos los tiempos:
@@ -100,4 +101,12 @@ ${top_group_list}
 Total de grupos: ${total_count}"""
 topGroupRaidLevelPosition = "${position}. ${group_badge_with_name}: ${raid_level}"
 topRaidLevelEmpty = "Aún no hay grupos con incursiones"
+topGroupAnomalyRating = """\
+📡Top de Grupos por rating de anomalías:
+
+${top_group_list}
+
+Total de grupos: ${total_count}"""
+topGroupAnomalyRatingPosition = "${position}. ${group_badge_with_name}: ${rating}"
+topAnomalyRatingEmpty = "Aún no hay grupos con rating de anomalías"
 selectedPosition = "<b>${position}</b>"

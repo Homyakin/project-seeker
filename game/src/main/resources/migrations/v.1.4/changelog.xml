@@ -30,6 +30,11 @@
     <include file="changes/2026-07-19_02_add-personage-default-loadout.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-20_01_add-battle-position-to-loadout.xml" relativeToChangelogFile="true"/>
     <include file="changes/2026-07-22_01_add-online-streak.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-07-22_02_add-anomaly-expedition.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-07-27_01_anomaly-unique-active-opponent.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-07-30_01_add-storm-shards-and-item-enhance.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-08-02_01_add-storm-shards-to-raid-result.xml" relativeToChangelogFile="true"/>
+    <include file="changes/2026-08-03_01_anomaly-opponent-launched-event.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
 
 

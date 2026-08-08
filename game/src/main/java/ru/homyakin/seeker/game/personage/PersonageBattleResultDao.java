@@ -12,9 +12,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.event.models.EventStatus;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
@@ -41,6 +43,7 @@ public class PersonageBattleResultDao {
                 .addValue("launched_event_id", result.launchedEventId())
                 .addValue("stats", jsonUtils.mapToPostgresJson(result.stats()))
                 .addValue("reward", result.reward().value())
+                .addValue("storm_shards", result.stormShards().value())
                 .addValue("generated_item_id", result.generatedItemId().orElse(null))
                 .addValue("generated_contraband_id", result.generatedContrabandId().orElse(null));
             parameters.add(paramSource);
@@ -55,6 +58,21 @@ public class PersonageBattleResultDao {
         return jdbcClient.sql(SELECT_LAST_RESULT)
             .param("personage_id", personageId.value())
             .param("type_id", battleType.id())
+            .query(this::mapRow)
+            .optional();
+    }
+
+    public Optional<PersonageBattleResult> getLastByPersonageAndGroup(
+        PersonageId personageId,
+        GroupId groupId,
+        BattleType battleType
+    ) {
+        return jdbcClient.sql(SELECT_LAST_ANOMALY_RESULT_IN_GROUP)
+            .param("personage_id", personageId.value())
+            .param("pgroup_id", groupId.value())
+            .param("type_id", battleType.id())
+            .param("launched_status", EventStatus.LAUNCHED.id())
+            .param("canceled_status", EventStatus.CANCELED.id())
             .query(this::mapRow)
             .optional();
     }
@@ -95,8 +113,13 @@ public class PersonageBattleResultDao {
     }
 
     private static final String SAVE_RESULT = """
-        INSERT INTO personage_raid_result (personage_id, launched_event_id, stats, reward, generated_item_id, generated_contraband_id)
-        VALUES (:personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :generated_item_id, :generated_contraband_id)
+        INSERT INTO personage_raid_result (
+            personage_id, launched_event_id, stats, reward, storm_shards, generated_item_id, generated_contraband_id
+        )
+        VALUES (
+            :personage_id, :launched_event_id, CAST(:stats AS JSON), :reward, :storm_shards,
+            :generated_item_id, :generated_contraband_id
+        )
         """;
 
     private static final String SELECT_LAST_RESULT = """
@@ -107,6 +130,25 @@ public class PersonageBattleResultDao {
         WHERE personage_id = :personage_id
         ORDER BY launched_event_id DESC
         LIMIT 1;
+        """;
+
+    private static final String SELECT_LAST_ANOMALY_RESULT_IN_GROUP = """
+        WITH last_group_anomaly AS (
+            SELECT le.id AS launched_event_id
+            FROM anomaly a
+            INNER JOIN launched_event le ON le.id = a.launched_event_id
+            INNER JOIN event e ON e.id = le.event_id AND e.type_id = :type_id
+            WHERE (a.pgroup_id = :pgroup_id OR a.opponent_pgroup_id = :pgroup_id)
+              AND le.status_id NOT IN (:launched_status, :canceled_status)
+            ORDER BY le.id DESC
+            LIMIT 1
+        )
+        SELECT prr.*
+        FROM personage_raid_result prr
+        INNER JOIN last_group_anomaly lga ON lga.launched_event_id = prr.launched_event_id
+        INNER JOIN personage p ON p.id = prr.personage_id
+        WHERE prr.personage_id = :personage_id
+          AND p.member_pgroup_id = :pgroup_id;
         """;
 
     private static final String SELECT_BY_PERSONAGE_AND_EVENT = """
@@ -166,6 +208,7 @@ public class PersonageBattleResultDao {
             rs.getLong("launched_event_id"),
             jsonUtils.fromString(rs.getString("stats"), BattlePersonageStats.class),
             Money.from(rs.getInt("reward")),
+            StormShards.from(rs.getInt("storm_shards")),
             Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_item_id")),
             Optional.ofNullable(DatabaseUtils.getLongOrNull(rs, "generated_contraband_id"))
         );

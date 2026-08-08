@@ -33,6 +33,21 @@ public class LaunchedEventDao {
         set status_id = :status_id, event_params = :event_params
         where id = :id;
         """;
+    private static final String UPDATE_EVENT_PARAMS = """
+        update launched_event
+        set event_params = :event_params
+        where id = :id;
+        """;
+    private static final String UPDATE_END_DATE_AND_EVENT_PARAMS = """
+        update launched_event
+        set end_date = :end_date, event_params = :event_params
+        where id = :id;
+        """;
+    private static final String UPDATE_END_DATE = """
+        update launched_event
+        set end_date = :end_date
+        where id = :id;
+        """;
     private final JdbcClient jdbcClient;
     private final SimpleJdbcInsert jdbcInsert;
     private final JsonUtils jsonUtils;
@@ -130,6 +145,32 @@ public class LaunchedEventDao {
             .param("id", launchedEventId)
             .param("status_id", status.id())
             .param("event_params", jsonUtils.mapToPostgresJson(eventParams))
+            .update();
+    }
+
+    public void updateEventParams(Long launchedEventId, EventParams eventParams) {
+        jdbcClient.sql(UPDATE_EVENT_PARAMS)
+            .param("id", launchedEventId)
+            .param("event_params", jsonUtils.mapToPostgresJson(eventParams))
+            .update();
+    }
+
+    public void updateEndDateAndEventParams(
+        Long launchedEventId,
+        LocalDateTime endDate,
+        EventParams eventParams
+    ) {
+        jdbcClient.sql(UPDATE_END_DATE_AND_EVENT_PARAMS)
+            .param("id", launchedEventId)
+            .param("end_date", endDate)
+            .param("event_params", jsonUtils.mapToPostgresJson(eventParams))
+            .update();
+    }
+
+    public void updateEndDate(Long launchedEventId, LocalDateTime endDate) {
+        jdbcClient.sql(UPDATE_END_DATE)
+            .param("id", launchedEventId)
+            .param("end_date", endDate)
             .update();
     }
 

@@ -25,4 +25,16 @@ public class LaunchedEventGroupDao {
             .param("pgroup_id", groupId.value())
             .update();
     }
+
+    public void delete(long launchedEventId, GroupId groupId) {
+        final var sql = """
+            DELETE FROM public.launched_event_to_pgroup
+            WHERE launched_event_id = :launched_event_id
+              AND pgroup_id = :pgroup_id
+            """;
+        jdbcClient.sql(sql)
+            .param("launched_event_id", launchedEventId)
+            .param("pgroup_id", groupId.value())
+            .update();
+    }
 }

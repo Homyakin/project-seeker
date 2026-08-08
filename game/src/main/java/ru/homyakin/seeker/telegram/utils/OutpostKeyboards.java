@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.outpost.entity.OutpostBuildOffer;
 import ru.homyakin.seeker.game.outpost.entity.OutpostSlot;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
+import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
@@ -16,14 +17,25 @@ public final class OutpostKeyboards {
     }
 
     public static InlineKeyboardMarkup openOutpostInPrivateKeyboard(Language language) {
+        return groupOutpostKeyboard(language, false);
+    }
+
+    public static InlineKeyboardMarkup groupOutpostKeyboard(Language language, boolean showAnomalySearch) {
         final var url = "https://t.me/%s?start=%s".formatted(
             TelegramBotConfig.username(),
             CommandType.OPEN_OUTPOST_MENU.getText()
         );
-        return InlineKeyboardBuilder.builder()
+        var builder = InlineKeyboardBuilder.builder()
             .addRow()
-            .addUrlButton(OutpostLocalization.openInPrivateButton(language), url)
-            .build();
+            .addUrlButton(OutpostLocalization.openInPrivateButton(language), url);
+        if (showAnomalySearch) {
+            builder = builder.addRow()
+                .addButton(
+                    AnomalyLocalization.searchButton(language),
+                    CommandType.ANOMALY_MENU.getText()
+                );
+        }
+        return builder.build();
     }
 
     public static InlineKeyboardMarkup outpostPrivateStartBuildingRow(Language language) {

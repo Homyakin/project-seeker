@@ -51,7 +51,8 @@ class ItemServiceGenerateItemTest {
             Optional.empty(),
             ItemRarity.COMMON,
             Optional.of(personage.id()),
-            false
+            false,
+            0
         );
 
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personage.id()))

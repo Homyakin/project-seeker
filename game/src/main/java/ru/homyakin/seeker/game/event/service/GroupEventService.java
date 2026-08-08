@@ -53,6 +53,10 @@ public class GroupEventService {
         return groupTgLaunchedEventDao.lastEndedRaidInGroup(groupId);
     }
 
+    public Optional<GroupLaunchedEvent> getLastEndedAnomalyInGroup(GroupTgId groupId) {
+        return groupTgLaunchedEventDao.lastEndedAnomalyInGroup(groupId);
+    }
+
     public List<GroupLaunchedEvent> getByLaunchedEventId(Long launchedEventId) {
         return groupTgLaunchedEventDao.getByLaunchedEventId(launchedEventId);
     }

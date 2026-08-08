@@ -13,6 +13,8 @@ import ru.homyakin.seeker.game.outpost.entity.Building;
 import ru.homyakin.seeker.game.outpost.entity.OutpostContributor;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.season.action.SeasonService;
+import ru.homyakin.seeker.game.top.models.GroupTopAnomalyRatingPosition;
+import ru.homyakin.seeker.game.top.models.GroupTopAnomalyRatingResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelPosition;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidLevelResult;
 import ru.homyakin.seeker.game.top.models.GroupTopRaidPosition;
@@ -113,6 +115,12 @@ public class TopService {
         final var top = topDao.getUnsortedGroupTopRaidLevel();
         top.sort(Comparator.comparingInt(GroupTopRaidLevelPosition::raidLevel).reversed());
         return new GroupTopRaidLevelResult(top);
+    }
+
+    public GroupTopAnomalyRatingResult getGroupTopAnomalyRating() {
+        final var top = topDao.getUnsortedGroupTopAnomalyRating();
+        top.sort(Comparator.comparingInt(GroupTopAnomalyRatingPosition::rating).reversed());
+        return new GroupTopAnomalyRatingResult(top);
     }
 
     public TopOutpostBuildingResult getTopOutpostBuildingMaterials(

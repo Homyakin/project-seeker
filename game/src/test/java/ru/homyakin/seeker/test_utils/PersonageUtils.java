@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.online.entity.OnlineStreak;
 import ru.homyakin.seeker.game.personage.models.Energy;
@@ -31,6 +32,7 @@ public class PersonageUtils {
             Optional.empty(),
             Optional.empty(),
             Money.zero(),
+            StormShards.zero(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
             PersonageEffects.EMPTY,
@@ -46,6 +48,7 @@ public class PersonageUtils {
             Optional.empty(),
             Optional.empty(),
             Money.zero(),
+            StormShards.zero(),
             new Energy(0, TimeUtils.moscowTime(), timeToRegen),
             BadgeView.STANDARD,
             PersonageEffects.EMPTY,
@@ -61,6 +64,7 @@ public class PersonageUtils {
             Optional.empty(),
             Optional.empty(),
             Money.zero(),
+            StormShards.zero(),
             new Energy(100, TimeUtils.moscowTime(), Duration.ZERO),
             BadgeView.STANDARD,
             PersonageEffects.EMPTY,

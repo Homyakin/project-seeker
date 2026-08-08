@@ -194,13 +194,6 @@ public class GroupManagementLocalization {
         return resources.getOrDefault(language, GroupManagementResource::joinPersonageInAnotherGroup);
     }
 
-    public static String groupNotRegisteredAtJoin(Language language) {
-        return StringNamedTemplate.format(
-            resources.getOrDefault(language, GroupManagementResource::groupNotRegisteredAtJoin),
-            Collections.singletonMap("register_group_command", CommandType.REGISTER_GROUP.getText())
-        );
-    }
-
     public static String joinPersonageTimeout(Language language, JoinGroupMemberError.PersonageJoinTimeout error) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, GroupManagementResource::joinPersonageTimeout),

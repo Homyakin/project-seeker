@@ -97,7 +97,8 @@ public class ItemService {
             modifier.map(CatalogModifier::modifier),
             rarity,
             Optional.of(personage.id()),
-            false
+            false,
+            0
         );
 
         if (!getPersonageItems(personage.id()).hasSpaceInBag()) {
@@ -110,7 +111,8 @@ public class ItemService {
                 tempItem.modifier(),
                 tempItem.rarity(),
                 Optional.empty(),
-                tempItem.isEquipped()
+                tempItem.isEquipped(),
+                tempItem.enhanceLevel()
             );
             final var id = itemDao.save(itemWithoutPersonage);
             return Either.left(new GenerateItemError.NotEnoughSpace(getById(id).orElseThrow()));
@@ -251,6 +253,17 @@ public class ItemService {
             );
         }
         return Either.right(getById(item.id()).orElseThrow());
+    }
+
+    public PersonageItem stormEnhance(PersonageItem item) {
+        itemDao.updateEnhanceLevel(item.id(), item.enhanceLevel() + 1);
+        return getById(item.id()).orElseThrow();
+    }
+
+    public PersonageItem stormEnhanceRollback(PersonageItem item) {
+        final var nextLevel = Math.max(0, item.enhanceLevel() - 1);
+        itemDao.updateEnhanceLevel(item.id(), nextLevel);
+        return getById(item.id()).orElseThrow();
     }
 
     private PersonageSlot primarySlot(ItemObject object) {

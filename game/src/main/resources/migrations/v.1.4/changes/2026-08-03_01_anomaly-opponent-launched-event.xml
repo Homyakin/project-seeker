@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="anomaly-opponent-launched-event">
+        <addColumn tableName="anomaly">
+            <column name="opponent_launched_event_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint
+                baseTableName="anomaly"
+                baseColumnNames="opponent_launched_event_id"
+                constraintName="fk-anomaly-opponent-launched-event"
+                referencedTableName="anomaly"
+                referencedColumnNames="launched_event_id"/>
+        <createIndex tableName="anomaly" indexName="idx-anomaly-opponent-launched-event">
+            <column name="opponent_launched_event_id"/>
+        </createIndex>
+        <sql>
+            CREATE UNIQUE INDEX uq_anomaly_active_opponent_launched_event
+                ON anomaly (opponent_launched_event_id)
+                WHERE opponent_launched_event_id IS NOT NULL
+                  AND winner_pgroup_id IS NULL;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

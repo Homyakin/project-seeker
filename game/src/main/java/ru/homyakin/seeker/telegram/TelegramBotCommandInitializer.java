@@ -49,12 +49,14 @@ public class TelegramBotCommandInitializer {
         new BotCommand(CommandType.PERSONAGE_STATS.getText(), "Get my statistic"),
         new BotCommand(CommandType.GROUP_INFO.getText(), "Get group info"),
         new BotCommand(CommandType.WORKER_OF_DAY.getText(), "Get worker of the day"),
-        new BotCommand(CommandType.TOP.getText(), "Get list of tops")
+        new BotCommand(CommandType.TOP.getText(), "Get list of tops"),
+        new BotCommand(CommandType.SHOW_OUTPOST.getText(), "Show outpost")
     );
 
     private static final List<BotCommand> PERSONAL_COMMAND = List.of(
         new BotCommand(CommandType.SHOW_HELP.getText(), "Get help"),
         new BotCommand(CommandType.RAID_REPORT.getText(), "Show last raid report"),
+        new BotCommand(CommandType.ANOMALY_REPORT.getText(), "Show last anomaly report"),
         new BotCommand(CommandType.INIT_FEEDBACK.getText(), "Send feedback to developers"),
         new BotCommand(CommandType.SHOW_OUTPOST.getText(), "Show outpost"),
         new BotCommand(CommandType.PERSONAGE_STATS.getText(), "Get my global statistic"),

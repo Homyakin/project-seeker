@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.event.launched.CurrentEvent;
 import ru.homyakin.seeker.game.group.entity.SavedGroupBattleResult;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
@@ -167,8 +168,10 @@ public class CommonLocalization {
         final var params = new HashMap<String, Object>();
         params.put("money_icon", Icons.MONEY);
         params.put("energy_icon", Icons.ENERGY);
+        params.put("storm_shard_icon", Icons.STORM_SHARD);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("personage_money", personage.money().value());
+        params.put("personage_storm_shards", personage.stormShards().value());
         params.put("energy_value", personage.energy().value());
         params.put("attack_icon", Icons.ATTACK);
         params.put("attack_value", characteristics.attack());
@@ -338,7 +341,7 @@ public class CommonLocalization {
         if (hours.isBlank()) {
             return minutes;
         }
-        return hours + " " + minutes;
+        return (hours + " " + minutes).trim();
     }
 
     public static String durationWithDays(Language language, Duration duration) {
@@ -469,6 +472,7 @@ public class CommonLocalization {
             case PERSONAL_QUEST -> personageInQuest(language, event.endDate());
             case WORLD_RAID -> personageInWorldRaid(language, event.endDate());
             case DUEL -> personageInDuel(language, event.endDate());
+            case ANOMALY -> personageInAnomaly(language, event.endDate());
         };
         if (event.type() == EventType.DUEL) {
             return text;
@@ -521,6 +525,16 @@ public class CommonLocalization {
         params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageInDuel),
+            params
+        );
+    }
+
+    private static String personageInAnomaly(Language language, LocalDateTime end) {
+        final var params = new HashMap<String, Object>();
+        params.put("time_icon", Icons.TIME);
+        params.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), end));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::personageInAnomaly),
             params
         );
     }
@@ -609,7 +623,7 @@ public class CommonLocalization {
         LaunchedEvent event,
         Optional<RaidItem> raidItem
     ) {
-        final var params = paramsForPersonageBattleReport(result);
+        final var params = paramsForPersonageBattleReport(language, result);
         params.put("battle_date_time", TimeUtils.toString(event.endDate()));
         params.put("optional_short_item", formatRaidItem(language, raidItem));
         return StringNamedTemplate.format(
@@ -624,7 +638,7 @@ public class CommonLocalization {
         Personage personage,
         Optional<RaidItem> raidItem
     ) {
-        final var params = paramsForPersonageBattleReport(result);
+        final var params = paramsForPersonageBattleReport(language, result);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(personage));
         params.put("optional_short_item", formatRaidItem(language, raidItem));
         return StringNamedTemplate.format(
@@ -633,7 +647,20 @@ public class CommonLocalization {
         );
     }
 
-    private static Map<String, Object> paramsForPersonageBattleReport(PersonageBattleResult result) {
+    public static String stormShardsReward(Language language, StormShards stormShards) {
+        if (stormShards.isZero()) {
+            return "";
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::stormShardsReward),
+            Map.of(
+                "storm_shards", stormShards.value(),
+                "storm_shard_icon", Icons.STORM_SHARD
+            )
+        );
+    }
+
+    private static Map<String, Object> paramsForPersonageBattleReport(Language language, PersonageBattleResult result) {
         final var params = new HashMap<String, Object>();
         params.put("attack_icon", Icons.ATTACK);
         params.put("attack_value", result.stats().attack());
@@ -654,6 +681,7 @@ public class CommonLocalization {
         params.put("max_health", result.stats().initialHealth());
         params.put("money_icon", Icons.MONEY);
         params.put("reward_value", result.reward().value());
+        params.put("storm_shards_reward", stormShardsReward(language, result.stormShards()));
         params.put("normal_attack_icon", Icons.NORMAL_ATTACK);
         params.put("crit_attack_icon", Icons.CRIT_ATTACK);
         params.put("skill_attack_icon", Icons.SKILL_ATTACK);
@@ -718,6 +746,10 @@ public class CommonLocalization {
 
     public static String cancelEventForbiddenForDuel(Language language) {
         return resources.getOrDefault(language, CommonResource::cancelEventForbiddenForDuel);
+    }
+
+    public static String cancelEventForbiddenForStartedAnomaly(Language language) {
+        return resources.getOrDefault(language, CommonResource::cancelEventForbiddenForStartedAnomaly);
     }
 
     public static String fullBagAlertOnRaidJoin(Language language) {

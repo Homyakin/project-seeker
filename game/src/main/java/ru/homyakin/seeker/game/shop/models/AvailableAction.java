@@ -5,6 +5,10 @@ import ru.homyakin.seeker.game.item.models.PersonageItem;
 
 public record AvailableAction(
     Optional<EnhanceAction> action,
+    Optional<StormEnhanceAction> stormEnhance,
     PersonageItem item
 ) {
+    public AvailableAction(Optional<EnhanceAction> action, PersonageItem item) {
+        this(action, Optional.empty(), item);
+    }
 }

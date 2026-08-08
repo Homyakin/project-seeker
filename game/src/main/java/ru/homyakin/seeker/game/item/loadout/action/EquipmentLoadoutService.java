@@ -43,7 +43,8 @@ public class EquipmentLoadoutService {
     public static final Set<EventType> DEFAULT_LOADOUT_EVENT_TYPES = Set.of(
         EventType.RAID,
         EventType.WORLD_RAID,
-        EventType.DUEL
+        EventType.DUEL,
+        EventType.ANOMALY
     );
 
     private final EquipmentLoadoutDao loadoutDao;

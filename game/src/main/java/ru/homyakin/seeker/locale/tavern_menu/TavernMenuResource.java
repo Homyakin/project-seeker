@@ -38,7 +38,6 @@ public record TavernMenuResource(
     String targetGroupNotActive,
     String throwToGroupNotExists,
     String throwToGroupNotMember,
-    String throwToGroupNotRegisteredGroupMember,
     String throwToGroupTimeout,
     String throwToGroupTargetTimeout,
     String throwToGroupNoPersonage,

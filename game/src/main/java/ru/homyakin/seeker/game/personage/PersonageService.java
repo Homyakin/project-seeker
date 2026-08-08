@@ -12,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import io.vavr.control.Either;
+import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.group.passive.GroupPassiveEffect;
@@ -22,6 +24,7 @@ import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.entity.battle.PersonageWorldRaidBattleResult;
 import ru.homyakin.seeker.game.models.Money;
+import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.personage.models.BattleType;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
@@ -32,6 +35,7 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffect;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
+import ru.homyakin.seeker.game.personage.models.errors.NotEnoughStormShards;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.Language;
@@ -183,6 +187,20 @@ public class PersonageService {
         personageDao.addMoney(moneyMap);
     }
 
+    public Personage addStormShards(Personage personage, StormShards stormShards) {
+        final var updatedPersonage = personage.addStormShards(stormShards);
+        personageDao.update(updatedPersonage);
+        return updatedPersonage;
+    }
+
+    public void addStormShards(PersonageId personageId, StormShards stormShards) {
+        addStormShards(getByIdForce(personageId), stormShards);
+    }
+
+    public void addStormShardsBatch(Map<PersonageId, StormShards> shardsMap) {
+        personageDao.addStormShards(shardsMap);
+    }
+
     public void saveRaidResults(List<PersonageRaidResult> results, LaunchedEvent launchedEvent) {
         personageBattleResultDao.saveBatch(
             results.stream()
@@ -197,6 +215,7 @@ public class PersonageService {
             launchedEventId,
             result.stats(),
             result.reward(),
+            StormShards.ZERO,
             generatedItemId(result.generatedItem()),
             generatedContrabandId(result.generatedItem())
         );
@@ -226,6 +245,17 @@ public class PersonageService {
                     )
                 )
         );
+        final var stormShardsRewards = results.stream()
+            .filter(result -> !result.stormShards().isZero())
+            .collect(
+                Collectors.toMap(
+                    PersonageWorldRaidBattleResult::personageId,
+                    PersonageWorldRaidBattleResult::stormShards
+                )
+            );
+        if (!stormShardsRewards.isEmpty()) {
+            addStormShardsBatch(stormShardsRewards);
+        }
         personageBattleResultDao.saveBatch(
             results.stream()
                 .map(result -> new PersonageBattleResult(
@@ -233,6 +263,7 @@ public class PersonageService {
                     launchedEvent.id(),
                     result.stats(),
                     result.reward(),
+                    result.stormShards(),
                     generatedItemId(result.generatedItem()),
                     generatedContrabandId(result.generatedItem())
                 ))
@@ -244,8 +275,39 @@ public class PersonageService {
         return personageBattleResultDao.getLastByPersonage(personageId, BattleType.RAID);
     }
 
+    public Optional<PersonageBattleResult> getLastAnomalyResult(PersonageId personageId) {
+        return personageBattleResultDao.getLastByPersonage(personageId, BattleType.ANOMALY);
+    }
+
+    public Optional<PersonageBattleResult> getLastAnomalyResultInGroup(
+        PersonageId personageId,
+        GroupId groupId
+    ) {
+        return personageBattleResultDao.getLastByPersonageAndGroup(
+            personageId,
+            groupId,
+            BattleType.ANOMALY
+        );
+    }
+
     public Optional<PersonageBattleResult> getBattleResult(PersonageId personageId, long launchedEventId) {
         return personageBattleResultDao.getByPersonageAndEvent(personageId, launchedEventId);
+    }
+
+    public void saveAnomalyResults(List<AnomalyPersonageResult> results, long launchedEventId) {
+        personageBattleResultDao.saveBatch(
+            results.stream()
+                .map(result -> new PersonageBattleResult(
+                    result.personage().id(),
+                    launchedEventId,
+                    result.stats(),
+                    result.reward().money(),
+                    result.reward().stormShards(),
+                    Optional.empty(),
+                    Optional.empty()
+                ))
+                .toList()
+        );
     }
 
     public Either<NotEnoughMoney, Success> tryTakeMoney(PersonageId personageId, Money money) {
@@ -255,6 +317,13 @@ public class PersonageService {
         }
         addMoney(personage, money.negative());
         return Either.right(Success.INSTANCE);
+    }
+
+    public Either<NotEnoughStormShards, Success> tryTakeStormShards(PersonageId personageId, StormShards stormShards) {
+        final var personage = getByIdForce(personageId);
+        return personage.takeStormShards(stormShards)
+            .peek(personageDao::update)
+            .map(_ -> Success.INSTANCE);
     }
 
     public Personage takeMoney(Personage personage, Money money) {

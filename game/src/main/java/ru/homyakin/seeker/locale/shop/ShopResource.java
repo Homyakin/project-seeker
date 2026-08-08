@@ -17,6 +17,7 @@ public record ShopResource(
     String incorrectBuyingItem,
     String noItemAtPersonage,
     String notEnoughMoney,
+    String notEnoughStormShards,
     String notEnoughSpaceInBag,
     String successBuy,
     String successSell,
@@ -30,13 +31,14 @@ public record ShopResource(
     String enhanceItemInfo,
     String addModifier,
     String upgradeRarity,
-    String repair,
+    String stormEnhance,
     String maxModifiers,
-    String brokenItem,
     String successAddModifier,
     String successUpgradeRarity,
+    String successStormEnhance,
+    String failedStormEnhance,
+    String rollbackStormEnhance,
     String notBrokenItem,
-    String successRepair,
     String emptyEnhance
 ) {
 }

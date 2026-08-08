@@ -21,6 +21,7 @@ internalError = "❌Algo falló, inténtalo más tarde"
 fullProfile = """\
 ${personage_badge_with_name}
 ${money_icon}Oro: ${personage_money}
+${storm_shard_icon}Fragmentos de tormenta: ${personage_storm_shards}
 ${energy_icon}Energía: ${energy_value}% ${time_icon}${remain_duration_for_full_regen}
 ${online_streak_icon}Días seguidos: ${online_streak}
 ${health_icon}Salud: ${health_value}
@@ -30,7 +31,7 @@ ${current_event}${personage_effects}${group_effects}"""
 
 shortProfile = """\
 ${personage_badge_with_name}
-${money_icon}${personage_money} ${energy_icon}${energy_value}% ${online_streak_icon}${online_streak}
+${money_icon}${personage_money} ${storm_shard_icon}${personage_storm_shards} ${energy_icon}${energy_value}% ${online_streak_icon}${online_streak}
 ${health_icon}${health_value} ${attack_icon}${attack_value} ${defense_icon}${defense_value}"""
 
 # Отступы нужны, чтобы нормально отображалось в fullProfile
@@ -52,7 +53,9 @@ personageInRaid = "\nEn incursión ${time_icon}${duration}"
 personageInQuest = "\nEn misión ${time_icon}${duration}"
 personageInWorldRaid = "\nEn incursión mundial ${time_icon}${duration}"
 personageInDuel = "\nEn duelo ${time_icon}${duration}"
+personageInAnomaly = "\nEn anomalía ${time_icon}${duration}"
 cancelEventForbiddenForDuel = "No puedes cancelar un duelo. Espera la respuesta del rival o a que expire."
+cancelEventForbiddenForStartedAnomaly = "No puedes abandonar una expedición a la anomalía ya iniciada."
 
 hoursShort = "h."
 minutesShort = "min."
@@ -131,6 +134,7 @@ energyRecovered = [
     "¡Energía lista! Ponte a hacer algo útil.",
     "Ya descansaste suficiente. ¡Dale trabajo al cuerpo!",
 ]
+stormShardsReward = " +${storm_shards}${storm_shard_icon}"
 personageBattleReport = """\
 <code>${battle_date_time}</code>
 
@@ -149,13 +153,13 @@ ${dodge_icon}Esquives: ${dodged_damage_value} (${dodged_damage_count})
 ${health_icon}Salud: ${remain_health}/${max_health}
 ${time_icon}Turnos: ${turns_count}
 
-${money_icon}Recompensa: ${reward_value}
+${money_icon}Recompensa: ${reward_value}${storm_shards_reward}
 <code>${optional_short_item}</code>"""
 shortPersonageBattleReport = """\
 📜${personage_badge_with_name} ${health_icon}${remain_health} ${time_icon}${turns_count}
 ${normal_attack_icon}${normal_damage_value} (${normal_damage_count}) ${crit_attack_icon}${crit_damage_value} (${crit_damage_count}) ${skill_attack_icon}${skill_damage_value} (${skill_damage_count})
 ${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_icon}${dodged_damage_value} (${dodged_damage_count})
-+${reward_value}${money_icon} <code>${optional_short_item}</code>"""
++${reward_value}${money_icon}${storm_shards_reward} <code>${optional_short_item}</code>"""
 shortGroupBattleReport = """\
 📜${group_badge_with_name}
 ${participants_icon}${remain_participants}/${total_participants}

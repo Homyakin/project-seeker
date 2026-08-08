@@ -2,6 +2,8 @@ package ru.homyakin.seeker.game.personage.event;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
+import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyStorage;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.service.EventService;
@@ -17,19 +19,22 @@ public class CancelEventCommand {
     private final LockService lockService;
     private final EventService eventService;
     private final LaunchedEventService launchedEventService;
+    private final AnomalyStorage anomalyStorage;
 
     public CancelEventCommand(
         PersonageEventDao personageEventDao,
         PersonageService personageService,
         LockService lockService,
         EventService eventService,
-        LaunchedEventService launchedEventService
+        LaunchedEventService launchedEventService,
+        AnomalyStorage anomalyStorage
     ) {
         this.personageEventDao = personageEventDao;
         this.personageService = personageService;
         this.lockService = lockService;
         this.eventService = eventService;
         this.launchedEventService = launchedEventService;
+        this.anomalyStorage = anomalyStorage;
     }
 
     /**
@@ -61,6 +66,12 @@ public class CancelEventCommand {
         if (eventType == EventType.DUEL) {
             return Either.left(CancelError.ForbiddenForDuel.INSTANCE);
         }
+        if (eventType == EventType.ANOMALY) {
+            final var anomaly = anomalyStorage.findByLaunchedEventId(launchedEventId);
+            if (anomaly.isPresent() && isLeaveForbidden(anomaly.get())) {
+                return Either.left(CancelError.ForbiddenForStartedAnomaly.INSTANCE);
+            }
+        }
 
         final var refund = personageService.addEnergy(personageId, Math.max(spentEnergy - 1, 0));
 
@@ -71,5 +82,13 @@ public class CancelEventCommand {
         }
 
         return Either.right(refund);
+    }
+
+    private boolean isLeaveForbidden(Anomaly anomaly) {
+        return switch (anomaly) {
+            case Anomaly.Safe safe -> safe.phase() == Anomaly.Safe.Phase.PVE_WAITING;
+            case Anomaly.Dangerous.Gathering _ -> false;
+            case Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Accepted _ -> true;
+        };
     }
 }

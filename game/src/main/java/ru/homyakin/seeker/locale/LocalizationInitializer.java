@@ -39,6 +39,8 @@ import ru.homyakin.seeker.locale.top.TopLocalization;
 import ru.homyakin.seeker.locale.top.TopResource;
 import ru.homyakin.seeker.locale.contraband.ContrabandLocalization;
 import ru.homyakin.seeker.locale.contraband.ContrabandResource;
+import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
+import ru.homyakin.seeker.locale.anomaly.AnomalyResource;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.locale.outpost.OutpostResource;
 import ru.homyakin.seeker.locale.valentine.ValentineLocalization;
@@ -75,6 +77,7 @@ public class LocalizationInitializer {
     private static final String VALENTINE_PATH = File.separator + "valentine.toml";
     private static final String CONTRABAND_PATH = File.separator + "contraband.toml";
     private static final String OUTPOST_PATH = File.separator + "outpost.toml";
+    private static final String ANOMALY_PATH = File.separator + "anomaly.toml";
     private static final String BATTLE_PATH = File.separator + "battle.toml";
     private static final Logger logger = LoggerFactory.getLogger(LocalizationInitializer.class);
 
@@ -184,6 +187,11 @@ public class LocalizationInitializer {
             ResourceUtils.doAction(
                 LOCALIZATION_PATH + language.value() + OUTPOST_PATH,
                 it -> OutpostLocalization.add(language, extractClass(mapper, it, OutpostResource.class))
+            );
+
+            ResourceUtils.doAction(
+                LOCALIZATION_PATH + language.value() + ANOMALY_PATH,
+                it -> AnomalyLocalization.add(language, extractClass(mapper, it, AnomalyResource.class))
             );
 
             ResourceUtils.doAction(

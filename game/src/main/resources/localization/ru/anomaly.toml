@@ -1,0 +1,109 @@
+anomalySearchButton = "📡Поиск Аномалий"
+anomalyMenu = """
+📡<b>Поиск аномалий</b>
+
+${scanner_status}
+Запусков сегодня: ${starts_left}/1
+
+🛡 <b>Безопасный</b> — разведка на окраине шторма. Без столкновений с другими группами.
+☠ <b>Опасный</b> — экспедиция вглубь шторма. Высокая вероятность встретить враждебную группу.
+
+${register_warning}"""
+anomalyMenuScannerReady = "Штормовой сканер гудит — можно выходить."
+anomalyMenuScannerRecharging = "Штормовой сканер ещё копит силу."
+anomalyMenuRegisterWarning = """
+⚠️Сканер открывает путь только зарегистрированным группам.
+Зарегистрировать: <code>${register_group_command} тэг</code>
+"""
+anomalyGathering = """
+📡<b>Экспедиция к аномалии</b>
+
+Режим: ${mode}
+${pve_format}В отряд берут только своих.
+Сборы ещё ${duration}
+
+Состав (${count}/${party_size}):
+${participants}
+"""
+anomalyPveFormat = """Атака: ${attack}
+Защита: ${defense}
+Формация: ${formation}
+
+"""
+anomalyPveWaiting = """
+📡<b>Экспедиция в пути</b>
+
+${pve_format}Состав (${count}):
+${participants}
+
+Закончится через ${duration}"""
+anomalySearching = """
+📡<b>Экспедиция в процессе (до ${max_duration})</b>
+
+Состав (${count}/${party_size}):
+${participants}"""
+anomalyBattleResult = """\
+${groups_top}
+
+Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
+Отчёт: ${anomaly_report_command}"""
+anomalyBattleGroupTop = """\
+${result_icon}${group_name_with_badge}: ${participants_health}/${participants_max_health}❤️ ${living_participants}/${total_participants}🔰
+${participants_top}"""
+anomalyPveBattleResult = """\
+${success_or_failure}
+
+Противники: ${remain_enemies_health}/${total_enemies_health}❤️ ${remain_enemies_count}/${total_enemies_count}👹
+Искатели: ${participants_health}/${participants_max_health}❤️ ${living_participants}/${total_participants}🔰
+
+Лучшие:
+${top_participants_list}
+
+Награда: ${reward} ${money_icon}${storm_shards_reward} каждому.
+Отчёт: ${anomaly_report_command}"""
+
+anomalyPersonageResult = "${dead_icon_or_empty}${personage_badge_with_name}: ${damage_dealt}⚔️ ${damage_taken}🛡 +${money}${money_icon}${storm_shards}"
+successPve = [
+    "Шторм отступил. Вы выбрались с добычей.",
+    "Аномалия затихла. Вот ваша доля."
+]
+failurePve = [
+    "Шторм оказался сильнее. Экспедиция сорвалась.",
+    "Аномалия вас выплюнула. В этот раз не вышло."
+]
+anomalyExpired = "Окно в аномалию закрылось."
+safeModeButton = "🛡 Безопасный"
+dangerousModeButton = "☠ Опасный"
+joinButton = "➕ Вступить"
+readyButton = "✅ Готов"
+backToOutpostButton = "⬅️ К аванпосту"
+modeSafe = "Безопасный"
+modeDangerous = "Опасный"
+formationStrongBackLine = "Сильный тыл"
+formationStrongFrontLine = "Сильный фронт"
+formationMidLine = "Средняя линия"
+formationSplitWings = "Разнесённые фланги"
+errorNotRegistered = "❌Сначала зарегистрируйте группу"
+errorNoStormScanner = "❌Без Штормового Сканера сюда не пройти"
+errorAlreadyStartedToday = "❌Сегодня сканер уже отработал"
+errorActiveExists = "❌У вас уже открыта аномалия"
+errorNotMember = "❌В отряд берут только участников группы"
+errorNotOwner = "❌Это может только организатор"
+errorInvalidPhase = "❌Сейчас это уже не сработает"
+errorPartyNotFull = "❌Отряд ещё не полный"
+errorPartyEmpty = "❌В отряде никого нет"
+errorRosterLocked = "Состав уже зафиксирован"
+errorAlreadyJoined = "✅Вы уже в экспедиции"
+errorAlreadyInAnomaly = "❌Вы уже в другой аномалии"
+errorPartyFull = "❌Отряд уже полный"
+errorEventLocked = "❌Попробуйте ещё раз"
+errorFinal = "❌Экспедиция уже закончилась"
+errorNotFound = "❌Такой экспедиции нет"
+report = """\
+📜Твой отчёт за последнюю аномалию:
+${personage_battle_report}"""
+reportNotPresentForPersonage = "В архивах нет твоего отчёта об аномалии"
+lastGroupAnomalyReportNotFound = "В этой группе нет отчёта об аномалии"
+successJoin = "✅Вы в отряде"
+participantLine = "• ${name}"
+participantLineLeader = "• 👑${name}"

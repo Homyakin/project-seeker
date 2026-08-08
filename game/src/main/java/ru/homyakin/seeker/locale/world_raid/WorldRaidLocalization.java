@@ -274,6 +274,7 @@ public class WorldRaidLocalization {
         params.put("damage_taken", result.stats().damageTaken());
         params.put("money_icon", Icons.MONEY);
         params.put("money", result.reward().value());
+        params.put("storm_shards", CommonLocalization.stormShardsReward(language, result.stormShards()));
         params.put("dead_icon_or_empty", result.stats().isDead() ? Icons.DEAD : "");
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::personageResult),

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="anomaly-unique-active-opponent">
+        <sql>
+            CREATE UNIQUE INDEX uq_anomaly_active_opponent_pgroup
+                ON anomaly (opponent_pgroup_id)
+                WHERE opponent_pgroup_id IS NOT NULL
+                  AND winner_pgroup_id IS NULL;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

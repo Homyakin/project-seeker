@@ -208,7 +208,7 @@ public class BattleLocalization {
         };
     }
 
-    private static String attackTypeName(Language language, AttackType attackType) {
+    public static String attackTypeName(Language language, AttackType attackType) {
         return switch (attackType) {
             case SLASH -> StringNamedTemplate.format(
                 resources.getOrDefault(language, BattleResource::attackTypeSlash),
@@ -229,7 +229,7 @@ public class BattleLocalization {
         };
     }
 
-    private static String defenseTypeName(Language language, DefenseType defenseType) {
+    public static String defenseTypeName(Language language, DefenseType defenseType) {
         return switch (defenseType) {
             case CLOTH -> StringNamedTemplate.format(
                 resources.getOrDefault(language, BattleResource::defenseTypeCloth),
