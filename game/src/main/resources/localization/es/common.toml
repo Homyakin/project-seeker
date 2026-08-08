@@ -169,6 +169,8 @@ ${damage_blocked_icon}${damage_blocked_value} (${damage_blocked_count}) ${dodge_
 
 raidGoldRewardPercentEffect = "+${value}% ${money_icon} al oro de incursiones"
 itemFoundChancePercentEffect = "+${value}% a la probabilidad de encontrar un objeto en incursiones"
+extraLoadoutsEffect = "+${value} a los conjuntos de equipo"
+extraBagSpaceEffect = "+${value} espacio en la mochila"
 groupBuildingEffectLine = "\n<code>-${source_label}: ${effect}${optional_time_suffix}</code>"
 groupInfoPassiveEffectsSection = "\n\n<b>Efectos del grupo</b>${group_effect_lines}"
 

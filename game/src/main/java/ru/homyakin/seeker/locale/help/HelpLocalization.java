@@ -2,16 +2,27 @@ package ru.homyakin.seeker.locale.help;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Collectors;
+import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.skill.ActiveSkillSlots;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.item.models.AttackType;
+import ru.homyakin.seeker.game.item.models.DefenseType;
+import ru.homyakin.seeker.game.item.models.ModifierType;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.infrastructure.TextConstants;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.telegram.TelegramBotConfig;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class HelpLocalization {
     private static final Resources<HelpResource> resources = new Resources<>();
+    private static final int MATRIX_COL_WIDTH = 5;
+    /** Telegram monospace cell width of one emoji icon (variation selectors do not add a cell). */
+    private static final int MATRIX_EMOJI_WIDTH = 2;
 
     public static void add(Language language, HelpResource resource) {
         resources.add(language, resource);
@@ -86,6 +97,84 @@ public class HelpLocalization {
         );
     }
 
+    public static String battleMatrix(Language language) {
+        final var params = new HashMap<String, Object>();
+        params.put("slash_icon", Icons.ATTACK_TYPE_SLASH);
+        params.put("blunt_icon", Icons.ATTACK_TYPE_BLUNT);
+        params.put("pierce_icon", Icons.ATTACK_TYPE_PIERCE);
+        params.put("magical_icon", Icons.ATTACK_TYPE_MAGICAL);
+        params.put("cloth_icon", Icons.DEFENSE_TYPE_CLOTH);
+        params.put("leather_icon", Icons.DEFENSE_TYPE_LEATHER);
+        params.put("plate_icon", Icons.DEFENSE_TYPE_PLATE);
+        params.put("arcane_icon", Icons.DEFENSE_TYPE_ARCANE);
+        params.put("matrix_table", damageMatrixTable());
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, HelpResource::battleMatrix),
+            params
+        );
+    }
+
+    private static String damageMatrixTable() {
+        final var attacks = AttackType.values();
+        final var defenses = DefenseType.values();
+        final var sb = new StringBuilder();
+        sb.append(" ".repeat(MATRIX_EMOJI_WIDTH));
+        for (final var attack : attacks) {
+            sb.append(padEmojiCell(Icons.attackTypeIcon(attack), MATRIX_COL_WIDTH));
+        }
+        sb.append('\n');
+        for (final var defense : defenses) {
+            sb.append(Icons.defenseTypeIcon(defense));
+            for (final var attack : attacks) {
+                final var percent = BattlePersonage.damageMitigationPercent(defense, attack);
+                sb.append(String.format("%" + (MATRIX_COL_WIDTH - 1) + "d%%", percent));
+            }
+            sb.append('\n');
+        }
+        return sb.toString().stripTrailing();
+    }
+
+    /**
+     * Centers an emoji in a fixed ASCII column. Uses visual width so U+FE0F variation
+     * selectors (e.g. in 🗡️ / ⛓️) do not shift padding relative to single-codepoint icons.
+     */
+    private static String padEmojiCell(String emoji, int width) {
+        final var pad = width - MATRIX_EMOJI_WIDTH;
+        if (pad <= 0) {
+            return emoji;
+        }
+        final var left = pad / 2;
+        return " ".repeat(left) + emoji + " ".repeat(pad - left);
+    }
+
+    public static String battleSkill(Language language, ActiveEnum activeEnum) {
+        final var slots = ActiveSkillSlots.slotsFor(activeEnum).stream()
+            .sorted((a, b) -> Integer.compare(a.id, b.id))
+            .map(slot -> slot.icon)
+            .collect(Collectors.joining());
+        final var params = new HashMap<String, Object>();
+        params.put("skill_name", BattleLocalization.skillName(language, activeEnum));
+        params.put("slots", slots.isEmpty() ? "—" : slots);
+        params.put("skill_type", skillTypeIcon(ActiveSkillSlots.typeFor(activeEnum)));
+        params.put("description", BattleLocalization.skillGeneralDescription(language, activeEnum));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, HelpResource::battleSkill),
+            params
+        );
+    }
+
+    private static String skillTypeIcon(ModifierType type) {
+        return switch (type) {
+            case ATTACK -> Icons.ATTACK;
+            case DEFENSE -> Icons.DEFENSE;
+            case ANY -> Icons.ATTACK + Icons.DEFENSE;
+        };
+    }
+
+    public static String battleSkillsEmpty(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleSkillsEmpty);
+    }
+
     public static String seasons(Language language) {
         final var params = new HashMap<String, Object>();
         params.put("news_channel_username", TextConstants.TELEGRAM_CHANNEL_USERNAME);
@@ -117,6 +206,30 @@ public class HelpLocalization {
 
     public static String battleSystemButton(Language language) {
         return resources.getOrDefault(language, HelpResource::battleSystemButton);
+    }
+
+    public static String battleGeneralButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleGeneralButton);
+    }
+
+    public static String battleMatrixButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleMatrixButton);
+    }
+
+    public static String battleSkillsButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleSkillsButton);
+    }
+
+    public static String battleSkillsAllFilterButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleSkillsAllFilterButton);
+    }
+
+    public static String battleSkillsPrevButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleSkillsPrevButton);
+    }
+
+    public static String battleSkillsNextButton(Language language) {
+        return resources.getOrDefault(language, HelpResource::battleSkillsNextButton);
     }
 
     public static String seasonsButton(Language language) {

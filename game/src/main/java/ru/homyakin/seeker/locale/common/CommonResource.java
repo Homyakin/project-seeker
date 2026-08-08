@@ -51,6 +51,8 @@ public record CommonResource(
     String cancelEventForbiddenForStartedAnomaly,
     String raidGoldRewardPercentEffect,
     String itemFoundChancePercentEffect,
+    String extraLoadoutsEffect,
+    String extraBagSpaceEffect,
     String groupBuildingEffectLine,
     String groupInfoPassiveEffectsSection,
     String fullBagAlertOnRaidJoin

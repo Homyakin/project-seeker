@@ -9,7 +9,7 @@ import ru.homyakin.seeker.telegram.command.CommandExecutor;
 import ru.homyakin.seeker.telegram.group.models.GroupTgId;
 import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.user.models.UserId;
-import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
+import ru.homyakin.seeker.telegram.utils.HelpInlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
 @Component
@@ -39,7 +39,7 @@ public class ShowHelpExecutor extends CommandExecutor<ShowHelp> {
         }
         telegramSender.send(
             builder.text(HelpLocalization.main(language))
-                .keyboard(InlineKeyboards.helpKeyboard(language))
+                .keyboard(HelpInlineKeyboards.helpKeyboard(language))
                 .build()
         );
     }

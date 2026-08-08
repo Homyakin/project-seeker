@@ -120,19 +120,29 @@ public final class OutpostKeyboards {
             .build();
     }
 
-    public static InlineKeyboardMarkup outpostBuildingContributePickerKeyboard(Language language, Building building) {
-        final var contributeCallback = CommandType.OUTPOST_BUILD_CONTRIBUTE.getText()
+    public static InlineKeyboardMarkup outpostBuildingContributePickerKeyboard(
+        Language language,
+        Building building,
+        int page,
+        int totalPages
+    ) {
+        final var contributeCallbackPrefix = CommandType.OUTPOST_BUILD_CONTRIBUTE.getText()
             + TextConstants.CALLBACK_DELIMITER
-            + building.id();
+            + building.id()
+            + TextConstants.CALLBACK_DELIMITER;
         return InlineKeyboardBuilder.builder()
             .addRow()
-            .addButton(OutpostLocalization.contributeRefreshButton(language), contributeCallback)
+            .addButton(
+                OutpostLocalization.contributeRefreshButton(language),
+                contributeCallbackPrefix + page
+            )
             .addButton(
                 OutpostLocalization.contributeBackButton(language),
                 CommandType.OPEN_OUTPOST_BUILDING_INLINE.getText()
                     + TextConstants.CALLBACK_DELIMITER
                     + building.id()
             )
+            .addPaginationRow(page, totalPages, p -> contributeCallbackPrefix + p)
             .build();
     }
 

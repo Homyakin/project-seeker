@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
 import java.util.Comparator;
@@ -28,10 +29,12 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.modifier.ItemModifierService;
+import ru.homyakin.seeker.game.outpost.action.GroupPassiveEffectsService;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.Personage;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class ItemService {
@@ -39,11 +42,21 @@ public class ItemService {
     private final ItemObjectDao itemObjectDao;
     private final ItemModifierService itemModifierService;
     private final ItemDao itemDao;
+    private final GroupPersonageStorage groupPersonageStorage;
+    private final GroupPassiveEffectsService groupPassiveEffectsService;
 
-    public ItemService(ItemObjectDao itemObjectDao, ItemModifierService itemModifierService, ItemDao itemDao) {
+    public ItemService(
+        ItemObjectDao itemObjectDao,
+        ItemModifierService itemModifierService,
+        ItemDao itemDao,
+        GroupPersonageStorage groupPersonageStorage,
+        GroupPassiveEffectsService groupPassiveEffectsService
+    ) {
         this.itemObjectDao = itemObjectDao;
         this.itemModifierService = itemModifierService;
         this.itemDao = itemDao;
+        this.groupPersonageStorage = groupPersonageStorage;
+        this.groupPassiveEffectsService = groupPassiveEffectsService;
     }
 
     public Optional<PersonageItem> getById(long id) {
@@ -110,7 +123,20 @@ public class ItemService {
     }
 
     public Inventory getPersonageItems(PersonageId personageId) {
-        return itemDao.getByPersonageId(personageId);
+        final var inventory = itemDao.getByPersonageId(personageId);
+        final int bonus = extraBagSpaceBonus(personageId);
+        if (bonus <= 0) {
+            return inventory;
+        }
+        return new Inventory(inventory.items(), Inventory.baseMaxBagSize() + bonus);
+    }
+
+    private int extraBagSpaceBonus(PersonageId personageId) {
+        final var memberGroup = groupPersonageStorage.getPersonageMemberGroup(personageId);
+        if (memberGroup.groupId().isEmpty()) {
+            return 0;
+        }
+        return groupPassiveEffectsService.extraBagSpaceSum(memberGroup.groupId().get(), TimeUtils.moscowTime());
     }
 
     public Map<PersonageId, List<Item>> getEquippedItemsByPersonageIds(Set<PersonageId> personageIds) {

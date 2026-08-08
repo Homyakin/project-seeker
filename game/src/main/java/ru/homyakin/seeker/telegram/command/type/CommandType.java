@@ -141,6 +141,7 @@ public enum CommandType {
     SHOP_RANDOM_BOXES("shopRand", CheckType.EQUALS),
     SHOP_ENHANCE_INLINE("shopEnh", CheckType.EQUALS),
     SHOP_SELECT_SLOT("shopSlot", CheckType.EQUALS),
+    NOOP("noop", CheckType.EQUALS),
     ;
 
     private static final Map<String, CommandType> textToType = new HashMap<>();

@@ -17,6 +17,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Resources;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
+import ru.homyakin.seeker.utils.PageUtils;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 import java.util.ArrayList;
@@ -71,7 +72,8 @@ public class ShopLocalization {
         Language language,
         List<ShopItem> items,
         Optional<Contraband> activeContraband,
-        boolean compactItems
+        boolean compactItems,
+        int sellingPage
     ) {
         final var buying = new StringBuilder();
         final var selling = new StringBuilder();
@@ -79,20 +81,17 @@ public class ShopLocalization {
             .filter(item -> item instanceof ShopItem.Buy)
             .map(item -> (ShopItem.Buy) item)
             .toList();
-        final var sellingItems = items.stream()
-            .filter(item -> item instanceof ShopItem.Sell)
-            .map(item -> (ShopItem.Sell) item)
-            .sorted((item1, item2) -> ItemLocalization.itemComparator(item1.item(), item2.item()))
-            .toList();
+        final var sellingItems = sortedSellingItems(items);
+        final var pageSellingItems = PageUtils.pageSlice(sellingItems, sellingPage);
         for (int i = 0; i < buyingItems.size(); ++i) {
             buying.append(buyingItem(language, buyingItems.get(i)));
             if (i < buyingItems.size() - 1) {
                 buying.append("\n");
             }
         }
-        for (int i = 0; i < sellingItems.size(); ++i) {
-            selling.append(sellingItem(language, sellingItems.get(i), compactItems));
-            if (i < sellingItems.size() - 1) {
+        for (int i = 0; i < pageSellingItems.size(); ++i) {
+            selling.append(sellingItem(language, pageSellingItems.get(i), compactItems));
+            if (i < pageSellingItems.size() - 1) {
                 selling.append("\n");
             }
         }
@@ -104,6 +103,18 @@ public class ShopLocalization {
             resources.getOrDefault(language, ShopResource::menu),
             params
         );
+    }
+
+    public static int sellingTotalPages(List<ShopItem> items) {
+        return PageUtils.totalPages(sortedSellingItems(items).size());
+    }
+
+    private static List<ShopItem.Sell> sortedSellingItems(List<ShopItem> items) {
+        return items.stream()
+            .filter(item -> item instanceof ShopItem.Sell)
+            .map(item -> (ShopItem.Sell) item)
+            .sorted((item1, item2) -> ItemLocalization.itemComparator(item1.item(), item2.item()))
+            .toList();
     }
 
     private static String contrabandNotification(Language language, Optional<Contraband> activeContraband) {
@@ -192,7 +203,7 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::cancelSell);
     }
 
-    public static String enhanceTable(Language language, Inventory inventory) {
+    public static String enhanceTable(Language language, Inventory inventory, int bagPage) {
         final var params = new HashMap<String, Object>();
         final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
         final var equipped = sortedItems.stream()
@@ -201,14 +212,23 @@ public class ShopLocalization {
                 .collect(Collectors.joining("\n"));
         final var bagItems = sortedItems.stream()
                 .filter(it -> !it.isEquipped())
+                .toList();
+        final var pageBagItems = PageUtils.pageSlice(bagItems, bagPage).stream()
                 .map(it -> enhanceItem(language, it))
                 .collect(Collectors.joining("\n"));
         params.put("equipped_enhance_times", equipped);
-        params.put("inventory_enhance_times", bagItems);
+        params.put("inventory_enhance_times", pageBagItems);
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::enhanceTable),
             params
         );
+    }
+
+    public static int enhanceBagTotalPages(Inventory inventory) {
+        final var bagItemsCount = (int) inventory.items().stream()
+            .filter(item -> !item.isEquipped())
+            .count();
+        return PageUtils.totalPages(bagItemsCount);
     }
 
     private static String enhanceItem(Language language, PersonageItem item) {

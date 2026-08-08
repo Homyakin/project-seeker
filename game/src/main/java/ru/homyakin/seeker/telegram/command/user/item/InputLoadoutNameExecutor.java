@@ -61,7 +61,10 @@ public class InputLoadoutNameExecutor extends CommandExecutor<InputLoadoutName> 
                 case CreateLoadoutError.InvalidName invalid ->
                     ItemLocalization.loadoutNameError(user.language(), invalid.nameError());
                 case CreateLoadoutError.MaxLoadoutsReached _ ->
-                    ItemLocalization.maxLoadoutsReached(user.language());
+                    ItemLocalization.maxLoadoutsReached(
+                        user.language(),
+                        loadoutService.maxLoadouts(user.personageId())
+                    );
             };
             telegramSender.send(SendMessageBuilder.builder()
                 .chatId(user.id())

@@ -18,6 +18,7 @@ import ru.homyakin.seeker.telegram.user.UserService;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.OutpostKeyboards;
 import ru.homyakin.seeker.telegram.utils.TelegramMethods;
+import ru.homyakin.seeker.utils.PageUtils;
 
 @Component
 public class OutpostBuildingContributeViewExecutor extends CommandExecutor<OutpostBuildingContributeView> {
@@ -78,9 +79,12 @@ public class OutpostBuildingContributeViewExecutor extends CommandExecutor<Outpo
             .filter(i -> !i.isEquipped())
             .sorted(ItemLocalization::itemComparator)
             .toList();
+        final var totalPages = PageUtils.totalPages(bagItems.size());
+        final var page = PageUtils.clampPage(command.page(), totalPages);
+        final var pageItems = PageUtils.pageSlice(bagItems, page);
         final var itemsBlock = bagItems.isEmpty()
             ? OutpostLocalization.buildingContributeEmptyBag(language)
-            : bagItems.stream()
+            : pageItems.stream()
                 .map(item -> {
                     final var materials = shopConfig.buyingPriceByRarity(item.rarity()).value();
                     final var donateCommand = CommandType.OUTPOST_DONATE_ITEM.getText()
@@ -97,7 +101,7 @@ public class OutpostBuildingContributeViewExecutor extends CommandExecutor<Outpo
             .chatId(user.id())
             .messageId(command.messageId())
             .text(text)
-            .keyboard(OutpostKeyboards.outpostBuildingContributePickerKeyboard(language, building))
+            .keyboard(OutpostKeyboards.outpostBuildingContributePickerKeyboard(language, building, page, totalPages))
             .build()
         );
     }

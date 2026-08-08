@@ -57,9 +57,32 @@ ${health_icon}Здоровье ${attack_icon}Атака ${defense_icon}Защи�
 3. Для рейдов выбирают позицию (🗡ближняя, 🏹дальняя, 🪨осадная); атаковать можно, если враг в пределах дальности оружия.
 4. За ход — атака по цели в радиусе дальности или шаг к врагу.
 5. Чаще атакуют цели с большей ${threat_icon}угрозой.
-6. Матрица урона: рубящий бьёт ткань, дробящий — латы, колющий — магическую броню, магический — кожу; в обратных парах броня поглощает урон лучше.
-7. В бою срабатывают ${crit_attack_icon}криты, ${dodge_icon}уклонения и навыки снаряжения.
+6. В бою срабатывают ${crit_attack_icon}криты, ${dodge_icon}уклонения и навыки снаряжения.
 """
+
+battleMatrix = """\
+⚔️<b>Матрица атаки и защиты</b>
+
+У оружия есть тип атаки, у брони — тип защиты. Числа ниже — эффективность защиты против типа атаки \
+(из боевого баланса): чем выше процент, тем лучше броня держит этот тип атаки.
+
+Атака: ${slash_icon}Рубящий ${blunt_icon}Дробящий ${pierce_icon}Колющий ${magical_icon}Магический
+Защита: ${cloth_icon}Ткань ${leather_icon}Кожа ${plate_icon}Латы ${arcane_icon}Магическая
+
+<pre><code>${matrix_table}</code></pre>
+
+Сильные пары (атака лучше проходит, низкий % защиты):
+• ${slash_icon} → ${cloth_icon}
+• ${blunt_icon} → ${plate_icon}
+• ${pierce_icon} → ${arcane_icon}
+• ${magical_icon} → ${leather_icon}
+"""
+
+battleSkill = """\
+<b>${skill_name}</b> ${slots} Для:${skill_type}
+${description}"""
+
+battleSkillsEmpty = "Для выбранных слотов навыков нет."
 
 seasons = """\
 ⚡ Каждый сезон начинается с разрушительного магического шторма, который смывает большую часть накопленных средств \
@@ -78,4 +101,10 @@ menuButton = "🍻Таверна"
 personageButton = "🔰Искатель"
 infoButton = "💬Прочее"
 battleSystemButton = "⚔️Боёвка"
+battleGeneralButton = "📖Общее"
+battleMatrixButton = "🛡Матрица атаки/защиты"
+battleSkillsButton = "✨Навыки"
+battleSkillsAllFilterButton = "Все"
+battleSkillsPrevButton = "◀"
+battleSkillsNextButton = "▶"
 seasonsButton = "⚡️Сезоны"

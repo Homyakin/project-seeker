@@ -34,6 +34,7 @@ public record BattleResource(
 ) {
     public record SkillEntry(
         String name,
+        String description,
         String first,
         String second,
         String third,
