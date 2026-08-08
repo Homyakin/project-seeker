@@ -106,23 +106,11 @@ public class AnomalyMatchmakerTest {
     @Test
     void Given_BeforeMinSearch_When_Match_Then_SkipsPartner() {
         // searchAge ≈ 0 < dangerousMinSearchDuration (1h)
-        final var searchEnd = TimeUtils.moscowTime().plus(Duration.ofHours(12));
-        final var host = new Anomaly.Dangerous.Searching(
-            hostEventId,
-            hostGroupId,
-            hostOwnerId,
-            1000,
-            searchEnd
-        );
-        final var guest = new Anomaly.Dangerous.Searching(
-            guestEventId,
-            guestGroupId,
-            guestOwnerId,
-            1000,
-            searchEnd
-        );
-        final var hostEvent = launchedEvent(hostEventId);
-        final var guestEvent = launchedEvent(guestEventId);
+        final var host = searchingAnomaly(hostEventId, hostGroupId, hostOwnerId);
+        final var guest = searchingAnomaly(guestEventId, guestGroupId, guestOwnerId);
+        final var now = TimeUtils.moscowTime();
+        final var hostEvent = launchedEvent(hostEventId, now, now.plusHours(12));
+        final var guestEvent = launchedEvent(guestEventId, now, now.plusHours(12));
         mockPool(host, guest, hostEvent, guestEvent);
 
         matchmaker.matchSearchingExpeditions();
@@ -134,20 +122,17 @@ public class AnomalyMatchmakerTest {
     @Test
     void Given_RatingTooFar_When_Match_Then_SkipsPartner() {
         // After 1h min search, allowed |Δrating| is 50.
-        final var searchEnd = TimeUtils.moscowTime().plus(Duration.ofHours(11));
         final var host = new Anomaly.Dangerous.Searching(
             hostEventId,
             hostGroupId,
             hostOwnerId,
-            1000,
-            searchEnd
+            1000
         );
         final var guest = new Anomaly.Dangerous.Searching(
             guestEventId,
             guestGroupId,
             guestOwnerId,
-            1100,
-            searchEnd
+            1100
         );
         final var hostEvent = launchedEvent(hostEventId);
         final var guestEvent = launchedEvent(guestEventId);
@@ -184,18 +169,21 @@ public class AnomalyMatchmakerTest {
             eventId,
             groupId,
             ownerId,
-            1000,
-            TimeUtils.moscowTime().plusHours(11)
+            1000
         );
     }
 
     private LaunchedEvent launchedEvent(long eventId) {
         final LocalDateTime now = TimeUtils.moscowTime();
+        return launchedEvent(eventId, now.minusHours(1), now.plusHours(11));
+    }
+
+    private LaunchedEvent launchedEvent(long eventId, LocalDateTime start, LocalDateTime end) {
         return new LaunchedEvent(
             eventId,
             5,
-            now.minusHours(1),
-            now.plusHours(11),
+            start,
+            end,
             EventStatus.LAUNCHED,
             Optional.empty()
         );

@@ -322,7 +322,7 @@ public class AnomalyService {
         }
         final var searchEnd = TimeUtils.moscowTime().plus(config.dangerousSearchDuration());
         anomalyStorage.update(
-            gathering.startSearching(gvgStorage.getRating(gathering.groupId()), searchEnd)
+            gathering.startSearching(gvgStorage.getRating(gathering.groupId()))
         );
         launchedEventService.updateEndDate(event.id(), searchEnd);
         return Either.right(new AnomalyReadyResult.StartedSearching(

@@ -15,7 +15,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
-import ru.homyakin.seeker.telegram.group.models.GroupTg;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 
@@ -97,12 +97,9 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
                 notifyPveBattleFinished(pve);
             case EventResult.AnomalyResult.BattleFinished battle ->
                 notifyBattleFinished(battle);
-            case EventResult.AnomalyResult.ExpiredGathering _,
-                 EventResult.AnomalyResult.AlreadyFinal _ ->
-                replyToGroupEvents(
-                    event.id(),
-                    group -> AnomalyLocalization.expired(group.language())
-                );
+            case EventResult.AnomalyResult.ExpiredGathering _ ->
+                editGroupEventsToExpired(event.id());
+            case EventResult.AnomalyResult.AlreadyFinal _ -> { }
         }
     }
 
@@ -151,17 +148,14 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
         });
     }
 
-    private void replyToGroupEvents(
-        long launchedEventId,
-        java.util.function.Function<GroupTg, String> text
-    ) {
+    private void editGroupEventsToExpired(long launchedEventId) {
         groupEventService.getByLaunchedEventId(launchedEventId).forEach(groupEvent -> {
             final var group = groupTgService.getOrCreate(groupEvent.groupId());
             telegramSender.send(
-                SendMessageBuilder.builder()
+                EditMessageTextBuilder.builder()
                     .chatId(group.id())
-                    .replyMessageId(groupEvent.messageId())
-                    .text(text.apply(group))
+                    .messageId(groupEvent.messageId())
+                    .text(AnomalyLocalization.expired(group.language()))
                     .build()
             );
         });

@@ -210,8 +210,7 @@ public class AnomalyServiceTest {
             102L,
             groupId,
             personageId,
-            1000,
-            TimeUtils.moscowTime().minusMinutes(1)
+            1000
         );
         final var event = new LaunchedEvent(
             102L,
@@ -249,8 +248,7 @@ public class AnomalyServiceTest {
             otherPersonageId,
             Optional.of(109L),
             Optional.empty(),
-            1000,
-            TimeUtils.moscowTime().minusMinutes(1)
+            1000
         );
         final var event = new LaunchedEvent(
             108L,
@@ -283,8 +281,7 @@ public class AnomalyServiceTest {
             otherPersonageId,
             Optional.of(111L),
             Optional.of(groupId),
-            1000,
-            TimeUtils.moscowTime().minusMinutes(1)
+            1000
         );
         final var event = new LaunchedEvent(
             110L,
@@ -310,8 +307,7 @@ public class AnomalyServiceTest {
             107L,
             groupId,
             personageId,
-            1000,
-            TimeUtils.moscowTime().plusHours(11)
+            1000
         );
         final var event = new LaunchedEvent(
             107L,

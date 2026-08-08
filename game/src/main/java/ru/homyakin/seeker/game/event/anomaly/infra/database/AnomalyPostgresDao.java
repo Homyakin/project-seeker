@@ -42,12 +42,12 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 launched_event_id, pgroup_id, owner_personage_id, phase, mode,
                 pve_template_code, opponent_pgroup_id, opponent_launched_event_id,
                 opponent_owner_personage_id, winner_pgroup_id,
-                gvg_rating_at_start, search_end_date
+                gvg_rating_at_start
             ) VALUES (
                 :launched_event_id, :pgroup_id, :owner_personage_id, :phase, :mode,
                 :pve_template_code, :opponent_pgroup_id, :opponent_launched_event_id,
                 :opponent_owner_personage_id, :winner_pgroup_id,
-                :gvg_rating_at_start, :search_end_date
+                :gvg_rating_at_start
             )
             """;
         bind(anomaly, jdbcClient.sql(sql)).update();
@@ -65,8 +65,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 opponent_launched_event_id = :opponent_launched_event_id,
                 opponent_owner_personage_id = :opponent_owner_personage_id,
                 winner_pgroup_id = :winner_pgroup_id,
-                gvg_rating_at_start = :gvg_rating_at_start,
-                search_end_date = :search_end_date
+                gvg_rating_at_start = :gvg_rating_at_start
             WHERE launched_event_id = :launched_event_id
             """;
         bind(anomaly, jdbcClient.sql(sql)).update();
@@ -92,8 +91,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 opponent_launched_event_id = :opponent_launched_event_id,
                 opponent_owner_personage_id = :opponent_owner_personage_id,
                 winner_pgroup_id = :winner_pgroup_id,
-                gvg_rating_at_start = :gvg_rating_at_start,
-                search_end_date = :search_end_date
+                gvg_rating_at_start = :gvg_rating_at_start
             WHERE launched_event_id = :launched_event_id
               AND phase = :expected_phase
               AND opponent_pgroup_id IS NULL
@@ -269,8 +267,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 toOpponentOwnerId(anomaly).map(PersonageId::value).orElse(null)
             )
             .param("winner_pgroup_id", toWinnerGroupId(anomaly).map(GroupId::value).orElse(null))
-            .param("gvg_rating_at_start", toGvgRating(anomaly).orElse(null))
-            .param("search_end_date", toSearchEndDate(anomaly).orElse(null));
+            .param("gvg_rating_at_start", toGvgRating(anomaly).orElse(null));
     }
 
     private Anomaly mapAnomaly(ResultSet rs, int rowNum) throws SQLException {
@@ -290,8 +287,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
             .map(id -> GroupId.from(((Number) id).longValue()));
         final var gvgRating = Optional.ofNullable(rs.getObject("gvg_rating_at_start"))
             .map(id -> ((Number) id).intValue());
-        final var searchEnd = Optional.ofNullable(rs.getTimestamp("search_end_date"))
-            .map(java.sql.Timestamp::toLocalDateTime);
 
         return switch (phase) {
             case GATHERING -> switch (mode.orElseThrow()) {
@@ -319,10 +314,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 launchedEventId,
                 groupId,
                 owner,
-                requireGvgRating(gvgRating, launchedEventId),
-                searchEnd.orElseThrow(() -> new IllegalStateException(
-                    "Searching anomaly without search_end_date: " + launchedEventId
-                ))
+                requireGvgRating(gvgRating, launchedEventId)
             );
             case ACCEPTED -> new Anomaly.Dangerous.Accepted(
                 launchedEventId,
@@ -336,10 +328,7 @@ public class AnomalyPostgresDao implements AnomalyStorage {
                 )),
                 opponentLaunchedEventId,
                 winnerGroupId,
-                requireGvgRating(gvgRating, launchedEventId),
-                searchEnd.orElseThrow(() -> new IllegalStateException(
-                    "Accepted anomaly without search_end_date: " + launchedEventId
-                ))
+                requireGvgRating(gvgRating, launchedEventId)
             );
         };
     }
@@ -418,14 +407,6 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         return switch (anomaly) {
             case Anomaly.Dangerous.Searching searching -> Optional.of(searching.gvgRatingAtStart());
             case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.gvgRatingAtStart());
-            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> Optional.empty();
-        };
-    }
-
-    private static Optional<java.time.LocalDateTime> toSearchEndDate(Anomaly anomaly) {
-        return switch (anomaly) {
-            case Anomaly.Dangerous.Searching searching -> Optional.of(searching.searchEndDate());
-            case Anomaly.Dangerous.Accepted accepted -> Optional.of(accepted.searchEndDate());
             case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> Optional.empty();
         };
     }

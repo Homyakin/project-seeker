@@ -79,7 +79,7 @@ public class AnomalyMatchmaker {
         }
 
         final var now = TimeUtils.moscowTime();
-        final var hostSearchAge = searchAge(host, now);
+        final var hostSearchAge = searchAge(hostEvent, now);
         if (hostSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0) {
             return Optional.empty();
         }
@@ -127,8 +127,9 @@ public class AnomalyMatchmaker {
             return Optional.empty();
         }
 
-        final var hostSearchAge = searchAge(host, now);
-        final var guestSearchAge = searchAge(guest, now);
+        final var guestEvent = guestEventOpt.get();
+        final var hostSearchAge = searchAge(hostEvent, now);
+        final var guestSearchAge = searchAge(guestEvent, now);
         if (hostSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0
             || guestSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0
         ) {
@@ -177,7 +178,7 @@ public class AnomalyMatchmaker {
         if (guest.groupId().equals(host.groupId())) {
             return Optional.empty();
         }
-        final var guestSearchAge = searchAge(guest, now);
+        final var guestSearchAge = searchAge(guestEvent, now);
         if (guestSearchAge.compareTo(config.dangerousMinSearchDuration()) < 0) {
             return Optional.empty();
         }
@@ -209,8 +210,8 @@ public class AnomalyMatchmaker {
         );
     }
 
-    private Duration searchAge(Anomaly.Dangerous.Searching searching, java.time.LocalDateTime now) {
-        final var searchStartedAt = searching.searchEndDate().minus(config.dangerousSearchDuration());
+    private Duration searchAge(LaunchedEvent event, java.time.LocalDateTime now) {
+        final var searchStartedAt = event.endDate().minus(config.dangerousSearchDuration());
         return Duration.between(searchStartedAt, now);
     }
 

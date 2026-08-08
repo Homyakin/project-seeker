@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.game.event.anomaly.entity;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -52,13 +51,12 @@ public sealed interface Anomaly permits
             GroupId groupId,
             PersonageId ownerPersonageId
         ) implements Dangerous {
-            public Searching startSearching(int gvgRatingAtStart, LocalDateTime searchEndDate) {
+            public Searching startSearching(int gvgRatingAtStart) {
                 return new Searching(
                     launchedEventId,
                     groupId,
                     ownerPersonageId,
-                    gvgRatingAtStart,
-                    searchEndDate
+                    gvgRatingAtStart
                 );
             }
         }
@@ -67,8 +65,7 @@ public sealed interface Anomaly permits
             long launchedEventId,
             GroupId groupId,
             PersonageId ownerPersonageId,
-            int gvgRatingAtStart,
-            LocalDateTime searchEndDate
+            int gvgRatingAtStart
         ) implements Dangerous {
             /**
              * Pool match: both sides already gathered, go straight to Accepted
@@ -87,8 +84,7 @@ public sealed interface Anomaly permits
                     opponentOwnerPersonageId,
                     Optional.of(opponentLaunchedEventId),
                     Optional.empty(),
-                    gvgRatingAtStart,
-                    searchEndDate
+                    gvgRatingAtStart
                 );
             }
         }
@@ -105,8 +101,7 @@ public sealed interface Anomaly permits
             PersonageId opponentOwnerPersonageId,
             Optional<Long> opponentLaunchedEventId,
             Optional<GroupId> winnerGroupId,
-            int gvgRatingAtStart,
-            LocalDateTime searchEndDate
+            int gvgRatingAtStart
         ) implements Dangerous {
             public Accepted withWinner(GroupId winnerGroupId) {
                 return new Accepted(
@@ -117,8 +112,7 @@ public sealed interface Anomaly permits
                     opponentOwnerPersonageId,
                     opponentLaunchedEventId,
                     Optional.of(winnerGroupId),
-                    gvgRatingAtStart,
-                    searchEndDate
+                    gvgRatingAtStart
                 );
             }
         }
