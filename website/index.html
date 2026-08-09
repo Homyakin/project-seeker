@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Все битвы — Krezar</title>
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+  h1 {
+    margin: 0 0 16px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    align-items: flex-end;
+    margin-bottom: 18px;
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .filter-group .label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel-2);
+    cursor: pointer;
+    font-size: 13px;
+    user-select: none;
+  }
+  .chip:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--panel-3);
+  }
+  .chip input { accent-color: var(--accent); }
+  .filters input[type="text"] {
+    min-width: 200px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel-2);
+    color: var(--text);
+    font: inherit;
+  }
+  .filters input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .filters button {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel-3);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filters button:hover { border-color: var(--accent); }
+
+  .battle-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .battle-table th,
+  .battle-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .battle-table th {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: var(--panel-2);
+  }
+  .battle-table tbody tr {
+    cursor: pointer;
+  }
+  .battle-table tbody tr:hover {
+    background: var(--panel-2);
+  }
+  .battle-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .type-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--panel-3);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .groups {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .outcome-win { color: var(--hp); font-weight: 600; }
+  .outcome-lose { color: var(--team2); font-weight: 600; }
+  .outcome-winner { font-weight: 600; }
+
+  .status {
+    margin: 14px 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .status.err { color: var(--team2); }
+  .load-more {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .load-more:hover:not(:disabled) { border-color: var(--accent); }
+  .load-more:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .empty {
+    padding: 28px 14px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .battle-table th:nth-child(1),
+    .battle-table td:nth-child(1) { width: 30%; }
+    .filters input[type="text"] { min-width: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="/" class="active">Все битвы</a>
+  <a href="/battle-visualizer/">Лог битвы</a>
+</nav>
+
+<div class="page">
+  <h1>Все битвы</h1>
+
+  <form class="filters" id="filters">
+    <div class="filter-group">
+      <span class="label">Тип события</span>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="type" value="RAID" checked> Рейд</label>
+        <label class="chip"><input type="checkbox" name="type" value="WORLD_RAID" checked> Мировой рейд</label>
+        <label class="chip"><input type="checkbox" name="type" value="DUEL" checked> Дуэль</label>
+        <label class="chip"><input type="checkbox" name="type" value="ANOMALY_PVE" checked> Аномалия PvE</label>
+        <label class="chip"><input type="checkbox" name="type" value="ANOMALY_PVP" checked> Аномалия PvP</label>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="label">Группа</span>
+      <input type="text" id="group-filter" name="group" placeholder="[тэг] или название" autocomplete="off">
+    </div>
+    <button type="submit">Применить</button>
+  </form>
+
+  <div class="status" id="status"></div>
+
+  <table class="battle-table" id="battle-table" hidden>
+    <thead>
+      <tr>
+        <th>Тип</th>
+        <th>Участники</th>
+        <th>Исход</th>
+      </tr>
+    </thead>
+    <tbody id="battle-body"></tbody>
+  </table>
+  <div class="empty" id="empty" hidden>Битвы не найдены</div>
+  <button class="load-more" id="load-more" hidden>Загрузить ещё</button>
+</div>
+
+<script>
+"use strict";
+
+const API_BASE = "/api";
+const TYPE_LABELS = {
+  RAID: "Рейд",
+  WORLD_RAID: "Мировой рейд",
+  DUEL: "Дуэль",
+  ANOMALY_PVE: "Аномалия PvE",
+  ANOMALY_PVP: "Аномалия PvP",
+};
+const ALL_TYPES_COUNT = Object.keys(TYPE_LABELS).length;
+
+const statusEl = document.getElementById("status");
+const tableEl = document.getElementById("battle-table");
+const bodyEl = document.getElementById("battle-body");
+const emptyEl = document.getElementById("empty");
+const loadMoreBtn = document.getElementById("load-more");
+const filtersForm = document.getElementById("filters");
+const groupInput = document.getElementById("group-filter");
+
+let items = [];
+let loading = false;
+let hasMore = false;
+
+function selectedTypes() {
+  return [...filtersForm.querySelectorAll('input[name="type"]:checked')].map((el) => el.value);
+}
+
+function buildUrl(beforeId) {
+  const params = new URLSearchParams();
+  const types = selectedTypes();
+  if (types.length > 0 && types.length < ALL_TYPES_COUNT) {
+    params.set("types", types.join(","));
+  }
+  const group = groupInput.value.trim();
+  if (group) {
+    params.set("group", group);
+  }
+  params.set("limit", "50");
+  if (beforeId != null) {
+    params.set("beforeId", String(beforeId));
+  }
+  return `${API_BASE}/battles?${params.toString()}`;
+}
+
+function outcomeHtml(item) {
+  if (item.type === "ANOMALY_PVP" || item.type === "DUEL") {
+    const winner = item.winner?.displayName;
+    if (winner) {
+      return `<span class="outcome-winner">Победа ${escapeHtml(winner)}</span>`;
+    }
+    return `<span class="outcome-lose">—</span>`;
+  }
+  if (item.result === "SUCCESS") {
+    return `<span class="outcome-win">Победа</span>`;
+  }
+  return `<span class="outcome-lose">Поражение</span>`;
+}
+
+function participantsHtml(item) {
+  const participants = item.type === "DUEL" ? (item.personages || []) : (item.groups || []);
+  if (participants.length === 0) {
+    return "—";
+  }
+  return `<div class="groups">${participants.map((p) => `<span>${escapeHtml(p.displayName)}</span>`).join("")}</div>`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function render() {
+  bodyEl.innerHTML = "";
+  if (items.length === 0) {
+    tableEl.hidden = true;
+    emptyEl.hidden = false;
+    loadMoreBtn.hidden = true;
+    return;
+  }
+  emptyEl.hidden = true;
+  tableEl.hidden = false;
+  for (const item of items) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><span class="type-badge">${TYPE_LABELS[item.type] || item.type}</span></td>
+      <td>${participantsHtml(item)}</td>
+      <td>${outcomeHtml(item)}</td>
+    `;
+    tr.addEventListener("click", () => {
+      window.location.href = `/battle-visualizer/?launchedEventId=${encodeURIComponent(item.launchedEventId)}`;
+    });
+    bodyEl.appendChild(tr);
+  }
+  loadMoreBtn.hidden = !hasMore;
+}
+
+async function loadBattles({ reset }) {
+  if (loading) return;
+  if (selectedTypes().length === 0) {
+    items = [];
+    hasMore = false;
+    statusEl.textContent = "Выберите хотя бы один тип события";
+    statusEl.className = "status err";
+    render();
+    return;
+  }
+
+  loading = true;
+  statusEl.className = "status";
+  statusEl.textContent = "Загрузка…";
+  loadMoreBtn.disabled = true;
+
+  try {
+    const beforeId = reset || items.length === 0
+      ? null
+      : items[items.length - 1].launchedEventId;
+    const response = await fetch(buildUrl(beforeId));
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    const page = data.items || [];
+    items = reset ? page : items.concat(page);
+    hasMore = page.length >= 50;
+    statusEl.textContent = items.length ? `Найдено: ${items.length}${hasMore ? "+" : ""}` : "";
+    render();
+  } catch (err) {
+    statusEl.textContent = `Ошибка загрузки: ${err.message || err}`;
+    statusEl.className = "status err";
+    if (reset) {
+      items = [];
+      hasMore = false;
+      render();
+    }
+  } finally {
+    loading = false;
+    loadMoreBtn.disabled = false;
+  }
+}
+
+filtersForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  loadBattles({ reset: true });
+});
+
+loadMoreBtn.addEventListener("click", () => loadBattles({ reset: false }));
+
+loadBattles({ reset: true });
+</script>
+</body>
+</html>

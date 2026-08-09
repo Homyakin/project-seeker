@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Battle Visualizer</title>
+<title>Лог битвы — Krezar</title>
+<link rel="stylesheet" href="/assets/site.css">
 <style>
   :root {
     --bg: #0e1016;
@@ -50,6 +51,43 @@
     display: flex; flex-direction: column;
     height: 100vh; height: 100dvh; overflow: hidden;
   }
+  .site-nav { flex-shrink: 0; }
+  .event-id-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .event-id-form label {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .event-id-form input[type="text"] {
+    width: 140px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel-2);
+    color: var(--text);
+    font: inherit;
+    min-height: 38px;
+  }
+  .event-id-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .event-id-form button {
+    padding: 0 14px;
+    min-height: 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel-3);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .event-id-form button:hover { border-color: var(--accent); }
   button { font-family: inherit; }
   ::-webkit-scrollbar { width: 9px; height: 9px; }
   ::-webkit-scrollbar-thumb { background: var(--panel-3); border-radius: 6px; }
@@ -59,7 +97,7 @@
   header {
     padding: 10px 14px; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    background: var(--panel); padding-top: max(10px, env(safe-area-inset-top));
+    background: var(--panel); flex-shrink: 0;
   }
   header h1 {
     font-size: 15px; margin: 0; font-weight: 700; letter-spacing: 0.3px;
@@ -401,8 +439,17 @@
 </head>
 <body>
 
+<nav class="site-nav">
+  <a href="/">Все битвы</a>
+  <a href="/battle-visualizer/" class="active">Лог битвы</a>
+</nav>
+
 <header>
-  <h1><span class="dot"></span><span class="label-text">Battle Visualizer</span></h1>
+  <form class="event-id-form" id="event-id-form">
+    <label for="event-id-input">launchedEventId</label>
+    <input type="text" id="event-id-input" inputmode="numeric" autocomplete="off" placeholder="ID события">
+    <button type="submit">Загрузить</button>
+  </form>
   <div class="loader" id="drop-zone">
     <label>
       <span>Init</span>
@@ -414,7 +461,7 @@
       <input type="file" id="log-file" accept=".json,application/json">
       <span class="file-name" id="log-name">no file</span>
     </label>
-    <span class="status" id="loader-status">Drop or pick both JSON files</span>
+    <span class="status" id="loader-status">Укажите ID или загрузите JSON</span>
   </div>
 </header>
 
@@ -628,13 +675,37 @@ window.addEventListener("drop", (e) => {
 // API base for server-backed loading. Defaults to a same-origin "/api" prefix
 // (Caddy reverse-proxies it to the backend), overridable with ?api=URL.
 const API_BASE = (qs.get("api") || "/api").replace(/\/+$/, "");
+const eventIdInput = document.getElementById("event-id-input");
+const eventIdForm = document.getElementById("event-id-form");
+
+function loadByEventId(eventId, { pushUrl } = { pushUrl: true }) {
+  const id = String(eventId || "").trim();
+  if (!id) {
+    setStatus("Введите launchedEventId", "err");
+    return;
+  }
+  eventIdInput.value = id;
+  if (pushUrl) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("launchedEventId", id);
+    url.searchParams.delete("init");
+    url.searchParams.delete("log");
+    history.replaceState(null, "", url);
+  }
+  setStatus(`Загрузка битвы ${id}…`);
+  handleInit(`${API_BASE}/launched-event/${encodeURIComponent(id)}/battle-init`);
+  handleLog(`${API_BASE}/launched-event/${encodeURIComponent(id)}/battle-log`);
+}
+
+eventIdForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  loadByEventId(eventIdInput.value, { pushUrl: true });
+});
 
 (function autoFromUrl() {
   const eventId = qs.get("launchedEventId");
   if (eventId) {
-    setStatus(`Loading battle for launched event ${eventId}…`);
-    handleInit(`${API_BASE}/launched-event/${encodeURIComponent(eventId)}/battle-init`);
-    handleLog(`${API_BASE}/launched-event/${encodeURIComponent(eventId)}/battle-log`);
+    loadByEventId(eventId, { pushUrl: false });
     return;
   }
   if (qs.get("init")) handleInit(qs.get("init"));

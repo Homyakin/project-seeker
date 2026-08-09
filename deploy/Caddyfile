@@ -10,15 +10,9 @@
 		reverse_proxy project-seeker-website-backend:8080
 	}
 
-	# Convenience redirect from the site root to the battle visualizer.
-	handle / {
-		redir / /battle-visualizer/ 302
-	}
-
-	# Everything else is served as static files from the mounted website directory.
+	# Static site: / → website/index.html, /battle-visualizer/ → visualizer, etc.
 	handle {
 		root * /srv/website
-		try_files {path} {path}/
 		file_server
 	}
 }
