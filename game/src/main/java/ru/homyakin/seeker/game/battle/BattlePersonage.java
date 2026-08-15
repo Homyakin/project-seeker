@@ -36,6 +36,7 @@ import ru.homyakin.seeker.game.battle.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.skill.TurnSkill;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.skill.active_impl.SkillMapper;
+import ru.homyakin.seeker.game.battle.targeting.TargetingMath;
 import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
@@ -120,6 +121,7 @@ public class BattlePersonage {
     private final int baseThreat;
     private int bonusThreat = 0;
     private int cumulativeSpeed;
+    private boolean readyToAct;
     private final Position startPosition;
     private int currentPosition = -1;
     private BattleAdvanceDirection advanceDirection;
@@ -502,9 +504,12 @@ public class BattlePersonage {
     }
 
     public boolean tick(BattleActionLog log, int round) {
+        // Clear stale flag if this personage was queued last round but never moved.
+        readyToAct = false;
         cumulativeSpeed += speed;
         if (cumulativeSpeed >= REQUIRED_SPEED) {
             cumulativeSpeed -= REQUIRED_SPEED;
+            readyToAct = true;
             log.add(new BattleEvent.InitiativeAfterTick(id, cumulativeSpeed, true, round));
             return true;
         }
@@ -516,6 +521,7 @@ public class BattlePersonage {
      * @return true if the mover phase should stop (no alive enemies left)
      */
     public boolean move(BattleContext context, BattleActionLog log, int round) {
+        readyToAct = false;
         turnsCount++;
         combatEffects.onOwnTurnBegin(this, log, round);
         if (!isAlive()) {
@@ -804,14 +810,26 @@ public class BattlePersonage {
 
     /**
      * Expected ticks until this personage's next turn using the current initiative gauge.
+     * Ignores {@link #readyToAct()} — callers that care about the current movers queue
+     * must check that flag separately.
      */
     public double ticksUntilNextTurn() {
         return (double) (REQUIRED_SPEED - cumulativeSpeed) / Math.max(1, speed);
     }
 
     /**
+     * Whether this personage is already queued to act in the current round
+     * (reached initiative threshold this tick, {@link #move} not yet finished).
+     */
+    public boolean readyToAct() {
+        return readyToAct;
+    }
+
+    /**
      * Deterministic expected damage of a normal attack against {@code target} at current distance:
      * type mitigation, crit expectation, hit chance. Excludes ±10% damage variance.
+     * Crit/hit probabilities are clamped to {@code [0, 1]} to match roll mechanics
+     * ({@code processChance} treats {@code >= 100} as certain).
      */
     public double expectedDamageAgainst(BattlePersonage target) {
         final int distance = Math.max(1, calcRange(target));
@@ -820,10 +838,14 @@ public class BattlePersonage {
         for (final var entry : rangeAttack[mapSlot].entrySet()) {
             mitigated += entry.getValue() * target.defenseReductions().get(entry.getKey());
         }
-        final double critProbability = critChance / 100.0;
+        final double critProbability = TargetingMath.clamp(critChance / 100.0, 0.0, 1.0);
         final double withCrit = mitigated * (1.0 + critProbability * (critMultiplier - 1.0));
-        final double hitChance = Math.max(0.0, 1.0 - target.dodgeChance() / 100.0);
-        return withCrit * hitChance;
+        final double hitProbability = TargetingMath.clamp(
+            1.0 - target.dodgeChance() / 100.0,
+            0.0,
+            1.0
+        );
+        return withCrit * hitProbability;
     }
 
     public TargetingTactic targetingTactic() {

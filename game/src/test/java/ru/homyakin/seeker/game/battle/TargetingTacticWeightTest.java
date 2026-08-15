@@ -17,6 +17,7 @@ import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TargetingTacticWeightTest {
@@ -134,6 +135,76 @@ class TargetingTacticWeightTest {
         final var weights = attacker.targetingWeights(List.of(soon, far, alsoFar));
         assertTrue(weights.get(soon) > weights.get(far));
         assertEquals(weights.get(far), weights.get(alsoFar));
+    }
+
+    @Test
+    void initiativeInterceptionPrefersReadyToActOverHighGauge() {
+        final var attacker = place(personage(Item.stats(0, 0, 1.2, 100, 10), Item.weapon(
+            AttackType.SLASH, 1, 50, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON
+        )));
+        attacker.setTargetingTactic(TargetingTactic.INITIATIVE_INTERCEPTION);
+
+        // Same speed/threat: A reaches threshold this tick (gauge wraps low), B stays just short.
+        final var enemyA = place(personage(Item.stats(0, 0, 1.2, 100, 20), highHpArmor()));
+        final var enemyB = place(personage(Item.stats(0, 0, 1.2, 100, 20), highHpArmor()));
+        enemyA.setInitiativeGaugeForTest(950);
+        enemyB.setInitiativeGaugeForTest(800);
+
+        final var log = new BattleActionLog();
+        assertTrue(enemyA.tick(log, 1));
+        assertFalse(enemyB.tick(log, 1));
+        assertTrue(enemyA.readyToAct());
+        assertFalse(enemyB.readyToAct());
+        // After wrap, A's gauge is low; without readyToAct the tactic would prefer B.
+        assertTrue(enemyA.initiativeGauge() < enemyB.initiativeGauge());
+        assertTrue(enemyA.ticksUntilNextTurn() > enemyB.ticksUntilNextTurn());
+
+        final var weights = attacker.targetingWeights(List.of(enemyA, enemyB));
+        assertTrue(weights.get(enemyA) > weights.get(enemyB));
+
+        final var context = new BattleContext(List.of(attacker), List.of(enemyA, enemyB));
+        enemyA.move(context, log, 1);
+        assertFalse(enemyA.readyToAct());
+    }
+
+    @Test
+    void expectedDamageClampsCritChanceAbove100() {
+        final var target = place(personage(highHpArmor()));
+        final var crit100 = place(personage(
+            Item.stats(100, 0, 1.5, 100, 10),
+            Item.weapon(AttackType.SLASH, 1, 100, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
+        ));
+        final var crit150 = place(personage(
+            Item.stats(150, 0, 1.5, 100, 10),
+            Item.weapon(AttackType.SLASH, 1, 100, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
+        ));
+
+        assertEquals(crit100.expectedDamageAgainst(target), crit150.expectedDamageAgainst(target), 1e-9);
+    }
+
+    @Test
+    void expectedDamageClampsHitProbabilityToUnitInterval() {
+        final var attacker = place(personage(
+            Item.stats(0, 0, 1.2, 100, 10),
+            Item.weapon(AttackType.SLASH, 1, 100, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
+        ));
+        final var noDodge = place(personage(
+            Item.stats(0, 0, 1.2, 50, 20),
+            highHpArmor()
+        ));
+        final var overDodge = place(personage(
+            Item.stats(0, 150, 1.2, 50, 20),
+            highHpArmor()
+        ));
+        final var negativeDodge = place(personage(
+            Item.stats(0, -50, 1.2, 50, 20),
+            highHpArmor()
+        ));
+
+        final var fullHitEv = attacker.expectedDamageAgainst(noDodge);
+        assertEquals(0.0, attacker.expectedDamageAgainst(overDodge), 1e-9);
+        assertEquals(fullHitEv, attacker.expectedDamageAgainst(negativeDodge), 1e-9);
+        assertTrue(fullHitEv > 0.0);
     }
 
     @Test

@@ -108,6 +108,9 @@ public enum TargetingTactic {
             BattlePersonage target,
             List<BattlePersonage> candidates
         ) {
+            if (target.readyToAct()) {
+                return 1.0;
+            }
             return TargetingMath.clamp(
                 1.0 - target.ticksUntilNextTurn()
                     / TargetingTacticCoefficients.INITIATIVE_INTERCEPTION_WINDOW,
