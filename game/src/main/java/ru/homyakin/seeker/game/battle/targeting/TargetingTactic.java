@@ -9,7 +9,7 @@ import ru.homyakin.seeker.game.battle.BattlePersonage;
  * and never mutates global threat.
  * <p>
  * Weight uses reference threat among already-filtered candidates:
- * {@code weight = baseThreat + score * max(0, referenceThreat * factor - baseThreat)}.
+ * {@code weight = baseThreat + referenceThreat * bonusFactor * score}.
  */
 public enum TargetingTactic {
     THREAT(0.0) {
@@ -32,7 +32,7 @@ public enum TargetingTactic {
             return Math.max(1, target.totalThreat());
         }
     },
-    EXECUTIONER(TargetingTacticCoefficients.EXECUTIONER_PRIORITY_FACTOR) {
+    EXECUTIONER(TargetingTacticCoefficients.EXECUTIONER_BONUS_FACTOR) {
         @Override
         double score(
             BattlePersonage attacker,
@@ -47,7 +47,7 @@ public enum TargetingTactic {
             );
         }
     },
-    WOUNDED_HUNTER(TargetingTacticCoefficients.WOUNDED_PRIORITY_FACTOR) {
+    WOUNDED_HUNTER(TargetingTacticCoefficients.WOUNDED_BONUS_FACTOR) {
         @Override
         double score(
             BattlePersonage attacker,
@@ -57,7 +57,7 @@ public enum TargetingTactic {
             return 1.0 - target.percentHp() / 100.0;
         }
     },
-    EXPLOIT_WEAKNESS(TargetingTacticCoefficients.EXPLOIT_PRIORITY_FACTOR) {
+    EXPLOIT_WEAKNESS(TargetingTacticCoefficients.EXPLOIT_BONUS_FACTOR) {
         @Override
         double score(
             BattlePersonage attacker,
@@ -74,17 +74,14 @@ public enum TargetingTactic {
                 minEv = Math.min(minEv, ev);
                 maxEv = Math.max(maxEv, ev);
             }
-            if (maxEv <= 0.0) {
-                return 0.0;
-            }
-            final var relativeGap = (maxEv - minEv) / maxEv;
-            if (relativeGap < TargetingTacticCoefficients.EXPLOIT_MIN_RELATIVE_GAP) {
-                return 0.0;
-            }
-            return attacker.expectedDamageAgainst(target) / maxEv;
+            return TargetingMath.relativeAdvantageScore(
+                attacker.expectedDamageAgainst(target),
+                minEv,
+                maxEv
+            );
         }
     },
-    RELIABLE_STRIKE(TargetingTacticCoefficients.RELIABLE_PRIORITY_FACTOR) {
+    RELIABLE_STRIKE(TargetingTacticCoefficients.RELIABLE_BONUS_FACTOR) {
         @Override
         double score(
             BattlePersonage attacker,
@@ -94,7 +91,7 @@ public enum TargetingTactic {
             return 1.0 - target.dodgeChance() / 100.0;
         }
     },
-    CHALLENGE_THE_AGILE(TargetingTacticCoefficients.CHALLENGE_PRIORITY_FACTOR) {
+    CHALLENGE_THE_AGILE(TargetingTacticCoefficients.CHALLENGE_BONUS_FACTOR) {
         @Override
         double score(
             BattlePersonage attacker,
@@ -104,7 +101,7 @@ public enum TargetingTactic {
             return target.dodgeChance() / 100.0;
         }
     },
-    INITIATIVE_INTERCEPTION(TargetingTacticCoefficients.INITIATIVE_PRIORITY_FACTOR) {
+    INITIATIVE_INTERCEPTION(TargetingTacticCoefficients.INITIATIVE_BONUS_FACTOR) {
         @Override
         double score(
             BattlePersonage attacker,
@@ -121,10 +118,10 @@ public enum TargetingTactic {
     },
     ;
 
-    private final double priorityFactor;
+    private final double bonusFactor;
 
-    TargetingTactic(double priorityFactor) {
-        this.priorityFactor = priorityFactor;
+    TargetingTactic(double bonusFactor) {
+        this.bonusFactor = bonusFactor;
     }
 
     abstract double score(
@@ -147,7 +144,7 @@ public enum TargetingTactic {
             target.totalThreat(),
             score(attacker, target, candidates),
             referenceThreat,
-            priorityFactor
+            bonusFactor
         );
     }
 

@@ -137,7 +137,7 @@ class TargetingTacticWeightTest {
     }
 
     @Test
-    void exploitWeaknessDoesNotAmplifyTinyEvGap() {
+    void exploitWeaknessEqualEvDoesNotChangeWeights() {
         final var attacker = place(personage(
             Item.stats(0, 0, 1.2, 100, 10),
             Item.weapon(AttackType.SLASH, 1, 100, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON)
@@ -154,6 +154,22 @@ class TargetingTacticWeightTest {
         final var weights = attacker.targetingWeights(List.of(a, b));
         assertEquals(20, weights.get(a));
         assertEquals(20, weights.get(b));
+    }
+
+    @Test
+    void exploitWeaknessTinyEvGapGivesTinyBonus() {
+        assertEquals(0.01, TargetingMath.relativeAdvantageScore(100, 99, 100), 1e-9);
+        assertEquals(0.0, TargetingMath.relativeAdvantageScore(99, 99, 100), 1e-9);
+
+        final var betterWeight = TargetingMath.targetingWeight(
+            20, 0.01, 60, TargetingTacticCoefficients.EXPLOIT_BONUS_FACTOR
+        );
+        final var worseWeight = TargetingMath.targetingWeight(
+            20, 0.0, 60, TargetingTacticCoefficients.EXPLOIT_BONUS_FACTOR
+        );
+        assertEquals(20, worseWeight);
+        assertTrue(betterWeight > worseWeight);
+        assertTrue(betterWeight - worseWeight <= 2);
     }
 
     @Test
@@ -176,7 +192,16 @@ class TargetingTacticWeightTest {
     }
 
     @Test
-    void idealMatchOutprioritizesTankByPriorityFactor() {
+    void sameScorePreservesThreatDifference() {
+        final var tankWeight = TargetingMath.targetingWeight(60, 1.0, 60, 1.5);
+        final var targetWeight = TargetingMath.targetingWeight(20, 1.0, 60, 1.5);
+        assertEquals(150, tankWeight);
+        assertEquals(110, targetWeight);
+        assertEquals(40, tankWeight - targetWeight);
+    }
+
+    @Test
+    void idealMatchAddsBonusWithoutErasingThreat() {
         final var attacker = place(personage(Item.stats(0, 0, 1.2, 100, 10), Item.weapon(
             AttackType.SLASH, 1, 50, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON
         )));
@@ -184,21 +209,20 @@ class TargetingTacticWeightTest {
 
         final var tank = place(personage(Item.stats(0, 100, 1.2, 50, 60), highHpArmor()));
         final var priority = place(personage(Item.stats(0, 0, 1.2, 50, 20), highHpArmor()));
+        final var tankThreatBefore = tank.totalThreat();
+        final var priorityThreatBefore = priority.totalThreat();
 
         final var weights = attacker.targetingWeights(List.of(tank, priority));
-        // score=1, referenceThreat=60, factor=1.5 → targetPriorityWeight=90
-        assertEquals(
-            TargetingMath.targetingWeight(
-                20, 1.0, 60, TargetingTacticCoefficients.RELIABLE_PRIORITY_FACTOR
-            ),
-            weights.get(priority)
-        );
-        assertEquals(90, weights.get(priority));
+        // score=1, referenceThreat=60, BONUS_FACTOR=1.5 → 20 + 60 * 1.5 = 110
+        assertEquals(110, weights.get(priority));
+        assertEquals(60, weights.get(tank));
+        assertEquals(tankThreatBefore, tank.totalThreat());
+        assertEquals(priorityThreatBefore, priority.totalThreat());
         assertTrue(weights.get(priority) > weights.get(tank));
     }
 
     @Test
-    void initiativeIdealMatchReachesDoubleReferenceThreat() {
+    void initiativeIdealMatchAddsDoubleReferenceBonus() {
         final var attacker = place(personage(Item.stats(0, 0, 1.2, 100, 10), Item.weapon(
             AttackType.SLASH, 1, 50, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON
         )));
@@ -210,30 +234,33 @@ class TargetingTacticWeightTest {
         tank.setInitiativeGaugeForTest(0);
 
         final var weights = attacker.targetingWeights(List.of(tank, agile));
-        assertEquals(
-            TargetingMath.targetingWeight(
-                20, 1.0, 60, TargetingTacticCoefficients.INITIATIVE_PRIORITY_FACTOR
-            ),
-            weights.get(agile)
-        );
-        assertEquals(120, weights.get(agile));
+        // score=1, referenceThreat=60, BONUS_FACTOR=2.0 → 20 + 120 = 140
+        assertEquals(140, weights.get(agile));
         assertEquals(60, weights.get(tank));
     }
 
     @Test
-    void weightFormulaInterpolatesAgainstReferenceThreat() {
-        // Example from balance plan: base=20, ref=60, factor=1.75
-        assertEquals(20, TargetingMath.targetingWeight(20, 0.00, 60, 1.75));
-        assertEquals(41, TargetingMath.targetingWeight(20, 0.25, 60, 1.75));
-        assertEquals(63, TargetingMath.targetingWeight(20, 0.50, 60, 1.75));
-        assertEquals(84, TargetingMath.targetingWeight(20, 0.75, 60, 1.75));
-        assertEquals(105, TargetingMath.targetingWeight(20, 1.00, 60, 1.75));
+    void weightFormulaAddsBonusProportionalToScore() {
+        // base=20, ref=60, factor=1.5 → bonus at score=1 is 90
+        assertEquals(20, TargetingMath.targetingWeight(20, 0.00, 60, 1.5));
+        assertEquals(43, TargetingMath.targetingWeight(20, 0.25, 60, 1.5));
+        assertEquals(65, TargetingMath.targetingWeight(20, 0.50, 60, 1.5));
+        assertEquals(88, TargetingMath.targetingWeight(20, 0.75, 60, 1.5));
+        assertEquals(110, TargetingMath.targetingWeight(20, 1.00, 60, 1.5));
     }
 
     @Test
-    void weightFormulaDoesNotReduceAboveTargetPriority() {
-        assertEquals(120, TargetingMath.targetingWeight(120, 1.0, 60, 1.75));
+    void weightFormulaNeverDropsBelowBaseThreat() {
         assertEquals(120, TargetingMath.targetingWeight(120, 0.0, 60, 1.75));
+        assertTrue(TargetingMath.targetingWeight(120, 1.0, 60, 1.75) >= 120);
+    }
+
+    @Test
+    void relativeAdvantageScoreHandlesEdgeCases() {
+        assertEquals(0.0, TargetingMath.relativeAdvantageScore(50, 50, 50));
+        assertEquals(0.0, TargetingMath.relativeAdvantageScore(10, 0, 0));
+        assertEquals(0.5, TargetingMath.relativeAdvantageScore(100, 50, 100));
+        assertEquals(1.0, TargetingMath.relativeAdvantageScore(100, 0, 100));
     }
 
     private static BattlePersonage personage(Item... items) {
