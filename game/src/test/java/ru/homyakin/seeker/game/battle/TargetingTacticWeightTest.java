@@ -139,30 +139,45 @@ class TargetingTacticWeightTest {
 
     @Test
     void initiativeInterceptionPrefersReadyToActOverHighGauge() {
-        final var attacker = place(personage(Item.stats(0, 0, 1.2, 100, 10), Item.weapon(
-            AttackType.SLASH, 1, 50, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON
-        )));
+        // Real round flow: tick → movers queue → attacker acts before Enemy A.
+        final var attacker = personage(
+            Item.stats(0, 0, 1.2, 100, 10),
+            Item.weapon(AttackType.SLASH, 1, 50, new Modifier(ActiveEnum.KNOCKBACK), ItemRarity.COMMON),
+            highHpArmor()
+        );
         attacker.setTargetingTactic(TargetingTactic.INITIATIVE_INTERCEPTION);
 
-        // Same speed/threat: A reaches threshold this tick (gauge wraps low), B stays just short.
-        final var enemyA = place(personage(Item.stats(0, 0, 1.2, 100, 20), highHpArmor()));
-        final var enemyB = place(personage(Item.stats(0, 0, 1.2, 100, 20), highHpArmor()));
+        final var enemyA = personage(Item.stats(0, 0, 1.2, 100, 20), highHpArmor());
+        final var enemyB = personage(Item.stats(0, 0, 1.2, 100, 20), highHpArmor());
+        // After tick: A wraps past threshold (low leftover gauge), B stays just short with higher gauge.
         enemyA.setInitiativeGaugeForTest(950);
         enemyB.setInitiativeGaugeForTest(800);
+        attacker.setInitiativeGaugeForTest(950);
 
+        final var context = new BattleContext(List.of(attacker), List.of(enemyA, enemyB));
         final var log = new BattleActionLog();
+
+        assertTrue(attacker.tick(log, 1));
         assertTrue(enemyA.tick(log, 1));
         assertFalse(enemyB.tick(log, 1));
+
+        assertTrue(attacker.readyToAct());
         assertTrue(enemyA.readyToAct());
         assertFalse(enemyB.readyToAct());
-        // After wrap, A's gauge is low; without readyToAct the tactic would prefer B.
         assertTrue(enemyA.initiativeGauge() < enemyB.initiativeGauge());
         assertTrue(enemyA.ticksUntilNextTurn() > enemyB.ticksUntilNextTurn());
 
-        final var weights = attacker.targetingWeights(List.of(enemyA, enemyB));
-        assertTrue(weights.get(enemyA) > weights.get(enemyB));
+        // Attacker moves first while A is still queued in movers with readyToAct.
+        final var weightsBeforeAttackerMove = attacker.targetingWeights(List.of(enemyA, enemyB));
+        assertTrue(weightsBeforeAttackerMove.get(enemyA) > weightsBeforeAttackerMove.get(enemyB));
 
-        final var context = new BattleContext(List.of(attacker), List.of(enemyA, enemyB));
+        attacker.move(context, log, 1);
+        assertFalse(attacker.readyToAct());
+        assertTrue(enemyA.readyToAct());
+
+        final var weightsAfterAttackerMove = attacker.targetingWeights(List.of(enemyA, enemyB));
+        assertTrue(weightsAfterAttackerMove.get(enemyA) > weightsAfterAttackerMove.get(enemyB));
+
         enemyA.move(context, log, 1);
         assertFalse(enemyA.readyToAct());
     }
