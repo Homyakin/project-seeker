@@ -34,6 +34,8 @@ public enum CommandType {
     BATTLE_STATS("/battle_stats", CheckType.EQUALS),
     CHANGE_BATTLE_POSITION("/battle_position", CheckType.EQUALS),
     SELECT_BATTLE_POSITION("selectBattlePosition", CheckType.EQUALS),
+    CHANGE_TARGETING_TACTIC("/targeting_tactic", CheckType.EQUALS),
+    SELECT_TARGETING_TACTIC("selectTargetingTactic", CheckType.EQUALS),
     RAID_REPORT("/report_raid", CheckType.EQUALS),
     ANOMALY_REPORT("/report_anomaly", CheckType.EQUALS),
     SHOW_BADGES(null, CheckType.MAP),

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.online.entity.OnlineStreak;
@@ -55,6 +56,7 @@ public class PersonageDao {
         SET name = :name, last_energy_change = :last_energy_change, money = :money,
         storm_shards = :storm_shards,
         energy = :energy, effects = :effects, battle_position = :battle_position,
+        targeting_tactic = :targeting_tactic,
         energy_recovery_notification_time = CASE
             WHEN NOT :has_full_energy
                 THEN :energy_recovery_notification_time
@@ -115,6 +117,7 @@ public class PersonageDao {
             .param("storm_shards", personage.stormShards().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
             .param("battle_position", personage.position().name())
+            .param("targeting_tactic", personage.targetingTactic().name())
             // Если энергия полная, то не нужно обновлять время восстановления энерги в null
             // Если энергия полная и дата изменения энергии меньше времени восстановления энергии,
             // то нужно обновить время восстановления энергии на дату изменения энергии
@@ -208,6 +211,17 @@ public class PersonageDao {
             .update();
     }
 
+    public void setTargetingTactic(PersonageId id, TargetingTactic targetingTactic) {
+        jdbcClient.sql("""
+            UPDATE personage
+            SET targeting_tactic = :targeting_tactic
+            WHERE id = :id
+            """)
+            .param("id", id.value())
+            .param("targeting_tactic", targetingTactic.name())
+            .update();
+    }
+
     public long getActivePersonagesCount(LocalDateTime start) {
         final var sql = """
             SELECT COUNT(*) FROM personage
@@ -247,6 +261,7 @@ public class PersonageDao {
             BadgeView.findByCode(rs.getString("badge_code")),
             jsonUtils.fromString(rs.getString("effects"), PersonageEffects.class),
             Position.fromString(rs.getString("battle_position")),
+            TargetingTactic.fromString(rs.getString("targeting_tactic")),
             new OnlineStreak(
                 rs.getInt("online_streak"),
                 rs.getTimestamp("last_online").toLocalDateTime()

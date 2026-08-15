@@ -7,6 +7,7 @@ import java.util.Optional;
 import net.fellbaum.jemoji.EmojiManager;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.group.entity.EventIntervals;
 import ru.homyakin.seeker.game.badge.entity.AvailableBadge;
@@ -77,6 +78,31 @@ public class InlineKeyboards {
             builder.addButton(
                 text,
                 CommandType.SELECT_BATTLE_POSITION.getText() + TextConstants.CALLBACK_DELIMITER + position.name()
+            );
+        }
+        return builder.build();
+    }
+
+    public static InlineKeyboardMarkup targetingTacticKeyboard(
+        Language language,
+        TargetingTactic currentTactic
+    ) {
+        final var tactics = TargetingTactic.values();
+        final var builder = InlineKeyboardBuilder.builder();
+        for (int i = 0; i < tactics.length; ++i) {
+            if (i % 2 == 0) {
+                builder.addRow();
+            }
+            final var tactic = tactics[i];
+            final String text;
+            if (currentTactic == tactic) {
+                text = selectedIcon + BattleLocalization.targetingTacticName(language, tactic);
+            } else {
+                text = BattleLocalization.targetingTacticName(language, tactic);
+            }
+            builder.addButton(
+                text,
+                CommandType.SELECT_TARGETING_TACTIC.getText() + TextConstants.CALLBACK_DELIMITER + tactic.name()
             );
         }
         return builder.build();

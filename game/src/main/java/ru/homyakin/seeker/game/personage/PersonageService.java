@@ -15,6 +15,7 @@ import io.vavr.control.Either;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.badge.action.PersonageBadgeService;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.launched.CurrentEvents;
@@ -83,11 +84,15 @@ public class PersonageService {
         return personages.stream()
             .collect(Collectors.toMap(
                 Personage::id,
-                personage -> new BattlePersonage(
-                    equippedItemsByPersonageId.getOrDefault(personage.id(), List.of()),
-                    personage.position(),
-                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
-                )
+                personage -> {
+                    final var battlePersonage = new BattlePersonage(
+                        equippedItemsByPersonageId.getOrDefault(personage.id(), List.of()),
+                        personage.position(),
+                        Optional.of(LocaleUtils.personageNameWithBadge(personage))
+                    );
+                    battlePersonage.setTargetingTactic(personage.targetingTactic());
+                    return battlePersonage;
+                }
             ));
     }
 
@@ -387,6 +392,12 @@ public class PersonageService {
         final var personage = getByIdForce(personageId);
         personageDao.setBattlePosition(personageId, position);
         return personage.withPosition(position);
+    }
+
+    public Personage setTargetingTactic(PersonageId personageId, TargetingTactic targetingTactic) {
+        final var personage = getByIdForce(personageId);
+        personageDao.setTargetingTactic(personageId, targetingTactic);
+        return personage.withTargetingTactic(targetingTactic);
     }
 
     public long getActivePersonagesCount(LocalDateTime start) {

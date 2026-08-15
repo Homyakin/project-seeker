@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.item.loadout.entity;
 import java.util.List;
 import java.util.Set;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 
@@ -12,6 +13,7 @@ public record EquipmentLoadout(
     String name,
     List<Long> itemIds,
     Position battlePosition,
+    TargetingTactic targetingTactic,
     Set<EventType> defaultEventTypes
 ) {
     public boolean isDefaultFor(EventType eventType) {

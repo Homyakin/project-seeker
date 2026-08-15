@@ -2,6 +2,7 @@ battleStats = """\
 ⚔️<b>Боевые характеристики</b>
 
 📍Позиция: ${position_name} (${battle_position_command})
+🎯Тактика цели: ${targeting_tactic_name} (${targeting_tactic_command})
 ${power_icon}Сила: ${power_value}
 ${health_icon}Здоровье: ${health_value}
 ${range_icon}Дальность: ${range_value}
@@ -27,10 +28,28 @@ battleStatsSkillLine = "• ${skill_name} (${skill_rank}, ${skill_points} оч.)
 battleStatsSkillsEmpty = "<i>Нет активных навыков</i>\n"
 
 chooseBattlePosition = "Выберите позицию для рейдов и мировых рейдов:"
+chooseTargetingTactic = """\
+Текущая тактика: <b>${tactic_name}</b> — ${tactic_description}
+
+Выберите тактику выбора цели"""
 battleVisualizerButton = "📜Смотреть бой"
 positionFront = "🗡Ближняя"
 positionMid = "🏹Дальняя"
 positionBack = "🪨Осадная"
+tacticThreat = "Угроза"
+tacticThreatDescription = "атакует по угрозе без дополнительных приоритетов"
+tacticExecutioner = "Палач"
+tacticExecutionerDescription = "добивает цели, если хватает урона для убийства"
+tacticWoundedHunter = "Охотник на раненых"
+tacticWoundedHunterDescription = "целится в противников с низким процентом HP"
+tacticExploitWeakness = "Слабое место"
+tacticExploitWeaknessDescription = "бьёт туда, где ваш урон наиболее эффективен"
+tacticReliableStrike = "Надёжный удар"
+tacticReliableStrikeDescription = "предпочитает цели с низким уклонением"
+tacticChallengeTheAgile = "Вызов ловким"
+tacticChallengeTheAgileDescription = "предпочитает цели с высоким уклонением"
+tacticInitiativeInterception = "Перехват инициативы"
+tacticInitiativeInterceptionDescription = "бьёт тех, кто ближе всего к своему ходу"
 
 attackTypeSlash = "${slash_icon}Рубящий"
 attackTypeBlunt = "${blunt_icon}Дробящий"

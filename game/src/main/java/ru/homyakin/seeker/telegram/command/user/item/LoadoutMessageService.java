@@ -50,10 +50,9 @@ public class LoadoutMessageService {
                 .filter(Objects::nonNull)
                 .toList();
             final var combatItems = itemService.itemsWithDefaults(wornItems);
-            battleStatsByLoadoutId.put(
-                loadout.id(),
-                new BattlePersonage(combatItems, loadout.battlePosition())
-            );
+            final var battlePersonage = new BattlePersonage(combatItems, loadout.battlePosition());
+            battlePersonage.setTargetingTactic(loadout.targetingTactic());
+            battleStatsByLoadoutId.put(loadout.id(), battlePersonage);
         }
         telegramSender.send(
             EditMessageTextBuilder.builder()

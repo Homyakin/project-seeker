@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.models.StormShards;
 import ru.homyakin.seeker.game.badge.entity.BadgeView;
@@ -37,6 +38,7 @@ public class PersonageUtils {
             BadgeView.STANDARD,
             PersonageEffects.EMPTY,
             Position.MID,
+            TargetingTactic.THREAT,
             defaultOnlineStreak()
         );
     }
@@ -53,6 +55,7 @@ public class PersonageUtils {
             BadgeView.STANDARD,
             PersonageEffects.EMPTY,
             Position.MID,
+            TargetingTactic.THREAT,
             defaultOnlineStreak()
         );
     }
@@ -69,6 +72,7 @@ public class PersonageUtils {
             BadgeView.STANDARD,
             PersonageEffects.EMPTY,
             Position.MID,
+            TargetingTactic.THREAT,
             defaultOnlineStreak()
         );
     }

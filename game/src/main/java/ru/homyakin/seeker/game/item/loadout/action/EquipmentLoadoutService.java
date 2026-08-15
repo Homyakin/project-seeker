@@ -146,7 +146,8 @@ public class EquipmentLoadoutService {
                 personage.id(),
                 new ResolvedCombatGear(
                     equippedByPersonageId.getOrDefault(personage.id(), List.of()),
-                    personage.position()
+                    personage.position(),
+                    personage.targetingTactic()
                 )
             );
         }
@@ -176,7 +177,8 @@ public class EquipmentLoadoutService {
                 personageId,
                 new ResolvedCombatGear(
                     itemService.itemsWithDefaults(ownedLoadoutItems),
-                    loadout.battlePosition()
+                    loadout.battlePosition(),
+                    loadout.targetingTactic()
                 )
             );
         }
@@ -193,8 +195,14 @@ public class EquipmentLoadoutService {
             return Either.left(CreateLoadoutError.MaxLoadoutsReached.INSTANCE);
         }
         final var itemIds = currentEquippedItemIds(personageId);
-        final var battlePosition = personageService.getByIdForce(personageId).position();
-        final var id = loadoutDao.insert(personageId, validatedName.get(), itemIds, battlePosition);
+        final var personage = personageService.getByIdForce(personageId);
+        final var id = loadoutDao.insert(
+            personageId,
+            validatedName.get(),
+            itemIds,
+            personage.position(),
+            personage.targetingTactic()
+        );
         return Either.right(loadoutDao.findById(id).orElseThrow());
     }
 
@@ -205,8 +213,13 @@ public class EquipmentLoadoutService {
             return Either.left(SaveLoadoutError.LoadoutNotFound.INSTANCE);
         }
         final var itemIds = currentEquippedItemIds(personageId);
-        final var battlePosition = personageService.getByIdForce(personageId).position();
-        loadoutDao.updateCurrent(loadoutId, itemIds, battlePosition);
+        final var personage = personageService.getByIdForce(personageId);
+        loadoutDao.updateCurrent(
+            loadoutId,
+            itemIds,
+            personage.position(),
+            personage.targetingTactic()
+        );
         return Either.right(loadoutDao.findById(loadoutId).orElseThrow());
     }
 
@@ -244,6 +257,7 @@ public class EquipmentLoadoutService {
 
         itemDao.setEquippedForPersonage(personageId, loadout.itemIds());
         personageService.setBattlePosition(personageId, loadout.battlePosition());
+        personageService.setTargetingTactic(personageId, loadout.targetingTactic());
         return Either.right(Success.INSTANCE);
     }
 

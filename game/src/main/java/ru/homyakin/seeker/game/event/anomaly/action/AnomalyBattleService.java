@@ -262,12 +262,14 @@ public class AnomalyBattleService {
                 final var items = gear.items().stream()
                     .map(item -> item.withoutStormEnhance())
                     .toList();
-                return BattlePersonage.forCombat(
+                final var battlePersonage = BattlePersonage.forCombat(
                     items,
                     gear.battlePosition(),
                     PersonageEffects.EMPTY,
                     Optional.of(LocaleUtils.personageNameWithBadge(personage))
                 );
+                battlePersonage.setTargetingTactic(gear.targetingTactic());
+                return battlePersonage;
             })
             .toList();
     }

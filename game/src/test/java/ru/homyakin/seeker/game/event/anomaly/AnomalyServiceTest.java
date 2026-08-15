@@ -360,6 +360,7 @@ public class AnomalyServiceTest {
             base.badge(),
             base.effects(),
             base.position(),
+            base.targetingTactic(),
             base.onlineStreak()
         );
     }

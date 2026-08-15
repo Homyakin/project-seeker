@@ -50,6 +50,7 @@ openLoadoutButton = "${name}"
 loadoutDetail = """\
 <b>📋Комплект: ${name}</b>
 📍Позиция: ${position_name}
+🎯Тактика цели: ${targeting_tactic_name}
 
 ${items}"""
 loadoutItemMissing = "❌ ${item_id}"

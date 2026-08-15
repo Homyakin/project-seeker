@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
@@ -86,7 +87,9 @@ class EquipmentLoadoutServiceTest {
         Mockito.when(loadoutDao.countByPersonageId(personageId)).thenReturn(3);
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of()));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
-        Mockito.when(loadoutDao.insert(personageId, "Raid", List.of(), personage.position())).thenReturn(11L);
+        Mockito.when(loadoutDao.insert(
+            personageId, "Raid", List.of(), personage.position(), personage.targetingTactic()
+        )).thenReturn(11L);
         Mockito.when(loadoutDao.findById(11L)).thenReturn(Optional.of(created));
 
         final var result = service.createFromCurrent(personageId, "Raid");
@@ -96,35 +99,43 @@ class EquipmentLoadoutServiceTest {
     }
 
     @Test
-    void createFromCurrent_savesEquippedItemIdsAndBattlePosition() {
-        final var personage = PersonageUtils.random();
+    void createFromCurrent_savesEquippedItemIdsBattlePositionAndTargetingTactic() {
+        final var personage = PersonageUtils.random().withTargetingTactic(TargetingTactic.EXECUTIONER);
         final var personageId = personage.id();
         final var equipped = personageItem(1L, personageId, true, PersonageSlot.MAIN_HAND);
         final var bag = personageItem(2L, personageId, false, PersonageSlot.BODY);
-        final var created = loadout(10L, personageId, "Raid", List.of(1L), personage.position());
+        final var created = loadout(
+            10L, personageId, "Raid", List.of(1L), personage.position(), TargetingTactic.EXECUTIONER
+        );
 
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personageId))
             .thenReturn(PersonageMemberGroupUtils.empty());
         Mockito.when(loadoutDao.countByPersonageId(personageId)).thenReturn(0);
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(equipped, bag)));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
-        Mockito.when(loadoutDao.insert(personageId, "Raid", List.of(1L), personage.position())).thenReturn(10L);
+        Mockito.when(loadoutDao.insert(
+            personageId, "Raid", List.of(1L), personage.position(), TargetingTactic.EXECUTIONER
+        )).thenReturn(10L);
         Mockito.when(loadoutDao.findById(10L)).thenReturn(Optional.of(created));
 
         final var result = service.createFromCurrent(personageId, "Raid");
 
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(created, result.get());
-        Mockito.verify(loadoutDao).insert(personageId, "Raid", List.of(1L), personage.position());
+        Mockito.verify(loadoutDao).insert(
+            personageId, "Raid", List.of(1L), personage.position(), TargetingTactic.EXECUTIONER
+        );
     }
 
     @Test
-    void saveCurrent_updatesItemIdsAndBattlePosition() {
-        final var personage = PersonageUtils.random();
+    void saveCurrent_updatesItemIdsBattlePositionAndTargetingTactic() {
+        final var personage = PersonageUtils.random().withTargetingTactic(TargetingTactic.WOUNDED_HUNTER);
         final var personageId = personage.id();
         final var loadout = loadout(5L, personageId, "Old", List.of(1L), Position.FRONT);
         final var equipped = personageItem(3L, personageId, true, PersonageSlot.HELMET);
-        final var updated = loadout(5L, personageId, "Old", List.of(3L), personage.position());
+        final var updated = loadout(
+            5L, personageId, "Old", List.of(3L), personage.position(), TargetingTactic.WOUNDED_HUNTER
+        );
 
         Mockito.when(loadoutDao.findById(5L)).thenReturn(Optional.of(loadout), Optional.of(updated));
         Mockito.when(itemService.getPersonageItems(personageId)).thenReturn(new Inventory(List.of(equipped)));
@@ -133,7 +144,9 @@ class EquipmentLoadoutServiceTest {
         final var result = service.saveCurrent(personageId, 5L);
 
         Assertions.assertTrue(result.isRight());
-        Mockito.verify(loadoutDao).updateCurrent(5L, List.of(3L), personage.position());
+        Mockito.verify(loadoutDao).updateCurrent(
+            5L, List.of(3L), personage.position(), TargetingTactic.WOUNDED_HUNTER
+        );
     }
 
     @Test
@@ -186,9 +199,11 @@ class EquipmentLoadoutServiceTest {
     }
 
     @Test
-    void apply_setsEquippedAndBattlePositionAtomically() {
+    void apply_setsEquippedBattlePositionAndTargetingTacticAtomically() {
         final var personageId = PersonageUtils.random().id();
-        final var loadout = loadout(1L, personageId, "Raid", List.of(2L), Position.BACK);
+        final var loadout = loadout(
+            1L, personageId, "Raid", List.of(2L), Position.BACK, TargetingTactic.EXECUTIONER
+        );
         final var item1 = personageItem(1L, personageId, true, PersonageSlot.MAIN_HAND);
         final var item2 = personageItem(2L, personageId, false, PersonageSlot.BODY);
 
@@ -200,6 +215,7 @@ class EquipmentLoadoutServiceTest {
         Assertions.assertTrue(result.isRight());
         Mockito.verify(itemDao).setEquippedForPersonage(personageId, List.of(2L));
         Mockito.verify(personageService).setBattlePosition(personageId, Position.BACK);
+        Mockito.verify(personageService).setTargetingTactic(personageId, TargetingTactic.EXECUTIONER);
     }
 
     @Test
@@ -267,6 +283,7 @@ class EquipmentLoadoutServiceTest {
             "Raid",
             List.of(10L),
             Position.MID,
+            TargetingTactic.THREAT,
             Set.of(EventType.RAID)
         );
         Mockito.when(loadoutDao.findById(1L)).thenReturn(Optional.of(selected));
@@ -311,6 +328,7 @@ class EquipmentLoadoutServiceTest {
             "Raid",
             List.of(2L),
             Position.BACK,
+            TargetingTactic.EXECUTIONER,
             Set.of(EventType.RAID)
         );
         final var ownedLoadoutItem = personageItem(2L, personageId, false, PersonageSlot.BODY);
@@ -329,6 +347,7 @@ class EquipmentLoadoutServiceTest {
 
         Assertions.assertEquals(loadoutCombatItems, result.get(personageId).items());
         Assertions.assertEquals(Position.BACK, result.get(personageId).battlePosition());
+        Assertions.assertEquals(TargetingTactic.EXECUTIONER, result.get(personageId).targetingTactic());
         Mockito.verify(itemDao, Mockito.never()).setEquippedForPersonage(Mockito.any(), Mockito.any());
     }
 
@@ -342,6 +361,7 @@ class EquipmentLoadoutServiceTest {
             "Raid",
             List.of(2L, 99L),
             Position.FRONT,
+            TargetingTactic.THREAT,
             Set.of(EventType.RAID)
         );
         final var owned = personageItem(2L, personageId, false, PersonageSlot.BODY);
@@ -371,6 +391,7 @@ class EquipmentLoadoutServiceTest {
             "Raid",
             List.of(2L, 3L),
             Position.BACK,
+            TargetingTactic.THREAT,
             Set.of(EventType.RAID)
         );
         final var item1 = personageItem(2L, personageId, false, PersonageSlot.BODY);
@@ -415,7 +436,20 @@ class EquipmentLoadoutServiceTest {
         List<Long> itemIds,
         Position battlePosition
     ) {
-        return new EquipmentLoadout(id, personageId, name, itemIds, battlePosition, Set.of());
+        return loadout(id, personageId, name, itemIds, battlePosition, TargetingTactic.THREAT);
+    }
+
+    private static EquipmentLoadout loadout(
+        long id,
+        PersonageId personageId,
+        String name,
+        List<Long> itemIds,
+        Position battlePosition,
+        TargetingTactic targetingTactic
+    ) {
+        return new EquipmentLoadout(
+            id, personageId, name, itemIds, battlePosition, targetingTactic, Set.of()
+        );
     }
 
     private PersonageItem personageItem(long id, PersonageId personageId, boolean equipped, PersonageSlot... slots) {

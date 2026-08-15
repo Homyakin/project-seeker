@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.battle.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.models.AttackType;
@@ -31,6 +32,8 @@ public class BattleLocalization {
         final var params = new HashMap<String, Object>();
         params.put("position_name", positionName(language, personage.startPosition()));
         params.put("battle_position_command", CommandType.CHANGE_BATTLE_POSITION.getText());
+        params.put("targeting_tactic_name", targetingTacticName(language, personage.targetingTactic()));
+        params.put("targeting_tactic_command", CommandType.CHANGE_TARGETING_TACTIC.getText());
         params.put("power_icon", Icons.POWER);
         params.put("power_value", LocaleUtils.power((int) personage.power()));
         params.put("health_icon", Icons.HEALTH);
@@ -61,6 +64,16 @@ public class BattleLocalization {
         return resources.getOrDefault(language, BattleResource::chooseBattlePosition);
     }
 
+    public static String chooseTargetingTactic(Language language, TargetingTactic currentTactic) {
+        final var params = new HashMap<String, Object>();
+        params.put("tactic_name", targetingTacticName(language, currentTactic));
+        params.put("tactic_description", targetingTacticDescription(language, currentTactic));
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, BattleResource::chooseTargetingTactic),
+            params
+        );
+    }
+
     public static String battleVisualizerButton(Language language) {
         return resources.getOrDefault(language, BattleResource::battleVisualizerButton);
     }
@@ -70,6 +83,36 @@ public class BattleLocalization {
             case FRONT -> resources.getOrDefault(language, BattleResource::positionFront);
             case MID -> resources.getOrDefault(language, BattleResource::positionMid);
             case BACK -> resources.getOrDefault(language, BattleResource::positionBack);
+        };
+    }
+
+    public static String targetingTacticName(Language language, TargetingTactic tactic) {
+        return switch (tactic) {
+            case THREAT -> resources.getOrDefault(language, BattleResource::tacticThreat);
+            case EXECUTIONER -> resources.getOrDefault(language, BattleResource::tacticExecutioner);
+            case WOUNDED_HUNTER -> resources.getOrDefault(language, BattleResource::tacticWoundedHunter);
+            case EXPLOIT_WEAKNESS -> resources.getOrDefault(language, BattleResource::tacticExploitWeakness);
+            case RELIABLE_STRIKE -> resources.getOrDefault(language, BattleResource::tacticReliableStrike);
+            case CHALLENGE_THE_AGILE -> resources.getOrDefault(language, BattleResource::tacticChallengeTheAgile);
+            case INITIATIVE_INTERCEPTION ->
+                resources.getOrDefault(language, BattleResource::tacticInitiativeInterception);
+        };
+    }
+
+    public static String targetingTacticDescription(Language language, TargetingTactic tactic) {
+        return switch (tactic) {
+            case THREAT -> resources.getOrDefault(language, BattleResource::tacticThreatDescription);
+            case EXECUTIONER -> resources.getOrDefault(language, BattleResource::tacticExecutionerDescription);
+            case WOUNDED_HUNTER ->
+                resources.getOrDefault(language, BattleResource::tacticWoundedHunterDescription);
+            case EXPLOIT_WEAKNESS ->
+                resources.getOrDefault(language, BattleResource::tacticExploitWeaknessDescription);
+            case RELIABLE_STRIKE ->
+                resources.getOrDefault(language, BattleResource::tacticReliableStrikeDescription);
+            case CHALLENGE_THE_AGILE ->
+                resources.getOrDefault(language, BattleResource::tacticChallengeTheAgileDescription);
+            case INITIATIVE_INTERCEPTION ->
+                resources.getOrDefault(language, BattleResource::tacticInitiativeInterceptionDescription);
         };
     }
 

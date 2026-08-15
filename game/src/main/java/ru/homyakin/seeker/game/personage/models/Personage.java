@@ -4,6 +4,7 @@ import io.vavr.control.Either;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.group.entity.Group;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.models.StormShards;
@@ -31,6 +32,7 @@ public record Personage(
     BadgeView badge,
     PersonageEffects effects,
     Position position,
+    TargetingTactic targetingTactic,
     OnlineStreak onlineStreak
 ) {
     public Personage addMoney(Money money) {
@@ -71,6 +73,10 @@ public record Personage(
 
     public Personage withPosition(Position position) {
         return copyWithPosition(position);
+    }
+
+    public Personage withTargetingTactic(TargetingTactic targetingTactic) {
+        return copyWithTargetingTactic(targetingTactic);
     }
 
     public Either<NotEnoughEnergy, Personage> reduceEnergy(
@@ -147,6 +153,7 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
             onlineStreak
         );
     }
@@ -165,6 +172,7 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
             onlineStreak
         );
     }
@@ -181,6 +189,7 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
             onlineStreak
         );
     }
@@ -197,6 +206,7 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
             onlineStreak
         );
     }
@@ -213,6 +223,7 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
             onlineStreak
         );
     }
@@ -229,6 +240,24 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
+            onlineStreak
+        );
+    }
+
+    private Personage copyWithTargetingTactic(TargetingTactic targetingTactic) {
+        return new Personage(
+            id,
+            name,
+            tag,
+            memberGroupId,
+            money,
+            stormShards,
+            energy,
+            badge,
+            effects,
+            position,
+            targetingTactic,
             onlineStreak
         );
     }
@@ -245,6 +274,7 @@ public record Personage(
             badge,
             effects,
             position,
+            targetingTactic,
             onlineStreak
         );
     }

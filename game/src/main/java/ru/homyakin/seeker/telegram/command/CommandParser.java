@@ -78,6 +78,8 @@ import ru.homyakin.seeker.telegram.command.group.world_raid.GroupWorldRaidReport
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.telegram.command.user.battle_position.UserChangeBattlePosition;
 import ru.homyakin.seeker.telegram.command.user.battle_position.UserSelectBattlePosition;
+import ru.homyakin.seeker.telegram.command.user.targeting_tactic.UserChangeTargetingTactic;
+import ru.homyakin.seeker.telegram.command.user.targeting_tactic.UserSelectTargetingTactic;
 import ru.homyakin.seeker.telegram.command.user.badge.SelectPersonageBadge;
 import ru.homyakin.seeker.telegram.command.user.badge.ShowPersonageBadges;
 import ru.homyakin.seeker.telegram.command.user.bulletin_board.GetBulletinBoard;
@@ -244,6 +246,7 @@ public class CommandParser {
                 case PERSONAGE_STATS -> PersonageStatsGlobal.from(message);
                 case BATTLE_STATS -> BattleStats.from(message);
                 case CHANGE_BATTLE_POSITION -> UserChangeBattlePosition.from(message);
+                case CHANGE_TARGETING_TACTIC -> UserChangeTargetingTactic.from(message);
                 case SETTINGS -> GetPersonageSettings.from(message);
                 case SHOW_WORLD_RAID_INFO -> ShowWorldRaidInfo.from(message);
                 case WORLD_RAID_DONATE -> WorldRaidDonate.from(message);
@@ -356,6 +359,7 @@ public class CommandParser {
                 case GET_PROFILE -> GetProfileInPrivate.from(callback);
                 case SELECT_LANGUAGE -> UserSelectLanguage.from(callback);
                 case SELECT_BATTLE_POSITION -> UserSelectBattlePosition.from(callback);
+                case SELECT_TARGETING_TACTIC -> UserSelectTargetingTactic.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);
                 case SELECT_BADGE -> SelectPersonageBadge.from(callback);
                 case TOGGLE_PERSONAGE_SETTING -> SetPersonageSetting.from(callback);

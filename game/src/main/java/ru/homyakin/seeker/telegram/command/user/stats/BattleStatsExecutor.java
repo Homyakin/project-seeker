@@ -39,6 +39,7 @@ public class BattleStatsExecutor extends CommandExecutor<BattleStats> {
         final var equippedItems = itemService.getEquippedItemsByPersonageIds(Set.of(user.personageId()))
             .getOrDefault(user.personageId(), List.of());
         final var battlePersonage = new BattlePersonage(equippedItems, personage.position());
+        battlePersonage.setTargetingTactic(personage.targetingTactic());
         final var text = BattleLocalization.battleStats(user.language(), battlePersonage, equippedItems);
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

@@ -326,6 +326,10 @@ public class ItemLocalization {
         final var params = new HashMap<String, Object>();
         params.put("name", loadout.name());
         params.put("position_name", BattleLocalization.positionName(language, loadout.battlePosition()));
+        params.put(
+            "targeting_tactic_name",
+            BattleLocalization.targetingTacticName(language, loadout.targetingTactic())
+        );
         params.put("items", String.join("\n", lines));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::loadoutDetail),

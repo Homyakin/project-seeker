@@ -36,6 +36,7 @@ import ru.homyakin.seeker.game.battle.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.skill.TurnSkill;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.skill.active_impl.SkillMapper;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -124,6 +125,7 @@ public class BattlePersonage {
     private BattleAdvanceDirection advanceDirection;
     private final int baseMaxRange;
     private final PersonageBattleEffects combatEffects = new PersonageBattleEffects();
+    private TargetingTactic targetingTactic = TargetingTactic.THREAT;
 
     private long normalDamageDealt;
     private long normalAttackCount;
@@ -565,7 +567,7 @@ public class BattlePersonage {
             return List.of();
         }
 
-        final var weightMap = new HashMap<BattlePersonage, Integer>();
+        final var candidates = new ArrayList<BattlePersonage>();
         for (final var personage : enemyAliveTeam.values()) {
             if (!personage.isAlive()) {
                 continue;
@@ -573,14 +575,33 @@ public class BattlePersonage {
             if (!attacker.inStrikeRange(personage)) {
                 continue;
             }
-            weightMap.put(personage, personage.totalThreat());
+            candidates.add(personage);
         }
-        if (!weightMap.isEmpty()) {
-            var target = new ProbabilityPicker<>(weightMap).pick(RandomUtils::getWithMax);
-            return List.of(new Target(attacker.calcRange(target), target));
+        if (candidates.isEmpty()) {
+            return List.of();
         }
+        final var weightMap = attacker.targetingWeights(candidates);
+        final var target = new ProbabilityPicker<>(weightMap).pick(RandomUtils::getWithMax);
+        return List.of(new Target(attacker.calcRange(target), target));
+    }
 
-        return List.of();
+    /**
+     * Local targeting weights for the given already-filtered candidates.
+     * Does not mutate target threat. Package-visible for tests.
+     */
+    Map<BattlePersonage, Integer> targetingWeights(List<BattlePersonage> candidates) {
+        var referenceThreat = 1;
+        for (final var candidate : candidates) {
+            referenceThreat = Math.max(referenceThreat, candidate.totalThreat());
+        }
+        final var weightMap = new HashMap<BattlePersonage, Integer>();
+        for (final var candidate : candidates) {
+            weightMap.put(
+                candidate,
+                targetingTactic.localWeight(this, candidate, candidates, referenceThreat)
+            );
+        }
+        return weightMap;
     }
 
     private boolean inStrikeRange(BattlePersonage target) {
@@ -779,6 +800,45 @@ public class BattlePersonage {
      */
     public int initiativeGauge() {
         return cumulativeSpeed;
+    }
+
+    /**
+     * Expected ticks until this personage's next turn using the current initiative gauge.
+     */
+    public double ticksUntilNextTurn() {
+        return (double) (REQUIRED_SPEED - cumulativeSpeed) / Math.max(1, speed);
+    }
+
+    /**
+     * Deterministic expected damage of a normal attack against {@code target} at current distance:
+     * type mitigation, crit expectation, hit chance. Excludes ±10% damage variance.
+     */
+    public double expectedDamageAgainst(BattlePersonage target) {
+        final int distance = Math.max(1, calcRange(target));
+        final int mapSlot = Math.min(distance, baseMaxRange);
+        double mitigated = 0;
+        for (final var entry : rangeAttack[mapSlot].entrySet()) {
+            mitigated += entry.getValue() * target.defenseReductions().get(entry.getKey());
+        }
+        final double critProbability = critChance / 100.0;
+        final double withCrit = mitigated * (1.0 + critProbability * (critMultiplier - 1.0));
+        final double hitChance = Math.max(0.0, 1.0 - target.dodgeChance() / 100.0);
+        return withCrit * hitChance;
+    }
+
+    public TargetingTactic targetingTactic() {
+        return targetingTactic;
+    }
+
+    public void setTargetingTactic(TargetingTactic targetingTactic) {
+        this.targetingTactic = targetingTactic == null ? TargetingTactic.THREAT : targetingTactic;
+    }
+
+    /**
+     * Package-visible for initiative-based targeting tests.
+     */
+    void setInitiativeGaugeForTest(int gauge) {
+        this.cumulativeSpeed = Math.max(0, Math.min(REQUIRED_SPEED - 1, gauge));
     }
 
     public int totalThreat() {

@@ -188,12 +188,14 @@ public class RaidProcessing {
             .map(participant -> {
                 final var personage = participant.personage();
                 final var combatGear = combatGearByPersonageId.get(personage.id());
-                return BattlePersonage.forCombat(
+                final var battlePersonage = BattlePersonage.forCombat(
                     combatGear.items(),
                     combatGear.battlePosition(),
                     personage.effects(),
                     Optional.of(LocaleUtils.personageNameWithBadge(personage))
                 );
+                battlePersonage.setTargetingTactic(combatGear.targetingTactic());
+                return battlePersonage;
             })
             .toList();
     }

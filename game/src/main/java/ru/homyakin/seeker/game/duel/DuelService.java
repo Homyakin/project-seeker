@@ -194,12 +194,14 @@ public class DuelService {
             personage1.effects(),
             Optional.of(LocaleUtils.personageNameWithBadge(personage1))
         );
+        firstBattlePersonage.setTargetingTactic(firstGear.targetingTactic());
         final var secondBattlePersonage = BattlePersonage.forCombat(
             secondGear.items(),
             Position.FRONT,
             personage2.effects(),
             Optional.of(LocaleUtils.personageNameWithBadge(personage2))
         );
+        secondBattlePersonage.setTargetingTactic(secondGear.targetingTactic());
         final var battleResult = battle.process(
             List.of(firstBattlePersonage),
             List.of(secondBattlePersonage)

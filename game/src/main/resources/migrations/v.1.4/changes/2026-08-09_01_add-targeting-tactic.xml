@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet context="legacy" author="Cursor" id="add-targeting-tactic">
+        <addColumn tableName="personage">
+            <column name="targeting_tactic" type="VARCHAR(40)" defaultValue="THREAT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="personage_equipment_loadout">
+            <column name="targeting_tactic" type="VARCHAR(40)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE personage_equipment_loadout pel
+            SET targeting_tactic = p.targeting_tactic
+            FROM personage p
+            WHERE pel.personage_id = p.id
+        </sql>
+
+        <addNotNullConstraint tableName="personage_equipment_loadout" columnName="targeting_tactic"/>
+    </changeSet>
+</databaseChangeLog>
