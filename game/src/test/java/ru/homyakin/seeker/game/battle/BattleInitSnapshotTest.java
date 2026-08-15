@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.battle;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -31,6 +32,7 @@ public class BattleInitSnapshotTest {
             Position.FRONT,
             Map.of(ActiveEnum.BLEEDING, 4)
         );
+        personage.setTargetingTactic(TargetingTactic.EXECUTIONER);
         final var result = new Battle().process(List.of(personage), List.of(
             new BattlePersonage(
                 List.of(catalogWeapon("rapier", AttackType.PIERCE, 1, 100, ActiveEnum.FEINT, ItemRarity.COMMON)),
@@ -40,6 +42,7 @@ public class BattleInitSnapshotTest {
 
         final var snap = result.initState().personagesById().get(personage.id());
         Assertions.assertNotNull(snap);
+        Assertions.assertEquals(TargetingTactic.EXECUTIONER, snap.targetingTactic());
         Assertions.assertEquals(3, snap.items().size());
         Assertions.assertEquals("sword", snap.items().getFirst().code());
         Assertions.assertEquals(ItemRarity.COMMON, snap.items().getFirst().rarity());

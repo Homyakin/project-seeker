@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 
@@ -18,6 +19,7 @@ public record BattlePersonageInitSnapshot(
     int initiativeGauge,
     int range,
     int totalThreat,
+    TargetingTactic targetingTactic,
     List<BattleItemInitSnapshot> items,
     List<BattleSkillInitSnapshot> skills,
     int critChance,

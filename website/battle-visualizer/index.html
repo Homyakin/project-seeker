@@ -799,6 +799,7 @@ function buildInitialLive() {
       critChance: p.critChance ?? null,
       dodgeChance: p.dodgeChance ?? null,
       critMultiplier: p.critMultiplier ?? null,
+      targetingTactic: p.targetingTactic ?? null,
       attacksByRange: Array.isArray(p.attacksByRange) ? p.attacksByRange : [],
       defenses: p.defenses && typeof p.defenses === "object" ? p.defenses : {},
       damageTakenMultipliers: p.damageTakenMultipliers && typeof p.damageTakenMultipliers === "object"
@@ -921,6 +922,21 @@ function loseThreat(p) { p.threat = Math.max(p.baseThreat, p.threat - THREAT_LOS
 
 // Display threat as "base + bonus" (bonus is the combat-accumulated part).
 function threatText(p) { return `${p.baseThreat} + ${p.threat - p.baseThreat}`; }
+
+const TARGETING_TACTIC_LABELS = {
+  THREAT: "Threat",
+  EXECUTIONER: "Executioner",
+  WOUNDED_HUNTER: "Wounded hunter",
+  EXPLOIT_WEAKNESS: "Exploit weakness",
+  RELIABLE_STRIKE: "Reliable strike",
+  CHALLENGE_THE_AGILE: "Challenge the agile",
+  INITIATIVE_INTERCEPTION: "Initiative interception",
+};
+
+function targetingTacticLabel(tactic) {
+  if (tactic == null || tactic === "") return "—";
+  return TARGETING_TACTIC_LABELS[tactic] || String(tactic);
+}
 
 function clearTransientFlags() {
   for (const id in live) { live[id].flash = null; live[id].popup = null; }
@@ -1320,6 +1336,7 @@ function renderDetail(id) {
   attrs += stat("Range", p.range);
   attrs += stat("Threat", threatText(p));
   attrs += stat("Line", `${p.lineIndex} (${posOfLine(p.lineIndex)})`);
+  attrs += stat("Targeting tactic", targetingTacticLabel(p.targetingTactic));
   if (p.critChance != null) attrs += stat("Crit chance", `${p.critChance}%`);
   if (p.dodgeChance != null) attrs += stat("Dodge chance", `${p.dodgeChance}%`);
   if (p.critMultiplier != null) attrs += stat("Crit mult", Number(p.critMultiplier).toFixed(2));
