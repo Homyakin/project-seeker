@@ -18,7 +18,6 @@ import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
-import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class BattleLocalization {
@@ -31,9 +30,7 @@ public class BattleLocalization {
     public static String battleStats(Language language, BattlePersonage personage, List<Item> equippedItems) {
         final var params = new HashMap<String, Object>();
         params.put("position_name", positionName(language, personage.startPosition()));
-        params.put("battle_position_command", CommandType.CHANGE_BATTLE_POSITION.getText());
         params.put("targeting_tactic_name", targetingTacticName(language, personage.targetingTactic()));
-        params.put("targeting_tactic_command", CommandType.CHANGE_TARGETING_TACTIC.getText());
         params.put("power_icon", Icons.POWER);
         params.put("power_value", LocaleUtils.power((int) personage.power()));
         params.put("health_icon", Icons.HEALTH);
@@ -58,6 +55,14 @@ public class BattleLocalization {
             resources.getOrDefault(language, BattleResource::battleStats),
             params
         );
+    }
+
+    public static String battleStatsPositionButton(Language language) {
+        return resources.getOrDefault(language, BattleResource::battleStatsPositionButton);
+    }
+
+    public static String battleStatsTacticButton(Language language) {
+        return resources.getOrDefault(language, BattleResource::battleStatsTacticButton);
     }
 
     public static String chooseBattlePosition(Language language) {

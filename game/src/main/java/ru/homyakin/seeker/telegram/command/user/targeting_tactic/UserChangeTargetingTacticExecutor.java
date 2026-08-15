@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
+import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
 import ru.homyakin.seeker.telegram.user.UserService;
@@ -29,11 +30,29 @@ public class UserChangeTargetingTacticExecutor extends CommandExecutor<UserChang
     public void execute(UserChangeTargetingTactic command) {
         final var user = userService.forceGetFromPrivate(command.userId());
         final var personage = personageService.getByIdForce(user.personageId());
-        telegramSender.send(SendMessageBuilder.builder()
-            .chatId(user.id())
-            .text(BattleLocalization.chooseTargetingTactic(user.language(), personage.targetingTactic()))
-            .keyboard(InlineKeyboards.targetingTacticKeyboard(user.language(), personage.targetingTactic()))
-            .build()
+        final var text = BattleLocalization.chooseTargetingTactic(
+            user.language(),
+            personage.targetingTactic()
         );
+        final var keyboard = InlineKeyboards.targetingTacticKeyboard(
+            user.language(),
+            personage.targetingTactic()
+        );
+        if (command.messageId().isPresent()) {
+            telegramSender.send(EditMessageTextBuilder.builder()
+                .chatId(user.id())
+                .messageId(command.messageId().get())
+                .text(text)
+                .keyboard(keyboard)
+                .build()
+            );
+        } else {
+            telegramSender.send(SendMessageBuilder.builder()
+                .chatId(user.id())
+                .text(text)
+                .keyboard(keyboard)
+                .build()
+            );
+        }
     }
 }

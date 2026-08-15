@@ -358,7 +358,10 @@ public class CommandParser {
             .map(commandType -> switch (commandType) {
                 case GET_PROFILE -> GetProfileInPrivate.from(callback);
                 case SELECT_LANGUAGE -> UserSelectLanguage.from(callback);
+                case OPEN_BATTLE_STATS -> BattleStats.from(callback);
+                case OPEN_BATTLE_POSITION -> UserChangeBattlePosition.from(callback);
                 case SELECT_BATTLE_POSITION -> UserSelectBattlePosition.from(callback);
+                case OPEN_TARGETING_TACTIC -> UserChangeTargetingTactic.from(callback);
                 case SELECT_TARGETING_TACTIC -> UserSelectTargetingTactic.from(callback);
                 case SELECT_HELP -> SelectHelp.from(callback);
                 case SELECT_BADGE -> SelectPersonageBadge.from(callback);

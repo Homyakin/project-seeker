@@ -61,6 +61,21 @@ public class InlineKeyboards {
         return builder.build();
     }
 
+    public static InlineKeyboardMarkup battleStatsKeyboard(Language language) {
+        return InlineKeyboardBuilder
+            .builder()
+            .addRow()
+            .addButton(
+                BattleLocalization.battleStatsPositionButton(language),
+                CommandType.OPEN_BATTLE_POSITION.getText()
+            )
+            .addButton(
+                BattleLocalization.battleStatsTacticButton(language),
+                CommandType.OPEN_TARGETING_TACTIC.getText()
+            )
+            .build();
+    }
+
     public static InlineKeyboardMarkup battlePositionKeyboard(Language language, Position currentPosition) {
         final var positions = Position.values();
         final var builder = InlineKeyboardBuilder.builder();
@@ -80,6 +95,8 @@ public class InlineKeyboards {
                 CommandType.SELECT_BATTLE_POSITION.getText() + TextConstants.CALLBACK_DELIMITER + position.name()
             );
         }
+        builder.addRow()
+            .addButton(MenuLocalization.backButton(language), CommandType.OPEN_BATTLE_STATS.getText());
         return builder.build();
     }
 
@@ -105,6 +122,8 @@ public class InlineKeyboards {
                 CommandType.SELECT_TARGETING_TACTIC.getText() + TextConstants.CALLBACK_DELIMITER + tactic.name()
             );
         }
+        builder.addRow()
+            .addButton(MenuLocalization.backButton(language), CommandType.OPEN_BATTLE_STATS.getText());
         return builder.build();
     }
 

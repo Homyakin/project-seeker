@@ -1,8 +1,9 @@
 battleStats = """\
 ⚔️<b>Боевые характеристики</b>
 
-📍Позиция: ${position_name} (${battle_position_command})
-🎯Тактика цели: ${targeting_tactic_name} (${targeting_tactic_command})
+📍Позиция: ${position_name}
+🎯Тактика: ${targeting_tactic_name}
+
 ${power_icon}Сила: ${power_value}
 ${health_icon}Здоровье: ${health_value}
 ${range_icon}Дальность: ${range_value}
@@ -26,6 +27,8 @@ battleStatsDefenseLine = "${defense_type}: ${defense_value}"
 battleStatsMitigationLine = "• ${attack_type}: ${mitigation_percent}%"
 battleStatsSkillLine = "• ${skill_name} (${skill_rank}, ${skill_points} оч.): ${skill_description}"
 battleStatsSkillsEmpty = "<i>Нет активных навыков</i>\n"
+battleStatsPositionButton = "📍Позиция"
+battleStatsTacticButton = "🎯Тактика"
 
 chooseBattlePosition = "Выберите позицию для рейдов и мировых рейдов:"
 chooseTargetingTactic = """\
