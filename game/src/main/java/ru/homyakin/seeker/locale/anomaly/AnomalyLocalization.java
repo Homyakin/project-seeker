@@ -74,14 +74,14 @@ public final class AnomalyLocalization {
         Anomaly.Safe safe,
         List<EventParticipant> participants,
         int partySize,
-        LaunchedEvent event
+        Duration maxDuration
     ) {
         return gathering(
             language,
             AnomalyMode.SAFE,
             participants,
             partySize,
-            event,
+            maxDuration,
             Optional.of(safe.ownerPersonageId()),
             pveFormat(language, safe.template())
         );
@@ -92,14 +92,14 @@ public final class AnomalyLocalization {
         Anomaly.Dangerous.Gathering gathering,
         List<EventParticipant> participants,
         int partySize,
-        LaunchedEvent event
+        Duration maxDuration
     ) {
         return gathering(
             language,
             AnomalyMode.DANGEROUS,
             participants,
             partySize,
-            event,
+            maxDuration,
             Optional.of(gathering.ownerPersonageId()),
             ""
         );
@@ -330,10 +330,6 @@ public final class AnomalyLocalization {
         return resources.getOrDefault(language, AnomalyResource::joinButton);
     }
 
-    public static String readyButton(Language language) {
-        return resources.getOrDefault(language, AnomalyResource::readyButton);
-    }
-
     public static String backToOutpostButton(Language language) {
         return resources.getOrDefault(language, AnomalyResource::backToOutpostButton);
     }
@@ -354,14 +350,8 @@ public final class AnomalyLocalization {
                 resources.getOrDefault(language, AnomalyResource::errorActiveExists);
             case AnomalyError.NotGroupMember _ ->
                 resources.getOrDefault(language, AnomalyResource::errorNotMember);
-            case AnomalyError.NotOwner _ ->
-                resources.getOrDefault(language, AnomalyResource::errorNotOwner);
             case AnomalyError.InvalidPhase _ ->
                 resources.getOrDefault(language, AnomalyResource::errorInvalidPhase);
-            case AnomalyError.PartyNotFull _ ->
-                resources.getOrDefault(language, AnomalyResource::errorPartyNotFull);
-            case AnomalyError.PartyEmpty _ ->
-                resources.getOrDefault(language, AnomalyResource::errorPartyEmpty);
             case AnomalyError.RosterLocked _ ->
                 resources.getOrDefault(language, AnomalyResource::errorRosterLocked);
             case AnomalyError.AlreadyJoined _ ->
@@ -384,7 +374,7 @@ public final class AnomalyLocalization {
         AnomalyMode mode,
         List<EventParticipant> participants,
         int partySize,
-        LaunchedEvent event,
+        Duration maxDuration,
         Optional<PersonageId> ownerPersonageId,
         String pveFormat
     ) {
@@ -392,7 +382,7 @@ public final class AnomalyLocalization {
         map.put("mode", modeName(language, mode));
         map.put("count", participants.size());
         map.put("party_size", partySize);
-        map.put("duration", CommonLocalization.duration(language, TimeUtils.moscowTime(), event.endDate()));
+        map.put("max_duration", CommonLocalization.duration(language, maxDuration));
         map.put("participants", participantsText(language, participants, ownerPersonageId));
         map.put("pve_format", pveFormat);
         return StringNamedTemplate.format(

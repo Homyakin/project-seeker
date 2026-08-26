@@ -53,7 +53,6 @@ import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyBackOutpost;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyChooseMode;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyJoin;
 import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyMenu;
-import ru.homyakin.seeker.telegram.command.group.anomaly.AnomalyReady;
 import ru.homyakin.seeker.telegram.command.group.outpost.ShowOutpost;
 import ru.homyakin.seeker.telegram.command.group.stats.GetGroupStats;
 import ru.homyakin.seeker.telegram.command.group.stats.GetPersonageStats;
@@ -428,7 +427,6 @@ public class CommandParser {
                 case ANOMALY_CHOOSE_SAFE -> AnomalyChooseMode.safe(callback);
                 case ANOMALY_CHOOSE_DANGEROUS -> AnomalyChooseMode.dangerous(callback);
                 case ANOMALY_JOIN -> AnomalyJoin.from(callback);
-                case ANOMALY_READY -> AnomalyReady.from(callback);
                 case ANOMALY_BACK_OUTPOST -> AnomalyBackOutpost.from(callback);
                 case NOOP -> NoopCallback.from(callback);
                 default -> null;

@@ -20,7 +20,7 @@ anomalyGathering = """
 
 Режим: ${mode}
 ${pve_format}В отряд берут только своих.
-Сборы ещё ${duration}
+Сборы ещё ${max_duration}
 
 Состав (${count}/${party_size}):
 ${participants}
@@ -75,7 +75,6 @@ anomalyExpired = "Окно в аномалию закрылось."
 safeModeButton = "🛡 Безопасный"
 dangerousModeButton = "☠ Опасный"
 joinButton = "➕ Вступить"
-readyButton = "✅ Готов"
 backToOutpostButton = "⬅️ К аванпосту"
 modeSafe = "Безопасный"
 modeDangerous = "Опасный"
@@ -88,10 +87,7 @@ errorNoStormScanner = "❌Без Штормового Сканера сюда н
 errorAlreadyStartedToday = "❌Сегодня сканер уже отработал"
 errorActiveExists = "❌У вас уже открыта аномалия"
 errorNotMember = "❌В отряд берут только участников группы"
-errorNotOwner = "❌Это может только организатор"
 errorInvalidPhase = "❌Сейчас это уже не сработает"
-errorPartyNotFull = "❌Отряд ещё не полный"
-errorPartyEmpty = "❌В отряде никого нет"
 errorRosterLocked = "Состав уже зафиксирован"
 errorAlreadyJoined = "✅Вы уже в экспедиции"
 errorAlreadyInAnomaly = "❌Вы уже в другой аномалии"

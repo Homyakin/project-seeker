@@ -2,6 +2,7 @@ package ru.homyakin.seeker.game.event.anomaly;
 
 import io.vavr.control.Either;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -148,8 +149,9 @@ public class AnomalyServiceTest {
     }
 
     @Test
-    void Given_GatheringSafeWithMembers_When_Ready_Then_StartedPveWaiting() {
-        final var member = withGroup(PersonageUtils.withId(personageId), groupId);
+    void Given_GatheringSafeWithFourMembers_When_FifthJoins_Then_StartedPveWaiting() {
+        final var joiningId = PersonageId.from(5L);
+        final var joining = withGroup(PersonageUtils.withId(joiningId), groupId);
         final var anomaly = new Anomaly.Safe(
             100L,
             groupId,
@@ -157,23 +159,16 @@ public class AnomalyServiceTest {
             AnomalyPveTemplate.CRYSTAL_STORM,
             Anomaly.Safe.Phase.GATHERING
         );
-        final var event = new LaunchedEvent(
-            100L,
-            5,
-            TimeUtils.moscowTime(),
-            TimeUtils.moscowTime().plusHours(1),
-            EventStatus.LAUNCHED,
-            Optional.empty()
-        );
+        final var event = launchedEvent(100L);
         Mockito.when(launchedEventService.getById(100L)).thenReturn(Optional.of(event));
         Mockito.when(anomalyStorage.findByLaunchedEventId(100L)).thenReturn(Optional.of(anomaly));
-        Mockito.when(personageEventService.getParticipants(100L))
-            .thenReturn(List.of(new EventParticipant(member, Optional.empty())));
+        Mockito.when(personageService.getByIdForce(joiningId)).thenReturn(joining);
+        Mockito.when(personageEventService.getParticipants(100L)).thenReturn(members(4));
 
-        final var result = service.ready(100L, personageId);
+        final var result = service.join(100L, joiningId);
 
         Assertions.assertTrue(result.isRight());
-        Assertions.assertInstanceOf(AnomalyService.AnomalyReadyResult.StartedPveWaiting.class, result.get());
+        Mockito.verify(personageEventService).addPersonageToLaunchedEventAssumingLocked(Mockito.any());
         Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
             updated instanceof Anomaly.Safe safe
                 && safe.phase() == Anomaly.Safe.Phase.PVE_WAITING
@@ -182,26 +177,42 @@ public class AnomalyServiceTest {
     }
 
     @Test
-    void Given_DangerousIncompleteParty_When_Ready_Then_PartyNotFull() {
-        final var owner = withGroup(PersonageUtils.withId(personageId), groupId);
+    void Given_DangerousIncompleteParty_When_Join_Then_StayGathering() {
+        final var joining = withGroup(PersonageUtils.withId(otherPersonageId), groupId);
         final var anomaly = new Anomaly.Dangerous.Gathering(101L, groupId, personageId);
-        final var event = new LaunchedEvent(
-            101L,
-            5,
-            TimeUtils.moscowTime(),
-            TimeUtils.moscowTime().plusHours(1),
-            EventStatus.LAUNCHED,
-            Optional.empty()
-        );
+        final var event = launchedEvent(101L);
         Mockito.when(launchedEventService.getById(101L)).thenReturn(Optional.of(event));
         Mockito.when(anomalyStorage.findByLaunchedEventId(101L)).thenReturn(Optional.of(anomaly));
-        Mockito.when(personageEventService.getParticipants(101L))
-            .thenReturn(List.of(new EventParticipant(owner, Optional.empty())));
+        Mockito.when(personageService.getByIdForce(otherPersonageId)).thenReturn(joining);
+        Mockito.when(personageEventService.getParticipants(101L)).thenReturn(members(1));
 
-        final var result = service.ready(101L, personageId);
+        final var result = service.join(101L, otherPersonageId);
 
-        Assertions.assertTrue(result.isLeft());
-        Assertions.assertEquals(AnomalyError.PartyNotFull.INSTANCE, result.getLeft());
+        Assertions.assertTrue(result.isRight());
+        Mockito.verify(personageEventService).addPersonageToLaunchedEventAssumingLocked(Mockito.any());
+        Mockito.verify(anomalyStorage, Mockito.never()).update(Mockito.any());
+        Mockito.verify(launchedEventService, Mockito.never()).updateEndDate(Mockito.anyLong(), Mockito.any());
+    }
+
+    @Test
+    void Given_DangerousWithFourMembers_When_FifthJoins_Then_StartedSearching() {
+        final var joiningId = PersonageId.from(5L);
+        final var joining = withGroup(PersonageUtils.withId(joiningId), groupId);
+        final var anomaly = new Anomaly.Dangerous.Gathering(103L, groupId, personageId);
+        final var event = launchedEvent(103L);
+        Mockito.when(launchedEventService.getById(103L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(103L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageService.getByIdForce(joiningId)).thenReturn(joining);
+        Mockito.when(personageEventService.getParticipants(103L)).thenReturn(members(4));
+        Mockito.when(gvgStorage.getRating(groupId)).thenReturn(1000);
+
+        final var result = service.join(103L, joiningId);
+
+        Assertions.assertTrue(result.isRight());
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Dangerous.Searching
+        ));
+        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(103L), Mockito.any());
     }
 
     @Test
@@ -343,6 +354,28 @@ public class AnomalyServiceTest {
                 groupId, Building.STORM_SCANNER, 1, Optional.empty(), 0
             )));
         Mockito.when(anomalyStorage.hasActiveAnomaly(groupId)).thenReturn(false);
+    }
+
+    private LaunchedEvent launchedEvent(long id) {
+        return new LaunchedEvent(
+            id,
+            5,
+            TimeUtils.moscowTime(),
+            TimeUtils.moscowTime().plusHours(1),
+            EventStatus.LAUNCHED,
+            Optional.empty()
+        );
+    }
+
+    private List<EventParticipant> members(int count) {
+        final var list = new ArrayList<EventParticipant>();
+        for (int i = 1; i <= count; ++i) {
+            list.add(new EventParticipant(
+                withGroup(PersonageUtils.withId(PersonageId.from(i)), groupId),
+                Optional.empty()
+            ));
+        }
+        return list;
     }
 
     private static ru.homyakin.seeker.game.personage.models.Personage withGroup(

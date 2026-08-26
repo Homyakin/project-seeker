@@ -52,7 +52,7 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
         return switch (anomaly) {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING ->
                 AnomalyLocalization.gathering(
-                    language, safe, participants, anomalyConfig.partySize(), event
+                    language, safe, participants, anomalyConfig.partySize(), anomalyConfig.gatheringDuration()
                 );
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
                 AnomalyLocalization.pveWaiting(
@@ -60,7 +60,7 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
                 );
             case Anomaly.Dangerous.Gathering gathering ->
                 AnomalyLocalization.gathering(
-                    language, gathering, participants, anomalyConfig.partySize(), event
+                    language, gathering, participants, anomalyConfig.partySize(), anomalyConfig.gatheringDuration()
                 );
             case Anomaly.Dangerous.Searching searching ->
                 AnomalyLocalization.searching(
