@@ -149,7 +149,7 @@ public class AnomalyServiceTest {
     }
 
     @Test
-    void Given_GatheringSafeWithFourMembers_When_FifthJoins_Then_StartedPveWaiting() {
+    void Given_GatheringSafeWithFourMembers_When_FifthJoins_Then_StayGathering() {
         final var joiningId = PersonageId.from(5L);
         final var joining = withGroup(PersonageUtils.withId(joiningId), groupId);
         final var anomaly = new Anomaly.Safe(
@@ -169,11 +169,8 @@ public class AnomalyServiceTest {
 
         Assertions.assertTrue(result.isRight());
         Mockito.verify(personageEventService).addPersonageToLaunchedEventAssumingLocked(Mockito.any());
-        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
-            updated instanceof Anomaly.Safe safe
-                && safe.phase() == Anomaly.Safe.Phase.PVE_WAITING
-        ));
-        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(100L), Mockito.any());
+        Mockito.verify(anomalyStorage, Mockito.never()).update(Mockito.any());
+        Mockito.verify(launchedEventService, Mockito.never()).updateEndDate(Mockito.anyLong(), Mockito.any());
     }
 
     @Test
@@ -195,7 +192,7 @@ public class AnomalyServiceTest {
     }
 
     @Test
-    void Given_DangerousWithFourMembers_When_FifthJoins_Then_StartedSearching() {
+    void Given_DangerousWithFourMembers_When_FifthJoins_Then_StayGathering() {
         final var joiningId = PersonageId.from(5L);
         final var joining = withGroup(PersonageUtils.withId(joiningId), groupId);
         final var anomaly = new Anomaly.Dangerous.Gathering(103L, groupId, personageId);
@@ -204,15 +201,133 @@ public class AnomalyServiceTest {
         Mockito.when(anomalyStorage.findByLaunchedEventId(103L)).thenReturn(Optional.of(anomaly));
         Mockito.when(personageService.getByIdForce(joiningId)).thenReturn(joining);
         Mockito.when(personageEventService.getParticipants(103L)).thenReturn(members(4));
-        Mockito.when(gvgStorage.getRating(groupId)).thenReturn(1000);
 
         final var result = service.join(103L, joiningId);
 
         Assertions.assertTrue(result.isRight());
+        Mockito.verify(personageEventService).addPersonageToLaunchedEventAssumingLocked(Mockito.any());
+        Mockito.verify(anomalyStorage, Mockito.never()).update(Mockito.any());
+        Mockito.verify(launchedEventService, Mockito.never()).updateEndDate(Mockito.anyLong(), Mockito.any());
+    }
+
+    @Test
+    void Given_GatheringSafeWithMembers_When_Ready_Then_StartedPveWaiting() {
+        final var member = withGroup(PersonageUtils.withId(personageId), groupId);
+        final var anomaly = new Anomaly.Safe(
+            104L,
+            groupId,
+            personageId,
+            AnomalyPveTemplate.CRYSTAL_STORM,
+            Anomaly.Safe.Phase.GATHERING
+        );
+        final var event = launchedEvent(104L);
+        Mockito.when(launchedEventService.getById(104L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(104L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(104L))
+            .thenReturn(List.of(new EventParticipant(member, Optional.empty())));
+
+        final var result = service.ready(104L, personageId);
+
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertInstanceOf(AnomalyService.AnomalyReadyResult.StartedPveWaiting.class, result.get());
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Safe safe
+                && safe.phase() == Anomaly.Safe.Phase.PVE_WAITING
+        ));
+        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(104L), Mockito.any());
+    }
+
+    @Test
+    void Given_DangerousIncompleteParty_When_Ready_Then_PartyNotFull() {
+        final var owner = withGroup(PersonageUtils.withId(personageId), groupId);
+        final var anomaly = new Anomaly.Dangerous.Gathering(105L, groupId, personageId);
+        final var event = launchedEvent(105L);
+        Mockito.when(launchedEventService.getById(105L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(105L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(105L))
+            .thenReturn(List.of(new EventParticipant(owner, Optional.empty())));
+
+        final var result = service.ready(105L, personageId);
+
+        Assertions.assertTrue(result.isLeft());
+        Assertions.assertEquals(AnomalyError.PartyNotFull.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    void Given_DangerousFullParty_When_Ready_Then_StartedSearching() {
+        final var anomaly = new Anomaly.Dangerous.Gathering(112L, groupId, personageId);
+        final var event = launchedEvent(112L);
+        Mockito.when(launchedEventService.getById(112L)).thenReturn(Optional.of(event));
+        Mockito.when(anomalyStorage.findByLaunchedEventId(112L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(112L)).thenReturn(members(5));
+        Mockito.when(gvgStorage.getRating(groupId)).thenReturn(1000);
+
+        final var result = service.ready(112L, personageId);
+
+        Assertions.assertTrue(result.isRight());
+        Assertions.assertInstanceOf(AnomalyService.AnomalyReadyResult.StartedSearching.class, result.get());
         Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
             updated instanceof Anomaly.Dangerous.Searching
         ));
-        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(103L), Mockito.any());
+        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(112L), Mockito.any());
+    }
+
+    @Test
+    void Given_SafeGatheringExpiredWithMembers_When_ProcessExpired_Then_StartedPveWaiting() {
+        final var anomaly = new Anomaly.Safe(
+            113L,
+            groupId,
+            personageId,
+            AnomalyPveTemplate.CRYSTAL_STORM,
+            Anomaly.Safe.Phase.GATHERING
+        );
+        final var event = launchedEvent(113L);
+        Mockito.when(anomalyStorage.findByLaunchedEventId(113L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(113L)).thenReturn(members(2));
+        Mockito.when(launchedEventService.getById(113L)).thenReturn(Optional.of(event));
+
+        final var result = service.processExpired(event);
+
+        Assertions.assertInstanceOf(EventResult.AnomalyResult.GatheringStarted.class, result);
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Safe safe
+                && safe.phase() == Anomaly.Safe.Phase.PVE_WAITING
+        ));
+        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(113L), Mockito.any());
+        Mockito.verify(launchedEventService, Mockito.never()).updateStatus(Mockito.anyLong(), Mockito.any());
+    }
+
+    @Test
+    void Given_DangerousGatheringExpiredIncomplete_When_ProcessExpired_Then_ExpiredGathering() {
+        final var anomaly = new Anomaly.Dangerous.Gathering(114L, groupId, personageId);
+        final var event = launchedEvent(114L);
+        Mockito.when(anomalyStorage.findByLaunchedEventId(114L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(114L)).thenReturn(members(3));
+
+        final var result = service.processExpired(event);
+
+        Assertions.assertEquals(EventResult.AnomalyResult.ExpiredGathering.INSTANCE, result);
+        Mockito.verify(launchedEventService).updateStatus(114L, EventStatus.EXPIRED);
+        Mockito.verify(anomalyStorage, Mockito.never()).update(Mockito.any());
+    }
+
+    @Test
+    void Given_DangerousGatheringExpiredFull_When_ProcessExpired_Then_StartedSearching() {
+        final var anomaly = new Anomaly.Dangerous.Gathering(115L, groupId, personageId);
+        final var event = launchedEvent(115L);
+        Mockito.when(anomalyStorage.findByLaunchedEventId(115L)).thenReturn(Optional.of(anomaly));
+        Mockito.when(personageEventService.getParticipants(115L)).thenReturn(members(5));
+        Mockito.when(gvgStorage.getRating(groupId)).thenReturn(1000);
+        Mockito.when(launchedEventService.getById(115L)).thenReturn(Optional.of(event));
+
+        final var result = service.processExpired(event);
+
+        Assertions.assertInstanceOf(EventResult.AnomalyResult.GatheringStarted.class, result);
+        Mockito.verify(anomalyStorage).update(Mockito.argThat(updated ->
+            updated instanceof Anomaly.Dangerous.Searching
+        ));
+        Mockito.verify(launchedEventService).updateEndDate(Mockito.eq(115L), Mockito.any());
+        Mockito.verify(launchedEventService, Mockito.never()).updateStatus(Mockito.anyLong(), Mockito.any());
     }
 
     @Test

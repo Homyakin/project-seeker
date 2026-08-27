@@ -131,6 +131,7 @@ public enum CommandType {
     ANOMALY_CHOOSE_SAFE("anomalySafe", CheckType.EQUALS),
     ANOMALY_CHOOSE_DANGEROUS("anomalyDanger", CheckType.EQUALS),
     ANOMALY_JOIN("anomalyJoin", CheckType.EQUALS),
+    ANOMALY_READY("anomalyReady", CheckType.EQUALS),
     ANOMALY_BACK_OUTPOST("anomalyBackOutpost", CheckType.EQUALS),
     OUTPOST_BUILD_PICKER_OPEN("outpostBldPick", CheckType.EQUALS),
     OUTPOST_BUILD_SELECT_BUILDING("outpostBldSel", CheckType.EQUALS),

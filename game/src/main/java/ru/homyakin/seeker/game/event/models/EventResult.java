@@ -6,6 +6,7 @@ import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.battle.result.PersonageBattleResult;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPersonageResult;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyReward;
+import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuest;
 import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestResult;
 import ru.homyakin.seeker.game.event.raid.models.GeneratedItemResult;
@@ -82,6 +83,8 @@ public sealed interface EventResult {
         enum ExpiredGathering implements AnomalyResult { INSTANCE }
 
         enum AlreadyFinal implements AnomalyResult { INSTANCE }
+
+        record GatheringStarted(LaunchedEvent launchedEvent) implements AnomalyResult { }
 
         record BattleFinished(
             long launchedEventId,

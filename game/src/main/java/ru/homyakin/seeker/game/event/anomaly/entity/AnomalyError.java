@@ -15,6 +15,12 @@ public sealed interface AnomalyError {
 
     enum InvalidPhase implements AnomalyError { INSTANCE }
 
+    enum NotOwner implements AnomalyError { INSTANCE }
+
+    enum PartyNotFull implements AnomalyError { INSTANCE }
+
+    enum PartyEmpty implements AnomalyError { INSTANCE }
+
     enum RosterLocked implements AnomalyError { INSTANCE }
 
     enum AlreadyJoined implements AnomalyError { INSTANCE }

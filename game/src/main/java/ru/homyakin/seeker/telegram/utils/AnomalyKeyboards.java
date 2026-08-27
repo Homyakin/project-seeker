@@ -40,6 +40,11 @@ public final class AnomalyKeyboards {
                 AnomalyLocalization.joinButton(language),
                 CommandType.ANOMALY_JOIN.getText() + id
             )
+            .addRow()
+            .addButton(
+                AnomalyLocalization.readyButton(language),
+                CommandType.ANOMALY_READY.getText() + id
+            )
             .build();
     }
 

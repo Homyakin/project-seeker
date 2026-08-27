@@ -150,6 +150,10 @@ public class AnomalyService {
         return withLock(launchedEventId, () -> joinLogic(launchedEventId, personageId));
     }
 
+    public Either<AnomalyError, AnomalyReadyResult> ready(long launchedEventId, PersonageId personageId) {
+        return withLock(launchedEventId, () -> readyLogic(launchedEventId, personageId));
+    }
+
     public EventResult processExpired(LaunchedEvent launchedEvent) {
         if (launchedEvent.isInFinalStatus()) {
             return EventResult.AnomalyResult.AlreadyFinal.INSTANCE;
@@ -162,16 +166,16 @@ public class AnomalyService {
         return switch (anomalyOpt.get()) {
             case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.PVE_WAITING ->
                 anomalyBattleService.fightPve(launchedEvent, safe);
+            case Anomaly.Safe safe ->
+                processExpiredSafeGathering(launchedEvent, safe);
             case Anomaly.Dangerous.Accepted accepted when accepted.winnerGroupId().isPresent() ->
                 EventResult.AnomalyResult.AlreadyFinal.INSTANCE;
             case Anomaly.Dangerous.Accepted accepted ->
                 anomalyBattleService.fight(launchedEvent, accepted);
             case Anomaly.Dangerous.Searching searching ->
                 anomalyBattleService.fightPveFallback(launchedEvent, searching.groupId());
-            case Anomaly.Safe _, Anomaly.Dangerous.Gathering _ -> {
-                launchedEventService.updateStatus(launchedEvent.id(), EventStatus.EXPIRED);
-                yield EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
-            }
+            case Anomaly.Dangerous.Gathering gathering ->
+                processExpiredDangerousGathering(launchedEvent, gathering);
         };
     }
 
@@ -247,21 +251,84 @@ public class AnomalyService {
         personageEventService.addPersonageToLaunchedEventAssumingLocked(
             new AddPersonageToEventRequest(event.id(), personageId, Optional.empty(), 0)
         );
-        if (sideParticipants.size() + 1 < config.partySize()) {
-            return Either.right(event);
-        }
-        return Either.right(startFromFullParty(event, anomaly));
+        return Either.right(event);
     }
 
-    private LaunchedEvent startFromFullParty(LaunchedEvent event, Anomaly anomaly) {
+    private Either<AnomalyError, AnomalyReadyResult> readyLogic(
+        long launchedEventId,
+        PersonageId personageId
+    ) {
+        final var launched = requireEvent(launchedEventId);
+        if (launched.isLeft()) {
+            return Either.left(launched.getLeft());
+        }
+        final var event = launched.get();
+        final var anomalyResult = requireAnomaly(event.id());
+        if (anomalyResult.isLeft()) {
+            return Either.left(anomalyResult.getLeft());
+        }
+        final var anomaly = anomalyResult.get();
+
         return switch (anomaly) {
-            case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING ->
-                startSafePveWaiting(event, safe);
-            case Anomaly.Dangerous.Gathering gathering ->
-                startDangerousSearching(event, gathering);
+            case Anomaly.Safe safe when safe.phase() == Anomaly.Safe.Phase.GATHERING -> {
+                if (!safe.isOwner(personageId)) {
+                    yield Either.left(AnomalyError.NotOwner.INSTANCE);
+                }
+                final var participants = personageEventService.getParticipants(event.id());
+                if (participants.isEmpty()) {
+                    yield Either.left(AnomalyError.PartyEmpty.INSTANCE);
+                }
+                yield Either.right(new AnomalyReadyResult.StartedPveWaiting(
+                    startSafePveWaiting(event, safe)
+                ));
+            }
+            case Anomaly.Dangerous.Gathering gathering -> {
+                if (!gathering.isOwner(personageId)) {
+                    yield Either.left(AnomalyError.NotOwner.INSTANCE);
+                }
+                final var participants = participantsOfGroup(
+                    personageEventService.getParticipants(event.id()),
+                    gathering.groupId()
+                );
+                if (participants.isEmpty()) {
+                    yield Either.left(AnomalyError.PartyEmpty.INSTANCE);
+                }
+                if (participants.size() < config.partySize()) {
+                    yield Either.left(AnomalyError.PartyNotFull.INSTANCE);
+                }
+                yield Either.right(new AnomalyReadyResult.StartedSearching(
+                    startDangerousSearching(event, gathering)
+                ));
+            }
             case Anomaly.Safe _, Anomaly.Dangerous.Searching _, Anomaly.Dangerous.Accepted _ ->
-                throw new IllegalStateException("Cannot start gathering from phase of event " + event.id());
+                Either.left(AnomalyError.InvalidPhase.INSTANCE);
         };
+    }
+
+    private EventResult processExpiredSafeGathering(LaunchedEvent event, Anomaly.Safe safe) {
+        final var participants = personageEventService.getParticipants(event.id());
+        if (participants.isEmpty()) {
+            launchedEventService.updateStatus(event.id(), EventStatus.EXPIRED);
+            return EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
+        }
+        return new EventResult.AnomalyResult.GatheringStarted(startSafePveWaiting(event, safe));
+    }
+
+    private EventResult processExpiredDangerousGathering(
+        LaunchedEvent event,
+        Anomaly.Dangerous.Gathering gathering
+    ) {
+        final var participants = participantsOfGroup(
+            personageEventService.getParticipants(event.id()),
+            gathering.groupId()
+        );
+        if (participants.size() < config.partySize()) {
+            launchedEventService.updateStatus(event.id(), EventStatus.EXPIRED);
+            return EventResult.AnomalyResult.ExpiredGathering.INSTANCE;
+        }
+        return new EventResult.AnomalyResult.GatheringStarted(
+            startDangerousSearching(event, gathering)
+        );
     }
 
     private LaunchedEvent startSafePveWaiting(LaunchedEvent event, Anomaly.Safe safe) {
@@ -336,5 +403,13 @@ public class AnomalyService {
     }
 
     public record ListParticipants(List<EventParticipant> list) {
+    }
+
+    public sealed interface AnomalyReadyResult {
+        record StartedPveWaiting(LaunchedEvent launchedEvent) implements AnomalyReadyResult {
+        }
+
+        record StartedSearching(LaunchedEvent launchedEvent) implements AnomalyReadyResult {
+        }
     }
 }

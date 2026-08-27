@@ -15,6 +15,7 @@ import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.group.GroupTgService;
+import ru.homyakin.seeker.telegram.utils.AnomalyKeyboards;
 import ru.homyakin.seeker.telegram.utils.EditMessageTextBuilder;
 import ru.homyakin.seeker.telegram.utils.InlineKeyboards;
 import ru.homyakin.seeker.telegram.utils.SendMessageBuilder;
@@ -97,6 +98,8 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
                 notifyPveBattleFinished(pve);
             case EventResult.AnomalyResult.BattleFinished battle ->
                 notifyBattleFinished(battle);
+            case EventResult.AnomalyResult.GatheringStarted started ->
+                editGroupEventsToCurrent(started.launchedEvent());
             case EventResult.AnomalyResult.ExpiredGathering _ ->
                 editGroupEventsToExpired(event.id());
             case EventResult.AnomalyResult.AlreadyFinal _ -> { }
@@ -143,6 +146,21 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
                     .replyMessageId(groupEvent.messageId())
                     .text(AnomalyLocalization.pveBattleResult(group.language(), result))
                     .keyboard(InlineKeyboards.battleVisualizerKeyboard(group.language(), link))
+                    .build()
+            );
+        });
+    }
+
+    private void editGroupEventsToCurrent(LaunchedEvent event) {
+        final var anomaly = anomalyService.findAnomaly(event.id()).orElseThrow();
+        groupEventService.getByLaunchedEventId(event.id()).forEach(groupEvent -> {
+            final var group = groupTgService.getOrCreate(groupEvent.groupId());
+            telegramSender.send(
+                EditMessageTextBuilder.builder()
+                    .chatId(group.id())
+                    .messageId(groupEvent.messageId())
+                    .text(eventText(group.language(), event, anomaly))
+                    .keyboard(AnomalyKeyboards.forEvent(group.language(), event.id(), anomaly))
                     .build()
             );
         });

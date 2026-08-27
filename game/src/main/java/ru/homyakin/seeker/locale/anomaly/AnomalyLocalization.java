@@ -330,6 +330,10 @@ public final class AnomalyLocalization {
         return resources.getOrDefault(language, AnomalyResource::joinButton);
     }
 
+    public static String readyButton(Language language) {
+        return resources.getOrDefault(language, AnomalyResource::readyButton);
+    }
+
     public static String backToOutpostButton(Language language) {
         return resources.getOrDefault(language, AnomalyResource::backToOutpostButton);
     }
@@ -350,8 +354,14 @@ public final class AnomalyLocalization {
                 resources.getOrDefault(language, AnomalyResource::errorActiveExists);
             case AnomalyError.NotGroupMember _ ->
                 resources.getOrDefault(language, AnomalyResource::errorNotMember);
+            case AnomalyError.NotOwner _ ->
+                resources.getOrDefault(language, AnomalyResource::errorNotOwner);
             case AnomalyError.InvalidPhase _ ->
                 resources.getOrDefault(language, AnomalyResource::errorInvalidPhase);
+            case AnomalyError.PartyNotFull _ ->
+                resources.getOrDefault(language, AnomalyResource::errorPartyNotFull);
+            case AnomalyError.PartyEmpty _ ->
+                resources.getOrDefault(language, AnomalyResource::errorPartyEmpty);
             case AnomalyError.RosterLocked _ ->
                 resources.getOrDefault(language, AnomalyResource::errorRosterLocked);
             case AnomalyError.AlreadyJoined _ ->
