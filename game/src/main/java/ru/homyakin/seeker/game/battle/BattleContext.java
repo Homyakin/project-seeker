@@ -1,7 +1,7 @@
 package ru.homyakin.seeker.game.battle;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,13 +16,13 @@ public class BattleContext {
     private final Map<UUID, BattlePersonage> secondAliveTeam;
 
     public BattleContext(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
-        this.firstAliveTeam = new HashMap<>();
+        this.firstAliveTeam = new LinkedHashMap<>();
         for (final var p : firstTeam) {
             if (p.isAlive()) {
                 firstAliveTeam.put(p.id(), p);
             }
         }
-        this.secondAliveTeam = new HashMap<>();
+        this.secondAliveTeam = new LinkedHashMap<>();
         for (final var p : secondTeam) {
             if (p.isAlive()) {
                 secondAliveTeam.put(p.id(), p);
@@ -156,9 +156,9 @@ public class BattleContext {
     }
 
     private static List<BattleLine> linesFromTeam(List<BattlePersonage> team, boolean firstTeam) {
-        final var front = new HashMap<UUID, BattlePersonage>();
-        final var mid = new HashMap<UUID, BattlePersonage>();
-        final var back = new HashMap<UUID, BattlePersonage>();
+        final var front = new LinkedHashMap<UUID, BattlePersonage>();
+        final var mid = new LinkedHashMap<UUID, BattlePersonage>();
+        final var back = new LinkedHashMap<UUID, BattlePersonage>();
         for (final var personage : team) {
             switch (personage.startPosition()) {
                 case FRONT -> front.put(personage.id(), personage);

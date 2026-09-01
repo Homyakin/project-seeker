@@ -17,8 +17,9 @@ import ru.homyakin.seeker.utils.TimeUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -92,13 +93,13 @@ public class BattlePersonage {
         return (int) Math.round(damageMitigationMultiplier(defenseType, attackType) * 100);
     }
 
-    private final UUID id = UUID.randomUUID();
+    private final UUID id = RandomUtils.randomUuid();
     private final Optional<String> name;
     private final int maxHealth;
     private final int powerMaxHealth;
     private final int powerSlotOneAttackSum;
     private int health;
-    private final Set<AttackType> attackTypes = new HashSet<>();
+    private final Set<AttackType> attackTypes = EnumSet.noneOf(AttackType.class);
     private final List<ItemSkill> itemSkills = new ArrayList<>();
     private final List<BattleItemInitSnapshot> itemSnapshots;
     private final List<BattleSkillInitSnapshot> skillSnapshots;
@@ -193,7 +194,7 @@ public class BattlePersonage {
         this.name = name;
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
-        var activeSkills = new HashMap<ActiveEnum, Integer>();
+        var activeSkills = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
         var totalCritChance = 0;
         var totalDodgeChance = 0;
         var totalCritMultiplier = BASE_CRIT_MULTIPLIER;
@@ -600,7 +601,7 @@ public class BattlePersonage {
         for (final var candidate : candidates) {
             referenceThreat = Math.max(referenceThreat, candidate.totalThreat());
         }
-        final var weightMap = new HashMap<BattlePersonage, Integer>();
+        final var weightMap = new LinkedHashMap<BattlePersonage, Integer>();
         for (final var candidate : candidates) {
             weightMap.put(
                 candidate,
@@ -754,6 +755,14 @@ public class BattlePersonage {
 
     public int maxHealth() {
         return maxHealth;
+    }
+
+    /**
+     * Health actually lost after mitigation, variance and overkill clamping.
+     * This intentionally differs from the legacy {@link BattlePersonageStats#damageTaken()} metric.
+     */
+    public long actualDamageTaken() {
+        return actualDamageTaken;
     }
 
     public int critChance() {

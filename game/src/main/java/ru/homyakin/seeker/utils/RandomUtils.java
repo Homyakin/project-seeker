@@ -6,8 +6,11 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.ToIntFunction;
+import java.util.function.Supplier;
 import java.util.random.RandomGenerator;
 
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
@@ -18,8 +21,27 @@ import ru.homyakin.seeker.utils.models.IntRange;
 
 public class RandomUtils {
     private static final Logger logger = LoggerFactory.getLogger(RandomUtils.class);
-    private static final RandomGenerator random = RandomGenerator.getDefault();
+    private static final RandomGenerator defaultRandom = RandomGenerator.getDefault();
     private static final AbstractRealDistribution characteristicsRandom = new NormalDistribution(0.5, 0.2);
+    private static final ThreadLocal<Random> scopedRandom = new ThreadLocal<>();
+
+    /**
+     * Runs the complete action with a deterministic, thread-confined random stream.
+     * Nested scopes restore the outer stream and exceptions never leak the seeded state.
+     */
+    public static <T> T withSeed(long seed, Supplier<T> action) {
+        final var previous = scopedRandom.get();
+        scopedRandom.set(new Random(seed));
+        try {
+            return action.get();
+        } finally {
+            if (previous == null) {
+                scopedRandom.remove();
+            } else {
+                scopedRandom.set(previous);
+            }
+        }
+    }
 
     public static Duration getRandomDuration(Duration minimum, Duration maximum) {
         return Duration.ofMillis(getInInterval(minimum.toMillis(), maximum.toMillis()));
@@ -33,18 +55,18 @@ public class RandomUtils {
         if (start >= end) {
             return start;
         }
-        return random.nextLong(start, end + 1);
+        return currentRandom().nextLong(start, end + 1);
     }
 
     public static int getInInterval(int start, int end) {
         if (start >= end) {
             return start;
         }
-        return random.nextInt(start, end + 1);
+        return currentRandom().nextInt(start, end + 1);
     }
 
     public static int getWithMax(int max) {
-        return random.nextInt(max);
+        return currentRandom().nextInt(max);
     }
 
     public static int getInPercentRange(int start, double percent) {
@@ -62,7 +84,7 @@ public class RandomUtils {
             return start;
         }
         return OffsetDateTime.of(
-            LocalDateTime.ofEpochSecond(random.nextLong(startSeconds, endSeconds), 0, start.getOffset()),
+            LocalDateTime.ofEpochSecond(currentRandom().nextLong(startSeconds, endSeconds), 0, start.getOffset()),
             start.getOffset()
         );
     }
@@ -78,15 +100,15 @@ public class RandomUtils {
     }
 
     public static <T> T getRandomElement(T[] array) {
-        return array[random.nextInt(0, array.length)];
+        return array[currentRandom().nextInt(0, array.length)];
     }
 
     public static <T> T getRandomElement(List<T> list) {
-        return list.get(random.nextInt(0, list.size()));
+        return list.get(currentRandom().nextInt(0, list.size()));
     }
 
     public static <T> T getRandomElement(Set<T> set) {
-        var value = random.nextInt(0, set.size());
+        var value = currentRandom().nextInt(0, set.size());
         for (final var element: set) {
             if (value == 0) {
                 return element;
@@ -133,21 +155,49 @@ public class RandomUtils {
 
     public static <T> List<T> shuffle(List<T> list) {
         final var modifiableList = new ArrayList<T>(list);
-        Collections.shuffle(modifiableList);
+        final var seeded = scopedRandom.get();
+        if (seeded == null) {
+            Collections.shuffle(modifiableList);
+        } else {
+            Collections.shuffle(modifiableList, seeded);
+        }
         return modifiableList;
     }
 
     public static boolean bool() {
-        return random.nextBoolean();
+        return currentRandom().nextBoolean();
+    }
+
+    /**
+     * Production keeps the JDK UUID source; a seeded scope produces deterministic RFC 4122 version-4 UUIDs.
+     */
+    public static UUID randomUuid() {
+        final var seeded = scopedRandom.get();
+        if (seeded == null) {
+            return UUID.randomUUID();
+        }
+        var mostSignificantBits = seeded.nextLong();
+        var leastSignificantBits = seeded.nextLong();
+        mostSignificantBits = mostSignificantBits & 0xffffffffffff0fffL | 0x0000000000004000L;
+        leastSignificantBits = leastSignificantBits & 0x3fffffffffffffffL | 0x8000000000000000L;
+        return new UUID(mostSignificantBits, leastSignificantBits);
     }
 
     private static double characteristicSampleFrom0To1() {
-        final var result = characteristicsRandom.sample();
+        final var seeded = scopedRandom.get();
+        final var result = seeded == null
+            ? characteristicsRandom.sample()
+            : seeded.nextGaussian(0.5, 0.2);
         if (result < 0) {
             return 0;
         } else if (result > 1) {
             return 1;
         }
         return result;
+    }
+
+    private static RandomGenerator currentRandom() {
+        final var seeded = scopedRandom.get();
+        return seeded == null ? defaultRandom : seeded;
     }
 }

@@ -1,6 +1,6 @@
 package ru.homyakin.seeker.game.battle;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ public class BattleLine {
     public BattleLine(boolean firstTeam, Position position, Map<UUID, BattlePersonage> battlePersonages) {
         this.firstTeam = firstTeam;
         this.position = position;
-        this.battlePersonages = new HashMap<>(battlePersonages);
+        this.battlePersonages = new LinkedHashMap<>(battlePersonages);
     }
 
     public boolean firstTeam() {

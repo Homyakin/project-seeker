@@ -15,6 +15,17 @@ public class Battle {
     private record Mover(BattlePersonage personage, Map<UUID, BattlePersonage> enemyAliveTeam) { }
 
     public BattleResult process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+        return process(firstTeam, secondTeam, Integer.MAX_VALUE);
+    }
+
+    public BattleResult process(
+        List<BattlePersonage> firstTeam,
+        List<BattlePersonage> secondTeam,
+        int maxRounds
+    ) {
+        if (maxRounds <= 0) {
+            throw new IllegalArgumentException("maxRounds must be positive");
+        }
         final var battleMap = new BattleContext(firstTeam, secondTeam);
         final var initState = captureInitState(battleMap, firstTeam, secondTeam);
         final var actionLog = new BattleActionLog();
@@ -24,6 +35,9 @@ public class Battle {
 
         int rounds = 0;
         while (!firstAliveTeam.isEmpty() && !secondAliveTeam.isEmpty()) {
+            if (rounds >= maxRounds) {
+                throw new IllegalStateException("Battle did not finish within %d rounds".formatted(maxRounds));
+            }
             ++rounds;
             actionLog.add(new BattleEvent.RoundStarted(rounds));
             final var movers = new ArrayList<Mover>();
