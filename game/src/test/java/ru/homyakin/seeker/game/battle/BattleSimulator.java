@@ -140,15 +140,15 @@ public class BattleSimulator {
         int winsBothAlive = 0;
 
 
-        System.out.println("WARRIOR " + warrior(Position.FRONT).power());
-        System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).power());
+        System.out.println("WARRIOR " + warrior(Position.FRONT).legacyPower());
+        System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).legacyPower());
 
         for (int i = 0; i < iterations; ++i) {
             final var firstTeam = List.of(warriorSkillItems(Position.FRONT));
             final var secondTeam = List.of(warrior(Position.FRONT));
 
-            //System.out.println(firstTeam.getFirst().power());
-            //System.out.println(secondTeam.getFirst().power());
+            //System.out.println(firstTeam.getFirst().legacyPower());
+            //System.out.println(secondTeam.getFirst().legacyPower());
 
             var result = new Battle().process(firstTeam, secondTeam);
 
@@ -210,11 +210,11 @@ public class BattleSimulator {
 
     @Test
     public void power() {
-        System.out.println("WARRIOR " + warrior(Position.FRONT).power());
-        // System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).power());
-        System.out.println("MAGE " + mage(Position.FRONT).power());
-        System.out.println("ASSASIN " + assassin(Position.FRONT).power());
-        System.out.println("ARCHER " + archer().power());
+        System.out.println("WARRIOR " + warrior(Position.FRONT).legacyPower());
+        // System.out.println("WARRIOR SKILL " + warriorSkillItems(Position.FRONT).legacyPower());
+        System.out.println("MAGE " + mage(Position.FRONT).legacyPower());
+        System.out.println("ASSASIN " + assassin(Position.FRONT).legacyPower());
+        System.out.println("ARCHER " + archer().legacyPower());
     }
 
     @Test

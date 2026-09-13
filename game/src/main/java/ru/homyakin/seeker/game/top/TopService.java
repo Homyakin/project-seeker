@@ -91,7 +91,7 @@ public class TopService {
                 personage.name(),
                 personage.badge(),
                 personage.tag(),
-                (int) battlePersonagesById.get(personage.id()).power()
+                (int) battlePersonagesById.get(personage.id()).legacyPower()
             ))
             .sorted(Comparator.comparingInt(TopPowerPersonagePosition::power).reversed())
             .collect(Collectors.toCollection(ArrayList::new));

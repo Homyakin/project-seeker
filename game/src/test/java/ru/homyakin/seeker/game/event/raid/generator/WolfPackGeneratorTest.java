@@ -30,12 +30,12 @@ class WolfPackGeneratorTest {
             .toList();
         final var powerBonus = 1.3;
         final var targetPower = personages.stream()
-            .mapToDouble(BattlePersonage::power)
+            .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus;
 
         final var enemies = generator.generate(personages, powerBonus);
         final var enemiesPower = enemies.stream()
-            .mapToDouble(BattlePersonage::power)
+            .mapToDouble(BattlePersonage::legacyPower)
             .sum();
 
         assertTrue(

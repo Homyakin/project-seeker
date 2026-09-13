@@ -40,7 +40,7 @@ public class AnomalySafePveGenerator {
 
     public List<BattlePersonage> generate(AnomalyPveTemplate template, List<BattlePersonage> players) {
         final int enemyCount = enemyCount(players.size());
-        final double targetPower = players.stream().mapToDouble(BattlePersonage::power).sum() * SAFE_POWER_RATIO;
+        final double targetPower = players.stream().mapToDouble(BattlePersonage::legacyPower).sum() * SAFE_POWER_RATIO;
         final double multiplier = characteristicsMultiplier(template, enemyCount, targetPower);
         final var positions = positionsFor(template.formation(), enemyCount);
         final var enemies = new ArrayList<BattlePersonage>(enemyCount);
@@ -165,7 +165,7 @@ public class AnomalySafePveGenerator {
 
     private double totalPower(AnomalyPveTemplate template, int enemyCount, double multiplier) {
         return positionsFor(template.formation(), enemyCount).stream()
-            .mapToDouble(position -> enemy(template, position, multiplier).power())
+            .mapToDouble(position -> enemy(template, position, multiplier).legacyPower())
             .sum();
     }
 

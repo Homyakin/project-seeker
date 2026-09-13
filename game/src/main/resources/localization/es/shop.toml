@@ -81,5 +81,7 @@ rollbackStormEnhance = """\
 La potencia de tormenta falló — el nivel bajó a +${enhance_level}. Se gastaron los fragmentos.
 
 ${enhance_item_info}"""
+staleStormEnhance = "El estado del objeto ha cambiado. Vuelve a abrir la información de mejora."
+stormEnhanceTechnicalLimit = "El objeto alcanzó el límite técnico de mejora. No se gastaron fragmentos."
 notBrokenItem = "Este objeto no está roto."
 emptyEnhance = "No hay mejoras disponibles por ahora."

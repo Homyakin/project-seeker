@@ -1,16 +1,20 @@
 package ru.homyakin.seeker.game.item.storm;
 
 import jakarta.annotation.PostConstruct;
+import java.math.BigInteger;
+import java.util.Set;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import ru.homyakin.seeker.game.models.StormShards;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 @ConfigurationProperties(prefix = "homyakin.seeker.item.storm-enhance")
 public class StormEnhanceConfig {
     private static volatile int activeBonusPercentPerLevel = 5;
 
     private int bonusPercentPerLevel = 5;
-    private int baseCost = 1;
-    private double costMultiplier = 2.0;
+    private int baseCost = 10;
+    private int costMultiplierNumerator = 5;
+    private int costMultiplierDenominator = 4;
 
     private int baseSuccessPercent = 100;
     private double successMultiplier = 0.75;
@@ -26,6 +30,7 @@ public class StormEnhanceConfig {
 
     @PostConstruct
     void activate() {
+        validateCostConfiguration();
         activeBonusPercentPerLevel = bonusPercentPerLevel;
     }
 
@@ -62,22 +67,73 @@ public class StormEnhanceConfig {
         return rollbackFromLevel;
     }
 
-    /**
-     * Cost to enhance from {@code currentLevel} to {@code currentLevel + 1}.
-     * Grows exponentially: {@code baseCost * costMultiplier^currentLevel * slots}.
-     */
-    public StormShards costForLevel(int currentLevel, int slots) {
+    public StormShards costForLevel(int currentLevel, Set<PersonageSlot> slots) {
         if (currentLevel < 0) {
             throw new IllegalArgumentException("Invalid enhance level: " + currentLevel);
         }
-        if (slots < 1) {
-            throw new IllegalArgumentException("Invalid slot count: " + slots);
+        final var maxStateLevel = maxPriceSupportedStateLevel();
+        if (currentLevel >= maxStateLevel) {
+            throw new ArithmeticException("Storm enhance price is not supported at level: " + currentLevel);
         }
-        final var cost = baseCost * Math.pow(costMultiplier, currentLevel) * slots;
-        if (Double.isNaN(cost) || Double.isInfinite(cost) || cost >= Integer.MAX_VALUE) {
-            return StormShards.from(Integer.MAX_VALUE);
+        final var quarters = StormEnhanceSlotCoefficients.quarters(slots);
+        final var fraction = priceFraction(currentLevel, quarters);
+        final var rounded = roundHalfUp(fraction.numerator(), fraction.denominator());
+        if (rounded.signum() < 1) {
+            return StormShards.from(1);
         }
-        return StormShards.from((int) Math.max(1, Math.round(cost)));
+        return StormShards.from(rounded.intValueExact());
+    }
+
+    /**
+     * The maximum state level for which every known non-empty slot mask has a representable price.
+     * Attempts are allowed only below the returned level.
+     */
+    public int maxPriceSupportedStateLevel() {
+        validateCostConfiguration();
+        var fraction = priceFraction(0, StormEnhanceSlotCoefficients.maxQuarters());
+        for (int level = 0; level < Integer.MAX_VALUE; level++) {
+            if (!roundsToSupportedCost(fraction.numerator(), fraction.denominator())) {
+                return level;
+            }
+            fraction = new PriceFraction(
+                fraction.numerator().multiply(BigInteger.valueOf(costMultiplierNumerator)),
+                fraction.denominator().multiply(BigInteger.valueOf(costMultiplierDenominator))
+            );
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    private PriceFraction priceFraction(int currentLevel, int slotQuarters) {
+        final var numerator = BigInteger.valueOf(baseCost)
+            .multiply(BigInteger.valueOf(slotQuarters))
+            .multiply(BigInteger.valueOf(costMultiplierNumerator).pow(currentLevel));
+        final var denominator = BigInteger.valueOf(4)
+            .multiply(BigInteger.valueOf(costMultiplierDenominator).pow(currentLevel));
+        return new PriceFraction(numerator, denominator);
+    }
+
+    private boolean roundsToSupportedCost(BigInteger numerator, BigInteger denominator) {
+        final var maximumDoubledPlusOne = BigInteger.valueOf(Integer.MAX_VALUE).shiftLeft(1).add(BigInteger.ONE);
+        return numerator.shiftLeft(1).compareTo(denominator.multiply(maximumDoubledPlusOne)) < 0;
+    }
+
+    private static BigInteger roundHalfUp(BigInteger numerator, BigInteger denominator) {
+        final var quotientAndRemainder = numerator.divideAndRemainder(denominator);
+        return quotientAndRemainder[1].shiftLeft(1).compareTo(denominator) >= 0
+            ? quotientAndRemainder[0].add(BigInteger.ONE)
+            : quotientAndRemainder[0];
+    }
+
+    private void validateCostConfiguration() {
+        if (baseCost < 1) {
+            throw new IllegalStateException("baseCost must be >= 1");
+        }
+        if (costMultiplierDenominator < 1) {
+            throw new IllegalStateException("costMultiplierDenominator must be >= 1");
+        }
+        if (costMultiplierNumerator <= costMultiplierDenominator) {
+            throw new IllegalStateException("cost multiplier must be greater than 1");
+        }
     }
 
     /**
@@ -161,11 +217,18 @@ public class StormEnhanceConfig {
         this.baseCost = baseCost;
     }
 
-    public void setCostMultiplier(double costMultiplier) {
-        if (costMultiplier < 1.0) {
-            throw new IllegalStateException("costMultiplier must be >= 1");
+    public void setCostMultiplierNumerator(int costMultiplierNumerator) {
+        if (costMultiplierNumerator < 1) {
+            throw new IllegalStateException("costMultiplierNumerator must be >= 1");
         }
-        this.costMultiplier = costMultiplier;
+        this.costMultiplierNumerator = costMultiplierNumerator;
+    }
+
+    public void setCostMultiplierDenominator(int costMultiplierDenominator) {
+        if (costMultiplierDenominator < 1) {
+            throw new IllegalStateException("costMultiplierDenominator must be >= 1");
+        }
+        this.costMultiplierDenominator = costMultiplierDenominator;
     }
 
     public void setBaseSuccessPercent(int baseSuccessPercent) {
@@ -229,5 +292,8 @@ public class StormEnhanceConfig {
             throw new IllegalStateException("rollbackGrowMultiplier must be >= 1");
         }
         this.rollbackGrowMultiplier = rollbackGrowMultiplier;
+    }
+
+    private record PriceFraction(BigInteger numerator, BigInteger denominator) {
     }
 }

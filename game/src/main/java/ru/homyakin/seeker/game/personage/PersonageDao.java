@@ -54,7 +54,6 @@ public class PersonageDao {
     private static final String UPDATE = """
         UPDATE personage
         SET name = :name, last_energy_change = :last_energy_change, money = :money,
-        storm_shards = :storm_shards,
         energy = :energy, effects = :effects, battle_position = :battle_position,
         targeting_tactic = :targeting_tactic,
         energy_recovery_notification_time = CASE
@@ -114,7 +113,6 @@ public class PersonageDao {
             .param("last_energy_change", personage.energy().lastChange())
             .param("energy", personage.energy().value())
             .param("money", personage.money().value())
-            .param("storm_shards", personage.stormShards().value())
             .param("effects", jsonUtils.mapToPostgresJson(personage.effects()))
             .param("battle_position", personage.position().name())
             .param("targeting_tactic", personage.targetingTactic().name())
@@ -124,6 +122,25 @@ public class PersonageDao {
             .param("has_full_energy", personage.energy().isFull())
             .param("energy_recovery_notification_time", personage.energy().energyRecoveryTime().orElse(null))
             .update();
+    }
+
+    public boolean lockForItemChange(PersonageId personageId) {
+        return jdbcClient.sql("SELECT id FROM personage WHERE id = :id FOR UPDATE")
+            .param("id", personageId.value())
+            .query((rs, _) -> rs.getLong("id"))
+            .optional()
+            .isPresent();
+    }
+
+    public boolean trySubtractStormShards(PersonageId personageId, StormShards stormShards) {
+        return jdbcClient.sql("""
+                UPDATE personage
+                SET storm_shards = storm_shards - :storm_shards
+                WHERE id = :id AND storm_shards >= :storm_shards
+                """)
+            .param("id", personageId.value())
+            .param("storm_shards", stormShards.value())
+            .update() == 1;
     }
 
     public void clearEnergyRecoveryNotificationTime(PersonageId id) {
@@ -166,6 +183,17 @@ public class PersonageDao {
             WHERE id = :id
             """;
         jdbcTemplate.batchUpdate(sql, parameters.toArray(new SqlParameterSource[0]));
+    }
+
+    public void addStormShards(PersonageId personageId, StormShards stormShards) {
+        jdbcClient.sql("""
+                UPDATE personage
+                SET storm_shards = storm_shards + :storm_shards
+                WHERE id = :id
+                """)
+            .param("id", personageId.value())
+            .param("storm_shards", stormShards.value())
+            .update();
     }
 
     public Optional<Personage> getById(PersonageId id) {

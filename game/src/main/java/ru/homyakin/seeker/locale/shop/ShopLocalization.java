@@ -326,6 +326,14 @@ public class ShopLocalization {
         );
     }
 
+    public static String staleStormEnhance(Language language) {
+        return resources.getOrDefault(language, ShopResource::staleStormEnhance);
+    }
+
+    public static String stormEnhanceTechnicalLimit(Language language) {
+        return resources.getOrDefault(language, ShopResource::stormEnhanceTechnicalLimit);
+    }
+
     private static String enhance(Language language, PersonageItem item, Money price) {
         final var params = new HashMap<String, Object>();
         params.put("price_value", price.value());
@@ -353,7 +361,10 @@ public class ShopLocalization {
         params.put("next_level", action.nextLevel());
         params.put(
             "storm_enhance_command",
-            CommandType.CONFIRM_STORM_ENHANCE.getText() + TextConstants.TG_COMMAND_DELIMITER + item.id()
+            CommandType.CONFIRM_STORM_ENHANCE.getText()
+                + TextConstants.TG_COMMAND_DELIMITER + item.id()
+                + TextConstants.TG_COMMAND_DELIMITER + action.currentLevel()
+                + TextConstants.TG_COMMAND_DELIMITER + action.currentRevision()
         );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::stormEnhance),

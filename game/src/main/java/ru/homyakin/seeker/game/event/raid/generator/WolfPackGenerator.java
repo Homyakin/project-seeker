@@ -47,7 +47,7 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
             groupSizeScaling = 1.1 + MathUtils.log(10, wolfsCount - 13) * 0.045;
         }
         final var targetPower = personages.stream()
-            .mapToDouble(BattlePersonage::power)
+            .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus * groupSizeScaling;
         final var characteristicsMultiplier = characteristicsMultiplier(wolfsCount, targetPower);
 
@@ -90,7 +90,8 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
     }
 
     private double totalRaidPower(int wolfsCount, double characteristicsMultiplier) {
-        return alpha(characteristicsMultiplier).power() + wolf(characteristicsMultiplier).power() * wolfsCount;
+        return alpha(characteristicsMultiplier).legacyPower()
+            + wolf(characteristicsMultiplier).legacyPower() * wolfsCount;
     }
 
     private BattlePersonage alpha(double characteristicsMultiplier) {

@@ -7,6 +7,7 @@ import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
+import ru.homyakin.seeker.game.item.models.ImpactStrength;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
@@ -44,46 +45,17 @@ import ru.homyakin.seeker.utils.ProbabilityPicker;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 public class BattlePersonage {
-    private static final double BASE_CRIT_MULTIPLIER = 1.2;
-    private static final int REQUIRED_SPEED = 1000;
     private static final int THREAT_FROM_DAMAGE = 5;
     private static final int THREAT_LOSE_FROM_DAMAGE = 8;
     private static final int THREAT_FROM_KILL = THREAT_FROM_DAMAGE * 10;
     private static final int RANGE_PERCENT = 10;
-    private static final double DEFENSE_COEF = 500;
-    private static final Map<DefenseType, Map<AttackType, Double>> DAMAGE_MATRIX = Map.of(
-        DefenseType.CLOTH, Map.of(
-            AttackType.SLASH, 0.75,
-            AttackType.BLUNT, 1.25,
-            AttackType.PIERCE, 0.9,
-            AttackType.MAGICAL, 1.1
-        ),
-        DefenseType.LEATHER, Map.of(
-            AttackType.SLASH, 0.9,
-            AttackType.BLUNT, 1.1,
-            AttackType.PIERCE, 1.25,
-            AttackType.MAGICAL, 0.75
-        ),
-        DefenseType.PLATE, Map.of(
-            AttackType.SLASH, 1.25,
-            AttackType.BLUNT, 0.75,
-            AttackType.PIERCE, 1.1,
-            AttackType.MAGICAL, 0.9
-        ),
-        DefenseType.ARCANE, Map.of(
-            AttackType.SLASH, 1.1,
-            AttackType.BLUNT, 0.9,
-            AttackType.PIERCE, 0.75,
-            AttackType.MAGICAL, 1.25
-        )
-    );
 
     /**
      * Effective defense weight for {@code defenseType} against {@code attackType} (see {@link #refreshDefenseReduce()}).
      * Package-private for tests in this package.
      */
     static double damageMitigationMultiplier(DefenseType defenseType, AttackType attackType) {
-        return DAMAGE_MATRIX.get(defenseType).get(attackType);
+        return CombatRules.defenseWeight(defenseType, attackType);
     }
 
     /**
@@ -96,8 +68,9 @@ public class BattlePersonage {
     private final UUID id = RandomUtils.randomUuid();
     private final Optional<String> name;
     private final int maxHealth;
-    private final int powerMaxHealth;
-    private final int powerSlotOneAttackSum;
+    private final int legacyPowerMaxHealth;
+    private final int legacyPowerSlotOneAttackSum;
+    private final int impactStrength;
     private int health;
     private final Set<AttackType> attackTypes = EnumSet.noneOf(AttackType.class);
     private final List<ItemSkill> itemSkills = new ArrayList<>();
@@ -197,7 +170,7 @@ public class BattlePersonage {
         var activeSkills = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
         var totalCritChance = 0;
         var totalDodgeChance = 0;
-        var totalCritMultiplier = BASE_CRIT_MULTIPLIER;
+        var totalCritMultiplier = CombatRules.BASE_CRIT_MULTIPLIER;
         var totalSpeed = 0;
         var totalBaseThreat = 0;
         final var builtItemSnapshots = new ArrayList<BattleItemInitSnapshot>();
@@ -207,8 +180,8 @@ public class BattlePersonage {
             totalCritMultiplier += item.critMultiplier();
             totalSpeed += item.speed();
             totalBaseThreat += item.baseThreat();
-            if (item.itemAttack().isPresent()) {
-                maxRange = Math.max(maxRange, item.itemAttack().get().range());
+            for (final var attack : item.itemAttacks()) {
+                maxRange = Math.max(maxRange, attack.maxRange());
             }
             if (item.modifier().isPresent() && item.rarity() != ItemRarity.COMMON) {
                 activeSkills.merge(item.modifier().get().activeEnum(), item.skillPoints(), Integer::sum);
@@ -251,10 +224,9 @@ public class BattlePersonage {
 
         this.rangeAttack = newRangeAttackSlotMaps(maxRange);
         for (final var item : items) {
-            if (item.itemAttack().isPresent()) {
-                final var attack = item.itemAttack().get();
+            for (final var attack : item.itemAttacks()) {
                 attackTypes.add(attack.attackType());
-                for (int i = 1; i <= attack.range(); i++) {
+                for (int i = attack.minRange(); i <= attack.maxRange(); i++) {
                     rangeAttack[i].merge(
                         attack.attackType(),
                         attack.attack(),
@@ -283,11 +255,12 @@ public class BattlePersonage {
         this.dodgeChance = totalDodgeChance;
         this.speed = totalSpeed;
         this.baseThreat = totalBaseThreat;
+        this.impactStrength = ImpactStrength.fromItems(items);
         this.startPosition = startPosition;
         this.baseMaxRange = maxRange;
-        this.cumulativeSpeed = RandomUtils.getInInterval(0, REQUIRED_SPEED / 2);
-        this.powerMaxHealth = this.health;
-        this.powerSlotOneAttackSum = slotOneAttackSum();
+        this.cumulativeSpeed = RandomUtils.getInInterval(0, CombatRules.INITIATIVE_THRESHOLD / 2);
+        this.legacyPowerMaxHealth = this.health;
+        this.legacyPowerSlotOneAttackSum = slotOneAttackSum();
         if (now != null && !effects.isEmpty()) {
             applyPersonageEffects(items, effects.activeAt(now));
         }
@@ -508,8 +481,8 @@ public class BattlePersonage {
         // Clear stale flag if this personage was queued last round but never moved.
         readyToAct = false;
         cumulativeSpeed += speed;
-        if (cumulativeSpeed >= REQUIRED_SPEED) {
-            cumulativeSpeed -= REQUIRED_SPEED;
+        if (cumulativeSpeed >= CombatRules.INITIATIVE_THRESHOLD) {
+            cumulativeSpeed -= CombatRules.INITIATIVE_THRESHOLD;
             readyToAct = true;
             log.add(new BattleEvent.InitiativeAfterTick(id, cumulativeSpeed, true, round));
             return true;
@@ -700,15 +673,7 @@ public class BattlePersonage {
 
     private void refreshDefenseReduce() {
         for (AttackType attackType : AttackType.values()) {
-            double effectiveDef = 0;
-            for (var entry : defense.entrySet()) {
-                double multiplier = DAMAGE_MATRIX.get(entry.getKey()).get(attackType);
-                effectiveDef += entry.getValue() * multiplier;
-            }
-            defenseReduce.put(
-                attackType,
-                1 - (effectiveDef / (effectiveDef + DEFENSE_COEF))
-            );
+            defenseReduce.put(attackType, CombatRules.damageTakenMultiplier(defense, attackType));
         }
     }
 
@@ -823,7 +788,7 @@ public class BattlePersonage {
      * must check that flag separately.
      */
     public double ticksUntilNextTurn() {
-        return (double) (REQUIRED_SPEED - cumulativeSpeed) / Math.max(1, speed);
+        return (double) (CombatRules.INITIATIVE_THRESHOLD - cumulativeSpeed) / Math.max(1, speed);
     }
 
     /**
@@ -869,11 +834,15 @@ public class BattlePersonage {
      * Package-visible for initiative-based targeting tests.
      */
     void setInitiativeGaugeForTest(int gauge) {
-        this.cumulativeSpeed = Math.max(0, Math.min(REQUIRED_SPEED - 1, gauge));
+        this.cumulativeSpeed = Math.max(0, Math.min(CombatRules.INITIATIVE_THRESHOLD - 1, gauge));
     }
 
     public int totalThreat() {
         return baseThreat + bonusThreat;
+    }
+
+    public int impactStrength() {
+        return impactStrength;
     }
 
     public DamageRoll rollDamage(int strikeDistance) {
@@ -933,8 +902,8 @@ public class BattlePersonage {
         skillDamageCount++;
     }
 
-    public double power() {
-        final var slotOneAttackSum = Math.max(1, powerSlotOneAttackSum);
+    public double legacyPower() {
+        final var slotOneAttackSum = Math.max(1, legacyPowerSlotOneAttackSum);
         final var avgDamageTakenMultiplier = defenseReduce.values().stream()
             .mapToDouble(Double::doubleValue)
             .average()
@@ -964,12 +933,12 @@ public class BattlePersonage {
             }
         }
 
-        final var healthFactor = Math.max(1, powerMaxHealth + hpBonus);
+        final var healthFactor = Math.max(1, legacyPowerMaxHealth + hpBonus);
         final var damageFactor = Math.max(1, effectiveDamage + offensiveDps);
         final var speedFactor = Math.max(1, speed);
 
         return healthFactor * damageFactor / avgDamageTakenMultiplier / hitChanceMultiplier
-            * ((double) speedFactor / REQUIRED_SPEED);
+            * ((double) speedFactor / CombatRules.INITIATIVE_THRESHOLD);
     }
 
     private record Target(

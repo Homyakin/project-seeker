@@ -75,7 +75,7 @@ public class MaggeeseFlockGenerator implements RaidBattlePersonageGenerator {
             groupSizeScaling = 1.0 + MathUtils.log(4, flockSize) * GROUP_SCALE_COEF;
         }
         final var targetPower = personages.stream()
-            .mapToDouble(BattlePersonage::power)
+            .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus * groupSizeScaling * POWER_CALIBRATION_CORRECTION;
         final var multiplier = characteristicsMultiplier(flockSize, targetPower);
 
@@ -175,7 +175,7 @@ public class MaggeeseFlockGenerator implements RaidBattlePersonageGenerator {
     private double totalRaidPower(int flockSize, double m) {
         final int frontCount = flockSize / 2;
         final int midCount = flockSize - frontCount;
-        return charger(m).power() * frontCount + mageese(m).power() * midCount;
+        return charger(m).legacyPower() * frontCount + mageese(m).legacyPower() * midCount;
     }
 
     private int multiply(int value, double multiplier) {

@@ -1,7 +1,9 @@
 package ru.homyakin.seeker.game.item.models;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import ru.homyakin.seeker.game.item.storm.ItemProgression;
 import ru.homyakin.seeker.game.item.storm.StormEnhanceConfig;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 
@@ -19,12 +21,15 @@ public record Item(
         return enhanceLevel == 0 ? this : new Item(object, modifier, rarity, 0);
     }
 
-    public Optional<ItemAttack> itemAttack() {
-        return object.attack().map(attack -> new ItemAttack(
-            attack.attackType(),
-            attack.range(),
-            applyEnhance(attack.attack())
-        ));
+    public List<ItemAttack> itemAttacks() {
+        return object.attacks().stream()
+            .map(attack -> new ItemAttack(
+                attack.attackType(),
+                attack.minRange(),
+                attack.maxRange(),
+                applyEnhance(attack.attack())
+            ))
+            .toList();
     }
 
     public Optional<ItemDefense> itemDefense() {
@@ -58,18 +63,42 @@ public record Item(
         return object.baseThreat();
     }
 
+    public int impact() {
+        return object.impact();
+    }
+
     public int skillPoints() {
         return rarity.skillPoints() * object.slots().size();
     }
 
     public Characteristics visibleCharacteristics() {
-        final var attack = itemAttack().map(ItemAttack::attack).orElse(0);
+        final var attack = maxAttackAtOneDistance(itemAttacks());
         final var defense = itemDefense().map(ItemDefense::defense).orElse(0);
         return new Characteristics(health(), attack, defense);
     }
 
     private int applyEnhance(int base) {
-        return StormEnhanceConfig.applyConfiguredBonus(base, enhanceLevel);
+        return switch (object.progressionVersion()) {
+            case LEGACY -> StormEnhanceConfig.applyConfiguredBonus(base, enhanceLevel);
+            case V1 -> ItemProgression.valueAtLevel(base, enhanceLevel);
+        };
+    }
+
+    private static int maxAttackAtOneDistance(List<ItemAttack> attacks) {
+        var result = 0;
+        for (final var point : attacks.stream()
+            .flatMapToInt(attack -> java.util.stream.IntStream.of(attack.minRange(), attack.maxRange()))
+            .distinct()
+            .toArray()) {
+            var atPoint = 0;
+            for (final var attack : attacks) {
+                if (attack.isAvailableAt(point)) {
+                    atPoint = Math.addExact(atPoint, attack.attack());
+                }
+            }
+            result = Math.max(result, atPoint);
+        }
+        return result;
     }
 
     public static Item weapon(

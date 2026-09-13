@@ -2,10 +2,13 @@ package ru.homyakin.seeker.game.shop;
 
 import io.vavr.control.Either;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.item.storm.StormEnhanceConfig;
+import ru.homyakin.seeker.game.item.storm.StormEnhanceOutcomePicker;
+import ru.homyakin.seeker.game.item.storm.StormEnhanceTechnicalLimit;
 import ru.homyakin.seeker.game.models.Money;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -17,12 +20,8 @@ import ru.homyakin.seeker.game.shop.models.EnhanceAction;
 import ru.homyakin.seeker.game.shop.models.EnhanceOutcome;
 import ru.homyakin.seeker.game.shop.models.EnhanceResult;
 import ru.homyakin.seeker.game.shop.models.StormEnhanceAction;
-import ru.homyakin.seeker.game.shop.models.StormEnhanceOutcome;
 import ru.homyakin.seeker.game.shop.models.StormEnhanceResult;
-import ru.homyakin.seeker.utils.ProbabilityPicker;
-import ru.homyakin.seeker.utils.RandomUtils;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,17 +30,23 @@ public class EnhanceService {
     private final PersonageService personageService;
     private final ShopConfig config;
     private final StormEnhanceConfig stormEnhanceConfig;
+    private final StormEnhanceTechnicalLimit stormEnhanceTechnicalLimit;
+    private final StormEnhanceOutcomePicker stormEnhanceOutcomePicker;
 
     public EnhanceService(
         ItemService itemService,
         PersonageService personageService,
         ShopConfig config,
-        StormEnhanceConfig stormEnhanceConfig
+        StormEnhanceConfig stormEnhanceConfig,
+        StormEnhanceTechnicalLimit stormEnhanceTechnicalLimit,
+        StormEnhanceOutcomePicker stormEnhanceOutcomePicker
     ) {
         this.itemService = itemService;
         this.personageService = personageService;
         this.config = config;
         this.stormEnhanceConfig = stormEnhanceConfig;
+        this.stormEnhanceTechnicalLimit = stormEnhanceTechnicalLimit;
+        this.stormEnhanceOutcomePicker = stormEnhanceOutcomePicker;
     }
 
     public Either<NoSuchItemAtPersonage, AvailableAction> availableAction(PersonageId personageId, long itemId) {
@@ -78,46 +83,59 @@ public class EnhanceService {
             .map(enhanced -> new EnhanceResult(availableAction(enhanced), outcome));
     }
 
-    public Either<StormEnhanceError, StormEnhanceResult> stormEnhance(PersonageId personageId, long itemId) {
-        final var item = itemService.getPersonageItem(personageId, itemId);
+    @Transactional
+    public Either<StormEnhanceError, StormEnhanceResult> stormEnhance(
+        PersonageId personageId,
+        long itemId,
+        int expectedLevel,
+        long expectedRevision
+    ) {
+        personageService.lockForItemChange(personageId);
+        final var item = itemService.getPersonageItemForUpdate(personageId, itemId);
         if (item.isEmpty()) {
             return Either.left(StormEnhanceError.NoSuchItem.INSTANCE);
         }
         final var currentLevel = item.get().enhanceLevel();
-        final var cost = stormEnhanceConfig.costForLevel(currentLevel, item.get().object().slots().size());
+        if (currentLevel != expectedLevel || item.get().enhanceRevision() != expectedRevision) {
+            return Either.left(new StormEnhanceError.StaleItemState(currentLevel, item.get().enhanceRevision()));
+        }
+        final var maxLevel = stormEnhanceTechnicalLimit.maxStateLevel(item.get().object());
+        if (currentLevel >= maxLevel || item.get().enhanceRevision() == Long.MAX_VALUE) {
+            return Either.left(new StormEnhanceError.TechnicalLimitReached(maxLevel));
+        }
+        final var cost = stormEnhanceConfig.costForLevel(currentLevel, item.get().object().slots());
         final var probabilities = stormEnhanceConfig.probabilitiesForLevel(currentLevel);
         final var takeResult = personageService.tryTakeStormShards(personageId, cost);
         if (takeResult.isLeft()) {
             return Either.left(new StormEnhanceError.NotEnoughStormShards(cost));
         }
-        final var outcome = new ProbabilityPicker<>(Map.of(
-            StormEnhanceOutcome.SUCCESS, probabilities.successPercent(),
-            StormEnhanceOutcome.FAILURE, probabilities.failurePercent(),
-            StormEnhanceOutcome.ROLLBACK, probabilities.rollbackPercent()
-        )).pick(RandomUtils::getWithMax);
-        return switch (outcome) {
-            case SUCCESS -> {
-                final var enhanced = itemService.stormEnhance(item.get());
-                yield Either.right(new StormEnhanceResult(availableAction(enhanced), StormEnhanceOutcome.SUCCESS));
-            }
-            case FAILURE -> Either.right(new StormEnhanceResult(availableAction(item.get()), StormEnhanceOutcome.FAILURE));
-            case ROLLBACK -> {
-                final var rolledBack = itemService.stormEnhanceRollback(item.get());
-                yield Either.right(new StormEnhanceResult(availableAction(rolledBack), StormEnhanceOutcome.ROLLBACK));
-            }
+        final var outcome = stormEnhanceOutcomePicker.pick(probabilities);
+        final var nextLevel = switch (outcome) {
+            case SUCCESS -> Math.incrementExact(currentLevel);
+            case FAILURE -> currentLevel;
+            case ROLLBACK -> Math.max(0, currentLevel - 1);
         };
+        final var enhanced = itemService.applyStormEnhance(item.get(), nextLevel);
+        return Either.right(new StormEnhanceResult(availableAction(enhanced), outcome));
     }
 
     private AvailableAction availableAction(PersonageItem item) {
         final Optional<EnhanceAction> rarityAction = item.rarity() == ItemRarity.LEGENDARY
             ? Optional.empty()
             : Optional.of(new EnhanceAction.Enhance(enhancePrice(item)));
-        final Optional<StormEnhanceAction> stormAction = Optional.of(new StormEnhanceAction(
-            stormEnhanceConfig.costForLevel(item.enhanceLevel(), item.object().slots().size()),
-            stormEnhanceConfig.probabilitiesForLevel(item.enhanceLevel()),
-            item.enhanceLevel(),
-            item.enhanceLevel() + 1
-        ));
+        final var maxLevel = stormEnhanceTechnicalLimit.maxStateLevel(item.object());
+        final Optional<StormEnhanceAction> stormAction;
+        if (item.enhanceLevel() >= maxLevel || item.enhanceRevision() == Long.MAX_VALUE) {
+            stormAction = Optional.empty();
+        } else {
+            stormAction = Optional.of(new StormEnhanceAction(
+                stormEnhanceConfig.costForLevel(item.enhanceLevel(), item.object().slots()),
+                stormEnhanceConfig.probabilitiesForLevel(item.enhanceLevel()),
+                item.enhanceLevel(),
+                item.enhanceLevel() + 1,
+                item.enhanceRevision()
+            ));
+        }
         return new AvailableAction(rarityAction, stormAction, item);
     }
 

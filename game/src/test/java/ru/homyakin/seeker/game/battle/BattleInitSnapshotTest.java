@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.item.models.ItemProgressionVersion;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -23,7 +24,7 @@ public class BattleInitSnapshotTest {
     @Test
     public void initSnapshotIncludesItemsSkillsAndCharacteristics() {
         final var items = List.of(
-            catalogWeapon("sword", AttackType.SLASH, 1, 150, ActiveEnum.KNOCKBACK, ItemRarity.COMMON),
+            catalogSplitWeapon(),
             catalogArmor("cuirass", DefenseType.PLATE, 200, 800, ActiveEnum.BLEEDING, ItemRarity.LEGENDARY),
             catalogArmor("greaves", DefenseType.PLATE, 50, 500, ActiveEnum.BLEEDING, ItemRarity.LEGENDARY)
         );
@@ -54,10 +55,38 @@ public class BattleInitSnapshotTest {
         Assertions.assertTrue(snap.skills().getFirst().points() > 0);
         Assertions.assertFalse(snap.attacksByRange().isEmpty());
         Assertions.assertEquals(150, snap.attacksByRange().getFirst().attack().get(AttackType.SLASH));
+        Assertions.assertEquals(40, snap.attacksByRange().get(1).attack().get(AttackType.MAGICAL));
+        Assertions.assertEquals(40, snap.attacksByRange().get(2).attack().get(AttackType.MAGICAL));
+        Assertions.assertEquals(87, snap.impactStrength());
         Assertions.assertEquals(250, snap.defenses().get(DefenseType.PLATE));
         Assertions.assertTrue(snap.damageTakenMultipliers().containsKey(AttackType.SLASH));
         Assertions.assertTrue(snap.damageTakenMultipliers().get(AttackType.SLASH) > 0);
         Assertions.assertTrue(snap.damageTakenMultipliers().get(AttackType.SLASH) <= 1);
+    }
+
+    private static Item catalogSplitWeapon() {
+        return new Item(
+            new ItemObject(
+                "sword",
+                Set.of(PersonageSlot.MAIN_HAND),
+                List.of(
+                    new ItemAttack(AttackType.SLASH, 1, 1, 150),
+                    new ItemAttack(AttackType.MAGICAL, 2, 3, 40)
+                ),
+                Optional.empty(),
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                7,
+                ItemProgressionVersion.LEGACY,
+                Map.of()
+            ),
+            Optional.of(new Modifier(ActiveEnum.KNOCKBACK)),
+            ItemRarity.COMMON
+        );
     }
 
     private static Item catalogWeapon(

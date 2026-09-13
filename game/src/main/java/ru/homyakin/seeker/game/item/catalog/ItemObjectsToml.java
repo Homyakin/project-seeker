@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
+import ru.homyakin.seeker.game.item.models.ItemProgressionVersion;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.Localized;
@@ -39,6 +40,7 @@ public record ItemObjectsToml(List<SavingItemObject> item) {
         String code,
         Set<PersonageSlot> slots,
         Optional<SavingItemAttack> attack,
+        List<SavingItemAttack> attacks,
         Optional<SavingItemDefense> defense,
         int health,
         int critChance,
@@ -46,13 +48,15 @@ public record ItemObjectsToml(List<SavingItemObject> item) {
         double critMultiplier,
         int speed,
         int baseThreat,
+        int impact,
+        ItemProgressionVersion progressionVersion,
         Map<Language, ItemObjectLocale> locales
     ) implements Localized<ItemObjectLocale> {
-        ItemObject toItemObject() {
+        public ItemObject toItemObject() {
             return new ItemObject(
                 code,
                 slots,
-                attack.map(a -> new ItemAttack(a.attackType(), a.range(), a.attack())),
+                attackParts(),
                 defense.map(d -> new ItemDefense(d.defenseType(), d.defense())),
                 health,
                 critChance,
@@ -60,16 +64,43 @@ public record ItemObjectsToml(List<SavingItemObject> item) {
                 critMultiplier,
                 speed,
                 baseThreat,
+                impact,
+                progressionVersion == null ? ItemProgressionVersion.LEGACY : progressionVersion,
                 locales
             );
+        }
+
+        private List<ItemAttack> attackParts() {
+            final var explicitParts = attacks == null ? List.<SavingItemAttack>of() : attacks;
+            if (attack.isPresent() && !explicitParts.isEmpty()) {
+                throw new IllegalArgumentException("Item object must use either attack or attacks: " + code);
+            }
+            if (attack.isPresent()) {
+                return List.of(attack.get().toItemAttack());
+            }
+            return explicitParts.stream().map(SavingItemAttack::toItemAttack).toList();
         }
     }
 
     public record SavingItemAttack(
         AttackType attackType,
-        int range,
+        Integer range,
+        Integer minRange,
+        Integer maxRange,
         int attack
     ) {
+        ItemAttack toItemAttack() {
+            if (range != null) {
+                if (minRange != null || maxRange != null) {
+                    throw new IllegalArgumentException("Legacy range cannot be combined with minRange/maxRange");
+                }
+                return new ItemAttack(attackType, range, attack);
+            }
+            if (minRange == null || maxRange == null) {
+                throw new IllegalArgumentException("Attack part must define minRange and maxRange");
+            }
+            return new ItemAttack(attackType, minRange, maxRange, attack);
+        }
     }
 
     public record SavingItemDefense(

@@ -13,7 +13,7 @@ public class ItemStormEnhanceTest {
         final var item = baseItem(100, 50, 20, 2);
 
         Assertions.assertEquals(110, item.health());
-        Assertions.assertEquals(55, item.itemAttack().orElseThrow().attack());
+        Assertions.assertEquals(55, item.itemAttacks().getFirst().attack());
         Assertions.assertEquals(22, item.itemDefense().orElseThrow().defense());
     }
 
@@ -22,7 +22,7 @@ public class ItemStormEnhanceTest {
         final var item = baseItem(100, 50, 20, 3).withoutStormEnhance();
 
         Assertions.assertEquals(100, item.health());
-        Assertions.assertEquals(50, item.itemAttack().orElseThrow().attack());
+        Assertions.assertEquals(50, item.itemAttacks().getFirst().attack());
         Assertions.assertEquals(20, item.itemDefense().orElseThrow().defense());
         Assertions.assertEquals(0, item.enhanceLevel());
     }

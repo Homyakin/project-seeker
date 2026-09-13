@@ -1,23 +1,44 @@
 package ru.homyakin.seeker.game.item.storm;
 
+import java.util.EnumSet;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 
 public class StormEnhanceConfigTest {
 
     @Test
-    void Given_DefaultConfig_When_CostForLevel_Then_ExponentialTimesSlots() {
+    void Given_DefaultConfig_When_CostForLevel_Then_UsesExactSlotCoefficients() {
         final var config = new StormEnhanceConfig();
 
-        Assertions.assertEquals(1, config.costForLevel(0, 1).value());
-        Assertions.assertEquals(2, config.costForLevel(1, 1).value());
-        Assertions.assertEquals(4, config.costForLevel(2, 1).value());
-        Assertions.assertEquals(8, config.costForLevel(3, 1).value());
-        Assertions.assertEquals(16, config.costForLevel(4, 1).value());
+        Assertions.assertEquals(40, config.costForLevel(0, Set.of(PersonageSlot.MAIN_HAND)).value());
+        Assertions.assertEquals(13, config.costForLevel(0, Set.of(PersonageSlot.OFF_HAND)).value());
+        Assertions.assertEquals(25, config.costForLevel(0, Set.of(PersonageSlot.BODY)).value());
+        Assertions.assertEquals(18, config.costForLevel(0, Set.of(PersonageSlot.PANTS)).value());
+        Assertions.assertEquals(10, config.costForLevel(0, Set.of(PersonageSlot.SHOES)).value());
+        Assertions.assertEquals(10, config.costForLevel(0, Set.of(PersonageSlot.HELMET)).value());
+        Assertions.assertEquals(10, config.costForLevel(0, Set.of(PersonageSlot.GLOVES)).value());
+        Assertions.assertEquals(
+            53,
+            config.costForLevel(0, Set.of(PersonageSlot.MAIN_HAND, PersonageSlot.OFF_HAND)).value()
+        );
+        Assertions.assertEquals(16, config.costForLevel(2, Set.of(PersonageSlot.SHOES)).value());
+    }
 
-        Assertions.assertEquals(2, config.costForLevel(0, 2).value());
-        Assertions.assertEquals(4, config.costForLevel(1, 2).value());
-        Assertions.assertEquals(32, config.costForLevel(4, 2).value());
+    @Test
+    void Given_HandPair_When_CostForLevel_Then_DoesNotMultiplyBySlotCountAgain() {
+        final var config = new StormEnhanceConfig();
+
+        final var twoHanded = config.costForLevel(
+            1,
+            Set.of(PersonageSlot.MAIN_HAND, PersonageSlot.OFF_HAND)
+        ).value();
+        final var separateHands = config.costForLevel(1, Set.of(PersonageSlot.MAIN_HAND)).value()
+            + config.costForLevel(1, Set.of(PersonageSlot.OFF_HAND)).value();
+
+        Assertions.assertEquals(66, twoHanded);
+        Assertions.assertEquals(separateHands, twoHanded);
     }
 
     @Test
@@ -26,7 +47,10 @@ public class StormEnhanceConfigTest {
 
         Assertions.assertEquals(new StormEnhanceProbabilities(100, 0, 0), config.probabilitiesForLevel(0));
         Assertions.assertEquals(new StormEnhanceProbabilities(37, 50, 13), config.probabilitiesForLevel(6));
+        Assertions.assertEquals(new StormEnhanceProbabilities(20, 60, 20), config.probabilitiesForLevel(8));
         Assertions.assertEquals(new StormEnhanceProbabilities(10, 63, 27), config.probabilitiesForLevel(10));
+        Assertions.assertEquals(new StormEnhanceProbabilities(8, 36, 56), config.probabilitiesForLevel(12));
+        Assertions.assertEquals(new StormEnhanceProbabilities(1, 0, 99), config.probabilitiesForLevel(19));
     }
 
     @Test
@@ -88,15 +112,50 @@ public class StormEnhanceConfigTest {
     }
 
     @Test
-    void Given_HighLevel_When_CostForLevel_Then_CapsAtMaxInt() {
+    void Given_UnchangedOutcomeCurve_When_ExpectedAttempts_Then_MatchesApprovedCheckpoints() {
         final var config = new StormEnhanceConfig();
-        Assertions.assertEquals(Integer.MAX_VALUE, config.costForLevel(40, 1).value());
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(3.50, expectedAttempts(config, 3), 0.01),
+            () -> Assertions.assertEquals(9.40, expectedAttempts(config, 6), 0.01),
+            () -> Assertions.assertEquals(54.60, expectedAttempts(config, 10), 0.01)
+        );
+    }
+
+    @Test
+    void Given_DefaultConfig_When_MaxPriceLevel_Then_UsesAllKnownSlotsAndRejectsNextAttempt() {
+        final var config = new StormEnhanceConfig();
+
+        Assertions.assertEquals(75, config.maxPriceSupportedStateLevel());
+        Assertions.assertEquals(
+            1_854_603_075,
+            config.costForLevel(74, EnumSet.allOf(PersonageSlot.class)).value()
+        );
+        Assertions.assertThrows(
+            ArithmeticException.class,
+            () -> config.costForLevel(75, Set.of(PersonageSlot.SHOES))
+        );
     }
 
     @Test
     void Given_NegativeLevel_When_CostForLevel_Then_Throws() {
         final var config = new StormEnhanceConfig();
-        Assertions.assertThrows(IllegalArgumentException.class, () -> config.costForLevel(-1, 1));
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> config.costForLevel(-1, Set.of(PersonageSlot.SHOES))
+        );
+        Assertions.assertThrows(IllegalArgumentException.class, () -> config.costForLevel(0, Set.of()));
+    }
+
+    @Test
+    void Given_InvalidRationalMultiplier_When_CostForLevel_Then_Throws() {
+        final var config = new StormEnhanceConfig();
+        config.setCostMultiplierNumerator(4);
+
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> config.costForLevel(0, Set.of(PersonageSlot.SHOES))
+        );
     }
 
     @Test
@@ -112,5 +171,18 @@ public class StormEnhanceConfigTest {
         } finally {
             config.setBonusPercentPerLevel(5);
         }
+    }
+
+    private static double expectedAttempts(StormEnhanceConfig config, int targetLevel) {
+        var previousStep = 0.0;
+        var result = 0.0;
+        for (int level = 0; level < targetLevel; level++) {
+            final var probabilities = config.probabilitiesForLevel(level);
+            final var currentStep = (100 + probabilities.rollbackPercent() * previousStep)
+                / probabilities.successPercent();
+            result += currentStep;
+            previousStep = currentStep;
+        }
+        return result;
     }
 }

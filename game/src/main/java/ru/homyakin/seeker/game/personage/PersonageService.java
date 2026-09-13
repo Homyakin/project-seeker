@@ -104,7 +104,7 @@ public class PersonageService {
     }
 
     public int calculatePower(Personage personage) {
-        return (int) toBattlePersonagesById(List.of(personage)).get(personage.id()).power();
+        return (int) toBattlePersonagesById(List.of(personage)).get(personage.id()).legacyPower();
     }
 
     public String shortProfile(Language language, Personage personage) {
@@ -193,13 +193,12 @@ public class PersonageService {
     }
 
     public Personage addStormShards(Personage personage, StormShards stormShards) {
-        final var updatedPersonage = personage.addStormShards(stormShards);
-        personageDao.update(updatedPersonage);
-        return updatedPersonage;
+        personageDao.addStormShards(personage.id(), stormShards);
+        return getByIdForce(personage.id());
     }
 
     public void addStormShards(PersonageId personageId, StormShards stormShards) {
-        addStormShards(getByIdForce(personageId), stormShards);
+        personageDao.addStormShards(personageId, stormShards);
     }
 
     public void addStormShardsBatch(Map<PersonageId, StormShards> shardsMap) {
@@ -325,10 +324,18 @@ public class PersonageService {
     }
 
     public Either<NotEnoughStormShards, Success> tryTakeStormShards(PersonageId personageId, StormShards stormShards) {
-        final var personage = getByIdForce(personageId);
-        return personage.takeStormShards(stormShards)
-            .peek(personageDao::update)
-            .map(_ -> Success.INSTANCE);
+        if (stormShards.value() < 0) {
+            throw new IllegalArgumentException("Storm shard amount must be non-negative: " + stormShards.value());
+        }
+        return personageDao.trySubtractStormShards(personageId, stormShards)
+            ? Either.right(Success.INSTANCE)
+            : Either.left(new NotEnoughStormShards(stormShards));
+    }
+
+    public void lockForItemChange(PersonageId personageId) {
+        if (!personageDao.lockForItemChange(personageId)) {
+            throw new IllegalStateException("Personage not found: " + personageId.value());
+        }
     }
 
     public Personage takeMoney(Personage personage, Money money) {

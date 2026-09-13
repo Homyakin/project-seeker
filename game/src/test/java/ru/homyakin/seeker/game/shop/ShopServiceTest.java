@@ -146,5 +146,8 @@ class ShopServiceTest {
         Assertions.assertTrue(result.isRight());
         Assertions.assertEquals(List.of("Raid", "PvP"), result.get().affectedLoadoutNames());
         Mockito.verify(equipmentLoadoutService).removeItemFromLoadouts(personageId, 7L);
+        final var lockOrder = Mockito.inOrder(personageService, itemService);
+        lockOrder.verify(personageService).lockForItemChange(personageId);
+        lockOrder.verify(itemService).removeItem(personageId, 7L);
     }
 }

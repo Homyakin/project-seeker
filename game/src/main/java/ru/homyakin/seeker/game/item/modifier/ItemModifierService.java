@@ -33,7 +33,7 @@ public class ItemModifierService {
     private Set<ModifierType> compatibleModifierTypes(ItemObject object) {
         final var types = new HashSet<ModifierType>();
         types.add(ModifierType.ANY);
-        if (object.attack().isPresent()) {
+        if (!object.attacks().isEmpty()) {
             types.add(ModifierType.ATTACK);
         }
         if (object.defense().isPresent()) {

@@ -16,8 +16,32 @@ public record PersonageItem(
     ItemRarity rarity,
     Optional<PersonageId> personageId,
     boolean isEquipped,
-    int enhanceLevel
+    int enhanceLevel,
+    long enhanceRevision
 ) {
+    public PersonageItem(
+        long id,
+        int objectId,
+        ItemObject object,
+        Optional<Integer> modifierId,
+        Optional<Modifier> modifier,
+        ItemRarity rarity,
+        Optional<PersonageId> personageId,
+        boolean isEquipped,
+        int enhanceLevel
+    ) {
+        this(id, objectId, object, modifierId, modifier, rarity, personageId, isEquipped, enhanceLevel, 0);
+    }
+
+    public PersonageItem {
+        if (enhanceLevel < 0) {
+            throw new IllegalArgumentException("Enhance level must be non-negative: " + enhanceLevel);
+        }
+        if (enhanceRevision < 0) {
+            throw new IllegalArgumentException("Enhance revision must be non-negative: " + enhanceRevision);
+        }
+    }
+
     public Item toItem() {
         return new Item(object, modifier, rarity, enhanceLevel);
     }

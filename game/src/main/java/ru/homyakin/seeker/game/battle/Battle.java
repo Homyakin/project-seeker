@@ -112,6 +112,7 @@ public class Battle {
                     p.initiativeGauge(),
                     p.range(),
                     p.totalThreat(),
+                    p.impactStrength(),
                     p.targetingTactic(),
                     p.itemSnapshots(),
                     p.skillSnapshots(),

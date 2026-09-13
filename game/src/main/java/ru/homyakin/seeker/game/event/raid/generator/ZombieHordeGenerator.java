@@ -65,7 +65,7 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
             groupSizeScaling = 1.0 + MathUtils.log(8, zombieCount) * GROUP_SCALE_COEF;
         }
         final var targetPower = personages.stream()
-            .mapToDouble(BattlePersonage::power)
+            .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus * groupSizeScaling;
         final var multiplier = characteristicsMultiplier(zombieCount, targetPower);
 
@@ -168,7 +168,8 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
     }
 
     private double totalRaidPower(int zombieCount, double m) {
-        return boss(m, AttackType.SLASH).power() + zombie(m, AttackType.SLASH).power() * zombieCount;
+        return boss(m, AttackType.SLASH).legacyPower()
+            + zombie(m, AttackType.SLASH).legacyPower() * zombieCount;
     }
 
     private int multiply(int value, double multiplier) {

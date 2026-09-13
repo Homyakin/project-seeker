@@ -142,6 +142,7 @@ public class ShopService {
 
     @Transactional
     public Either<NoSuchItemAtPersonage, SoldItem> sellItem(PersonageId personageId, Long itemId) {
+        personageService.lockForItemChange(personageId);
         final var removeResult = itemService.removeItem(personageId, itemId);
         if (removeResult.isEmpty()) {
             return Either.left(NoSuchItemAtPersonage.INSTANCE);

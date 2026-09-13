@@ -71,7 +71,7 @@ class RaidWinrateTest {
         final var singlePersonage = defaultPersonage();
         runWinrateMatrix(
             RaidType.WOLFPACK,
-            "wolf pack / default items (power=%.2f)".formatted(singlePersonage.power()),
+            "wolf pack / default items (power=%.2f)".formatted(singlePersonage.legacyPower()),
             RaidWinrateTest::defaultTeam
         );
     }
@@ -91,7 +91,7 @@ class RaidWinrateTest {
         final var singlePersonage = defaultPersonage();
         runWinrateMatrix(
             RaidType.ZOMBIE_HORDE,
-            "zombie horde / default items (power=%.2f)".formatted(singlePersonage.power()),
+            "zombie horde / default items (power=%.2f)".formatted(singlePersonage.legacyPower()),
             RaidWinrateTest::defaultTeam
         );
     }
@@ -141,7 +141,7 @@ class RaidWinrateTest {
         final var singlePersonage = defaultPersonage();
         runWinrateMatrix(
             RaidType.MAGGEESE_FLOCK,
-            "maggeese flock / default items (power=%.2f)".formatted(singlePersonage.power()),
+            "maggeese flock / default items (power=%.2f)".formatted(singlePersonage.legacyPower()),
             RaidWinrateTest::defaultTeam
         );
     }
@@ -176,7 +176,7 @@ class RaidWinrateTest {
         final var singlePersonage = defaultPersonage();
         runWinrateMatrix(
             RaidType.MYCONID_COLONY,
-            "myconid colony / default items (power=%.2f)".formatted(singlePersonage.power()),
+            "myconid colony / default items (power=%.2f)".formatted(singlePersonage.legacyPower()),
             RaidWinrateTest::defaultTeam
         );
     }
@@ -339,9 +339,8 @@ class RaidWinrateTest {
      * use {@code preferredDefense}; a pure-stat item always qualifies.
      */
     private static boolean isCounterPick(ItemObject obj, AttackType preferredAttack, DefenseType preferredDefense) {
-        final var attackOk = obj.attack()
-            .map(a -> a.attackType() == preferredAttack)
-            .orElse(true);
+        final var attackOk = obj.attacks().stream()
+            .allMatch(attack -> attack.attackType() == preferredAttack);
         final var defenseOk = obj.defense()
             .map(d -> d.defenseType() == preferredDefense)
             .orElse(true);

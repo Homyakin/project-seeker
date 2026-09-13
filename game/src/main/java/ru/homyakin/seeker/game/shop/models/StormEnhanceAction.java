@@ -7,6 +7,7 @@ public record StormEnhanceAction(
     StormShards cost,
     StormEnhanceProbabilities probabilities,
     int currentLevel,
-    int nextLevel
+    int nextLevel,
+    long currentRevision
 ) {
 }

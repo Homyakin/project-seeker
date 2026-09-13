@@ -11,6 +11,7 @@ import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidBattleGenerator;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLaunchedBattleInfo;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
 import ru.homyakin.seeker.game.item.models.Item;
+import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.infrastructure.init.saving_models.SavingWorldRaid;
@@ -57,7 +58,7 @@ class WorldRaidBattleSimulatorTest {
         final var enemies = battleGenerator.generate(launchedInfo);
         final var objectsBySlot = groupBySlot(loadObjects());
         final var participants = randomTeam(objectsBySlot, GROUP_SIZE);
-        final var avgPower = participants.stream().mapToDouble(BattlePersonage::power).average().orElse(0);
+        final var avgPower = participants.stream().mapToDouble(BattlePersonage::legacyPower).average().orElse(0);
 
         System.out.printf("%n=== World raid '%s' — single battle ===%n", raid.code());
         System.out.printf(
@@ -162,8 +163,8 @@ class WorldRaidBattleSimulatorTest {
 
     private static int maxAttackRange(List<ItemObject> objects) {
         return objects.stream()
-            .flatMap(object -> object.attack().stream())
-            .mapToInt(attack -> attack.range())
+            .flatMap(object -> object.attacks().stream())
+            .mapToInt(ItemAttack::maxRange)
             .max()
             .orElse(1);
     }
@@ -231,7 +232,7 @@ class WorldRaidBattleSimulatorTest {
                 personageStats.initialHealth(),
                 personage.startPosition(),
                 personage.range(),
-                personage.power(),
+                personage.legacyPower(),
                 personageStats.damageDealt()
             );
         }

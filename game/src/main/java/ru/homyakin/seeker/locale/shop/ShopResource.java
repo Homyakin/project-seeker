@@ -38,6 +38,8 @@ public record ShopResource(
     String successStormEnhance,
     String failedStormEnhance,
     String rollbackStormEnhance,
+    String staleStormEnhance,
+    String stormEnhanceTechnicalLimit,
     String notBrokenItem,
     String emptyEnhance
 ) {

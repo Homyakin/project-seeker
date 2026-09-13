@@ -125,7 +125,11 @@ public class ItemLocalization {
         params.put("slots", itemSlots(item));
         params.put(
             "attack_type_icon",
-            gameItem.itemAttack().map(attack -> Icons.attackTypeIcon(attack.attackType())).orElse("")
+            gameItem.itemAttacks().stream()
+                .map(ItemAttack::attackType)
+                .distinct()
+                .map(Icons::attackTypeIcon)
+                .collect(Collectors.joining())
         );
         params.put(
             "defense_type_icon",
@@ -698,15 +702,28 @@ public class ItemLocalization {
     private static String itemCharacteristics(Language language, Item item) {
         final var params = new HashMap<String, Object>();
         putNotZeroCharacteristic(params, "not_zero_health", item.health(), health(language, item.health()));
-        item.itemAttack().ifPresentOrElse(
-            attack -> putNotZeroCharacteristic(
+        if (item.itemAttacks().isEmpty()) {
+            putEmptyCharacteristic(params, "not_zero_attack");
+            putEmptyCharacteristic(params, "not_zero_range");
+        } else {
+            putNotZeroCharacteristic(
                 params,
                 "not_zero_attack",
-                attack.attack(),
-                attack(language, attack)
-            ),
-            () -> putEmptyCharacteristic(params, "not_zero_attack")
-        );
+                1,
+                item.itemAttacks().stream()
+                    .map(attack -> attack(language, attack))
+                    .collect(Collectors.joining(" + "))
+            );
+            putNotZeroCharacteristic(
+                params,
+                "not_zero_range",
+                1,
+                item.itemAttacks().stream()
+                    .map(attack -> range(language, attack))
+                    .distinct()
+                    .collect(Collectors.joining(" + "))
+            );
+        }
         item.itemDefense().ifPresentOrElse(
             defense -> putNotZeroCharacteristic(
                 params,
@@ -715,15 +732,6 @@ public class ItemLocalization {
                 defense(language, defense)
             ),
             () -> putEmptyCharacteristic(params, "not_zero_defense")
-        );
-        item.itemAttack().ifPresentOrElse(
-            attack -> putNotZeroCharacteristic(
-                params,
-                "not_zero_range",
-                attack.range(),
-                range(language, attack.range())
-            ),
-            () -> putEmptyCharacteristic(params, "not_zero_range")
         );
         putNotZeroCharacteristic(
             params,
@@ -828,6 +836,19 @@ public class ItemLocalization {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::range),
             Map.of("range_icon", Icons.RANGE, "range_value", range)
+        );
+    }
+
+    private static String range(Language language, ItemAttack attack) {
+        if (attack.minRange() == 1) {
+            return range(language, attack.maxRange());
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::range),
+            Map.of(
+                "range_icon", Icons.RANGE,
+                "range_value", attack.minRange() + "–" + attack.maxRange()
+            )
         );
     }
 

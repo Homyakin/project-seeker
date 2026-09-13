@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet author="Codex" id="add-item-progression-foundation">
+        <addColumn tableName="item_object">
+            <column name="attack_parts" type="JSONB" defaultValueComputed="'[]'::jsonb">
+                <constraints nullable="false"/>
+            </column>
+            <column name="impact" type="INT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="progression_version" type="VARCHAR(20)" defaultValue="LEGACY">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="item">
+            <column name="enhance_revision" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            UPDATE item_object
+            SET attack_parts = jsonb_build_array(jsonb_build_object(
+                'attackType', attack_type,
+                'minRange', 1,
+                'maxRange', attack_range,
+                'attack', attack
+            ))
+            WHERE attack_type IS NOT NULL
+        </sql>
+
+        <sql>
+            ALTER TABLE item_object
+                ADD CONSTRAINT ck_item_object_impact_non_negative CHECK (impact &gt;= 0);
+            ALTER TABLE item
+                ADD CONSTRAINT ck_item_enhance_level_non_negative CHECK (enhance_level &gt;= 0),
+                ADD CONSTRAINT ck_item_enhance_revision_non_negative CHECK (enhance_revision &gt;= 0);
+            ALTER TABLE personage
+                ADD CONSTRAINT ck_personage_storm_shards_non_negative CHECK (storm_shards &gt;= 0);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

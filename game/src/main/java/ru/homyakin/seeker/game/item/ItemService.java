@@ -112,7 +112,8 @@ public class ItemService {
                 tempItem.rarity(),
                 Optional.empty(),
                 tempItem.isEquipped(),
-                tempItem.enhanceLevel()
+                tempItem.enhanceLevel(),
+                tempItem.enhanceRevision()
             );
             final var id = itemDao.save(itemWithoutPersonage);
             return Either.left(new GenerateItemError.NotEnoughSpace(getById(id).orElseThrow()));
@@ -196,6 +197,10 @@ public class ItemService {
             .filter(item -> item.personageId().map(it -> it.equals(personageId)).orElse(false));
     }
 
+    public Optional<PersonageItem> getPersonageItemForUpdate(PersonageId personageId, long itemId) {
+        return itemDao.getOwnedByIdForUpdate(itemId, personageId);
+    }
+
     public Optional<PersonageItem> removeItem(PersonageId personageId, long itemId) {
         return getPersonageItem(personageId, itemId)
             .map(_ -> {
@@ -255,15 +260,26 @@ public class ItemService {
         return Either.right(getById(item.id()).orElseThrow());
     }
 
-    public PersonageItem stormEnhance(PersonageItem item) {
-        itemDao.updateEnhanceLevel(item.id(), item.enhanceLevel() + 1);
-        return getById(item.id()).orElseThrow();
-    }
-
-    public PersonageItem stormEnhanceRollback(PersonageItem item) {
-        final var nextLevel = Math.max(0, item.enhanceLevel() - 1);
-        itemDao.updateEnhanceLevel(item.id(), nextLevel);
-        return getById(item.id()).orElseThrow();
+    public PersonageItem applyStormEnhance(PersonageItem item, int nextLevel) {
+        if (nextLevel < 0) {
+            throw new IllegalArgumentException("Enhance level must be non-negative: " + nextLevel);
+        }
+        if (item.enhanceRevision() == Long.MAX_VALUE) {
+            throw new ArithmeticException("Enhance revision overflow for item: " + item.id());
+        }
+        final var personageId = item.personageId()
+            .orElseThrow(() -> new IllegalArgumentException("Storm enhanced item must have an owner"));
+        final var updated = itemDao.applyStormEnhance(
+            item.id(),
+            personageId,
+            item.enhanceLevel(),
+            item.enhanceRevision(),
+            nextLevel
+        );
+        if (!updated) {
+            throw new IllegalStateException("Locked item changed during storm enhancement: " + item.id());
+        }
+        return getPersonageItem(personageId, item.id()).orElseThrow();
     }
 
     private PersonageSlot primarySlot(ItemObject object) {

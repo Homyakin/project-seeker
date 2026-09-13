@@ -19,6 +19,7 @@ public record BattlePersonageInitSnapshot(
     int initiativeGauge,
     int range,
     int totalThreat,
+    int impactStrength,
     TargetingTactic targetingTactic,
     List<BattleItemInitSnapshot> items,
     List<BattleSkillInitSnapshot> skills,

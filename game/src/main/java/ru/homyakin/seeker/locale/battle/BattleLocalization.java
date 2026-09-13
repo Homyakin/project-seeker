@@ -32,7 +32,7 @@ public class BattleLocalization {
         params.put("position_name", positionName(language, personage.startPosition()));
         params.put("targeting_tactic_name", targetingTacticName(language, personage.targetingTactic()));
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.power((int) personage.power()));
+        params.put("power_value", LocaleUtils.power((int) personage.legacyPower()));
         params.put("health_icon", Icons.HEALTH);
         params.put("health_value", personage.maxHealth());
         params.put("range_icon", Icons.RANGE);

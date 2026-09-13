@@ -58,21 +58,26 @@ public class ItemObjectDao {
 
     @Transactional
     public void save(ItemObjectsToml.SavingItemObject object) {
+        final var itemObject = object.toItemObject();
+        final var legacyAttack = itemObject.attacks().stream().findFirst();
         jdbcClient.sql(SAVE_SQL)
-            .param("code", object.code())
-            .param("health", object.health())
-            .param("crit_chance", object.critChance())
-            .param("dodge_chance", object.dodgeChance())
-            .param("crit_multiplier", object.critMultiplier())
-            .param("speed", object.speed())
-            .param("base_threat", object.baseThreat())
-            .param("attack_type", object.attack().map(a -> a.attackType().name()).orElse(null))
-            .param("attack_range", object.attack().map(ItemObjectsToml.SavingItemAttack::range).orElse(null))
-            .param("attack", object.attack().map(ItemObjectsToml.SavingItemAttack::attack).orElse(null))
-            .param("defense_type", object.defense().map(d -> d.defenseType().name()).orElse(null))
-            .param("defense", object.defense().map(ItemObjectsToml.SavingItemDefense::defense).orElse(null))
-            .param("locale", jsonUtils.mapToPostgresJson(object.locales()))
-            .param("personage_slot_ids", personageSlotIdsArray(object.slots()))
+            .param("code", itemObject.code())
+            .param("health", itemObject.health())
+            .param("crit_chance", itemObject.critChance())
+            .param("dodge_chance", itemObject.dodgeChance())
+            .param("crit_multiplier", itemObject.critMultiplier())
+            .param("speed", itemObject.speed())
+            .param("base_threat", itemObject.baseThreat())
+            .param("impact", itemObject.impact())
+            .param("progression_version", itemObject.progressionVersion().name())
+            .param("attack_parts", jsonUtils.mapToPostgresJson(itemObject.attacks()))
+            .param("attack_type", legacyAttack.map(a -> a.attackType().name()).orElse(null))
+            .param("attack_range", legacyAttack.map(ItemAttack::maxRange).orElse(null))
+            .param("attack", legacyAttack.map(ItemAttack::attack).orElse(null))
+            .param("defense_type", itemObject.defense().map(d -> d.defenseType().name()).orElse(null))
+            .param("defense", itemObject.defense().map(ItemDefense::defense).orElse(null))
+            .param("locale", jsonUtils.mapToPostgresJson(itemObject.locales()))
+            .param("personage_slot_ids", personageSlotIdsArray(itemObject.slots()))
             .update();
     }
 
@@ -88,18 +93,23 @@ public class ItemObjectDao {
     private CatalogItemObject mapRow(ResultSet rs, int rowNum) throws SQLException {
         final var attackType = rs.getString("attack_type");
         final var defenseType = rs.getString("defense_type");
+        final var attackPartsJson = rs.getString("attack_parts");
+        final List<ItemAttack> persistedParts = attackPartsJson == null
+            ? List.of()
+            : jsonUtils.fromString(attackPartsJson, JsonUtils.ITEM_ATTACKS);
+        final List<ItemAttack> attacks = persistedParts.isEmpty() && attackType != null
+            ? List.of(new ItemAttack(
+                AttackType.valueOf(attackType),
+                rs.getInt("attack_range"),
+                rs.getInt("attack")
+            ))
+            : persistedParts;
         return new CatalogItemObject(
             rs.getInt("id"),
             new ItemObject(
                 rs.getString("code"),
                 extractSlots(rs.getArray("personage_slot_ids")),
-                attackType == null
-                    ? Optional.empty()
-                    : Optional.of(new ItemAttack(
-                        AttackType.valueOf(attackType),
-                        rs.getInt("attack_range"),
-                        rs.getInt("attack")
-                    )),
+                attacks,
                 defenseType == null
                     ? Optional.empty()
                     : Optional.of(new ItemDefense(
@@ -112,6 +122,10 @@ public class ItemObjectDao {
                 rs.getDouble("crit_multiplier"),
                 rs.getInt("speed"),
                 rs.getInt("base_threat"),
+                rs.getInt("impact"),
+                ru.homyakin.seeker.game.item.models.ItemProgressionVersion.valueOf(
+                    rs.getString("progression_version")
+                ),
                 jsonUtils.fromString(rs.getString("locale"), JsonUtils.ITEM_OBJECT_LOCALE)
             )
         );
@@ -148,9 +162,11 @@ public class ItemObjectDao {
     private static final String SAVE_SQL = """
         INSERT INTO item_object (
             code, health, crit_chance, dodge_chance, crit_multiplier, speed, base_threat,
+            impact, progression_version, attack_parts,
             attack_type, attack_range, attack, defense_type, defense, locale, personage_slot_ids
         ) VALUES (
             :code, :health, :crit_chance, :dodge_chance, :crit_multiplier, :speed, :base_threat,
+            :impact, :progression_version, CAST(:attack_parts AS JSONB),
             :attack_type, :attack_range, :attack, :defense_type, :defense,
             CAST(:locale AS JSONB), :personage_slot_ids
         )
@@ -161,6 +177,9 @@ public class ItemObjectDao {
             crit_multiplier = EXCLUDED.crit_multiplier,
             speed = EXCLUDED.speed,
             base_threat = EXCLUDED.base_threat,
+            impact = EXCLUDED.impact,
+            progression_version = EXCLUDED.progression_version,
+            attack_parts = EXCLUDED.attack_parts,
             attack_type = EXCLUDED.attack_type,
             attack_range = EXCLUDED.attack_range,
             attack = EXCLUDED.attack,

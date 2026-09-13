@@ -81,7 +81,7 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
             groupSizeScaling = 1.0 + MathUtils.log(4, myconidCount) * GROUP_SCALE_COEF;
         }
         final var targetPower = personages.stream()
-            .mapToDouble(BattlePersonage::power)
+            .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus * groupSizeScaling * POWER_CALIBRATION_CORRECTION;
         final var multiplier = characteristicsMultiplier(myconidCount, targetPower);
 
@@ -181,7 +181,7 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
     private double totalRaidPower(int myconidCount, double m) {
         final int frontCount = myconidCount / 2;
         final int backCount = myconidCount - frontCount;
-        return guardian(m).power() * frontCount + slinger(m).power() * backCount;
+        return guardian(m).legacyPower() * frontCount + slinger(m).legacyPower() * backCount;
     }
 
     private int multiply(int value, double multiplier) {

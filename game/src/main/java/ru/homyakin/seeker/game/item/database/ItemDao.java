@@ -38,6 +38,7 @@ public class ItemDao {
             .param("personage_id", item.personageId().map(PersonageId::value).orElse(null))
             .param("is_equipped", item.isEquipped())
             .param("enhance_level", item.enhanceLevel())
+            .param("enhance_revision", item.enhanceRevision())
             .query((rs, _) -> rs.getLong("id"))
             .single();
     }
@@ -45,6 +46,17 @@ public class ItemDao {
     public Optional<PersonageItem> getById(long id) {
         return jdbcClient.sql(SELECT_SQL + " WHERE i.id = :id")
             .param("id", id)
+            .query(this::mapRow)
+            .optional();
+    }
+
+    public Optional<PersonageItem> getOwnedByIdForUpdate(long id, PersonageId personageId) {
+        return jdbcClient.sql(SELECT_SQL + """
+                WHERE i.id = :id AND i.personage_id = :personage_id
+                FOR UPDATE OF i
+                """)
+            .param("id", id)
+            .param("personage_id", personageId.value())
             .query(this::mapRow)
             .optional();
     }
@@ -105,11 +117,27 @@ public class ItemDao {
             .update();
     }
 
-    public void updateEnhanceLevel(long id, int enhanceLevel) {
-        jdbcClient.sql("UPDATE item SET enhance_level = :enhance_level WHERE id = :id")
+    public boolean applyStormEnhance(
+        long id,
+        PersonageId personageId,
+        int expectedLevel,
+        long expectedRevision,
+        int nextLevel
+    ) {
+        return jdbcClient.sql("""
+                UPDATE item
+                SET enhance_level = :next_level, enhance_revision = enhance_revision + 1
+                WHERE id = :id
+                  AND personage_id = :personage_id
+                  AND enhance_level = :expected_level
+                  AND enhance_revision = :expected_revision
+                """)
             .param("id", id)
-            .param("enhance_level", enhanceLevel)
-            .update();
+            .param("personage_id", personageId.value())
+            .param("expected_level", expectedLevel)
+            .param("expected_revision", expectedRevision)
+            .param("next_level", nextLevel)
+            .update() == 1;
     }
 
     public void deletePersonageAndMakeEquipFalse(long id) {
@@ -134,18 +162,24 @@ public class ItemDao {
             ItemRarity.values()[rs.getInt("rarity")],
             Optional.ofNullable((Long) rs.getObject("personage_id")).map(PersonageId::from),
             rs.getBoolean("is_equipped"),
-            rs.getInt("enhance_level")
+            rs.getInt("enhance_level"),
+            rs.getLong("enhance_revision")
         );
     }
 
     private static final String SAVE_SQL = """
-        INSERT INTO item (item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level)
-        VALUES (:item_object_id, :item_modifier_id, :rarity, :personage_id, :is_equipped, :enhance_level)
+        INSERT INTO item (
+            item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level, enhance_revision
+        )
+        VALUES (
+            :item_object_id, :item_modifier_id, :rarity, :personage_id, :is_equipped, :enhance_level, :enhance_revision
+        )
         RETURNING id
         """;
 
     private static final String SELECT_SQL = """
-        SELECT i.id, i.item_object_id, i.item_modifier_id, i.rarity, i.personage_id, i.is_equipped, i.enhance_level
+        SELECT i.id, i.item_object_id, i.item_modifier_id, i.rarity, i.personage_id, i.is_equipped,
+               i.enhance_level, i.enhance_revision
         FROM item i
         """;
 }

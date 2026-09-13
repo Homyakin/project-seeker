@@ -44,7 +44,7 @@ class BattlePersonagePersonageEffectsTest {
 
         Assertions.assertEquals(1_000, withoutEffects.maxHealth());
         Assertions.assertEquals(1_100, withEffects.maxHealth());
-        Assertions.assertEquals(withoutEffects.power(), withEffects.power(), 0.001);
+        Assertions.assertEquals(withoutEffects.legacyPower(), withEffects.legacyPower(), 0.001);
     }
 
     @Test
@@ -61,7 +61,7 @@ class BattlePersonagePersonageEffectsTest {
 
         Assertions.assertEquals(100, withoutEffects.slotOneAttackSum());
         Assertions.assertEquals(120, withEffects.slotOneAttackSum());
-        Assertions.assertEquals(withoutEffects.power(), withEffects.power(), 0.001);
+        Assertions.assertEquals(withoutEffects.legacyPower(), withEffects.legacyPower(), 0.001);
     }
 
     @Test
@@ -77,6 +77,6 @@ class BattlePersonagePersonageEffectsTest {
         final var withEffects = new BattlePersonage(items, Position.FRONT, Map.of(), effects, NOW);
 
         Assertions.assertEquals(withoutEffects.maxHealth(), withEffects.maxHealth());
-        Assertions.assertEquals(withoutEffects.power(), withEffects.power(), 0.001);
+        Assertions.assertEquals(withoutEffects.legacyPower(), withEffects.legacyPower(), 0.001);
     }
 }

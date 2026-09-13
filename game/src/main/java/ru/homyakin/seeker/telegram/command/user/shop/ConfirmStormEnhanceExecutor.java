@@ -29,12 +29,21 @@ public class ConfirmStormEnhanceExecutor extends CommandExecutor<ConfirmStormEnh
     @Override
     public void execute(ConfirmStormEnhance command) {
         final var user = userService.forceGetFromPrivate(command.userId());
-        final var text = enhanceService.stormEnhance(user.personageId(), command.itemId())
+        final var text = enhanceService.stormEnhance(
+                user.personageId(),
+                command.itemId(),
+                command.expectedLevel(),
+                command.expectedRevision()
+            )
             .fold(
                 error -> switch (error) {
                     case StormEnhanceError.NoSuchItem _ -> ShopLocalization.noItemAtPersonage(user.language());
                     case StormEnhanceError.NotEnoughStormShards notEnough ->
                         ShopLocalization.notEnoughStormShards(user.language(), notEnough.required());
+                    case StormEnhanceError.StaleItemState _ ->
+                        ShopLocalization.staleStormEnhance(user.language());
+                    case StormEnhanceError.TechnicalLimitReached _ ->
+                        ShopLocalization.stormEnhanceTechnicalLimit(user.language());
                 },
                 result -> switch (result.outcome()) {
                     case StormEnhanceOutcome.SUCCESS ->

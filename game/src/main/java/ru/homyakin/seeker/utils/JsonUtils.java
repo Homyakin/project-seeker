@@ -15,10 +15,12 @@ import ru.homyakin.seeker.game.event.personal_quest.model.PersonalQuestLocale;
 import ru.homyakin.seeker.game.event.raid.models.RaidLocale;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidLocale;
 import ru.homyakin.seeker.game.item.models.ItemObjectLocale;
+import ru.homyakin.seeker.game.item.models.ItemAttack;
 import ru.homyakin.seeker.game.item.modifier.models.ModifierLocale;
 import ru.homyakin.seeker.locale.Language;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -63,6 +65,8 @@ public class JsonUtils {
     public static final TypeReference<Map<Language, ModifierLocale>> MODIFIER_LOCALE = new TypeReference<>() {
     };
     public static final TypeReference<Map<Language, ItemObjectLocale>> ITEM_OBJECT_LOCALE = new TypeReference<>() {
+    };
+    public static final TypeReference<List<ItemAttack>> ITEM_ATTACKS = new TypeReference<>() {
     };
     public static final TypeReference<Map<Language, RaidLocale>> RAID_LOCALE = new TypeReference<>() {
     };

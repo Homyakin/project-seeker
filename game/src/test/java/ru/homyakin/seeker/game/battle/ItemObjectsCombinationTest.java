@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Loads {@code game-data/item_objects_catalog.toml}, builds every loadout with one object per slot,
- * runs {@link Battle}, ranks by {@link BattlePersonage#power()}.
+ * runs {@link Battle}, ranks by {@link BattlePersonage#legacyPower()}.
  */
 class ItemObjectsCombinationTest {
     private static final String TOML_PATH = "game-data/item_objects_catalog.toml";
@@ -41,7 +41,7 @@ class ItemObjectsCombinationTest {
         final var ranked = loadObjects().stream()
             .map(object -> {
                 final var personage = personageFrom(List.of(object));
-                final var power = personage.power();
+                final var power = personage.legacyPower();
                 assertTrue(
                     Double.isFinite(power) && power > 0,
                     () -> object.code() + " has invalid power: " + power
@@ -71,7 +71,7 @@ class ItemObjectsCombinationTest {
                     List.of(personage),
                     List.of(baseline)
                 ));
-                return new RankedLoadout(codes, personage.power());
+                return new RankedLoadout(codes, personage.legacyPower());
             })
             .sorted(Comparator.comparingDouble(RankedLoadout::power))
             .toList();
@@ -178,7 +178,7 @@ class ItemObjectsCombinationTest {
         final var slotRanked = catalogRankedAscending.stream()
             .filter(rankedObject -> rankedObject.object().slots().contains(slot))
             .collect(Collectors.toCollection(ArrayList::new));
-        final var defaultPower = personageFrom(List.of(defaultObject)).power();
+        final var defaultPower = personageFrom(List.of(defaultObject)).legacyPower();
         slotRanked.add(new RankedObject(defaultObject, defaultPower));
         slotRanked.sort(Comparator.comparingDouble(RankedObject::power));
         return slotRanked;
@@ -353,13 +353,13 @@ class ItemObjectsCombinationTest {
         assertFalse(objects.contains(null), () -> "Missing object in " + codes);
 
         final var attack = objects.stream()
-            .flatMap(object -> object.attack().stream())
+            .flatMap(object -> object.attacks().stream())
             .filter(itemAttack -> itemAttack.attackType() == expected.attackType())
             .mapToInt(ItemAttack::attack)
             .sum();
         final var maxRange = objects.stream()
-            .flatMap(object -> object.attack().stream())
-            .mapToInt(ItemAttack::range)
+            .flatMap(object -> object.attacks().stream())
+            .mapToInt(ItemAttack::maxRange)
             .max()
             .orElse(1);
         final var defense = objects.stream()
