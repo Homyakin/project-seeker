@@ -546,8 +546,7 @@
 
 const GAUGE_MAX = 1000; // REQUIRED_SPEED in BattlePersonage
 
-// Threat is not logged; we recompute it from damage/kill events using BattlePersonage's constants.
-// bonusThreat starts at 0 and is floored at 0, so current threat never drops below the initial value.
+// Older logs do not contain explicit threat changes, so they are reconstructed from damage and kills.
 const THREAT_FROM_DAMAGE = 5;       // attacker gains on a non-killing hit
 const THREAT_FROM_KILL = 50;        // attacker gains on a killing blow (THREAT_FROM_DAMAGE * 10)
 const THREAT_LOSE_FROM_DAMAGE = 8;  // target loses whenever it takes damage
@@ -580,6 +579,7 @@ let cursor = 0;         // number of events applied (0..events.length)
 let live = {};          // id -> live runtime state
 let currentRound = 0;
 let totalRounds = 0;
+let hasExplicitThreatEvents = false;
 
 let playTimer = null;
 let playSpeedMs = 200;
@@ -818,6 +818,7 @@ function buildInitialLive() {
 function bootReplay() {
   buildMeta();
   cursor = 0; currentRound = 0; totalRounds = 0; openDetailId = null;
+  hasExplicitThreatEvents = events.some((ev) => eventType(ev) === "ThreatChanged");
   for (const ev of events) if (ev.round > totalRounds) totalRounds = ev.round;
   live = buildInitialLive();
   el.eventTotal.textContent = events.length;
@@ -869,23 +870,56 @@ function applyEvent(ev) {
       const t = live[ev.targetId], a = live[ev.attackerId];
       const crit = ev.roll && ev.roll.crit;
       const killed = ev.remainingHealth <= 0;
-      if (t) { t.health = ev.remainingHealth; t.flash = crit ? "crit" : "hit"; t.popup = { text: "-" + ev.damageTaken, kind: crit ? "crit" : "hit" }; t.dmgTaken += ev.damageTaken; loseThreat(t); }
-      // A normal attack grants the attacker threat in move(): kill -> +50 (instead of +5), else +5.
-      if (a) { a.dmgDealt += ev.damageTaken; a.hitsLanded++; if (crit) a.critsDealt++; a.threat += killed ? THREAT_FROM_KILL : THREAT_FROM_DAMAGE; }
+      if (t) { t.health = ev.remainingHealth; t.flash = crit ? "crit" : "hit"; t.popup = { text: "-" + ev.damageTaken, kind: crit ? "crit" : "hit" }; t.dmgTaken += ev.damageTaken; if (!hasExplicitThreatEvents && ev.damageTaken > 0) loseThreat(t); }
+      // A legacy normal attack grants threat implicitly: kill -> +50 (instead of +5), else +5.
+      if (a) { a.dmgDealt += ev.damageTaken; a.hitsLanded++; if (crit) a.critsDealt++; if (!hasExplicitThreatEvents) a.threat += killed ? THREAT_FROM_KILL : THREAT_FROM_DAMAGE; }
       break;
     }
     case "EffectDamage": {
       const t = live[ev.targetId], s = live[ev.sourceId];
-      if (t) { t.health = ev.remainingHealth; t.flash = "effect"; t.popup = { text: "-" + ev.damageTaken + " " + skillPopup(ev.skill, "dot"), kind: "effect" }; t.dmgTaken += ev.damageTaken; loseThreat(t); }
+      if (t) { t.health = ev.remainingHealth; t.flash = "effect"; t.popup = { text: "-" + ev.damageTaken + " " + skillPopup(ev.skill, "dot"), kind: "effect" }; t.dmgTaken += ev.damageTaken; if (!hasExplicitThreatEvents && ev.damageTaken > 0) loseThreat(t); }
       if (s) s.dmgDealt += ev.damageTaken;
       break;
     }
     case "SkillDamage": {
       const t = live[ev.targetId], s = live[ev.sourceId];
-      if (t) { t.health = ev.remainingHealth; t.flash = "skill"; t.popup = { text: "-" + ev.damageTaken + " " + skillPopup(ev.skill, "skill"), kind: "skill" }; t.dmgTaken += ev.damageTaken; loseThreat(t); }
+      if (t) { t.health = ev.remainingHealth; t.flash = "skill"; t.popup = { text: "-" + ev.damageTaken + " " + skillPopup(ev.skill, "skill"), kind: "skill" }; t.dmgTaken += ev.damageTaken; if (!hasExplicitThreatEvents && ev.damageTaken > 0) loseThreat(t); }
       if (s) { s.dmgDealt += ev.damageTaken; s.skillsUsed++; }
       break;
     }
+    case "ScalingSkillDamage": {
+      const t = live[ev.targetId], s = live[ev.sourceId];
+      const kind = ev.periodic ? "effect" : "skill";
+      if (t) { t.health = ev.remainingHealth; t.flash = kind; t.popup = { text: "-" + ev.damageTaken + " " + skillPopup(ev.skill, kind), kind }; t.dmgTaken += ev.damageTaken; }
+      if (s) { s.dmgDealt += ev.damageTaken; if (!ev.periodic) s.skillsUsed++; }
+      break;
+    }
+    case "AttackIntercepted": {
+      const p = live[ev.interceptorId];
+      if (p) { p.flash = "buff"; p.popup = { text: skillPopup("GUARD", "guard"), kind: "buff" }; }
+      break;
+    }
+    case "SkillChargeChanged": {
+      const p = live[ev.personageId];
+      if (p) { p.flash = "buff"; p.popup = { text: ev.discharged ? "DISCHARGE" : `CHARGE ${ev.charges}/3`, kind: "buff" }; }
+      break;
+    }
+    case "InitiativeDelayed": {
+      const t = live[ev.targetId];
+      if (t) { t.gauge = ev.gaugeAfter; t.flash = "effect"; t.popup = { text: "-" + ev.amount + " GAUGE", kind: "effect" }; }
+      break;
+    }
+    case "ThreatChanged": {
+      const p = live[ev.personageId];
+      if (p) p.threat = ev.resultingThreat;
+      break;
+    }
+    case "SkillWindowUsed": {
+      const p = live[ev.personageId];
+      if (p) p.skillsUsed++;
+      break;
+    }
+    case "TargetSelected": break;
     case "PersonageHealed": {
       const p = live[ev.personageId];
       if (p) { p.health = ev.remainingHealth; p.flash = "heal"; p.popup = { text: "+" + ev.amount + " " + skillPopup(ev.skill, "heal"), kind: "heal" }; p.healed += ev.amount; }
@@ -1143,6 +1177,13 @@ function eventKind(ev) {
     case "DamageReceived": return "damage";
     case "EffectDamage": return "skills";
     case "SkillDamage": return "skills";
+    case "ScalingSkillDamage": return "skills";
+    case "AttackIntercepted": return "skills";
+    case "SkillChargeChanged": return "skills";
+    case "InitiativeDelayed": return "skills";
+    case "SkillWindowUsed": return "skills";
+    case "TargetSelected": return "damage";
+    case "ThreatChanged": return "buffs";
     case "PersonageHealed": return "heals";
     case "PersonageAttackBuffed": return "buffs";
     case "PersonageDefeated": return "deaths";
@@ -1153,7 +1194,16 @@ function eventKind(ev) {
 function filterOn(id) { const f = FILTERS.find((x) => x.id === id); return f ? f.on : true; }
 
 function eventIds(ev) {
-  return [ev.personageId, ev.targetId, ev.attackerId, ev.sourceId, ev.killerId].filter((x) => x != null);
+  return [
+    ev.personageId,
+    ev.targetId,
+    ev.attackerId,
+    ev.sourceId,
+    ev.killerId,
+    ev.originalTargetId,
+    ev.finalTargetId,
+    ev.interceptorId,
+  ].filter((x) => x != null);
 }
 function idMatchesName(id) {
   const m = meta[id];
@@ -1176,6 +1226,13 @@ function classifyEvent(ev) {
     case "DamageReceived": return ev.roll && ev.roll.crit ? "damage crit" : "damage";
     case "EffectDamage": return "effect";
     case "SkillDamage": return "skill";
+    case "ScalingSkillDamage": return ev.periodic ? "effect" : "skill";
+    case "AttackIntercepted": return "buff";
+    case "SkillChargeChanged": return "buff";
+    case "InitiativeDelayed": return "effect";
+    case "ThreatChanged": return "buff";
+    case "SkillWindowUsed": return "buff";
+    case "TargetSelected": return "damage";
     case "PersonageHealed": return "heal";
     case "PersonageAttackBuffed": return "buff";
     case "PersonageDefeated": return "defeat";
@@ -1204,6 +1261,20 @@ function describeEvent(ev) {
       return `${nameHtml(ev.targetId)} takes <b>${ev.damageTaken}</b>${skillTag(ev.skill)} (${ev.attackType}) from ${nameHtml(ev.sourceId)} (hp ${ev.remainingHealth})`;
     case "SkillDamage":
       return `${nameHtml(ev.sourceId)} → ${nameHtml(ev.targetId)}${skillTag(ev.skill)} <b>${ev.damageTaken}</b> (${ev.attackType}) (hp ${ev.remainingHealth})`;
+    case "ScalingSkillDamage":
+      return `${nameHtml(ev.sourceId)} → ${nameHtml(ev.targetId)}${skillTag(ev.skill)} <b>${ev.damageTaken}</b>${attackTypesText(ev.basis)}${ev.periodic ? " · periodic" : ""} (hp ${ev.remainingHealth})`;
+    case "TargetSelected":
+      return `${nameHtml(ev.attackerId)} selects ${nameHtml(ev.originalTargetId)}${ev.originalTargetId === ev.finalTargetId ? "" : ` → ${nameHtml(ev.finalTargetId)}`} (range ${ev.distance})`;
+    case "AttackIntercepted":
+      return `${nameHtml(ev.interceptorId)}${skillTag("GUARD")} intercepts ${nameHtml(ev.attackerId)} → ${nameHtml(ev.originalTargetId)}`;
+    case "SkillChargeChanged":
+      return `${nameHtml(ev.personageId)}${skillTag(ev.skill)} ${ev.discharged ? "discharges" : `charge ${ev.charges}/3`}`;
+    case "InitiativeDelayed":
+      return `${nameHtml(ev.sourceId)} delays ${nameHtml(ev.targetId)}${skillTag(ev.skill)} by <b>${ev.amount}</b> (gauge ${ev.gaugeAfter})`;
+    case "ThreatChanged":
+      return `${nameHtml(ev.personageId)} threat <b>${ev.delta > 0 ? "+" : ""}${ev.delta}</b> → ${ev.resultingThreat} (${String(ev.reason || "").toLowerCase()})`;
+    case "SkillWindowUsed":
+      return `${nameHtml(ev.personageId)} uses${skillTag(ev.skill)}`;
     case "PersonageHealed":
       return `${nameHtml(ev.personageId)} heals${skillTag(ev.skill)} <b>+${ev.amount}</b> (hp ${ev.remainingHealth})`;
     case "PersonageAttackBuffed":

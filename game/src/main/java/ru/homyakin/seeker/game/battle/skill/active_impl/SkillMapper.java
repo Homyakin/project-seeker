@@ -16,6 +16,9 @@ public class SkillMapper {
             case PRECISE_STRIKE -> new PreciseStrike(points);
             case RETREAT -> new Retreat(points);
             case FEINT -> new Feint(points);
+            case GUARD, PENETRATION, ACCUMULATION, TEMPO_BREAK -> throw new IllegalArgumentException(
+                "Skill is unavailable for legacy formulas: " + activeEnum
+            );
         };
     }
 }

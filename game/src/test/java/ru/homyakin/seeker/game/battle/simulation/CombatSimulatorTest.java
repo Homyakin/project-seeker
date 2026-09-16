@@ -2,10 +2,12 @@ package ru.homyakin.seeker.game.battle.simulation;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.simulation.RaidSimulationFixtures.ReferenceBuild;
 import ru.homyakin.seeker.game.event.launched.RaidParams;
 import ru.homyakin.seeker.game.event.models.EventStatus;
@@ -13,6 +15,8 @@ import ru.homyakin.seeker.game.event.raid.generator.RaidGenerator;
 import ru.homyakin.seeker.game.event.raid.models.LaunchedRaidEvent;
 import ru.homyakin.seeker.game.event.raid.models.RaidType;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
+import ru.homyakin.seeker.game.item.models.DefaultItems;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 class CombatSimulatorTest {
     @Test
@@ -37,6 +41,59 @@ class CombatSimulatorTest {
             first.opponents().averageDamageDealt(),
             first.evaluatedTeam().averageDamageTaken()
         );
+        Assertions.assertEquals(
+            first.evaluatedTeam().averageDamageDealt(),
+            first.evaluatedTeam().averageNormalDamageDealt()
+                + first.evaluatedTeam().averageSkillDamageDealt()
+                + first.evaluatedTeam().averagePeriodicDamageDealt(),
+            1e-9
+        );
+        Assertions.assertEquals(
+            first.opponents().averageDamageDealt(),
+            first.opponents().averageNormalDamageDealt()
+                + first.opponents().averageSkillDamageDealt()
+                + first.opponents().averagePeriodicDamageDealt(),
+            1e-9
+        );
+        Assertions.assertEquals(
+            first.evaluatedTeam().averageNormalDamageDealt(),
+            first.causalMetrics().stream()
+                .filter(metric -> metric.type() == CombatSimulationReport.CausalMetricType.NORMAL_DAMAGE)
+                .filter(metric -> metric.source().side() == CombatSimulationReport.TeamSide.EVALUATED)
+                .mapToDouble(CombatSimulationReport.CausalMetric::averagePerBattle)
+                .sum(),
+            1e-9
+        );
+        Assertions.assertTrue(first.causalMetrics().stream().anyMatch(metric ->
+            metric.type() == CombatSimulationReport.CausalMetricType.TARGET_SELECTION
+        ));
+        Assertions.assertTrue(first.causalMetrics().stream().anyMatch(metric ->
+            metric.type() == CombatSimulationReport.CausalMetricType.THREAT_CHANGE
+        ));
+    }
+
+    @Test
+    void scalingReportUsesNamedBattleSequencesFromIterationSeed() {
+        final var simulator = new CombatSimulator();
+
+        final var baseline = simulator.run(scalingRequest(false));
+        final var withUnrelatedLegacyDraw = simulator.run(scalingRequest(true));
+
+        Assertions.assertEquals(baseline, withUnrelatedLegacyDraw);
+        Assertions.assertEquals(baseline.markdown(), withUnrelatedLegacyDraw.markdown());
+        Assertions.assertTrue(baseline.evaluatedTeam().averageTargetSelections() > 0);
+        Assertions.assertTrue(baseline.opponents().averageTargetSelections() > 0);
+        Assertions.assertTrue(baseline.causalMetrics().stream().anyMatch(metric ->
+            metric.type() == CombatSimulationReport.CausalMetricType.TARGET_SELECTION
+                && metric.source().side() == CombatSimulationReport.TeamSide.EVALUATED
+                && metric.target().filter(target ->
+                    target.side() == CombatSimulationReport.TeamSide.OPPONENTS
+                ).isPresent()
+        ));
+        Assertions.assertTrue(baseline.causalMetrics().stream().anyMatch(metric ->
+            metric.type() == CombatSimulationReport.CausalMetricType.SKILL_DAMAGE
+                && metric.skill().filter(skill -> skill == ActiveEnum.DOUBLE_ATTACK).isPresent()
+        ));
     }
 
     @Test
@@ -130,6 +187,45 @@ class CombatSimulatorTest {
                 Position.FRONT
             ),
             Position.FRONT
+        );
+    }
+
+    private static CombatSimulationRequest scalingRequest(boolean consumeUnrelatedLegacyRandom) {
+        return new CombatSimulationRequest(
+            "TEST",
+            "SCALING",
+            "SCALING",
+            1,
+            1,
+            20,
+            1_000,
+            20_260_913L,
+            () -> {
+                final var teams = new CombatSimulationTeams(
+                    List.of(scalingPersonage()),
+                    List.of(scalingPersonage())
+                );
+                if (consumeUnrelatedLegacyRandom) {
+                    RandomUtils.getInInterval(0, 10_000);
+                }
+                return teams;
+            }
+        );
+    }
+
+    private static BattlePersonage scalingPersonage() {
+        return BattlePersonage.forScalingSkills(
+            List.of(
+                DefaultItems.MAIN_FIST,
+                DefaultItems.OFF_FIST,
+                DefaultItems.SHIRT,
+                DefaultItems.PANTS,
+                DefaultItems.SHOES,
+                DefaultItems.HELMET,
+                DefaultItems.GLOVES
+            ),
+            Position.FRONT,
+            Map.of(ActiveEnum.DOUBLE_ATTACK, 4)
         );
     }
 

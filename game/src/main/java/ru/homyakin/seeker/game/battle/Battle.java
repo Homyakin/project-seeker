@@ -14,6 +14,20 @@ import java.util.stream.Stream;
 public class Battle {
     private record Mover(BattlePersonage personage, Map<UUID, BattlePersonage> enemyAliveTeam) { }
 
+    private final BattleRandom random;
+
+    public Battle() {
+        this(new DefaultBattleRandom());
+    }
+
+    public Battle(long seed) {
+        this(new SeededBattleRandom(seed));
+    }
+
+    Battle(BattleRandom random) {
+        this.random = random;
+    }
+
     public BattleResult process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
         return process(firstTeam, secondTeam, Integer.MAX_VALUE);
     }
@@ -26,7 +40,7 @@ public class Battle {
         if (maxRounds <= 0) {
             throw new IllegalArgumentException("maxRounds must be positive");
         }
-        final var battleMap = new BattleContext(firstTeam, secondTeam);
+        final var battleMap = new BattleContext(firstTeam, secondTeam, random);
         final var initState = captureInitState(battleMap, firstTeam, secondTeam);
         final var actionLog = new BattleActionLog();
 
@@ -53,7 +67,10 @@ public class Battle {
                 }
             }
 
-            for (final var mover : RandomUtils.shuffle(movers)) {
+            final var orderedMovers = battleMap.usesScalingSkillOrder()
+                ? random.shuffle("turn-order:" + rounds, movers)
+                : RandomUtils.shuffle(movers);
+            for (final var mover : orderedMovers) {
                 if (mover.enemyAliveTeam().isEmpty()) {
                     break;
                 }

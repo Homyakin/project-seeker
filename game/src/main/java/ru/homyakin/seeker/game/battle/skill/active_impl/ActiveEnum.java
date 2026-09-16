@@ -12,5 +12,9 @@ public enum ActiveEnum {
     PRECISE_STRIKE,
     RETREAT,
     FEINT,
+    GUARD,
+    PENETRATION,
+    ACCUMULATION,
+    TEMPO_BREAK,
     ;
 }

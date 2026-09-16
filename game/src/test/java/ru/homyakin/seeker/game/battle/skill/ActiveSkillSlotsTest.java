@@ -12,7 +12,7 @@ public class ActiveSkillSlotsTest {
     @Test
     void loadsSlotsFromCatalogAndSortsByEnumName() {
         final var skills = ActiveSkillSlots.sortedSkills();
-        Assertions.assertEquals(ActiveEnum.values().length, skills.size());
+        Assertions.assertEquals(11, skills.size());
         Assertions.assertEquals(ActiveEnum.BERSERK, skills.getFirst());
         Assertions.assertEquals(ActiveEnum.THORNS, skills.getLast());
         Assertions.assertTrue(ActiveSkillSlots.slotsFor(ActiveEnum.DOUBLE_ATTACK).contains(PersonageSlot.MAIN_HAND));

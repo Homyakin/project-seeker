@@ -1,6 +1,5 @@
 package ru.homyakin.seeker.game.battle.skill;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.List;
@@ -32,7 +31,7 @@ public final class ActiveSkillSlots {
     }
 
     public static List<ActiveEnum> sortedSkills() {
-        return Arrays.stream(ActiveEnum.values())
+        return CATALOG.slotsBySkill().keySet().stream()
             .sorted(Comparator.comparing(Enum::name))
             .toList();
     }

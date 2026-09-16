@@ -14,8 +14,23 @@ public class BattleContext {
     private final List<BattleLine> lines;
     private final Map<UUID, BattlePersonage> firstAliveTeam;
     private final Map<UUID, BattlePersonage> secondAliveTeam;
+    private final VersionedTeamSkillState firstTeamSkillState = new VersionedTeamSkillState();
+    private final VersionedTeamSkillState secondTeamSkillState = new VersionedTeamSkillState();
+    private final BattleRandom random;
+    private final boolean scalingSkillOrder;
 
     public BattleContext(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+        this(firstTeam, secondTeam, new DefaultBattleRandom());
+    }
+
+    BattleContext(
+        List<BattlePersonage> firstTeam,
+        List<BattlePersonage> secondTeam,
+        BattleRandom random
+    ) {
+        this.random = random;
+        this.scalingSkillOrder = firstTeam.stream().anyMatch(BattlePersonage::hasScalingSkills)
+            || secondTeam.stream().anyMatch(BattlePersonage::hasScalingSkills);
         this.firstAliveTeam = new LinkedHashMap<>();
         for (final var p : firstTeam) {
             if (p.isAlive()) {
@@ -70,6 +85,28 @@ public class BattleContext {
         } else {
             return firstAliveTeam;
         }
+    }
+
+    public Map<UUID, BattlePersonage> allyAliveTeam(BattlePersonage personage) {
+        if (personage.advanceDirection() == BattleAdvanceDirection.TOWARD_SECOND_TEAM) {
+            return firstAliveTeam;
+        }
+        return secondAliveTeam;
+    }
+
+    VersionedTeamSkillState teamSkillState(BattlePersonage teamMember) {
+        if (teamMember.advanceDirection() == BattleAdvanceDirection.TOWARD_SECOND_TEAM) {
+            return firstTeamSkillState;
+        }
+        return secondTeamSkillState;
+    }
+
+    BattleRandom random() {
+        return random;
+    }
+
+    boolean usesScalingSkillOrder() {
+        return scalingSkillOrder;
     }
 
     /**
@@ -134,6 +171,18 @@ public class BattleContext {
         } else {
             to = Math.max(firstCount, Math.min(lines.size() - 1, to));
         }
+        if (to != from) {
+            relocatePersonage(personage, from, to);
+        }
+    }
+
+    public void moveTowardEnemy(BattlePersonage personage) {
+        if (!personage.isAlive() || personage.currentPosition() < 0) {
+            return;
+        }
+        final int from = personage.currentPosition();
+        final int requested = from + personage.advanceDirection().indexDelta();
+        final int to = Math.max(0, Math.min(lines.size() - 1, requested));
         if (to != from) {
             relocatePersonage(personage, from, to);
         }

@@ -1,0 +1,47 @@
+[[modifier]]
+    code = "guarding"
+    activeEnum = "GUARD"
+    type = "DEFENSE"
+    slots = ["OFF_HAND", "BODY"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Прикрывающий"
+    FEMININE = "Прикрывающая"
+    NEUTER = "Прикрывающее"
+    PLURAL = "Прикрывающие"
+
+[[modifier]]
+    code = "penetrating"
+    activeEnum = "PENETRATION"
+    type = "ATTACK"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Проникающий"
+    FEMININE = "Проникающая"
+    NEUTER = "Проникающее"
+    PLURAL = "Проникающие"
+
+[[modifier]]
+    code = "charging"
+    activeEnum = "ACCUMULATION"
+    type = "ATTACK"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Накопительный"
+    FEMININE = "Накопительная"
+    NEUTER = "Накопительное"
+    PLURAL = "Накопительные"
+
+[[modifier]]
+    code = "disrupting"
+    activeEnum = "TEMPO_BREAK"
+    type = "ANY"
+    slots = ["MAIN_HAND", "OFF_HAND"]
+
+    [modifier.locales.RU.form]
+    MASCULINE = "Срывающий"
+    FEMININE = "Срывающая"
+    NEUTER = "Срывающее"
+    PLURAL = "Срывающие"

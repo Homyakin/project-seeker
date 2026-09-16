@@ -253,6 +253,10 @@ public class BattleLocalization {
             case PRECISE_STRIKE -> resource.preciseStrike();
             case RETREAT -> resource.retreat();
             case FEINT -> resource.feint();
+            case GUARD -> resource.guard();
+            case PENETRATION -> resource.penetration();
+            case ACCUMULATION -> resource.accumulation();
+            case TEMPO_BREAK -> resource.tempoBreak();
         };
     }
 

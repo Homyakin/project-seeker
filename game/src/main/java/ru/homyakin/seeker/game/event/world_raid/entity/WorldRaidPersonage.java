@@ -1,9 +1,11 @@
 package ru.homyakin.seeker.game.event.world_raid.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 
@@ -52,8 +54,16 @@ public record WorldRaidPersonage(
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record PersonageSkill(
         ActiveEnum activeEnum,
-        SkillRank rank
+        SkillRank rank,
+        @JsonProperty(required = false) SkillFormulaVersion version
     ) {
+        public PersonageSkill {
+            version = version == null ? SkillFormulaVersion.LEGACY_SKILLS_V1 : version;
+        }
+
+        public PersonageSkill(ActiveEnum activeEnum, SkillRank rank) {
+            this(activeEnum, rank, SkillFormulaVersion.LEGACY_SKILLS_V1);
+        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

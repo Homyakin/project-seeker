@@ -25,12 +25,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import ru.homyakin.seeker.game.battle.effect.PeriodicDamageEffect;
 import ru.homyakin.seeker.game.battle.effect.PersonageBattleEffects;
 import ru.homyakin.seeker.game.battle.effect.TemporaryMaxRangeBonus;
 import ru.homyakin.seeker.game.battle.skill.AttackPowerSkill;
+import ru.homyakin.seeker.game.battle.skill.ActiveSkill;
 import ru.homyakin.seeker.game.battle.skill.DamageDealSkill;
 import ru.homyakin.seeker.game.battle.skill.HealthPowerSkill;
 import ru.homyakin.seeker.game.battle.skill.ItemSkill;
@@ -38,6 +41,11 @@ import ru.homyakin.seeker.game.battle.skill.SkillPowerInputs;
 import ru.homyakin.seeker.game.battle.skill.TurnSkill;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.skill.active_impl.SkillMapper;
+import ru.homyakin.seeker.game.battle.skill.scaling.AttackAccess;
+import ru.homyakin.seeker.game.battle.skill.scaling.NonNegativeRational;
+import ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillBook;
+import ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMath;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.battle.targeting.TargetingMath;
 import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.utils.MathUtils;
@@ -74,6 +82,13 @@ public class BattlePersonage {
     private int health;
     private final Set<AttackType> attackTypes = EnumSet.noneOf(AttackType.class);
     private final List<ItemSkill> itemSkills = new ArrayList<>();
+    private final Map<ActiveEnum, ActiveSkill> legacySkillsByCode = new EnumMap<>(ActiveEnum.class);
+    private final ScalingSkillBook scalingSkills;
+    private final Map<UUID, ScalingBleedingEffect> scalingBleedings = new TreeMap<>();
+    private final List<ItemAttack> scalingBaseAttackParts;
+    private final List<Integer> legacyAttackPercentChanges = new ArrayList<>();
+    private final Optional<AttackType> primaryAttackType;
+    private double preBattleAttackScale = 1.0;
     private final List<BattleItemInitSnapshot> itemSnapshots;
     private final List<BattleSkillInitSnapshot> skillSnapshots;
     private final Map<AttackType, Integer>[] rangeAttack;
@@ -94,6 +109,7 @@ public class BattlePersonage {
     private final int speed;
     private final int baseThreat;
     private int bonusThreat = 0;
+    private boolean suppressAutomaticThreatLoss;
     private int cumulativeSpeed;
     private boolean readyToAct;
     private final Position startPosition;
@@ -139,11 +155,64 @@ public class BattlePersonage {
     }
 
     public BattlePersonage(WorldRaidPersonage personage, Position startPosition) {
-        this(itemsFromWorldRaidPersonage(personage), startPosition, skillPointsFromWorldRaidPersonage(personage));
+        this(
+            itemsFromWorldRaidPersonage(personage),
+            startPosition,
+            skillPointsFromWorldRaidPersonage(personage),
+            PersonageEffects.EMPTY,
+            null,
+            Optional.empty(),
+            SkillFormulaVersion.LEGACY_SKILLS_V1,
+            skillVersionsFromWorldRaidPersonage(personage)
+        );
     }
 
     public BattlePersonage(List<Item> items, Position startPosition, Map<ActiveEnum, Integer> skillPointsByActive) {
         this(items, startPosition, skillPointsByActive, PersonageEffects.EMPTY, null);
+    }
+
+    public BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        SkillFormulaVersion formulaVersion
+    ) {
+        this(items, startPosition, skillPointsByActive, PersonageEffects.EMPTY, null, Optional.empty(), formulaVersion);
+    }
+
+    public static BattlePersonage forScalingSkills(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive
+    ) {
+        return new BattlePersonage(
+            items,
+            startPosition,
+            skillPointsByActive,
+            PersonageEffects.EMPTY,
+            null,
+            Optional.empty(),
+            SkillFormulaVersion.SCALING_SKILLS_V1,
+            Map.of()
+        );
+    }
+
+    public static BattlePersonage withSkillVersions(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        Map<ActiveEnum, SkillFormulaVersion> versions
+    ) {
+        return new BattlePersonage(
+            items,
+            startPosition,
+            skillPointsByActive,
+            PersonageEffects.EMPTY,
+            null,
+            Optional.empty(),
+            SkillFormulaVersion.LEGACY_SKILLS_V1,
+            versions
+        );
     }
 
     public BattlePersonage(
@@ -164,6 +233,40 @@ public class BattlePersonage {
         LocalDateTime now,
         Optional<String> name
     ) {
+        this(
+            items,
+            startPosition,
+            skillPointsByActive,
+            effects,
+            now,
+            name,
+            SkillFormulaVersion.LEGACY_SKILLS_V1,
+            Map.of()
+        );
+    }
+
+    public BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        PersonageEffects effects,
+        LocalDateTime now,
+        Optional<String> name,
+        SkillFormulaVersion formulaVersion
+    ) {
+        this(items, startPosition, skillPointsByActive, effects, now, name, formulaVersion, Map.of());
+    }
+
+    private BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        PersonageEffects effects,
+        LocalDateTime now,
+        Optional<String> name,
+        SkillFormulaVersion defaultFormulaVersion,
+        Map<ActiveEnum, SkillFormulaVersion> skillVersions
+    ) {
         this.name = name;
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
@@ -174,6 +277,7 @@ public class BattlePersonage {
         var totalSpeed = 0;
         var totalBaseThreat = 0;
         final var builtItemSnapshots = new ArrayList<BattleItemInitSnapshot>();
+        final var builtAttackParts = new ArrayList<ItemAttack>();
         for (final var item : items) {
             totalCritChance += item.critChance();
             totalDodgeChance += item.dodgeChance();
@@ -182,6 +286,7 @@ public class BattlePersonage {
             totalBaseThreat += item.baseThreat();
             for (final var attack : item.itemAttacks()) {
                 maxRange = Math.max(maxRange, attack.maxRange());
+                builtAttackParts.add(attack);
             }
             if (item.modifier().isPresent() && item.rarity() != ItemRarity.COMMON) {
                 activeSkills.merge(item.modifier().get().activeEnum(), item.skillPoints(), Integer::sum);
@@ -194,18 +299,34 @@ public class BattlePersonage {
                 ));
             }
         }
+        this.scalingBaseAttackParts = List.copyOf(builtAttackParts);
+        this.primaryAttackType = calculatePrimaryAttackType(scalingBaseAttackParts);
         this.itemSnapshots = List.copyOf(builtItemSnapshots);
         for (final var entry : skillPointsByActive.entrySet()) {
             activeSkills.put(entry.getKey(), activeSkills.getOrDefault(entry.getKey(), 0) + entry.getValue());
         }
         this.critMultiplier = totalCritMultiplier;
         final var builtSkillSnapshots = new ArrayList<BattleSkillInitSnapshot>();
+        final var scalingSkillPoints = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
         for (final var entry : activeSkills.entrySet()) {
             if (entry.getValue() > 0) {
-                itemSkills.add(SkillMapper.map(entry.getKey(), entry.getValue()));
-                builtSkillSnapshots.add(new BattleSkillInitSnapshot(entry.getKey(), entry.getValue()));
+                final var formulaVersion = skillVersions.getOrDefault(
+                    entry.getKey(),
+                    defaultFormulaVersion == null
+                        ? SkillFormulaVersion.LEGACY_SKILLS_V1
+                        : defaultFormulaVersion
+                );
+                if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1) {
+                    scalingSkillPoints.put(entry.getKey(), entry.getValue());
+                } else {
+                    final var skill = SkillMapper.map(entry.getKey(), entry.getValue());
+                    itemSkills.add(skill);
+                    legacySkillsByCode.put(entry.getKey(), skill);
+                }
+                builtSkillSnapshots.add(new BattleSkillInitSnapshot(entry.getKey(), entry.getValue(), formulaVersion));
             }
         }
+        this.scalingSkills = new ScalingSkillBook(scalingSkillPoints);
         this.skillSnapshots = List.copyOf(builtSkillSnapshots);
         for (final var skill : itemSkills) {
             switch (skill) {
@@ -291,6 +412,7 @@ public class BattlePersonage {
     }
 
     private void rescaleRangeAttack(double factor) {
+        preBattleAttackScale *= factor;
         for (int i = 1; i < rangeAttack.length; i++) {
             for (final var entry : new HashMap<>(rangeAttack[i]).entrySet()) {
                 rangeAttack[i].put(entry.getKey(), Math.max(0, (int) (entry.getValue() * factor)));
@@ -370,6 +492,21 @@ public class BattlePersonage {
         return points;
     }
 
+    private static Map<ActiveEnum, SkillFormulaVersion> skillVersionsFromWorldRaidPersonage(
+        WorldRaidPersonage personage
+    ) {
+        final var versions = new EnumMap<ActiveEnum, SkillFormulaVersion>(ActiveEnum.class);
+        for (final var skill : personage.skillsOrEmpty()) {
+            final var previous = versions.putIfAbsent(skill.activeEnum(), skill.version());
+            if (previous != null && previous != skill.version()) {
+                throw new IllegalArgumentException(
+                    "Conflicting formula versions for skill " + skill.activeEnum()
+                );
+            }
+        }
+        return versions;
+    }
+
     @SuppressWarnings("unchecked")
     private static Map<AttackType, Integer>[] newRangeAttackSlotMaps(int maxSlot) {
         final Map<AttackType, Integer>[] maps = new Map[maxSlot + 1];
@@ -433,14 +570,32 @@ public class BattlePersonage {
      * Environmental / timed damage: no dodge, same mitigation variance as normal hits.
      */
     public void applyEffectDamage(AttackType type, int rawAttack, UUID sourceId, ActiveEnum skill, BattleActionLog log, int round) {
+        final boolean wasAlive = isAlive();
+        applyEffectDamageWithoutDefeatEvent(type, rawAttack, sourceId, skill, log, round);
+        if (wasAlive && !isAlive()) {
+            log.add(new BattleEvent.PersonageDefeated(id, sourceId, round));
+        }
+    }
+
+    /**
+     * Common-turn variant that lets the caller place threat changes before the defeat event.
+     *
+     * @return actual damage taken
+     */
+    public int applyEffectDamageWithoutDefeatEvent(
+        AttackType type,
+        int rawAttack,
+        UUID sourceId,
+        ActiveEnum skill,
+        BattleActionLog log,
+        int round
+    ) {
         if (!isAlive()) {
-            return;
+            return 0;
         }
         final int damageTaken = takeDamage(rawAttack, (int) (rawAttack * defenseReduce.get(type)));
         log.add(new BattleEvent.EffectDamage(id, sourceId, skill, type, damageTaken, health, round));
-        if (!isAlive()) {
-            log.add(new BattleEvent.PersonageDefeated(id, sourceId, round));
-        }
+        return damageTaken;
     }
 
     /**
@@ -451,7 +606,9 @@ public class BattlePersonage {
      * @return actual damage taken (post-mitigation, post-variance)
      */
     private int takeDamage(int rawAmount, int mitigated) {
-        bonusThreat = Math.max(0, bonusThreat - THREAT_LOSE_FROM_DAMAGE);
+        if (!suppressAutomaticThreatLoss) {
+            bonusThreat = Math.max(0, bonusThreat - THREAT_LOSE_FROM_DAMAGE);
+        }
         damageBlocked += rawAmount;
         blockCount++;
         final int healthBefore = health;
@@ -495,6 +652,13 @@ public class BattlePersonage {
      * @return true if the mover phase should stop (no alive enemies left)
      */
     public boolean move(BattleContext context, BattleActionLog log, int round) {
+        if (context.usesScalingSkillOrder()) {
+            return VersionedBattleTurn.process(this, context, log, round);
+        }
+        return moveLegacy(context, log, round);
+    }
+
+    private boolean moveLegacy(BattleContext context, BattleActionLog log, int round) {
         readyToAct = false;
         turnsCount++;
         combatEffects.onOwnTurnBegin(this, log, round);
@@ -529,6 +693,37 @@ public class BattlePersonage {
         }
         log.addAll(applyTurnEndSkills(context, round));
         return false;
+    }
+
+    void beginVersionedMove() {
+        readyToAct = false;
+        turnsCount++;
+    }
+
+    void applyLegacyTimedEffects(BattleActionLog log, int round) {
+        combatEffects.onOwnTurnBegin(this, log, round);
+    }
+
+    void expireLegacyRangeBonusesForVersionedTurn() {
+        combatEffects.expireRangeBonusesOnOwnTurnBegin();
+    }
+
+    List<PeriodicDamageEffect> legacyPeriodicDamages() {
+        return combatEffects.periodicDamages();
+    }
+
+    void removeLegacyPeriodicDamage(PeriodicDamageEffect effect) {
+        combatEffects.removePeriodicDamage(effect);
+    }
+
+    <T> T withoutAutomaticThreatLoss(Supplier<T> action) {
+        final boolean previous = suppressAutomaticThreatLoss;
+        suppressAutomaticThreatLoss = true;
+        try {
+            return action.get();
+        } finally {
+            suppressAutomaticThreatLoss = previous;
+        }
     }
 
     private List<Target> randomAlivePersonage(BattlePersonage attacker, Map<UUID, BattlePersonage> enemyAliveTeam) {
@@ -662,6 +857,7 @@ public class BattlePersonage {
                 rangeAttackCrit[i].put(entry.getKey(), (int) (entry.getValue() * critMultiplier));
             }
         }
+        legacyAttackPercentChanges.add(percent);
     }
 
     public void decreaseDefense(int percent) {
@@ -852,6 +1048,288 @@ public class BattlePersonage {
             return new DamageRoll(rangeAttackCrit[mapSlot], true);
         }
         return new DamageRoll(rangeAttack[mapSlot], false);
+    }
+
+    boolean hasScalingSkills() {
+        return !scalingSkills.isEmpty();
+    }
+
+    ScalingSkillBook scalingSkills() {
+        return scalingSkills;
+    }
+
+    boolean hasLegacySkill(ActiveEnum skill) {
+        return legacySkillsByCode.containsKey(skill);
+    }
+
+    List<BattleEvent> applyLegacyDamageSkill(
+        ActiveEnum skill,
+        BattleContext context,
+        BattlePersonage target,
+        int round
+    ) {
+        final var mapped = legacySkillsByCode.get(skill);
+        if (mapped instanceof DamageDealSkill damageDealSkill) {
+            return damageDealSkill.apply(context, this, target, round);
+        }
+        return List.of();
+    }
+
+    List<BattleEvent> applyLegacyTurnStartSkills(BattleContext context, int round) {
+        return applyTurnStartSkills(context, round);
+    }
+
+    List<BattleEvent> applyLegacyTurnStartSkill(
+        ActiveEnum skill,
+        BattleContext context,
+        int round
+    ) {
+        final var mapped = legacySkillsByCode.get(skill);
+        if (mapped instanceof TurnSkill.TurnStartSkill turnStartSkill) {
+            return turnStartSkill.apply(context, this, round);
+        }
+        return List.of();
+    }
+
+    List<BattleEvent> applyLegacyTurnEndSkills(BattleContext context, int round) {
+        return applyTurnEndSkills(context, round);
+    }
+
+    List<BattleEvent> applyLegacyTurnEndSkill(
+        ActiveEnum skill,
+        BattleContext context,
+        int round
+    ) {
+        final var mapped = legacySkillsByCode.get(skill);
+        if (mapped instanceof TurnSkill.TurnEndSkill turnEndSkill) {
+            return turnEndSkill.apply(context, this, round);
+        }
+        return List.of();
+    }
+
+    int distanceTo(BattlePersonage target) {
+        return calcRange(target);
+    }
+
+    int ordinaryMaxRange() {
+        return baseMaxRange;
+    }
+
+    Map<AttackType, Integer> scalingAttackAt(int distance, AttackAccess access) {
+        if (distance < 1) {
+            throw new IllegalArgumentException("distance must be positive");
+        }
+        final var result = scalingAttackAt(scalingBaseAttackParts, distance, access);
+        for (final var entry : result.entrySet()) {
+            entry.setValue(Math.max(0, (int) (entry.getValue() * preBattleAttackScale)));
+        }
+        for (final int percent : legacyAttackPercentChanges) {
+            for (final var entry : result.entrySet()) {
+                entry.setValue(MathUtils.addPercent(entry.getValue(), percent));
+            }
+        }
+        if (scalingSkills.berserkActivated()) {
+            final var baseAttack = scalingAttackAt(scalingBaseAttackParts, distance, access);
+            final int multiplier = ScalingSkillMath.multiplierNumerator(
+                scalingSkills.points(ActiveEnum.BERSERK)
+            );
+            for (final var entry : baseAttack.entrySet()) {
+                final int bonus = ScalingSkillMath.roundHalfUpToInt(
+                    NonNegativeRational.of(entry.getValue()).multiply(
+                        NonNegativeRational.of(multiplier, 80)
+                    )
+                );
+                result.merge(entry.getKey(), bonus, Math::addExact);
+            }
+        }
+        return Map.copyOf(result);
+    }
+
+    private static EnumMap<AttackType, Integer> scalingAttackAt(
+        List<ItemAttack> parts,
+        int distance,
+        AttackAccess access
+    ) {
+        final var result = new EnumMap<AttackType, Integer>(AttackType.class);
+        for (final var part : parts) {
+            final boolean available = switch (access) {
+                case NORMAL -> part.isAvailableAt(distance);
+                case HIT_AND_RUN -> distance >= part.minRange() && distance <= part.maxRange() + 1;
+                case PENETRATION -> distance >= part.minRange();
+            };
+            if (available) {
+                result.merge(part.attackType(), part.attack(), Math::addExact);
+            }
+        }
+        return result;
+    }
+
+    Map<AttackType, Integer> attackForVersionedAttempt(int distance, AttackAccess access) {
+        if (access == AttackAccess.NORMAL && distance > baseMaxRange && distance <= range()) {
+            return scalingAttackAt(baseMaxRange, AttackAccess.NORMAL);
+        }
+        return scalingAttackAt(distance, access);
+    }
+
+    Optional<AttackType> primaryAttackType() {
+        return primaryAttackType;
+    }
+
+    private static Optional<AttackType> calculatePrimaryAttackType(List<ItemAttack> attacks) {
+        final var totals = new EnumMap<AttackType, Integer>(AttackType.class);
+        for (final var part : attacks) {
+            totals.merge(part.attackType(), part.attack(), Math::addExact);
+        }
+        AttackType selected = null;
+        var selectedAttack = 0;
+        for (final var type : AttackType.values()) {
+            final int attack = totals.getOrDefault(type, 0);
+            if (attack > selectedAttack) {
+                selected = type;
+                selectedAttack = attack;
+            }
+        }
+        return Optional.ofNullable(selected);
+    }
+
+    boolean exactBerserkThresholdReached() {
+        return Math.multiplyExact(100L, health) <= Math.multiplyExact(30L, maxHealth);
+    }
+
+    boolean versionedDodgeSucceeds(BattleRandom random, BattlePersonage attacker) {
+        return random.chance(
+            "normal-dodge:" + attacker.id() + ":" + id,
+            Math.max(0, Math.min(100, dodgeChance)) * 100
+        );
+    }
+
+    boolean versionedCriticalSucceeds(BattleRandom random) {
+        return random.chance("normal-critical:" + id, Math.max(0, Math.min(100, critChance)) * 100);
+    }
+
+    Map<AttackType, Integer> applyCriticalMultiplier(Map<AttackType, Integer> attack) {
+        final var result = new EnumMap<AttackType, Integer>(AttackType.class);
+        for (final var entry : attack.entrySet()) {
+            result.put(entry.getKey(), (int) (entry.getValue() * critMultiplier));
+        }
+        return Map.copyOf(result);
+    }
+
+    void recordVersionedDodge(
+        BattlePersonage attacker,
+        Map<AttackType, Integer> rolledAttack,
+        BattleActionLog log,
+        int round
+    ) {
+        final int amount = rolledAttack.values().stream().mapToInt(Integer::intValue).sum();
+        dodgesCount++;
+        damageDodged += amount;
+        attacker.recordMiss();
+        log.add(new BattleEvent.AttackDodged(attacker.id(), id, round));
+    }
+
+    int applyVersionedNormalDamage(
+        BattlePersonage attacker,
+        Map<AttackType, Integer> rolledAttack,
+        boolean critical,
+        BattleRandom random,
+        BattleActionLog log,
+        int round
+    ) {
+        var mitigated = 0;
+        for (final var entry : rolledAttack.entrySet()) {
+            mitigated = Math.addExact(mitigated, (int) (entry.getValue() * defenseReduce.get(entry.getKey())));
+        }
+        final int minimum = (int) Math.round(mitigated * 0.9);
+        final int maximum = (int) Math.round(mitigated * 1.1);
+        final int damage = random.nextInt(
+            "normal-damage:" + attacker.id() + ":" + id,
+            minimum,
+            maximum
+        );
+        final int raw = rolledAttack.values().stream().mapToInt(Integer::intValue).sum();
+        final int damageTaken = applyVersionedHealthDamage(raw, damage);
+        attacker.recordDamageDealt(damageTaken, critical);
+        log.add(new BattleEvent.DamageReceived(
+            id,
+            attacker.id(),
+            new DamageRoll(rolledAttack, critical),
+            damageTaken,
+            health,
+            round
+        ));
+        return damageTaken;
+    }
+
+    int applyVersionedSkillDamage(int rawDamage, int damage, BattlePersonage source) {
+        final int damageTaken = applyVersionedHealthDamage(rawDamage, damage);
+        source.recordSkillDamageDealt(damageTaken);
+        return damageTaken;
+    }
+
+    private int applyVersionedHealthDamage(int rawDamage, int damage) {
+        if (!isAlive() || damage <= 0) {
+            return 0;
+        }
+        damageBlocked += Math.max(0, rawDamage);
+        blockCount++;
+        final int healthBefore = health;
+        health = Math.max(0, health - damage);
+        final int damageTaken = healthBefore - health;
+        actualDamageTaken += damageTaken;
+        return damageTaken;
+    }
+
+    int healAndGetActual(int amount) {
+        final int before = health;
+        heal(amount);
+        return health - before;
+    }
+
+    int changeBonusThreat(int delta) {
+        final int before = totalThreat();
+        if (delta < 0) {
+            bonusThreat = Math.max(0, bonusThreat + delta);
+        } else {
+            bonusThreat = Math.addExact(bonusThreat, delta);
+        }
+        return totalThreat() - before;
+    }
+
+    int loseThreatAfterDamage(int actualDamage) {
+        if (actualDamage <= 0) {
+            return 0;
+        }
+        return changeBonusThreat(-THREAT_LOSE_FROM_DAMAGE);
+    }
+
+    int gainThreatAfterHit() {
+        return changeBonusThreat(THREAT_FROM_DAMAGE);
+    }
+
+    int gainThreatAfterKill() {
+        return changeBonusThreat(THREAT_FROM_KILL);
+    }
+
+    int reduceInitiativeGauge(int amount) {
+        if (amount <= 0) {
+            return 0;
+        }
+        final int removed = Math.min(amount, cumulativeSpeed);
+        cumulativeSpeed -= removed;
+        return removed;
+    }
+
+    void addOrReplaceScalingBleeding(ScalingBleedingEffect effect) {
+        scalingBleedings.put(effect.source().id(), effect);
+    }
+
+    List<ScalingBleedingEffect> scalingBleedings() {
+        return List.copyOf(scalingBleedings.values());
+    }
+
+    void removeScalingBleeding(UUID sourceId) {
+        scalingBleedings.remove(sourceId);
     }
 
     public BattlePersonageStats battlePersonageStats() {

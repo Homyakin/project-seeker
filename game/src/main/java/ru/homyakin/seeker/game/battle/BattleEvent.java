@@ -5,6 +5,9 @@ import ru.homyakin.seeker.game.item.models.AttackType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.UUID;
 
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
@@ -22,6 +25,13 @@ import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
     @JsonSubTypes.Type(value = BattleEvent.PersonageAttackBuffed.class, name = "PersonageAttackBuffed"),
     @JsonSubTypes.Type(value = BattleEvent.PersonageForcedMove.class, name = "PersonageForcedMove"),
     @JsonSubTypes.Type(value = BattleEvent.PersonageDefeated.class,   name = "PersonageDefeated"),
+    @JsonSubTypes.Type(value = BattleEvent.TargetSelected.class,      name = "TargetSelected"),
+    @JsonSubTypes.Type(value = BattleEvent.AttackIntercepted.class,   name = "AttackIntercepted"),
+    @JsonSubTypes.Type(value = BattleEvent.ScalingSkillDamage.class,  name = "ScalingSkillDamage"),
+    @JsonSubTypes.Type(value = BattleEvent.SkillChargeChanged.class,  name = "SkillChargeChanged"),
+    @JsonSubTypes.Type(value = BattleEvent.InitiativeDelayed.class,   name = "InitiativeDelayed"),
+    @JsonSubTypes.Type(value = BattleEvent.ThreatChanged.class,       name = "ThreatChanged"),
+    @JsonSubTypes.Type(value = BattleEvent.SkillWindowUsed.class,     name = "SkillWindowUsed"),
 })
 public sealed interface BattleEvent permits
     BattleEvent.RoundStarted,
@@ -34,7 +44,14 @@ public sealed interface BattleEvent permits
     BattleEvent.PersonageHealed,
     BattleEvent.PersonageAttackBuffed,
     BattleEvent.PersonageForcedMove,
-    BattleEvent.PersonageDefeated {
+    BattleEvent.PersonageDefeated,
+    BattleEvent.TargetSelected,
+    BattleEvent.AttackIntercepted,
+    BattleEvent.ScalingSkillDamage,
+    BattleEvent.SkillChargeChanged,
+    BattleEvent.InitiativeDelayed,
+    BattleEvent.ThreatChanged,
+    BattleEvent.SkillWindowUsed {
 
     int round();
 
@@ -116,4 +133,83 @@ public sealed interface BattleEvent permits
     ) implements BattleEvent { }
 
     record PersonageDefeated(UUID personageId, UUID killerId, int round) implements BattleEvent { }
+
+    /**
+     * Records the single target selection for an ordinary attack attempt. The final target can differ from the
+     * originally selected one after an interception.
+     */
+    record TargetSelected(
+        UUID attackerId,
+        UUID originalTargetId,
+        UUID finalTargetId,
+        int distance,
+        int round
+    ) implements BattleEvent { }
+
+    /**
+     * Records an ordinary attack redirected from {@code originalTargetId} to {@code interceptorId}.
+     */
+    record AttackIntercepted(
+        UUID attackerId,
+        UUID originalTargetId,
+        UUID interceptorId,
+        int round
+    ) implements BattleEvent { }
+
+    /**
+     * One direct or periodic scaling-skill damage application. A mixed attack remains one event and one final value.
+     */
+    record ScalingSkillDamage(
+        UUID targetId,
+        UUID sourceId,
+        ActiveEnum skill,
+        Map<AttackType, Integer> basis,
+        int coefficientNumerator,
+        int coefficientDenominator,
+        boolean periodic,
+        int damageTaken,
+        int remainingHealth,
+        int round
+    ) implements BattleEvent {
+        public ScalingSkillDamage {
+            final var orderedBasis = new EnumMap<AttackType, Integer>(AttackType.class);
+            orderedBasis.putAll(basis);
+            basis = Collections.unmodifiableMap(orderedBasis);
+        }
+    }
+
+    record SkillChargeChanged(
+        UUID personageId,
+        ActiveEnum skill,
+        int charges,
+        boolean discharged,
+        int round
+    ) implements BattleEvent { }
+
+    record InitiativeDelayed(
+        UUID targetId,
+        UUID sourceId,
+        ActiveEnum skill,
+        int amount,
+        int gaugeAfter,
+        int round
+    ) implements BattleEvent { }
+
+    enum ThreatReason {
+        DAMAGE_TAKEN,
+        NORMAL_HIT,
+        KILL,
+    }
+
+    record ThreatChanged(
+        UUID personageId,
+        UUID sourceId,
+        ActiveEnum skill,
+        int delta,
+        int resultingThreat,
+        ThreatReason reason,
+        int round
+    ) implements BattleEvent { }
+
+    record SkillWindowUsed(UUID personageId, ActiveEnum skill, int round) implements BattleEvent { }
 }

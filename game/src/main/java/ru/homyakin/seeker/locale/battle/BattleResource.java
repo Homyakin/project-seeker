@@ -47,7 +47,11 @@ public record BattleResource(
     SkillEntry selfHeal,
     SkillEntry preciseStrike,
     SkillEntry retreat,
-    SkillEntry feint
+    SkillEntry feint,
+    SkillEntry guard,
+    SkillEntry penetration,
+    SkillEntry accumulation,
+    SkillEntry tempoBreak
 ) {
     public record SkillEntry(
         String name,

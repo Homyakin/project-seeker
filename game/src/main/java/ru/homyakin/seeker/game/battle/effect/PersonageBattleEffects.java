@@ -28,6 +28,11 @@ public final class PersonageBattleEffects {
     }
 
     public void onOwnTurnBegin(BattlePersonage self, BattleActionLog log, int round) {
+        expireRangeBonusesOnOwnTurnBegin();
+        periodicDamages.removeIf(effect -> effect.tickOnOwnTurnBegin(self, log, round));
+    }
+
+    public void expireRangeBonusesOnOwnTurnBegin() {
         rangeBonuses.removeIf(bonus -> {
             if (bonus.tickAtOwnTurnBegin()) {
                 maxRangeBonus -= bonus.delta();
@@ -35,6 +40,13 @@ public final class PersonageBattleEffects {
             }
             return false;
         });
-        periodicDamages.removeIf(effect -> effect.tickOnOwnTurnBegin(self, log, round));
+    }
+
+    public List<PeriodicDamageEffect> periodicDamages() {
+        return List.copyOf(periodicDamages);
+    }
+
+    public void removePeriodicDamage(PeriodicDamageEffect effect) {
+        periodicDamages.remove(effect);
     }
 }

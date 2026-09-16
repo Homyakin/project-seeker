@@ -50,11 +50,41 @@ public final class PeriodicDamageEffect {
      * @return true if this effect is exhausted and should be removed
      */
     public boolean tickOnOwnTurnBegin(BattlePersonage victim, BattleActionLog log, int round) {
+        return tickOnOwnTurnBegin(victim, log, round, true);
+    }
+
+    /**
+     * Common-turn variant: the caller emits defeat after the causally preceding threat change.
+     *
+     * @return true if this effect is exhausted and should be removed
+     */
+    public boolean tickOnOwnTurnBeginWithoutDefeatEvent(BattlePersonage victim, BattleActionLog log, int round) {
+        return tickOnOwnTurnBegin(victim, log, round, false);
+    }
+
+    private boolean tickOnOwnTurnBegin(
+        BattlePersonage victim,
+        BattleActionLog log,
+        int round,
+        boolean emitDefeatEvent
+    ) {
         if (--movesUntilNext > 0) {
             return false;
         }
         movesUntilNext = intervalOwnTurns;
-        victim.applyEffectDamage(attackType, damagePerTick, sourceId, skill, log, round);
+        if (emitDefeatEvent) {
+            victim.applyEffectDamage(attackType, damagePerTick, sourceId, skill, log, round);
+        } else {
+            victim.applyEffectDamageWithoutDefeatEvent(attackType, damagePerTick, sourceId, skill, log, round);
+        }
         return --ticksRemaining <= 0;
+    }
+
+    public UUID sourceId() {
+        return sourceId;
+    }
+
+    public ActiveEnum skill() {
+        return skill;
     }
 }
