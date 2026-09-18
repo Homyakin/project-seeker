@@ -134,6 +134,25 @@ class EnhanceServiceStormTest {
     }
 
     @Test
+    void availableActionContainsPriceAndExactNextTransition() {
+        final var current = item(0, 4);
+        Mockito.when(itemService.getPersonageItem(PERSONAGE_ID, ITEM_ID))
+            .thenReturn(Optional.of(current));
+
+        final var action = service.availableAction(PERSONAGE_ID, ITEM_ID)
+            .get()
+            .stormEnhance()
+            .orElseThrow();
+
+        Assertions.assertEquals(StormShards.from(25), action.cost());
+        Assertions.assertEquals(0, action.currentLevel());
+        Assertions.assertEquals(1, action.nextLevel());
+        Assertions.assertEquals(Optional.of(3), action.delta().health());
+        Assertions.assertTrue(action.delta().attacks().isEmpty());
+        Assertions.assertTrue(action.delta().defense().isEmpty());
+    }
+
+    @Test
     void technicalLimit_hasNoActionAndRejectsAttemptBeforeDebit() {
         final var current = item(stormConfig.maxPriceSupportedStateLevel(), 20);
         Mockito.when(itemService.getPersonageItem(PERSONAGE_ID, ITEM_ID)).thenReturn(Optional.of(current));

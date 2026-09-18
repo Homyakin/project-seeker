@@ -68,8 +68,8 @@ public class LocaleUtils {
         return enabled ? Icons.ENABLED : Icons.DISABLED;
     }
 
-    public static int power(int power) {
-        return power / 100; // делим на 10, так как слишком большие числа
+    public static int legacyPowerForDisplay(int power) {
+        return power / 100;
     }
 
     public static String personageNameWithBadge(PersonageLastOnline personage) {

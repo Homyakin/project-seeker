@@ -59,7 +59,11 @@ ${available_enhance}
 """
 addModifier = "Agregar modificador: ${enhance_command} ${money_icon}${price_value}"
 upgradeRarity = "Mejorar rareza: ${enhance_command} ${money_icon}${price_value}"
-stormEnhance = "Potenciar con tormenta (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value} (${success_percent}%, fallo ${failure_percent}%, retroceso ${rollback_percent}%)"
+stormEnhance = "Potenciar con tormenta (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value}; cambio exacto: ${changes} (${success_percent}%, fallo ${failure_percent}%, retroceso ${rollback_percent}%)"
+stormEnhanceHealthChange = "${health_icon}+${value}"
+stormEnhanceAttackChange = "${attack_type_icon}+${value} (dist. ${range})"
+stormEnhanceDefenseChange = "${defense_type_icon}+${value}"
+stormEnhanceNoChanges = "sin cambios de características"
 maxModifiers = "Este objeto ya tiene la rareza máxima."
 successAddModifier = """\
 ¡Modificador añadido!

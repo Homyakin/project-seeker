@@ -112,6 +112,14 @@ public class CommonLocalization {
         return resources.getOrDefault(language, CommonResource::internalError);
     }
 
+    public static String powerLabel(Language language) {
+        return resources.getOrDefault(language, CommonResource::powerLabel);
+    }
+
+    public static String powerApproximationNote(Language language) {
+        return resources.getOrDefault(language, CommonResource::powerApproximationNote);
+    }
+
     public static String fullProfile(
         Language language,
         Personage personage,
@@ -123,7 +131,9 @@ public class CommonLocalization {
         final var params = profileParams(personage, equippedCharacteristics);
 
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.power(power));
+        params.put("power_value", LocaleUtils.legacyPowerForDisplay(power));
+        params.put("power_label", powerLabel(language));
+        params.put("power_approximation_note", powerApproximationNote(language));
         if (personage.energy().isFull()) {
             params.put("time_icon", "");
             params.put("remain_duration_for_full_regen", "");
@@ -623,12 +633,41 @@ public class CommonLocalization {
         LaunchedEvent event,
         Optional<RaidItem> raidItem
     ) {
+        return personageBattleReport(language, result, event, raidItem, Optional.empty());
+    }
+
+    /**
+     * The displayed power stays a string until the final scale and its rounding rule are approved.
+     */
+    public static String personageBattleReport(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event,
+        Optional<RaidItem> raidItem,
+        Optional<String> displayedPower
+    ) {
         final var params = paramsForPersonageBattleReport(language, result);
         params.put("battle_date_time", TimeUtils.toString(event.endDate()));
         params.put("optional_short_item", formatRaidItem(language, raidItem));
+        params.put(
+            "optional_power",
+            displayedPower.map(value -> battleReportPower(language, value)).orElse("")
+        );
         return StringNamedTemplate.format(
             resources.getOrDefault(language, CommonResource::personageBattleReport),
             params
+        );
+    }
+
+    public static String battleReportPower(Language language, String displayedPower) {
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, CommonResource::battleReportPower),
+            Map.of(
+                "power_icon", Icons.POWER,
+                "power_label", powerLabel(language),
+                "power_value", displayedPower,
+                "power_approximation_note", powerApproximationNote(language)
+            )
         );
     }
 

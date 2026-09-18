@@ -46,6 +46,7 @@ topWorkerPosition = "${position}. ${personage_badge_with_name}: ${work_count}"
 
 topPowerPersonageGroup = """\
 💪Top de poder de los Exploradores del grupo:
+${power_approximation_note}
 
 ${top_personage_list}
 

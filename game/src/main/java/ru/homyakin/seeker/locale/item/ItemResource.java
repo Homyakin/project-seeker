@@ -4,6 +4,7 @@ public record ItemResource(
     String itemName,
     String fullItem,
     String shortItem,
+    String modifierSkill,
     String characteristics,
     String attack,
     String health,

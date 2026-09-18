@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
@@ -41,14 +42,32 @@ public class ItemLocalization {
     }
 
     public static String fullItem(Language requestedlanguage, PersonageItem item) {
-        return fullItem(requestedlanguage, item, "");
+        return fullItem(requestedlanguage, item, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String fullItem(
+        Language requestedlanguage,
+        PersonageItem item,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
+        return fullItem(requestedlanguage, item, "", skillFormulaVersion);
     }
 
     public static String fullItem(Language requestedlanguage, PersonageItem item, String optionalCommand) {
+        return fullItem(requestedlanguage, item, optionalCommand, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    private static String fullItem(
+        Language requestedlanguage,
+        PersonageItem item,
+        String optionalCommand,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
         return fullItem(
             requestedlanguage,
             item,
             optionalCommand,
+            skillFormulaVersion,
             item.object()
                 .slots()
                 .stream()
@@ -62,6 +81,7 @@ public class ItemLocalization {
         Language requestedlanguage,
         PersonageItem item,
         String optionalCommand,
+        SkillFormulaVersion skillFormulaVersion,
         String slots
     ) {
         final var itemLanguage = item.getItemLanguage(requestedlanguage);
@@ -72,6 +92,7 @@ public class ItemLocalization {
         params.put("item", itemText(itemLanguage, item));
         params.put("optional_command", optionalCommand);
         params.put("characteristics", itemCharacteristics(itemLanguage, item));
+        params.put("modifier_skill", modifierSkill(itemLanguage, item, skillFormulaVersion));
         params.put("slots", slots);
         return StringNamedTemplate.format(
             resources.getOrDefault(itemLanguage, ItemResource::fullItem),
@@ -81,6 +102,14 @@ public class ItemLocalization {
 
     public static String fullItem(Language requestedlanguage, Item item) {
         return fullItem(requestedlanguage, toDisplayItem(item));
+    }
+
+    public static String fullItem(
+        Language requestedlanguage,
+        Item item,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
+        return fullItem(requestedlanguage, toDisplayItem(item), skillFormulaVersion);
     }
 
     public static String fullItemForShopSlot(Language requestedlanguage, PersonageItem item, PersonageSlot shopSlot) {
@@ -97,6 +126,7 @@ public class ItemLocalization {
             requestedlanguage,
             item,
             optionalCommand,
+            SkillFormulaVersion.LEGACY_SKILLS_V1,
             slotIcons(item, shopSlot)
         ).trim();
     }
@@ -697,6 +727,29 @@ public class ItemLocalization {
 
     private static String itemCharacteristics(Language language, PersonageItem item) {
         return itemCharacteristics(language, item.toItem());
+    }
+
+    private static String modifierSkill(
+        Language language,
+        PersonageItem item,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
+        if (item.modifier().isEmpty() || item.toItem().skillPoints() == 0) {
+            return "";
+        }
+        final var modifier = item.modifier().orElseThrow();
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, ItemResource::modifierSkill),
+            Map.of(
+                "skill_description",
+                BattleLocalization.skillDescription(
+                    language,
+                    modifier.activeEnum(),
+                    item.toItem().skillPoints(),
+                    skillFormulaVersion
+                )
+            )
+        );
     }
 
     private static String itemCharacteristics(Language language, Item item) {

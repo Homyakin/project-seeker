@@ -59,9 +59,14 @@ addModifier = "Добавить модификатор: ${enhance_command} ${mon
 upgradeRarity = "Улучшить редкость: ${enhance_command} ${money_icon}${price_value}"
 stormEnhance = """\
 Усилить штормом (+${next_level}): ${storm_enhance_command} ${storm_shard_icon}${cost_value}
+- Точная прибавка: ${changes}
 - Успех: ${success_percent}%
 - Неудача ${failure_percent}%
 - Откат ${rollback_percent}%"""
+stormEnhanceHealthChange = "${health_icon}+${value}"
+stormEnhanceAttackChange = "${attack_type_icon}+${value} (дист. ${range})"
+stormEnhanceDefenseChange = "${defense_type_icon}+${value}"
+stormEnhanceNoChanges = "характеристики не изменятся"
 maxModifiers = "У этого предмета уже максимальная редкость."
 successAddModifier = """\
 Модификатор добавлен!

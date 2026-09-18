@@ -7,6 +7,9 @@ public record BattleResource(
     String battleStatsMitigationLine,
     String battleStatsSkillLine,
     String battleStatsSkillsEmpty,
+    String battleStatsSkillExcess,
+    String scalingCooldownFixed,
+    String scalingCooldownAlternating,
     String battleStatsPositionButton,
     String battleStatsTacticButton,
     String battleVisualizerButton,
@@ -60,7 +63,8 @@ public record BattleResource(
         String second,
         String third,
         String fourth,
-        String fifth
+        String fifth,
+        String scaling
     ) {
     }
 }

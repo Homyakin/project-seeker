@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
+import ru.homyakin.seeker.game.item.storm.ItemEnhancementDelta;
 import ru.homyakin.seeker.game.item.storm.StormEnhanceConfig;
 import ru.homyakin.seeker.game.item.storm.StormEnhanceOutcomePicker;
 import ru.homyakin.seeker.game.item.storm.StormEnhanceTechnicalLimit;
@@ -131,6 +132,7 @@ public class EnhanceService {
             stormAction = Optional.of(new StormEnhanceAction(
                 stormEnhanceConfig.costForLevel(item.enhanceLevel(), item.object().slots()),
                 stormEnhanceConfig.probabilitiesForLevel(item.enhanceLevel()),
+                ItemEnhancementDelta.next(item.object(), item.enhanceLevel()),
                 item.enhanceLevel(),
                 item.enhanceLevel() + 1,
                 item.enhanceRevision()

@@ -1,0 +1,147 @@
+# НЕАКТИВНЫЕ ДАННЫЕ. Действующий загрузчик игры этот путь не читает.
+# Версия 1 семи встроенных предметов свободных ячеек.
+
+[[item]]
+code = "main-fists"
+slots = ["MAIN_HAND"]
+health = 0
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.05
+speed = 12
+baseThreat = 2
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "BLUNT"
+minRange = 1
+maxRange = 1
+attack = 120
+
+[item.locales.RU]
+text = "Кулак"
+form = "MASCULINE"
+
+[[item]]
+code = "off-fists"
+slots = ["OFF_HAND"]
+health = 0
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.03
+speed = 8
+baseThreat = 1
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "BLUNT"
+minRange = 1
+maxRange = 1
+attack = 60
+
+[item.locales.RU]
+text = "Кулак"
+form = "MASCULINE"
+
+[[item]]
+code = "torn_jacket"
+slots = ["BODY"]
+health = 300
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0
+speed = 24
+baseThreat = 2
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Рваная Кофта"
+form = "FEMININE"
+
+[[item]]
+code = "leaky_pants"
+slots = ["PANTS"]
+health = 180
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0
+speed = 20
+baseThreat = 2
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Дырявые Штаны"
+form = "PLURAL"
+
+[[item]]
+code = "footcloths"
+slots = ["SHOES"]
+health = 120
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0
+speed = 16
+baseThreat = 0
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Портянки"
+form = "PLURAL"
+
+[[item]]
+code = "panama"
+slots = ["HELMET"]
+health = 120
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0
+speed = 16
+baseThreat = 0
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Панамка"
+form = "FEMININE"
+
+[[item]]
+code = "bandages"
+slots = ["GLOVES"]
+health = 120
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0
+speed = 16
+baseThreat = 0
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Бинты"
+form = "PLURAL"
+

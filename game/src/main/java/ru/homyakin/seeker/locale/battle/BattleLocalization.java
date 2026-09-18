@@ -1,23 +1,26 @@
 package ru.homyakin.seeker.locale.battle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.BattleSkillInitSnapshot;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.battle.skill.SkillRank;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldowns;
+import ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMath;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
-import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
 
 public class BattleLocalization {
@@ -27,12 +30,18 @@ public class BattleLocalization {
         resources.add(language, resource);
     }
 
-    public static String battleStats(Language language, BattlePersonage personage, List<Item> equippedItems) {
+    public static String battleStats(Language language, BattlePersonage personage, List<Item> ignoredEquippedItems) {
+        return battleStats(language, personage);
+    }
+
+    public static String battleStats(Language language, BattlePersonage personage) {
         final var params = new HashMap<String, Object>();
         params.put("position_name", positionName(language, personage.startPosition()));
         params.put("targeting_tactic_name", targetingTacticName(language, personage.targetingTactic()));
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.power((int) personage.legacyPower()));
+        params.put("power_value", LocaleUtils.legacyPowerForDisplay((int) personage.legacyPower()));
+        params.put("power_label", CommonLocalization.powerLabel(language));
+        params.put("power_approximation_note", CommonLocalization.powerApproximationNote(language));
         params.put("health_icon", Icons.HEALTH);
         params.put("health_value", personage.maxHealth());
         params.put("range_icon", Icons.RANGE);
@@ -50,7 +59,7 @@ public class BattleLocalization {
         params.put("attack_lines", formatAttackLines(language, personage));
         params.put("defense_lines", formatDefenseLines(language, personage));
         params.put("mitigation_lines", formatMitigationLines(language, personage));
-        params.put("skills_section", formatSkillsSection(language, equippedItems));
+        params.put("skills_section", formatSkillsSection(language, personage.skillSnapshots()));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, BattleResource::battleStats),
             params
@@ -130,15 +139,36 @@ public class BattleLocalization {
     }
 
     public static String skillDescription(Language language, ActiveEnum activeEnum, int points) {
+        return skillDescription(language, activeEnum, points, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String skillDescription(
+        Language language,
+        ActiveEnum activeEnum,
+        int points,
+        SkillFormulaVersion formulaVersion
+    ) {
         final var rank = SkillRank.forPoints(points);
         final var entry = skillEntry(language, activeEnum);
-        final var description = switch (rank) {
-            case FIRST -> entry.first();
-            case SECOND -> entry.second();
-            case THIRD -> entry.third();
-            case FOURTH -> entry.fourth();
-            case FIFTH -> entry.fifth();
+        var description = switch (formulaVersion) {
+            case LEGACY_SKILLS_V1 -> legacySkillDescription(entry, rank);
+            case SCALING_SKILLS_V1 -> ScalingSkillPresentation.description(
+                activeEnum,
+                points,
+                entry.scaling(),
+                schedule -> cooldown(language, schedule)
+            );
         };
+        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1
+            && points > ScalingSkillMath.effectivePoints(points)) {
+            description += StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::battleStatsSkillExcess),
+                Map.of(
+                    "effective_points", ScalingSkillMath.effectivePoints(points),
+                    "skill_points", points
+                )
+            );
+        }
         return StringNamedTemplate.format(
             resources.getOrDefault(language, BattleResource::battleStatsSkillLine),
             Map.of(
@@ -146,6 +176,32 @@ public class BattleLocalization {
                 "skill_rank", rankLabel(rank),
                 "skill_points", points,
                 "skill_description", description
+            )
+        );
+    }
+
+    private static String legacySkillDescription(BattleResource.SkillEntry entry, SkillRank rank) {
+        return switch (rank) {
+            case FIRST -> entry.first();
+            case SECOND -> entry.second();
+            case THIRD -> entry.third();
+            case FOURTH -> entry.fourth();
+            case FIFTH -> entry.fifth();
+        };
+    }
+
+    private static String cooldown(Language language, ScalingCooldowns.CooldownSchedule schedule) {
+        if (!schedule.alternates()) {
+            return StringNamedTemplate.format(
+                resources.getOrDefault(language, BattleResource::scalingCooldownFixed),
+                Map.of("cooldown", schedule.firstCooldown())
+            );
+        }
+        return StringNamedTemplate.format(
+            resources.getOrDefault(language, BattleResource::scalingCooldownAlternating),
+            Map.of(
+                "first_cooldown", schedule.firstCooldown(),
+                "second_cooldown", schedule.secondCooldown()
             )
         );
     }
@@ -208,35 +264,19 @@ public class BattleLocalization {
             .collect(Collectors.joining("\n")) + "\n";
     }
 
-    private static String formatSkillsSection(Language language, List<Item> equippedItems) {
-        final var skillPoints = collectSkillPoints(equippedItems);
-        if (skillPoints.isEmpty()) {
+    private static String formatSkillsSection(Language language, List<BattleSkillInitSnapshot> snapshots) {
+        if (snapshots.isEmpty()) {
             return resources.getOrDefault(language, BattleResource::battleStatsSkillsEmpty);
         }
-        final var lines = new ArrayList<String>();
-        skillPoints.entrySet().stream()
-            .sorted(Map.Entry.comparingByKey())
-            .forEach(entry -> lines.add(skillDescription(
+        return snapshots.stream()
+            .sorted(java.util.Comparator.comparing(BattleSkillInitSnapshot::code))
+            .map(snapshot -> skillDescription(
                 language,
-                entry.getKey(),
-                entry.getValue()
-            )));
-        return String.join("\n", lines) + "\n";
-    }
-
-    private static Map<ActiveEnum, Integer> collectSkillPoints(List<Item> equippedItems) {
-        final var skillPoints = new HashMap<ActiveEnum, Integer>();
-        for (final var item : equippedItems) {
-            if (item.modifier().isEmpty() || item.rarity() == ItemRarity.COMMON) {
-                continue;
-            }
-            skillPoints.merge(
-                item.modifier().get().activeEnum(),
-                item.skillPoints(),
-                Integer::sum
-            );
-        }
-        return skillPoints;
+                snapshot.code(),
+                snapshot.points(),
+                snapshot.formulaVersion()
+            ))
+            .collect(Collectors.joining("\n", "", "\n"));
     }
 
     private static BattleResource.SkillEntry skillEntry(Language language, ActiveEnum activeEnum) {

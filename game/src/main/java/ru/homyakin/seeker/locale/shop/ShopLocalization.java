@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -359,6 +360,7 @@ public class ShopLocalization {
         params.put("failure_percent", action.probabilities().failurePercent());
         params.put("rollback_percent", action.probabilities().rollbackPercent());
         params.put("next_level", action.nextLevel());
+        params.put("changes", stormEnhanceChanges(language, action));
         params.put(
             "storm_enhance_command",
             CommandType.CONFIRM_STORM_ENHANCE.getText()
@@ -370,6 +372,42 @@ public class ShopLocalization {
             resources.getOrDefault(language, ShopResource::stormEnhance),
             params
         );
+    }
+
+    private static String stormEnhanceChanges(Language language, StormEnhanceAction action) {
+        final var changes = new ArrayList<String>();
+        final var delta = action.delta();
+        delta.health().ifPresent(health ->
+            changes.add(StringNamedTemplate.format(
+                resources.getOrDefault(language, ShopResource::stormEnhanceHealthChange),
+                Map.of(
+                    "health_icon", Icons.HEALTH,
+                    "value", health
+                )
+            ))
+        );
+        delta.attacks().stream()
+            .forEach(it -> changes.add(StringNamedTemplate.format(
+                resources.getOrDefault(language, ShopResource::stormEnhanceAttackChange),
+                Map.of(
+                    "attack_type_icon", Icons.attackTypeIcon(it.attackType()),
+                    "value", it.attack(),
+                    "range", it.minRange() == it.maxRange()
+                        ? Integer.toString(it.minRange())
+                        : it.minRange() + "–" + it.maxRange()
+                )
+            )));
+        delta.defense()
+            .ifPresent(it -> changes.add(StringNamedTemplate.format(
+                resources.getOrDefault(language, ShopResource::stormEnhanceDefenseChange),
+                Map.of(
+                    "defense_type_icon", Icons.defenseTypeIcon(it.defenseType()),
+                    "value", it.defense()
+                )
+            )));
+        return changes.isEmpty()
+            ? resources.getOrDefault(language, ShopResource::stormEnhanceNoChanges)
+            : String.join(", ", changes);
     }
 
     private static String emptyEnhance(Language language) {

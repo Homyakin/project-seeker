@@ -18,6 +18,8 @@ forbiddenForHiddenGroup = "❌Esta acción no está permitida en un grupo oculto
 onlyForRegisteredGroup = "❌Esta acción solo está disponible en grupos registrados"
 forbiddenAction = "❌No puedes hacer eso"
 internalError = "❌Algo falló, inténtalo más tarde"
+powerLabel = "Poder"
+powerApproximationNote = "<i>El poder es una referencia aproximada y no predice el resultado del combate.</i>"
 fullProfile = """\
 ${personage_badge_with_name}
 ${money_icon}Oro: ${personage_money}
@@ -25,7 +27,8 @@ ${storm_shard_icon}Fragmentos de tormenta: ${personage_storm_shards}
 ${energy_icon}Energía: ${energy_value}% ${time_icon}${remain_duration_for_full_regen}
 ${online_streak_icon}Días seguidos: ${online_streak}
 ${health_icon}Salud: ${health_value}
-${power_icon}Poder: ${power_value}
+${power_icon}${power_label}: ${power_value}
+${power_approximation_note}
 ${attack_icon}${attack_value} ${defense_icon}${defense_value}
 ${current_event}${personage_effects}${group_effects}"""
 
@@ -135,11 +138,12 @@ energyRecovered = [
     "Ya descansaste suficiente. ¡Dale trabajo al cuerpo!",
 ]
 stormShardsReward = " +${storm_shards}${storm_shard_icon}"
+battleReportPower = "${power_icon}${power_label}: ${power_value}\n${power_approximation_note}\n"
 personageBattleReport = """\
 <code>${battle_date_time}</code>
 
 Características en combate:
-${attack_icon}${attack_value}${defense_icon}${defense_value}
+${optional_power}${attack_icon}${attack_value}${defense_icon}${defense_value}
 
 📊Estadísticas:
 ${normal_attack_icon}Ataques normales: ${normal_damage_value} (${normal_damage_count})

@@ -1,0 +1,1303 @@
+# НЕАКТИВНЫЕ ДАННЫЕ. Действующий загрузчик игры этот путь не читает.
+# Полная версия 1 каталога из 62 добываемых предметных объектов.
+
+[[item]]
+code = "sword"
+slots = ["MAIN_HAND"]
+health = 0
+critChance = 2
+dodgeChance = 1
+critMultiplier = 0.05
+speed = 18
+baseThreat = 8
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "SLASH"
+minRange = 1
+maxRange = 1
+attack = 360
+
+[item.locales.RU]
+text = "Меч"
+form = "MASCULINE"
+
+[[item]]
+code = "rapier"
+slots = ["MAIN_HAND"]
+health = 0
+critChance = 5
+dodgeChance = 2
+critMultiplier = 0.1
+speed = 24
+baseThreat = 3
+impact = 1
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 2
+attack = 300
+
+[item.locales.RU]
+text = "Рапира"
+form = "FEMININE"
+
+[[item]]
+code = "mace"
+slots = ["MAIN_HAND"]
+health = 0
+critChance = 2
+dodgeChance = 0
+critMultiplier = 0.05
+speed = 14
+baseThreat = 10
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "BLUNT"
+minRange = 1
+maxRange = 1
+attack = 360
+
+[item.locales.RU]
+text = "Булава"
+form = "FEMININE"
+
+[[item]]
+code = "spear"
+slots = ["MAIN_HAND"]
+health = 0
+critChance = 3
+dodgeChance = 1
+critMultiplier = 0.05
+speed = 28
+baseThreat = 5
+impact = 3
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 2
+attack = 240
+
+[item.locales.RU]
+text = "Копьё"
+form = "NEUTER"
+
+[[item]]
+code = "staff"
+slots = ["MAIN_HAND"]
+health = 0
+critChance = 3
+dodgeChance = 1
+critMultiplier = 0.08
+speed = 16
+baseThreat = 2
+impact = 4
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "MAGICAL"
+minRange = 1
+maxRange = 2
+attack = 240
+
+[[item.attacks]]
+attackType = "MAGICAL"
+minRange = 2
+maxRange = 2
+attack = 120
+
+[item.locales.RU]
+text = "Посох"
+form = "MASCULINE"
+
+[[item]]
+code = "shortsword"
+slots = ["OFF_HAND"]
+health = 0
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.03
+speed = 12
+baseThreat = 3
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "SLASH"
+minRange = 1
+maxRange = 1
+attack = 120
+
+[item.locales.RU]
+text = "Короткий Меч"
+form = "MASCULINE"
+
+[[item]]
+code = "club"
+slots = ["OFF_HAND"]
+health = 0
+critChance = 1
+dodgeChance = 0
+critMultiplier = 0.02
+speed = 10
+baseThreat = 8
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "BLUNT"
+minRange = 1
+maxRange = 1
+attack = 120
+
+[item.locales.RU]
+text = "Дубина"
+form = "FEMININE"
+
+[[item]]
+code = "dagger"
+slots = ["OFF_HAND"]
+health = 0
+critChance = 5
+dodgeChance = 1
+critMultiplier = 0.1
+speed = 14
+baseThreat = 1
+impact = 1
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 1
+attack = 120
+
+[item.locales.RU]
+text = "Кинжал"
+form = "MASCULINE"
+
+[[item]]
+code = "dirk"
+slots = ["OFF_HAND"]
+health = 0
+critChance = 2
+dodgeChance = 4
+critMultiplier = 0.05
+speed = 24
+baseThreat = 2
+impact = 3
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 1
+attack = 120
+
+[item.locales.RU]
+text = "Кортик"
+form = "MASCULINE"
+
+[[item]]
+code = "orb"
+slots = ["OFF_HAND"]
+health = 0
+critChance = 2
+dodgeChance = 0
+critMultiplier = 0.07
+speed = 12
+baseThreat = 1
+impact = 3
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "MAGICAL"
+minRange = 1
+maxRange = 1
+attack = 120
+
+[item.locales.RU]
+text = "Сфера"
+form = "FEMININE"
+
+[[item]]
+code = "bow"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 3
+dodgeChance = 2
+critMultiplier = 0.06
+speed = 32
+baseThreat = 3
+impact = 1
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 3
+attack = 300
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 3
+maxRange = 3
+attack = 120
+
+[item.locales.RU]
+text = "Лук"
+form = "MASCULINE"
+
+[[item]]
+code = "longbow"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 4
+dodgeChance = 1
+critMultiplier = 0.1
+speed = 24
+baseThreat = 4
+impact = 2
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 4
+attack = 360
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 3
+maxRange = 4
+attack = 120
+
+[item.locales.RU]
+text = "Длинный Лук"
+form = "MASCULINE"
+
+[[item]]
+code = "crossbow"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 5
+dodgeChance = 1
+critMultiplier = 0.15
+speed = 28
+baseThreat = 3
+impact = 7
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 3
+attack = 420
+
+[item.locales.RU]
+text = "Арбалет"
+form = "MASCULINE"
+
+[[item]]
+code = "two_handed_sword"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 3
+dodgeChance = 2
+critMultiplier = 0.08
+speed = 30
+baseThreat = 11
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "SLASH"
+minRange = 1
+maxRange = 1
+attack = 480
+
+[item.locales.RU]
+text = "Двуручный Меч"
+form = "MASCULINE"
+
+[[item]]
+code = "sledgehammer"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 3
+dodgeChance = 0
+critMultiplier = 0.07
+speed = 24
+baseThreat = 18
+impact = 0
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "BLUNT"
+minRange = 1
+maxRange = 1
+attack = 480
+
+[item.locales.RU]
+text = "Кувалда"
+form = "FEMININE"
+
+[[item]]
+code = "halberd"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 5
+dodgeChance = 1
+critMultiplier = 0.15
+speed = 28
+baseThreat = 3
+impact = 7
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "PIERCE"
+minRange = 1
+maxRange = 2
+attack = 360
+
+[item.locales.RU]
+text = "Алебарда"
+form = "FEMININE"
+
+[[item]]
+code = "battle_staff"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 4
+dodgeChance = 1
+critMultiplier = 0.1
+speed = 24
+baseThreat = 4
+impact = 2
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "MAGICAL"
+minRange = 1
+maxRange = 4
+attack = 360
+
+[[item.attacks]]
+attackType = "MAGICAL"
+minRange = 3
+maxRange = 4
+attack = 120
+
+[item.locales.RU]
+text = "Боевой Посох"
+form = "MASCULINE"
+
+[[item]]
+code = "ritual_staff"
+slots = ["MAIN_HAND", "OFF_HAND"]
+health = 0
+critChance = 5
+dodgeChance = 1
+critMultiplier = 0.15
+speed = 28
+baseThreat = 3
+impact = 7
+progressionVersion = "V1"
+
+[[item.attacks]]
+attackType = "MAGICAL"
+minRange = 1
+maxRange = 3
+attack = 420
+
+[item.locales.RU]
+text = "Ритуальный Посох"
+form = "MASCULINE"
+
+[[item]]
+code = "buckler"
+slots = ["OFF_HAND"]
+health = 240
+critChance = 0
+dodgeChance = 3
+critMultiplier = 0
+speed = 20
+baseThreat = 2
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Баклер"
+form = "MASCULINE"
+
+[[item]]
+code = "shield"
+slots = ["OFF_HAND"]
+health = 360
+critChance = 0
+dodgeChance = 2
+critMultiplier = 0
+speed = 16
+baseThreat = 4
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 120
+
+[item.locales.RU]
+text = "Щит"
+form = "MASCULINE"
+
+[[item]]
+code = "tower_shield"
+slots = ["OFF_HAND"]
+health = 420
+critChance = 0
+dodgeChance = 0
+critMultiplier = 0
+speed = 10
+baseThreat = 10
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 120
+
+[item.locales.RU]
+text = "Башенный Щит"
+form = "MASCULINE"
+
+[[item]]
+code = "tome"
+slots = ["OFF_HAND"]
+health = 300
+critChance = 2
+dodgeChance = 0
+critMultiplier = 0.05
+speed = 18
+baseThreat = 0
+impact = 3
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 120
+
+[item.locales.RU]
+text = "Том"
+form = "MASCULINE"
+
+[[item]]
+code = "robe"
+slots = ["BODY"]
+health = 480
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.03
+speed = 36
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 120
+
+[item.locales.RU]
+text = "Мантия"
+form = "FEMININE"
+
+[[item]]
+code = "cloth_chausses"
+slots = ["PANTS"]
+health = 360
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 26
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Тканевые Шоссы"
+form = "PLURAL"
+
+[[item]]
+code = "cloth_boots"
+slots = ["SHOES"]
+health = 180
+critChance = 0
+dodgeChance = 2
+critMultiplier = 0
+speed = 24
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Тканевые Сапоги"
+form = "PLURAL"
+
+[[item]]
+code = "hood"
+slots = ["HELMET"]
+health = 180
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 22
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Капюшон"
+form = "MASCULINE"
+
+[[item]]
+code = "cloth_gloves"
+slots = ["GLOVES"]
+health = 180
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 24
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Перчатки"
+form = "PLURAL"
+
+[[item]]
+code = "wizard_robe"
+slots = ["BODY"]
+health = 540
+critChance = 2
+dodgeChance = 1
+critMultiplier = 0.05
+speed = 32
+baseThreat = 0
+impact = 3
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 180
+
+[item.locales.RU]
+text = "Магическая Мантия"
+form = "FEMININE"
+
+[[item]]
+code = "arcane_chausses"
+slots = ["PANTS"]
+health = 360
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.04
+speed = 26
+baseThreat = 0
+impact = 3
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 120
+
+[item.locales.RU]
+text = "Зачарованные Шоссы"
+form = "PLURAL"
+
+[[item]]
+code = "arcane_boots"
+slots = ["SHOES"]
+health = 240
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.03
+speed = 20
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 60
+
+[item.locales.RU]
+text = "Магические Сапоги"
+form = "PLURAL"
+
+[[item]]
+code = "circlet"
+slots = ["HELMET"]
+health = 240
+critChance = 4
+dodgeChance = 1
+critMultiplier = 0.1
+speed = 18
+baseThreat = 0
+impact = 3
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 60
+
+[item.locales.RU]
+text = "Диадема"
+form = "FEMININE"
+
+[[item]]
+code = "arcane_gloves"
+slots = ["GLOVES"]
+health = 240
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.03
+speed = 20
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 60
+
+[item.locales.RU]
+text = "Магические Перчатки"
+form = "PLURAL"
+
+[[item]]
+code = "breastplate"
+slots = ["BODY"]
+health = 600
+critChance = 1
+dodgeChance = 3
+critMultiplier = 0.03
+speed = 28
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 180
+
+[item.locales.RU]
+text = "Нагрудник"
+form = "MASCULINE"
+
+[[item]]
+code = "leather_chausses"
+slots = ["PANTS"]
+health = 420
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 22
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 120
+
+[item.locales.RU]
+text = "Кожаные Шоссы"
+form = "PLURAL"
+
+[[item]]
+code = "boots"
+slots = ["SHOES"]
+health = 300
+critChance = 1
+dodgeChance = 3
+critMultiplier = 0.02
+speed = 20
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 60
+
+[item.locales.RU]
+text = "Сапоги"
+form = "PLURAL"
+
+[[item]]
+code = "leather_helm"
+slots = ["HELMET"]
+health = 300
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 18
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 60
+
+[item.locales.RU]
+text = "Кожаный Шлем"
+form = "MASCULINE"
+
+[[item]]
+code = "leather_gloves"
+slots = ["GLOVES"]
+health = 300
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 18
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 60
+
+[item.locales.RU]
+text = "Кожаные Перчатки"
+form = "PLURAL"
+
+[[item]]
+code = "cuirass"
+slots = ["BODY"]
+health = 720
+critChance = 0
+dodgeChance = 0
+critMultiplier = 0
+speed = 18
+baseThreat = 10
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 240
+
+[item.locales.RU]
+text = "Кираса"
+form = "FEMININE"
+
+[[item]]
+code = "greaves"
+slots = ["PANTS"]
+health = 480
+critChance = 0
+dodgeChance = 0
+critMultiplier = 0
+speed = 14
+baseThreat = 7
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 120
+
+[item.locales.RU]
+text = "Латные Поножи"
+form = "PLURAL"
+
+[[item]]
+code = "sabatons"
+slots = ["SHOES"]
+health = 360
+critChance = 0
+dodgeChance = 0
+critMultiplier = 0
+speed = 10
+baseThreat = 5
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 60
+
+[item.locales.RU]
+text = "Латные Сапоги"
+form = "PLURAL"
+
+[[item]]
+code = "great_helm"
+slots = ["HELMET"]
+health = 360
+critChance = 0
+dodgeChance = 0
+critMultiplier = 0
+speed = 10
+baseThreat = 5
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 60
+
+[item.locales.RU]
+text = "Латный Шлем"
+form = "MASCULINE"
+
+[[item]]
+code = "gauntlets"
+slots = ["GLOVES"]
+health = 360
+critChance = 0
+dodgeChance = 0
+critMultiplier = 0
+speed = 10
+baseThreat = 3
+impact = 0
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 60
+
+[item.locales.RU]
+text = "Латные Рукавицы"
+form = "PLURAL"
+
+[[item]]
+code = "ceremonial_tunic"
+slots = ["BODY"]
+health = 480
+critChance = 2
+dodgeChance = 1
+critMultiplier = 0.05
+speed = 34
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 120
+
+[item.locales.RU]
+text = "Церемониальная Туника"
+form = "FEMININE"
+
+[[item]]
+code = "ceremonial_trousers"
+slots = ["PANTS"]
+health = 360
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.04
+speed = 24
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Церемониальные Штаны"
+form = "PLURAL"
+
+[[item]]
+code = "ceremonial_slippers"
+slots = ["SHOES"]
+health = 180
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.02
+speed = 22
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Церемониальные Туфли"
+form = "PLURAL"
+
+[[item]]
+code = "ceremonial_veil"
+slots = ["HELMET"]
+health = 180
+critChance = 4
+dodgeChance = 1
+critMultiplier = 0.08
+speed = 22
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Церемониальная Вуаль"
+form = "FEMININE"
+
+[[item]]
+code = "ceremonial_gloves"
+slots = ["GLOVES"]
+health = 180
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.03
+speed = 24
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "CLOTH"
+defense = 60
+
+[item.locales.RU]
+text = "Церемониальные Перчатки"
+form = "PLURAL"
+
+[[item]]
+code = "phantom_vestment"
+slots = ["BODY"]
+health = 540
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.03
+speed = 34
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 180
+
+[item.locales.RU]
+text = "Призрачное Облачение"
+form = "NEUTER"
+
+[[item]]
+code = "phantom_chausses"
+slots = ["PANTS"]
+health = 360
+critChance = 0
+dodgeChance = 2
+critMultiplier = 0.01
+speed = 24
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 120
+
+[item.locales.RU]
+text = "Призрачные Шоссы"
+form = "PLURAL"
+
+[[item]]
+code = "phantom_boots"
+slots = ["SHOES"]
+health = 240
+critChance = 0
+dodgeChance = 2
+critMultiplier = 0
+speed = 24
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 60
+
+[item.locales.RU]
+text = "Призрачные Сапоги"
+form = "PLURAL"
+
+[[item]]
+code = "phantom_crown"
+slots = ["HELMET"]
+health = 240
+critChance = 1
+dodgeChance = 2
+critMultiplier = 0.02
+speed = 22
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 60
+
+[item.locales.RU]
+text = "Призрачный Венец"
+form = "MASCULINE"
+
+[[item]]
+code = "phantom_gloves"
+slots = ["GLOVES"]
+health = 240
+critChance = 0
+dodgeChance = 2
+critMultiplier = 0
+speed = 22
+baseThreat = 0
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "ARCANE"
+defense = 60
+
+[item.locales.RU]
+text = "Призрачные Перчатки"
+form = "PLURAL"
+
+[[item]]
+code = "hunter_jacket"
+slots = ["BODY"]
+health = 600
+critChance = 2
+dodgeChance = 2
+critMultiplier = 0.05
+speed = 28
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 180
+
+[item.locales.RU]
+text = "Охотничья Куртка"
+form = "FEMININE"
+
+[[item]]
+code = "riding_breeches"
+slots = ["PANTS"]
+health = 420
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0.04
+speed = 24
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 120
+
+[item.locales.RU]
+text = "Походные Штаны"
+form = "PLURAL"
+
+[[item]]
+code = "soft_boots"
+slots = ["SHOES"]
+health = 300
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0.03
+speed = 22
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 60
+
+[item.locales.RU]
+text = "Мягкие Сапоги"
+form = "PLURAL"
+
+[[item]]
+code = "wide_brim_hat"
+slots = ["HELMET"]
+health = 300
+critChance = 3
+dodgeChance = 1
+critMultiplier = 0.06
+speed = 18
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 60
+
+[item.locales.RU]
+text = "Широкополая Шляпа"
+form = "FEMININE"
+
+[[item]]
+code = "fencing_gloves"
+slots = ["GLOVES"]
+health = 300
+critChance = 0
+dodgeChance = 2
+critMultiplier = 0.03
+speed = 20
+baseThreat = 0
+impact = 2
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "LEATHER"
+defense = 60
+
+[item.locales.RU]
+text = "Фехтовальные Перчатки"
+form = "PLURAL"
+
+[[item]]
+code = "brigandine"
+slots = ["BODY"]
+health = 600
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.02
+speed = 24
+baseThreat = 4
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 180
+
+[item.locales.RU]
+text = "Бригантина"
+form = "FEMININE"
+
+[[item]]
+code = "mail_greaves"
+slots = ["PANTS"]
+health = 420
+critChance = 1
+dodgeChance = 1
+critMultiplier = 0.02
+speed = 18
+baseThreat = 3
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 120
+
+[item.locales.RU]
+text = "Кольчужные Поножи"
+form = "PLURAL"
+
+[[item]]
+code = "light_sabatons"
+slots = ["SHOES"]
+health = 300
+critChance = 0
+dodgeChance = 1
+critMultiplier = 0
+speed = 14
+baseThreat = 2
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 60
+
+[item.locales.RU]
+text = "Облегчённые Сабатоны"
+form = "PLURAL"
+
+[[item]]
+code = "open_helm"
+slots = ["HELMET"]
+health = 300
+critChance = 1
+dodgeChance = 0
+critMultiplier = 0.03
+speed = 14
+baseThreat = 2
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 60
+
+[item.locales.RU]
+text = "Открытый Шлем"
+form = "MASCULINE"
+
+[[item]]
+code = "mail_gauntlets"
+slots = ["GLOVES"]
+health = 300
+critChance = 1
+dodgeChance = 0
+critMultiplier = 0.02
+speed = 14
+baseThreat = 1
+impact = 1
+progressionVersion = "V1"
+
+[item.defense]
+defenseType = "PLATE"
+defense = 60
+
+[item.locales.RU]
+text = "Кольчужные Рукавицы"
+form = "PLURAL"
+

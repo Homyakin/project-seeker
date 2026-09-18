@@ -28,6 +28,7 @@ import ru.homyakin.seeker.infrastructure.Icons;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.LocaleUtils;
 import ru.homyakin.seeker.locale.Resources;
+import ru.homyakin.seeker.locale.common.CommonLocalization;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.command.type.CommandType;
 import ru.homyakin.seeker.utils.StringNamedTemplate;
@@ -174,6 +175,7 @@ public class TopLocalization {
         final var topPersonageList = TopUtils.createTopList(language, requestedPersonageId, result);
         params.put("top_personage_list", topPersonageList);
         params.put("total_count", result.positions().size());
+        params.put("power_approximation_note", CommonLocalization.powerApproximationNote(language));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, TopResource::topPowerPersonageGroup),
             params
@@ -188,7 +190,7 @@ public class TopLocalization {
         final var params = new HashMap<String, Object>();
         params.put("position", positionNumber);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
-        params.put("power", LocaleUtils.power(position.power()));
+        params.put("power", LocaleUtils.legacyPowerForDisplay(position.power()));
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topPowerPersonagePosition), params);
     }
 
