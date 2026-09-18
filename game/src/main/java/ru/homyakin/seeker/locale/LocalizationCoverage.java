@@ -13,6 +13,8 @@ import ru.homyakin.seeker.infrastructure.init.saving_models.Raids;
 import ru.homyakin.seeker.infrastructure.init.saving_models.WorldRaids;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
+import ru.homyakin.seeker.game.item.models.ItemObject;
+import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Items;
 import ru.homyakin.seeker.infrastructure.init.saving_models.Rumors;
 import ru.homyakin.seeker.utils.ResourceUtils;
@@ -80,8 +82,16 @@ public class LocalizationCoverage {
         addLocalizedInfo(itemObjects.item(), TranslateType.ITEM_OBJECTS);
     }
 
+    public static void addCatalogItemObjectsInfo(List<ItemObject> itemObjects) {
+        addLocalizedInfo(itemObjects, TranslateType.ITEM_OBJECTS);
+    }
+
     public static void addCatalogItemModifiersInfo(ItemModifiersToml itemModifiers) {
         addLocalizedInfo(itemModifiers.modifier(), TranslateType.ITEM_MODIFIERS);
+    }
+
+    public static void addCatalogItemModifiersInfo(List<Modifier> itemModifiers) {
+        addLocalizedInfo(itemModifiers, TranslateType.ITEM_MODIFIERS);
     }
 
     public static void addWorldRaidsInfo(WorldRaids worldRaids) {

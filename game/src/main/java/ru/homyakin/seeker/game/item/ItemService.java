@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
 import ru.homyakin.seeker.game.item.database.ItemDao;
 import ru.homyakin.seeker.game.item.database.ItemObjectDao;
@@ -63,6 +64,7 @@ public class ItemService {
         return itemDao.getById(id);
     }
 
+    @Transactional
     public Either<GenerateItemError, PersonageItem> generateItemForPersonage(
         Personage personage,
         GenerateItemParams params
@@ -76,11 +78,14 @@ public class ItemService {
         return generateItemForPersonage(personage, params.rarity(), catalogModifier, catalogItemObject);
     }
 
+    @Transactional
     public Either<GenerateItemError, PersonageItem> generateItemForPersonage(
         Personage personage,
         CatalogItemObject object
     ) {
-        return generateItemForPersonage(personage, ItemRarity.COMMON, Optional.empty(), object);
+        final var availableObject = itemObjectDao.getAvailableById(object.id())
+            .orElseThrow(() -> new IllegalArgumentException("Cannot generate an item from a disabled catalog object"));
+        return generateItemForPersonage(personage, ItemRarity.COMMON, Optional.empty(), availableObject);
     }
 
     private Either<GenerateItemError, PersonageItem> generateItemForPersonage(

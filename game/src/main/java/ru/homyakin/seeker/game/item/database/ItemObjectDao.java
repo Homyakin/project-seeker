@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
+import ru.homyakin.seeker.game.item.catalog.ItemObjectRevisionPolicy;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.ItemAttack;
@@ -49,6 +49,13 @@ public class ItemObjectDao {
             .optional();
     }
 
+    public Optional<CatalogItemObject> getAvailableById(int id) {
+        return jdbcClient.sql(GET_AVAILABLE_BY_ID_SQL)
+            .param("id", id)
+            .query(this::mapRow)
+            .optional();
+    }
+
     public List<CatalogItemObject> listBySlot(PersonageSlot slot) {
         return jdbcClient.sql(LIST_BY_SLOT_SQL)
             .param("slot_id", slot.id)
@@ -56,9 +63,18 @@ public class ItemObjectDao {
             .list();
     }
 
+    public List<CatalogItemObject> listAvailableBySlot(PersonageSlot slot) {
+        return jdbcClient.sql(LIST_AVAILABLE_BY_SLOT_SQL)
+            .param("slot_id", slot.id)
+            .query(this::mapRow)
+            .list();
+    }
+
     @Transactional
-    public void save(ItemObjectsToml.SavingItemObject object) {
-        final var itemObject = object.toItemObject();
+    public void save(ItemObject itemObject, boolean acquisitionEnabledWhenInserted) {
+        getByCodeForUpdate(itemObject.code())
+            .filter(existing -> ItemObjectRevisionPolicy.invalidatesEnhancement(existing.object(), itemObject))
+            .ifPresent(existing -> bumpEnhanceRevision(existing.id()));
         final var legacyAttack = itemObject.attacks().stream().findFirst();
         jdbcClient.sql(SAVE_SQL)
             .param("code", itemObject.code())
@@ -78,6 +94,38 @@ public class ItemObjectDao {
             .param("defense", itemObject.defense().map(ItemDefense::defense).orElse(null))
             .param("locale", jsonUtils.mapToPostgresJson(itemObject.locales()))
             .param("personage_slot_ids", personageSlotIdsArray(itemObject.slots()))
+            .param("acquisition_enabled", acquisitionEnabledWhenInserted)
+            .update();
+    }
+
+    public void setAcquisitionEnabledOnly(Set<String> codes) {
+        if (codes.isEmpty()) {
+            throw new IllegalArgumentException("At least one obtainable item object code must be specified");
+        }
+        jdbcClient.sql(SET_ACQUISITION_ENABLED_ONLY_SQL)
+            .param("codes", codes)
+            .update();
+    }
+
+    private Optional<CatalogItemObject> getByCodeForUpdate(String code) {
+        return jdbcClient.sql(GET_BY_CODE_FOR_UPDATE_SQL)
+            .param("code", code)
+            .query(this::mapRow)
+            .optional();
+    }
+
+    private void bumpEnhanceRevision(int itemObjectId) {
+        final long maxRevision = jdbcClient.sql(MAX_ENHANCE_REVISION_SQL)
+            .param("item_object_id", itemObjectId)
+            .query((rs, _) -> rs.getLong("max_revision"))
+            .single();
+        if (maxRevision == Long.MAX_VALUE) {
+            throw new IllegalStateException(
+                "Cannot replace item object with exhausted enhance revision: " + itemObjectId
+            );
+        }
+        jdbcClient.sql(BUMP_ENHANCE_REVISION_SQL)
+            .param("item_object_id", itemObjectId)
             .update();
     }
 
@@ -127,7 +175,8 @@ public class ItemObjectDao {
                     rs.getString("progression_version")
                 ),
                 jsonUtils.fromString(rs.getString("locale"), JsonUtils.ITEM_OBJECT_LOCALE)
-            )
+            ),
+            rs.getBoolean("acquisition_enabled")
         );
     }
 
@@ -146,11 +195,21 @@ public class ItemObjectDao {
     private static final String RANDOM_OBJECT_SQL = """
         SELECT * FROM item_object
         WHERE :slot_id = ANY(personage_slot_ids)
+          AND acquisition_enabled
         ORDER BY random() LIMIT 1
+        FOR SHARE
         """;
 
     private static final String GET_BY_ID_SQL = """
         SELECT * FROM item_object WHERE id = :id
+        """;
+
+    private static final String GET_AVAILABLE_BY_ID_SQL = """
+        SELECT * FROM item_object WHERE id = :id AND acquisition_enabled FOR SHARE
+        """;
+
+    private static final String GET_BY_CODE_FOR_UPDATE_SQL = """
+        SELECT * FROM item_object WHERE code = :code FOR UPDATE
         """;
 
     private static final String LIST_BY_SLOT_SQL = """
@@ -159,16 +218,24 @@ public class ItemObjectDao {
         ORDER BY id
         """;
 
+    private static final String LIST_AVAILABLE_BY_SLOT_SQL = """
+        SELECT * FROM item_object
+        WHERE :slot_id = ANY(personage_slot_ids)
+          AND acquisition_enabled
+        ORDER BY id
+        """;
+
     private static final String SAVE_SQL = """
         INSERT INTO item_object (
             code, health, crit_chance, dodge_chance, crit_multiplier, speed, base_threat,
             impact, progression_version, attack_parts,
-            attack_type, attack_range, attack, defense_type, defense, locale, personage_slot_ids
+            attack_type, attack_range, attack, defense_type, defense, locale, personage_slot_ids,
+            acquisition_enabled
         ) VALUES (
             :code, :health, :crit_chance, :dodge_chance, :crit_multiplier, :speed, :base_threat,
             :impact, :progression_version, CAST(:attack_parts AS JSONB),
             :attack_type, :attack_range, :attack, :defense_type, :defense,
-            CAST(:locale AS JSONB), :personage_slot_ids
+            CAST(:locale AS JSONB), :personage_slot_ids, :acquisition_enabled
         )
         ON CONFLICT (code) DO UPDATE SET
             health = EXCLUDED.health,
@@ -187,5 +254,22 @@ public class ItemObjectDao {
             defense = EXCLUDED.defense,
             locale = EXCLUDED.locale,
             personage_slot_ids = EXCLUDED.personage_slot_ids
+        """;
+
+    private static final String MAX_ENHANCE_REVISION_SQL = """
+        SELECT COALESCE(MAX(enhance_revision), 0) AS max_revision
+        FROM item
+        WHERE item_object_id = :item_object_id
+        """;
+
+    private static final String BUMP_ENHANCE_REVISION_SQL = """
+        UPDATE item
+        SET enhance_revision = enhance_revision + 1
+        WHERE item_object_id = :item_object_id
+        """;
+
+    private static final String SET_ACQUISITION_ENABLED_ONLY_SQL = """
+        UPDATE item_object
+        SET acquisition_enabled = code IN (:codes)
         """;
 }

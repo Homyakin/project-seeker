@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+>
+    <changeSet author="Codex" id="add-equipment-catalog-lifecycle">
+        <addColumn tableName="item_object">
+            <column name="acquisition_enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="item_modifier">
+            <column name="assignment_enabled" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <sql>
+            ALTER TABLE item_object ALTER COLUMN acquisition_enabled SET DEFAULT FALSE;
+            ALTER TABLE item_modifier ALTER COLUMN assignment_enabled SET DEFAULT FALSE;
+        </sql>
+
+        <createTable tableName="item_catalog_release">
+            <column name="code" type="VARCHAR(100)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="item" indexName="idx_item_item_object_id">
+            <column name="item_object_id"/>
+        </createIndex>
+        <createIndex tableName="item" indexName="idx_item_item_modifier_id">
+            <column name="item_modifier_id"/>
+        </createIndex>
+
+        <sql>
+            ALTER TABLE item_catalog_release
+                ADD CONSTRAINT ck_item_catalog_release_status CHECK (status IN ('STAGED', 'ACTIVE'));
+
+            CREATE TABLE item_object_catalog_lifecycle_backup AS
+            SELECT id, code, health, crit_chance, dodge_chance, crit_multiplier, speed, base_threat,
+                   attack_type, attack_range, attack, defense_type, defense, locale, personage_slot_ids,
+                   attack_parts, impact, progression_version
+            FROM item_object
+            ;
+            ALTER TABLE item_object_catalog_lifecycle_backup ADD PRIMARY KEY (id);
+
+            CREATE TABLE item_modifier_catalog_lifecycle_backup AS
+            SELECT id, code, active_enum, type_id, locale, personage_slot_ids
+            FROM item_modifier
+            ;
+            ALTER TABLE item_modifier_catalog_lifecycle_backup ADD PRIMARY KEY (id);
+        </sql>
+
+        <rollback>
+            <sql splitStatements="false">
+                DO $$
+                BEGIN
+                    IF EXISTS (
+                        SELECT 1
+                        FROM item_object_catalog_lifecycle_backup backup
+                        LEFT JOIN item_object current ON current.id = backup.id
+                        WHERE current.id IS NULL
+                    ) OR EXISTS (
+                        SELECT 1
+                        FROM item_modifier_catalog_lifecycle_backup backup
+                        LEFT JOIN item_modifier current ON current.id = backup.id
+                        WHERE current.id IS NULL
+                    ) THEN
+                        RAISE EXCEPTION 'Cannot roll back catalog lifecycle after deleting backed-up catalog rows';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM item i
+                        LEFT JOIN item_object_catalog_lifecycle_backup backup
+                            ON backup.id = i.item_object_id
+                        WHERE backup.id IS NULL
+                    ) OR EXISTS (
+                        SELECT 1
+                        FROM item i
+                        LEFT JOIN item_modifier_catalog_lifecycle_backup backup
+                            ON backup.id = i.item_modifier_id
+                        WHERE i.item_modifier_id IS NOT NULL AND backup.id IS NULL
+                    ) THEN
+                        RAISE EXCEPTION 'Cannot roll back catalog lifecycle while post-snapshot rows are referenced';
+                    END IF;
+
+                    IF EXISTS (
+                        SELECT 1
+                        FROM item i
+                        JOIN item_object current ON current.id = i.item_object_id
+                        JOIN item_object_catalog_lifecycle_backup backup ON backup.id = current.id
+                        WHERE i.enhance_revision = 9223372036854775807
+                          AND (
+                              current.health IS DISTINCT FROM backup.health
+                              OR current.crit_chance IS DISTINCT FROM backup.crit_chance
+                              OR current.dodge_chance IS DISTINCT FROM backup.dodge_chance
+                              OR current.crit_multiplier IS DISTINCT FROM backup.crit_multiplier
+                              OR current.speed IS DISTINCT FROM backup.speed
+                              OR current.base_threat IS DISTINCT FROM backup.base_threat
+                              OR current.attack_type IS DISTINCT FROM backup.attack_type
+                              OR current.attack_range IS DISTINCT FROM backup.attack_range
+                              OR current.attack IS DISTINCT FROM backup.attack
+                              OR current.defense_type IS DISTINCT FROM backup.defense_type
+                              OR current.defense IS DISTINCT FROM backup.defense
+                              OR current.personage_slot_ids IS DISTINCT FROM backup.personage_slot_ids
+                              OR current.attack_parts IS DISTINCT FROM backup.attack_parts
+                              OR current.impact IS DISTINCT FROM backup.impact
+                              OR current.progression_version IS DISTINCT FROM backup.progression_version
+                          )
+                    ) THEN
+                        RAISE EXCEPTION 'Cannot roll back catalog lifecycle with exhausted enhance revision';
+                    END IF;
+                END
+                $$;
+            </sql>
+
+            <sql>
+                UPDATE item i
+                SET enhance_revision = i.enhance_revision + 1
+                FROM item_object current
+                JOIN item_object_catalog_lifecycle_backup backup ON backup.id = current.id
+                WHERE i.item_object_id = current.id
+                  AND (
+                      current.health IS DISTINCT FROM backup.health
+                      OR current.crit_chance IS DISTINCT FROM backup.crit_chance
+                      OR current.dodge_chance IS DISTINCT FROM backup.dodge_chance
+                      OR current.crit_multiplier IS DISTINCT FROM backup.crit_multiplier
+                      OR current.speed IS DISTINCT FROM backup.speed
+                      OR current.base_threat IS DISTINCT FROM backup.base_threat
+                      OR current.attack_type IS DISTINCT FROM backup.attack_type
+                      OR current.attack_range IS DISTINCT FROM backup.attack_range
+                      OR current.attack IS DISTINCT FROM backup.attack
+                      OR current.defense_type IS DISTINCT FROM backup.defense_type
+                      OR current.defense IS DISTINCT FROM backup.defense
+                      OR current.personage_slot_ids IS DISTINCT FROM backup.personage_slot_ids
+                      OR current.attack_parts IS DISTINCT FROM backup.attack_parts
+                      OR current.impact IS DISTINCT FROM backup.impact
+                      OR current.progression_version IS DISTINCT FROM backup.progression_version
+                  );
+
+                UPDATE item_object current
+                SET code = backup.code,
+                    health = backup.health,
+                    crit_chance = backup.crit_chance,
+                    dodge_chance = backup.dodge_chance,
+                    crit_multiplier = backup.crit_multiplier,
+                    speed = backup.speed,
+                    base_threat = backup.base_threat,
+                    attack_type = backup.attack_type,
+                    attack_range = backup.attack_range,
+                    attack = backup.attack,
+                    defense_type = backup.defense_type,
+                    defense = backup.defense,
+                    locale = backup.locale,
+                    personage_slot_ids = backup.personage_slot_ids,
+                    attack_parts = backup.attack_parts,
+                    impact = backup.impact,
+                    progression_version = backup.progression_version
+                FROM item_object_catalog_lifecycle_backup backup
+                WHERE current.id = backup.id;
+
+                UPDATE item_modifier current
+                SET code = backup.code,
+                    active_enum = backup.active_enum,
+                    type_id = backup.type_id,
+                    locale = backup.locale,
+                    personage_slot_ids = backup.personage_slot_ids
+                FROM item_modifier_catalog_lifecycle_backup backup
+                WHERE current.id = backup.id;
+
+                DELETE FROM item_modifier current
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM item_modifier_catalog_lifecycle_backup backup
+                    WHERE backup.id = current.id
+                );
+                DELETE FROM item_object current
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM item_object_catalog_lifecycle_backup backup
+                    WHERE backup.id = current.id
+                );
+            </sql>
+
+            <dropTable tableName="item_catalog_release"/>
+            <dropIndex tableName="item" indexName="idx_item_item_modifier_id"/>
+            <dropIndex tableName="item" indexName="idx_item_item_object_id"/>
+            <dropColumn tableName="item_modifier" columnName="assignment_enabled"/>
+            <dropColumn tableName="item_object" columnName="acquisition_enabled"/>
+            <dropTable tableName="item_modifier_catalog_lifecycle_backup"/>
+            <dropTable tableName="item_object_catalog_lifecycle_backup"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

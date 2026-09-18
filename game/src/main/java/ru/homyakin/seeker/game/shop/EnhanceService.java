@@ -58,8 +58,10 @@ public class EnhanceService {
         return Either.right(availableAction(item.get()));
     }
 
+    @Transactional
     public Either<AddModifierError, EnhanceResult> enhance(PersonageId personageId, long itemId) {
-        final var item = itemService.getPersonageItem(personageId, itemId);
+        personageService.lockForItemChange(personageId);
+        final var item = itemService.getPersonageItemForUpdate(personageId, itemId);
         if (item.isEmpty()) {
             return Either.left(AddModifierError.NoSuchItem.INSTANCE);
         }

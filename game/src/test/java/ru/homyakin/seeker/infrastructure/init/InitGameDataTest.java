@@ -3,6 +3,8 @@ package ru.homyakin.seeker.infrastructure.init;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.mockito.Mockito;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemCatalogService;
 import ru.homyakin.seeker.game.badge.action.BadgeService;
@@ -13,12 +15,13 @@ import static org.mockito.Mockito.mock;
 
 public class InitGameDataTest {
     private final InitGameDataConfig config = new InitGameDataConfig();
+    private final ItemCatalogService itemCatalogService = mock(ItemCatalogService.class);
     private final InitGameData initGameData = new InitGameData(
         mock(EventService.class),
         mock(MenuService.class),
         mock(RumorService.class),
         mock(BadgeService.class),
-        mock(ItemCatalogService.class),
+        itemCatalogService,
         config
     );
 
@@ -55,6 +58,11 @@ public class InitGameDataTest {
     public void When_LoadItemsCatalog_Then_NoErrors(InitGameDataType type) {
         config.setType(type);
         Assertions.assertDoesNotThrow(initGameData::loadItemsCatalog);
+        Mockito.verify(itemCatalogService).stageRelease(
+            Mockito.eq(EquipmentCatalogVersion.SCALING_V1),
+            Mockito.argThat(codes -> codes.size() == 40),
+            Mockito.argThat(codes -> codes.size() == 11)
+        );
     }
 
     @ParameterizedTest

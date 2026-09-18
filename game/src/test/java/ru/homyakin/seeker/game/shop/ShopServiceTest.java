@@ -50,7 +50,7 @@ class ShopServiceTest {
 
     @Test
     void buyItemWithObject_whenObjectMissing_returnsInvalidItemObject() {
-        Mockito.when(itemObjectDao.getById(99)).thenReturn(Optional.empty());
+        Mockito.when(itemObjectDao.getAvailableById(99)).thenReturn(Optional.empty());
 
         final var result = shopService.buyItemWithObject(personageId, 99);
 
@@ -61,7 +61,7 @@ class ShopServiceTest {
     @Test
     void buyItemWithObject_whenNotEnoughMoney_returnsRequiredPrice() {
         final var catalogObject = CatalogTestUtils.catalogObject(1, PersonageSlot.MAIN_HAND);
-        Mockito.when(itemObjectDao.getById(1)).thenReturn(Optional.of(catalogObject));
+        Mockito.when(itemObjectDao.getAvailableById(1)).thenReturn(Optional.of(catalogObject));
         Mockito.when(personageService.getByIdForce(personageId))
             .thenReturn(PersonageUtils.withId(personageId).addMoney(Money.from(50)));
 
@@ -82,7 +82,7 @@ class ShopServiceTest {
         final var personage = PersonageUtils.withId(personageId).addMoney(Money.from(500));
         final var expectedItem = Mockito.mock(PersonageItem.class);
 
-        Mockito.when(itemObjectDao.getById(2)).thenReturn(Optional.of(catalogObject));
+        Mockito.when(itemObjectDao.getAvailableById(2)).thenReturn(Optional.of(catalogObject));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
         Mockito.when(personageService.takeMoney(personage, Money.from(200))).thenReturn(personage);
         Mockito.when(itemService.generateItemForPersonage(Mockito.eq(personage), Mockito.eq(catalogObject)))
@@ -101,7 +101,7 @@ class ShopServiceTest {
         final var personage = PersonageUtils.withId(personageId).addMoney(Money.from(500));
         final var personageAfterPay = personage.addMoney(Money.from(-100));
 
-        Mockito.when(itemObjectDao.getById(1)).thenReturn(Optional.of(catalogObject));
+        Mockito.when(itemObjectDao.getAvailableById(1)).thenReturn(Optional.of(catalogObject));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
         Mockito.when(personageService.takeMoney(personage, Money.from(100))).thenReturn(personageAfterPay);
         Mockito.when(itemService.generateItemForPersonage(personageAfterPay, catalogObject))
@@ -120,7 +120,7 @@ class ShopServiceTest {
         final var personage = PersonageUtils.withId(personageId).addMoney(Money.from(500));
         final var expectedItem = Mockito.mock(PersonageItem.class);
 
-        Mockito.when(itemObjectDao.getById(1)).thenReturn(Optional.of(catalogObject));
+        Mockito.when(itemObjectDao.getAvailableById(1)).thenReturn(Optional.of(catalogObject));
         Mockito.when(personageService.getByIdForce(personageId)).thenReturn(personage);
         Mockito.when(personageService.takeMoney(Mockito.any(), Mockito.any())).thenReturn(personage);
         Mockito.when(itemService.generateItemForPersonage(Mockito.any(), Mockito.any(CatalogItemObject.class)))
@@ -149,5 +149,34 @@ class ShopServiceTest {
         final var lockOrder = Mockito.inOrder(personageService, itemService);
         lockOrder.verify(personageService).lockForItemChange(personageId);
         lockOrder.verify(itemService).removeItem(personageId, 7L);
+    }
+
+    @Test
+    void specificShopListsOnlyAvailableObjects() {
+        final var expected = List.of(CatalogTestUtils.catalogObject(1, PersonageSlot.BODY));
+        Mockito.when(itemObjectDao.listAvailableBySlot(PersonageSlot.BODY)).thenReturn(expected);
+
+        final var result = shopService.getItemObjectsForSlot(PersonageSlot.BODY);
+
+        Assertions.assertEquals(expected, result);
+        Mockito.verify(itemObjectDao).listAvailableBySlot(PersonageSlot.BODY);
+        Mockito.verify(itemObjectDao, Mockito.never()).listBySlot(Mockito.any());
+    }
+
+    @Test
+    void unavailableObjectCannotBeBoughtEvenWhenRawCatalogRowExists() {
+        final var unavailable = new CatalogItemObject(
+            7,
+            CatalogTestUtils.itemObject(PersonageSlot.BODY),
+            false
+        );
+        Mockito.when(itemObjectDao.getById(7)).thenReturn(Optional.of(unavailable));
+        Mockito.when(itemObjectDao.getAvailableById(7)).thenReturn(Optional.empty());
+
+        final var result = shopService.buyItemWithObject(personageId, 7);
+
+        Assertions.assertEquals(BuyItemError.InvalidItemObject.INSTANCE, result.getLeft());
+        Mockito.verifyNoInteractions(personageService);
+        Mockito.verifyNoInteractions(itemService);
     }
 }

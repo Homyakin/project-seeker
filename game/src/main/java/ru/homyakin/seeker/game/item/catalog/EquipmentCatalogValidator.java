@@ -230,6 +230,15 @@ public final class EquipmentCatalogValidator {
             PersonageSlot.GLOVES
         )) {
             require(countExactSlots(items, slot) == 8, "Expected 8 item objects for slot " + slot);
+            for (final var defenseType : DefenseType.values()) {
+                final long typeCount = items.stream()
+                    .filter(item -> item.slots().equals(Set.of(slot)))
+                    .flatMap(item -> item.defense().stream())
+                    .filter(defense -> defense.defenseType() == defenseType)
+                    .count();
+                require(typeCount == 2,
+                    "Expected 2 item objects of defense type %s for slot %s".formatted(defenseType, slot));
+            }
         }
         require(items.stream().filter(item -> !item.attacks().isEmpty()).count() == 18,
             "Expected 18 attacking item objects");

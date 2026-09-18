@@ -40,7 +40,7 @@ public record ItemModifiersToml(List<SavingModifier> modifier) {
         Set<PersonageSlot> slots,
         Map<Language, ModifierLocale> locales
     ) implements Localized<ModifierLocale> {
-        Modifier toModifier() {
+        public Modifier toModifier() {
             return new Modifier(code, activeEnum, type, slots, locales);
         }
 

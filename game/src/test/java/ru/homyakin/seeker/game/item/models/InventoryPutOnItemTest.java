@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
+import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
@@ -91,6 +92,36 @@ class InventoryPutOnItemTest {
 
         Assertions.assertTrue(result.isRight());
         Assertions.assertTrue(result.get().isEmpty());
+    }
+
+    @Test
+    void cannotTakeOffItemWhenBagIsFull() {
+        final var personageId = PersonageUtils.random().id();
+        final var equipped = personageItem(1L, personageId, true, PersonageSlot.MAIN_HAND);
+        final var inventoryItems = new ArrayList<PersonageItem>();
+        inventoryItems.add(equipped);
+        for (long id = 2; id <= Inventory.baseMaxBagSize() + 1; ++id) {
+            inventoryItems.add(personageItem(id, personageId, false, PersonageSlot.BODY));
+        }
+
+        final var result = new Inventory(inventoryItems).canTakeOffItem(personageId, equipped);
+
+        Assertions.assertEquals(TakeOffItemError.NotEnoughSpaceInBag.INSTANCE, result.getLeft());
+    }
+
+    @Test
+    void canTakeOffItemWhenBagHasSpace() {
+        final var personageId = PersonageUtils.random().id();
+        final var equipped = personageItem(1L, personageId, true, PersonageSlot.MAIN_HAND);
+        final var inventoryItems = new ArrayList<PersonageItem>();
+        inventoryItems.add(equipped);
+        for (long id = 2; id <= Inventory.baseMaxBagSize(); ++id) {
+            inventoryItems.add(personageItem(id, personageId, false, PersonageSlot.BODY));
+        }
+
+        final var result = new Inventory(inventoryItems).canTakeOffItem(personageId, equipped);
+
+        Assertions.assertTrue(result.isRight());
     }
 
     private PersonageItem personageItem(

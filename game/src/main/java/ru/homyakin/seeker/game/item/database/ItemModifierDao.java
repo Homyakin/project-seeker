@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
-import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.models.CatalogModifier;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.item.models.ModifierType;
@@ -48,14 +47,31 @@ public class ItemModifierDao {
             .optional();
     }
 
+    public Optional<CatalogModifier> getAvailableById(int id) {
+        return jdbcClient.sql(GET_AVAILABLE_BY_ID_SQL)
+            .param("id", id)
+            .query(this::mapRow)
+            .optional();
+    }
+
     @Transactional
-    public void save(ItemModifiersToml.SavingModifier modifier) {
+    public void save(Modifier modifier, boolean assignmentEnabledWhenInserted) {
         jdbcClient.sql(SAVE_SQL)
             .param("code", modifier.code())
             .param("active_enum", modifier.activeEnum().name())
             .param("type_id", modifier.type().id)
             .param("locale", jsonUtils.mapToPostgresJson(modifier.locales()))
-            .param("personage_slot_ids", personageSlotIdsArray(modifier.slots()))
+            .param("personage_slot_ids", personageSlotIdsArray(modifier.availableOnSlots()))
+            .param("assignment_enabled", assignmentEnabledWhenInserted)
+            .update();
+    }
+
+    public void setAssignmentEnabledOnly(Set<String> codes) {
+        if (codes.isEmpty()) {
+            throw new IllegalArgumentException("At least one assignable modifier code must be specified");
+        }
+        jdbcClient.sql(SET_ASSIGNMENT_ENABLED_ONLY_SQL)
+            .param("codes", codes)
             .update();
     }
 
@@ -77,7 +93,8 @@ public class ItemModifierDao {
                 ModifierType.findById(rs.getInt("type_id")),
                 extractSlots(rs.getArray("personage_slot_ids")),
                 jsonUtils.fromString(rs.getString("locale"), JsonUtils.MODIFIER_LOCALE)
-            )
+            ),
+            rs.getBoolean("assignment_enabled")
         );
     }
 
@@ -97,23 +114,34 @@ public class ItemModifierDao {
         SELECT * FROM item_modifier
         WHERE :slot_id = ANY(personage_slot_ids)
           AND type_id IN (:type_ids)
+          AND assignment_enabled
         ORDER BY random() LIMIT 1
+        FOR SHARE
         """;
 
     private static final String GET_BY_ID_SQL = """
         SELECT * FROM item_modifier WHERE id = :id
         """;
 
+    private static final String GET_AVAILABLE_BY_ID_SQL = """
+        SELECT * FROM item_modifier WHERE id = :id AND assignment_enabled FOR SHARE
+        """;
+
     private static final String SAVE_SQL = """
         INSERT INTO item_modifier (
-            code, active_enum, type_id, locale, personage_slot_ids
+            code, active_enum, type_id, locale, personage_slot_ids, assignment_enabled
         ) VALUES (
-            :code, :active_enum, :type_id, CAST(:locale AS JSONB), :personage_slot_ids
+            :code, :active_enum, :type_id, CAST(:locale AS JSONB), :personage_slot_ids, :assignment_enabled
         )
         ON CONFLICT (code) DO UPDATE SET
             active_enum = EXCLUDED.active_enum,
             type_id = EXCLUDED.type_id,
             locale = EXCLUDED.locale,
             personage_slot_ids = EXCLUDED.personage_slot_ids
+        """;
+
+    private static final String SET_ASSIGNMENT_ENABLED_ONLY_SQL = """
+        UPDATE item_modifier
+        SET assignment_enabled = code IN (:codes)
         """;
 }

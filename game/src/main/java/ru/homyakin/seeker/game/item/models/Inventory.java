@@ -77,7 +77,7 @@ public record Inventory(
         }
         int itemsInBag = 0;
         for (final var personageItem : items) {
-            if (personageItem.isEquipped()) {
+            if (!personageItem.isEquipped()) {
                 ++itemsInBag;
             }
         }

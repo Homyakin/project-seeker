@@ -13,6 +13,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemCatalogService;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoader;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
 import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
@@ -141,24 +143,26 @@ public class InitGameData {
     @EventListener(ApplicationStartedEvent.class)
     public void loadItemsCatalog() {
         logger.info("loading items catalog");
-        ResourceUtils.doAction(
+        final var currentItemObjects = ResourceUtils.calc(
             ITEM_OBJECTS_CATALOG,
-            stream -> {
-                final var itemObjects = extractClass(stream, ItemObjectsToml.class);
-                LocalizationCoverage.addCatalogItemObjectsInfo(itemObjects);
-                itemObjects.item().forEach(ItemObjectsToml.SavingItemObject::validateLocale);
-                itemCatalogService.saveObjects(itemObjects);
-            }
-        );
-        ResourceUtils.doAction(
+            stream -> extractClass(stream, ItemObjectsToml.class)
+        ).orElseThrow(() -> new IllegalStateException("Item objects catalog resource is missing"));
+        currentItemObjects.item().forEach(ItemObjectsToml.SavingItemObject::validateLocale);
+
+        final var currentItemModifiers = ResourceUtils.calc(
             ITEM_MODIFIERS_CATALOG,
-            stream -> {
-                final var itemModifiers = extractClass(stream, ItemModifiersToml.class);
-                LocalizationCoverage.addCatalogItemModifiersInfo(itemModifiers);
-                itemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateLocale);
-                itemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateWordForms);
-                itemCatalogService.saveModifiers(itemModifiers);
-            }
+            stream -> extractClass(stream, ItemModifiersToml.class)
+        ).orElseThrow(() -> new IllegalStateException("Item modifiers catalog resource is missing"));
+        currentItemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateLocale);
+        currentItemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateWordForms);
+
+        final var stagedCatalog = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V1);
+        LocalizationCoverage.addCatalogItemObjectsInfo(stagedCatalog.itemObjects());
+        LocalizationCoverage.addCatalogItemModifiersInfo(stagedCatalog.modifiers());
+        itemCatalogService.stageRelease(
+            EquipmentCatalogVersion.SCALING_V1,
+            currentItemObjects.itemObjects(),
+            currentItemModifiers.modifiers()
         );
         logger.info("loaded items catalog");
     }

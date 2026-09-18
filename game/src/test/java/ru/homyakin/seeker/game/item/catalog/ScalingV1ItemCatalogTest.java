@@ -87,6 +87,17 @@ class ScalingV1ItemCatalogTest {
             PersonageSlot.GLOVES
         )) {
             Assertions.assertEquals(8, countExactSlots(objects, slot), slot.name());
+            for (final var type : DefenseType.values()) {
+                Assertions.assertEquals(
+                    2,
+                    objects.stream()
+                        .filter(item -> item.slots().equals(Set.of(slot)))
+                        .flatMap(item -> item.defense().stream())
+                        .filter(defense -> defense.defenseType() == type)
+                        .count(),
+                    slot + "/" + type
+                );
+            }
         }
         for (final var type : DefenseType.values()) {
             Assertions.assertEquals(

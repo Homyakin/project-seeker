@@ -57,6 +57,7 @@ class ItemServiceGenerateItemTest {
 
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personage.id()))
             .thenReturn(PersonageMemberGroupUtils.empty());
+        Mockito.when(itemObjectDao.getAvailableById(7)).thenReturn(Optional.of(catalogObject));
         Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.emptyList()));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(42L);
         Mockito.when(itemDao.getById(42L)).thenReturn(Optional.of(savedItem));
@@ -73,6 +74,19 @@ class ItemServiceGenerateItemTest {
         Assertions.assertTrue(itemToSave.modifier().isEmpty());
         Assertions.assertEquals(7, itemToSave.objectId());
         Assertions.assertEquals(catalogObject.object(), itemToSave.object());
+    }
+
+    @Test
+    void generateItemForPersonage_fromDisabledCatalogObject_isRejectedBeforeSaving() {
+        final var personage = PersonageUtils.random();
+        final var catalogObject = new CatalogItemObject(7, DefaultItems.MAIN_FIST.object(), true);
+
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> itemService.generateItemForPersonage(personage, catalogObject)
+        );
+
+        Mockito.verifyNoInteractions(itemDao);
     }
 
     @Test
@@ -111,6 +125,7 @@ class ItemServiceGenerateItemTest {
 
         Mockito.when(groupPersonageStorage.getPersonageMemberGroup(personage.id()))
             .thenReturn(PersonageMemberGroupUtils.empty());
+        Mockito.when(itemObjectDao.getAvailableById(1)).thenReturn(Optional.of(catalogObject));
         Mockito.when(itemDao.getByPersonageId(personage.id())).thenReturn(new Inventory(Collections.nCopies(15, bagItem)));
         Mockito.when(itemDao.save(Mockito.any())).thenReturn(99L);
         Mockito.when(itemDao.getById(99L)).thenReturn(Optional.of(Mockito.mock(PersonageItem.class)));

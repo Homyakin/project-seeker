@@ -30,10 +30,10 @@ public class ActiveSkillSlotsTest {
 
     @Test
     void filtersByMultipleSlotsWithAnd() {
-        final var filters = Set.of(PersonageSlot.MAIN_HAND, PersonageSlot.BODY);
+        final var filters = Set.of(PersonageSlot.BODY, PersonageSlot.HELMET);
         final var skills = ActiveSkillSlots.sortedSkills(filters);
         Assertions.assertFalse(skills.isEmpty());
-        Assertions.assertTrue(skills.contains(ActiveEnum.BERSERK));
+        Assertions.assertTrue(skills.contains(ActiveEnum.COUNTER_ATTACK));
         Assertions.assertFalse(skills.contains(ActiveEnum.DOUBLE_ATTACK));
         Assertions.assertTrue(skills.stream().allMatch(
             skill -> ActiveSkillSlots.slotsFor(skill).containsAll(filters)

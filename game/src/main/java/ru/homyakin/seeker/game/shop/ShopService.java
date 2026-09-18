@@ -51,7 +51,7 @@ public class ShopService {
     }
 
     public List<CatalogItemObject> getItemObjectsForSlot(PersonageSlot slot) {
-        return itemObjectDao.listBySlot(slot);
+        return itemObjectDao.listAvailableBySlot(slot);
     }
 
     public Money specificObjectUnitPrice() {
@@ -74,6 +74,7 @@ public class ShopService {
 
     @Transactional
     public Either<BuyItemError, PersonageItem> buyItem(PersonageId personageId, ShopItemType type) {
+        personageService.lockForItemChange(personageId);
         final var personage = personageService.getByIdForce(personageId);
         final var price = config.buyingPriceByType(type);
         if (personage.money().lessThan(price)) {
@@ -96,10 +97,11 @@ public class ShopService {
 
     @Transactional
     public Either<BuyItemError, PersonageItem> buyItemWithObject(PersonageId personageId, int objectId) {
-        final var catalogObject = itemObjectDao.getById(objectId);
+        final var catalogObject = itemObjectDao.getAvailableById(objectId);
         if (catalogObject.isEmpty()) {
             return Either.left(BuyItemError.InvalidItemObject.INSTANCE);
         }
+        personageService.lockForItemChange(personageId);
         return buyItemWithObject(personageId, catalogObject.get());
     }
 
