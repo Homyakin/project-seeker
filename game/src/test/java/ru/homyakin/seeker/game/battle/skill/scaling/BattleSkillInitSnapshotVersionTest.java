@@ -41,4 +41,15 @@ class BattleSkillInitSnapshotVersionTest {
 
         Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V1, snapshot.formulaVersion());
     }
+
+    @Test
+    void preservesExplicitSecondScalingVersion() {
+        final var snapshot = new BattleSkillInitSnapshot(
+            ActiveEnum.BERSERK,
+            4,
+            SkillFormulaVersion.SCALING_SKILLS_V2
+        );
+
+        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, snapshot.formulaVersion());
+    }
 }

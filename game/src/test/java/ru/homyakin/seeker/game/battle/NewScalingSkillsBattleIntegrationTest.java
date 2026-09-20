@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.AttackAccess;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -66,6 +67,15 @@ class NewScalingSkillsBattleIntegrationTest {
                 .filter(event -> event.round() == 1)
                 .map(Object::getClass)
                 .toList()
+        );
+        final var firstAttempt = traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class).getFirst();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(1, firstAttempt.turnId()),
+            () -> Assertions.assertEquals(1, firstAttempt.attemptId()),
+            () -> Assertions.assertEquals(attacker.id(), firstAttempt.attackerId()),
+            () -> Assertions.assertEquals(originalTarget.id(), firstAttempt.originalTargetId()),
+            () -> Assertions.assertEquals(guard.id(), firstAttempt.finalTargetId()),
+            () -> Assertions.assertEquals(NORMAL_ATTACK, firstAttempt.normalDamage())
         );
     }
 
@@ -156,6 +166,54 @@ class NewScalingSkillsBattleIntegrationTest {
             .orElseThrow();
         Assertions.assertEquals(farTarget.id(), firstHit.targetId());
         Assertions.assertEquals(Map.of(AttackType.SLASH, NORMAL_ATTACK), firstHit.roll().attack());
+        Assertions.assertTrue(events(log, BattleEvent.ScalingSkillDamage.class).stream()
+            .noneMatch(event -> event.skill() == ActiveEnum.PENETRATION));
+        final var firstAttempt = traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class).getFirst();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(
+                AttackAccess.PENETRATION,
+                firstAttempt.access()
+            ),
+            () -> Assertions.assertEquals(1, firstAttempt.ordinaryRange()),
+            () -> Assertions.assertEquals(3, firstAttempt.distance()),
+            () -> Assertions.assertEquals(Map.of(AttackType.SLASH, NORMAL_ATTACK), firstAttempt.savedBasis()),
+            () -> Assertions.assertFalse(firstAttempt.critical()),
+            () -> Assertions.assertFalse(firstAttempt.dodged())
+        );
+    }
+
+    @Test
+    void penetrationDoesNotConsumeOrAddDamageWhenEveryLivingTargetIsInOrdinaryRange() {
+        final var attacker = scalingPersonageV2(
+            Position.FRONT,
+            NORMAL_ATTACK,
+            1,
+            ActiveEnum.PENETRATION,
+            3
+        );
+        final var closeTarget = personage(Position.FRONT, 1, 1);
+        final var context = new BattleContext(
+            List.of(attacker),
+            List.of(closeTarget),
+            NewScalingSkillsBattleIntegrationTest::centeredRoll
+        );
+        final var log = new BattleActionLog();
+
+        attacker.move(context, log, 1);
+
+        Assertions.assertEquals(LARGE_HEALTH - NORMAL_ATTACK, closeTarget.health());
+        Assertions.assertEquals(0, attacker.scalingSkills().cooldown(ActiveEnum.PENETRATION));
+        Assertions.assertTrue(events(log, BattleEvent.SkillWindowUsed.class).stream()
+            .noneMatch(event -> event.skill() == ActiveEnum.PENETRATION));
+        Assertions.assertTrue(events(log, BattleEvent.ScalingSkillDamage.class).stream()
+            .noneMatch(event -> event.skill() == ActiveEnum.PENETRATION));
+        final var attempt = traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class).getFirst();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(closeTarget.id(), attempt.originalTargetId()),
+            () -> Assertions.assertEquals(closeTarget.id(), attempt.finalTargetId()),
+            () -> Assertions.assertEquals(AttackAccess.NORMAL, attempt.access()),
+            () -> Assertions.assertEquals(1, attempt.distance())
+        );
     }
 
     @Test
@@ -200,6 +258,26 @@ class NewScalingSkillsBattleIntegrationTest {
         Assertions.assertEquals(4, discharge.round());
         Assertions.assertEquals(LARGE_HEALTH - 4 * NORMAL_ATTACK - 84, target.health());
         Assertions.assertEquals(0, attacker.scalingSkills().accumulationCharges());
+
+        final var attempts = traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class);
+        final var tracedDischarge = attempts.getLast();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(List.of(1L, 2L, 3L, 4L), attempts.stream()
+                .map(BattleTraceEvent.NormalAttackAttempt::attemptId)
+                .toList()),
+            () -> Assertions.assertEquals(4, tracedDischarge.ownTurn()),
+            () -> Assertions.assertTrue(tracedDischarge.discharge()),
+            () -> Assertions.assertEquals(Map.of(AttackType.SLASH, NORMAL_ATTACK), tracedDischarge.dischargeBasis()),
+            () -> Assertions.assertEquals(21, tracedDischarge.dischargeCoefficientNumerator()),
+            () -> Assertions.assertEquals(25, tracedDischarge.dischargeCoefficientDenominator()),
+            () -> Assertions.assertEquals(84, tracedDischarge.dischargeDamage()),
+            () -> Assertions.assertEquals(3, tracedDischarge.accumulationChargesBefore()),
+            () -> Assertions.assertEquals(0, tracedDischarge.accumulationChargesAfter()),
+            () -> Assertions.assertThrows(
+                UnsupportedOperationException.class,
+                () -> tracedDischarge.savedBasis().put(AttackType.BLUNT, 1)
+            )
+        );
     }
 
     @Test
@@ -235,6 +313,15 @@ class NewScalingSkillsBattleIntegrationTest {
         Assertions.assertEquals(0, reset.charges());
         Assertions.assertTrue(reset.discharged());
         Assertions.assertEquals(0, attacker.scalingSkills().accumulationCharges());
+        final var tracedDodge = traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class).getLast();
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(tracedDodge.dodged()),
+            () -> Assertions.assertEquals(0, tracedDodge.normalDamage()),
+            () -> Assertions.assertTrue(tracedDodge.discharge()),
+            () -> Assertions.assertEquals(0, tracedDodge.dischargeDamage()),
+            () -> Assertions.assertEquals(3, tracedDodge.accumulationChargesBefore()),
+            () -> Assertions.assertEquals(0, tracedDodge.accumulationChargesAfter())
+        );
     }
 
     @Test
@@ -381,6 +468,21 @@ class NewScalingSkillsBattleIntegrationTest {
         );
     }
 
+    private static BattlePersonage scalingPersonageV2(
+        Position position,
+        int attack,
+        int maxRange,
+        ActiveEnum skill,
+        int points
+    ) {
+        return BattlePersonage.forScalingSkills(
+            List.of(item(attack, maxRange, 0, 0)),
+            position,
+            Map.of(skill, points),
+            SkillFormulaVersion.SCALING_SKILLS_V2
+        );
+    }
+
     private static Item item(int attack, int maxRange, int dodgeChance, int impact) {
         return item(
             List.of(new ItemAttack(AttackType.SLASH, 1, maxRange, attack)),
@@ -420,6 +522,13 @@ class NewScalingSkillsBattleIntegrationTest {
 
     private static <T extends BattleEvent> List<T> events(BattleActionLog log, Class<T> type) {
         return log.events().stream()
+            .filter(type::isInstance)
+            .map(type::cast)
+            .toList();
+    }
+
+    private static <T extends BattleTraceEvent> List<T> traceEvents(BattleActionLog log, Class<T> type) {
+        return log.traceEvents().stream()
             .filter(type::isInstance)
             .map(type::cast)
             .toList();

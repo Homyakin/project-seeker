@@ -8,4 +8,5 @@ package ru.homyakin.seeker.game.item.catalog;
  */
 public enum EquipmentCatalogVersion {
     SCALING_V1,
+    SCALING_V2,
 }

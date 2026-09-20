@@ -10,6 +10,26 @@ import ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldowns.Phase;
 class ScalingCooldownsTest {
     @ParameterizedTest
     @CsvSource({
+        "1, 11, 11",
+        "2, 10, 10",
+        "3, 9, 9",
+        "4, 8, 8",
+        "5, 7, 7",
+        "6, 6, 6",
+        "7, 5, 5",
+        "8, 4, 4",
+        "9, 4, 4",
+    })
+    void mapsV2HitAndRunCooldowns(int points, int first, int second) {
+        assertSchedule(
+            ScalingCooldowns.hitAndRun(SkillFormulaVersion.SCALING_SKILLS_V2, points).orElseThrow(),
+            first,
+            second
+        );
+    }
+
+    @ParameterizedTest
+    @CsvSource({
         "1, 6, 6",
         "2, 5, 5",
         "3, 4, 5",
@@ -20,8 +40,12 @@ class ScalingCooldownsTest {
         "8, 2, 2",
         "9, 2, 2",
     })
-    void mapsHitAndRunCooldowns(int points, int first, int second) {
-        assertSchedule(ScalingCooldowns.hitAndRun(points).orElseThrow(), first, second);
+    void preservesV1HitAndRunCooldowns(int points, int first, int second) {
+        assertSchedule(
+            ScalingCooldowns.hitAndRun(SkillFormulaVersion.SCALING_SKILLS_V1, points).orElseThrow(),
+            first,
+            second
+        );
     }
 
     @ParameterizedTest
@@ -43,21 +67,22 @@ class ScalingCooldownsTest {
     @Test
     void zeroPointsHaveNoCooldownSchedule() {
         Assertions.assertTrue(ScalingCooldowns.hitAndRun(0).isEmpty());
+        Assertions.assertTrue(ScalingCooldowns.hitAndRun(SkillFormulaVersion.SCALING_SKILLS_V2, 0).isEmpty());
         Assertions.assertTrue(ScalingCooldowns.guardOrPenetration(-1).isEmpty());
     }
 
     @Test
     void alternatingPhaseStartsWithLowerValueAndAdvancesOnlyOnActivation() {
-        final var schedule = ScalingCooldowns.hitAndRun(3).orElseThrow();
+        final var schedule = ScalingCooldowns.guardOrPenetration(3).orElseThrow();
         final var initial = Phase.INITIAL;
 
         final var first = schedule.activate(initial);
         final var second = schedule.activate(first.nextPhase());
         final var third = schedule.activate(second.nextPhase());
 
-        Assertions.assertEquals(4, first.cooldown());
-        Assertions.assertEquals(5, second.cooldown());
-        Assertions.assertEquals(4, third.cooldown());
+        Assertions.assertEquals(5, first.cooldown());
+        Assertions.assertEquals(6, second.cooldown());
+        Assertions.assertEquals(5, third.cooldown());
         Assertions.assertTrue(third.nextPhase().secondNext());
         Assertions.assertFalse(initial.secondNext());
     }

@@ -233,12 +233,43 @@ class VersionedExistingSkillsBattleTest {
             .filter(event -> event.skill() == ActiveEnum.HIT_AND_RUN)
             .count());
 
+        final var firstAttempt = traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class).getFirst();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(AttackAccess.HIT_AND_RUN, firstAttempt.access()),
+            () -> Assertions.assertEquals(1, firstAttempt.turnId()),
+            () -> Assertions.assertEquals(1, firstAttempt.attemptId()),
+            () -> Assertions.assertEquals(1, firstAttempt.ownTurn()),
+            () -> Assertions.assertEquals(firstAttempt.lineBeforeRetreat() - 1, firstAttempt.lineAfterRetreat())
+        );
+
         attacker.move(context, log, 2);
 
         Assertions.assertEquals(1, events(log, BattleEvent.DamageReceived.class).size());
         Assertions.assertEquals(2, attacker.currentPosition());
         Assertions.assertEquals(3, attacker.scalingSkills().cooldown(ActiveEnum.HIT_AND_RUN));
         Assertions.assertEquals(1, events(log, BattleEvent.MovedTowardEnemy.class).size());
+        final var starts = traceEvents(log, BattleTraceEvent.TurnStarted.class);
+        final var finishes = traceEvents(log, BattleTraceEvent.TurnFinished.class);
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(List.of(1L, 2L), starts.stream()
+                .map(BattleTraceEvent.TurnStarted::turnId)
+                .toList()),
+            () -> Assertions.assertEquals(List.of(1, 2), starts.stream()
+                .map(BattleTraceEvent.TurnStarted::ownTurn)
+                .toList()),
+            () -> Assertions.assertEquals(List.of(1L, 2L), finishes.stream()
+                .map(BattleTraceEvent.TurnFinished::turnId)
+                .toList()),
+            () -> Assertions.assertEquals(1, traceEvents(log, BattleTraceEvent.NormalAttackAttempt.class).size()),
+            () -> Assertions.assertEquals(
+                finishes.getFirst().endLineIndex(),
+                starts.getLast().lineIndex()
+            ),
+            () -> Assertions.assertEquals(
+                starts.getLast().lineIndex() + 1,
+                finishes.getLast().endLineIndex()
+            )
+        );
     }
 
     @Test
@@ -675,6 +706,13 @@ class VersionedExistingSkillsBattleTest {
 
     private static <T extends BattleEvent> List<T> events(BattleActionLog log, Class<T> type) {
         return log.events().stream()
+            .filter(type::isInstance)
+            .map(type::cast)
+            .toList();
+    }
+
+    private static <T extends BattleTraceEvent> List<T> traceEvents(BattleActionLog log, Class<T> type) {
+        return log.traceEvents().stream()
             .filter(type::isInstance)
             .map(type::cast)
             .toList();

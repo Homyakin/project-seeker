@@ -16,6 +16,7 @@ import ru.homyakin.seeker.game.battle.skill.scaling.NonNegativeRational;
 import ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldowns;
 import ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMath;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillDamageCalculator;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
 import ru.homyakin.seeker.game.item.models.AttackType;
 
@@ -25,7 +26,9 @@ final class VersionedBattleTurn {
     private static final int BLEEDING_TICKS = 4;
     private static final int BLEEDING_COOLDOWN = 4;
     private static final int SELF_HEAL_COOLDOWN = 2;
-    private static final int TEMPO_BREAK_COOLDOWN = 2;
+    private static final int TEMPO_BREAK_V1_COOLDOWN = 2;
+    private static final int TEMPO_BREAK_V2_COOLDOWN = 1;
+    private static final int PENETRATION_FOLLOW_UPS = 2;
 
     private VersionedBattleTurn() {
     }
@@ -37,9 +40,24 @@ final class VersionedBattleTurn {
         int round
     ) {
         self.beginVersionedMove();
+        final long turnId = log.nextTurnId();
+        final int ownTurn = self.battlePersonageStats().turnsCount();
+        final int turnStartLine = self.currentPosition();
+        log.addTrace(new BattleTraceEvent.TurnStarted(
+            turnId,
+            self.id(),
+            ownTurn,
+            turnStartLine,
+            round
+        ));
+        if (!self.isAlive()) {
+            traceTurnFinished(log, self, turnId, ownTurn, turnStartLine, false, round);
+            return false;
+        }
         self.expireLegacyRangeBonusesForVersionedTurn();
         processPeriodicDamage(self, context, log, round);
         if (!self.isAlive()) {
+            traceTurnFinished(log, self, turnId, ownTurn, turnStartLine, false, round);
             return false;
         }
 
@@ -50,6 +68,7 @@ final class VersionedBattleTurn {
         log.addAll(self.applyLegacyTurnStartSkill(ActiveEnum.HIT_AND_RUN, context, round));
         if (!self.isAlive()) {
             finishTurn(self, coolingAtStart, tempoImmuneAtStart);
+            traceTurnFinished(log, self, turnId, ownTurn, turnStartLine, true, round);
             return false;
         }
 
@@ -59,9 +78,11 @@ final class VersionedBattleTurn {
             context.moveTowardEnemy(self);
             log.add(new BattleEvent.MovedTowardEnemy(self.id(), self.currentPosition(), round));
             finishTurn(self, coolingAtStart, tempoImmuneAtStart);
+            traceTurnFinished(log, self, turnId, ownTurn, turnStartLine, true, round);
             return enemyTeam.values().stream().noneMatch(BattlePersonage::isAlive);
         }
 
+        final long attemptId = log.nextAttemptId();
         final var interception = interceptWithGuard(
             selection.target(),
             selection.candidates(),
@@ -90,37 +111,62 @@ final class VersionedBattleTurn {
             ));
         }
 
-        final boolean penetrationUsed = consumePenetrationIfApplicable(
+        final boolean penetrationOpened = consumePenetrationIfApplicable(
             self,
-            selection.penetrationExpanded(),
+            selection.penetrationAttempt(),
             log,
             round
         );
-        final boolean hitAndRunUsed = consumeHitAndRunIfApplicable(
-            self,
-            selection.target(),
-            finalTarget,
-            selection.ordinaryRange(),
-            log,
-            round
-        );
-        final var access = penetrationUsed
+        final boolean penetrationFollowUp = selection.penetrationAttempt() == PenetrationAttempt.FOLLOW_UP;
+        if (penetrationFollowUp) {
+            self.scalingSkills().consumePenetrationFollowUp();
+        }
+        final boolean penetrationAccess = penetrationOpened || penetrationFollowUp;
+        final boolean hitAndRunUsed = (!penetrationAccess
+            || !usesV2(self, ActiveEnum.PENETRATION)) && consumeHitAndRunIfApplicable(
+                self,
+                selection.target(),
+                finalTarget,
+                selection.ordinaryRange(),
+                log,
+                round
+            );
+        final var access = penetrationAccess
             ? AttackAccess.PENETRATION
             : hitAndRunUsed ? AttackAccess.HIT_AND_RUN : AttackAccess.NORMAL;
         final var savedAttack = self.attackForVersionedAttempt(distance, access);
         final var primaryAttackType = self.primaryAttackType();
+        final int accumulationChargesBefore = self.scalingSkills().accumulationCharges();
         final boolean dischargeMarked = self.scalingSkills().has(ActiveEnum.ACCUMULATION)
-            && self.scalingSkills().accumulationCharges() == 3
+            && accumulationChargesBefore == 3
             && primaryAttackType.filter(type -> savedAttack.getOrDefault(type, 0) > 0).isPresent();
+        final Map<AttackType, Integer> dischargeBasis = dischargeMarked
+            ? Map.of(primaryAttackType.orElseThrow(), savedAttack.get(primaryAttackType.orElseThrow()))
+            : Map.of();
+        final int dischargeCoefficientNumerator = dischargeMarked
+            ? multiplier(self, ActiveEnum.ACCUMULATION)
+            : 0;
+        final int dischargeCoefficientDenominator = dischargeMarked
+            ? accumulationDenominator(self)
+            : 1;
 
         final boolean critical = self.versionedCriticalSucceeds(context.random());
         final var rolledAttack = critical ? self.applyCriticalMultiplier(savedAttack) : savedAttack;
         final boolean dodged = finalTarget.versionedDodgeSucceeds(context.random(), self);
+        final AttemptOutcome attemptOutcome;
         if (dodged) {
             finalTarget.recordVersionedDodge(self, rolledAttack, log, round);
-            applyDodgeBranch(self, finalTarget, distance, savedAttack, context, log, round);
+            attemptOutcome = applyDodgeBranch(
+                self,
+                finalTarget,
+                distance,
+                savedAttack,
+                context,
+                log,
+                round
+            );
         } else {
-            applyHitBranch(
+            attemptOutcome = applyHitBranch(
                 self,
                 finalTarget,
                 distance,
@@ -128,6 +174,7 @@ final class VersionedBattleTurn {
                 rolledAttack,
                 primaryAttackType.orElse(null),
                 critical,
+                penetrationOpened && usesV2(self, ActiveEnum.PENETRATION),
                 dischargeMarked,
                 context,
                 log,
@@ -135,16 +182,61 @@ final class VersionedBattleTurn {
             );
         }
 
+        updatePenetrationTarget(
+            self,
+            selection,
+            finalTarget,
+            penetrationOpened,
+            dodged
+        );
+
         updateAccumulation(self, savedAttack, primaryAttackType.orElse(null), dischargeMarked, log, round);
-        updateAttemptThreat(self, finalTarget, !dodged, log, round);
+        final int accumulationChargesAfter = self.scalingSkills().accumulationCharges();
+        updateAttemptThreat(
+            self,
+            finalTarget,
+            !dodged,
+            attemptOutcome.killRewardsThreat(),
+            log,
+            round
+        );
+        final int lineBeforeRetreat = self.currentPosition();
         if (hitAndRunUsed && self.isAlive()) {
             moveBackward(self, self, ActiveEnum.HIT_AND_RUN, context, log, round);
         }
+        final int lineAfterRetreat = self.currentPosition();
+        log.addTrace(new BattleTraceEvent.NormalAttackAttempt(
+            turnId,
+            attemptId,
+            self.id(),
+            ownTurn,
+            selection.target().id(),
+            finalTarget.id(),
+            access,
+            selection.ordinaryRange(),
+            distance,
+            savedAttack,
+            critical,
+            dodged,
+            attemptOutcome.normalDamage(),
+            !finalTarget.isAlive(),
+            dischargeMarked,
+            dischargeBasis,
+            dischargeCoefficientNumerator,
+            dischargeCoefficientDenominator,
+            attemptOutcome.dischargeDamage(),
+            accumulationChargesBefore,
+            accumulationChargesAfter,
+            lineBeforeRetreat,
+            lineAfterRetreat,
+            round
+        ));
         if (self.isAlive()) {
             applySelfHeal(self, context, log, round);
             log.addAll(self.applyLegacyTurnEndSkill(ActiveEnum.SELF_HEAL, context, round));
         }
         finishTurn(self, coolingAtStart, tempoImmuneAtStart);
+        traceTurnFinished(log, self, turnId, ownTurn, turnStartLine, true, round);
         return false;
     }
 
@@ -154,35 +246,68 @@ final class VersionedBattleTurn {
         BattleContext context
     ) {
         final int ordinaryRange = self.range();
+        final boolean penetrationV2 = usesV2(self, ActiveEnum.PENETRATION);
+        final var lockedTargetId = self.scalingSkills().penetrationTargetId();
+        if (penetrationV2 && lockedTargetId.isPresent()) {
+            final var lockedTarget = enemyTeam.get(lockedTargetId.orElseThrow());
+            if (lockedTarget != null && lockedTarget.isAlive()) {
+                final var accessibleCandidates = enemyTeam.values().stream()
+                    .filter(BattlePersonage::isAlive)
+                    .filter(candidate -> candidate == lockedTarget
+                        || self.distanceTo(candidate) <= ordinaryRange)
+                    .toList();
+                return new TargetSelection(
+                    lockedTarget,
+                    accessibleCandidates,
+                    ordinaryRange,
+                    PenetrationAttempt.FOLLOW_UP
+                );
+            }
+            self.scalingSkills().clearPenetrationTarget();
+        }
         final boolean hitAndRunReady = self.scalingSkills().ready(ActiveEnum.HIT_AND_RUN);
         final boolean penetrationReady = self.scalingSkills().ready(ActiveEnum.PENETRATION);
         final int extendedRange = Math.addExact(ordinaryRange, hitAndRunReady ? 1 : 0);
-        final var candidates = new ArrayList<BattlePersonage>();
-        var penetrationExpanded = false;
+        final var ordinaryCandidates = new ArrayList<BattlePersonage>();
+        final var penetrationCandidates = new ArrayList<BattlePersonage>();
+        final var accessibleCandidates = new ArrayList<BattlePersonage>();
         for (final var candidate : enemyTeam.values()) {
             if (!candidate.isAlive()) {
                 continue;
             }
-            final boolean inExtendedRange = self.distanceTo(candidate) <= extendedRange;
+            final int distance = self.distanceTo(candidate);
+            final boolean inOrdinaryRange = distance <= ordinaryRange;
+            final boolean inExtendedRange = distance <= extendedRange;
             if (inExtendedRange || penetrationReady) {
-                candidates.add(candidate);
+                accessibleCandidates.add(candidate);
             }
-            if (!inExtendedRange && penetrationReady) {
-                penetrationExpanded = true;
+            if (penetrationV2 && !inOrdinaryRange && penetrationReady) {
+                penetrationCandidates.add(candidate);
+            } else if (inExtendedRange) {
+                ordinaryCandidates.add(candidate);
+            } else if (penetrationReady) {
+                penetrationCandidates.add(candidate);
             }
         }
-        if (candidates.isEmpty()) {
+        final boolean penetrationExpanded = !penetrationCandidates.isEmpty();
+        final List<BattlePersonage> targetingCandidates;
+        if (penetrationV2 && penetrationExpanded) {
+            targetingCandidates = penetrationCandidates;
+        } else {
+            targetingCandidates = accessibleCandidates;
+        }
+        if (targetingCandidates.isEmpty()) {
             return null;
         }
         final var target = context.random().pickWeighted(
             "target-selection:" + self.id(),
-            targetingWeights(self, candidates)
+            targetingWeights(self, targetingCandidates)
         );
         return new TargetSelection(
             target,
-            List.copyOf(candidates),
+            List.copyOf(accessibleCandidates),
             ordinaryRange,
-            penetrationExpanded
+            penetrationExpanded ? PenetrationAttempt.OPENING : PenetrationAttempt.NONE
         );
     }
 
@@ -235,7 +360,7 @@ final class VersionedBattleTurn {
                 || !candidate.isAlive()
                 || !candidate.scalingSkills().has(ActiveEnum.GUARD)
                 || !accessibleCandidates.contains(candidate)
-                || Math.abs(candidate.currentPosition() - originalTarget.currentPosition()) > 1) {
+                || !guardCanIntercept(candidate, originalTarget)) {
                 continue;
             }
             if (interceptor == null
@@ -249,6 +374,7 @@ final class VersionedBattleTurn {
             return GuardInterception.none(originalTarget);
         }
         final var schedule = ScalingCooldowns.guardOrPenetration(
+            interceptor.scalingSkills().version(ActiveEnum.GUARD),
             interceptor.scalingSkills().points(ActiveEnum.GUARD)
         ).orElseThrow();
         teamState.consumeGuard(schedule.firstCooldown(), schedule.secondCooldown());
@@ -257,14 +383,16 @@ final class VersionedBattleTurn {
 
     private static boolean consumePenetrationIfApplicable(
         BattlePersonage self,
-        boolean penetrationExpanded,
+        PenetrationAttempt penetrationAttempt,
         BattleActionLog log,
         int round
     ) {
-        if (!penetrationExpanded || !self.scalingSkills().ready(ActiveEnum.PENETRATION)) {
+        if (penetrationAttempt != PenetrationAttempt.OPENING
+            || !self.scalingSkills().ready(ActiveEnum.PENETRATION)) {
             return false;
         }
         final var schedule = ScalingCooldowns.guardOrPenetration(
+            self.scalingSkills().version(ActiveEnum.PENETRATION),
             self.scalingSkills().points(ActiveEnum.PENETRATION)
         ).orElseThrow();
         self.scalingSkills().startAlternatingCooldown(
@@ -274,6 +402,26 @@ final class VersionedBattleTurn {
         );
         log.add(new BattleEvent.SkillWindowUsed(self.id(), ActiveEnum.PENETRATION, round));
         return true;
+    }
+
+    private static void updatePenetrationTarget(
+        BattlePersonage self,
+        TargetSelection selection,
+        BattlePersonage finalTarget,
+        boolean penetrationOpened,
+        boolean dodged
+    ) {
+        if (penetrationOpened
+            && usesV2(self, ActiveEnum.PENETRATION)
+            && !dodged
+            && finalTarget.isAlive()) {
+            self.scalingSkills().lockPenetrationTarget(finalTarget.id(), PENETRATION_FOLLOW_UPS);
+            return;
+        }
+        if (selection.penetrationAttempt() == PenetrationAttempt.FOLLOW_UP
+            && !selection.target().isAlive()) {
+            self.scalingSkills().clearPenetrationTarget();
+        }
     }
 
     private static boolean consumeHitAndRunIfApplicable(
@@ -290,6 +438,7 @@ final class VersionedBattleTurn {
             return false;
         }
         final var schedule = ScalingCooldowns.hitAndRun(
+            self.scalingSkills().version(ActiveEnum.HIT_AND_RUN),
             self.scalingSkills().points(ActiveEnum.HIT_AND_RUN)
         ).orElseThrow();
         self.scalingSkills().startAlternatingCooldown(
@@ -301,7 +450,7 @@ final class VersionedBattleTurn {
         return true;
     }
 
-    private static void applyDodgeBranch(
+    private static AttemptOutcome applyDodgeBranch(
         BattlePersonage attacker,
         BattlePersonage target,
         int distance,
@@ -313,8 +462,9 @@ final class VersionedBattleTurn {
         applyFeint(target, attacker, distance, context, log, round);
         applyLegacySkill(ActiveEnum.FEINT, target, attacker, context, log, round);
         if (!attacker.isAlive() || !target.isAlive()) {
-            return;
+            return AttemptOutcome.NONE;
         }
+        final boolean aliveBeforePreciseStrike = target.isAlive();
         applyVectorSkill(
             attacker,
             target,
@@ -328,9 +478,10 @@ final class VersionedBattleTurn {
             round
         );
         applyLegacySkill(ActiveEnum.PRECISE_STRIKE, attacker, target, context, log, round);
+        return new AttemptOutcome(0, 0, aliveBeforePreciseStrike && !target.isAlive());
     }
 
-    private static void applyHitBranch(
+    private static AttemptOutcome applyHitBranch(
         BattlePersonage attacker,
         BattlePersonage target,
         int distance,
@@ -338,6 +489,7 @@ final class VersionedBattleTurn {
         Map<AttackType, Integer> rolledAttack,
         AttackType primaryAttackType,
         boolean critical,
+        boolean penetrationUsed,
         boolean dischargeMarked,
         BattleContext context,
         BattleActionLog log,
@@ -354,7 +506,7 @@ final class VersionedBattleTurn {
         logThreatLoss(target, attacker, null, normalDamage, log, round);
         if (!target.isAlive()) {
             log.add(new BattleEvent.PersonageDefeated(target.id(), attacker.id(), round));
-            return;
+            return new AttemptOutcome(normalDamage, 0, true);
         }
 
         applyCounterAttack(target, attacker, distance, context, log, round);
@@ -368,38 +520,17 @@ final class VersionedBattleTurn {
             applyLegacySkill(ActiveEnum.RETREAT, target, attacker, context, log, round);
         }
         if (!attacker.isAlive() || !target.isAlive()) {
-            return;
+            return new AttemptOutcome(normalDamage, 0, false);
         }
 
-        applyVectorSkill(
-            attacker,
-            target,
-            ActiveEnum.DOUBLE_ATTACK,
-            savedAttack,
-            multiplier(attacker, ActiveEnum.DOUBLE_ATTACK),
-            50,
-            5_000,
-            context,
-            log,
-            round
-        );
-        applyLegacySkill(ActiveEnum.DOUBLE_ATTACK, attacker, target, context, log, round);
-        if (!target.isAlive()) {
-            return;
-        }
-        applyBleeding(attacker, target, savedAttack, primaryAttackType, context, log, round);
-        applyLegacySkill(ActiveEnum.BLEEDING, attacker, target, context, log, round);
-        if (!target.isAlive()) {
-            return;
-        }
-        if (dischargeMarked && primaryAttackType != null) {
+        if (penetrationUsed) {
             applyVectorSkill(
                 attacker,
                 target,
-                ActiveEnum.ACCUMULATION,
-                Map.of(primaryAttackType, savedAttack.get(primaryAttackType)),
-                multiplier(attacker, ActiveEnum.ACCUMULATION),
-                25,
+                ActiveEnum.PENETRATION,
+                savedAttack,
+                multiplier(attacker, ActiveEnum.PENETRATION),
+                12,
                 10_000,
                 context,
                 log,
@@ -407,13 +538,55 @@ final class VersionedBattleTurn {
             );
         }
         if (!target.isAlive()) {
-            return;
+            return new AttemptOutcome(normalDamage, 0, false);
+        }
+
+        final boolean aliveBeforeDoubleAttack = target.isAlive();
+        applyVectorSkill(
+            attacker,
+            target,
+            ActiveEnum.DOUBLE_ATTACK,
+            savedAttack,
+            multiplier(attacker, ActiveEnum.DOUBLE_ATTACK),
+            usesV2(attacker, ActiveEnum.DOUBLE_ATTACK) ? 100 : 50,
+            5_000,
+            context,
+            log,
+            round
+        );
+        applyLegacySkill(ActiveEnum.DOUBLE_ATTACK, attacker, target, context, log, round);
+        if (!target.isAlive()) {
+            return new AttemptOutcome(normalDamage, 0, aliveBeforeDoubleAttack);
+        }
+        applyBleeding(attacker, target, savedAttack, primaryAttackType, context, log, round);
+        applyLegacySkill(ActiveEnum.BLEEDING, attacker, target, context, log, round);
+        if (!target.isAlive()) {
+            return new AttemptOutcome(normalDamage, 0, false);
+        }
+        var dischargeDamage = 0;
+        if (dischargeMarked && primaryAttackType != null) {
+            dischargeDamage = applyVectorSkill(
+                attacker,
+                target,
+                ActiveEnum.ACCUMULATION,
+                Map.of(primaryAttackType, savedAttack.get(primaryAttackType)),
+                multiplier(attacker, ActiveEnum.ACCUMULATION),
+                accumulationDenominator(attacker),
+                10_000,
+                context,
+                log,
+                round
+            );
+        }
+        if (!target.isAlive()) {
+            return new AttemptOutcome(normalDamage, dischargeDamage, true);
         }
         applyTempoBreak(attacker, target, context, log, round);
         if (critical && target.isAlive()) {
             applyKnockback(attacker, target, context, log, round);
             applyLegacySkill(ActiveEnum.KNOCKBACK, attacker, target, context, log, round);
         }
+        return new AttemptOutcome(normalDamage, dischargeDamage, false);
     }
 
     private static void applyCounterAttack(
@@ -503,7 +676,7 @@ final class VersionedBattleTurn {
         );
     }
 
-    private static void applyVectorSkill(
+    private static int applyVectorSkill(
         BattlePersonage source,
         BattlePersonage target,
         ActiveEnum skill,
@@ -519,15 +692,15 @@ final class VersionedBattleTurn {
             || !target.isAlive()
             || basis.isEmpty()
             || sum(basis) <= 0) {
-            return;
+            return 0;
         }
         if (!context.random().chance(
             "skill-chance:" + skill.name() + ":" + source.id() + ":" + target.id(),
             chanceBasisPoints
         )) {
-            return;
+            return 0;
         }
-        applyScalingSkillDamage(
+        return applyScalingSkillDamage(
             source,
             target,
             skill,
@@ -818,13 +991,21 @@ final class VersionedBattleTurn {
         }
         final int requested = ScalingSkillMath.roundHalfUpToInt(
             NonNegativeRational.of(multiplier(source, ActiveEnum.TEMPO_BREAK))
-                .multiply(NonNegativeRational.of(source.impactStrength(), 20))
+                .multiply(NonNegativeRational.of(
+                    source.impactStrength(),
+                    usesV2(source, ActiveEnum.TEMPO_BREAK) ? 5 : 20
+                ))
         );
         final int removed = target.reduceInitiativeGauge(requested);
         if (removed <= 0) {
             return;
         }
-        source.scalingSkills().startCooldown(ActiveEnum.TEMPO_BREAK, TEMPO_BREAK_COOLDOWN);
+        source.scalingSkills().startCooldown(
+            ActiveEnum.TEMPO_BREAK,
+            usesV2(source, ActiveEnum.TEMPO_BREAK)
+                ? TEMPO_BREAK_V2_COOLDOWN
+                : TEMPO_BREAK_V1_COOLDOWN
+        );
         target.scalingSkills().setTempoBreakImmune(true);
         log.add(new BattleEvent.SkillWindowUsed(source.id(), ActiveEnum.TEMPO_BREAK, round));
         log.add(new BattleEvent.InitiativeDelayed(
@@ -880,15 +1061,16 @@ final class VersionedBattleTurn {
         BattlePersonage attacker,
         BattlePersonage finalTarget,
         boolean normalHit,
+        boolean killRewardsThreat,
         BattleActionLog log,
         int round
     ) {
         final int delta;
         final ThreatReason reason;
-        if (!finalTarget.isAlive()) {
+        if (!finalTarget.isAlive() && killRewardsThreat) {
             delta = attacker.gainThreatAfterKill();
             reason = ThreatReason.KILL;
-        } else if (normalHit) {
+        } else if (finalTarget.isAlive() && normalHit) {
             delta = attacker.gainThreatAfterHit();
             reason = ThreatReason.NORMAL_HIT;
         } else {
@@ -968,12 +1150,50 @@ final class VersionedBattleTurn {
         return ScalingSkillMath.multiplierNumerator(personage.scalingSkills().points(skill));
     }
 
+    private static int accumulationDenominator(BattlePersonage personage) {
+        return usesV2(personage, ActiveEnum.ACCUMULATION) ? 28 : 25;
+    }
+
+    private static boolean guardCanIntercept(BattlePersonage guard, BattlePersonage target) {
+        if (usesV2(guard, ActiveEnum.GUARD)) {
+            return target.currentPosition()
+                == guard.currentPosition() - guard.advanceDirection().indexDelta();
+        }
+        return Math.abs(guard.currentPosition() - target.currentPosition()) <= 1;
+    }
+
+    private static boolean usesV2(BattlePersonage personage, ActiveEnum skill) {
+        return personage.scalingSkills().has(skill)
+            && personage.scalingSkills().version(skill) == SkillFormulaVersion.SCALING_SKILLS_V2;
+    }
+
     private static int sum(Map<AttackType, Integer> values) {
         var result = 0;
         for (final var value : values.values()) {
             result = Math.addExact(result, value);
         }
         return result;
+    }
+
+    private static void traceTurnFinished(
+        BattleActionLog log,
+        BattlePersonage self,
+        long turnId,
+        int ownTurn,
+        int startLineIndex,
+        boolean actionPerformed,
+        int round
+    ) {
+        log.addTrace(new BattleTraceEvent.TurnFinished(
+            turnId,
+            self.id(),
+            ownTurn,
+            startLineIndex,
+            self.currentPosition(),
+            actionPerformed,
+            self.isAlive(),
+            round
+        ));
     }
 
     private static void finishTurn(
@@ -987,12 +1207,22 @@ final class VersionedBattleTurn {
         }
     }
 
+    private record AttemptOutcome(int normalDamage, int dischargeDamage, boolean killRewardsThreat) {
+        private static final AttemptOutcome NONE = new AttemptOutcome(0, 0, false);
+    }
+
     private record TargetSelection(
         BattlePersonage target,
         List<BattlePersonage> candidates,
         int ordinaryRange,
-        boolean penetrationExpanded
+        PenetrationAttempt penetrationAttempt
     ) {
+    }
+
+    private enum PenetrationAttempt {
+        NONE,
+        OPENING,
+        FOLLOW_UP,
     }
 
     private record GuardInterception(

@@ -21,15 +21,13 @@ import ru.homyakin.seeker.locale.WordForm;
 
 /** Validates the immutable contract of an equipment catalog release. */
 public final class EquipmentCatalogValidator {
-    private static final int EXPECTED_ITEM_OBJECTS = 62;
     private static final int EXPECTED_MODIFIERS = 15;
     private static final int EXPECTED_DEFAULT_ITEMS = 7;
-    private static final int EXPECTED_COMPATIBLE_PAIRS = 264;
     private static final int MAX_ATTACK_RANGE = 4;
     private static final int MAX_VALIDATION_LEVEL = 21;
     private static final int GROWING_BASE_DIVISOR = 60;
 
-    private static final Set<String> SCALING_ITEM_CODES = Set.of(
+    private static final Set<String> SCALING_V1_ITEM_CODES = Set.of(
         "sword", "rapier", "mace", "spear", "staff", "bow", "longbow", "crossbow",
         "two_handed_sword", "sledgehammer", "halberd", "shortsword", "club", "dagger", "dirk", "orb",
         "buckler", "shield", "tower_shield", "tome", "robe", "cuirass", "breastplate", "wizard_robe",
@@ -40,6 +38,10 @@ public final class EquipmentCatalogValidator {
         "phantom_vestment", "phantom_chausses", "phantom_boots", "phantom_crown", "phantom_gloves",
         "hunter_jacket", "riding_breeches", "soft_boots", "wide_brim_hat", "fencing_gloves", "brigandine",
         "mail_greaves", "light_sabatons", "open_helm", "mail_gauntlets"
+    );
+    private static final Set<String> SCALING_V2_ITEM_CODES = withAddedCode(
+        SCALING_V1_ITEM_CODES,
+        "command_staff"
     );
     private static final Map<String, PersonageSlot> DEFAULT_ITEM_SLOTS = Map.of(
         "main-fists", PersonageSlot.MAIN_HAND,
@@ -80,6 +82,24 @@ public final class EquipmentCatalogValidator {
         modifier("disrupting", ActiveEnum.TEMPO_BREAK, ModifierType.ANY,
             PersonageSlot.MAIN_HAND, PersonageSlot.OFF_HAND)
     );
+    private static final CatalogContract SCALING_V1_CONTRACT = new CatalogContract(
+        "SCALING_V1",
+        SkillFormulaVersion.SCALING_SKILLS_V1,
+        SCALING_V1_ITEM_CODES,
+        62,
+        8,
+        18,
+        264
+    );
+    private static final CatalogContract SCALING_V2_CONTRACT = new CatalogContract(
+        "SCALING_V2",
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V2_ITEM_CODES,
+        63,
+        9,
+        19,
+        272
+    );
 
     private EquipmentCatalogValidator() {
     }
@@ -89,23 +109,32 @@ public final class EquipmentCatalogValidator {
             throw new IllegalArgumentException("Loaded catalog must be specified");
         }
         switch (catalog.release().catalogVersion()) {
-            case SCALING_V1 -> validateScalingV1(catalog);
+            case SCALING_V1 -> validate(catalog, SCALING_V1_CONTRACT);
+            case SCALING_V2 -> validate(catalog, SCALING_V2_CONTRACT);
         }
     }
 
-    private static void validateScalingV1(LoadedEquipmentCatalog catalog) {
+    private static void validate(LoadedEquipmentCatalog catalog, CatalogContract contract) {
         final var release = catalog.release();
         require(
             release.progressionVersion() == ItemProgressionVersion.V1,
-            "SCALING_V1 must use item progression V1"
+            contract.name() + " must use item progression V1"
         );
         require(
-            release.skillFormulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V1,
-            "SCALING_V1 must use scaling skill formulas V1"
+            release.skillFormulaVersion() == contract.skillFormulaVersion(),
+            "%s must use scaling skill formulas %s".formatted(
+                contract.name(),
+                contract.skillFormulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V1 ? "V1" : "V2"
+            )
         );
-        require(catalog.itemObjects().size() == EXPECTED_ITEM_OBJECTS, "SCALING_V1 must contain 62 item objects");
-        require(catalog.modifiers().size() == EXPECTED_MODIFIERS, "SCALING_V1 must contain 15 modifiers");
-        require(catalog.defaultItems().size() == EXPECTED_DEFAULT_ITEMS, "SCALING_V1 must contain 7 default items");
+        require(
+            catalog.itemObjects().size() == contract.itemObjectCount(),
+            "%s must contain %d item objects".formatted(contract.name(), contract.itemObjectCount())
+        );
+        require(catalog.modifiers().size() == EXPECTED_MODIFIERS,
+            contract.name() + " must contain 15 modifiers");
+        require(catalog.defaultItems().size() == EXPECTED_DEFAULT_ITEMS,
+            contract.name() + " must contain 7 default items");
 
         validateUniqueCodes(catalog.itemObjects(), ItemObject::code, "item object");
         validateUniqueCodes(catalog.modifiers(), Modifier::code, "modifier");
@@ -116,20 +145,20 @@ public final class EquipmentCatalogValidator {
             require(allItemCodes.add(item.code()), "Item and default item codes overlap: " + item.code());
         }
 
-        require(codes(catalog.itemObjects(), ItemObject::code).equals(SCALING_ITEM_CODES),
-            "SCALING_V1 item object codes differ from the approved release");
+        require(codes(catalog.itemObjects(), ItemObject::code).equals(contract.itemCodes()),
+            contract.name() + " item object codes differ from the approved release");
         require(codes(catalog.defaultItems(), ItemObject::code).equals(DEFAULT_ITEM_SLOTS.keySet()),
-            "SCALING_V1 default item codes differ from the approved release");
+            contract.name() + " default item codes differ from the approved release");
         require(codes(catalog.modifiers(), Modifier::code).equals(MODIFIER_SPECIFICATIONS.keySet()),
-            "SCALING_V1 modifier codes differ from the approved release");
+            contract.name() + " modifier codes differ from the approved release");
 
         catalog.itemObjects().forEach(item -> validateItemObject(item, release));
         catalog.defaultItems().forEach(item -> validateItemObject(item, release));
         catalog.modifiers().forEach(EquipmentCatalogValidator::validateModifier);
         validateDefaultItemSlots(catalog.defaultItems());
-        validateItemDistribution(catalog.itemObjects());
-        validateModifierSpecifications(catalog.modifiers());
-        validateCompatibility(catalog.itemObjects(), catalog.modifiers());
+        validateItemDistribution(catalog.itemObjects(), contract);
+        validateModifierSpecifications(catalog.modifiers(), contract);
+        validateCompatibility(catalog.itemObjects(), catalog.modifiers(), contract);
     }
 
     private static void validateItemObject(ItemObject item, EquipmentCatalogRelease release) {
@@ -217,11 +246,14 @@ public final class EquipmentCatalogValidator {
         }
     }
 
-    private static void validateItemDistribution(List<ItemObject> items) {
+    private static void validateItemDistribution(List<ItemObject> items, CatalogContract contract) {
         require(countExactSlots(items, PersonageSlot.MAIN_HAND) == 5, "Expected 5 main-hand-only items");
         require(countExactSlots(items, PersonageSlot.OFF_HAND) == 9, "Expected 9 off-hand-only items");
-        require(countExactSlots(items, PersonageSlot.MAIN_HAND, PersonageSlot.OFF_HAND) == 8,
-            "Expected 8 two-handed items");
+        require(
+            countExactSlots(items, PersonageSlot.MAIN_HAND, PersonageSlot.OFF_HAND)
+                == contract.twoHandedItemCount(),
+            "Expected %d two-handed items".formatted(contract.twoHandedItemCount())
+        );
         for (final var slot : List.of(
             PersonageSlot.BODY,
             PersonageSlot.PANTS,
@@ -240,8 +272,11 @@ public final class EquipmentCatalogValidator {
                     "Expected 2 item objects of defense type %s for slot %s".formatted(defenseType, slot));
             }
         }
-        require(items.stream().filter(item -> !item.attacks().isEmpty()).count() == 18,
-            "Expected 18 attacking item objects");
+        require(
+            items.stream().filter(item -> !item.attacks().isEmpty()).count()
+                == contract.attackingItemCount(),
+            "Expected %d attacking item objects".formatted(contract.attackingItemCount())
+        );
         require(items.stream().filter(item -> item.defense().isPresent()).count() == 44,
             "Expected 44 defensive item objects");
         for (final var defenseType : DefenseType.values()) {
@@ -253,7 +288,10 @@ public final class EquipmentCatalogValidator {
         }
     }
 
-    private static void validateModifierSpecifications(List<Modifier> modifiers) {
+    private static void validateModifierSpecifications(
+        List<Modifier> modifiers,
+        CatalogContract contract
+    ) {
         final var skills = EnumSet.noneOf(ActiveEnum.class);
         for (final var modifier : modifiers) {
             final var expected = MODIFIER_SPECIFICATIONS.get(modifier.code());
@@ -264,10 +302,15 @@ public final class EquipmentCatalogValidator {
                 "Unexpected slots for modifier: " + modifier.code());
             require(skills.add(modifier.activeEnum()), "Skill has more than one modifier: " + modifier.activeEnum());
         }
-        require(skills.equals(EnumSet.allOf(ActiveEnum.class)), "SCALING_V1 must contain every active skill");
+        require(skills.equals(EnumSet.allOf(ActiveEnum.class)),
+            contract.name() + " must contain every active skill");
     }
 
-    private static void validateCompatibility(List<ItemObject> items, List<Modifier> modifiers) {
+    private static void validateCompatibility(
+        List<ItemObject> items,
+        List<Modifier> modifiers,
+        CatalogContract contract
+    ) {
         long compatiblePairs = 0;
         for (final var item : items) {
             for (final var slot : item.slots()) {
@@ -288,8 +331,11 @@ public final class EquipmentCatalogValidator {
                     .anyMatch(slot -> ModifierCompatibility.isCompatible(item, modifier, slot)))
                 .count();
         }
-        require(compatiblePairs == EXPECTED_COMPATIBLE_PAIRS,
-            "Expected 264 compatible object-modifier pairs, got " + compatiblePairs);
+        require(compatiblePairs == contract.compatiblePairCount(),
+            "Expected %d compatible object-modifier pairs, got %d".formatted(
+                contract.compatiblePairCount(),
+                compatiblePairs
+            ));
     }
 
     private static Set<String> compatibleModifierCodes(
@@ -319,6 +365,12 @@ public final class EquipmentCatalogValidator {
         return values.stream().map(code).collect(Collectors.toUnmodifiableSet());
     }
 
+    private static Set<String> withAddedCode(Set<String> codes, String addedCode) {
+        final var result = new HashSet<>(codes);
+        require(result.add(addedCode), "Catalog code is already present: " + addedCode);
+        return Set.copyOf(result);
+    }
+
     private static Map.Entry<String, ModifierSpecification> modifier(
         String code,
         ActiveEnum activeEnum,
@@ -338,6 +390,17 @@ public final class EquipmentCatalogValidator {
         ActiveEnum activeEnum,
         ModifierType type,
         Set<PersonageSlot> slots
+    ) {
+    }
+
+    private record CatalogContract(
+        String name,
+        SkillFormulaVersion skillFormulaVersion,
+        Set<String> itemCodes,
+        int itemObjectCount,
+        int twoHandedItemCount,
+        int attackingItemCount,
+        int compatiblePairCount
     ) {
     }
 }

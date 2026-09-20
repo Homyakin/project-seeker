@@ -108,6 +108,7 @@ public class BattlePersonage {
     private final double critMultiplier;
     private final int speed;
     private final int baseThreat;
+    private final boolean scalingCombatRules;
     private int bonusThreat = 0;
     private boolean suppressAutomaticThreatLoss;
     private int cumulativeSpeed;
@@ -197,6 +198,50 @@ public class BattlePersonage {
         );
     }
 
+    public static BattlePersonage forScalingSkills(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        SkillFormulaVersion formulaVersion
+    ) {
+        if (formulaVersion != SkillFormulaVersion.SCALING_SKILLS_V1
+            && formulaVersion != SkillFormulaVersion.SCALING_SKILLS_V2) {
+            throw new IllegalArgumentException("A scaling formula version is required");
+        }
+        return new BattlePersonage(
+            items,
+            startPosition,
+            skillPointsByActive,
+            PersonageEffects.EMPTY,
+            null,
+            Optional.empty(),
+            formulaVersion,
+            Map.of()
+        );
+    }
+
+    /**
+     * Creates a battle participant that must use the second scaling combat rules even when no scaling skill is active.
+     */
+    public static BattlePersonage forScalingSkillsV2Combat(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        Optional<String> name
+    ) {
+        return new BattlePersonage(
+            items,
+            startPosition,
+            skillPointsByActive,
+            PersonageEffects.EMPTY,
+            null,
+            name,
+            SkillFormulaVersion.SCALING_SKILLS_V2,
+            Map.of(),
+            true
+        );
+    }
+
     public static BattlePersonage withSkillVersions(
         List<Item> items,
         Position startPosition,
@@ -267,6 +312,30 @@ public class BattlePersonage {
         SkillFormulaVersion defaultFormulaVersion,
         Map<ActiveEnum, SkillFormulaVersion> skillVersions
     ) {
+        this(
+            items,
+            startPosition,
+            skillPointsByActive,
+            effects,
+            now,
+            name,
+            defaultFormulaVersion,
+            skillVersions,
+            false
+        );
+    }
+
+    private BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        PersonageEffects effects,
+        LocalDateTime now,
+        Optional<String> name,
+        SkillFormulaVersion defaultFormulaVersion,
+        Map<ActiveEnum, SkillFormulaVersion> skillVersions,
+        boolean forceScalingCombatRules
+    ) {
         this.name = name;
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
@@ -308,6 +377,7 @@ public class BattlePersonage {
         this.critMultiplier = totalCritMultiplier;
         final var builtSkillSnapshots = new ArrayList<BattleSkillInitSnapshot>();
         final var scalingSkillPoints = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
+        final var scalingSkillVersions = new EnumMap<ActiveEnum, SkillFormulaVersion>(ActiveEnum.class);
         for (final var entry : activeSkills.entrySet()) {
             if (entry.getValue() > 0) {
                 final var formulaVersion = skillVersions.getOrDefault(
@@ -316,8 +386,10 @@ public class BattlePersonage {
                         ? SkillFormulaVersion.LEGACY_SKILLS_V1
                         : defaultFormulaVersion
                 );
-                if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1) {
+                if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1
+                    || formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2) {
                     scalingSkillPoints.put(entry.getKey(), entry.getValue());
+                    scalingSkillVersions.put(entry.getKey(), formulaVersion);
                 } else {
                     final var skill = SkillMapper.map(entry.getKey(), entry.getValue());
                     itemSkills.add(skill);
@@ -326,7 +398,8 @@ public class BattlePersonage {
                 builtSkillSnapshots.add(new BattleSkillInitSnapshot(entry.getKey(), entry.getValue(), formulaVersion));
             }
         }
-        this.scalingSkills = new ScalingSkillBook(scalingSkillPoints);
+        this.scalingSkills = new ScalingSkillBook(scalingSkillPoints, scalingSkillVersions);
+        this.scalingCombatRules = forceScalingCombatRules || !scalingSkillPoints.isEmpty();
         this.skillSnapshots = List.copyOf(builtSkillSnapshots);
         for (final var skill : itemSkills) {
             switch (skill) {
@@ -1048,6 +1121,10 @@ public class BattlePersonage {
             return new DamageRoll(rangeAttackCrit[mapSlot], true);
         }
         return new DamageRoll(rangeAttack[mapSlot], false);
+    }
+
+    boolean usesScalingCombatRules() {
+        return scalingCombatRules;
     }
 
     boolean hasScalingSkills() {

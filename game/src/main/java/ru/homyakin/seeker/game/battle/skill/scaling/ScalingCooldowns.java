@@ -7,6 +7,20 @@ public final class ScalingCooldowns {
     }
 
     public static Optional<CooldownSchedule> hitAndRun(int points) {
+        return hitAndRun(SkillFormulaVersion.SCALING_SKILLS_V1, points);
+    }
+
+    public static Optional<CooldownSchedule> hitAndRun(SkillFormulaVersion version, int points) {
+        return switch (version) {
+            case SCALING_SKILLS_V1 -> hitAndRunV1(points);
+            case SCALING_SKILLS_V2 -> hitAndRunV2(points);
+            case LEGACY_SKILLS_V1 -> throw new IllegalArgumentException(
+                "Legacy skills do not use scaling cooldown schedules"
+            );
+        };
+    }
+
+    private static Optional<CooldownSchedule> hitAndRunV1(int points) {
         return switch (ScalingSkillMath.effectivePoints(points)) {
             case 0 -> Optional.empty();
             case 1 -> fixed(6);
@@ -21,7 +35,30 @@ public final class ScalingCooldowns {
         };
     }
 
+    private static Optional<CooldownSchedule> hitAndRunV2(int points) {
+        return switch (ScalingSkillMath.effectivePoints(points)) {
+            case 0 -> Optional.empty();
+            case 1 -> fixed(11);
+            case 2 -> fixed(10);
+            case 3 -> fixed(9);
+            case 4 -> fixed(8);
+            case 5 -> fixed(7);
+            case 6 -> fixed(6);
+            case 7 -> fixed(5);
+            case 8 -> fixed(4);
+            default -> throw new IllegalStateException("Unexpected effective points");
+        };
+    }
+
     public static Optional<CooldownSchedule> guardOrPenetration(int points) {
+        return guardOrPenetration(SkillFormulaVersion.SCALING_SKILLS_V1, points);
+    }
+
+    public static Optional<CooldownSchedule> guardOrPenetration(SkillFormulaVersion version, int points) {
+        if (version != SkillFormulaVersion.SCALING_SKILLS_V1
+            && version != SkillFormulaVersion.SCALING_SKILLS_V2) {
+            throw new IllegalArgumentException("Legacy skills do not use scaling cooldown schedules");
+        }
         return switch (ScalingSkillMath.effectivePoints(points)) {
             case 0 -> Optional.empty();
             case 1 -> fixed(7);

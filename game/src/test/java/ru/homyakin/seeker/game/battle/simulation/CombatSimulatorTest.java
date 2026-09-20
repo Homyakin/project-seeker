@@ -73,6 +73,24 @@ class CombatSimulatorTest {
     }
 
     @Test
+    void compactReportDropsOnlyRawIterationOutcomes() {
+        final var report = new CombatSimulator().run(request(20_260_901L, 40));
+        final var compact = report.withoutRawOutcomes();
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(40, report.iterationWins().size()),
+            () -> Assertions.assertTrue(compact.iterationWins().isEmpty()),
+            () -> Assertions.assertEquals(report.markdown(), compact.markdown()),
+            () -> Assertions.assertEquals(report.wins(), compact.wins()),
+            () -> Assertions.assertEquals(report.winRate(), compact.winRate()),
+            () -> Assertions.assertEquals(report.winRate95(), compact.winRate95()),
+            () -> Assertions.assertEquals(report.startingPositions(), compact.startingPositions()),
+            () -> Assertions.assertEquals(report.causalMetrics(), compact.causalMetrics()),
+            () -> Assertions.assertSame(compact, compact.withoutRawOutcomes())
+        );
+    }
+
+    @Test
     void scalingReportUsesNamedBattleSequencesFromIterationSeed() {
         final var simulator = new CombatSimulator();
 

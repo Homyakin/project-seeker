@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import ru.homyakin.seeker.game.battle.Battle;
@@ -17,6 +18,7 @@ import ru.homyakin.seeker.game.battle.simulation.CombatSimulationReport.CausalMe
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.simulation.CombatSimulationReport.ConfidenceInterval;
 import ru.homyakin.seeker.game.battle.simulation.CombatSimulationReport.ParticipantRef;
+import ru.homyakin.seeker.game.battle.simulation.CombatSimulationReport.StartingPosition;
 import ru.homyakin.seeker.game.battle.simulation.CombatSimulationReport.TeamSide;
 import ru.homyakin.seeker.game.battle.simulation.CombatSimulationReport.TeamMetrics;
 import ru.homyakin.seeker.utils.RandomUtils;
@@ -36,9 +38,11 @@ public final class CombatSimulator {
     public CombatSimulationReport run(CombatSimulationRequest request) {
         var wins = 0;
         final var rounds = new ArrayList<Integer>(request.iterations());
+        final var iterationWins = new ArrayList<Boolean>(request.iterations());
         final var evaluatedTotals = new MutableTeamTotals();
         final var opponentTotals = new MutableTeamTotals();
         final var causalTotals = new MutableCausalTotals();
+        List<StartingPosition> startingPositions = null;
 
         for (int iteration = 0; iteration < request.iterations(); iteration++) {
             final long iterationSeed = iterationSeed(request.seed(), iteration);
@@ -49,10 +53,18 @@ public final class CombatSimulator {
             if (sample.evaluatedTeamWin()) {
                 wins++;
             }
+            iterationWins.add(sample.evaluatedTeamWin());
             rounds.add(sample.rounds());
             evaluatedTotals.add(sample.evaluatedTeam());
             opponentTotals.add(sample.opponents());
             causalTotals.add(sample.causalMetrics());
+            if (startingPositions == null) {
+                startingPositions = sample.startingPositions();
+            } else if (!startingPositions.equals(sample.startingPositions())) {
+                throw new IllegalStateException(
+                    "Starting positions changed within simulation series: " + request.composition()
+                );
+            }
         }
 
         final double winRate = (double) wins / request.iterations();
@@ -72,7 +84,9 @@ public final class CombatSimulator {
             percentileNearestRank(rounds, 0.95),
             evaluatedTotals.average(request.iterations()),
             opponentTotals.average(request.iterations()),
-            causalTotals.average(request.iterations())
+            Objects.requireNonNull(startingPositions),
+            causalTotals.average(request.iterations()),
+            iterationWins
         );
     }
 
@@ -89,10 +103,11 @@ public final class CombatSimulator {
             teams.opponents(),
             request.maxRounds()
         );
+        final var participants = participantRefs(teams);
         final var eventSamples = summarizeEvents(
             result.initState(),
             result.actionLog().events(),
-            participantRefs(teams)
+            participants
         );
         final var evaluated = snapshot(teams.evaluatedTeam()).withEvents(eventSamples.firstTeam());
         final var opponents = snapshot(teams.opponents()).withEvents(eventSamples.secondTeam());
@@ -101,8 +116,48 @@ public final class CombatSimulator {
             result.rounds(),
             evaluated.withDamageDealt(opponents.damageTaken()),
             opponents.withDamageDealt(evaluated.damageTaken()),
+            startingPositions(result.initState(), teams, participants),
             eventSamples.causalMetrics()
         );
+    }
+
+    private static List<StartingPosition> startingPositions(
+        BattleInitState initState,
+        CombatSimulationTeams teams,
+        Map<UUID, ParticipantRef> participants
+    ) {
+        final var requestedLines = new HashMap<UUID, ru.homyakin.seeker.game.battle.Position>();
+        teams.evaluatedTeam().forEach(personage ->
+            requestedLines.put(personage.id(), personage.startPosition())
+        );
+        teams.opponents().forEach(personage ->
+            requestedLines.put(personage.id(), personage.startPosition())
+        );
+        return participants.entrySet().stream()
+            .sorted(Comparator
+                .comparingInt((Map.Entry<UUID, ParticipantRef> entry) -> entry.getValue().side().ordinal())
+                .thenComparingInt(entry -> entry.getValue().index()))
+            .map(entry -> {
+                final var snapshot = Objects.requireNonNull(initState.personagesById().get(entry.getKey()));
+                final var actualLine = initState.lines().stream()
+                    .filter(line -> line.lineIndex() == snapshot.lineIndex())
+                    .findFirst()
+                    .orElseThrow();
+                final int distanceToNearestEnemy = initState.personagesById().values().stream()
+                    .filter(other -> other.firstTeam() != snapshot.firstTeam())
+                    .mapToInt(other -> Math.abs(other.lineIndex() - snapshot.lineIndex()))
+                    .min()
+                    .orElseThrow();
+                return new StartingPosition(
+                    entry.getValue(),
+                    Objects.requireNonNull(requestedLines.get(entry.getKey())),
+                    actualLine.position(),
+                    snapshot.lineIndex(),
+                    distanceToNearestEnemy,
+                    snapshot.range()
+                );
+            })
+            .toList();
     }
 
     private static Map<UUID, ParticipantRef> participantRefs(CombatSimulationTeams teams) {
@@ -700,12 +755,24 @@ public final class CombatSimulator {
         if (iterations <= 0 || wins < 0 || wins > iterations) {
             throw new IllegalArgumentException("Expected 0 <= wins <= iterations and iterations > 0");
         }
-        final double proportion = (double) wins / iterations;
+        return conservativeScore95(wins, iterations);
+    }
+
+    /**
+     * Wilson score interval for a sum of independent observations in [0, 1]. For a fractional observation,
+     * such as the score of two correlated battles sharing one seed, Bernoulli variance is the worst-case variance
+     * because X² ≤ X. Using it therefore avoids claiming the fractional observations are independent Bernoulli trials.
+     */
+    static ConfidenceInterval conservativeScore95(double scoreSum, int samples) {
+        if (samples <= 0 || !Double.isFinite(scoreSum) || scoreSum < 0 || scoreSum > samples) {
+            throw new IllegalArgumentException("Expected 0 <= scoreSum <= samples and samples > 0");
+        }
+        final double proportion = scoreSum / samples;
         final double zSquared = Z_95 * Z_95;
-        final double denominator = 1 + zSquared / iterations;
-        final double center = (proportion + zSquared / (2 * iterations)) / denominator;
+        final double denominator = 1 + zSquared / samples;
+        final double center = (proportion + zSquared / (2 * samples)) / denominator;
         final double margin = Z_95 * Math.sqrt(
-            proportion * (1 - proportion) / iterations + zSquared / (4 * iterations * (double) iterations)
+            proportion * (1 - proportion) / samples + zSquared / (4 * samples * (double) samples)
         ) / denominator;
         return new ConfidenceInterval(Math.max(0, center - margin), Math.min(1, center + margin));
     }
@@ -743,6 +810,7 @@ public final class CombatSimulator {
         int rounds,
         TeamSample evaluatedTeam,
         TeamSample opponents,
+        List<StartingPosition> startingPositions,
         Map<CausalMetricKey, Long> causalMetrics
     ) {
     }

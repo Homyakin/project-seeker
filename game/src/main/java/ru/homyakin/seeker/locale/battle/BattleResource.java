@@ -64,7 +64,8 @@ public record BattleResource(
         String third,
         String fourth,
         String fifth,
-        String scaling
+        String scaling,
+        String scalingV2
     ) {
     }
 }

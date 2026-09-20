@@ -42,4 +42,26 @@ class ScalingSkillBookTest {
 
         Assertions.assertEquals(8, book.points(ActiveEnum.ACCUMULATION));
     }
+
+    @Test
+    void remembersFormulaVersionForEachSkill() {
+        final var book = new ScalingSkillBook(
+            Map.of(ActiveEnum.DOUBLE_ATTACK, 3, ActiveEnum.TEMPO_BREAK, 5),
+            Map.of(
+                ActiveEnum.DOUBLE_ATTACK, SkillFormulaVersion.SCALING_SKILLS_V1,
+                ActiveEnum.TEMPO_BREAK, SkillFormulaVersion.SCALING_SKILLS_V2
+            )
+        );
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(
+                SkillFormulaVersion.SCALING_SKILLS_V1,
+                book.version(ActiveEnum.DOUBLE_ATTACK)
+            ),
+            () -> Assertions.assertEquals(
+                SkillFormulaVersion.SCALING_SKILLS_V2,
+                book.version(ActiveEnum.TEMPO_BREAK)
+            )
+        );
+    }
 }

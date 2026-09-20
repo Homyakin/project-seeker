@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import ru.homyakin.seeker.game.battle.BattleEvent;
+import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 
 public record CombatSimulationReport(
@@ -22,10 +23,98 @@ public record CombatSimulationReport(
     int p95Rounds,
     TeamMetrics evaluatedTeam,
     TeamMetrics opponents,
-    List<CausalMetric> causalMetrics
+    List<StartingPosition> startingPositions,
+    List<CausalMetric> causalMetrics,
+    List<Boolean> iterationWins
 ) {
     public CombatSimulationReport {
+        startingPositions = List.copyOf(startingPositions);
         causalMetrics = List.copyOf(causalMetrics);
+        iterationWins = List.copyOf(iterationWins);
+        if (!iterationWins.isEmpty() && iterationWins.size() != iterations) {
+            throw new IllegalArgumentException("iterationWins must be empty or contain one value per iteration");
+        }
+    }
+
+    public CombatSimulationReport(
+        String raidType,
+        String loadout,
+        String composition,
+        int difficulty,
+        int partySize,
+        long seed,
+        int iterations,
+        int maxRounds,
+        int wins,
+        double winRate,
+        ConfidenceInterval winRate95,
+        double medianRounds,
+        int p95Rounds,
+        TeamMetrics evaluatedTeam,
+        TeamMetrics opponents,
+        List<CausalMetric> causalMetrics
+    ) {
+        this(
+            raidType,
+            loadout,
+            composition,
+            difficulty,
+            partySize,
+            seed,
+            iterations,
+            maxRounds,
+            wins,
+            winRate,
+            winRate95,
+            medianRounds,
+            p95Rounds,
+            evaluatedTeam,
+            opponents,
+            List.of(),
+            causalMetrics,
+            List.of()
+        );
+    }
+
+    public CombatSimulationReport(
+        String raidType,
+        String loadout,
+        String composition,
+        int difficulty,
+        int partySize,
+        long seed,
+        int iterations,
+        int maxRounds,
+        int wins,
+        double winRate,
+        ConfidenceInterval winRate95,
+        double medianRounds,
+        int p95Rounds,
+        TeamMetrics evaluatedTeam,
+        TeamMetrics opponents,
+        List<StartingPosition> startingPositions,
+        List<CausalMetric> causalMetrics
+    ) {
+        this(
+            raidType,
+            loadout,
+            composition,
+            difficulty,
+            partySize,
+            seed,
+            iterations,
+            maxRounds,
+            wins,
+            winRate,
+            winRate95,
+            medianRounds,
+            p95Rounds,
+            evaluatedTeam,
+            opponents,
+            startingPositions,
+            causalMetrics,
+            List.of()
+        );
     }
 
     public CombatSimulationReport(
@@ -61,6 +150,38 @@ public record CombatSimulationReport(
             p95Rounds,
             evaluatedTeam,
             opponents,
+            List.of(),
+            List.of(),
+            List.of()
+        );
+    }
+
+    /**
+     * Drops per-iteration outcomes after every statistic that depends on them has been calculated. The compact copy
+     * keeps every field used by the human-readable report and by matrix acceptance.
+     */
+    public CombatSimulationReport withoutRawOutcomes() {
+        if (iterationWins.isEmpty()) {
+            return this;
+        }
+        return new CombatSimulationReport(
+            raidType,
+            loadout,
+            composition,
+            difficulty,
+            partySize,
+            seed,
+            iterations,
+            maxRounds,
+            wins,
+            winRate,
+            winRate95,
+            medianRounds,
+            p95Rounds,
+            evaluatedTeam,
+            opponents,
+            startingPositions,
+            causalMetrics,
             List.of()
         );
     }
@@ -149,8 +270,9 @@ public record CombatSimulationReport(
             opponents.averageKillThreatDelta(),
             opponents.averageDamageTakenThreatDelta()
         );
+        final var positions = startingPositionsMarkdown();
         if (causalMetrics.isEmpty()) {
-            return summary;
+            return summary + positions;
         }
         final var details = new StringBuilder()
             .append("\n| Показатель | Источник | Умение | Цель | Причина изменения угрозы | Среднее за бой |\n")
@@ -170,7 +292,33 @@ public record CombatSimulationReport(
                 .append(String.format(Locale.ROOT, "%.2f", metric.averagePerBattle()))
                 .append(" |\n");
         }
-        return summary + details;
+        return summary + positions + details;
+    }
+
+    private String startingPositionsMarkdown() {
+        if (startingPositions.isEmpty()) {
+            return "";
+        }
+        final var result = new StringBuilder()
+            .append("\n| Участник | Заявленная линия | Фактическая линия после сближения | ")
+            .append("Индекс | До ближайшего врага | Дальность |\n")
+            .append("|---|---|---|---:|---:|---:|\n");
+        for (final var position : startingPositions) {
+            result.append("| ")
+                .append(escape(position.participant().displayName()))
+                .append(" | ")
+                .append(position.requestedLine())
+                .append(" | ")
+                .append(position.actualLine())
+                .append(" | ")
+                .append(position.actualLineIndex())
+                .append(" | ")
+                .append(position.distanceToNearestEnemy())
+                .append(" | ")
+                .append(position.range())
+                .append(" |\n");
+        }
+        return result.toString();
     }
 
     private static String metricName(CausalMetricType type) {
@@ -247,6 +395,22 @@ public record CombatSimulationReport(
 
         public String displayName() {
             return side.displayName + " №" + (index + 1) + " · " + name;
+        }
+    }
+
+    /** Exact battlefield placement captured after BattleContext's free pre-battle approach. */
+    public record StartingPosition(
+        ParticipantRef participant,
+        Position requestedLine,
+        Position actualLine,
+        int actualLineIndex,
+        int distanceToNearestEnemy,
+        int range
+    ) {
+        public StartingPosition {
+            if (actualLineIndex < 0 || distanceToNearestEnemy <= 0 || range <= 0) {
+                throw new IllegalArgumentException("Invalid starting-position geometry");
+            }
         }
     }
 

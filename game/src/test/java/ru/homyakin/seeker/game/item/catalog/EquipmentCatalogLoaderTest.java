@@ -7,7 +7,7 @@ import ru.homyakin.seeker.game.item.models.ItemProgressionVersion;
 
 class EquipmentCatalogLoaderTest {
     @Test
-    void scalingReleaseBindsCatalogAndFormulaVersions() {
+    void scalingV1ReleasePreservesItsCatalogAndFormulaVersions() {
         final var release = EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V1);
 
         Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V1, release.catalogVersion());
@@ -16,6 +16,18 @@ class EquipmentCatalogLoaderTest {
         Assertions.assertEquals("game-data/catalog/scaling_v1/item_objects.toml", release.itemObjectsPath());
         Assertions.assertEquals("game-data/catalog/scaling_v1/item_modifiers.toml", release.itemModifiersPath());
         Assertions.assertEquals("game-data/catalog/scaling_v1/default_items.toml", release.defaultItemsPath());
+    }
+
+    @Test
+    void scalingV2ReleaseUsesSeparateResourcesAndSecondSkillFormulas() {
+        final var release = EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V2);
+
+        Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V2, release.catalogVersion());
+        Assertions.assertEquals(ItemProgressionVersion.V1, release.progressionVersion());
+        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, release.skillFormulaVersion());
+        Assertions.assertEquals("game-data/catalog/scaling_v2/item_objects.toml", release.itemObjectsPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v2/item_modifiers.toml", release.itemModifiersPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v2/default_items.toml", release.defaultItemsPath());
     }
 
     @Test
@@ -38,11 +50,17 @@ class EquipmentCatalogLoaderTest {
     }
 
     @Test
-    void scalingReleaseLoadsAndPassesAllCatalogInvariants() {
-        final var catalog = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V1);
+    void bothScalingReleasesLoadAndPassTheirOwnCatalogInvariants() {
+        final var scalingV1 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V1);
+        final var scalingV2 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V2);
 
-        Assertions.assertEquals(62, catalog.itemObjects().size());
-        Assertions.assertEquals(15, catalog.modifiers().size());
-        Assertions.assertEquals(7, catalog.defaultItems().size());
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(62, scalingV1.itemObjects().size()),
+            () -> Assertions.assertEquals(15, scalingV1.modifiers().size()),
+            () -> Assertions.assertEquals(7, scalingV1.defaultItems().size()),
+            () -> Assertions.assertEquals(63, scalingV2.itemObjects().size()),
+            () -> Assertions.assertEquals(15, scalingV2.modifiers().size()),
+            () -> Assertions.assertEquals(7, scalingV2.defaultItems().size())
+        );
     }
 }

@@ -63,6 +63,11 @@ public class InitGameDataTest {
             Mockito.argThat(codes -> codes.size() == 40),
             Mockito.argThat(codes -> codes.size() == 11)
         );
+        Mockito.verify(itemCatalogService, Mockito.never()).stageRelease(
+            Mockito.eq(EquipmentCatalogVersion.SCALING_V2),
+            Mockito.anyList(),
+            Mockito.anyList()
+        );
     }
 
     @ParameterizedTest

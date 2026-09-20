@@ -27,7 +27,7 @@ class EquipmentCatalogValidatorTest {
     }
 
     @Test
-    void catalogCannotSilentlyUseLegacySkillFormulas() {
+    void scalingV1CannotSilentlyUseLegacySkillFormulas() {
         final var catalog = EquipmentCatalogLoader.load(EquipmentCatalogVersion.SCALING_V1);
         final var release = catalog.release();
         final var invalidRelease = new EquipmentCatalogRelease(
@@ -51,5 +51,32 @@ class EquipmentCatalogValidatorTest {
         );
 
         Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V1"));
+    }
+
+    @Test
+    void scalingV2CannotSilentlyUseFirstSkillFormulas() {
+        final var catalog = EquipmentCatalogLoader.load(EquipmentCatalogVersion.SCALING_V2);
+        final var release = catalog.release();
+        final var invalidRelease = new EquipmentCatalogRelease(
+            release.catalogVersion(),
+            release.progressionVersion(),
+            SkillFormulaVersion.SCALING_SKILLS_V1,
+            release.itemObjectsPath(),
+            release.itemModifiersPath(),
+            release.defaultItemsPath()
+        );
+        final var invalidCatalog = new LoadedEquipmentCatalog(
+            invalidRelease,
+            catalog.itemObjects(),
+            catalog.modifiers(),
+            catalog.defaultItems()
+        );
+
+        final var exception = Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> EquipmentCatalogValidator.validate(invalidCatalog)
+        );
+
+        Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
     }
 }

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BattleContext {
     /**
@@ -29,8 +32,8 @@ public class BattleContext {
         BattleRandom random
     ) {
         this.random = random;
-        this.scalingSkillOrder = firstTeam.stream().anyMatch(BattlePersonage::hasScalingSkills)
-            || secondTeam.stream().anyMatch(BattlePersonage::hasScalingSkills);
+        this.scalingSkillOrder = firstTeam.stream().anyMatch(BattlePersonage::usesScalingCombatRules)
+            || secondTeam.stream().anyMatch(BattlePersonage::usesScalingCombatRules);
         this.firstAliveTeam = new LinkedHashMap<>();
         for (final var p : firstTeam) {
             if (p.isAlive()) {
@@ -202,6 +205,25 @@ public class BattleContext {
 
     public List<BattleLine> lines() {
         return lines;
+    }
+
+    void pruneDefeated() {
+        final Set<UUID> defeatedIds = Stream.concat(
+                firstAliveTeam.values().stream(),
+                secondAliveTeam.values().stream()
+            )
+            .filter(personage -> !personage.isAlive())
+            .map(BattlePersonage::id)
+            .collect(Collectors.toUnmodifiableSet());
+        if (defeatedIds.isEmpty()) {
+            return;
+        }
+        Stream.concat(firstAliveTeam.values().stream(), secondAliveTeam.values().stream())
+            .forEach(personage -> defeatedIds.forEach(
+                personage.scalingSkills()::clearPenetrationTarget
+            ));
+        firstAliveTeam.keySet().removeAll(defeatedIds);
+        secondAliveTeam.keySet().removeAll(defeatedIds);
     }
 
     private static List<BattleLine> linesFromTeam(List<BattlePersonage> team, boolean firstTeam) {

@@ -77,7 +77,7 @@ public class Battle {
                 if (mover.personage().move(battleMap, actionLog, rounds)) {
                     break;
                 }
-                pruneDead(firstAliveTeam, secondAliveTeam);
+                battleMap.pruneDefeated();
             }
         }
         final var personageStats = new HashMap<UUID, BattlePersonageStats>();
@@ -91,14 +91,6 @@ public class Battle {
             firstAliveTeam.values().stream().anyMatch(BattlePersonage::isAlive),
             personageStats
         );
-    }
-
-    private static void pruneDead(
-        Map<UUID, BattlePersonage> firstAliveTeam,
-        Map<UUID, BattlePersonage> secondAliveTeam
-    ) {
-        firstAliveTeam.entrySet().removeIf(entry -> !entry.getValue().isAlive());
-        secondAliveTeam.entrySet().removeIf(entry -> !entry.getValue().isAlive());
     }
 
     private static BattleInitState captureInitState(

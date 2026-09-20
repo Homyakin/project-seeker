@@ -107,11 +107,13 @@ class VersionedSkillIntegrationTest {
             Position.FRONT,
             Map.of(
                 ActiveEnum.THORNS, 1,
-                ActiveEnum.DOUBLE_ATTACK, 1
+                ActiveEnum.DOUBLE_ATTACK, 1,
+                ActiveEnum.TEMPO_BREAK, 1
             ),
             Map.of(
                 ActiveEnum.THORNS, SkillFormulaVersion.LEGACY_SKILLS_V1,
-                ActiveEnum.DOUBLE_ATTACK, SkillFormulaVersion.SCALING_SKILLS_V1
+                ActiveEnum.DOUBLE_ATTACK, SkillFormulaVersion.SCALING_SKILLS_V1,
+                ActiveEnum.TEMPO_BREAK, SkillFormulaVersion.SCALING_SKILLS_V2
             )
         );
 
@@ -127,6 +129,16 @@ class VersionedSkillIntegrationTest {
             () -> Assertions.assertEquals(
                 SkillFormulaVersion.SCALING_SKILLS_V1,
                 formulaVersion(personage, ActiveEnum.DOUBLE_ATTACK)
+            ),
+            () -> Assertions.assertFalse(personage.hasLegacySkill(ActiveEnum.TEMPO_BREAK)),
+            () -> Assertions.assertTrue(personage.scalingSkills().has(ActiveEnum.TEMPO_BREAK)),
+            () -> Assertions.assertEquals(
+                SkillFormulaVersion.SCALING_SKILLS_V2,
+                personage.scalingSkills().version(ActiveEnum.TEMPO_BREAK)
+            ),
+            () -> Assertions.assertEquals(
+                SkillFormulaVersion.SCALING_SKILLS_V2,
+                formulaVersion(personage, ActiveEnum.TEMPO_BREAK)
             )
         );
     }
@@ -145,7 +157,8 @@ class VersionedSkillIntegrationTest {
                 1_000
             )),
             Position.FRONT,
-            Map.of(ActiveEnum.DOUBLE_ATTACK, 1)
+            Map.of(ActiveEnum.DOUBLE_ATTACK, 1),
+            SkillFormulaVersion.SCALING_SKILLS_V2
         );
         final var defender = new BattlePersonage(
             List.of(combatItem(
@@ -188,7 +201,7 @@ class VersionedSkillIntegrationTest {
                 scalingDamage.basis()
             ),
             () -> Assertions.assertEquals(8, scalingDamage.coefficientNumerator()),
-            () -> Assertions.assertEquals(50, scalingDamage.coefficientDenominator()),
+            () -> Assertions.assertEquals(100, scalingDamage.coefficientDenominator()),
             () -> Assertions.assertFalse(scalingDamage.periodic()),
             () -> Assertions.assertEquals(1, scalingDamage.damageTaken())
         );

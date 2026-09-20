@@ -79,4 +79,21 @@ class BattleEventJsonTest {
         Assertions.assertEquals(List.of(AttackType.SLASH, AttackType.MAGICAL), event.basis().keySet().stream().toList());
         Assertions.assertThrows(UnsupportedOperationException.class, () -> event.basis().put(AttackType.PIERCE, 10));
     }
+
+    @Test
+    void detailedTraceIsExcludedFromPersistedActionLogJson() throws Exception {
+        final var log = new BattleActionLog();
+        log.add(new BattleEvent.RoundStarted(1));
+        log.addTrace(new BattleTraceEvent.TurnStarted(1, FIRST, 1, 0, 1));
+
+        final var json = MAPPER.writeValueAsString(log);
+        final var tree = MAPPER.readTree(json);
+
+        Assertions.assertTrue(tree.has("events"));
+        Assertions.assertEquals(1, tree.get("events").size());
+        Assertions.assertFalse(tree.has("traceEvents"));
+        Assertions.assertFalse(json.contains("\"turnId\""));
+        Assertions.assertEquals(1, log.traceEvents().size());
+        Assertions.assertThrows(UnsupportedOperationException.class, () -> log.traceEvents().clear());
+    }
 }

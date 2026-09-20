@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import ru.homyakin.seeker.game.battle.BattleEvent.ThreatReason;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -33,7 +34,7 @@ class VersionedBattleBoundaryTest {
     @ParameterizedTest
     @ValueSource(booleans = {false, true})
     void rangeWindowsAndGuardUseOneSelectionAndApprovedOrder(boolean originalBeyondHitAndRun) {
-        final var attacker = scalingPersonage(
+        final var attacker = scalingPersonageV2(
             Position.MID,
             LARGE_HEALTH,
             List.of(
@@ -53,8 +54,8 @@ class VersionedBattleBoundaryTest {
             LARGE_HEALTH,
             List.of(attack(AttackType.PIERCE, 1, originalBeyondHitAndRun ? 3 : 2, 1))
         );
-        final var guard = scalingPersonage(
-            Position.MID,
+        final var guard = scalingPersonageV2(
+            originalBeyondHitAndRun ? Position.MID : Position.FRONT,
             LARGE_HEALTH,
             List.of(attack(AttackType.PIERCE, 1, 2, 1)),
             Map.of(ActiveEnum.GUARD, 8)
@@ -62,14 +63,7 @@ class VersionedBattleBoundaryTest {
         final var firstBack = personage(Position.BACK, LARGE_HEALTH, List.of());
         final var firstFront = personage(Position.FRONT, LARGE_HEALTH, List.of());
         final var secondFront = personage(Position.FRONT, LARGE_HEALTH, List.of());
-        final var secondTeam = new ArrayList<>(List.of(originalTarget, guard, secondFront));
-        if (!originalBeyondHitAndRun) {
-            secondTeam.add(personage(
-                Position.BACK,
-                LARGE_HEALTH,
-                List.of(attack(AttackType.PIERCE, 1, 3, 1))
-            ));
-        }
+        final var secondTeam = List.of(originalTarget, guard, secondFront);
         final var context = new BattleContext(
             List.of(attacker, firstBack, firstFront),
             secondTeam,
@@ -83,52 +77,104 @@ class VersionedBattleBoundaryTest {
         Assertions.assertAll(
             () -> Assertions.assertEquals(originalTarget.id(), selection.originalTargetId()),
             () -> Assertions.assertEquals(guard.id(), selection.finalTargetId()),
-            () -> Assertions.assertEquals(3, selection.distance())
+            () -> Assertions.assertEquals(originalBeyondHitAndRun ? 3 : 2, selection.distance())
         );
         final var interception = onlyEvent(log, BattleEvent.AttackIntercepted.class);
         Assertions.assertEquals(guard.id(), interception.interceptorId());
         Assertions.assertEquals(
-            originalBeyondHitAndRun
-                ? List.of(
-                    "target",
-                    "interception",
-                    "window:GUARD",
-                    "window:PENETRATION",
-                    "damage"
-                )
-                : List.of(
-                    "target",
-                    "interception",
-                    "window:GUARD",
-                    "window:PENETRATION",
-                    "window:HIT_AND_RUN",
-                    "damage",
-                    "move:HIT_AND_RUN"
-                ),
+            List.of(
+                "target",
+                "interception",
+                "window:GUARD",
+                "window:PENETRATION",
+                "damage"
+            ),
             causalLabels(log)
         );
         Assertions.assertEquals(
             Map.of(AttackType.SLASH, 100, AttackType.BLUNT, 40),
             onlyEvent(log, BattleEvent.DamageReceived.class).roll().attack()
         );
-        Assertions.assertEquals(3, attacker.scalingSkills().cooldown(ActiveEnum.PENETRATION));
         Assertions.assertEquals(
-            originalBeyondHitAndRun ? 0 : 2,
+            3,
+            attacker.scalingSkills().cooldown(ActiveEnum.PENETRATION)
+        );
+        Assertions.assertEquals(
+            0,
             attacker.scalingSkills().cooldown(ActiveEnum.HIT_AND_RUN)
         );
         Assertions.assertEquals(3, context.teamSkillState(originalTarget).guardAttemptsRemaining());
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void guardProtectsAnAllyExactlyOneLineBehindInBothFieldDirections(boolean guardedTeamFirst) {
+        final var attacker = personage(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.SLASH, 1, 2, 10))
+        );
+        final var ward = personage(
+            Position.MID,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 2, 1))
+        );
+        final var guard = scalingPersonageV2(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 1, 1)),
+            Map.of(ActiveEnum.GUARD, 8)
+        );
+        final var guardedTeam = List.of(ward, guard);
+        final var context = guardedTeamFirst
+            ? new BattleContext(guardedTeam, List.of(attacker), new ScriptedRandom())
+            : new BattleContext(List.of(attacker), guardedTeam, new ScriptedRandom());
+        final var log = new BattleActionLog();
+
+        attacker.move(context, log, 1);
+
+        final var selection = onlyEvent(log, BattleEvent.TargetSelected.class);
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(ward.id(), selection.originalTargetId()),
+            () -> Assertions.assertEquals(guard.id(), selection.finalTargetId()),
+            () -> Assertions.assertEquals(
+                guard.currentPosition() - guard.advanceDirection().indexDelta(),
+                ward.currentPosition()
+            ),
+            () -> Assertions.assertEquals(guardedTeamFirst, guard.advanceDirection()
+                == BattleAdvanceDirection.TOWARD_SECOND_TEAM),
+            () -> Assertions.assertEquals(3, context.teamSkillState(ward).guardAttemptsRemaining())
+        );
+        Assertions.assertEquals(guard.id(), onlyEvent(log, BattleEvent.AttackIntercepted.class).interceptorId());
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {false, true})
+    void guardDoesNotConsumeForSameLineOrTwoLinesBehindInBothFieldDirections(boolean guardedTeamFirst) {
+        assertGuardMissesGeometry(guardedTeamFirst, Position.FRONT, 1);
+        assertGuardMissesGeometry(guardedTeamFirst, Position.BACK, 3);
+    }
+
+    @Test
+    void guardDoesNotInterceptOrConsumeCooldownForDirectAndPeriodicSkillDamage() {
+        assertGuardBypassesDirectCounterAttack();
+        assertGuardBypassesPeriodicBleeding();
+    }
+
     @Test
     void guardChoosesHighestThreatAndThenLowestUuid() {
-        final var original = personage(Position.FRONT, LARGE_HEALTH, List.of());
-        final var lowThreatGuard = scalingPersonage(
+        final var original = personage(
+            Position.MID,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 2, 1))
+        );
+        final var lowThreatGuard = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(),
             Map.of(ActiveEnum.GUARD, 8)
         );
-        final var highThreatGuard = scalingPersonage(
+        final var highThreatGuard = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(),
@@ -137,14 +183,18 @@ class VersionedBattleBoundaryTest {
         highThreatGuard.changeBonusThreat(20);
         assertGuardWinner(original, List.of(lowThreatGuard, highThreatGuard), highThreatGuard);
 
-        final var tiedOriginal = personage(Position.FRONT, LARGE_HEALTH, List.of());
-        final var firstTiedGuard = scalingPersonage(
+        final var tiedOriginal = personage(
+            Position.MID,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 2, 1))
+        );
+        final var firstTiedGuard = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(),
             Map.of(ActiveEnum.GUARD, 8)
         );
-        final var secondTiedGuard = scalingPersonage(
+        final var secondTiedGuard = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(),
@@ -157,8 +207,8 @@ class VersionedBattleBoundaryTest {
     }
 
     @Test
-    void guardRejectsOwnerInaccessibleAndNonAdjacentCandidates() {
-        final var ownerTarget = scalingPersonage(
+    void guardRejectsOwnerSameLineAndTwoLinesBehindWithoutConsumingCooldown() {
+        final var ownerTarget = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(),
@@ -167,64 +217,65 @@ class VersionedBattleBoundaryTest {
         final var ownerAttacker = personage(
             Position.FRONT,
             LARGE_HEALTH,
-            List.of(attack(AttackType.SLASH, 1, 1, 10))
+            List.of(attack(AttackType.SLASH, 1, 2, 10))
         );
-        assertNoGuardInterception(
-            ownerAttacker,
-            ownerTarget,
-            new BattleContext(List.of(ownerAttacker), List.of(ownerTarget), new ScriptedRandom())
+        final var ownerContext = new BattleContext(
+            List.of(ownerAttacker),
+            List.of(ownerTarget),
+            new ScriptedRandom()
         );
+        assertNoGuardInterception(ownerAttacker, ownerTarget, ownerContext);
+        Assertions.assertEquals(0, ownerContext.teamSkillState(ownerTarget).guardAttemptsRemaining());
 
-        final var inaccessibleTarget = personage(Position.FRONT, LARGE_HEALTH, List.of());
-        final var inaccessibleGuard = scalingPersonage(
-            Position.MID,
+        final var sameLineTarget = personage(Position.FRONT, LARGE_HEALTH, List.of());
+        final var sameLineGuard = scalingPersonageV2(
+            Position.FRONT,
             LARGE_HEALTH,
-            List.of(attack(AttackType.PIERCE, 1, 2, 1)),
+            List.of(attack(AttackType.PIERCE, 1, 1, 1)),
             Map.of(ActiveEnum.GUARD, 8)
         );
-        final var shortRangeAttacker = personage(
+        final var sameLineAttacker = personage(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(attack(AttackType.SLASH, 1, 1, 10))
         );
-        assertNoGuardInterception(
-            shortRangeAttacker,
-            inaccessibleTarget,
-            new BattleContext(
-                List.of(shortRangeAttacker),
-                List.of(inaccessibleTarget, inaccessibleGuard),
-                new ScriptedRandom()
-            )
+        final var sameLineContext = new BattleContext(
+            List.of(sameLineAttacker),
+            List.of(sameLineTarget, sameLineGuard),
+            new ScriptedRandom()
         );
+        assertNoGuardInterception(sameLineAttacker, sameLineTarget, sameLineContext);
+        Assertions.assertEquals(0, sameLineContext.teamSkillState(sameLineTarget).guardAttemptsRemaining());
 
-        final var nonAdjacentTarget = personage(Position.FRONT, LARGE_HEALTH, List.of());
-        final var nonAdjacentGuard = scalingPersonage(
-            Position.BACK,
+        final var twoLinesBehindTarget = personage(Position.BACK, LARGE_HEALTH, List.of());
+        final var twoLinesBehindGuard = scalingPersonageV2(
+            Position.FRONT,
             LARGE_HEALTH,
-            List.of(attack(AttackType.PIERCE, 1, 3, 1)),
+            List.of(attack(AttackType.PIERCE, 1, 1, 1)),
             Map.of(ActiveEnum.GUARD, 8)
         );
-        final var penetratingAttacker = scalingPersonage(
+        final var penetratingAttacker = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(attack(AttackType.SLASH, 1, 1, 10)),
             Map.of(ActiveEnum.PENETRATION, 8)
         );
-        assertNoGuardInterception(
-            penetratingAttacker,
-            nonAdjacentTarget,
-            new BattleContext(
-                List.of(penetratingAttacker),
-                List.of(nonAdjacentTarget, nonAdjacentGuard),
-                new ScriptedRandom()
-            )
+        final var twoLinesBehindContext = new BattleContext(
+            List.of(penetratingAttacker),
+            List.of(twoLinesBehindTarget, twoLinesBehindGuard),
+            new ScriptedRandom()
+        );
+        assertNoGuardInterception(penetratingAttacker, twoLinesBehindTarget, twoLinesBehindContext);
+        Assertions.assertEquals(
+            0,
+            twoLinesBehindContext.teamSkillState(twoLinesBehindTarget).guardAttemptsRemaining()
         );
     }
 
     @ParameterizedTest
     @EnumSource(InvalidTempoState.class)
     void tempoBreakDoesNotConsumeWindowForInvalidTarget(InvalidTempoState state) {
-        final var source = scalingPersonage(
+        final var source = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(attack(AttackType.SLASH, 1, 1, 100)),
@@ -292,8 +343,8 @@ class VersionedBattleBoundaryTest {
         Assertions.assertEquals(validTarget.id(), onlyEvent(readyLog, BattleEvent.TargetSelected.class).originalTargetId());
         Assertions.assertEquals(30, readyRandom.firstCall("target-selection:").maximum());
         final var delay = onlyEvent(readyLog, BattleEvent.InitiativeDelayed.class);
-        Assertions.assertEquals(32, delay.amount());
-        Assertions.assertEquals(568, delay.gaugeAfter());
+        Assertions.assertEquals(128, delay.amount());
+        Assertions.assertEquals(472, delay.gaugeAfter());
 
         final var coolingSource = tempoSource(0, 1);
         coolingSource.setTargetingTactic(
@@ -342,7 +393,7 @@ class VersionedBattleBoundaryTest {
         Assertions.assertAll(
             () -> Assertions.assertEquals(expectedRemoved, delay.amount()),
             () -> Assertions.assertEquals(gauge - expectedRemoved, delay.gaugeAfter()),
-            () -> Assertions.assertEquals(2, source.scalingSkills().cooldown(ActiveEnum.TEMPO_BREAK)),
+            () -> Assertions.assertEquals(1, source.scalingSkills().cooldown(ActiveEnum.TEMPO_BREAK)),
             () -> Assertions.assertTrue(target.scalingSkills().tempoBreakImmune()),
             () -> Assertions.assertEquals(1, skillWindows(log, ActiveEnum.TEMPO_BREAK).size())
         );
@@ -425,7 +476,7 @@ class VersionedBattleBoundaryTest {
         final var attacks = attackByType.entrySet().stream()
             .map(entry -> attack(entry.getKey(), 1, 1, entry.getValue()))
             .toList();
-        final var attacker = scalingPersonage(
+        final var attacker = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             attacks,
@@ -451,7 +502,7 @@ class VersionedBattleBoundaryTest {
             () -> Assertions.assertEquals(ActiveEnum.DOUBLE_ATTACK, skillDamage.skill()),
             () -> Assertions.assertEquals(attackByType, skillDamage.basis()),
             () -> Assertions.assertEquals(30, skillDamage.coefficientNumerator()),
-            () -> Assertions.assertEquals(50, skillDamage.coefficientDenominator()),
+            () -> Assertions.assertEquals(100, skillDamage.coefficientDenominator()),
             () -> Assertions.assertFalse(skillDamage.periodic()),
             () -> Assertions.assertEquals(expectedDamage, skillDamage.damageTaken())
         );
@@ -472,7 +523,7 @@ class VersionedBattleBoundaryTest {
         final var attacker = personage(
             Position.FRONT,
             LARGE_HEALTH,
-            List.of(attack(AttackType.SLASH, 1, 1, 10))
+            List.of(attack(AttackType.SLASH, 1, 2, 10))
         );
         final var targets = new ArrayList<BattlePersonage>();
         targets.add(original);
@@ -484,6 +535,118 @@ class VersionedBattleBoundaryTest {
         Assertions.assertEquals(expected.id(), onlyEvent(log, BattleEvent.TargetSelected.class).finalTargetId());
         Assertions.assertEquals(expected.id(), onlyEvent(log, BattleEvent.AttackIntercepted.class).interceptorId());
         Assertions.assertEquals(List.of("target", "interception", "window:GUARD", "damage"), causalLabels(log));
+    }
+
+    private static void assertGuardBypassesDirectCounterAttack() {
+        final var ward = personage(
+            Position.MID,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.SLASH, 1, 2, 100))
+        );
+        final var guard = scalingPersonageV2(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 1, 1)),
+            Map.of(ActiveEnum.GUARD, 8)
+        );
+        final var counterOwner = scalingPersonageV2(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.BLUNT, 1, 2, 100)),
+            Map.of(ActiveEnum.COUNTER_ATTACK, 8)
+        );
+        final var context = new BattleContext(
+            List.of(ward, guard),
+            List.of(counterOwner),
+            new ScriptedRandom()
+        );
+        final var log = new BattleActionLog();
+
+        ward.move(context, log, 1);
+
+        final var directDamage = onlyEvent(log, BattleEvent.ScalingSkillDamage.class);
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(ActiveEnum.COUNTER_ATTACK, directDamage.skill()),
+            () -> Assertions.assertEquals(ward.id(), directDamage.targetId()),
+            () -> Assertions.assertFalse(directDamage.periodic()),
+            () -> Assertions.assertTrue(events(log, BattleEvent.AttackIntercepted.class).isEmpty()),
+            () -> Assertions.assertEquals(0, context.teamSkillState(ward).guardAttemptsRemaining()),
+            () -> Assertions.assertEquals(LARGE_HEALTH, guard.health())
+        );
+    }
+
+    private static void assertGuardBypassesPeriodicBleeding() {
+        final var source = personage(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.SLASH, 1, 2, 1))
+        );
+        final var ward = personage(
+            Position.MID,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 2, 1))
+        );
+        final var guard = scalingPersonageV2(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 1, 1)),
+            Map.of(ActiveEnum.GUARD, 8)
+        );
+        ward.addOrReplaceScalingBleeding(new ScalingBleedingEffect(
+            source,
+            Map.of(AttackType.SLASH, 100),
+            1,
+            1,
+            1
+        ));
+        final var context = new BattleContext(
+            List.of(ward, guard),
+            List.of(source),
+            new ScriptedRandom()
+        );
+        final var log = new BattleActionLog();
+
+        ward.move(context, log, 1);
+
+        final var periodicDamage = onlyEvent(log, BattleEvent.ScalingSkillDamage.class);
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(ActiveEnum.BLEEDING, periodicDamage.skill()),
+            () -> Assertions.assertEquals(ward.id(), periodicDamage.targetId()),
+            () -> Assertions.assertTrue(periodicDamage.periodic()),
+            () -> Assertions.assertTrue(events(log, BattleEvent.AttackIntercepted.class).isEmpty()),
+            () -> Assertions.assertEquals(0, context.teamSkillState(ward).guardAttemptsRemaining()),
+            () -> Assertions.assertEquals(LARGE_HEALTH, guard.health())
+        );
+    }
+
+    private static void assertGuardMissesGeometry(
+        boolean guardedTeamFirst,
+        Position wardPosition,
+        int range
+    ) {
+        final var attacker = personage(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.SLASH, 1, range, 10))
+        );
+        final var ward = personage(
+            wardPosition,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, range, 1))
+        );
+        final var guard = scalingPersonageV2(
+            Position.FRONT,
+            LARGE_HEALTH,
+            List.of(attack(AttackType.PIERCE, 1, 1, 1)),
+            Map.of(ActiveEnum.GUARD, 8)
+        );
+        final var guardedTeam = List.of(ward, guard);
+        final var context = guardedTeamFirst
+            ? new BattleContext(guardedTeam, List.of(attacker), new ScriptedRandom())
+            : new BattleContext(List.of(attacker), guardedTeam, new ScriptedRandom());
+
+        assertNoGuardInterception(attacker, ward, context);
+        Assertions.assertEquals(0, context.teamSkillState(ward).guardAttemptsRemaining());
     }
 
     private static void assertNoGuardInterception(
@@ -502,7 +665,7 @@ class VersionedBattleBoundaryTest {
     }
 
     private static BattlePersonage tempoSource(int impact, int points) {
-        return scalingPersonage(
+        return scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(attack(AttackType.SLASH, 1, 1, 100)),
@@ -540,7 +703,7 @@ class VersionedBattleBoundaryTest {
 
     private static Stream<Arguments> tempoAmountCases() {
         return Stream.of(
-            Arguments.of(10, 5, 300, 95),
+            Arguments.of(10, 5, 300, 300),
             Arguments.of(20, 8, 40, 40)
         );
     }
@@ -559,7 +722,7 @@ class VersionedBattleBoundaryTest {
     }
 
     private static void assertLiveHitThreat() {
-        final var attacker = scalingPersonage(
+        final var attacker = scalingPersonageV2(
             Position.FRONT,
             LARGE_HEALTH,
             List.of(attack(AttackType.SLASH, 1, 1, 100)),
@@ -688,10 +851,10 @@ class VersionedBattleBoundaryTest {
 
     private static Stream<Arguments> typedDamageCases() {
         return Stream.of(
-            Arguments.of(Map.of(AttackType.SLASH, 1_000), Map.of(DefenseType.CLOTH, 100), 521),
-            Arguments.of(Map.of(AttackType.BLUNT, 1_000), Map.of(DefenseType.LEATHER, 100), 491),
-            Arguments.of(Map.of(AttackType.PIERCE, 1_000), Map.of(DefenseType.PLATE, 100), 491),
-            Arguments.of(Map.of(AttackType.MAGICAL, 1_000), Map.of(DefenseType.ARCANE, 100), 480),
+            Arguments.of(Map.of(AttackType.SLASH, 1_000), Map.of(DefenseType.CLOTH, 100), 260),
+            Arguments.of(Map.of(AttackType.BLUNT, 1_000), Map.of(DefenseType.LEATHER, 100), 245),
+            Arguments.of(Map.of(AttackType.PIERCE, 1_000), Map.of(DefenseType.PLATE, 100), 245),
+            Arguments.of(Map.of(AttackType.MAGICAL, 1_000), Map.of(DefenseType.ARCANE, 100), 240),
             Arguments.of(
                 Map.of(
                     AttackType.SLASH, 100,
@@ -705,13 +868,13 @@ class VersionedBattleBoundaryTest {
                     DefenseType.PLATE, 100,
                     DefenseType.ARCANE, 100
                 ),
-                133
+                66
             )
         );
     }
 
     private static void assertHitAndRunAtRearBoundary() {
-        final var attacker = scalingPersonage(
+        final var attacker = scalingPersonageV2(
             Position.BACK,
             LARGE_HEALTH,
             List.of(attack(AttackType.SLASH, 1, 1, 100)),
@@ -723,7 +886,7 @@ class VersionedBattleBoundaryTest {
         attacker.move(new BattleContext(List.of(attacker), List.of(target), new ScriptedRandom()), log, 1);
 
         Assertions.assertEquals(1, skillWindows(log, ActiveEnum.HIT_AND_RUN).size());
-        Assertions.assertEquals(2, attacker.scalingSkills().cooldown(ActiveEnum.HIT_AND_RUN));
+        Assertions.assertEquals(4, attacker.scalingSkills().cooldown(ActiveEnum.HIT_AND_RUN));
         Assertions.assertTrue(events(log, BattleEvent.PersonageForcedMove.class).isEmpty());
     }
 
@@ -879,6 +1042,46 @@ class VersionedBattleBoundaryTest {
             items(health, attacks, criticalChance, dodgeChance, speed, threat, impact, defenses),
             position,
             skills
+        );
+    }
+
+    private static BattlePersonage scalingPersonageV2(
+        Position position,
+        int health,
+        List<ItemAttack> attacks,
+        Map<ActiveEnum, Integer> skills
+    ) {
+        return scalingPersonageV2(
+            position,
+            health,
+            attacks,
+            0,
+            0,
+            DEFAULT_SPEED,
+            DEFAULT_THREAT,
+            0,
+            Map.of(),
+            skills
+        );
+    }
+
+    private static BattlePersonage scalingPersonageV2(
+        Position position,
+        int health,
+        List<ItemAttack> attacks,
+        int criticalChance,
+        int dodgeChance,
+        int speed,
+        int threat,
+        int impact,
+        Map<DefenseType, Integer> defenses,
+        Map<ActiveEnum, Integer> skills
+    ) {
+        return BattlePersonage.forScalingSkills(
+            items(health, attacks, criticalChance, dodgeChance, speed, threat, impact, defenses),
+            position,
+            skills,
+            SkillFormulaVersion.SCALING_SKILLS_V2
         );
     }
 

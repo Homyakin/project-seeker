@@ -152,14 +152,18 @@ public class BattleLocalization {
         final var entry = skillEntry(language, activeEnum);
         var description = switch (formulaVersion) {
             case LEGACY_SKILLS_V1 -> legacySkillDescription(entry, rank);
-            case SCALING_SKILLS_V1 -> ScalingSkillPresentation.description(
+            case SCALING_SKILLS_V1, SCALING_SKILLS_V2 -> ScalingSkillPresentation.description(
                 activeEnum,
                 points,
-                entry.scaling(),
+                formulaVersion,
+                formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2 && entry.scalingV2() != null
+                    ? entry.scalingV2()
+                    : entry.scaling(),
                 schedule -> cooldown(language, schedule)
             );
         };
-        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1
+        if ((formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1
+            || formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2)
             && points > ScalingSkillMath.effectivePoints(points)) {
             description += StringNamedTemplate.format(
                 resources.getOrDefault(language, BattleResource::battleStatsSkillExcess),
