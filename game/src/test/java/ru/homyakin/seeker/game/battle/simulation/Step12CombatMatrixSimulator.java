@@ -30,6 +30,9 @@ class Step12CombatMatrixSimulator {
     private static final long PREFLIGHT_V3_ROOT_SEED = 2_026_092_201L;
     private static final long PREFLIGHT_V3_CAUSAL_ROOT_SEED = 2_026_092_202L;
     private static final long FINAL_V3_ROOT_SEED = 2_026_092_301L;
+    private static final long PREFLIGHT_V4_ROOT_SEED = 2_026_092_203L;
+    private static final long PREFLIGHT_V4_CAUSAL_ROOT_SEED = 2_026_092_204L;
+    private static final long FINAL_V4_ROOT_SEED = 2_026_092_302L;
     private static final int PREFLIGHT_ITERATIONS = 2_000;
     private static final int FINAL_ITERATIONS = 10_000;
     private static final int REQUIRED_MAX_ROUNDS = 10_000;
@@ -72,7 +75,8 @@ class Step12CombatMatrixSimulator {
             maxRounds,
             rootSeed,
             booleanProperty("enforce", false),
-            presentFilterProperties()
+            presentFilterProperties(),
+            property("acceptance", "V3").toUpperCase(Locale.ROOT)
         );
         validateRunConfiguration(configuration);
         final var family = MatrixFamily.valueOf(property("family", "ALL").toUpperCase(Locale.ROOT));
@@ -101,25 +105,47 @@ class Step12CombatMatrixSimulator {
                 validateFinalV3Cells(cells);
             }
         }
-        final Step12V3AcceptanceLedger ledger;
-        final Step12V3AcceptanceLedger.Attempt attempt;
+        final Step12V3AcceptanceLedger v3Ledger;
+        final Step12V3AcceptanceLedger.Attempt v3Attempt;
+        final Step12V4AcceptanceLedger v4Ledger;
+        final Step12V4AcceptanceLedger.Attempt v4Attempt;
         if (configuration.v3AcceptanceRun()) {
             rejectLegacyInputProperties();
-            ledger = Step12V3AcceptanceLedger.fromTestClasses(Step12CombatMatrixSimulator.class);
+            v3Ledger = Step12V3AcceptanceLedger.fromTestClasses(Step12CombatMatrixSimulator.class);
             final var kind = configuration.preflightRun()
                 ? Step12V3AcceptanceLedger.RunKind.OUTCOME_PREFLIGHT
                 : Step12V3AcceptanceLedger.RunKind.OUTCOME_FINAL;
-            attempt = beginV3Acceptance(
-                ledger,
+            v3Attempt = beginV3Acceptance(
+                v3Ledger,
                 kind,
                 configuration,
                 acceptanceCellDescriptors(cells),
                 System.getProperty(PREFIX + "output"),
                 workers
             );
+            v4Ledger = null;
+            v4Attempt = null;
+        } else if (configuration.v4AcceptanceRun()) {
+            rejectLegacyInputProperties();
+            v4Ledger = Step12V4AcceptanceLedger.fromTestClasses(Step12CombatMatrixSimulator.class);
+            final var kind = configuration.preflightRun()
+                ? Step12V4AcceptanceLedger.RunKind.OUTCOME_PREFLIGHT
+                : Step12V4AcceptanceLedger.RunKind.OUTCOME_FINAL;
+            v4Attempt = beginV4Acceptance(
+                v4Ledger,
+                kind,
+                configuration,
+                acceptanceCellDescriptors(cells),
+                System.getProperty(PREFIX + "output"),
+                workers
+            );
+            v3Ledger = null;
+            v3Attempt = null;
         } else {
-            ledger = null;
-            attempt = null;
+            v3Ledger = null;
+            v3Attempt = null;
+            v4Ledger = null;
+            v4Attempt = null;
         }
 
         final var results = runCells(cells, iterations, maxRounds, workers);
@@ -130,18 +156,22 @@ class Step12CombatMatrixSimulator {
             maxRounds,
             rootSeed,
             configuration.mode(),
+            configuration.acceptanceProtocol(),
             details
         );
         final Path output;
-        if (attempt == null) {
+        if (v3Attempt != null) {
+            output = v3Attempt.report();
+            v3Ledger.writeReport(v3Attempt, markdown);
+        } else if (v4Attempt != null) {
+            output = v4Attempt.report();
+            v4Ledger.writeReport(v4Attempt, markdown);
+        } else {
             output = Path.of(property("output", "target/step12-combat-matrix-report.md"));
             if (output.getParent() != null) {
                 Files.createDirectories(output.getParent());
             }
             Files.writeString(output, markdown);
-        } else {
-            output = attempt.report();
-            ledger.writeReport(attempt, markdown);
         }
         System.out.println(markdown);
         System.out.println("Report: " + output.toAbsolutePath());
@@ -150,6 +180,7 @@ class Step12CombatMatrixSimulator {
             final var failures = results.stream()
                 .filter(result -> configuration.preflightRun()
                     ? !preflightOutcomeAccepted(
+                        configuration.acceptanceProtocol(),
                         result.cell().family(),
                         result.cell().enhanceLevel(),
                         result.report().evaluatedWinRate(),
@@ -162,8 +193,10 @@ class Step12CombatMatrixSimulator {
                 .toList();
             Assertions.assertTrue(failures.isEmpty(), () -> String.join(System.lineSeparator(), failures));
         }
-        if (attempt != null) {
-            ledger.complete(attempt);
+        if (v3Attempt != null) {
+            v3Ledger.complete(v3Attempt);
+        } else if (v4Attempt != null) {
+            v4Ledger.complete(v4Attempt);
         }
     }
 
@@ -199,13 +232,32 @@ class Step12CombatMatrixSimulator {
         );
     }
 
+    static Step12V4AcceptanceLedger.Attempt beginV4Acceptance(
+        Step12V4AcceptanceLedger ledger,
+        Step12V4AcceptanceLedger.RunKind kind,
+        MatrixRunConfiguration configuration,
+        List<String> cellDescriptors,
+        String output,
+        int workers
+    ) {
+        validateWorkers(workers);
+        return ledger.begin(
+            kind,
+            configuration.rootSeed(),
+            configuration.iterations(),
+            configuration.maxRounds(),
+            cellDescriptors,
+            output
+        );
+    }
+
     private static void rejectLegacyInputProperties() {
         final var legacy = List.of("inputManifest", "inputRoot", "inputFingerprint").stream()
             .filter(name -> System.getProperty(PREFIX + name) != null)
             .toList();
         if (!legacy.isEmpty()) {
             throw new IllegalArgumentException(
-                "V3 acceptance input paths and fingerprints are fixed; remove properties " + legacy
+                "Step 12 acceptance input paths and fingerprints are fixed; remove properties " + legacy
             );
         }
     }
@@ -363,12 +415,23 @@ class Step12CombatMatrixSimulator {
         if (!Set.of("DIAGNOSTIC", "PREFLIGHT", "FINAL").contains(configuration.mode())) {
             throw new IllegalArgumentException("Unknown step 12 matrix mode: " + configuration.mode());
         }
+        if (!Set.of("V3", "V4").contains(configuration.acceptanceProtocol())) {
+            throw new IllegalArgumentException(
+                "Unknown step 12 acceptance protocol: " + configuration.acceptanceProtocol()
+            );
+        }
+        if (configuration.acceptanceProtocol().equals("V4") && !configuration.revision().equals("V3")) {
+            throw new IllegalArgumentException("Acceptance protocol V4 requires gameplay revision V3");
+        }
         if (configuration.mode().equals("DIAGNOSTIC")
             && Set.of(
                 FINAL_V2_ROOT_SEED,
                 PREFLIGHT_V3_ROOT_SEED,
                 PREFLIGHT_V3_CAUSAL_ROOT_SEED,
-                FINAL_V3_ROOT_SEED
+                FINAL_V3_ROOT_SEED,
+                PREFLIGHT_V4_ROOT_SEED,
+                PREFLIGHT_V4_CAUSAL_ROOT_SEED,
+                FINAL_V4_ROOT_SEED
             ).contains(configuration.rootSeed())) {
             throw new IllegalArgumentException("Acceptance root seeds are reserved");
         }
@@ -387,12 +450,16 @@ class Step12CombatMatrixSimulator {
         final long expectedRootSeed;
         final int expectedIterations;
         if (configuration.preflightRun()) {
-            expectedRootSeed = PREFLIGHT_V3_ROOT_SEED;
+            expectedRootSeed = configuration.acceptanceProtocol().equals("V4")
+                ? PREFLIGHT_V4_ROOT_SEED
+                : PREFLIGHT_V3_ROOT_SEED;
             expectedIterations = PREFLIGHT_ITERATIONS;
         } else {
             expectedRootSeed = configuration.revision().equals("V2")
                 ? FINAL_V2_ROOT_SEED
-                : FINAL_V3_ROOT_SEED;
+                : configuration.acceptanceProtocol().equals("V4")
+                    ? FINAL_V4_ROOT_SEED
+                    : FINAL_V3_ROOT_SEED;
             expectedIterations = FINAL_ITERATIONS;
         }
         if (configuration.iterations() != expectedIterations) {
@@ -604,6 +671,30 @@ class Step12CombatMatrixSimulator {
         return winRate > 0.5;
     }
 
+    static boolean v4PreflightOutcomeAccepted(
+        MatrixFamily family,
+        int enhanceLevel,
+        double winRate,
+        double firstSideWinRate
+    ) {
+        if (family == MatrixFamily.MIRROR) {
+            return between(winRate, 0.45, 0.55) && between(firstSideWinRate, 0.45, 0.55);
+        }
+        return preflightOutcomeAccepted(family, enhanceLevel, winRate, firstSideWinRate);
+    }
+
+    private static boolean preflightOutcomeAccepted(
+        String acceptanceProtocol,
+        MatrixFamily family,
+        int enhanceLevel,
+        double winRate,
+        double firstSideWinRate
+    ) {
+        return acceptanceProtocol.equals("V4")
+            ? v4PreflightOutcomeAccepted(family, enhanceLevel, winRate, firstSideWinRate)
+            : preflightOutcomeAccepted(family, enhanceLevel, winRate, firstSideWinRate);
+    }
+
     private static boolean between(double value, double minimum, double maximum) {
         return value >= minimum && value <= maximum;
     }
@@ -614,6 +705,7 @@ class Step12CombatMatrixSimulator {
         int maxRounds,
         long rootSeed,
         String mode,
+        String acceptanceProtocol,
         boolean details
     ) {
         final var markdown = new StringBuilder()
@@ -627,11 +719,10 @@ class Step12CombatMatrixSimulator {
             .append("`. Парный 95% ДИ считает каждое начальное значение одним независимым наблюдением ")
             .append("с оценкой `0`, `1/2` или `1` по двум порядкам команд. Интервал построен ")
             .append("20 000 повторными выборками целых пар; границы — 500-я и 19 500-я оценки.\n\n")
-            .append(mode.equals("PREFLIGHT")
-                ? "Это одноразовый предварительный прогон: решение использует точечную оценку исхода, а весь "
-                    + "доверительный интервал и его ширина показаны справочно и станут обязательными только "
-                    + "в итоговом прогоне.\n\n"
+            .append(acceptanceProtocol.equals("V4")
+                ? "Боевой кандидат: `V3`; протокол приёмки: `V4`.\n\n"
                 : "")
+            .append(preflightDescription(mode, acceptanceProtocol))
             .append("Доли побед не подменяют причинную проверку: именованные ворота ")
             .append("исполняются и принимаются отдельно.\n\n")
             .append("| Ячейка | Семейство | A | B | Уровень | Размер | Начальное значение | ")
@@ -643,6 +734,7 @@ class Step12CombatMatrixSimulator {
             final var report = result.report();
             final boolean outcomeAccepted = mode.equals("PREFLIGHT")
                 ? preflightOutcomeAccepted(
+                    acceptanceProtocol,
                     cell.family(),
                     cell.enhanceLevel(),
                     report.evaluatedWinRate(),
@@ -676,6 +768,22 @@ class Step12CombatMatrixSimulator {
             appendDetailedReports(markdown, results);
         }
         return markdown.toString();
+    }
+
+    private static String preflightDescription(String mode, String acceptanceProtocol) {
+        if (!mode.equals("PREFLIGHT")) {
+            return "";
+        }
+        if (acceptanceProtocol.equals("V4")) {
+            return "Это одноразовый предварительный прогон V4. Для зеркал и доля побед A, и доля побед "
+                + "первой стороны должны попасть в 45–55%; для направленных боёв на +0, +10 и +20 "
+                + "точечная доля побед должна попасть в 55–65%, а на +3 и +6 — быть выше 50%. "
+                + "Доверительный интервал и его ширина показаны справочно и станут обязательными только "
+                + "в итоговом прогоне.\n\n";
+        }
+        return "Это одноразовый предварительный прогон: решение использует точечную оценку исхода, а весь "
+            + "доверительный интервал и его ширина показаны справочно и станут обязательными только "
+            + "в итоговом прогоне.\n\n";
     }
 
     private static void appendStartingPositions(StringBuilder markdown, List<CellResult> results) {
@@ -789,12 +897,26 @@ class Step12CombatMatrixSimulator {
         int maxRounds,
         long rootSeed,
         boolean enforce,
-        Set<String> presentFilters
+        Set<String> presentFilters,
+        String acceptanceProtocol
     ) {
+        MatrixRunConfiguration(
+            String revision,
+            String mode,
+            int iterations,
+            int maxRounds,
+            long rootSeed,
+            boolean enforce,
+            Set<String> presentFilters
+        ) {
+            this(revision, mode, iterations, maxRounds, rootSeed, enforce, presentFilters, "V3");
+        }
+
         MatrixRunConfiguration {
             revision = Objects.requireNonNull(revision);
             mode = Objects.requireNonNull(mode);
             presentFilters = Set.copyOf(presentFilters);
+            acceptanceProtocol = Objects.requireNonNull(acceptanceProtocol);
         }
 
         boolean finalRun() {
@@ -810,7 +932,11 @@ class Step12CombatMatrixSimulator {
         }
 
         boolean v3AcceptanceRun() {
-            return revision.equals("V3") && acceptanceRun();
+            return revision.equals("V3") && acceptanceRun() && acceptanceProtocol.equals("V3");
+        }
+
+        boolean v4AcceptanceRun() {
+            return revision.equals("V3") && acceptanceRun() && acceptanceProtocol.equals("V4");
         }
     }
 

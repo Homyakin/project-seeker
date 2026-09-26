@@ -1,0 +1,680 @@
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< ru.homyakin:project-seeker >---------------------
+[INFO] Building project-seeker 1.2
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ project-seeker ---
+[INFO] Deleting /home/user/projects/project-seeker/game/target
+[INFO] 
+[INFO] --- checkstyle:3.6.0:check (validate) @ project-seeker ---
+[INFO] You have 0 Checkstyle violations.
+[INFO] 
+[INFO] --- dependency-versions-check:4.0.1:check (default) @ project-seeker ---
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/home/user/.m2/repository/com/google/guava/guava/33.0.0-jre/guava-33.0.0-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] Checking all dependencies for 'test' scope, reporting only conflicts
+[INFO] 
+[INFO] --- duplicate-finder:2.0.1:check (default) @ project-seeker ---
+[INFO] Checking compile classpath
+[INFO] Checking runtime classpath
+[INFO] Checking test classpath
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (default) @ project-seeker ---
+[INFO] argLine set to -javaagent:/home/user/.m2/repository/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar=destfile=/home/user/projects/project-seeker/game/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ project-seeker ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 201 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ project-seeker ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1059 source files with javac [debug target 24] to target/classes
+[WARNING] location of system modules is not set in conjunction with -source 24
+  not setting the location of system modules may lead to class files that cannot run on JDK 24
+    --release 24 is recommended instead of -source 24 -target 24 because it sets the location of system modules automatically
+[INFO] /home/user/projects/project-seeker/game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/user/projects/project-seeker/game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ project-seeker ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ project-seeker ---
+[INFO] Recompiling the module because of changed dependency.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 177 source files with javac [debug target 24] to target/test-classes
+[WARNING] location of system modules is not set in conjunction with -source 24
+  not setting the location of system modules may lead to class files that cannot run on JDK 24
+    --release 24 is recommended instead of -source 24 -target 24 because it sets the location of system modules automatically
+[INFO] /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/loadout/action/EquipmentLoadoutServiceTest.java: /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/loadout/action/EquipmentLoadoutServiceTest.java uses unchecked or unsafe operations.
+[INFO] /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/loadout/action/EquipmentLoadoutServiceTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.5.3:test (default-test) @ project-seeker ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+[INFO] Running ru.homyakin.seeker.RandomUtilsSeedTest
+13:04:02,568 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+13:04:02,571 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - Here is a list of configurators discovered as a service, by rank: 
+13:04:02,571 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+13:04:02,571 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+13:04:02,571 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+13:04:02,574 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+13:04:02,574 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+13:04:02,575 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+13:04:02,575 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+13:04:02,575 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+13:04:02,575 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+13:04:02,575 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+13:04:02,576 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+13:04:02,576 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+13:04:02,577 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+13:04:02,675 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+13:04:02,675 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+13:04:02,727 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+13:04:02,727 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+13:04:02,727 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+13:04:02,727 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+13:04:02,727 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+13:04:02,727 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+13:04:02,728 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+13:04:02,728 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+13:04:02,729 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@41ccb3b9 - End of configuration.
+13:04:02,730 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@53d9826f - Registering current configuration as safe fallback point
+13:04:02,730 |-INFO in ch.qos.logback.classic.util.ContextInitializer@1280682 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 154 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.273 s -- in ru.homyakin.seeker.RandomUtilsSeedTest
+[INFO] Running ru.homyakin.seeker.infrastructure.init.InitGameDataTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+26-09-2026 13:04:04.153 [main] INFO  [InitGameData.java:85] loading personal quests 
+26-09-2026 13:04:04.373 [main] INFO  [InitGameData.java:95] loaded personal quests 
+26-09-2026 13:04:04.380 [main] INFO  [InitGameData.java:85] loading personal quests 
+26-09-2026 13:04:04.394 [main] INFO  [InitGameData.java:95] loaded personal quests 
+26-09-2026 13:04:04.402 [main] INFO  [InitGameData.java:70] loading raids 
+26-09-2026 13:04:04.417 [main] INFO  [InitGameData.java:80] loaded raids 
+26-09-2026 13:04:04.422 [main] INFO  [InitGameData.java:70] loading raids 
+26-09-2026 13:04:04.428 [main] INFO  [InitGameData.java:80] loaded raids 
+26-09-2026 13:04:04.436 [main] INFO  [InitGameData.java:115] loading rumors 
+26-09-2026 13:04:04.446 [main] INFO  [InitGameData.java:125] loaded rumors 
+26-09-2026 13:04:04.454 [main] INFO  [InitGameData.java:115] loading rumors 
+26-09-2026 13:04:04.464 [main] INFO  [InitGameData.java:125] loaded rumors 
+26-09-2026 13:04:04.471 [main] INFO  [InitGameData.java:145] loading items catalog 
+26-09-2026 13:04:04.794 [main] INFO  [InitGameData.java:167] loaded items catalog 
+26-09-2026 13:04:04.809 [main] INFO  [InitGameData.java:145] loading items catalog 
+26-09-2026 13:04:04.854 [main] INFO  [InitGameData.java:167] loaded items catalog 
+26-09-2026 13:04:04.861 [main] INFO  [InitGameData.java:172] loading world raids 
+26-09-2026 13:04:04.903 [main] INFO  [InitGameData.java:182] loaded world raids 
+26-09-2026 13:04:04.907 [main] INFO  [InitGameData.java:172] loading world raids 
+26-09-2026 13:04:04.920 [main] INFO  [InitGameData.java:182] loaded world raids 
+26-09-2026 13:04:04.924 [main] INFO  [InitGameData.java:100] loading menu items 
+26-09-2026 13:04:04.940 [main] INFO  [InitGameData.java:110] loaded menu items 
+26-09-2026 13:04:04.943 [main] INFO  [InitGameData.java:100] loading menu items 
+26-09-2026 13:04:04.949 [main] INFO  [InitGameData.java:110] loaded menu items 
+26-09-2026 13:04:04.955 [main] INFO  [InitGameData.java:130] loading badges 
+26-09-2026 13:04:04.967 [main] INFO  [InitGameData.java:140] loaded badges 
+26-09-2026 13:04:04.972 [main] INFO  [InitGameData.java:130] loading badges 
+26-09-2026 13:04:04.977 [main] INFO  [InitGameData.java:140] loaded badges 
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.185 s -- in ru.homyakin.seeker.infrastructure.init.InitGameDataTest
+[INFO] Running ru.homyakin.seeker.infrastructure.migration.EquipmentCatalogLifecycleChangelogTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.355 s -- in ru.homyakin.seeker.infrastructure.migration.EquipmentCatalogLifecycleChangelogTest
+[INFO] Running ru.homyakin.seeker.infrastructure.lock.InMemoryLockServiceTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.132 s -- in ru.homyakin.seeker.infrastructure.lock.InMemoryLockServiceTest
+[INFO] Running ru.homyakin.seeker.RandomUtilsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in ru.homyakin.seeker.RandomUtilsTest
+[INFO] Running ru.homyakin.seeker.utils.ProbabilityPickerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in ru.homyakin.seeker.utils.ProbabilityPickerTest
+[INFO] Running ru.homyakin.seeker.utils.PageUtilsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in ru.homyakin.seeker.utils.PageUtilsTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12V3CausalSimulatorTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.327 s -- in ru.homyakin.seeker.game.battle.Step12V3CausalSimulatorTest
+[INFO] Running ru.homyakin.seeker.game.battle.ScalingSkillFormulaVersionBattleTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in ru.homyakin.seeker.game.battle.ScalingSkillFormulaVersionBattleTest
+[INFO] Running ru.homyakin.seeker.game.battle.VersionedAttemptThreatTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in ru.homyakin.seeker.game.battle.VersionedAttemptThreatTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12V3ObservationCorrectionTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in ru.homyakin.seeker.game.battle.Step12V3ObservationCorrectionTest
+[INFO] Running ru.homyakin.seeker.game.battle.BattleInitSnapshotTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in ru.homyakin.seeker.game.battle.BattleInitSnapshotTest
+[INFO] Running ru.homyakin.seeker.game.battle.BattleEventJsonTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s -- in ru.homyakin.seeker.game.battle.BattleEventJsonTest
+[INFO] Running ru.homyakin.seeker.game.battle.BattlePersonageMitigatedDamageTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.119 s -- in ru.homyakin.seeker.game.battle.BattlePersonageMitigatedDamageTest
+[INFO] Running ru.homyakin.seeker.game.battle.VersionedTeamSkillStateTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.battle.VersionedTeamSkillStateTest
+[INFO] Running ru.homyakin.seeker.game.battle.VersionedTurnExecutionTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in ru.homyakin.seeker.game.battle.VersionedTurnExecutionTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.scaling.BattleSkillInitSnapshotVersionTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in ru.homyakin.seeker.game.battle.skill.scaling.BattleSkillInitSnapshotVersionTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldownsTest
+[INFO] Tests run: 30, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 s -- in ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldownsTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMathTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMathTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillBookTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillBookTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.scaling.NonNegativeRationalTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in ru.homyakin.seeker.game.battle.skill.scaling.NonNegativeRationalTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.scaling.SkillDamageCalculatorTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in ru.homyakin.seeker.game.battle.skill.scaling.SkillDamageCalculatorTest
+[INFO] Running ru.homyakin.seeker.game.battle.skill.ActiveSkillSlotsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in ru.homyakin.seeker.game.battle.skill.ActiveSkillSlotsTest
+[INFO] Running ru.homyakin.seeker.game.battle.BattleDeterminismTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in ru.homyakin.seeker.game.battle.BattleDeterminismTest
+[INFO] Running ru.homyakin.seeker.game.battle.WorldRaidBattleSimulatorTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in ru.homyakin.seeker.game.battle.WorldRaidBattleSimulatorTest
+[INFO] Running ru.homyakin.seeker.game.battle.PenetrationTargetLockBattleTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in ru.homyakin.seeker.game.battle.PenetrationTargetLockBattleTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12V2ControlledCausalityTest
+[INFO] Tests run: 80, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.226 s -- in ru.homyakin.seeker.game.battle.Step12V2ControlledCausalityTest
+[INFO] Running ru.homyakin.seeker.game.battle.VersionedExistingSkillsBattleTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in ru.homyakin.seeker.game.battle.VersionedExistingSkillsBattleTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12CausalObservationRunnerTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.851 s -- in ru.homyakin.seeker.game.battle.Step12CausalObservationRunnerTest
+[INFO] Running ru.homyakin.seeker.game.battle.TargetingTacticWeightTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in ru.homyakin.seeker.game.battle.TargetingTacticWeightTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12CausalStatisticsTest
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.166 s -- in ru.homyakin.seeker.game.battle.Step12CausalStatisticsTest
+[INFO] Running ru.homyakin.seeker.game.battle.NewScalingSkillsBattleIntegrationTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in ru.homyakin.seeker.game.battle.NewScalingSkillsBattleIntegrationTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12V4InputManifestTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.089 s -- in ru.homyakin.seeker.game.battle.simulation.Step12V4InputManifestTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12V3AcceptanceLedgerTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.281 s -- in ru.homyakin.seeker.game.battle.simulation.Step12V3AcceptanceLedgerTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12V2SimulationFixturesTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in ru.homyakin.seeker.game.battle.simulation.Step12V2SimulationFixturesTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12CombatMatrixTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.191 s -- in ru.homyakin.seeker.game.battle.simulation.Step12CombatMatrixTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12V4AcceptanceLedgerTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.256 s -- in ru.homyakin.seeker.game.battle.simulation.Step12V4AcceptanceLedgerTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.CombatSimulatorTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.195 s -- in ru.homyakin.seeker.game.battle.simulation.CombatSimulatorTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.CombatTelemetryTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.006 s -- in ru.homyakin.seeker.game.battle.simulation.CombatTelemetryTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12MixedBuildFixturesTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s -- in ru.homyakin.seeker.game.battle.simulation.Step12MixedBuildFixturesTest
+[INFO] Running ru.homyakin.seeker.game.battle.simulation.Step12InputManifestTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in ru.homyakin.seeker.game.battle.simulation.Step12InputManifestTest
+[INFO] Running ru.homyakin.seeker.game.battle.ItemModifierSlotStatsTest
+modifiers by slot:
+  MAIN_HAND: 6 (cunning, double, furious, knocking, precise, sharp)
+  OFF_HAND: 6 (cunning, double, furious, knocking, precise, sharp)
+  BODY: 4 (counter, furious, healing, thorny)
+  PANTS: 4 (counter, healing, retreating, thorny)
+  SHOES: 5 (cunning, healing, knocking, retreating, swift)
+  HELMET: 4 (counter, healing, retreating, swift)
+  GLOVES: 5 (counter, cunning, knocking, swift, thorny)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in ru.homyakin.seeker.game.battle.ItemModifierSlotStatsTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12V3FormulaWiringTest
+[INFO] Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.057 s -- in ru.homyakin.seeker.game.battle.Step12V3FormulaWiringTest
+[INFO] Running ru.homyakin.seeker.game.battle.ItemObjectsCombinationTest
+combinations: 52224
+min: 80319.91
+max: 104507.39
+avg: 95879.49
+p1: 87493.81  mace, dagger, robe, cloth_chausses, boots, leather_helm, cloth_gloves
+p5: 90252.37  spear, dagger, robe, greaves, sabatons, hood, leather_gloves
+p10: 91613.30  spear, dagger, breastplate, arcane_chausses, cloth_boots, circlet, cloth_gloves
+p25: 93856.74  staff, buckler, wizard_robe, cloth_chausses, arcane_boots, circlet, leather_gloves
+p50: 96089.00  sword, buckler, wizard_robe, arcane_chausses, boots, great_helm, gauntlets
+p75: 98134.36  sword, tower_shield, wizard_robe, cloth_chausses, sabatons, circlet, arcane_gloves
+p90: 99882.07  rapier, shortsword, cuirass, arcane_chausses, boots, circlet, gauntlets
+p95: 100812.21  spear, tome, robe, leather_chausses, cloth_boots, great_helm, gauntlets
+p99: 102205.20  sword, tome, breastplate, arcane_chausses, boots, circlet, cloth_gloves
+min loadout: 80319.91  mace, dagger, robe, cloth_chausses, cloth_boots, hood, cloth_gloves
+max loadout: 104507.39  staff, tome, wizard_robe, leather_chausses, boots, circlet, arcane_gloves
+objects: 40
+min: 0.77
+max: 20.26
+avg: 6.32
+p1: 0.77  dagger
+p5: 1.11  orb
+p10: 1.28  shortsword
+p25: 3.12  spear
+p50: 4.42  tower_shield
+p75: 8.44  leather_chausses
+p90: 13.09  crossbow
+p95: 18.20  wizard_robe
+p99: 20.26  robe
+min object: 0.77  dagger
+max object: 20.26  robe
+objects by slot:
+MAIN_HAND: 12
+min: 2.26
+max: 13.13
+avg: 7.46
+p1: 2.26  main-fists
+p5: 2.26  main-fists
+p10: 2.52  main-fists
+p25: 3.47  staff
+p50: 7.05  rapier
+p75: 11.43  longbow
+p90: 13.01  crossbow
+p95: 13.13  crossbow
+p99: 13.13  crossbow
+min object: 2.26  main-fists
+max object: 13.13  crossbow
+MAIN_HAND ranking:
+ 1. 2.26  main-fists [default]
+ 2. 3.12  spear
+ 3. 3.13  staff
+ 4. 4.49  mace
+ 5. 4.52  sword
+ 6. 5.76  rapier
+ 7. 8.34  sledgehammer
+ 8. 10.02  halberd
+ 9. 10.12  two_handed_sword
+10. 11.87  longbow
+11. 12.73  bow
+12. 13.13  crossbow
+OFF_HAND: 16
+min: 0.75
+max: 13.13
+avg: 5.89
+p1: 0.75  off-fists
+p5: 0.75  off-fists
+p10: 0.76  dagger
+p25: 1.25  club
+p50: 5.17  buckler
+p75: 10.10  two_handed_sword
+p90: 12.85  bow
+p95: 13.13  crossbow
+p99: 13.13  crossbow
+min object: 0.75  off-fists
+max object: 13.13  crossbow
+OFF_HAND ranking:
+ 1. 0.75  off-fists [default]
+ 2. 0.77  dagger
+ 3. 1.11  orb
+ 4. 1.25  club
+ 5. 1.26  shortsword
+ 6. 1.46  dirk
+ 7. 4.34  tower_shield
+ 8. 4.57  buckler
+ 9. 5.78  shield
+10. 6.79  tome
+11. 8.34  sledgehammer
+12. 10.02  halberd
+13. 10.12  two_handed_sword
+14. 11.87  longbow
+15. 12.73  bow
+16. 13.13  crossbow
+BODY: 5
+min: 9.60
+max: 20.26
+avg: 15.50
+p1: 9.60  torn_jacket
+p5: 9.60  torn_jacket
+p10: 9.60  torn_jacket
+p25: 10.93  cuirass
+p50: 17.14  breastplate
+p75: 19.26  robe
+p90: 20.26  robe
+p95: 20.26  robe
+p99: 20.26  robe
+min object: 9.60  torn_jacket
+max object: 20.26  robe
+BODY ranking:
+ 1. 9.60  torn_jacket [default]
+ 2. 12.27  cuirass
+ 3. 17.14  breastplate
+ 4. 18.25  wizard_robe
+ 5. 20.26  robe
+PANTS: 5
+min: 5.69
+max: 8.47
+avg: 7.25
+p1: 5.69  leaky_pants
+p5: 5.69  leaky_pants
+p10: 5.69  leaky_pants
+p25: 6.00  leaky_pants
+p50: 7.56  cloth_chausses
+p75: 8.34  arcane_chausses
+p90: 8.47  leather_chausses
+p95: 8.47  leather_chausses
+p99: 8.47  leather_chausses
+min object: 5.69  leaky_pants
+max object: 8.47  leather_chausses
+PANTS ranking:
+ 1. 5.69  leaky_pants [default]
+ 2. 6.30  greaves
+ 3. 7.56  cloth_chausses
+ 4. 8.20  arcane_chausses
+ 5. 8.47  leather_chausses
+SHOES: 5
+min: 1.62
+max: 4.05
+avg: 3.08
+p1: 1.62  footcloths
+p5: 1.62  footcloths
+p10: 1.62  footcloths
+p25: 2.27  sabatons
+p50: 3.17  cloth_boots
+p75: 3.84  arcane_boots
+p90: 4.05  boots
+p95: 4.05  boots
+p99: 4.05  boots
+min object: 1.62  footcloths
+max object: 4.05  boots
+SHOES ranking:
+ 1. 1.62  footcloths [default]
+ 2. 2.92  sabatons
+ 3. 3.17  cloth_boots
+ 4. 3.63  arcane_boots
+ 5. 4.05  boots
+HELMET: 5
+min: 1.21
+max: 3.60
+avg: 2.80
+p1: 1.21  panama
+p5: 1.21  panama
+p10: 1.21  panama
+p25: 2.07  great_helm
+p50: 2.93  hood
+p75: 3.46  leather_helm
+p90: 3.60  leather_helm
+p95: 3.60  leather_helm
+p99: 3.60  leather_helm
+min object: 1.21  panama
+max object: 3.60  leather_helm
+HELMET ranking:
+ 1. 1.21  panama [default]
+ 2. 2.92  great_helm
+ 3. 2.93  hood
+ 4. 3.33  circlet
+ 5. 3.60  leather_helm
+GLOVES: 5
+min: 1.21
+max: 3.63
+avg: 2.91
+p1: 1.21  bandages
+p5: 1.21  bandages
+p10: 1.21  bandages
+p25: 2.07  gauntlets
+p50: 3.17  cloth_gloves
+p75: 3.61  leather_gloves
+p90: 3.63  arcane_gloves
+p95: 3.63  arcane_gloves
+p99: 3.63  arcane_gloves
+min object: 1.21  bandages
+max object: 3.63  arcane_gloves
+GLOVES ranking:
+ 1. 1.21  bandages [default]
+ 2. 2.92  gauntlets
+ 3. 3.17  cloth_gloves
+ 4. 3.60  leather_gloves
+ 5. 3.63  arcane_gloves
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.910 s -- in ru.homyakin.seeker.game.battle.ItemObjectsCombinationTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12OneShotBattleRandomTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.game.battle.Step12OneShotBattleRandomTest
+[INFO] Running ru.homyakin.seeker.game.battle.RaidWinrateTest
+[WARNING] Tests run: 12, Failures: 0, Errors: 0, Skipped: 12, Time elapsed: 0 s -- in ru.homyakin.seeker.game.battle.RaidWinrateTest
+[INFO] Running ru.homyakin.seeker.game.battle.BattlePersonagePersonageEffectsTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in ru.homyakin.seeker.game.battle.BattlePersonagePersonageEffectsTest
+[INFO] Running ru.homyakin.seeker.game.battle.VersionedBattleBoundaryTest
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in ru.homyakin.seeker.game.battle.VersionedBattleBoundaryTest
+[INFO] Running ru.homyakin.seeker.game.battle.Step12V2CausalWiringTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in ru.homyakin.seeker.game.battle.Step12V2CausalWiringTest
+[INFO] Running ru.homyakin.seeker.game.battle.VersionedSkillIntegrationTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in ru.homyakin.seeker.game.battle.VersionedSkillIntegrationTest
+[INFO] Running ru.homyakin.seeker.game.battle.SeededBattleRandomTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.game.battle.SeededBattleRandomTest
+[INFO] Running ru.homyakin.seeker.game.group.action.GroupTaxFormulasTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in ru.homyakin.seeker.game.group.action.GroupTaxFormulasTest
+[INFO] Running ru.homyakin.seeker.game.group.action.GroupTagServiceChangeTagTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.417 s -- in ru.homyakin.seeker.game.group.action.GroupTagServiceChangeTagTest
+[INFO] Running ru.homyakin.seeker.game.group.action.InitGroupRegistrationCommandTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.group.action.InitGroupRegistrationCommandTest
+[INFO] Running ru.homyakin.seeker.game.group.action.personage.JoinGroupMemberCommandConfirmTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.186 s -- in ru.homyakin.seeker.game.group.action.personage.JoinGroupMemberCommandConfirmTest
+[INFO] Running ru.homyakin.seeker.game.group.action.personage.ConfirmLeaveGroupMemberCommandTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in ru.homyakin.seeker.game.group.action.personage.ConfirmLeaveGroupMemberCommandTest
+[INFO] Running ru.homyakin.seeker.game.group.action.personage.LeaveGroupMemberCommandTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in ru.homyakin.seeker.game.group.action.personage.LeaveGroupMemberCommandTest
+[INFO] Running ru.homyakin.seeker.game.group.action.personage.JoinGroupMemberCommandJoinTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in ru.homyakin.seeker.game.group.action.personage.JoinGroupMemberCommandJoinTest
+[INFO] Running ru.homyakin.seeker.game.group.action.GroupRegistrationCommandTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in ru.homyakin.seeker.game.group.action.GroupRegistrationCommandTest
+[INFO] Running ru.homyakin.seeker.game.group.entity.EventIntervalsIsActiveTest
+26-09-2026 13:04:12.484 [main] WARN  [EventIntervals.java:25] There are no enabled event intervals to check active EventIntervals[intervals=[EventInterval[startHour=1, endHour=2, isEnabled=false]]], return true 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in ru.homyakin.seeker.game.group.entity.EventIntervalsIsActiveTest
+[INFO] Running ru.homyakin.seeker.game.group.entity.EventIntervalsToggleIntervalTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.group.entity.EventIntervalsToggleIntervalTest
+[INFO] Running ru.homyakin.seeker.game.group.entity.EventIntervalsEventDateInNextIntervalTest
+26-09-2026 13:04:12.498 [main] WARN  [EventIntervals.java:42] There are no enabled event intervals to calculate next date EventIntervals[intervals=[EventInterval[startHour=1, endHour=2, isEnabled=false]]], return next day 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in ru.homyakin.seeker.game.group.entity.EventIntervalsEventDateInNextIntervalTest
+[INFO] Running ru.homyakin.seeker.game.tavern_menu.OrderServiceConsumeTest
+26-09-2026 13:04:12.763 [main] ERROR [MenuItemOrder.java:29] Final status in consuming order: 1 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.264 s -- in ru.homyakin.seeker.game.tavern_menu.OrderServiceConsumeTest
+[INFO] Running ru.homyakin.seeker.game.tavern_menu.OrderServiceThrowOrderTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s -- in ru.homyakin.seeker.game.tavern_menu.OrderServiceThrowOrderTest
+[INFO] Running ru.homyakin.seeker.game.MoneyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.MoneyTest
+[INFO] Running ru.homyakin.seeker.game.shop.ShopServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.356 s -- in ru.homyakin.seeker.game.shop.ShopServiceTest
+[INFO] Running ru.homyakin.seeker.game.shop.EnhanceServiceStormTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.082 s -- in ru.homyakin.seeker.game.shop.EnhanceServiceStormTest
+[INFO] Running ru.homyakin.seeker.game.shop.ShopConfigTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.shop.ShopConfigTest
+[INFO] Running ru.homyakin.seeker.game.outpost.OutpostBuildingConfigSlotsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in ru.homyakin.seeker.game.outpost.OutpostBuildingConfigSlotsTest
+[INFO] Running ru.homyakin.seeker.game.outpost.passive.FieldArsenalPassiveProviderTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.outpost.passive.FieldArsenalPassiveProviderTest
+[INFO] Running ru.homyakin.seeker.game.random.item.action.shop.PersonageNextShopItemParamsTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.166 s -- in ru.homyakin.seeker.game.random.item.action.shop.PersonageNextShopItemParamsTest
+[INFO] Running ru.homyakin.seeker.game.random.item.action.raid.PersonageNextRaidItemParamsTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.100 s -- in ru.homyakin.seeker.game.random.item.action.raid.PersonageNextRaidItemParamsTest
+[INFO] Running ru.homyakin.seeker.game.random.item.action.pool.ItemRandomPoolRenewTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.random.item.action.pool.ItemRandomPoolRenewTest
+[INFO] Running ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigTest
+[WARNING] Tests run: 4, Failures: 0, Errors: 0, Skipped: 4, Time elapsed: 0 s -- in ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigTest
+[INFO] Running ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPoolTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPoolTest
+[INFO] Running ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigIntegrationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigIntegrationTest
+[INFO] Running ru.homyakin.seeker.game.badge.entity.BadgeViewPrintTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in ru.homyakin.seeker.game.badge.entity.BadgeViewPrintTest
+[INFO] Running ru.homyakin.seeker.game.event.personal_quest.PersonalQuestServiceStopQuestTest
+26-09-2026 13:04:13.968 [main] ERROR [PersonalQuestService.java:180] Quest 1 has not positive count 0 
+26-09-2026 13:04:13.983 [main] ERROR [PersonalQuestService.java:172] Quest 1 has 2 participants, expected 1 
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.391 s -- in ru.homyakin.seeker.game.event.personal_quest.PersonalQuestServiceStopQuestTest
+[INFO] Running ru.homyakin.seeker.game.event.personal_quest.PersonalQuestServiceTakeQuestTest
+26-09-2026 13:04:13.990 [main] INFO  [PersonalQuestService.java:159] Started quest  
+26-09-2026 13:04:13.999 [main] INFO  [PersonalQuestService.java:159] Started quest  
+26-09-2026 13:04:14.082 [main] WARN  [PersonalQuestService.java:133] No quests in database 
+26-09-2026 13:04:14.084 [main] WARN  [PersonalQuestService.java:90] Failed to take quest for personage PersonageId[value=1], locked 
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.107 s -- in ru.homyakin.seeker.game.event.personal_quest.PersonalQuestServiceTakeQuestTest
+[INFO] Running ru.homyakin.seeker.game.event.anomaly.AnomalyMatchmakerTest
+26-09-2026 13:04:14.394 [main] INFO  [AnomalyMatchmaker.java:158] Anomaly pool matched host 100 (group 10) with guest 200 (group 20) 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.306 s -- in ru.homyakin.seeker.game.event.anomaly.AnomalyMatchmakerTest
+[INFO] Running ru.homyakin.seeker.game.event.anomaly.AnomalyGvgMatchRulesTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.event.anomaly.AnomalyGvgMatchRulesTest
+[INFO] Running ru.homyakin.seeker.game.event.anomaly.AnomalyServiceTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.242 s -- in ru.homyakin.seeker.game.event.anomaly.AnomalyServiceTest
+[INFO] Running ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGeneratorTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGeneratorTest
+[INFO] Running ru.homyakin.seeker.game.event.raid.processing.RaidItemGeneratorTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.134 s -- in ru.homyakin.seeker.game.event.raid.processing.RaidItemGeneratorTest
+[INFO] Running ru.homyakin.seeker.game.event.raid.RaidServiceAddPersonageTest
+26-09-2026 13:04:14.921 [main] WARN  [RaidService.java:87] Personage PersonageId[value=1] tried to join to ended event 5238973065597247640 in status EXPIRED 
+26-09-2026 13:04:14.928 [main] WARN  [RaidService.java:75] Personage PersonageId[value=1] tried to join to not created event 8224432378264652606 
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.120 s -- in ru.homyakin.seeker.game.event.raid.RaidServiceAddPersonageTest
+[INFO] Running ru.homyakin.seeker.game.event.raid.generator.WolfPackGeneratorTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in ru.homyakin.seeker.game.event.raid.generator.WolfPackGeneratorTest
+[INFO] Running ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonageSkillCompatibilityTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonageSkillCompatibilityTest
+[INFO] Running ru.homyakin.seeker.game.item.ItemCatalogServiceTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.298 s -- in ru.homyakin.seeker.game.item.ItemCatalogServiceTest
+[INFO] Running ru.homyakin.seeker.game.item.ItemServiceGenerateItemTest
+26-09-2026 13:04:15.419 [main] INFO  [ItemService.java:110] Personage '-8374491270934063511' has no space in bag 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.163 s -- in ru.homyakin.seeker.game.item.ItemServiceGenerateItemTest
+[INFO] Running ru.homyakin.seeker.game.item.modifier.ModifierCompatibilityTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.item.modifier.ModifierCompatibilityTest
+[INFO] Running ru.homyakin.seeker.game.item.EquipmentCatalogPostgresIntegrationTest
+[WARNING] Tests run: 2, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0 s -- in ru.homyakin.seeker.game.item.EquipmentCatalogPostgresIntegrationTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ItemObjectRevisionPolicyTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in ru.homyakin.seeker.game.item.catalog.ItemObjectRevisionPolicyTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV2ItemCatalogTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV2ItemCatalogTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ItemObjectsTomlCompatibilityTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.game.item.catalog.ItemObjectsTomlCompatibilityTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.Step12CatalogAcceptanceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.58 s -- in ru.homyakin.seeker.game.item.catalog.Step12CatalogAcceptanceTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV1CatalogStagingTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV1CatalogStagingTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV1ExistingItemMigrationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV1ExistingItemMigrationTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.EquipmentCatalogValidatorTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in ru.homyakin.seeker.game.item.catalog.EquipmentCatalogValidatorTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV1ModifierCatalogTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV1ModifierCatalogTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV1ItemCatalogTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV1ItemCatalogTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV2ModifierCatalogTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV2ModifierCatalogTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV1CatalogIsolationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV1CatalogIsolationTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoaderTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoaderTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingItemModifiersCatalogTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in ru.homyakin.seeker.game.item.catalog.ScalingItemModifiersCatalogTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.ScalingV2ExistingItemMigrationTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in ru.homyakin.seeker.game.item.catalog.ScalingV2ExistingItemMigrationTest
+[INFO] Running ru.homyakin.seeker.game.item.EquippedCharacteristicsTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.item.EquippedCharacteristicsTest
+[INFO] Running ru.homyakin.seeker.game.item.database.ItemAttackPersistenceCodecTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.game.item.database.ItemAttackPersistenceCodecTest
+[INFO] Running ru.homyakin.seeker.game.item.storm.ItemProgressionTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in ru.homyakin.seeker.game.item.storm.ItemProgressionTest
+[INFO] Running ru.homyakin.seeker.game.item.storm.StormEnhanceConfigTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in ru.homyakin.seeker.game.item.storm.StormEnhanceConfigTest
+[INFO] Running ru.homyakin.seeker.game.item.storm.ItemEnhancementDeltaTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.item.storm.ItemEnhancementDeltaTest
+[INFO] Running ru.homyakin.seeker.game.item.storm.StormEnhanceTechnicalLimitTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in ru.homyakin.seeker.game.item.storm.StormEnhanceTechnicalLimitTest
+[INFO] Running ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutServiceTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.156 s -- in ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutServiceTest
+[INFO] Running ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameValidatorTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameValidatorTest
+[INFO] Running ru.homyakin.seeker.game.item.models.ItemStormEnhanceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.item.models.ItemStormEnhanceTest
+[INFO] Running ru.homyakin.seeker.game.item.models.ImpactStrengthTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.item.models.ImpactStrengthTest
+[INFO] Running ru.homyakin.seeker.game.item.models.InventoryPutOnItemTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s -- in ru.homyakin.seeker.game.item.models.InventoryPutOnItemTest
+[INFO] Running ru.homyakin.seeker.game.online.entity.OnlineStreakTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in ru.homyakin.seeker.game.online.entity.OnlineStreakTest
+[INFO] Running ru.homyakin.seeker.game.personage.settings.action.SetSettingValueCommandTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.059 s -- in ru.homyakin.seeker.game.personage.settings.action.SetSettingValueCommandTest
+[INFO] Running ru.homyakin.seeker.game.personage.power.PowerDependencyGuardTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 s -- in ru.homyakin.seeker.game.personage.power.PowerDependencyGuardTest
+[INFO] Running ru.homyakin.seeker.game.personage.power.ReferencePowerCalculatorTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in ru.homyakin.seeker.game.personage.power.ReferencePowerCalculatorTest
+[INFO] Running ru.homyakin.seeker.game.personage.PersonageEffectsExpireTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.personage.PersonageEffectsExpireTest
+[INFO] Running ru.homyakin.seeker.game.personage.CharacteristicsApplyEffectTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in ru.homyakin.seeker.game.personage.CharacteristicsApplyEffectTest
+[INFO] Running ru.homyakin.seeker.game.personage.EnergyRegenTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in ru.homyakin.seeker.game.personage.EnergyRegenTest
+[INFO] Running ru.homyakin.seeker.game.personage.badge.BadgeServiceActivatePersonageBadgeTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s -- in ru.homyakin.seeker.game.personage.badge.BadgeServiceActivatePersonageBadgeTest
+[INFO] Running ru.homyakin.seeker.game.personage.RegenEnergySchedulerTest
+26-09-2026 13:04:28.934 [main] INFO  [RegenEnergyScheduler.java:40] Personage PersonageId[value=1] recovered energy 
+26-09-2026 13:04:28.988 [main] INFO  [RegenEnergyScheduler.java:40] Personage PersonageId[value=1] recovered energy 
+26-09-2026 13:04:28.989 [main] INFO  [RegenEnergyScheduler.java:57] Personage PersonageId[value=1] auto started personal quest 
+26-09-2026 13:04:28.992 [main] INFO  [RegenEnergyScheduler.java:40] Personage PersonageId[value=1] recovered energy 
+26-09-2026 13:04:28.994 [main] INFO  [RegenEnergyScheduler.java:40] Personage PersonageId[value=1] recovered energy 
+26-09-2026 13:04:28.994 [main] ERROR [RegenEnergyScheduler.java:61] Failed auto start quest for personage PersonageId[value=1], reason: INSTANCE 
+26-09-2026 13:04:28.995 [main] INFO  [RegenEnergyScheduler.java:40] Personage PersonageId[value=1] recovered energy 
+26-09-2026 13:04:28.996 [main] INFO  [RegenEnergyScheduler.java:57] Personage PersonageId[value=1] auto started personal quest 
+26-09-2026 13:04:28.996 [main] INFO  [RegenEnergyScheduler.java:40] Personage PersonageId[value=2] recovered energy 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.282 s -- in ru.homyakin.seeker.game.personage.RegenEnergySchedulerTest
+[INFO] Running ru.homyakin.seeker.game.personage.models.EnergyRemainTimeForFullRegenTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.personage.models.EnergyRemainTimeForFullRegenTest
+[INFO] Running ru.homyakin.seeker.game.personage.models.EnergyRecoveryTimeTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s -- in ru.homyakin.seeker.game.personage.models.EnergyRecoveryTimeTest
+[INFO] Running ru.homyakin.seeker.game.personage.EnergyReduceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in ru.homyakin.seeker.game.personage.EnergyReduceTest
+[INFO] Running ru.homyakin.seeker.telegram.statistic.StatisticServiceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in ru.homyakin.seeker.telegram.statistic.StatisticServiceTest
+[INFO] Running ru.homyakin.seeker.telegram.command.user.shop.ConfirmStormEnhanceTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in ru.homyakin.seeker.telegram.command.user.shop.ConfirmStormEnhanceTest
+[INFO] Running ru.homyakin.seeker.telegram.command.group.duel.AcceptDuelExecutorTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.427 s -- in ru.homyakin.seeker.telegram.command.group.duel.AcceptDuelExecutorTest
+[INFO] Running ru.homyakin.seeker.telegram.command.group.duel.ProcessDuelExecutorTest
+26-09-2026 13:04:29.506 [main] WARN  [ProcessDuelExecutor.java:37] Duel 2 already finished 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in ru.homyakin.seeker.telegram.command.group.duel.ProcessDuelExecutorTest
+[INFO] Running ru.homyakin.seeker.telegram.command.group.duel.DeclineDuelExecutorTest
+EditMessageText(chatId=-3410253578204288043, messageId=899004020, inlineMessageId=null, text=psMamaSaKj, parseMode=html, disableWebPagePreview=true, replyMarkup=null, entities=[], linkPreviewOptions=null, businessConnectionId=null)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 s -- in ru.homyakin.seeker.telegram.command.group.duel.DeclineDuelExecutorTest
+[INFO] Running ru.homyakin.seeker.telegram.command.common.world_raid.WorldRaidDonateExecutorTest
+26-09-2026 13:04:29.520 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:29.700 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.261 s -- in ru.homyakin.seeker.telegram.command.common.world_raid.WorldRaidDonateExecutorTest
+[INFO] Running ru.homyakin.seeker.telegram.command.common.help.SelectHelpSlotFiltersTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.telegram.command.common.help.SelectHelpSlotFiltersTest
+[INFO] Running ru.homyakin.seeker.telegram.TelegramUtilsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in ru.homyakin.seeker.telegram.TelegramUtilsTest
+[INFO] Running ru.homyakin.seeker.telegram.personage.TgPersonageNotificationServiceTest
+26-09-2026 13:04:29.791 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:29.836 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+26-09-2026 13:04:29.838 [main] INFO  [TgPersonageNotificationService.java:46] Sending notification RecoveredEnergy to user UserId[value=1] 
+26-09-2026 13:04:29.838 [main] INFO  [TgPersonageNotificationService.java:71] Skip notify user UserId[value=1], disabled in settings 
+26-09-2026 13:04:29.839 [main] INFO  [TgPersonageNotificationService.java:46] Sending notification RecoveredEnergy to user UserId[value=1] 
+26-09-2026 13:04:29.839 [main] INFO  [TgPersonageNotificationService.java:66] Skip notify user UserId[value=1], disabled in private 
+26-09-2026 13:04:29.841 [main] INFO  [TgPersonageNotificationService.java:46] Sending notification RecoveredEnergy to user UserId[value=3] 
+26-09-2026 13:04:29.845 [main] INFO  [TgPersonageNotificationService.java:46] Sending notification RecoveredEnergy to user UserId[value=1] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in ru.homyakin.seeker.telegram.personage.TgPersonageNotificationServiceTest
+[INFO] Running ru.homyakin.seeker.locale.PowerPresentationLocalizationTest
+26-09-2026 13:04:29.846 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:29.878 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.040 s -- in ru.homyakin.seeker.locale.PowerPresentationLocalizationTest
+[INFO] Running ru.homyakin.seeker.locale.battle.BattleLocalizationTest
+26-09-2026 13:04:29.887 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:29.915 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in ru.homyakin.seeker.locale.battle.BattleLocalizationTest
+[INFO] Running ru.homyakin.seeker.locale.LocalizationTest
+26-09-2026 13:04:29.934 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:29.965 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in ru.homyakin.seeker.locale.LocalizationTest
+[INFO] Running ru.homyakin.seeker.locale.shop.ShopLocalizationStormEnhanceTest
+26-09-2026 13:04:29.967 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:29.997 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s -- in ru.homyakin.seeker.locale.shop.ShopLocalizationStormEnhanceTest
+[INFO] Running ru.homyakin.seeker.locale.top.TopUtilsCreateTopListTest
+26-09-2026 13:04:30.005 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:30.034 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in ru.homyakin.seeker.locale.top.TopUtilsCreateTopListTest
+[INFO] Running ru.homyakin.seeker.locale.item.ItemLocalizationSkillTest
+26-09-2026 13:04:30.039 [main] INFO  [LocalizationInitializer.java:85] Filling localization 
+26-09-2026 13:04:30.063 [main] INFO  [LocalizationInitializer.java:202] Localization loaded 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in ru.homyakin.seeker.locale.item.ItemLocalizationSkillTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 907, Failures: 0, Errors: 0, Skipped: 21
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.13:report (report) @ project-seeker ---
+[INFO] Loading execution data file /home/user/projects/project-seeker/game/target/jacoco.exec
+[INFO] Analyzed bundle 'project-seeker' with 1280 classes
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ project-seeker ---
+[INFO] Building jar: /home/user/projects/project-seeker/game/target/project-seeker-1.2.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.3:repackage (default) @ project-seeker ---
+[INFO] Replacing main artifact /home/user/projects/project-seeker/game/target/project-seeker-1.2.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/user/projects/project-seeker/game/target/project-seeker-1.2.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  49.110 s
+[INFO] Finished at: 2026-09-26T13:04:32+03:00
+[INFO] ------------------------------------------------------------------------

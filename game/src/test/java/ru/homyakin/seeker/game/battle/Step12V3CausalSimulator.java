@@ -27,14 +27,18 @@ import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures;
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.V3Build;
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.V3Matchup;
 import ru.homyakin.seeker.game.battle.simulation.Step12V3AcceptanceLedger;
+import ru.homyakin.seeker.game.battle.simulation.Step12V4AcceptanceLedger;
 
-/** Revision-three causal diagnosis and ledger-protected acceptance executor. */
+/** V3-candidate causal diagnosis with separately versioned acceptance ledgers. */
 @EnabledIfSystemProperty(named = "step12.v3.causal.enabled", matches = "true")
 class Step12V3CausalSimulator {
     static final long DIAGNOSTIC_ROOT = 2_026_092_101L;
     static final long OUTCOME_PREFLIGHT_ROOT = 2_026_092_201L;
     static final long CAUSAL_PREFLIGHT_ROOT = 2_026_092_202L;
     static final long FINAL_ROOT = 2_026_092_301L;
+    static final long V4_OUTCOME_PREFLIGHT_ROOT = 2_026_092_203L;
+    static final long V4_CAUSAL_PREFLIGHT_ROOT = 2_026_092_204L;
+    static final long V4_FINAL_ROOT = 2_026_092_302L;
 
     private static final String PREFIX = "step12.v3.causal.";
     private static final String REVISION = "V3_CAUSAL_1";
@@ -54,15 +58,17 @@ class Step12V3CausalSimulator {
         final var guardianPartySizes = List.of(3, 7);
         validateConfiguration(configuration);
         validateSelection(configuration.mode(), matchups, levels, guardianPartySizes);
-        final Step12V3AcceptanceLedger ledger;
-        final Step12V3AcceptanceLedger.Attempt attempt;
-        if (!configuration.mode().equals("DIAGNOSTIC")) {
+        final Step12V3AcceptanceLedger v3Ledger;
+        final Step12V3AcceptanceLedger.Attempt v3Attempt;
+        final Step12V4AcceptanceLedger v4Ledger;
+        final Step12V4AcceptanceLedger.Attempt v4Attempt;
+        if (!configuration.mode().equals("DIAGNOSTIC") && configuration.acceptanceProtocol().equals("V3")) {
             rejectLegacyInputProperties();
-            ledger = Step12V3AcceptanceLedger.fromTestClasses(Step12V3CausalSimulator.class);
+            v3Ledger = Step12V3AcceptanceLedger.fromTestClasses(Step12V3CausalSimulator.class);
             final var kind = configuration.mode().equals("PREFLIGHT")
                 ? Step12V3AcceptanceLedger.RunKind.CAUSAL_PREFLIGHT
                 : Step12V3AcceptanceLedger.RunKind.CAUSAL_FINAL;
-            attempt = ledger.begin(
+            v3Attempt = v3Ledger.begin(
                 kind,
                 configuration.rootSeed(),
                 configuration.iterations(),
@@ -75,9 +81,34 @@ class Step12V3CausalSimulator {
                 ),
                 System.getProperty(PREFIX + "output")
             );
+            v4Ledger = null;
+            v4Attempt = null;
+        } else if (!configuration.mode().equals("DIAGNOSTIC")) {
+            rejectLegacyInputProperties();
+            v4Ledger = Step12V4AcceptanceLedger.fromTestClasses(Step12V3CausalSimulator.class);
+            final var kind = configuration.mode().equals("PREFLIGHT")
+                ? Step12V4AcceptanceLedger.RunKind.CAUSAL_PREFLIGHT
+                : Step12V4AcceptanceLedger.RunKind.CAUSAL_FINAL;
+            v4Attempt = v4Ledger.begin(
+                kind,
+                configuration.rootSeed(),
+                configuration.iterations(),
+                configuration.maxRounds(),
+                acceptanceCellDescriptors(
+                    configuration.rootSeed(),
+                    matchups,
+                    levels,
+                    guardianPartySizes
+                ),
+                System.getProperty(PREFIX + "output")
+            );
+            v3Ledger = null;
+            v3Attempt = null;
         } else {
-            ledger = null;
-            attempt = null;
+            v3Ledger = null;
+            v3Attempt = null;
+            v4Ledger = null;
+            v4Attempt = null;
         }
         final var run = runValidated(
             configuration,
@@ -86,15 +117,18 @@ class Step12V3CausalSimulator {
             guardianPartySizes
         );
         final Path output;
-        if (attempt == null) {
+        if (v3Attempt != null) {
+            output = v3Attempt.report();
+            v3Ledger.writeReport(v3Attempt, run.markdown());
+        } else if (v4Attempt != null) {
+            output = v4Attempt.report();
+            v4Ledger.writeReport(v4Attempt, run.markdown());
+        } else {
             output = Path.of(configuration.output());
             if (output.getParent() != null) {
                 Files.createDirectories(output.getParent());
             }
             Files.writeString(output, run.markdown());
-        } else {
-            output = attempt.report();
-            ledger.writeReport(attempt, run.markdown());
         }
         System.out.println(run.markdown());
         System.out.println("Report: " + output.toAbsolutePath());
@@ -111,8 +145,10 @@ class Step12V3CausalSimulator {
                 .forEach(failures::add);
             Assertions.assertTrue(failures.isEmpty(), () -> String.join(System.lineSeparator(), failures));
         }
-        if (attempt != null) {
-            ledger.complete(attempt);
+        if (v3Attempt != null) {
+            v3Ledger.complete(v3Attempt);
+        } else if (v4Attempt != null) {
+            v4Ledger.complete(v4Attempt);
         }
     }
 
@@ -124,7 +160,8 @@ class Step12V3CausalSimulator {
             intProperty("maxRounds", DEFAULT_MAX_ROUNDS),
             intProperty("workers", Math.min(4, Runtime.getRuntime().availableProcessors())),
             booleanProperty("enforce", false),
-            property("output", "target/step12-v3-causal-diagnostic.md")
+            property("output", "target/step12-v3-causal-diagnostic.md"),
+            property("acceptance", "V3").toUpperCase(Locale.ROOT)
         );
     }
 
@@ -132,17 +169,40 @@ class Step12V3CausalSimulator {
         if (!Set.of("DIAGNOSTIC", "PREFLIGHT", "FINAL").contains(configuration.mode())) {
             throw new IllegalArgumentException("V3 causal mode must be DIAGNOSTIC, PREFLIGHT or FINAL");
         }
-        if (configuration.rootSeed() == OUTCOME_PREFLIGHT_ROOT) {
-            throw new IllegalArgumentException("The V3 outcome preflight root is forbidden in the causal executor");
+        if (!Set.of("V3", "V4").contains(configuration.acceptanceProtocol())) {
+            throw new IllegalArgumentException(
+                "Unknown step 12 acceptance protocol: " + configuration.acceptanceProtocol()
+            );
+        }
+        if (Set.of(OUTCOME_PREFLIGHT_ROOT, V4_OUTCOME_PREFLIGHT_ROOT).contains(configuration.rootSeed())) {
+            throw new IllegalArgumentException("Outcome preflight roots are forbidden in the causal executor");
+        }
+        if (configuration.mode().equals("DIAGNOSTIC")
+            && Set.of(
+                2_026_091_802L,
+                OUTCOME_PREFLIGHT_ROOT,
+                CAUSAL_PREFLIGHT_ROOT,
+                FINAL_ROOT,
+                V4_OUTCOME_PREFLIGHT_ROOT,
+                V4_CAUSAL_PREFLIGHT_ROOT,
+                V4_FINAL_ROOT
+            ).contains(configuration.rootSeed())) {
+            throw new IllegalArgumentException("Acceptance root seeds are reserved");
         }
         if (configuration.mode().equals("DIAGNOSTIC") && configuration.rootSeed() != DIAGNOSTIC_ROOT) {
             throw new IllegalArgumentException("Diagnostic seed must equal " + DIAGNOSTIC_ROOT);
         }
-        if (configuration.mode().equals("PREFLIGHT") && configuration.rootSeed() != CAUSAL_PREFLIGHT_ROOT) {
-            throw new IllegalArgumentException("Causal preflight seed must equal " + CAUSAL_PREFLIGHT_ROOT);
+        final long expectedPreflightRoot = configuration.acceptanceProtocol().equals("V4")
+            ? V4_CAUSAL_PREFLIGHT_ROOT
+            : CAUSAL_PREFLIGHT_ROOT;
+        final long expectedFinalRoot = configuration.acceptanceProtocol().equals("V4")
+            ? V4_FINAL_ROOT
+            : FINAL_ROOT;
+        if (configuration.mode().equals("PREFLIGHT") && configuration.rootSeed() != expectedPreflightRoot) {
+            throw new IllegalArgumentException("Causal preflight seed must equal " + expectedPreflightRoot);
         }
-        if (configuration.mode().equals("FINAL") && configuration.rootSeed() != FINAL_ROOT) {
-            throw new IllegalArgumentException("Causal final seed must equal " + FINAL_ROOT);
+        if (configuration.mode().equals("FINAL") && configuration.rootSeed() != expectedFinalRoot) {
+            throw new IllegalArgumentException("Causal final seed must equal " + expectedFinalRoot);
         }
         if (configuration.iterations() <= 0 || configuration.maxRounds() <= 0) {
             throw new IllegalArgumentException("Iterations and maximum rounds must be positive");
@@ -169,7 +229,8 @@ class Step12V3CausalSimulator {
             }
             if (!violations.isEmpty()) {
                 throw new IllegalArgumentException(
-                    "Invalid V3 causal " + configuration.mode() + " configuration: "
+                    "Invalid " + configuration.acceptanceProtocol() + " acceptance for V3 causal "
+                        + configuration.mode() + " configuration: "
                         + String.join("; ", violations)
                 );
             }
@@ -755,10 +816,7 @@ class Step12V3CausalSimulator {
             .append(configuration.mode()).append("`; корень: `")
             .append(configuration.rootSeed()).append("`; начальных значений на строку: `")
             .append(configuration.iterations()).append("`; два порядка сторон. ")
-            .append(configuration.mode().equals("FINAL")
-                ? "Это итоговая причинная выборка V3.\n\n"
-                : "Это предварительный причинный прогон V3, не итоговая выборка `"
-                    + FINAL_ROOT + "`.\n\n")
+            .append(acceptanceDescription(configuration))
             .append("## Разложение доли побед\n\n")
             .append("| Ячейка V3 | `++` | `-+` | `+-` | `--` | Первичный показатель | Маршрут |\n")
             .append("|---|---:|---:|---:|---:|---|---|\n");
@@ -857,6 +915,19 @@ class Step12V3CausalSimulator {
                 .append(result.primary().description()).append("\n");
         }
         return output.toString();
+    }
+
+    private static String acceptanceDescription(Configuration configuration) {
+        if (configuration.acceptanceProtocol().equals("V4")) {
+            return configuration.mode().equals("FINAL")
+                ? "Это итоговая причинная выборка кандидата V3 по протоколу приёмки V4.\n\n"
+                : "Это предварительный причинный прогон кандидата V3 по протоколу приёмки V4, "
+                    + "не итоговая выборка `" + V4_FINAL_ROOT + "`.\n\n";
+        }
+        return configuration.mode().equals("FINAL")
+            ? "Это итоговая причинная выборка V3.\n\n"
+            : "Это предварительный причинный прогон V3, не итоговая выборка `"
+                + FINAL_ROOT + "`.\n\n";
     }
 
     private static String variant(VariantResult result) {
@@ -1136,11 +1207,25 @@ class Step12V3CausalSimulator {
         int maxRounds,
         int workers,
         boolean enforce,
-        String output
+        String output,
+        String acceptanceProtocol
     ) {
+        Configuration(
+            String mode,
+            long rootSeed,
+            int iterations,
+            int maxRounds,
+            int workers,
+            boolean enforce,
+            String output
+        ) {
+            this(mode, rootSeed, iterations, maxRounds, workers, enforce, output, "V3");
+        }
+
         Configuration {
             Objects.requireNonNull(mode, "mode");
             Objects.requireNonNull(output, "output");
+            Objects.requireNonNull(acceptanceProtocol, "acceptanceProtocol");
         }
     }
 

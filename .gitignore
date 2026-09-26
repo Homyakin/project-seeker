@@ -1,6 +1,7 @@
 .idea/
 *.iml
 *.log
+!documentation/raid-redesign-step-12-v4-*.log
 target/
 **/venv/
 __pycache__/
@@ -19,4 +20,3 @@ game/src/main/resources/application-dev.properties
 .project
 .settings/
 bin/
-

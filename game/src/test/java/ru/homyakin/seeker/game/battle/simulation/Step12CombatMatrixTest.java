@@ -227,6 +227,31 @@ class Step12CombatMatrixTest {
     }
 
     @Test
+    void v4OutcomeFingerprintUsesNewRootsAndTheSameV3CandidateCells() {
+        final var preflightDescriptors = Step12CombatMatrixSimulator.acceptanceCellDescriptors(
+            Step12CombatMatrixSimulator.cells(2_026_092_203L, "V3")
+        );
+        final var finalDescriptors = Step12CombatMatrixSimulator.acceptanceCellDescriptors(
+            Step12CombatMatrixSimulator.cells(2_026_092_302L, "V3")
+        );
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(180, preflightDescriptors.size()),
+            () -> Assertions.assertTrue(preflightDescriptors.stream()
+                .filter(it -> it.contains("|FAVORABLE|"))
+                .allMatch(it -> it.contains("_V3_"))),
+            () -> Assertions.assertEquals(
+                Step12V4AcceptanceLedger.RunKind.OUTCOME_PREFLIGHT.expectedCellSetFingerprint(),
+                Step12V4AcceptanceLedger.cellSetFingerprint(preflightDescriptors)
+            ),
+            () -> Assertions.assertEquals(
+                Step12V4AcceptanceLedger.RunKind.OUTCOME_FINAL.expectedCellSetFingerprint(),
+                Step12V4AcceptanceLedger.cellSetFingerprint(finalDescriptors)
+            )
+        );
+    }
+
+    @Test
     void mirrorFixturesKeepHistoricalV2AndCurrentV3FormulaVersionsSeparate() {
         final var historical = Step12CombatMatrixSimulator.cells(20_260_912L, "V2").stream()
             .filter(it -> it.code().equals("MIRROR_GUARDIAN_N1_L0"))
@@ -556,6 +581,44 @@ class Step12CombatMatrixTest {
     }
 
     @Test
+    void v4PreflightWidensOnlyBothMirrorPointCorridorsAndKeepsFinalStrict() {
+        final var interval = new ConfidenceInterval(0.49, 0.51);
+
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(Step12CombatMatrixSimulator.v4PreflightOutcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.45, 0.55
+            )),
+            () -> Assertions.assertTrue(Step12CombatMatrixSimulator.v4PreflightOutcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.55, 0.45
+            )),
+            () -> Assertions.assertFalse(Step12CombatMatrixSimulator.v4PreflightOutcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.4499, 0.50
+            )),
+            () -> Assertions.assertFalse(Step12CombatMatrixSimulator.v4PreflightOutcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.5501, 0.50
+            )),
+            () -> Assertions.assertFalse(Step12CombatMatrixSimulator.v4PreflightOutcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.50, 0.4499
+            )),
+            () -> Assertions.assertFalse(Step12CombatMatrixSimulator.v4PreflightOutcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.50, 0.5501
+            )),
+            () -> Assertions.assertTrue(Step12CombatMatrixSimulator.outcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.47, 0.53, interval
+            )),
+            () -> Assertions.assertTrue(Step12CombatMatrixSimulator.outcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.53, 0.47, interval
+            )),
+            () -> Assertions.assertFalse(Step12CombatMatrixSimulator.outcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.4699, 0.50, interval
+            )),
+            () -> Assertions.assertFalse(Step12CombatMatrixSimulator.outcomeAccepted(
+                MatrixFamily.MIRROR, 0, 0.50, 0.5301, interval
+            ))
+        );
+    }
+
+    @Test
     void finalV2ConfigurationIsExactWhileV2DiagnosticAllowsAnotherRootAndFilters() {
         final var valid = new MatrixRunConfiguration(
             "V2", "FINAL", 10_000, 10_000, 2_026_091_802L, true, Set.of()
@@ -649,6 +712,56 @@ class Step12CombatMatrixTest {
                 "V3", "FINAL", 10_000, 10_000, 2_026_092_201L, true, Set.of()
             ))
         );
+    }
+
+    @Test
+    void acceptanceProtocolFourUsesNewRootsWhileKeepingGameplayRevisionThree() {
+        final var preflight = new MatrixRunConfiguration(
+            "V3", "PREFLIGHT", 2_000, 10_000, 2_026_092_203L, true, Set.of(), "V4"
+        );
+        final var finalRun = new MatrixRunConfiguration(
+            "V3", "FINAL", 10_000, 10_000, 2_026_092_302L, true, Set.of(), "V4"
+        );
+
+        Assertions.assertAll(
+            () -> Assertions.assertDoesNotThrow(() ->
+                Step12CombatMatrixSimulator.validateRunConfiguration(preflight)
+            ),
+            () -> Assertions.assertDoesNotThrow(() ->
+                Step12CombatMatrixSimulator.validateRunConfiguration(finalRun)
+            ),
+            () -> assertInvalidFinal(new MatrixRunConfiguration(
+                "V3", "PREFLIGHT", 2_000, 10_000, 2_026_092_201L, true, Set.of(), "V4"
+            )),
+            () -> assertInvalidFinal(new MatrixRunConfiguration(
+                "V3", "FINAL", 10_000, 10_000, 2_026_092_301L, true, Set.of(), "V4"
+            )),
+            () -> assertInvalidFinal(new MatrixRunConfiguration(
+                "V3", "PREFLIGHT", 2_000, 10_000, 2_026_092_203L, true, Set.of(), "V5"
+            )),
+            () -> assertInvalidFinal(new MatrixRunConfiguration(
+                "V2", "FINAL", 10_000, 10_000, 2_026_091_802L, true, Set.of(), "V4"
+            ))
+        );
+    }
+
+    @Test
+    void diagnosticModeRejectsEveryPublishedAcceptanceRoot() {
+        final var reservedRoots = List.of(
+            2_026_091_802L,
+            2_026_092_201L,
+            2_026_092_202L,
+            2_026_092_301L,
+            2_026_092_203L,
+            2_026_092_204L,
+            2_026_092_302L
+        );
+
+        for (final long root : reservedRoots) {
+            assertInvalidFinal(new MatrixRunConfiguration(
+                "V3", "DIAGNOSTIC", 1, 10_000, root, false, Set.of(), "V4"
+            ));
+        }
     }
 
     private static void assertInvalidFinal(MatrixRunConfiguration configuration) {

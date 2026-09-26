@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.V2Buil
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.V2Matchup;
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.V3Matchup;
 import ru.homyakin.seeker.game.battle.simulation.Step12V3AcceptanceLedger;
+import ru.homyakin.seeker.game.battle.simulation.Step12V4AcceptanceLedger;
 
 class Step12V3CausalSimulatorTest {
     @Test
@@ -93,6 +94,74 @@ class Step12V3CausalSimulatorTest {
                 () -> Step12V3CausalSimulator.validateConfiguration(configuration("DIAGNOSTIC", 1L))
             )
         );
+    }
+
+    @Test
+    void acceptanceProtocolFourUsesNewCausalRootsForTheV3Candidate() {
+        final var preflight = new Step12V3CausalSimulator.Configuration(
+            "PREFLIGHT",
+            Step12V3CausalSimulator.V4_CAUSAL_PREFLIGHT_ROOT,
+            2_000,
+            10_000,
+            1,
+            true,
+            "ignored",
+            "V4"
+        );
+        final var finalRun = new Step12V3CausalSimulator.Configuration(
+            "FINAL",
+            Step12V3CausalSimulator.V4_FINAL_ROOT,
+            10_000,
+            10_000,
+            1,
+            true,
+            "ignored",
+            "V4"
+        );
+
+        Assertions.assertAll(
+            () -> Assertions.assertDoesNotThrow(() ->
+                Step12V3CausalSimulator.validateConfiguration(preflight)
+            ),
+            () -> Assertions.assertDoesNotThrow(() ->
+                Step12V3CausalSimulator.validateConfiguration(finalRun)
+            ),
+            () -> assertInvalid(new Step12V3CausalSimulator.Configuration(
+                "PREFLIGHT", Step12V3CausalSimulator.CAUSAL_PREFLIGHT_ROOT,
+                2_000, 10_000, 1, true, "ignored", "V4"
+            )),
+            () -> assertInvalid(new Step12V3CausalSimulator.Configuration(
+                "FINAL", Step12V3CausalSimulator.FINAL_ROOT,
+                10_000, 10_000, 1, true, "ignored", "V4"
+            )),
+            () -> assertInvalid(new Step12V3CausalSimulator.Configuration(
+                "PREFLIGHT", Step12V3CausalSimulator.V4_OUTCOME_PREFLIGHT_ROOT,
+                2_000, 10_000, 1, true, "ignored", "V4"
+            )),
+            () -> assertInvalid(new Step12V3CausalSimulator.Configuration(
+                "PREFLIGHT", Step12V3CausalSimulator.V4_CAUSAL_PREFLIGHT_ROOT,
+                2_000, 10_000, 1, true, "ignored", "V5"
+            ))
+        );
+    }
+
+    @Test
+    void causalDiagnosticRejectsEveryPublishedAcceptanceRoot() {
+        final var reservedRoots = List.of(
+            2_026_091_802L,
+            Step12V3CausalSimulator.OUTCOME_PREFLIGHT_ROOT,
+            Step12V3CausalSimulator.CAUSAL_PREFLIGHT_ROOT,
+            Step12V3CausalSimulator.FINAL_ROOT,
+            Step12V3CausalSimulator.V4_OUTCOME_PREFLIGHT_ROOT,
+            Step12V3CausalSimulator.V4_CAUSAL_PREFLIGHT_ROOT,
+            Step12V3CausalSimulator.V4_FINAL_ROOT
+        );
+
+        for (final long root : reservedRoots) {
+            assertInvalid(new Step12V3CausalSimulator.Configuration(
+                "DIAGNOSTIC", root, 1, 10_000, 1, false, "ignored", "V4"
+            ));
+        }
     }
 
     @Test
@@ -298,6 +367,34 @@ class Step12V3CausalSimulatorTest {
             () -> Assertions.assertEquals(
                 Step12V3AcceptanceLedger.RunKind.CAUSAL_FINAL.expectedCellSetFingerprint(),
                 Step12V3AcceptanceLedger.cellSetFingerprint(finalDescriptors)
+            )
+        );
+    }
+
+    @Test
+    void v4AcceptanceFingerprintUsesNewRootsWithoutRenamingV3Cells() {
+        final var preflightDescriptors = Step12V3CausalSimulator.acceptanceCellDescriptors(
+            Step12V3CausalSimulator.V4_CAUSAL_PREFLIGHT_ROOT,
+            List.of(V3Matchup.values()),
+            Step12SimulationFixtures.CONTROL_LEVELS,
+            List.of(3, 7)
+        );
+        final var finalDescriptors = Step12V3CausalSimulator.acceptanceCellDescriptors(
+            Step12V3CausalSimulator.V4_FINAL_ROOT,
+            List.of(V3Matchup.values()),
+            Step12SimulationFixtures.CONTROL_LEVELS,
+            List.of(3, 7)
+        );
+
+        Assertions.assertAll(
+            () -> Assertions.assertTrue(preflightDescriptors.stream().allMatch(it -> it.contains("_V3_"))),
+            () -> Assertions.assertEquals(
+                Step12V4AcceptanceLedger.RunKind.CAUSAL_PREFLIGHT.expectedCellSetFingerprint(),
+                Step12V4AcceptanceLedger.cellSetFingerprint(preflightDescriptors)
+            ),
+            () -> Assertions.assertEquals(
+                Step12V4AcceptanceLedger.RunKind.CAUSAL_FINAL.expectedCellSetFingerprint(),
+                Step12V4AcceptanceLedger.cellSetFingerprint(finalDescriptors)
             )
         );
     }
