@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.shop.EnhanceService;
 import ru.homyakin.seeker.game.shop.errors.StormEnhanceError;
 import ru.homyakin.seeker.game.shop.models.StormEnhanceOutcome;
@@ -15,15 +16,18 @@ public class ConfirmStormEnhanceExecutor extends CommandExecutor<ConfirmStormEnh
     private final UserService userService;
     private final TelegramSender telegramSender;
     private final EnhanceService enhanceService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public ConfirmStormEnhanceExecutor(
         UserService userService,
         TelegramSender telegramSender,
-        EnhanceService enhanceService
+        EnhanceService enhanceService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.enhanceService = enhanceService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -47,11 +51,11 @@ public class ConfirmStormEnhanceExecutor extends CommandExecutor<ConfirmStormEnh
                 },
                 result -> switch (result.outcome()) {
                     case StormEnhanceOutcome.SUCCESS ->
-                        ShopLocalization.successStormEnhance(user.language(), result.action());
+                        ShopLocalization.successStormEnhance(user.language(), result.action(), playerCombatConfig.version());
                     case StormEnhanceOutcome.FAILURE ->
-                        ShopLocalization.failedStormEnhance(user.language(), result.action());
+                        ShopLocalization.failedStormEnhance(user.language(), result.action(), playerCombatConfig.version());
                     case StormEnhanceOutcome.ROLLBACK ->
-                        ShopLocalization.rollbackStormEnhance(user.language(), result.action());
+                        ShopLocalization.rollbackStormEnhance(user.language(), result.action(), playerCombatConfig.version());
                 }
             );
         telegramSender.send(SendMessageBuilder.builder()

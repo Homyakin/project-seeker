@@ -1,0 +1,31 @@
+[0.001s][warning][perf,memops] Cannot use file /tmp/hsperfdata_user/2 because it is locked by another process (errno = 11)
+00:04:08,159 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+00:04:08,166 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - Here is a list of configurators discovered as a service, by rank: 
+00:04:08,166 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:04:08,166 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+00:04:08,166 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:04:08,182 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:04:08,182 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:04:08,186 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:04:08,188 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+00:04:08,193 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+00:04:08,193 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 7 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:04:08,193 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:04:08,194 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:04:08,195 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+00:04:08,195 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+00:04:08,505 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+00:04:08,505 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+00:04:08,615 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+00:04:08,615 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+00:04:08,615 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+00:04:08,615 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+00:04:08,615 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+00:04:08,615 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+00:04:08,616 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+00:04:08,616 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+00:04:08,616 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@69e4fd5c - End of configuration.
+00:04:08,617 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@77c36250 - Registering current configuration as safe fallback point
+00:04:08,617 |-INFO in ch.qos.logback.classic.util.ContextInitializer@17b9ab44 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 423 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+Completed 12/12; battles=24000; timeouts=0; seconds=13.8

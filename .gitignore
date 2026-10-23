@@ -2,6 +2,10 @@
 *.iml
 *.log
 !documentation/raid-redesign-step-12-v4-*.log
+!documentation/raid-redesign-step-12-mixed-v1-*.log
+!documentation/raid-redesign-step-12-mixed-v2-*.log
+!documentation/raid-redesign-step-12-3-evidence/*.log
+!documentation/raid-redesign-step-12-3-corrections-evidence/*.log
 target/
 **/venv/
 __pycache__/

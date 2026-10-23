@@ -1,0 +1,112 @@
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< ru.homyakin:project-seeker >---------------------
+[INFO] Building project-seeker 1.2
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- checkstyle:3.6.0:check (validate) @ project-seeker ---
+[INFO] You have 0 Checkstyle violations.
+[INFO] 
+[INFO] --- dependency-versions-check:4.0.1:check (default) @ project-seeker ---
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/home/user/.m2/repository/com/google/guava/guava/33.0.0-jre/guava-33.0.0-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] Checking all dependencies for 'test' scope, reporting only conflicts
+[INFO] 
+[INFO] --- duplicate-finder:2.0.1:check (default) @ project-seeker ---
+[INFO] Checking compile classpath
+[INFO] Checking runtime classpath
+[INFO] Checking test classpath
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (default) @ project-seeker ---
+[INFO] argLine set to -javaagent:/home/user/.m2/repository/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar=destfile=/home/user/projects/project-seeker/game/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ project-seeker ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 210 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ project-seeker ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1067 source files with javac [debug target 24] to target/classes
+[WARNING] location of system modules is not set in conjunction with -source 24
+  not setting the location of system modules may lead to class files that cannot run on JDK 24
+    --release 24 is recommended instead of -source 24 -target 24 because it sets the location of system modules automatically
+[INFO] /home/user/projects/project-seeker/game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/user/projects/project-seeker/game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ project-seeker ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ project-seeker ---
+[INFO] Recompiling the module because of changed dependency.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 236 source files with javac [debug target 24] to target/test-classes
+[WARNING] location of system modules is not set in conjunction with -source 24
+  not setting the location of system modules may lead to class files that cannot run on JDK 24
+    --release 24 is recommended instead of -source 24 -target 24 because it sets the location of system modules automatically
+[INFO] /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/DefaultItemProviderTest.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/DefaultItemProviderTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.5.3:test (default-test) @ project-seeker ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+[INFO] Running ru.homyakin.seeker.game.battle.Step123ReferenceTeamsTest
+00:29:18,665 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+00:29:18,667 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - Here is a list of configurators discovered as a service, by rank: 
+00:29:18,667 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:29:18,667 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+00:29:18,667 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:29:18,669 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:29:18,669 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:29:18,670 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:29:18,670 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+00:29:18,670 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+00:29:18,670 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:29:18,670 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:29:18,671 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:29:18,671 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+00:29:18,671 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+00:29:18,766 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+00:29:18,766 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+00:29:18,821 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+00:29:18,821 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+00:29:18,821 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+00:29:18,822 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+00:29:18,822 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+00:29:18,822 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+00:29:18,822 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+00:29:18,822 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+00:29:18,823 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@19526f1d - End of configuration.
+00:29:18,825 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@3d1c933 - Registering current configuration as safe fallback point
+00:29:18,825 |-INFO in ch.qos.logback.classic.util.ContextInitializer@26c7b1c6 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 154 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.101 s -- in ru.homyakin.seeker.game.battle.Step123ReferenceTeamsTest
+[INFO] Running ru.homyakin.seeker.game.battle.ForcedMovementRegressionTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.277 s -- in ru.homyakin.seeker.game.battle.ForcedMovementRegressionTest
+[INFO] Running ru.homyakin.seeker.game.badge.entity.BadgeViewPrintTest
+[WARNING] Tests run: 1, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0 s -- in ru.homyakin.seeker.game.badge.entity.BadgeViewPrintTest
+[INFO] Running ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoaderTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoaderTest
+[INFO] Running ru.homyakin.seeker.game.personage.badge.BadgeServiceActivatePersonageBadgeTest
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.500 s -- in ru.homyakin.seeker.game.personage.badge.BadgeServiceActivatePersonageBadgeTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[WARNING] Tests run: 32, Failures: 0, Errors: 0, Skipped: 1
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  22.574 s
+[INFO] Finished at: 2026-10-24T00:29:21+03:00
+[INFO] ------------------------------------------------------------------------

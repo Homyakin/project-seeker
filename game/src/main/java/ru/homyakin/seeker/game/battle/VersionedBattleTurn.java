@@ -627,20 +627,24 @@ final class VersionedBattleTurn {
         if (!owner.scalingSkills().has(ActiveEnum.THORNS) || distance != 1 || !attacker.isAlive()) {
             return;
         }
-        final int closeAttack = sum(owner.scalingAttackAt(1, AttackAccess.NORMAL));
-        final int basis = Math.min(
-            Math.multiplyExact(3, owner.maxHealth()),
-            Math.multiplyExact(40, closeAttack)
-        );
+        final long closeAttack = owner.scalingAttackAt(1, AttackAccess.NORMAL).values().stream()
+            .mapToLong(Integer::longValue)
+            .sum();
+        final long healthBasis = Math.multiplyExact(3L, owner.maxHealth());
+        final long attackBasis = Math.multiplyExact(40L, closeAttack);
+        final long basis = Math.min(healthBasis, attackBasis);
         if (basis <= 0) {
             return;
         }
+        // Preserve ordinary event packets; factor out the selected branch only when its basis exceeds int.
+        // The product basis * coefficient remains exact, without narrowing before damage calculation.
+        final int basisDivisor = basis <= Integer.MAX_VALUE ? 1 : healthBasis <= attackBasis ? 3 : 40;
         applyVectorSkill(
             owner,
             attacker,
             ActiveEnum.THORNS,
-            Map.of(AttackType.PIERCE, basis),
-            multiplier(owner, ActiveEnum.THORNS),
+            Map.of(AttackType.PIERCE, Math.toIntExact(basis / basisDivisor)),
+            Math.multiplyExact(multiplier(owner, ActiveEnum.THORNS), basisDivisor),
             4_800,
             10_000,
             context,

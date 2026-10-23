@@ -74,7 +74,7 @@ public class ItemCatalogService {
     }
 
     @Transactional
-    void activateRelease(EquipmentCatalogVersion version) {
+    public void activateRelease(EquipmentCatalogVersion version) {
         final var catalog = EquipmentCatalogLoader.loadValidated(version);
         if (!itemCatalogLifecycleDao.activateIfStaged(version)) {
             return;

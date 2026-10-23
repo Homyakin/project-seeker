@@ -128,10 +128,24 @@ public class CommonLocalization {
         Characteristics equippedCharacteristics,
         int power
     ) {
+        return fullProfile(
+            language, personage, currentEvents, groupPassiveEffects, equippedCharacteristics,
+            Integer.toString(LocaleUtils.legacyPowerForDisplay(power))
+        );
+    }
+
+    public static String fullProfile(
+        Language language,
+        Personage personage,
+        CurrentEvents currentEvents,
+        List<GroupPassiveEffect> groupPassiveEffects,
+        Characteristics equippedCharacteristics,
+        String displayedPower
+    ) {
         final var params = profileParams(personage, equippedCharacteristics);
 
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.legacyPowerForDisplay(power));
+        params.put("power_value", displayedPower);
         params.put("power_label", powerLabel(language));
         params.put("power_approximation_note", powerApproximationNote(language));
         if (personage.energy().isFull()) {
@@ -637,7 +651,7 @@ public class CommonLocalization {
     }
 
     /**
-     * The displayed power stays a string until the final scale and its rounding rule are approved.
+     * Accepts a preformatted historical snapshot, never recalculates from current equipment.
      */
     public static String personageBattleReport(
         Language language,

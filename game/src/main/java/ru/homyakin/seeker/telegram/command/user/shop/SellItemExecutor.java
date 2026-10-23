@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.shop.ShopService;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -15,11 +16,15 @@ public class SellItemExecutor extends CommandExecutor<SellItem> {
     private final UserService userService;
     private final TelegramSender telegramSender;
     private final ShopService shopService;
+    private final PlayerCombatConfig playerCombatConfig;
 
-    public SellItemExecutor(UserService userService, TelegramSender telegramSender, ShopService shopService) {
+    public SellItemExecutor(
+        UserService userService, TelegramSender telegramSender, ShopService shopService, PlayerCombatConfig playerCombatConfig
+    ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.shopService = shopService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -44,7 +49,8 @@ public class SellItemExecutor extends CommandExecutor<SellItem> {
                     user.language(),
                     item.get(),
                     shopService.sellingPrice(item.get()),
-                    loadoutNames
+                    loadoutNames,
+                    playerCombatConfig.version()
                 ))
                 .keyboard(InlineKeyboards.confirmSellItemKeyboard(user.language(), command.itemId()))
                 .build()
@@ -55,7 +61,7 @@ public class SellItemExecutor extends CommandExecutor<SellItem> {
         final var text = shopService.sellItem(user.personageId(), command.itemId())
             .fold(
                 _ -> ShopLocalization.noItemAtPersonage(user.language()),
-                sold -> ShopLocalization.successSell(user.language(), sold)
+                sold -> ShopLocalization.successSell(user.language(), sold, playerCombatConfig.version())
             );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

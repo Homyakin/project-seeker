@@ -3,6 +3,7 @@ package ru.homyakin.seeker.telegram.command.user.report;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayService;
 import ru.homyakin.seeker.locale.anomaly.AnomalyLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -15,17 +16,20 @@ public class AnomalyReportExecutor extends CommandExecutor<AnomalyReport> {
     private final PersonageService personageService;
     private final LaunchedEventService launchedEventService;
     private final TelegramSender telegramSender;
+    private final PowerDisplayService powerDisplayService;
 
     public AnomalyReportExecutor(
         UserService userService,
         PersonageService personageService,
         LaunchedEventService launchedEventService,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PowerDisplayService powerDisplayService
     ) {
         this.userService = userService;
         this.personageService = personageService;
         this.launchedEventService = launchedEventService;
         this.telegramSender = telegramSender;
+        this.powerDisplayService = powerDisplayService;
     }
 
     @Override
@@ -34,7 +38,9 @@ public class AnomalyReportExecutor extends CommandExecutor<AnomalyReport> {
         final var text = personageService.getLastAnomalyResult(user.personageId())
             .map(result -> {
                 final var event = launchedEventService.getById(result.launchedEventId()).orElseThrow();
-                return AnomalyLocalization.report(user.language(), result, event);
+                return AnomalyLocalization.report(
+                    user.language(), result, event, powerDisplayService.battleReportValue(result.stats().displayedPower())
+                );
             })
             .orElseGet(() -> AnomalyLocalization.reportNotPresentForPersonage(user.language()));
         telegramSender.send(SendMessageBuilder.builder()

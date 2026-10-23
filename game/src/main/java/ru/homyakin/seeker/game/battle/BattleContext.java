@@ -167,13 +167,8 @@ public class BattleContext {
         }
         final int from = personage.currentPosition();
         final int backwardDelta = -personage.advanceDirection().indexDelta();
-        int to = from + backwardDelta * steps;
-        final int firstCount = firstTeamLineCount();
-        if (personage.advanceDirection() == BattleAdvanceDirection.TOWARD_SECOND_TEAM) {
-            to = Math.max(0, Math.min(firstCount - 1, to));
-        } else {
-            to = Math.max(firstCount, Math.min(lines.size() - 1, to));
-        }
+        final long requested = from + (long) backwardDelta * steps;
+        final int to = (int) Math.max(0L, Math.min(lines.size() - 1L, requested));
         if (to != from) {
             relocatePersonage(personage, from, to);
         }
@@ -189,18 +184,6 @@ public class BattleContext {
         if (to != from) {
             relocatePersonage(personage, from, to);
         }
-    }
-
-    private int firstTeamLineCount() {
-        int count = 0;
-        for (final var line : lines) {
-            if (line.firstTeam()) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        return count;
     }
 
     public List<BattleLine> lines() {

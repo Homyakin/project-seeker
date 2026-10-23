@@ -5,6 +5,7 @@ import ru.homyakin.seeker.game.event.launched.LaunchedEventService;
 import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.event.world_raid.action.PersonageWorldRaidBattleResultCommand;
 import ru.homyakin.seeker.game.item.ItemService;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayService;
 import ru.homyakin.seeker.locale.world_raid.WorldRaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -18,19 +19,22 @@ public class UserWorldRaidReportExecutor extends CommandExecutor<UserWorldRaidRe
     private final ItemService itemService;
     private final PersonageWorldRaidBattleResultCommand personageWorldRaidBattleResultCommand;
     private final TelegramSender telegramSender;
+    private final PowerDisplayService powerDisplayService;
 
     public UserWorldRaidReportExecutor(
         UserService userService,
         LaunchedEventService launchedEventService,
         ItemService itemService,
         PersonageWorldRaidBattleResultCommand personageWorldRaidBattleResultCommand,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PowerDisplayService powerDisplayService
     ) {
         this.userService = userService;
         this.launchedEventService = launchedEventService;
         this.itemService = itemService;
         this.personageWorldRaidBattleResultCommand = personageWorldRaidBattleResultCommand;
         this.telegramSender = telegramSender;
+        this.powerDisplayService = powerDisplayService;
     }
 
     @Override
@@ -48,7 +52,8 @@ public class UserWorldRaidReportExecutor extends CommandExecutor<UserWorldRaidRe
                 user.language(),
                 result.get(),
                 launchedEventService.getById(result.get().launchedEventId()).orElseThrow(),
-                raidItem
+                raidItem,
+                powerDisplayService.battleReportValue(result.get().stats().displayedPower())
             );
         }
         telegramSender.send(SendMessageBuilder.builder()

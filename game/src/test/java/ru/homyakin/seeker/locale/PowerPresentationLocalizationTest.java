@@ -99,7 +99,7 @@ class PowerPresentationLocalizationTest {
             "Искатель",
             BadgeView.STANDARD,
             Optional.empty(),
-            12_345
+            123
         )));
 
         final var russian = TopLocalization.topPowerPersonageGroup(Language.RU, id, result);
@@ -120,6 +120,19 @@ class PowerPresentationLocalizationTest {
         assertTrue(russian.contains(RU_NOTE));
         assertTrue(spanish.contains("Poder: 1000"));
         assertTrue(spanish.contains(ES_NOTE));
+    }
+
+    @Test
+    void preparedProfileAndBattleStatsShowFinalScaleWithoutLegacyDivision() {
+        final var profile = CommonLocalization.fullProfile(
+            Language.RU, personage(), new CurrentEvents(List.of()), List.of(), new Characteristics(1_000, 100, 50), "1000"
+        );
+        final var stats = BattleLocalization.battleStats(Language.RU, battlePersonage(), 1_000);
+
+        assertTrue(profile.contains("Мощь: 1000"));
+        assertTrue(profile.contains(RU_NOTE));
+        assertTrue(stats.contains("Мощь: 1000"));
+        assertTrue(stats.contains(RU_NOTE));
     }
 
     private static Personage personage() {

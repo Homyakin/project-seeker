@@ -1,0 +1,7 @@
+CURRENT SCALING_V3 Ntech-price=75, overestimate-all-items-H=36450, overestimate-all-parts-A=13500
+ACTUAL heal H=2000000000 before=1999999999 formula-amount=150000000 after=-2144967297 alive=false
+ACTUAL SCALING_SKILLS_V2 SELF_HEAL8 H=2000000000 before=1999999999 after=-2144967297 alive=false log-events=2
+MINIMUM SELF_HEAL8 overflow near full health H=1997659208, rounded-heal=149824441
+ACTUAL thorns H=715827900 A1=60 exact-basis=2400 exact-raw=15 throws=java.lang.ArithmeticException: integer overflow at=ru.homyakin.seeker.game.battle.VersionedBattleTurn.applyThorns(VersionedBattleTurn.java:632)
+CURRENT item-first-single-attack-overflow code=two_handed_sword level=6710827 Ntech=75 A1=53687096
+MINIMUM THORNS integer intermediate overflow H=715827883 or A1=53687092; first multiple-of-60 bases H=715827900 A1=53687100

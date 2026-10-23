@@ -1,0 +1,12 @@
+src/main/resources/game-data/catalog/scaling_v1/default_items.toml: OK
+src/main/resources/game-data/catalog/scaling_v1/item_modifiers.toml: OK
+src/main/resources/game-data/catalog/scaling_v1/item_objects.toml: OK
+src/main/resources/game-data/catalog/scaling_v2/default_items.toml: OK
+src/main/resources/game-data/catalog/scaling_v2/item_modifiers.toml: OK
+src/main/resources/game-data/catalog/scaling_v2/item_objects.toml: OK
+src/main/resources/game-data/catalog/scaling_v3/default_items.toml: OK
+src/main/resources/game-data/catalog/scaling_v3/item_modifiers.toml: OK
+src/main/resources/game-data/catalog/scaling_v3/item_objects.toml: OK
+src/main/resources/game-data/catalog/scaling_v4/default_items.toml: OK
+src/main/resources/game-data/catalog/scaling_v4/item_modifiers.toml: OK
+src/main/resources/game-data/catalog/scaling_v4/item_objects.toml: OK

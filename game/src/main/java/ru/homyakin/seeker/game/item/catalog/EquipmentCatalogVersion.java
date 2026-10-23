@@ -9,4 +9,7 @@ package ru.homyakin.seeker.game.item.catalog;
 public enum EquipmentCatalogVersion {
     SCALING_V1,
     SCALING_V2,
+    SCALING_V3,
+    SCALING_V4,
+    SCALING_V5,
 }

@@ -100,6 +100,33 @@ public final class EquipmentCatalogValidator {
         19,
         272
     );
+    private static final CatalogContract SCALING_V3_CONTRACT = new CatalogContract(
+        "SCALING_V3",
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V2_ITEM_CODES,
+        63,
+        9,
+        19,
+        272
+    );
+    private static final CatalogContract SCALING_V4_CONTRACT = new CatalogContract(
+        "SCALING_V4",
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V2_ITEM_CODES,
+        63,
+        9,
+        19,
+        272
+    );
+    private static final CatalogContract SCALING_V5_CONTRACT = new CatalogContract(
+        "SCALING_V5",
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V2_ITEM_CODES,
+        63,
+        9,
+        19,
+        272
+    );
 
     private EquipmentCatalogValidator() {
     }
@@ -111,6 +138,9 @@ public final class EquipmentCatalogValidator {
         switch (catalog.release().catalogVersion()) {
             case SCALING_V1 -> validate(catalog, SCALING_V1_CONTRACT);
             case SCALING_V2 -> validate(catalog, SCALING_V2_CONTRACT);
+            case SCALING_V3 -> validate(catalog, SCALING_V3_CONTRACT);
+            case SCALING_V4 -> validate(catalog, SCALING_V4_CONTRACT);
+            case SCALING_V5 -> validate(catalog, SCALING_V5_CONTRACT);
         }
     }
 

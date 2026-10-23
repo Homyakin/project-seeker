@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.shop;
 
 import java.util.Optional;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.contraband.entity.Contraband;
 import ru.homyakin.seeker.game.personage.models.PersonageId;
@@ -25,19 +26,22 @@ public class ShopInlineTgService {
     private final ContrabandService contrabandService;
     private final GetPersonageSettingsCommand getPersonageSettingsCommand;
     private final TelegramSender telegramSender;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public ShopInlineTgService(
         ShopService shopService,
         ItemService itemService,
         ContrabandService contrabandService,
         GetPersonageSettingsCommand getPersonageSettingsCommand,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.shopService = shopService;
         this.itemService = itemService;
         this.contrabandService = contrabandService;
         this.getPersonageSettingsCommand = getPersonageSettingsCommand;
         this.telegramSender = telegramSender;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     public void showEnhanceTable(
@@ -77,7 +81,7 @@ public class ShopInlineTgService {
         sendEdit(
             userId,
             messageId,
-            ShopLocalization.menu(language, items, activeContraband(personageId), compactItems, safePage),
+            ShopLocalization.menu(language, items, activeContraband(personageId), compactItems, safePage, playerCombatConfig.version()),
             ShopKeyboards.navigationKeyboard(
                 language,
                 CommandType.SHOP_RANDOM_BOXES,
@@ -104,7 +108,8 @@ public class ShopInlineTgService {
                 slot,
                 objects,
                 shopService.specificObjectUnitPrice(),
-                compactItems
+                compactItems,
+                playerCombatConfig.version()
             ),
             ShopKeyboards.navigationKeyboard(language)
         );

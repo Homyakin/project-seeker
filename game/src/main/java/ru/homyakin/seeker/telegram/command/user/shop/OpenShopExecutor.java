@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.contraband.action.ContrabandService;
 import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCommand;
 import ru.homyakin.seeker.game.shop.ShopService;
@@ -20,19 +21,22 @@ public class OpenShopExecutor extends CommandExecutor<OpenShop> {
     private final ShopService shopService;
     private final ContrabandService contrabandService;
     private final GetPersonageSettingsCommand getPersonageSettingsCommand;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public OpenShopExecutor(
         UserService userService,
         TelegramSender telegramSender,
         ShopService shopService,
         ContrabandService contrabandService,
-        GetPersonageSettingsCommand getPersonageSettingsCommand
+        GetPersonageSettingsCommand getPersonageSettingsCommand,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.shopService = shopService;
         this.contrabandService = contrabandService;
         this.getPersonageSettingsCommand = getPersonageSettingsCommand;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -50,7 +54,8 @@ public class OpenShopExecutor extends CommandExecutor<OpenShop> {
                 items,
                 activeContraband,
                 compactItems,
-                page
+                page,
+                playerCombatConfig.version()
             ))
             .keyboard(ShopKeyboards.navigationKeyboard(
                 user.language(),

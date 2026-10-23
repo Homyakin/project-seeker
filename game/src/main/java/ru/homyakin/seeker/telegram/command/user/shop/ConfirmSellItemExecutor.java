@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.shop.ShopService;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -13,15 +14,18 @@ public class ConfirmSellItemExecutor extends CommandExecutor<ConfirmSellItem> {
     private final UserService userService;
     private final TelegramSender telegramSender;
     private final ShopService shopService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public ConfirmSellItemExecutor(
         UserService userService,
         TelegramSender telegramSender,
-        ShopService shopService
+        ShopService shopService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.shopService = shopService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -30,7 +34,7 @@ public class ConfirmSellItemExecutor extends CommandExecutor<ConfirmSellItem> {
         final var text = shopService.sellItem(user.personageId(), command.itemId())
             .fold(
                 _ -> ShopLocalization.noItemAtPersonage(user.language()),
-                sold -> ShopLocalization.successSell(user.language(), sold)
+                sold -> ShopLocalization.successSell(user.language(), sold, playerCombatConfig.version())
             );
         telegramSender.send(
             EditMessageTextBuilder.builder()

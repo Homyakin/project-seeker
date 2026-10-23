@@ -41,6 +41,21 @@ class BattleLocalizationTest {
     }
 
     @Test
+    void generalGuardAndPenetrationHelpDoesNotPromiseAnotherVersionsRules() {
+        final var guard = BattleLocalization.skillGeneralDescription(Language.RU, ActiveEnum.GUARD);
+        final var penetration = BattleLocalization.skillGeneralDescription(Language.RU, ActiveEnum.PENETRATION);
+
+        assertTrue(guard.contains("зависят от версии правил боя"));
+        assertTrue(penetration.contains("зависят от версии правил боя"));
+        assertFalse(guard.contains("соседнему"));
+        assertFalse(penetration.contains("любой живой цели"));
+        assertTrue(v1Description(ActiveEnum.GUARD, 4).contains("соседнему"));
+        assertTrue(v2Description(ActiveEnum.GUARD, 4).contains("ровно на одну линию позади"));
+        assertTrue(v1Description(ActiveEnum.PENETRATION, 4).contains("любой живой цели"));
+        assertTrue(v2Description(ActiveEnum.PENETRATION, 4).contains("ещё на 2 обычные попытки"));
+    }
+
+    @Test
     void bothScalingVersionsShowExactEffectForEverySkillAndPoint() {
         assertEquals(15, ActiveEnum.values().length);
         for (final var version : List.of(

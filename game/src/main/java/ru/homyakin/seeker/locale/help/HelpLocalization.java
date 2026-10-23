@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.skill.ActiveSkillSlots;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.ModifierType;
@@ -148,15 +149,28 @@ public class HelpLocalization {
     }
 
     public static String battleSkill(Language language, ActiveEnum activeEnum) {
-        final var slots = ActiveSkillSlots.slotsFor(activeEnum).stream()
+        return battleSkill(language, activeEnum, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String battleSkill(Language language, ActiveEnum activeEnum, SkillFormulaVersion formulaVersion) {
+        return battleSkill(language, activeEnum, formulaVersion, ActiveSkillSlots.legacySnapshot());
+    }
+
+    public static String battleSkill(
+        Language language,
+        ActiveEnum activeEnum,
+        SkillFormulaVersion formulaVersion,
+        ActiveSkillSlots.CatalogSnapshot catalog
+    ) {
+        final var slots = catalog.slotsFor(activeEnum).stream()
             .sorted((a, b) -> Integer.compare(a.id, b.id))
             .map(slot -> slot.icon)
             .collect(Collectors.joining());
         final var params = new HashMap<String, Object>();
         params.put("skill_name", BattleLocalization.skillName(language, activeEnum));
         params.put("slots", slots.isEmpty() ? "—" : slots);
-        params.put("skill_type", skillTypeIcon(ActiveSkillSlots.typeFor(activeEnum)));
-        params.put("description", BattleLocalization.skillGeneralDescription(language, activeEnum));
+        params.put("skill_type", skillTypeIcon(catalog.typeFor(activeEnum)));
+        params.put("description", BattleLocalization.skillGeneralDescription(language, activeEnum, formulaVersion));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, HelpResource::battleSkill),
             params

@@ -190,7 +190,7 @@ public class TopLocalization {
         final var params = new HashMap<String, Object>();
         params.put("position", positionNumber);
         params.put("personage_badge_with_name", LocaleUtils.personageNameWithBadge(position));
-        params.put("power", LocaleUtils.legacyPowerForDisplay(position.power()));
+        params.put("power", position.power());
         return StringNamedTemplate.format(resources.getOrDefault(language, TopResource::topPowerPersonagePosition), params);
     }
 

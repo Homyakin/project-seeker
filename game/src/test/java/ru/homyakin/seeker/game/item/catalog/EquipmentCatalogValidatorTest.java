@@ -79,4 +79,85 @@ class EquipmentCatalogValidatorTest {
 
         Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
     }
+
+    @Test
+    void scalingV3CannotSilentlyUseFirstSkillFormulas() {
+        final var catalog = EquipmentCatalogLoader.load(EquipmentCatalogVersion.SCALING_V3);
+        final var release = catalog.release();
+        final var invalidRelease = new EquipmentCatalogRelease(
+            release.catalogVersion(),
+            release.progressionVersion(),
+            SkillFormulaVersion.SCALING_SKILLS_V1,
+            release.itemObjectsPath(),
+            release.itemModifiersPath(),
+            release.defaultItemsPath()
+        );
+        final var invalidCatalog = new LoadedEquipmentCatalog(
+            invalidRelease,
+            catalog.itemObjects(),
+            catalog.modifiers(),
+            catalog.defaultItems()
+        );
+
+        final var exception = Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> EquipmentCatalogValidator.validate(invalidCatalog)
+        );
+
+        Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
+    }
+
+    @Test
+    void scalingV4CannotSilentlyUseFirstSkillFormulas() {
+        final var catalog = EquipmentCatalogLoader.load(EquipmentCatalogVersion.SCALING_V4);
+        final var release = catalog.release();
+        final var invalidRelease = new EquipmentCatalogRelease(
+            release.catalogVersion(),
+            release.progressionVersion(),
+            SkillFormulaVersion.SCALING_SKILLS_V1,
+            release.itemObjectsPath(),
+            release.itemModifiersPath(),
+            release.defaultItemsPath()
+        );
+        final var invalidCatalog = new LoadedEquipmentCatalog(
+            invalidRelease,
+            catalog.itemObjects(),
+            catalog.modifiers(),
+            catalog.defaultItems()
+        );
+
+        final var exception = Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> EquipmentCatalogValidator.validate(invalidCatalog)
+        );
+
+        Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
+    }
+
+    @Test
+    void scalingV5CannotSilentlyUseFirstSkillFormulas() {
+        final var catalog = EquipmentCatalogLoader.load(EquipmentCatalogVersion.SCALING_V5);
+        final var release = catalog.release();
+        final var invalidRelease = new EquipmentCatalogRelease(
+            release.catalogVersion(),
+            release.progressionVersion(),
+            SkillFormulaVersion.SCALING_SKILLS_V1,
+            release.itemObjectsPath(),
+            release.itemModifiersPath(),
+            release.defaultItemsPath()
+        );
+        final var invalidCatalog = new LoadedEquipmentCatalog(
+            invalidRelease,
+            catalog.itemObjects(),
+            catalog.modifiers(),
+            catalog.defaultItems()
+        );
+
+        final var exception = Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> EquipmentCatalogValidator.validate(invalidCatalog)
+        );
+
+        Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
+    }
 }

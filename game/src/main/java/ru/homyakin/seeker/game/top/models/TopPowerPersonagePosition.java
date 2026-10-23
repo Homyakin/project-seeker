@@ -7,6 +7,9 @@ import ru.homyakin.seeker.locale.top.TopLocalization;
 
 import java.util.Optional;
 
+/**
+ * Read-only ranking position. Power is already converted to the active presentation scale.
+ */
 public record TopPowerPersonagePosition(
     PersonageId id,
     String personageName,

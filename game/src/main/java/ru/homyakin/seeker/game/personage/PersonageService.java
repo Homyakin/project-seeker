@@ -37,6 +37,7 @@ import ru.homyakin.seeker.game.personage.models.effect.PersonageEffectType;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughEnergy;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughMoney;
 import ru.homyakin.seeker.game.personage.models.errors.NotEnoughStormShards;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayService;
 import ru.homyakin.seeker.game.utils.NameError;
 import ru.homyakin.seeker.game.utils.NameValidator;
 import ru.homyakin.seeker.locale.Language;
@@ -52,17 +53,20 @@ public class PersonageService {
     private final PersonageBattleResultDao personageBattleResultDao;
     private final PersonageBadgeService personageBadgeService;
     private final ItemService itemService;
+    private final PowerDisplayService powerDisplayService;
 
     public PersonageService(
         PersonageDao personageDao,
         PersonageBattleResultDao personageBattleResultDao,
         PersonageBadgeService personageBadgeService,
-        ItemService itemService
+        ItemService itemService,
+        PowerDisplayService powerDisplayService
     ) {
         this.personageDao = personageDao;
         this.personageBattleResultDao = personageBattleResultDao;
         this.personageBadgeService = personageBadgeService;
         this.itemService = itemService;
+        this.powerDisplayService = powerDisplayService;
     }
 
     public Characteristics getEquippedCharacteristics(PersonageId personageId) {
@@ -103,8 +107,12 @@ public class PersonageService {
             .toList();
     }
 
-    public int calculatePower(Personage personage) {
-        return (int) toBattlePersonagesById(List.of(personage)).get(personage.id()).legacyPower();
+    public Map<PersonageId, Integer> displayedPowerByPersonageIds(Set<PersonageId> personageIds) {
+        final var items = itemService.getEquippedItemsByPersonageIds(personageIds);
+        return personageIds.stream().collect(Collectors.toMap(
+            id -> id,
+            id -> powerDisplayService.value(items.getOrDefault(id, List.of()))
+        ));
     }
 
     public String shortProfile(Language language, Personage personage) {
@@ -123,7 +131,7 @@ public class PersonageService {
             currentEvents,
             groupPassiveEffects,
             getEquippedCharacteristics(personage.id()),
-            calculatePower(personage)
+            Integer.toString(displayedPowerByPersonageIds(Set.of(personage.id())).get(personage.id()))
         );
     }
 

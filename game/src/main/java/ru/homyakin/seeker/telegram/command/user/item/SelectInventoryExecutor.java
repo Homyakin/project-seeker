@@ -1,6 +1,8 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
+import ru.homyakin.seeker.game.item.DefaultItemProvider;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.settings.action.GetPersonageSettingsCommand;
 import ru.homyakin.seeker.locale.item.ItemLocalization;
@@ -18,19 +20,25 @@ public class SelectInventoryExecutor extends CommandExecutor<SelectInventory> {
     private final ItemService itemService;
     private final GetPersonageSettingsCommand getPersonageSettingsCommand;
     private final LoadoutMessageService loadoutMessageService;
+    private final PlayerCombatConfig playerCombatConfig;
+    private final DefaultItemProvider defaultItemProvider;
 
     public SelectInventoryExecutor(
         UserService userService,
         TelegramSender telegramSender,
         ItemService itemService,
         GetPersonageSettingsCommand getPersonageSettingsCommand,
-        LoadoutMessageService loadoutMessageService
+        LoadoutMessageService loadoutMessageService,
+        PlayerCombatConfig playerCombatConfig,
+        DefaultItemProvider defaultItemProvider
     ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.itemService = itemService;
         this.getPersonageSettingsCommand = getPersonageSettingsCommand;
         this.loadoutMessageService = loadoutMessageService;
+        this.playerCombatConfig = playerCombatConfig;
+        this.defaultItemProvider = defaultItemProvider;
     }
 
     @Override
@@ -49,7 +57,9 @@ public class SelectInventoryExecutor extends CommandExecutor<SelectInventory> {
                 EditMessageTextBuilder.builder()
                     .chatId(user.id())
                     .messageId(command.messageId())
-                    .text(ItemLocalization.compactInventory(user.language(), items, page))
+                    .text(ItemLocalization.compactInventory(
+                        user.language(), items, page, defaultItemProvider.defaultsBySlot()
+                    ))
                     .keyboard(InlineKeyboards.compactInventoryKeyboard(user.language(), page, totalPages))
                     .build()
             );
@@ -62,7 +72,7 @@ public class SelectInventoryExecutor extends CommandExecutor<SelectInventory> {
                 EditMessageTextBuilder.builder()
                     .chatId(user.id())
                     .messageId(command.messageId())
-                    .text(ItemLocalization.bag(user.language(), items, page))
+                    .text(ItemLocalization.bag(user.language(), items, page, playerCombatConfig.version()))
                     .keyboard(InlineKeyboards.inventoryKeyboard(user.language(), page, totalPages))
                     .build()
             );
@@ -73,7 +83,9 @@ public class SelectInventoryExecutor extends CommandExecutor<SelectInventory> {
             EditMessageTextBuilder.builder()
                 .chatId(user.id())
                 .messageId(command.messageId())
-                .text(ItemLocalization.equipment(user.language(), items))
+                .text(ItemLocalization.equipment(
+                    user.language(), items, playerCombatConfig.version(), defaultItemProvider.defaultsBySlot()
+                ))
                 .keyboard(InlineKeyboards.inventoryKeyboard(user.language()))
                 .build()
         );

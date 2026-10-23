@@ -31,6 +31,42 @@ class EquipmentCatalogLoaderTest {
     }
 
     @Test
+    void scalingV3ReleaseUsesItsOwnResourcesAndSecondSkillFormulas() {
+        final var release = EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V3);
+
+        Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V3, release.catalogVersion());
+        Assertions.assertEquals(ItemProgressionVersion.V1, release.progressionVersion());
+        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, release.skillFormulaVersion());
+        Assertions.assertEquals("game-data/catalog/scaling_v3/item_objects.toml", release.itemObjectsPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v3/item_modifiers.toml", release.itemModifiersPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v3/default_items.toml", release.defaultItemsPath());
+    }
+
+    @Test
+    void scalingV4ReleaseUsesItsOwnResourcesAndSecondSkillFormulas() {
+        final var release = EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V4);
+
+        Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V4, release.catalogVersion());
+        Assertions.assertEquals(ItemProgressionVersion.V1, release.progressionVersion());
+        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, release.skillFormulaVersion());
+        Assertions.assertEquals("game-data/catalog/scaling_v4/item_objects.toml", release.itemObjectsPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v4/item_modifiers.toml", release.itemModifiersPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v4/default_items.toml", release.defaultItemsPath());
+    }
+
+    @Test
+    void scalingV5ReleaseUsesItsOwnResourcesAndSecondSkillFormulas() {
+        final var release = EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V5);
+
+        Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V5, release.catalogVersion());
+        Assertions.assertEquals(ItemProgressionVersion.V1, release.progressionVersion());
+        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, release.skillFormulaVersion());
+        Assertions.assertEquals("game-data/catalog/scaling_v5/item_objects.toml", release.itemObjectsPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v5/item_modifiers.toml", release.itemModifiersPath());
+        Assertions.assertEquals("game-data/catalog/scaling_v5/default_items.toml", release.defaultItemsPath());
+    }
+
+    @Test
     void missingReleaseResourceFailsInsteadOfReturningAnEmptyCatalog() {
         final var release = new EquipmentCatalogRelease(
             EquipmentCatalogVersion.SCALING_V1,
@@ -50,9 +86,12 @@ class EquipmentCatalogLoaderTest {
     }
 
     @Test
-    void bothScalingReleasesLoadAndPassTheirOwnCatalogInvariants() {
+    void allScalingReleasesLoadAndPassTheirOwnCatalogInvariants() {
         final var scalingV1 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V1);
         final var scalingV2 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V2);
+        final var scalingV3 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V3);
+        final var scalingV4 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V4);
+        final var scalingV5 = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V5);
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(62, scalingV1.itemObjects().size()),
@@ -60,7 +99,16 @@ class EquipmentCatalogLoaderTest {
             () -> Assertions.assertEquals(7, scalingV1.defaultItems().size()),
             () -> Assertions.assertEquals(63, scalingV2.itemObjects().size()),
             () -> Assertions.assertEquals(15, scalingV2.modifiers().size()),
-            () -> Assertions.assertEquals(7, scalingV2.defaultItems().size())
+            () -> Assertions.assertEquals(7, scalingV2.defaultItems().size()),
+            () -> Assertions.assertEquals(63, scalingV3.itemObjects().size()),
+            () -> Assertions.assertEquals(15, scalingV3.modifiers().size()),
+            () -> Assertions.assertEquals(7, scalingV3.defaultItems().size()),
+            () -> Assertions.assertEquals(63, scalingV4.itemObjects().size()),
+            () -> Assertions.assertEquals(15, scalingV4.modifiers().size()),
+            () -> Assertions.assertEquals(7, scalingV4.defaultItems().size()),
+            () -> Assertions.assertEquals(63, scalingV5.itemObjects().size()),
+            () -> Assertions.assertEquals(15, scalingV5.modifiers().size()),
+            () -> Assertions.assertEquals(7, scalingV5.defaultItems().size())
         );
     }
 }

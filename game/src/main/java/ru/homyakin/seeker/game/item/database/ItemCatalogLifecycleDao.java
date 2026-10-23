@@ -1,5 +1,6 @@
 package ru.homyakin.seeker.game.item.database;
 
+import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,16 @@ public class ItemCatalogLifecycleDao {
             .param("code", version.name())
             .param("status", STAGED)
             .update() == 1;
+    }
+
+    public List<EquipmentCatalogVersion> getActiveVersions() {
+        return jdbcClient.sql(GET_ACTIVE_VERSIONS_SQL)
+            .param("active", ACTIVE)
+            .query(String.class)
+            .list()
+            .stream()
+            .map(EquipmentCatalogVersion::valueOf)
+            .toList();
     }
 
     public boolean isActive(EquipmentCatalogVersion version) {
@@ -76,6 +87,13 @@ public class ItemCatalogLifecycleDao {
         SELECT status
         FROM item_catalog_release
         WHERE code = :code
+        """;
+
+    private static final String GET_ACTIVE_VERSIONS_SQL = """
+        SELECT code
+        FROM item_catalog_release
+        WHERE status = :active
+        ORDER BY code
         """;
 
     private static final String ACTIVATE_IF_STAGED_SQL = """

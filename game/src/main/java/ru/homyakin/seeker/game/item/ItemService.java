@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.game.group.entity.personage.GroupPersonageStorage;
@@ -21,7 +22,6 @@ import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.item.models.CatalogItemObject;
 import ru.homyakin.seeker.game.item.models.CatalogModifier;
-import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.GenerateItemParams;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -45,6 +45,7 @@ public class ItemService {
     private final ItemDao itemDao;
     private final GroupPersonageStorage groupPersonageStorage;
     private final GroupPassiveEffectsService groupPassiveEffectsService;
+    private final DefaultItemProvider defaultItemProvider;
 
     public ItemService(
         ItemObjectDao itemObjectDao,
@@ -53,11 +54,27 @@ public class ItemService {
         GroupPersonageStorage groupPersonageStorage,
         GroupPassiveEffectsService groupPassiveEffectsService
     ) {
+        this(
+            itemObjectDao, itemModifierService, itemDao, groupPersonageStorage,
+            groupPassiveEffectsService, DefaultItemProvider.legacy()
+        );
+    }
+
+    @Autowired
+    public ItemService(
+        ItemObjectDao itemObjectDao,
+        ItemModifierService itemModifierService,
+        ItemDao itemDao,
+        GroupPersonageStorage groupPersonageStorage,
+        GroupPassiveEffectsService groupPassiveEffectsService,
+        DefaultItemProvider defaultItemProvider
+    ) {
         this.itemObjectDao = itemObjectDao;
         this.itemModifierService = itemModifierService;
         this.itemDao = itemDao;
         this.groupPersonageStorage = groupPersonageStorage;
         this.groupPassiveEffectsService = groupPassiveEffectsService;
+        this.defaultItemProvider = defaultItemProvider;
     }
 
     public Optional<PersonageItem> getById(long id) {
@@ -150,10 +167,11 @@ public class ItemService {
             return Map.of();
         }
         final var equippedByPersonageId = itemDao.getEquippedByPersonageIds(personageIds);
+        final var defaults = defaultItemProvider.defaultsBySlot();
         return personageIds.stream()
             .collect(Collectors.toMap(
                 id -> id,
-                id -> equippedItemsWithDefaults(equippedByPersonageId.getOrDefault(id, List.of()))
+                id -> equippedItemsWithDefaults(equippedByPersonageId.getOrDefault(id, List.of()), defaults)
             ));
     }
 
@@ -162,29 +180,32 @@ public class ItemService {
             return Map.of();
         }
         final var equippedByPersonageId = itemDao.getEquippedByPersonageIds(personageIds);
+        final var defaults = defaultItemProvider.defaultsBySlot();
         return personageIds.stream()
             .collect(Collectors.toMap(
                 id -> id,
-                id -> calculateEquippedCharacteristics(equippedByPersonageId.getOrDefault(id, List.of()))
+                id -> calculateEquippedCharacteristics(equippedByPersonageId.getOrDefault(id, List.of()), defaults)
             ));
     }
 
-    private Characteristics calculateEquippedCharacteristics(List<PersonageItem> equippedItems) {
-        final var total = equippedItems.stream()
-            .map(PersonageItem::toItem)
+    private Characteristics calculateEquippedCharacteristics(
+        List<PersonageItem> equippedItems,
+        Map<PersonageSlot, Item> defaults
+    ) {
+        return equippedItemsWithDefaults(equippedItems, defaults).stream()
             .map(Item::visibleCharacteristics)
             .collect(Characteristics::empty, Characteristics::add, Characteristics::add);
-        final var occupiedSlots = equippedItems.stream()
-            .flatMap(item -> item.object().slots().stream())
-            .collect(Collectors.toSet());
-        return total.add(DefaultItems.characteristicsForFreeSlots(occupiedSlots));
     }
 
     public List<Item> itemsWithDefaults(List<PersonageItem> wornItems) {
-        return equippedItemsWithDefaults(wornItems);
+        return itemsWithDefaults(wornItems, defaultItemProvider.defaultsBySlot());
     }
 
-    private List<Item> equippedItemsWithDefaults(List<PersonageItem> equippedItems) {
+    public List<Item> itemsWithDefaults(List<PersonageItem> wornItems, Map<PersonageSlot, Item> defaults) {
+        return equippedItemsWithDefaults(wornItems, defaults);
+    }
+
+    private List<Item> equippedItemsWithDefaults(List<PersonageItem> equippedItems, Map<PersonageSlot, Item> defaults) {
         final var items = equippedItems.stream()
             .map(PersonageItem::toItem)
             .collect(Collectors.toCollection(ArrayList::new));
@@ -192,7 +213,9 @@ public class ItemService {
             .flatMap(item -> item.object().slots().stream())
             .collect(Collectors.toSet());
         for (final var slot : PersonageSlot.values()) {
-            DefaultItems.defaultItemForSlot(slot, occupiedSlots).ifPresent(items::add);
+            if (!occupiedSlots.contains(slot)) {
+                items.add(defaults.get(slot));
+            }
         }
         return items;
     }

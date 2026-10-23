@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.shop.EnhanceService;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -14,15 +15,18 @@ public class EnhanceInfoExecutor extends CommandExecutor<EnhanceInfo> {
     private final UserService userService;
     private final TelegramSender telegramSender;
     private final EnhanceService enhanceService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public EnhanceInfoExecutor(
         UserService userService,
         TelegramSender telegramSender,
-        EnhanceService enhanceService
+        EnhanceService enhanceService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.enhanceService = enhanceService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -31,7 +35,7 @@ public class EnhanceInfoExecutor extends CommandExecutor<EnhanceInfo> {
         final var text = enhanceService.availableAction(user.personageId(), command.itemId())
             .fold(
                 _ -> ShopLocalization.noItemAtPersonage(user.language()),
-                action -> ShopLocalization.enhanceItemInfo(user.language(), action)
+                action -> ShopLocalization.enhanceItemInfo(user.language(), action, playerCombatConfig.version())
             );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

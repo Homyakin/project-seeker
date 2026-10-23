@@ -1,12 +1,15 @@
 package ru.homyakin.seeker.telegram.command.user.stats;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayService;
 import ru.homyakin.seeker.locale.battle.BattleLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.user.models.User;
@@ -19,15 +22,21 @@ public class BattleStatsMessageService {
     private final PersonageService personageService;
     private final ItemService itemService;
     private final TelegramSender telegramSender;
+    private final PowerDisplayService powerDisplayService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public BattleStatsMessageService(
         PersonageService personageService,
         ItemService itemService,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PowerDisplayService powerDisplayService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.personageService = personageService;
         this.itemService = itemService;
         this.telegramSender = telegramSender;
+        this.powerDisplayService = powerDisplayService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     public void show(User user, Optional<Integer> messageId) {
@@ -55,8 +64,12 @@ public class BattleStatsMessageService {
         final var personage = personageService.getByIdForce(user.personageId());
         final var equippedItems = itemService.getEquippedItemsByPersonageIds(Set.of(user.personageId()))
             .getOrDefault(user.personageId(), List.of());
-        final var battlePersonage = new BattlePersonage(equippedItems, personage.position());
+        final var battlePersonage = new BattlePersonage(
+            equippedItems, personage.position(), Map.of(), playerCombatConfig.version()
+        );
         battlePersonage.setTargetingTactic(personage.targetingTactic());
-        return BattleLocalization.battleStats(user.language(), battlePersonage, equippedItems);
+        return BattleLocalization.battleStats(
+            user.language(), battlePersonage, powerDisplayService.value(equippedItems, battlePersonage)
+        );
     }
 }

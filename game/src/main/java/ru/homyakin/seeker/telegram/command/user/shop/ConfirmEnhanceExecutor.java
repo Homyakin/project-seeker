@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.shop.EnhanceService;
 import ru.homyakin.seeker.game.shop.errors.AddModifierError;
 import ru.homyakin.seeker.game.shop.models.EnhanceOutcome;
@@ -15,15 +16,18 @@ public class ConfirmEnhanceExecutor extends CommandExecutor<ConfirmEnhance> {
     private final UserService userService;
     private final TelegramSender telegramSender;
     private final EnhanceService enhanceService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public ConfirmEnhanceExecutor(
         UserService userService,
         TelegramSender telegramSender,
-        EnhanceService enhanceService
+        EnhanceService enhanceService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.enhanceService = enhanceService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -39,9 +43,9 @@ public class ConfirmEnhanceExecutor extends CommandExecutor<ConfirmEnhance> {
                 },
                 result -> switch (result.outcome()) {
                     case EnhanceOutcome.ADDED_MODIFIER ->
-                        ShopLocalization.successAddModifier(user.language(), result.action());
+                        ShopLocalization.successAddModifier(user.language(), result.action(), playerCombatConfig.version());
                     case EnhanceOutcome.UPGRADED_RARITY ->
-                        ShopLocalization.successUpgradeRarity(user.language(), result.action());
+                        ShopLocalization.successUpgradeRarity(user.language(), result.action(), playerCombatConfig.version());
                 }
             );
         telegramSender.send(SendMessageBuilder.builder()

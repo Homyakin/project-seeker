@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.locale.shop;
 
 import ru.homyakin.seeker.game.item.models.Inventory;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.PersonageItem;
 import ru.homyakin.seeker.game.models.Money;
@@ -47,13 +48,25 @@ public class ShopLocalization {
         Money unitPrice,
         boolean compactItems
     ) {
+        return slotObjectsMenu(language, slot, objects, unitPrice, compactItems, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String slotObjectsMenu(
+        Language language,
+        PersonageSlot slot,
+        List<CatalogItemObject> objects,
+        Money unitPrice,
+        boolean compactItems,
+        SkillFormulaVersion formulaVersion
+    ) {
         final var objectsText = objects.stream()
             .map(catalogObject -> slotObjectItem(
                 language,
                 slot,
                 catalogObject,
                 priceForObject(unitPrice, catalogObject.object()),
-                compactItems
+                compactItems,
+                formulaVersion
             ))
             .collect(Collectors.joining("\n"));
         final var params = new HashMap<String, Object>();
@@ -76,6 +89,17 @@ public class ShopLocalization {
         boolean compactItems,
         int sellingPage
     ) {
+        return menu(language, items, activeContraband, compactItems, sellingPage, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String menu(
+        Language language,
+        List<ShopItem> items,
+        Optional<Contraband> activeContraband,
+        boolean compactItems,
+        int sellingPage,
+        SkillFormulaVersion formulaVersion
+    ) {
         final var buying = new StringBuilder();
         final var selling = new StringBuilder();
         final var buyingItems = items.stream()
@@ -91,7 +115,7 @@ public class ShopLocalization {
             }
         }
         for (int i = 0; i < pageSellingItems.size(); ++i) {
-            selling.append(sellingItem(language, pageSellingItems.get(i), compactItems));
+            selling.append(sellingItem(language, pageSellingItems.get(i), compactItems, formulaVersion));
             if (i < pageSellingItems.size() - 1) {
                 selling.append("\n");
             }
@@ -153,15 +177,23 @@ public class ShopLocalization {
     }
 
     public static String successBuy(Language language, PersonageItem item) {
+        return successBuy(language, item, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successBuy(Language language, PersonageItem item, SkillFormulaVersion formulaVersion) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successBuy),
-            Collections.singletonMap("full_item_name", ItemLocalization.fullItem(language, item))
+            Collections.singletonMap("full_item_name", ItemLocalization.fullItem(language, item, "", formulaVersion))
         );
     }
 
     public static String successSell(Language language, SoldItem item) {
+        return successSell(language, item, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successSell(Language language, SoldItem item, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item_name", ItemLocalization.fullItem(language, item.item()));
+        params.put("full_item_name", ItemLocalization.fullItem(language, item.item(), "", formulaVersion));
         params.put("price_value", item.price().value());
         params.put("money_icon", Icons.MONEY);
         params.put("loadout_warning", loadoutWarning(
@@ -181,8 +213,18 @@ public class ShopLocalization {
         Money price,
         List<String> loadoutNames
     ) {
+        return confirmSellLoadout(language, item, price, loadoutNames, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String confirmSellLoadout(
+        Language language,
+        PersonageItem item,
+        Money price,
+        List<String> loadoutNames,
+        SkillFormulaVersion formulaVersion
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item_name", ItemLocalization.fullItem(language, item));
+        params.put("full_item_name", ItemLocalization.fullItem(language, item, "", formulaVersion));
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
         params.put("loadout_names", String.join(", ", loadoutNames));
@@ -243,8 +285,12 @@ public class ShopLocalization {
     }
 
     public static String enhanceItemInfo(Language language, AvailableAction action) {
+        return enhanceItemInfo(language, action, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String enhanceItemInfo(Language language, AvailableAction action, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item", ItemLocalization.fullItem(language, action.item()));
+        params.put("full_item", ItemLocalization.fullItem(language, action.item(), "", formulaVersion));
         final var parts = new ArrayList<String>();
         action.action().ifPresent(enhanceAction -> {
             if (enhanceAction instanceof EnhanceAction.Enhance enhance) {
@@ -271,8 +317,12 @@ public class ShopLocalization {
     }
 
     public static String successAddModifier(Language language, AvailableAction action) {
+        return successAddModifier(language, action, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successAddModifier(Language language, AvailableAction action, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action, formulaVersion));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successAddModifier),
             params
@@ -280,8 +330,12 @@ public class ShopLocalization {
     }
 
     public static String successUpgradeRarity(Language language, AvailableAction action) {
+        return successUpgradeRarity(language, action, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successUpgradeRarity(Language language, AvailableAction action, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action, formulaVersion));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successUpgradeRarity),
             params
@@ -289,8 +343,12 @@ public class ShopLocalization {
     }
 
     public static String successStormEnhance(Language language, AvailableAction action) {
+        return successStormEnhance(language, action, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successStormEnhance(Language language, AvailableAction action, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action, formulaVersion));
         params.put("enhance_level", action.item().enhanceLevel());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::successStormEnhance),
@@ -299,8 +357,12 @@ public class ShopLocalization {
     }
 
     public static String failedStormEnhance(Language language, AvailableAction action) {
+        return failedStormEnhance(language, action, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String failedStormEnhance(Language language, AvailableAction action, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action, formulaVersion));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::failedStormEnhance),
             params
@@ -308,8 +370,12 @@ public class ShopLocalization {
     }
 
     public static String rollbackStormEnhance(Language language, AvailableAction action) {
+        return rollbackStormEnhance(language, action, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String rollbackStormEnhance(Language language, AvailableAction action, SkillFormulaVersion formulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action));
+        params.put("enhance_item_info", ShopLocalization.enhanceItemInfo(language, action, formulaVersion));
         params.put("enhance_level", action.item().enhanceLevel());
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ShopResource::rollbackStormEnhance),
@@ -414,10 +480,12 @@ public class ShopLocalization {
         return resources.getOrDefault(language, ShopResource::emptyEnhance);
     }
 
-    private static String sellingItem(Language language, ShopItem.Sell item, boolean compactItems) {
+    private static String sellingItem(
+        Language language, ShopItem.Sell item, boolean compactItems, SkillFormulaVersion formulaVersion
+    ) {
         final var sellCommand = CommandType.SELL_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + item.item().id();
         final var params = new HashMap<String, Object>();
-        params.put("item", shopItem(language, item.item(), sellCommand, compactItems));
+        params.put("item", shopItem(language, item.item(), sellCommand, compactItems, formulaVersion));
         params.put("price_value", item.price().value());
         params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
@@ -473,7 +541,8 @@ public class ShopLocalization {
         PersonageSlot slot,
         CatalogItemObject catalogObject,
         Money price,
-        boolean compactItems
+        boolean compactItems,
+        SkillFormulaVersion formulaVersion
     ) {
         final var previewItem = new PersonageItem(
             0L,
@@ -488,7 +557,7 @@ public class ShopLocalization {
         );
         final var buyCommand = CommandType.BUY_ITEM.getText() + TextConstants.TG_COMMAND_DELIMITER + catalogObject.id();
         final var params = new HashMap<String, Object>();
-        params.put("item", shopItemForSlot(language, previewItem, slot, buyCommand, compactItems));
+        params.put("item", shopItemForSlot(language, previewItem, slot, buyCommand, compactItems, formulaVersion));
         params.put("price_value", price.value());
         params.put("money_icon", Icons.MONEY);
         return StringNamedTemplate.format(
@@ -501,12 +570,13 @@ public class ShopLocalization {
         Language language,
         PersonageItem item,
         String command,
-        boolean compactItems
+        boolean compactItems,
+        SkillFormulaVersion formulaVersion
     ) {
         if (compactItems) {
             return ItemLocalization.shortItem(language, item, command);
         }
-        return ItemLocalization.fullItem(language, item, command);
+        return ItemLocalization.fullItem(language, item, command, formulaVersion);
     }
 
     private static String shopItemForSlot(
@@ -514,12 +584,13 @@ public class ShopLocalization {
         PersonageItem item,
         PersonageSlot slot,
         String command,
-        boolean compactItems
+        boolean compactItems,
+        SkillFormulaVersion formulaVersion
     ) {
         if (compactItems) {
             return ItemLocalization.shortItem(language, item, command);
         }
-        return ItemLocalization.fullItemForShopSlot(language, item, slot, command);
+        return ItemLocalization.fullItemForShopSlot(language, item, slot, command, formulaVersion);
     }
 
 }

@@ -84,14 +84,16 @@ public class TopService {
 
     public TopPowerPersonageResult getTopPowerPersonage(GroupId groupId) {
         final var personages = personageService.getByIdsWithoutEnergyRegen(activeGroupPersonagesService.getActiveGroupPersonages(groupId));
-        final var battlePersonagesById = personageService.toBattlePersonagesById(personages);
+        final var displayedPower = personageService.displayedPowerByPersonageIds(
+            personages.stream().map(personage -> personage.id()).collect(Collectors.toSet())
+        );
         final var top = personages.stream()
             .map(personage -> new TopPowerPersonagePosition(
                 personage.id(),
                 personage.name(),
                 personage.badge(),
                 personage.tag(),
-                (int) battlePersonagesById.get(personage.id()).legacyPower()
+                displayedPower.get(personage.id())
             ))
             .sorted(Comparator.comparingInt(TopPowerPersonagePosition::power).reversed())
             .collect(Collectors.toCollection(ArrayList::new));

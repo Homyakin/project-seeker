@@ -35,11 +35,15 @@ public class BattleLocalization {
     }
 
     public static String battleStats(Language language, BattlePersonage personage) {
+        return battleStats(language, personage, LocaleUtils.legacyPowerForDisplay((int) personage.legacyPower()));
+    }
+
+    public static String battleStats(Language language, BattlePersonage personage, int displayedPower) {
         final var params = new HashMap<String, Object>();
         params.put("position_name", positionName(language, personage.startPosition()));
         params.put("targeting_tactic_name", targetingTacticName(language, personage.targetingTactic()));
         params.put("power_icon", Icons.POWER);
-        params.put("power_value", LocaleUtils.legacyPowerForDisplay((int) personage.legacyPower()));
+        params.put("power_value", displayedPower);
         params.put("power_label", CommonLocalization.powerLabel(language));
         params.put("power_approximation_note", CommonLocalization.powerApproximationNote(language));
         params.put("health_icon", Icons.HEALTH);
@@ -135,7 +139,22 @@ public class BattleLocalization {
     }
 
     public static String skillGeneralDescription(Language language, ActiveEnum activeEnum) {
-        return skillEntry(language, activeEnum).description();
+        return skillGeneralDescription(language, activeEnum, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String skillGeneralDescription(
+        Language language,
+        ActiveEnum activeEnum,
+        SkillFormulaVersion formulaVersion
+    ) {
+        return resources.getOrDefault(language, resource -> {
+            final var entry = skillEntry(resource, activeEnum);
+            return switch (formulaVersion) {
+                case LEGACY_SKILLS_V1 -> entry.description();
+                case SCALING_SKILLS_V1 -> entry.scalingGeneral();
+                case SCALING_SKILLS_V2 -> entry.scalingV2General() == null ? entry.scalingGeneral() : entry.scalingV2General();
+            };
+        });
     }
 
     public static String skillDescription(Language language, ActiveEnum activeEnum, int points) {
@@ -284,7 +303,10 @@ public class BattleLocalization {
     }
 
     private static BattleResource.SkillEntry skillEntry(Language language, ActiveEnum activeEnum) {
-        final var resource = resources.resolve(language);
+        return skillEntry(resources.resolve(language), activeEnum);
+    }
+
+    private static BattleResource.SkillEntry skillEntry(BattleResource resource, ActiveEnum activeEnum) {
         return switch (activeEnum) {
             case COUNTER_ATTACK -> resource.counterAttack();
             case THORNS -> resource.thorns();

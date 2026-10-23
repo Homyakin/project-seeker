@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.BattleResult;
 import ru.homyakin.seeker.game.battle.EventBattleLogService;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.Anomaly;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyConfig;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyGvgStorage;
@@ -30,6 +31,7 @@ import ru.homyakin.seeker.locale.LocaleUtils;
 
 @Service
 public class AnomalyBattleService {
+    private final PlayerCombatConfig playerCombatConfig;
     private final PersonageEventService personageEventService;
     private final PersonageService personageService;
     private final EquipmentLoadoutService loadoutService;
@@ -48,7 +50,8 @@ public class AnomalyBattleService {
         LaunchedEventService launchedEventService,
         AnomalyConfig config,
         AnomalyGvgStorage gvgStorage,
-        AnomalyStorage anomalyStorage
+        AnomalyStorage anomalyStorage,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.personageEventService = personageEventService;
         this.personageService = personageService;
@@ -58,6 +61,7 @@ public class AnomalyBattleService {
         this.config = config;
         this.gvgStorage = gvgStorage;
         this.anomalyStorage = anomalyStorage;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     public EventResult.AnomalyResult.PveBattleFinished fightPve(LaunchedEvent event, Anomaly.Safe safe) {
@@ -266,7 +270,8 @@ public class AnomalyBattleService {
                     items,
                     gear.battlePosition(),
                     PersonageEffects.EMPTY,
-                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
+                    Optional.of(LocaleUtils.personageNameWithBadge(personage)),
+                    playerCombatConfig.version()
                 );
                 battlePersonage.setTargetingTactic(gear.targetingTactic());
                 return battlePersonage;

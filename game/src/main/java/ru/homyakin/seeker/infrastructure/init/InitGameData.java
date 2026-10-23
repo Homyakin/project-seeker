@@ -12,9 +12,7 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.event.service.EventService;
-import ru.homyakin.seeker.game.item.ItemCatalogService;
-import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoader;
-import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
+import ru.homyakin.seeker.game.item.catalog.EquipmentReleaseCoordinator;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
 import ru.homyakin.seeker.infrastructure.init.saving_models.PersonalQuests;
@@ -46,7 +44,7 @@ public class InitGameData {
     private final MenuService menuService;
     private final RumorService rumorService;
     private final BadgeService badgeService;
-    private final ItemCatalogService itemCatalogService;
+    private final EquipmentReleaseCoordinator equipmentReleaseCoordinator;
     private final InitGameDataConfig config;
 
     public InitGameData(
@@ -54,14 +52,14 @@ public class InitGameData {
         MenuService menuService,
         RumorService rumorService,
         BadgeService badgeService,
-        ItemCatalogService itemCatalogService,
+        EquipmentReleaseCoordinator equipmentReleaseCoordinator,
         InitGameDataConfig config
     ) {
         this.eventService = eventService;
         this.menuService = menuService;
         this.rumorService = rumorService;
         this.badgeService = badgeService;
-        this.itemCatalogService = itemCatalogService;
+        this.equipmentReleaseCoordinator = equipmentReleaseCoordinator;
         this.config = config;
     }
 
@@ -156,11 +154,10 @@ public class InitGameData {
         currentItemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateLocale);
         currentItemModifiers.modifier().forEach(ItemModifiersToml.SavingModifier::validateWordForms);
 
-        final var stagedCatalog = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V1);
+        final var stagedCatalog = equipmentReleaseCoordinator.selectedCatalog();
         LocalizationCoverage.addCatalogItemObjectsInfo(stagedCatalog.itemObjects());
         LocalizationCoverage.addCatalogItemModifiersInfo(stagedCatalog.modifiers());
-        itemCatalogService.stageRelease(
-            EquipmentCatalogVersion.SCALING_V1,
+        equipmentReleaseCoordinator.prepare(
             currentItemObjects.itemObjects(),
             currentItemModifiers.modifiers()
         );

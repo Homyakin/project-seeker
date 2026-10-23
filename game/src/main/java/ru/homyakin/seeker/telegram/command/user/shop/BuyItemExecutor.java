@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.shop;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.shop.ShopService;
 import ru.homyakin.seeker.game.shop.errors.BuyItemError;
 import ru.homyakin.seeker.locale.shop.ShopLocalization;
@@ -15,11 +16,15 @@ public class BuyItemExecutor extends CommandExecutor<BuyItem> {
     private final UserService userService;
     private final TelegramSender telegramSender;
     private final ShopService shopService;
+    private final PlayerCombatConfig playerCombatConfig;
 
-    public BuyItemExecutor(UserService userService, TelegramSender telegramSender, ShopService shopService) {
+    public BuyItemExecutor(
+        UserService userService, TelegramSender telegramSender, ShopService shopService, PlayerCombatConfig playerCombatConfig
+    ) {
         this.userService = userService;
         this.telegramSender = telegramSender;
         this.shopService = shopService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class BuyItemExecutor extends CommandExecutor<BuyItem> {
                         ShopLocalization.notEnoughMoney(user.language(), notEnoughMoney.required());
                     case BuyItemError.InvalidItemObject _ -> ShopLocalization.incorrectBuyingItem(user.language());
                 },
-                item -> ShopLocalization.successBuy(user.language(), item)
+                item -> ShopLocalization.successBuy(user.language(), item, playerCombatConfig.version())
             );
         telegramSender.send(SendMessageBuilder.builder()
             .chatId(user.id())

@@ -8,6 +8,7 @@ import ru.homyakin.seeker.game.event.raid.models.RaidItem;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.personage.PersonageService;
 import ru.homyakin.seeker.game.personage.models.PersonageBattleResult;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayService;
 import ru.homyakin.seeker.locale.raid.RaidLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
 import ru.homyakin.seeker.telegram.command.CommandExecutor;
@@ -22,6 +23,7 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
     private final ItemService itemService;
     private final ContrabandService contrabandService;
     private final TelegramSender telegramSender;
+    private final PowerDisplayService powerDisplayService;
 
     public RaidReportExecutor(
         UserService userService,
@@ -29,7 +31,8 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
         LaunchedEventService launchedEventService,
         ItemService itemService,
         ContrabandService contrabandService,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PowerDisplayService powerDisplayService
     ) {
         this.userService = userService;
         this.personageService = personageService;
@@ -37,6 +40,7 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
         this.itemService = itemService;
         this.contrabandService = contrabandService;
         this.telegramSender = telegramSender;
+        this.powerDisplayService = powerDisplayService;
     }
 
     @Override
@@ -50,7 +54,8 @@ public class RaidReportExecutor extends CommandExecutor<RaidReport> {
                         user.language(),
                         result,
                         event,
-                        loadRaidItem(result)
+                        loadRaidItem(result),
+                        powerDisplayService.battleReportValue(result.stats().displayedPower())
                     );
                 }
             )

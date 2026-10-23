@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.power.PowerDisplaySnapshot;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.TimeUtils;
 
@@ -75,6 +76,7 @@ public class BattlePersonage {
 
     private final UUID id = RandomUtils.randomUuid();
     private final Optional<String> name;
+    private final Optional<PowerDisplaySnapshot> displayedPower;
     private final int maxHealth;
     private final int legacyPowerMaxHealth;
     private final int legacyPowerSlotOneAttackSum;
@@ -153,6 +155,32 @@ public class BattlePersonage {
         Optional<String> name
     ) {
         return new BattlePersonage(items, startPosition, Map.of(), effects, TimeUtils.moscowTime(), name);
+    }
+
+    public static BattlePersonage forCombat(
+        List<Item> items,
+        Position startPosition,
+        PersonageEffects effects,
+        Optional<String> name,
+        SkillFormulaVersion formulaVersion
+    ) {
+        if (formulaVersion == null) {
+            throw new IllegalArgumentException("Player combat formula version must be specified");
+        }
+        return new BattlePersonage(
+            items,
+            startPosition,
+            Map.of(),
+            effects,
+            TimeUtils.moscowTime(),
+            name,
+            formulaVersion,
+            Map.of(),
+            formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2,
+            formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2
+                ? PowerDisplaySnapshot.forEquipment(items)
+                : Optional.empty()
+        );
     }
 
     public BattlePersonage(WorldRaidPersonage personage, Position startPosition) {
@@ -336,7 +364,34 @@ public class BattlePersonage {
         Map<ActiveEnum, SkillFormulaVersion> skillVersions,
         boolean forceScalingCombatRules
     ) {
+        this(
+            items,
+            startPosition,
+            skillPointsByActive,
+            effects,
+            now,
+            name,
+            defaultFormulaVersion,
+            skillVersions,
+            forceScalingCombatRules,
+            Optional.empty()
+        );
+    }
+
+    private BattlePersonage(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        PersonageEffects effects,
+        LocalDateTime now,
+        Optional<String> name,
+        SkillFormulaVersion defaultFormulaVersion,
+        Map<ActiveEnum, SkillFormulaVersion> skillVersions,
+        boolean forceScalingCombatRules,
+        Optional<PowerDisplaySnapshot> displayedPower
+    ) {
         this.name = name;
+        this.displayedPower = displayedPower;
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
         var activeSkills = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
@@ -704,7 +759,7 @@ public class BattlePersonage {
         if (!isAlive() || amount <= 0) {
             return;
         }
-        this.health = Math.min(maxHealth, health + amount);
+        this.health = (int) Math.min(maxHealth, (long) health + amount);
     }
 
     public boolean tick(BattleActionLog log, int round) {
@@ -1426,7 +1481,8 @@ public class BattlePersonage {
             missesCount,
             turnsCount,
             skillDamageDealt,
-            skillDamageCount
+            skillDamageCount,
+            displayedPower
         );
     }
 

@@ -241,11 +241,21 @@ public class RaidLocalization {
         LaunchedEvent event,
         Optional<RaidItem> raidItem
     ) {
+        return report(language, result, event, raidItem, Optional.empty());
+    }
+
+    public static String report(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event,
+        Optional<RaidItem> raidItem,
+        Optional<String> displayedPower
+    ) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, RaidResource::report),
             Collections.singletonMap(
                 "personage_battle_report",
-                CommonLocalization.personageBattleReport(language, result, event, raidItem)
+                CommonLocalization.personageBattleReport(language, result, event, raidItem, displayedPower)
             )
         );
     }

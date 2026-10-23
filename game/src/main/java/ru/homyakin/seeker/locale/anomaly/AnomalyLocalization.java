@@ -269,11 +269,20 @@ public final class AnomalyLocalization {
         PersonageBattleResult result,
         LaunchedEvent event
     ) {
+        return report(language, result, event, Optional.empty());
+    }
+
+    public static String report(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event,
+        Optional<String> displayedPower
+    ) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, AnomalyResource::report),
             Map.of(
                 "personage_battle_report",
-                CommonLocalization.personageBattleReport(language, result, event, Optional.empty())
+                CommonLocalization.personageBattleReport(language, result, event, Optional.empty(), displayedPower)
             )
         );
     }

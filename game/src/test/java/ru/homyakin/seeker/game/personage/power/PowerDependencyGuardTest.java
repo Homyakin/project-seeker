@@ -16,9 +16,17 @@ public class PowerDependencyGuardTest {
         "ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java",
         "ru/homyakin/seeker/game/event/raid/generator/WolfPackGenerator.java",
         "ru/homyakin/seeker/game/event/raid/generator/ZombieHordeGenerator.java",
-        "ru/homyakin/seeker/game/personage/PersonageService.java",
-        "ru/homyakin/seeker/game/top/TopService.java",
+        "ru/homyakin/seeker/game/personage/power/PowerDisplayService.java",
         "ru/homyakin/seeker/locale/battle/BattleLocalization.java"
+    );
+    private static final Set<String> DISPLAY_SERVICE_CONSUMERS = Set.of(
+        "ru/homyakin/seeker/game/item/catalog/EquipmentReleaseCoordinator.java",
+        "ru/homyakin/seeker/game/personage/PersonageService.java",
+        "ru/homyakin/seeker/game/personage/power/PowerDisplayService.java",
+        "ru/homyakin/seeker/telegram/command/user/report/AnomalyReportExecutor.java",
+        "ru/homyakin/seeker/telegram/command/user/report/RaidReportExecutor.java",
+        "ru/homyakin/seeker/telegram/command/user/stats/BattleStatsMessageService.java",
+        "ru/homyakin/seeker/telegram/command/user/world_raid/UserWorldRaidReportExecutor.java"
     );
 
     @Test
@@ -30,10 +38,61 @@ public class PowerDependencyGuardTest {
     }
 
     @Test
-    public void referencePowerHasNoProductionConsumersBeforeDisplaySwitch() throws IOException {
+    public void onlyTheVersionedPresentationScaleCanReadReferenceCalculator() throws IOException {
         final var consumers = filesContaining("ReferencePowerCalculator");
         consumers.remove("ru/homyakin/seeker/game/personage/power/ReferencePowerCalculator.java");
-        Assertions.assertEquals(Set.of(), consumers);
+        Assertions.assertEquals(Set.of("ru/homyakin/seeker/game/personage/power/PowerDisplayVersion.java"), consumers);
+    }
+
+    @Test
+    public void referenceDisplayServiceHasOnlyPresentationAndActivationReadinessConsumers() throws IOException {
+        Assertions.assertEquals(DISPLAY_SERVICE_CONSUMERS, filesContaining("PowerDisplayService"));
+        Assertions.assertEquals(Set.of(
+            "ru/homyakin/seeker/game/item/catalog/EquipmentReleaseCoordinator.java",
+            "ru/homyakin/seeker/game/personage/power/PowerDisplayService.java",
+            "ru/homyakin/seeker/game/personage/power/PowerDisplaySnapshot.java",
+            "ru/homyakin/seeker/game/personage/power/PowerDisplayVersion.java"
+        ), filesContaining("PowerDisplayVersion"));
+        final var coordinator = Files.readString(sourceRoot().resolve(
+            "ru/homyakin/seeker/game/item/catalog/EquipmentReleaseCoordinator.java"
+        ));
+        Assertions.assertFalse(coordinator.contains("referenceValue("));
+        Assertions.assertFalse(coordinator.contains("ReferencePowerCalculator"));
+        Assertions.assertFalse(coordinator.contains("powerDisplayService.value("));
+        Assertions.assertFalse(coordinator.contains("battleReportValue("));
+    }
+
+    @Test
+    public void savedPowerIsReadOnlyByPersonalReportPresentation() throws IOException {
+        Assertions.assertEquals(Set.of(
+            "ru/homyakin/seeker/telegram/command/user/report/AnomalyReportExecutor.java",
+            "ru/homyakin/seeker/telegram/command/user/report/RaidReportExecutor.java",
+            "ru/homyakin/seeker/telegram/command/user/world_raid/UserWorldRaidReportExecutor.java"
+        ), filesContaining(".displayedPower()"));
+        final var snapshotConsumers = filesContaining("PowerDisplaySnapshot");
+        Assertions.assertEquals(Set.of(
+            "ru/homyakin/seeker/game/battle/BattlePersonage.java",
+            "ru/homyakin/seeker/game/battle/BattlePersonageStats.java",
+            "ru/homyakin/seeker/game/personage/power/PowerDisplaySnapshot.java",
+            "ru/homyakin/seeker/game/personage/power/PowerDisplayService.java"
+        ), snapshotConsumers);
+    }
+
+    @Test
+    public void battleSnapshotCannotDriveBattleBehavior() throws IOException {
+        final var personage = Files.readString(sourceRoot().resolve(
+            "ru/homyakin/seeker/game/battle/BattlePersonage.java"
+        ));
+        Assertions.assertFalse(personage.contains("displayedPower.get("));
+        Assertions.assertFalse(personage.contains("displayedPower.orElse("));
+        Assertions.assertFalse(personage.contains("displayedPower.map("));
+        Assertions.assertFalse(personage.contains("referenceValue("));
+    }
+
+    @Test
+    public void finalDisplayNumbersCanOnlyFlowIntoTheReadOnlyRanking() throws IOException {
+        Assertions.assertEquals(Set.of("ru/homyakin/seeker/game/top/TopService.java"),
+            filesContaining(".displayedPowerByPersonageIds("));
     }
 
     private static Set<String> filesContaining(String... tokens) throws IOException {

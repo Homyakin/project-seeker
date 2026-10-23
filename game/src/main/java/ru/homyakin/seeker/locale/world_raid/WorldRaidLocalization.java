@@ -292,8 +292,20 @@ public class WorldRaidLocalization {
         LaunchedEvent event,
         Optional<RaidItem> raidItem
     ) {
+        return personageWorldRaidReport(language, result, event, raidItem, Optional.empty());
+    }
+
+    public static String personageWorldRaidReport(
+        Language language,
+        PersonageBattleResult result,
+        LaunchedEvent event,
+        Optional<RaidItem> raidItem,
+        Optional<String> displayedPower
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("personage_battle_report", CommonLocalization.personageBattleReport(language, result, event, raidItem));
+        params.put("personage_battle_report", CommonLocalization.personageBattleReport(
+            language, result, event, raidItem, displayedPower
+        ));
         return StringNamedTemplate.format(
             resources.getOrDefault(language, WorldRaidResource::personageWorldRaidReport),
             params

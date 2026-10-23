@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.BattlePersonageStats;
 import ru.homyakin.seeker.game.battle.EventBattleLogService;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.event.models.EventResult;
 import ru.homyakin.seeker.game.event.models.EventType;
 import ru.homyakin.seeker.game.event.launched.LaunchedEvent;
@@ -41,6 +42,7 @@ import ru.homyakin.seeker.utils.TimeUtils;
 
 @Service
 public class RaidProcessing {
+    private final PlayerCombatConfig playerCombatConfig;
     private static final Logger logger = LoggerFactory.getLogger(RaidProcessing.class);
     private final PersonageService personageService;
     private final EquipmentLoadoutService loadoutService;
@@ -66,7 +68,8 @@ public class RaidProcessing {
         PersonageEventService personageEventService,
         GroupEventService groupEventService,
         GroupPassiveEffectsService groupPassiveEffectsService,
-        EventBattleLogService eventBattleLogService
+        EventBattleLogService eventBattleLogService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.personageService = personageService;
         this.loadoutService = loadoutService;
@@ -79,6 +82,7 @@ public class RaidProcessing {
         this.groupEventService = groupEventService;
         this.groupPassiveEffectsService = groupPassiveEffectsService;
         this.eventBattleLogService = eventBattleLogService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     public EventResult.RaidResult process(LaunchedEvent launchedEvent) {
@@ -192,7 +196,8 @@ public class RaidProcessing {
                     combatGear.items(),
                     combatGear.battlePosition(),
                     personage.effects(),
-                    Optional.of(LocaleUtils.personageNameWithBadge(personage))
+                    Optional.of(LocaleUtils.personageNameWithBadge(personage)),
+                    playerCombatConfig.version()
                 );
                 battlePersonage.setTargetingTactic(combatGear.targetingTactic());
                 return battlePersonage;

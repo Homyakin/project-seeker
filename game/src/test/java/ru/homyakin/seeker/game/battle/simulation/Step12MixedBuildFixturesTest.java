@@ -100,97 +100,116 @@ class Step12MixedBuildFixturesTest {
         Assertions.assertEquals(7, MixedBuild.values().length);
         Assertions.assertEquals(EXPECTED_BUILDS.keySet(), Set.of(MixedBuild.values()));
 
-        for (final var entry : EXPECTED_BUILDS.entrySet()) {
-            final var build = entry.getKey();
-            final var expected = entry.getValue();
-            final var items = Step12SimulationFixtures.items(build, 6);
-            final var personage = Step12SimulationFixtures.personage(build, 6);
+        for (final int level : Step12SimulationFixtures.CONTROL_LEVELS) {
+            for (final var entry : EXPECTED_BUILDS.entrySet()) {
+                final var build = entry.getKey();
+                final var expected = entry.getValue();
+                final var items = Step12SimulationFixtures.items(build, level);
+                final var personage = Step12SimulationFixtures.personage(build, level);
 
-            Assertions.assertAll(
-                build.name(),
-                () -> Assertions.assertEquals(expected.itemCodes(), itemCodes(items)),
-                () -> Assertions.assertTrue(items.stream().allMatch(item -> item.enhanceLevel() == 6)),
-                () -> Assertions.assertTrue(items.stream().allMatch(item ->
-                    item.object().progressionVersion() == ItemProgressionVersion.V1
-                )),
-                () -> Assertions.assertEquals(expected.displayName(), personage.name().orElseThrow()),
-                () -> Assertions.assertEquals(expected.position(), personage.startPosition()),
-                () -> Assertions.assertEquals(expected.tactic(), personage.targetingTactic())
-            );
+                Assertions.assertAll(
+                    build.name() + " +" + level,
+                    () -> Assertions.assertEquals(expected.itemCodes(), itemCodes(items)),
+                    () -> Assertions.assertTrue(items.stream().allMatch(item ->
+                        item.enhanceLevel() == level
+                    )),
+                    () -> Assertions.assertTrue(items.stream().allMatch(item ->
+                        item.object().progressionVersion() == ItemProgressionVersion.V1
+                    )),
+                    () -> Assertions.assertEquals(expected.displayName(), personage.name().orElseThrow()),
+                    () -> Assertions.assertEquals(expected.position(), personage.startPosition()),
+                    () -> Assertions.assertEquals(expected.tactic(), personage.targetingTactic())
+                );
+            }
         }
     }
 
     @Test
     void modifierCarriersProduceTheExactFourPointSkillSets() {
-        for (final var entry : EXPECTED_MODIFIERS.entrySet()) {
-            final var build = entry.getKey();
-            final var items = Step12SimulationFixtures.items(build, 0);
-            final var personage = Step12SimulationFixtures.personage(build, 0);
-            final var modifiedItems = items.stream().filter(item -> item.modifier().isPresent()).toList();
-            final var expectedSkills = entry.getValue().stream().collect(Collectors.toMap(
-                ExpectedModifier::skill,
-                ExpectedModifier::points
-            ));
+        for (final int level : Step12SimulationFixtures.CONTROL_LEVELS) {
+            for (final var entry : EXPECTED_MODIFIERS.entrySet()) {
+                final var build = entry.getKey();
+                final var items = Step12SimulationFixtures.items(build, level);
+                final var personage = Step12SimulationFixtures.personage(build, level);
+                final var modifiedItems = items.stream().filter(item -> item.modifier().isPresent()).toList();
+                final var expectedSkills = entry.getValue().stream().collect(Collectors.toMap(
+                    ExpectedModifier::skill,
+                    ExpectedModifier::points
+                ));
 
-            Assertions.assertAll(
-                build.name(),
-                () -> Assertions.assertEquals(entry.getValue(), modifiers(modifiedItems)),
-                () -> Assertions.assertEquals(4, modifiedItems.stream().mapToInt(Item::skillPoints).sum()),
-                () -> Assertions.assertEquals(expectedSkills, skills(personage)),
-                () -> Assertions.assertTrue(personage.skillSnapshots().stream().allMatch(snapshot ->
-                    snapshot.formulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V2
-                ))
-            );
+                Assertions.assertAll(
+                    build.name() + " +" + level,
+                    () -> Assertions.assertEquals(entry.getValue(), modifiers(modifiedItems)),
+                    () -> Assertions.assertEquals(4, modifiedItems.stream().mapToInt(Item::skillPoints).sum()),
+                    () -> Assertions.assertEquals(expectedSkills, skills(personage)),
+                    () -> Assertions.assertTrue(personage.skillSnapshots().stream().allMatch(snapshot ->
+                        snapshot.formulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V2
+                    ))
+                );
+            }
         }
     }
 
     @Test
     void equipmentDerivesTheDeclaredPrimaryAttackTypeWithoutAStoredRoleLabel() {
-        for (final var entry : EXPECTED_PRIMARY_ATTACK_TYPES.entrySet()) {
-            final var items = Step12SimulationFixtures.items(entry.getKey(), 0);
-            Assertions.assertEquals(entry.getValue(), primaryAttackType(items), entry.getKey().name());
+        for (final int level : Step12SimulationFixtures.CONTROL_LEVELS) {
+            for (final var entry : EXPECTED_PRIMARY_ATTACK_TYPES.entrySet()) {
+                final var items = Step12SimulationFixtures.items(entry.getKey(), level);
+                Assertions.assertEquals(
+                    entry.getValue(),
+                    primaryAttackType(items),
+                    entry.getKey().name() + " +" + level
+                );
+            }
         }
     }
 
     @Test
     void splitMechanicsKeepTheirDeterministicCombinationPrice() {
-        final var guardian = Step12SimulationFixtures.personage(RoleBuild.GUARDIAN, 0);
-        final var bruiser = Step12SimulationFixtures.personage(RoleBuild.BRUISER, 0);
-        final var skirmisher = Step12SimulationFixtures.personage(RoleBuild.SKIRMISHER, 0);
-        final var assassin = Step12SimulationFixtures.personage(RoleBuild.ASSASSIN, 0);
-        final var ranger = Step12SimulationFixtures.personage(RoleBuild.RANGER_PHYSICAL, 0);
-        final var tactician = Step12SimulationFixtures.personage(RoleBuild.TACTICIAN_PHYSICAL, 0);
-        final var ram = Step12SimulationFixtures.personage(MixedBuild.RAM, 0);
-        final var keeper = Step12SimulationFixtures.personage(MixedBuild.KEEPER, 0);
-        final var duelist = Step12SimulationFixtures.personage(MixedBuild.DUELIST, 0);
-        final var raider = Step12SimulationFixtures.personage(MixedBuild.RAIDER, 0);
-        final var formationBreaker = Step12SimulationFixtures.personage(MixedBuild.FORMATION_BREAKER, 0);
-        final var artillerist = Step12SimulationFixtures.personage(MixedBuild.ARTILLERIST, 0);
-        final var blocker = Step12SimulationFixtures.personage(MixedBuild.BLOCKER, 0);
+        Step12SimulationFixtures.CONTROL_LEVELS.forEach(
+            Step12MixedBuildFixturesTest::assertCombinationPrice
+        );
+    }
+
+    private static void assertCombinationPrice(int level) {
+        final var guardian = Step12SimulationFixtures.personage(RoleBuild.GUARDIAN, level);
+        final var bruiser = Step12SimulationFixtures.personage(RoleBuild.BRUISER, level);
+        final var skirmisher = Step12SimulationFixtures.personage(RoleBuild.SKIRMISHER, level);
+        final var assassin = Step12SimulationFixtures.personage(RoleBuild.ASSASSIN, level);
+        final var ranger = Step12SimulationFixtures.personage(RoleBuild.RANGER_PHYSICAL, level);
+        final var tactician = Step12SimulationFixtures.personage(RoleBuild.TACTICIAN_PHYSICAL, level);
+        final var ram = Step12SimulationFixtures.personage(MixedBuild.RAM, level);
+        final var keeper = Step12SimulationFixtures.personage(MixedBuild.KEEPER, level);
+        final var duelist = Step12SimulationFixtures.personage(MixedBuild.DUELIST, level);
+        final var raider = Step12SimulationFixtures.personage(MixedBuild.RAIDER, level);
+        final var formationBreaker = Step12SimulationFixtures.personage(MixedBuild.FORMATION_BREAKER, level);
+        final var artillerist = Step12SimulationFixtures.personage(MixedBuild.ARTILLERIST, level);
+        final var blocker = Step12SimulationFixtures.personage(MixedBuild.BLOCKER, level);
 
         Assertions.assertAll(
-            "Таран",
+            "Таран +" + level,
             () -> Assertions.assertTrue(ram.maxHealth() < guardian.maxHealth()),
             () -> Assertions.assertTrue(points(ram, ActiveEnum.GUARD) < points(guardian, ActiveEnum.GUARD)),
-            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.RAM, 1) < attackAtDistance(RoleBuild.BRUISER, 1))
+            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.RAM, level, 1)
+                < attackAtDistance(RoleBuild.BRUISER, level, 1))
         );
         Assertions.assertAll(
-            "Хранитель",
+            "Хранитель +" + level,
             () -> Assertions.assertTrue(keeper.maxHealth() < guardian.maxHealth()),
             () -> Assertions.assertTrue(keeper.totalThreat() < guardian.totalThreat()),
             () -> Assertions.assertTrue(points(keeper, ActiveEnum.TEMPO_BREAK)
                 < points(tactician, ActiveEnum.TEMPO_BREAK)),
-            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.KEEPER, 1)
-                < attackAtDistance(RoleBuild.BRUISER, 1))
+            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.KEEPER, level, 1)
+                < attackAtDistance(RoleBuild.BRUISER, level, 1))
         );
         Assertions.assertAll(
-            "Дуэлянт",
+            "Дуэлянт +" + level,
             () -> Assertions.assertTrue(points(duelist, ActiveEnum.BERSERK) < points(bruiser, ActiveEnum.BERSERK)),
             () -> Assertions.assertTrue(points(duelist, ActiveEnum.HIT_AND_RUN)
                 < points(skirmisher, ActiveEnum.HIT_AND_RUN))
         );
         Assertions.assertAll(
-            "Налётчик",
+            "Налётчик +" + level,
             () -> Assertions.assertTrue(points(raider, ActiveEnum.PENETRATION)
                 < points(assassin, ActiveEnum.PENETRATION)),
             () -> Assertions.assertTrue(points(raider, ActiveEnum.HIT_AND_RUN)
@@ -198,27 +217,27 @@ class Step12MixedBuildFixturesTest {
             () -> Assertions.assertTrue(raider.maxHealth() < assassin.maxHealth())
         );
         Assertions.assertAll(
-            "Ломатель строя",
-            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.FORMATION_BREAKER, 1)
-                < attackAtDistance(RoleBuild.BRUISER, 1)),
+            "Ломатель строя +" + level,
+            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.FORMATION_BREAKER, level, 1)
+                < attackAtDistance(RoleBuild.BRUISER, level, 1)),
             () -> Assertions.assertTrue(points(formationBreaker, ActiveEnum.BERSERK)
                 < points(bruiser, ActiveEnum.BERSERK)),
             () -> Assertions.assertTrue(points(formationBreaker, ActiveEnum.TEMPO_BREAK)
                 < points(tactician, ActiveEnum.TEMPO_BREAK))
         );
         Assertions.assertAll(
-            "Артиллерист",
+            "Артиллерист +" + level,
             () -> Assertions.assertEquals(4, points(artillerist, ActiveEnum.ACCUMULATION)),
             () -> Assertions.assertEquals(0, points(artillerist, ActiveEnum.DOUBLE_ATTACK)),
-            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.ARTILLERIST, 4)
-                < attackAtDistance(RoleBuild.RANGER_PHYSICAL, 4))
+            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.ARTILLERIST, level, 4)
+                < attackAtDistance(RoleBuild.RANGER_PHYSICAL, level, 4))
         );
         Assertions.assertAll(
-            "Заградитель",
+            "Заградитель +" + level,
             () -> Assertions.assertEquals(4, points(blocker, ActiveEnum.KNOCKBACK)),
             () -> Assertions.assertEquals(0, points(blocker, ActiveEnum.DOUBLE_ATTACK)),
-            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.BLOCKER, 4)
-                < attackAtDistance(RoleBuild.RANGER_PHYSICAL, 4))
+            () -> Assertions.assertTrue(attackAtDistance(MixedBuild.BLOCKER, level, 4)
+                < attackAtDistance(RoleBuild.RANGER_PHYSICAL, level, 4))
         );
         Assertions.assertEquals(4, points(ranger, ActiveEnum.DOUBLE_ATTACK));
     }
@@ -279,12 +298,12 @@ class Step12MixedBuildFixturesTest {
         return skills(personage).getOrDefault(skill, 0);
     }
 
-    private static int attackAtDistance(MixedBuild build, int distance) {
-        return attackAtDistance(Step12SimulationFixtures.items(build, 0), distance);
+    private static int attackAtDistance(MixedBuild build, int level, int distance) {
+        return attackAtDistance(Step12SimulationFixtures.items(build, level), distance);
     }
 
-    private static int attackAtDistance(RoleBuild build, int distance) {
-        return attackAtDistance(Step12SimulationFixtures.items(build, 0), distance);
+    private static int attackAtDistance(RoleBuild build, int level, int distance) {
+        return attackAtDistance(Step12SimulationFixtures.items(build, level), distance);
     }
 
     private static int attackAtDistance(List<Item> items, int distance) {

@@ -7,7 +7,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.item.DefaultItemProvider;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
@@ -25,17 +27,23 @@ public class LoadoutMessageService {
     private final ItemService itemService;
     private final GetPersonageSettingsCommand getPersonageSettingsCommand;
     private final TelegramSender telegramSender;
+    private final PlayerCombatConfig playerCombatConfig;
+    private final DefaultItemProvider defaultItemProvider;
 
     public LoadoutMessageService(
         EquipmentLoadoutService loadoutService,
         ItemService itemService,
         GetPersonageSettingsCommand getPersonageSettingsCommand,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PlayerCombatConfig playerCombatConfig,
+        DefaultItemProvider defaultItemProvider
     ) {
         this.loadoutService = loadoutService;
         this.itemService = itemService;
         this.getPersonageSettingsCommand = getPersonageSettingsCommand;
         this.telegramSender = telegramSender;
+        this.playerCombatConfig = playerCombatConfig;
+        this.defaultItemProvider = defaultItemProvider;
     }
 
     public void editLoadoutsList(User user, int messageId) {
@@ -44,13 +52,16 @@ public class LoadoutMessageService {
         final var ownedById = inventory.items().stream()
             .collect(Collectors.toMap(PersonageItem::id, item -> item));
         final var battleStatsByLoadoutId = new HashMap<Long, BattlePersonage>();
+        final var defaults = defaultItemProvider.defaultsBySlot();
         for (final var loadout : loadouts) {
             final var wornItems = loadout.itemIds().stream()
                 .map(ownedById::get)
                 .filter(Objects::nonNull)
                 .toList();
-            final var combatItems = itemService.itemsWithDefaults(wornItems);
-            final var battlePersonage = new BattlePersonage(combatItems, loadout.battlePosition());
+            final var combatItems = itemService.itemsWithDefaults(wornItems, defaults);
+            final var battlePersonage = new BattlePersonage(
+                combatItems, loadout.battlePosition(), Map.of(), playerCombatConfig.version()
+            );
             battlePersonage.setTargetingTactic(loadout.targetingTactic());
             battleStatsByLoadoutId.put(loadout.id(), battlePersonage);
         }
@@ -80,7 +91,10 @@ public class LoadoutMessageService {
             EditMessageTextBuilder.builder()
                 .chatId(user.id())
                 .messageId(messageId)
-                .text(ItemLocalization.loadoutDetail(user.language(), loadout, inventory, compactItems))
+                .text(ItemLocalization.loadoutDetail(
+                    user.language(), loadout, inventory, compactItems, playerCombatConfig.version(),
+                    defaultItemProvider.defaultsBySlot()
+                ))
                 .keyboard(InlineKeyboards.loadoutDetailKeyboard(user.language(), loadout.id()))
                 .build()
         );
@@ -93,7 +107,9 @@ public class LoadoutMessageService {
             EditMessageTextBuilder.builder()
                 .chatId(user.id())
                 .messageId(messageId)
-                .text(ItemLocalization.initCreateLoadout(user.language(), inventory, compactItems))
+                .text(ItemLocalization.initCreateLoadout(
+                    user.language(), inventory, compactItems, playerCombatConfig.version(), defaultItemProvider.defaultsBySlot()
+                ))
                 .keyboard(InlineKeyboards.cancelCreateLoadoutKeyboard(user.language()))
                 .build()
         );

@@ -5,6 +5,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
+import ru.homyakin.seeker.game.item.catalog.EquipmentReleaseConfig;
+import ru.homyakin.seeker.game.item.catalog.EquipmentReleaseCoordinator;
+import ru.homyakin.seeker.game.item.database.ItemCatalogLifecycleDao;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayService;
+import ru.homyakin.seeker.game.personage.power.PowerDisplayVersion;
 import ru.homyakin.seeker.game.event.service.EventService;
 import ru.homyakin.seeker.game.item.ItemCatalogService;
 import ru.homyakin.seeker.game.badge.action.BadgeService;
@@ -21,7 +27,13 @@ public class InitGameDataTest {
         mock(MenuService.class),
         mock(RumorService.class),
         mock(BadgeService.class),
-        itemCatalogService,
+        new EquipmentReleaseCoordinator(
+            new EquipmentReleaseConfig(),
+            new PlayerCombatConfig(),
+            new PowerDisplayService(PowerDisplayVersion.LEGACY_V1),
+            itemCatalogService,
+            mock(ItemCatalogLifecycleDao.class)
+        ),
         config
     );
 
@@ -68,6 +80,7 @@ public class InitGameDataTest {
             Mockito.anyList(),
             Mockito.anyList()
         );
+        Mockito.verify(itemCatalogService, Mockito.never()).activateRelease(Mockito.any());
     }
 
     @ParameterizedTest

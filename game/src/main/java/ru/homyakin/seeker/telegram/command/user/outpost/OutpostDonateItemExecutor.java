@@ -2,6 +2,7 @@ package ru.homyakin.seeker.telegram.command.user.outpost;
 
 import java.util.Optional;
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.outpost.action.OutpostService;
 import ru.homyakin.seeker.locale.outpost.OutpostLocalization;
 import ru.homyakin.seeker.telegram.TelegramSender;
@@ -16,17 +17,20 @@ public class OutpostDonateItemExecutor extends CommandExecutor<OutpostDonateItem
     private final OutpostService outpostService;
     private final OutpostDonateTgService outpostDonateTgService;
     private final TelegramSender telegramSender;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public OutpostDonateItemExecutor(
         UserService userService,
         OutpostService outpostService,
         OutpostDonateTgService outpostDonateTgService,
-        TelegramSender telegramSender
+        TelegramSender telegramSender,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.outpostService = outpostService;
         this.outpostDonateTgService = outpostDonateTgService;
         this.telegramSender = telegramSender;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -46,7 +50,8 @@ public class OutpostDonateItemExecutor extends CommandExecutor<OutpostDonateItem
                     user.language(),
                     item.get(),
                     outpostService.materialsForItem(item.get()),
-                    loadoutNames
+                    loadoutNames,
+                    playerCombatConfig.version()
                 ))
                 .keyboard(InlineKeyboards.confirmOutpostDonateKeyboard(
                     user.language(),

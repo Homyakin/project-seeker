@@ -1,0 +1,366 @@
+Verification launcher provenance
+java=/home/user/.jdks/axiomjdk-25.0.1/bin/java
+javaSha256=6b8124e0d85876f94a7a8540ece476e312e1cc4f9c9cd1171aa59b58172169ad
+maven=/opt/apache-maven-3.9.12/bin/mvn
+mavenSha256=f9381d0cb98abaaf9592dae421eddc497e84ed9bfb723b84c111d1350863c3a2
+mockitoAgent=/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+mockitoAgentSha256=a3d4e40f7fe66016fe42c00de4e343777d74132afc85018e0f03ac6334a60f29
+javaToolOptions=-javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+command=/opt/apache-maven-3.9.12/bin/mvn -Dtest=Step12MixedBuildSimulator -Dstep12.mixed.enabled=true -Dstep12.mixed.mode=FINAL -Dstep12.mixed.seed=2026092601 -Dstep12.mixed.iterations=10000 -Dstep12.mixed.maxRounds=10000 -Dstep12.mixed.workers=4 -Dstep12.mixed.enforce=true -Dstep12.mixed.scenario= -Dstep12.mixed.output=../documentation/raid-redesign-step-12-mixed-v1-final.md -Dstep12.mixed.statistics=../documentation/raid-redesign-step-12-mixed-v1-final-statistics.tsv -Dcheckstyle.skip=false -DskipTests=false -Dmaven.test.skip=false -Dsurefire.failIfNoSpecifiedTests=true clean test
+
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< ru.homyakin:project-seeker >---------------------
+[INFO] Building project-seeker 1.2
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ project-seeker ---
+[INFO] Deleting /home/user/projects/project-seeker/game/target
+[INFO] 
+[INFO] --- checkstyle:3.6.0:check (validate) @ project-seeker ---
+[INFO] You have 0 Checkstyle violations.
+[INFO] 
+[INFO] --- dependency-versions-check:4.0.1:check (default) @ project-seeker ---
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/home/user/.m2/repository/com/google/guava/guava/33.0.0-jre/guava-33.0.0-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] Checking all dependencies for 'test' scope, reporting only conflicts
+[INFO] 
+[INFO] --- duplicate-finder:2.0.1:check (default) @ project-seeker ---
+[INFO] Checking compile classpath
+[INFO] Checking runtime classpath
+[INFO] Checking test classpath
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (default) @ project-seeker ---
+[INFO] argLine set to -javaagent:/home/user/.m2/repository/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar=destfile=/home/user/projects/project-seeker/game/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ project-seeker ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 201 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ project-seeker ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 1059 source files with javac [debug target 24] to target/classes
+[WARNING] location of system modules is not set in conjunction with -source 24
+  not setting the location of system modules may lead to class files that cannot run on JDK 24
+    --release 24 is recommended instead of -source 24 -target 24 because it sets the location of system modules automatically
+[INFO] /home/user/projects/project-seeker/game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java: Some input files use unchecked or unsafe operations.
+[INFO] /home/user/projects/project-seeker/game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ project-seeker ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ project-seeker ---
+[INFO] Recompiling the module because of changed dependency.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 190 source files with javac [debug target 24] to target/test-classes
+[WARNING] location of system modules is not set in conjunction with -source 24
+  not setting the location of system modules may lead to class files that cannot run on JDK 24
+    --release 24 is recommended instead of -source 24 -target 24 because it sets the location of system modules automatically
+[INFO] /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/loadout/action/EquipmentLoadoutServiceTest.java: /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/loadout/action/EquipmentLoadoutServiceTest.java uses unchecked or unsafe operations.
+[INFO] /home/user/projects/project-seeker/game/src/test/java/ru/homyakin/seeker/game/item/loadout/action/EquipmentLoadoutServiceTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- surefire:3.5.3:test (default-test) @ project-seeker ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+[INFO] Running ru.homyakin.seeker.game.battle.Step12MixedBuildSimulator
+20:55:04,628 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+20:55:04,629 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - Here is a list of configurators discovered as a service, by rank: 
+20:55:04,629 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+20:55:04,629 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+20:55:04,629 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+20:55:04,631 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+20:55:04,631 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+20:55:04,632 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+20:55:04,632 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+20:55:04,632 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+20:55:04,632 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+20:55:04,632 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+20:55:04,633 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+20:55:04,634 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+20:55:04,634 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+20:55:04,736 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+20:55:04,736 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+20:55:04,782 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+20:55:04,782 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+20:55:04,782 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+20:55:04,782 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+20:55:04,782 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+20:55:04,782 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+20:55:04,782 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+20:55:04,783 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+20:55:04,783 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@16426f25 - End of configuration.
+20:55:04,785 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7df62554 - Registering current configuration as safe fallback point
+20:55:04,785 |-INFO in ch.qos.logback.classic.util.ContextInitializer@6599a6d1 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 152 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+# Шаг 12. Результат проверки смешанных сборок
+
+Режим: `FINAL`; корень: `2026092601`; начальных значений на ячейку: 10000; предел раундов: 10000.
+
+Проверено ячеек: 70; знаковых условий: 105; итог: **не принято**.
+
+Точные достаточные статистики: `../documentation/raid-redesign-step-12-mixed-v1-final-statistics.tsv`; SHA-256: `0592688b266d140928ff8a194bd7dd12b137330cfce332ca9169fe499fb7f9fd`.
+
+| Ячейка | Уровень | Условие | Первое значение | Второе значение | Разность, 95% ДИ | Холм p | Итог |
+|---|---:|---|---:|---:|---:|---:|---|
+| `RAM_GUARD_L0` | 0 | работа механики: включено − выключено | 0.404453 | 0.000000 | 0.404453 [0.402377; 0.406528] | 0.000000 | принято |
+| `RAM_GUARD_L3` | 3 | работа механики: включено − выключено | 0.404134 | 0.000000 | 0.404134 [0.402103; 0.406165] | 0.000000 | принято |
+| `RAM_GUARD_L6` | 6 | работа механики: включено − выключено | 0.399292 | 0.000000 | 0.399292 [0.397326; 0.401257] | 0.000000 | принято |
+| `RAM_GUARD_L10` | 10 | работа механики: включено − выключено | 0.397541 | 0.000000 | 0.397541 [0.395608; 0.399473] | 0.000000 | принято |
+| `RAM_GUARD_L20` | 20 | работа механики: включено − выключено | 0.389494 | 0.000000 | 0.389494 [0.387678; 0.391309] | 0.000000 | принято |
+| `RAM_PRESSURE_L0` | 0 | работа механики: включено − выключено | 184.298213 | 179.966109 | 4.332105 [4.258281; 4.405928] | 0.000000 | принято |
+| `RAM_PRESSURE_L0` | 0 | цена: чистая роль − смешанная сборка | 248.210068 | 184.298213 | 63.911855 [63.723662; 64.100048] | 0.000000 | принято |
+| `RAM_PRESSURE_L3` | 3 | работа механики: включено − выключено | 189.720656 | 185.437130 | 4.283526 [4.209181; 4.357870] | 0.000000 | принято |
+| `RAM_PRESSURE_L3` | 3 | цена: чистая роль − смешанная сборка | 254.086775 | 189.720656 | 64.366119 [64.175811; 64.556426] | 0.000000 | принято |
+| `RAM_PRESSURE_L6` | 6 | работа механики: включено − выключено | 193.914254 | 189.202100 | 4.712154 [4.634961; 4.789348] | 0.000000 | принято |
+| `RAM_PRESSURE_L6` | 6 | цена: чистая роль − смешанная сборка | 259.478541 | 193.914254 | 65.564287 [65.377743; 65.750831] | 0.000000 | принято |
+| `RAM_PRESSURE_L10` | 10 | работа механики: включено − выключено | 199.058163 | 194.369855 | 4.688308 [4.613358; 4.763258] | 0.000000 | принято |
+| `RAM_PRESSURE_L10` | 10 | цена: чистая роль − смешанная сборка | 266.970262 | 199.058163 | 67.912099 [67.720567; 68.103631] | 0.000000 | принято |
+| `RAM_PRESSURE_L20` | 20 | работа механики: включено − выключено | 212.053858 | 206.929260 | 5.124598 [5.046902; 5.202294] | 0.000000 | принято |
+| `RAM_PRESSURE_L20` | 20 | цена: чистая роль − смешанная сборка | 285.507738 | 212.053858 | 73.453880 [73.262274; 73.645486] | 0.000000 | принято |
+| `KEEPER_GUARD_L0` | 0 | работа механики: включено − выключено | 0.400723 | 0.000000 | 0.400723 [0.399166; 0.402280] | 0.000000 | принято |
+| `KEEPER_GUARD_L3` | 3 | работа механики: включено − выключено | 0.401572 | 0.000000 | 0.401572 [0.400066; 0.403077] | 0.000000 | принято |
+| `KEEPER_GUARD_L6` | 6 | работа механики: включено − выключено | 0.401517 | 0.000000 | 0.401517 [0.400060; 0.402974] | 0.000000 | принято |
+| `KEEPER_GUARD_L10` | 10 | работа механики: включено − выключено | 0.402892 | 0.000000 | 0.402892 [0.401451; 0.404332] | 0.000000 | принято |
+| `KEEPER_GUARD_L20` | 20 | работа механики: включено − выключено | 0.403460 | 0.000000 | 0.403460 [0.402097; 0.404822] | 0.000000 | принято |
+| `KEEPER_TEMPO_L0` | 0 | работа механики: включено − выключено | 90.277630 | 0.000000 | 90.277630 [89.960182; 90.595077] | 0.000000 | принято |
+| `KEEPER_TEMPO_L0` | 0 | цена: чистая роль − смешанная сборка | 155.167874 | 97.139375 | 58.028499 [57.720758; 58.336240] | 0.000000 | принято |
+| `KEEPER_TEMPO_L3` | 3 | работа механики: включено − выключено | 90.007561 | 0.000000 | 90.007561 [89.696403; 90.318719] | 0.000000 | принято |
+| `KEEPER_TEMPO_L3` | 3 | цена: чистая роль − смешанная сборка | 159.057881 | 99.040452 | 60.017429 [59.709020; 60.325838] | 0.000000 | принято |
+| `KEEPER_TEMPO_L6` | 6 | работа механики: включено − выключено | 89.559842 | 0.000000 | 89.559842 [89.255948; 89.863735] | 0.000000 | принято |
+| `KEEPER_TEMPO_L6` | 6 | цена: чистая роль − смешанная сборка | 162.014328 | 100.772861 | 61.241467 [60.931894; 61.551040] | 0.000000 | принято |
+| `KEEPER_TEMPO_L10` | 10 | работа механики: включено − выключено | 89.435138 | 0.000000 | 89.435138 [89.140774; 89.729501] | 0.000000 | принято |
+| `KEEPER_TEMPO_L10` | 10 | цена: чистая роль − смешанная сборка | 166.103795 | 103.582832 | 62.520963 [62.210242; 62.831683] | 0.000000 | принято |
+| `KEEPER_TEMPO_L20` | 20 | работа механики: включено − выключено | 89.035242 | 0.000000 | 89.035242 [88.757182; 89.313302] | 0.000000 | принято |
+| `KEEPER_TEMPO_L20` | 20 | цена: чистая роль − смешанная сборка | 175.606637 | 109.746352 | 65.860286 [65.544088; 66.176483] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L0` | 0 | работа механики: включено − выключено | 173.813704 | 169.675107 | 4.138597 [4.093880; 4.183314] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L0` | 0 | цена: чистая роль − смешанная сборка | 248.160342 | 173.813704 | 74.346638 [74.143462; 74.549814] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L3` | 3 | работа механики: включено − выключено | 177.325088 | 172.918950 | 4.406139 [4.359577; 4.452700] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L3` | 3 | цена: чистая роль − смешанная сборка | 254.176469 | 177.325088 | 76.851381 [76.647945; 77.054817] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L6` | 6 | работа механики: включено − выключено | 179.930028 | 175.830710 | 4.099318 [4.055773; 4.142863] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L6` | 6 | цена: чистая роль − смешанная сборка | 259.495470 | 179.930028 | 79.565442 [79.369583; 79.761301] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L10` | 10 | работа механики: включено − выключено | 183.334202 | 179.215200 | 4.119002 [4.076486; 4.161519] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L10` | 10 | цена: чистая роль − смешанная сборка | 266.963317 | 183.334202 | 83.629115 [83.432382; 83.825848] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L20` | 20 | работа механики: включено − выключено | 193.078831 | 188.714206 | 4.364625 [4.322094; 4.407156] | 0.000000 | принято |
+| `DUELIST_PRESSURE_L20` | 20 | цена: чистая роль − смешанная сборка | 285.311556 | 193.078831 | 92.232725 [92.041708; 92.423742] | 0.000000 | принято |
+| `DUELIST_MOBILITY_L0` | 0 | работа механики: включено − выключено | 0.124323 | 0.000000 | 0.124323 [0.124083; 0.124563] | 0.000000 | принято |
+| `DUELIST_MOBILITY_L3` | 3 | работа механики: включено − выключено | 0.121154 | 0.000000 | 0.121154 [0.120926; 0.121382] | 0.000000 | принято |
+| `DUELIST_MOBILITY_L6` | 6 | работа механики: включено − выключено | 0.118763 | 0.000000 | 0.118763 [0.118551; 0.118975] | 0.000000 | принято |
+| `DUELIST_MOBILITY_L10` | 10 | работа механики: включено − выключено | 0.114743 | 0.000000 | 0.114743 [0.114542; 0.114945] | 0.000000 | принято |
+| `DUELIST_MOBILITY_L20` | 20 | работа механики: включено − выключено | 0.107151 | 0.000000 | 0.107151 [0.106970; 0.107332] | 0.000000 | принято |
+| `RAIDER_MOBILITY_L0` | 0 | работа механики: включено − выключено | 0.105577 | 0.000000 | 0.105577 [0.105404; 0.105751] | 0.000000 | принято |
+| `RAIDER_MOBILITY_L3` | 3 | работа механики: включено − выключено | 0.104531 | 0.000000 | 0.104531 [0.104342; 0.104720] | 0.000000 | принято |
+| `RAIDER_MOBILITY_L6` | 6 | работа механики: включено − выключено | 0.103476 | 0.000000 | 0.103476 [0.103275; 0.103677] | 0.000000 | принято |
+| `RAIDER_MOBILITY_L10` | 10 | работа механики: включено − выключено | 0.102755 | 0.000000 | 0.102755 [0.102508; 0.103003] | 0.000000 | принято |
+| `RAIDER_MOBILITY_L20` | 20 | работа механики: включено − выключено | 0.108586 | 0.000000 | 0.108586 [0.108189; 0.108983] | 0.000000 | принято |
+| `RAIDER_ACCESS_L0` | 0 | работа механики: включено − выключено | 80.513558 | 0.000000 | 80.513558 [80.249844; 80.777272] | 0.000000 | принято |
+| `RAIDER_ACCESS_L0` | 0 | цена: чистая роль − смешанная сборка | 101.267581 | 80.513558 | 20.754023 [20.457011; 21.051036] | 0.000000 | принято |
+| `RAIDER_ACCESS_L3` | 3 | работа механики: включено − выключено | 83.763078 | 0.000000 | 83.763078 [83.460899; 84.065256] | 0.000000 | принято |
+| `RAIDER_ACCESS_L3` | 3 | цена: чистая роль − смешанная сборка | 104.187721 | 83.763078 | 20.424643 [20.101170; 20.748116] | 0.000000 | принято |
+| `RAIDER_ACCESS_L6` | 6 | работа механики: включено − выключено | 88.475098 | 0.000000 | 88.475098 [88.137303; 88.812893] | 0.000000 | принято |
+| `RAIDER_ACCESS_L6` | 6 | цена: чистая роль − смешанная сборка | 107.146283 | 88.475098 | 18.671185 [18.317771; 19.024599] | 0.000000 | принято |
+| `RAIDER_ACCESS_L10` | 10 | работа механики: включено − выключено | 95.030803 | 0.000000 | 95.030803 [94.653507; 95.408099] | 0.000000 | принято |
+| `RAIDER_ACCESS_L10` | 10 | цена: чистая роль − смешанная сборка | 110.219057 | 95.030803 | 15.188253 [14.797083; 15.579423] | 0.000000 | принято |
+| `RAIDER_ACCESS_L20` | 20 | работа механики: включено − выключено | 108.816211 | 0.000000 | 108.816211 [108.413123; 109.219298] | 0.000000 | принято |
+| `RAIDER_ACCESS_L20` | 20 | цена: чистая роль − смешанная сборка | 116.618031 | 108.816211 | 7.801820 [7.396476; 8.207164] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L0` | 0 | работа механики: включено − выключено | 130.328899 | 127.262701 | 3.066198 [3.039712; 3.092685] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L0` | 0 | цена: чистая роль − смешанная сборка | 248.246242 | 130.328899 | 117.917343 [117.714604; 118.120082] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L3` | 3 | работа механики: включено − выключено | 133.493159 | 130.083096 | 3.410063 [3.382488; 3.437639] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L3` | 3 | цена: чистая роль − смешанная сборка | 253.954144 | 133.493159 | 120.460984 [120.258117; 120.663852] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L6` | 6 | работа механики: включено − выключено | 136.025586 | 132.945779 | 3.079807 [3.054120; 3.105494] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L6` | 6 | цена: чистая роль − смешанная сборка | 259.625911 | 136.025586 | 123.600325 [123.404419; 123.796231] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L10` | 10 | работа механики: включено − выключено | 138.468728 | 135.403270 | 3.065457 [3.040451; 3.090464] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L10` | 10 | цена: чистая роль − смешанная сборка | 266.949372 | 138.468728 | 128.480645 [128.277275; 128.684015] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L20` | 20 | работа механики: включено − выключено | 146.174738 | 142.673074 | 3.501665 [3.475123; 3.528206] | 0.000000 | принято |
+| `FORMATION_BREAKER_PRESSURE_L20` | 20 | цена: чистая роль − смешанная сборка | 285.377466 | 146.174738 | 139.202728 [139.003264; 139.402192] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L0` | 0 | работа механики: включено − выключено | 96.701932 | 0.000000 | 96.701932 [96.479175; 96.924688] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L0` | 0 | цена: чистая роль − смешанная сборка | 154.471290 | 96.701932 | 57.769358 [57.409310; 58.129406] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L3` | 3 | работа механики: включено − выключено | 96.411151 | 0.000000 | 96.411151 [96.192569; 96.629734] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L3` | 3 | цена: чистая роль − смешанная сборка | 154.697031 | 96.411151 | 58.285880 [57.919394; 58.652367] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L6` | 6 | работа механики: включено − выключено | 96.374819 | 0.000000 | 96.374819 [96.160605; 96.589033] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L6` | 6 | цена: чистая роль − смешанная сборка | 155.111865 | 96.374819 | 58.737046 [58.367356; 59.106736] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L10` | 10 | работа механики: включено − выключено | 95.935050 | 0.000000 | 95.935050 [95.729934; 96.140166] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L10` | 10 | цена: чистая роль − смешанная сборка | 155.342747 | 95.935050 | 59.407697 [59.037783; 59.777611] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L20` | 20 | работа механики: включено − выключено | 95.554486 | 0.000000 | 95.554486 [95.360815; 95.748158] | 0.000000 | принято |
+| `FORMATION_BREAKER_TEMPO_L20` | 20 | цена: чистая роль − смешанная сборка | 155.103574 | 95.554486 | 59.549088 [59.204301; 59.893874] | 0.000000 | принято |
+| `ARTILLERIST_RANGED_L0` | 0 | цена: чистая роль − смешанная сборка | 131.872040 | 147.526844 | -15.654803 [-15.859926; -15.449681] | 0.000000 | не принято |
+| `ARTILLERIST_RANGED_L3` | 3 | цена: чистая роль − смешанная сборка | 135.452717 | 151.480419 | -16.027701 [-16.231043; -15.824360] | 0.000000 | не принято |
+| `ARTILLERIST_RANGED_L6` | 6 | цена: чистая роль − смешанная сборка | 137.746022 | 154.764233 | -17.018211 [-17.225806; -16.810615] | 0.000000 | не принято |
+| `ARTILLERIST_RANGED_L10` | 10 | цена: чистая роль − смешанная сборка | 141.750199 | 159.184171 | -17.433972 [-17.640564; -17.227380] | 0.000000 | не принято |
+| `ARTILLERIST_RANGED_L20` | 20 | цена: чистая роль − смешанная сборка | 150.223254 | 168.241705 | -18.018451 [-18.231716; -17.805186] | 0.000000 | не принято |
+| `ARTILLERIST_BURST_L0` | 0 | работа механики: включено − выключено | 19.736263 | 0.000000 | 19.736263 [19.708963; 19.763562] | 0.000000 | принято |
+| `ARTILLERIST_BURST_L3` | 3 | работа механики: включено − выключено | 20.234591 | 0.000000 | 20.234591 [20.207156; 20.262027] | 0.000000 | принято |
+| `ARTILLERIST_BURST_L6` | 6 | работа механики: включено − выключено | 20.500444 | 0.000000 | 20.500444 [20.473828; 20.527060] | 0.000000 | принято |
+| `ARTILLERIST_BURST_L10` | 10 | работа механики: включено − выключено | 20.933972 | 0.000000 | 20.933972 [20.906682; 20.961261] | 0.000000 | принято |
+| `ARTILLERIST_BURST_L20` | 20 | работа механики: включено − выключено | 22.716627 | 0.000000 | 22.716627 [22.690500; 22.742754] | 0.000000 | принято |
+| `BLOCKER_RANGED_L0` | 0 | цена: чистая роль − смешанная сборка | 131.849925 | 145.238649 | -13.388725 [-13.555076; -13.222374] | 0.000000 | не принято |
+| `BLOCKER_RANGED_L3` | 3 | цена: чистая роль − смешанная сборка | 135.407509 | 149.442383 | -14.034874 [-14.200108; -13.869640] | 0.000000 | не принято |
+| `BLOCKER_RANGED_L6` | 6 | цена: чистая роль − смешанная сборка | 137.553531 | 152.130216 | -14.576685 [-14.744462; -14.408908] | 0.000000 | не принято |
+| `BLOCKER_RANGED_L10` | 10 | цена: чистая роль − смешанная сборка | 141.681955 | 156.422417 | -14.740462 [-14.910788; -14.570136] | 0.000000 | не принято |
+| `BLOCKER_RANGED_L20` | 20 | цена: чистая роль − смешанная сборка | 149.908235 | 164.859590 | -14.951355 [-15.127368; -14.775342] | 0.000000 | не принято |
+| `BLOCKER_CONTROL_L0` | 0 | работа механики: включено − выключено | 0.026864 | 0.000000 | 0.026864 [0.026052; 0.027676] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L0` | 0 | потеря попыток: включено − выключено | 0.207593 | 0.196160 | 0.011433 [0.011066; 0.011800] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L3` | 3 | работа механики: включено − выключено | 0.026359 | 0.000000 | 0.026359 [0.025565; 0.027154] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L3` | 3 | потеря попыток: включено − выключено | 0.204778 | 0.193321 | 0.011458 [0.011094; 0.011821] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L6` | 6 | работа механики: включено − выключено | 0.027037 | 0.000000 | 0.027037 [0.026233; 0.027840] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L6` | 6 | потеря попыток: включено − выключено | 0.202931 | 0.191168 | 0.011763 [0.011395; 0.012131] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L10` | 10 | работа механики: включено − выключено | 0.026921 | 0.000000 | 0.026921 [0.026133; 0.027710] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L10` | 10 | потеря попыток: включено − выключено | 0.198662 | 0.186883 | 0.011779 [0.011414; 0.012144] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L20` | 20 | работа механики: включено − выключено | 0.026616 | 0.000000 | 0.026616 [0.025853; 0.027379] | 0.000000 | принято |
+| `BLOCKER_CONTROL_L20` | 20 | потеря попыток: включено − выключено | 0.186875 | 0.174877 | 0.011998 [0.011636; 0.012360] | 0.000000 | принято |
+
+| Ячейка | Победы смешанной | Победы чистой | Победы первого расположения | Дальние попытки смешанной | Дальние попытки чистой | Снятая Тактиком шкала за ход | Предел Отброса |
+|---|---:|---:|---:|---:|---:|---:|---|
+| `RAM_GUARD_L0` | 99.26% | 88.46% | 50.02% | — | — | — | да |
+| `RAM_GUARD_L3` | 99.39% | 89.65% | 49.81% | — | — | — | да |
+| `RAM_GUARD_L6` | 99.44% | 90.22% | 49.91% | — | — | — | да |
+| `RAM_GUARD_L10` | 99.61% | 91.46% | 49.95% | — | — | — | да |
+| `RAM_GUARD_L20` | 99.67% | 93.24% | 49.95% | — | — | — | да |
+| `RAM_PRESSURE_L0` | 96.21% | 96.82% | 49.93% | — | — | — | да |
+| `RAM_PRESSURE_L3` | 95.91% | 97.63% | 49.95% | — | — | — | да |
+| `RAM_PRESSURE_L6` | 94.99% | 97.25% | 50.21% | — | — | — | да |
+| `RAM_PRESSURE_L10` | 94.43% | 96.55% | 50.00% | — | — | — | да |
+| `RAM_PRESSURE_L20` | 94.50% | 97.04% | 50.11% | — | — | — | да |
+| `KEEPER_GUARD_L0` | 79.70% | 88.69% | 50.03% | — | — | — | да |
+| `KEEPER_GUARD_L3` | 81.77% | 89.72% | 49.72% | — | — | — | да |
+| `KEEPER_GUARD_L6` | 82.61% | 90.11% | 49.98% | — | — | — | да |
+| `KEEPER_GUARD_L10` | 83.98% | 91.44% | 49.93% | — | — | — | да |
+| `KEEPER_GUARD_L20` | 87.46% | 93.40% | 49.96% | — | — | — | да |
+| `KEEPER_TEMPO_L0` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `KEEPER_TEMPO_L3` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `KEEPER_TEMPO_L6` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `KEEPER_TEMPO_L10` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `KEEPER_TEMPO_L20` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `DUELIST_PRESSURE_L0` | 60.15% | 96.99% | 49.95% | — | — | — | да |
+| `DUELIST_PRESSURE_L3` | 60.61% | 97.82% | 50.00% | — | — | — | да |
+| `DUELIST_PRESSURE_L6` | 50.88% | 97.45% | 49.86% | — | — | — | да |
+| `DUELIST_PRESSURE_L10` | 45.06% | 96.70% | 50.27% | — | — | — | да |
+| `DUELIST_PRESSURE_L20` | 37.91% | 97.26% | 49.91% | — | — | — | да |
+| `DUELIST_MOBILITY_L0` | 0.30% | 0.00% | 50.04% | — | — | — | да |
+| `DUELIST_MOBILITY_L3` | 0.23% | 0.00% | 50.04% | — | — | — | да |
+| `DUELIST_MOBILITY_L6` | 0.15% | 0.00% | 49.99% | — | — | — | да |
+| `DUELIST_MOBILITY_L10` | 0.28% | 0.00% | 49.95% | — | — | — | да |
+| `DUELIST_MOBILITY_L20` | 0.19% | 0.00% | 50.00% | — | — | — | да |
+| `RAIDER_MOBILITY_L0` | 0.21% | 0.00% | 49.98% | — | — | — | да |
+| `RAIDER_MOBILITY_L3` | 0.18% | 0.00% | 50.00% | — | — | — | да |
+| `RAIDER_MOBILITY_L6` | 0.14% | 0.00% | 50.01% | — | — | — | да |
+| `RAIDER_MOBILITY_L10` | 0.15% | 0.00% | 50.01% | — | — | — | да |
+| `RAIDER_MOBILITY_L20` | 0.14% | 0.00% | 50.00% | — | — | — | да |
+| `RAIDER_ACCESS_L0` | 95.44% | 95.87% | 49.91% | — | — | — | да |
+| `RAIDER_ACCESS_L3` | 95.50% | 96.03% | 50.12% | — | — | — | да |
+| `RAIDER_ACCESS_L6` | 95.76% | 96.30% | 49.97% | — | — | — | да |
+| `RAIDER_ACCESS_L10` | 96.72% | 96.45% | 50.03% | — | — | — | да |
+| `RAIDER_ACCESS_L20` | 97.34% | 97.70% | 49.97% | — | — | — | да |
+| `FORMATION_BREAKER_PRESSURE_L0` | 2.84% | 96.78% | 49.96% | — | — | — | да |
+| `FORMATION_BREAKER_PRESSURE_L3` | 2.28% | 97.91% | 49.91% | — | — | — | да |
+| `FORMATION_BREAKER_PRESSURE_L6` | 1.10% | 97.04% | 49.97% | — | — | — | да |
+| `FORMATION_BREAKER_PRESSURE_L10` | 0.95% | 96.35% | 49.96% | — | — | — | да |
+| `FORMATION_BREAKER_PRESSURE_L20` | 0.33% | 97.24% | 50.00% | — | — | — | да |
+| `FORMATION_BREAKER_TEMPO_L0` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `FORMATION_BREAKER_TEMPO_L3` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `FORMATION_BREAKER_TEMPO_L6` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `FORMATION_BREAKER_TEMPO_L10` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `FORMATION_BREAKER_TEMPO_L20` | 0.00% | 0.00% | 50.00% | — | — | — | да |
+| `ARTILLERIST_RANGED_L0` | 0.00% | 0.00% | 50.00% | 42.47% | 46.27% | — | да |
+| `ARTILLERIST_RANGED_L3` | 0.01% | 0.00% | 50.00% | 42.42% | 46.34% | — | да |
+| `ARTILLERIST_RANGED_L6` | 0.00% | 0.00% | 50.00% | 42.57% | 46.54% | — | да |
+| `ARTILLERIST_RANGED_L10` | 0.00% | 0.00% | 50.00% | 43.30% | 47.12% | — | да |
+| `ARTILLERIST_RANGED_L20` | 0.00% | 0.00% | 50.00% | 43.89% | 47.69% | — | да |
+| `ARTILLERIST_BURST_L0` | 64.99% | 64.50% | 50.50% | — | — | — | да |
+| `ARTILLERIST_BURST_L3` | 58.42% | 59.00% | 50.06% | — | — | — | да |
+| `ARTILLERIST_BURST_L6` | 47.59% | 49.16% | 50.13% | — | — | — | да |
+| `ARTILLERIST_BURST_L10` | 43.99% | 46.01% | 49.99% | — | — | — | да |
+| `ARTILLERIST_BURST_L20` | 27.13% | 29.08% | 50.16% | — | — | — | да |
+| `BLOCKER_RANGED_L0` | 0.01% | 0.00% | 50.00% | 47.11% | 46.25% | — | да |
+| `BLOCKER_RANGED_L3` | 0.01% | 0.00% | 50.00% | 47.16% | 46.30% | — | да |
+| `BLOCKER_RANGED_L6` | 0.01% | 0.00% | 50.00% | 47.36% | 46.55% | — | да |
+| `BLOCKER_RANGED_L10` | 0.00% | 0.00% | 50.00% | 48.06% | 47.32% | — | да |
+| `BLOCKER_RANGED_L20` | 0.00% | 0.00% | 50.00% | 48.10% | 47.64% | — | да |
+| `BLOCKER_CONTROL_L0` | 0.01% | 0.00% | 50.00% | — | — | 154.386159 | да |
+| `BLOCKER_CONTROL_L3` | 0.01% | 0.00% | 50.00% | — | — | 154.008024 | да |
+| `BLOCKER_CONTROL_L6` | 0.00% | 0.00% | 50.00% | — | — | 154.925777 | да |
+| `BLOCKER_CONTROL_L10` | 0.00% | 0.00% | 50.00% | — | — | 155.363381 | да |
+| `BLOCKER_CONTROL_L20` | 0.00% | 0.00% | 50.00% | — | — | 154.722828 | да |
+
+## Непринятые условия
+
+- ARTILLERIST_RANGED_L0: не принят знак ARTILLERIST_RANGED_L0_PRICE
+- ARTILLERIST_RANGED_L3: не принят знак ARTILLERIST_RANGED_L3_PRICE
+- ARTILLERIST_RANGED_L6: не принят знак ARTILLERIST_RANGED_L6_PRICE
+- ARTILLERIST_RANGED_L10: не принят знак ARTILLERIST_RANGED_L10_PRICE
+- ARTILLERIST_RANGED_L20: не принят знак ARTILLERIST_RANGED_L20_PRICE
+- BLOCKER_RANGED_L0: не принят знак BLOCKER_RANGED_L0_PRICE
+- BLOCKER_RANGED_L3: не принят знак BLOCKER_RANGED_L3_PRICE
+- BLOCKER_RANGED_L6: не принят знак BLOCKER_RANGED_L6_PRICE
+- BLOCKER_RANGED_L10: не принят знак BLOCKER_RANGED_L10_PRICE
+- BLOCKER_RANGED_L20: не принят знак BLOCKER_RANGED_L20_PRICE
+
+Отчёт: /home/user/projects/project-seeker/game/../documentation/raid-redesign-step-12-mixed-v1-final.md
+Точные статистики: /home/user/projects/project-seeker/game/../documentation/raid-redesign-step-12-mixed-v1-final-statistics.tsv
+SHA-256 точных статистик: 0592688b266d140928ff8a194bd7dd12b137330cfce332ca9169fe499fb7f9fd
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 605.4 s <<< FAILURE! -- in ru.homyakin.seeker.game.battle.Step12MixedBuildSimulator
+[ERROR] ru.homyakin.seeker.game.battle.Step12MixedBuildSimulator.runConfiguredMatrix -- Time elapsed: 605.4 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+ARTILLERIST_RANGED_L0: не принят знак ARTILLERIST_RANGED_L0_PRICE
+ARTILLERIST_RANGED_L3: не принят знак ARTILLERIST_RANGED_L3_PRICE
+ARTILLERIST_RANGED_L6: не принят знак ARTILLERIST_RANGED_L6_PRICE
+ARTILLERIST_RANGED_L10: не принят знак ARTILLERIST_RANGED_L10_PRICE
+ARTILLERIST_RANGED_L20: не принят знак ARTILLERIST_RANGED_L20_PRICE
+BLOCKER_RANGED_L0: не принят знак BLOCKER_RANGED_L0_PRICE
+BLOCKER_RANGED_L3: не принят знак BLOCKER_RANGED_L3_PRICE
+BLOCKER_RANGED_L6: не принят знак BLOCKER_RANGED_L6_PRICE
+BLOCKER_RANGED_L10: не принят знак BLOCKER_RANGED_L10_PRICE
+BLOCKER_RANGED_L20: не принят знак BLOCKER_RANGED_L20_PRICE ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:42)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:191)
+	at ru.homyakin.seeker.game.battle.Step12MixedBuildSimulator.runConfiguredMatrix(Step12MixedBuildSimulator.java:98)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Step12MixedBuildSimulator.runConfiguredMatrix:98 ARTILLERIST_RANGED_L0: не принят знак ARTILLERIST_RANGED_L0_PRICE
+ARTILLERIST_RANGED_L3: не принят знак ARTILLERIST_RANGED_L3_PRICE
+ARTILLERIST_RANGED_L6: не принят знак ARTILLERIST_RANGED_L6_PRICE
+ARTILLERIST_RANGED_L10: не принят знак ARTILLERIST_RANGED_L10_PRICE
+ARTILLERIST_RANGED_L20: не принят знак ARTILLERIST_RANGED_L20_PRICE
+BLOCKER_RANGED_L0: не принят знак BLOCKER_RANGED_L0_PRICE
+BLOCKER_RANGED_L3: не принят знак BLOCKER_RANGED_L3_PRICE
+BLOCKER_RANGED_L6: не принят знак BLOCKER_RANGED_L6_PRICE
+BLOCKER_RANGED_L10: не принят знак BLOCKER_RANGED_L10_PRICE
+BLOCKER_RANGED_L20: не принят знак BLOCKER_RANGED_L20_PRICE ==> expected: <true> but was: <false>
+[INFO] 
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10:27 min
+[INFO] Finished at: 2026-09-26T21:05:09+03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.3:test (default-test) on project project-seeker: There are test failures.
+[ERROR] 
+[ERROR] See /home/user/projects/project-seeker/game/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

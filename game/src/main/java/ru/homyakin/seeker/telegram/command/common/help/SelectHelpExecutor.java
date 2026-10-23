@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.homyakin.seeker.game.battle.skill.ActiveSkillSlots;
+import ru.homyakin.seeker.game.battle.skill.ActiveSkillCatalogProvider;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.locale.Language;
 import ru.homyakin.seeker.locale.help.HelpLocalization;
@@ -25,11 +26,21 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
     private final UserService userService;
     private final GroupTgService groupTgService;
     private final TelegramSender telegramSender;
+    private final PlayerCombatConfig playerCombatConfig;
+    private final ActiveSkillCatalogProvider skillCatalogProvider;
 
-    public SelectHelpExecutor(UserService userService, GroupTgService groupTgService, TelegramSender telegramSender) {
+    public SelectHelpExecutor(
+        UserService userService,
+        GroupTgService groupTgService,
+        TelegramSender telegramSender,
+        PlayerCombatConfig playerCombatConfig,
+        ActiveSkillCatalogProvider skillCatalogProvider
+    ) {
         this.userService = userService;
         this.groupTgService = groupTgService;
         this.telegramSender = telegramSender;
+        this.playerCombatConfig = playerCombatConfig;
+        this.skillCatalogProvider = skillCatalogProvider;
     }
 
     @Override
@@ -83,7 +94,8 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
     }
 
     private HelpContent skillsContent(Language language, int page, Set<PersonageSlot> slotFilters) {
-        final var skills = ActiveSkillSlots.sortedSkills(slotFilters);
+        final var catalog = skillCatalogProvider.snapshot();
+        final var skills = catalog.sortedSkills(slotFilters);
         if (skills.isEmpty()) {
             return new HelpContent(
                 HelpLocalization.battleSkillsEmpty(language),
@@ -96,7 +108,7 @@ public class SelectHelpExecutor extends CommandExecutor<SelectHelp> {
         final var to = Math.min(from + SKILLS_PAGE_SIZE, skills.size());
         final var pageSkills = skills.subList(from, to);
         final var text = pageSkills.stream()
-            .map(skill -> HelpLocalization.battleSkill(language, skill))
+            .map(skill -> HelpLocalization.battleSkill(language, skill, playerCombatConfig.version(), catalog))
             .collect(Collectors.joining("\n\n"));
         return new HelpContent(
             text,

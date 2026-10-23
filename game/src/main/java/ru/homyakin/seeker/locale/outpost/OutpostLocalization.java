@@ -1,5 +1,7 @@
 package ru.homyakin.seeker.locale.outpost;
 
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -459,8 +461,18 @@ public class OutpostLocalization {
         int materialsValue,
         List<String> loadoutNames
     ) {
+        return confirmDonateLoadout(language, item, materialsValue, loadoutNames, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String confirmDonateLoadout(
+        Language language,
+        PersonageItem item,
+        int materialsValue,
+        List<String> loadoutNames,
+        SkillFormulaVersion formulaVersion
+    ) {
         final var params = new HashMap<String, Object>();
-        params.put("full_item_name", ItemLocalization.fullItem(language, item));
+        params.put("full_item_name", ItemLocalization.fullItem(language, item, "", formulaVersion));
         params.put("materials_icon", Icons.OUTPOST_MATERIALS);
         params.put("materials_value", materialsValue);
         params.put("materials", resources.getOrDefault(language, OutpostResource::materialsResource));

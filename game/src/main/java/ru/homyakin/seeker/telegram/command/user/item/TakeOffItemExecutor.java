@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.TakeOffItemError;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -16,17 +17,20 @@ public class TakeOffItemExecutor extends CommandExecutor<TakeOffItem> {
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
     private final ItemService itemService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public TakeOffItemExecutor(
         UserService userService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        ItemService itemService
+        ItemService itemService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
         this.itemService = itemService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class TakeOffItemExecutor extends CommandExecutor<TakeOffItem> {
                     case TakeOffItemError.AlreadyTakenOff _ -> ItemLocalization.alreadyTakenOff(user.language());
                     case TakeOffItemError.NotEnoughSpaceInBag _ -> ItemLocalization.notEnoughSpaceInBag(user.language());
                 },
-                item -> ItemLocalization.successTakeOff(user.language(), item)
+                item -> ItemLocalization.successTakeOff(user.language(), item, playerCombatConfig.version())
             );
         telegramSender.send(
             SendMessageBuilder.builder()

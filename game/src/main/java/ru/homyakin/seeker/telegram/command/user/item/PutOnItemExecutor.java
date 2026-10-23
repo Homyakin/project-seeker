@@ -1,6 +1,7 @@
 package ru.homyakin.seeker.telegram.command.user.item;
 
 import org.springframework.stereotype.Component;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.item.ItemService;
 import ru.homyakin.seeker.game.item.errors.PutOnItemError;
 import ru.homyakin.seeker.game.personage.PersonageService;
@@ -16,17 +17,20 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
     private final PersonageService personageService;
     private final TelegramSender telegramSender;
     private final ItemService itemService;
+    private final PlayerCombatConfig playerCombatConfig;
 
     public PutOnItemExecutor(
         UserService userService,
         PersonageService personageService,
         TelegramSender telegramSender,
-        ItemService itemService
+        ItemService itemService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.userService = userService;
         this.personageService = personageService;
         this.telegramSender = telegramSender;
         this.itemService = itemService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Override
@@ -40,7 +44,7 @@ public class PutOnItemExecutor extends CommandExecutor<PutOnItem> {
                     case PutOnItemError.NotEnoughSpaceOnPutOnItem notEnoughSpaceOnPutOnItem ->
                         ItemLocalization.notEnoughSpaceOnPutOnItem(user.language(), notEnoughSpaceOnPutOnItem.slots());
                 },
-                result -> ItemLocalization.successPutOn(user.language(), result)
+                result -> ItemLocalization.successPutOn(user.language(), result, playerCombatConfig.version())
             );
         telegramSender.send(
             SendMessageBuilder.builder()

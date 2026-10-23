@@ -10,6 +10,7 @@ import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.EventBattleLogService;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.duel.models.CreateDuelError;
 import ru.homyakin.seeker.game.duel.models.CreateDuelResult;
 import ru.homyakin.seeker.game.duel.models.Duel;
@@ -46,6 +47,7 @@ public class DuelService {
     private final EventService eventService;
     private final PersonageEventService personageEventService;
     private final EventBattleLogService eventBattleLogService;
+    private final PlayerCombatConfig playerCombatConfig;
     private final Battle battle = new Battle();
 
     public DuelService(
@@ -57,7 +59,8 @@ public class DuelService {
         LaunchedEventService launchedEventService,
         EventService eventService,
         PersonageEventService personageEventService,
-        EventBattleLogService eventBattleLogService
+        EventBattleLogService eventBattleLogService,
+        PlayerCombatConfig playerCombatConfig
     ) {
         this.duelDao = duelDao;
         this.duelConfig = duelConfig;
@@ -68,6 +71,7 @@ public class DuelService {
         this.eventService = eventService;
         this.personageEventService = personageEventService;
         this.eventBattleLogService = eventBattleLogService;
+        this.playerCombatConfig = playerCombatConfig;
     }
 
     @Transactional
@@ -192,14 +196,16 @@ public class DuelService {
             firstGear.items(),
             Position.FRONT,
             personage1.effects(),
-            Optional.of(LocaleUtils.personageNameWithBadge(personage1))
+            Optional.of(LocaleUtils.personageNameWithBadge(personage1)),
+            playerCombatConfig.version()
         );
         firstBattlePersonage.setTargetingTactic(firstGear.targetingTactic());
         final var secondBattlePersonage = BattlePersonage.forCombat(
             secondGear.items(),
             Position.FRONT,
             personage2.effects(),
-            Optional.of(LocaleUtils.personageNameWithBadge(personage2))
+            Optional.of(LocaleUtils.personageNameWithBadge(personage2)),
+            playerCombatConfig.version()
         );
         secondBattlePersonage.setTargetingTactic(secondGear.targetingTactic());
         final var battleResult = battle.process(

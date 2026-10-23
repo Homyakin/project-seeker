@@ -21,11 +21,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoader;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.item.catalog.ItemModifiersToml;
 import ru.homyakin.seeker.game.item.catalog.ItemObjectsToml;
@@ -69,8 +72,10 @@ class EquipmentCatalogPostgresIntegrationTest {
         }
     }
 
-    @Test
-    void stagesAndActivatesReleaseWithoutBreakingExistingItem() throws Exception {
+    @ParameterizedTest(name = "{0}: stage, activate, restart and roll back existing equipment")
+    @EnumSource(value = EquipmentCatalogVersion.class, names = {"SCALING_V1", "SCALING_V3", "SCALING_V4", "SCALING_V5"})
+    void stagesAndActivatesReleaseWithoutBreakingExistingItem(EquipmentCatalogVersion version) throws Exception {
+        final int releaseItemCount = EquipmentCatalogLoader.loadValidated(version).itemObjects().size();
         final var jsonUtils = new JsonUtils();
         final var previousObjects = load("game-data/item_objects_catalog.toml", ItemObjectsToml::load);
         final var previousModifiers = load("game-data/item_modifiers_catalog.toml", ItemModifiersToml::load);
@@ -132,13 +137,13 @@ class EquipmentCatalogPostgresIntegrationTest {
         Assertions.assertTrue(itemDao.getById(legacySmallBaseItemId).isPresent());
 
         inTransaction(() -> service.stageRelease(
-            EquipmentCatalogVersion.SCALING_V1,
+            version,
             previousObjects.itemObjects(),
             previousModifiers.modifiers()
         ));
 
         Assertions.assertAll(
-            () -> Assertions.assertEquals(62, count(jdbc, "item_object")),
+            () -> Assertions.assertEquals(releaseItemCount, count(jdbc, "item_object")),
             () -> Assertions.assertEquals(15, count(jdbc, "item_modifier")),
             () -> Assertions.assertEquals(40, countEnabled(jdbc, "item_object", "acquisition_enabled")),
             () -> Assertions.assertEquals(11, countEnabled(jdbc, "item_modifier", "assignment_enabled")),
@@ -197,7 +202,7 @@ class EquipmentCatalogPostgresIntegrationTest {
         );
 
         inTransaction(() -> service.stageRelease(
-            EquipmentCatalogVersion.SCALING_V1,
+            version,
             previousObjects.itemObjects(),
             previousModifiers.modifiers()
         ));
@@ -205,17 +210,17 @@ class EquipmentCatalogPostgresIntegrationTest {
         Assertions.assertEquals(40, countEnabled(jdbc, "item_object", "acquisition_enabled"));
         Assertions.assertEquals(11, countEnabled(jdbc, "item_modifier", "assignment_enabled"));
 
-        inTransaction(() -> service.activateRelease(EquipmentCatalogVersion.SCALING_V1));
+        inTransaction(() -> service.activateRelease(version));
         Assertions.assertTrue(objectDao.getAvailableById(stagedId).isPresent());
         Assertions.assertTrue(modifierDao.getAvailableById(stagedModifierId).isPresent());
         assertArmorDistribution(objectDao);
 
         inTransaction(() -> service.stageRelease(
-            EquipmentCatalogVersion.SCALING_V1,
+            version,
             previousObjects.itemObjects(),
             previousModifiers.modifiers()
         ));
-        Assertions.assertEquals(62, countEnabled(jdbc, "item_object", "acquisition_enabled"));
+        Assertions.assertEquals(releaseItemCount, countEnabled(jdbc, "item_object", "acquisition_enabled"));
         Assertions.assertEquals(15, countEnabled(jdbc, "item_modifier", "assignment_enabled"));
         final long postSnapshotItemId = jdbc.queryForObject("""
                 INSERT INTO item (
@@ -227,7 +232,7 @@ class EquipmentCatalogPostgresIntegrationTest {
         Assertions.assertThrows(Exception.class, this::rollbackLastChangeSet);
         Assertions.assertAll(
             () -> Assertions.assertEquals(4, count(jdbc, "item")),
-            () -> Assertions.assertEquals(62, count(jdbc, "item_object")),
+            () -> Assertions.assertEquals(releaseItemCount, count(jdbc, "item_object")),
             () -> Assertions.assertEquals(15, count(jdbc, "item_modifier")),
             () -> Assertions.assertEquals(1,
                 intValue(jdbc, "SELECT count(*) FROM item WHERE id = ?", postSnapshotItemId)),
@@ -255,8 +260,10 @@ class EquipmentCatalogPostgresIntegrationTest {
         );
     }
 
-    @Test
-    void freshDatabaseGetsRollbackBaselineBeforeStaging() throws Exception {
+    @ParameterizedTest(name = "{0}: fresh catalog retains the legacy rollback baseline")
+    @EnumSource(value = EquipmentCatalogVersion.class, names = {"SCALING_V1", "SCALING_V3", "SCALING_V4", "SCALING_V5"})
+    void freshDatabaseGetsRollbackBaselineBeforeStaging(EquipmentCatalogVersion version) throws Exception {
+        final int releaseItemCount = EquipmentCatalogLoader.loadValidated(version).itemObjects().size();
         final var jsonUtils = new JsonUtils();
         final var previousObjects = load("game-data/item_objects_catalog.toml", ItemObjectsToml::load);
         final var previousModifiers = load("game-data/item_modifiers_catalog.toml", ItemModifiersToml::load);
@@ -269,7 +276,7 @@ class EquipmentCatalogPostgresIntegrationTest {
         final var jdbc = new JdbcTemplate(schemaDataSource);
 
         inTransaction(() -> service.stageRelease(
-            EquipmentCatalogVersion.SCALING_V1,
+            version,
             previousObjects.itemObjects(),
             previousModifiers.modifiers()
         ));
@@ -285,7 +292,7 @@ class EquipmentCatalogPostgresIntegrationTest {
         Assertions.assertAll(
             () -> Assertions.assertEquals(40, count(jdbc, "item_object_catalog_lifecycle_backup")),
             () -> Assertions.assertEquals(11, count(jdbc, "item_modifier_catalog_lifecycle_backup")),
-            () -> Assertions.assertEquals(62, count(jdbc, "item_object")),
+            () -> Assertions.assertEquals(releaseItemCount, count(jdbc, "item_object")),
             () -> Assertions.assertEquals(15, count(jdbc, "item_modifier"))
         );
 
@@ -304,6 +311,269 @@ class EquipmentCatalogPostgresIntegrationTest {
                 intValue(jdbc, "SELECT enhance_level FROM item WHERE id = ?", itemId)),
             () -> Assertions.assertEquals(1,
                 longValue(jdbc, "SELECT enhance_revision FROM item WHERE id = ?", itemId)),
+            () -> Assertions.assertEquals(0, countLifecycleSchemaObjects(jdbc))
+        );
+    }
+
+    @Test
+    void stagesFirstThirdFourthAndFifthCatalogsWithoutReplacingTheLegacyRollbackBaseline() throws Exception {
+        final var jsonUtils = new JsonUtils();
+        final var previousObjects = load("game-data/item_objects_catalog.toml", ItemObjectsToml::load);
+        final var previousModifiers = load("game-data/item_modifiers_catalog.toml", ItemModifiersToml::load);
+        seedPreviousCatalog(previousObjects, previousModifiers, jsonUtils);
+        final var jdbc = new JdbcTemplate(schemaDataSource);
+        final var personageDao = new PersonageDao(
+            schemaDataSource,
+            jsonUtils,
+            new PersonageConfig(Duration.ofHours(8), 200, 5)
+        );
+        final long ownerId = personageDao.createDefault("Catalog Sequence").value();
+        final int bowId = idForCode(jdbc, "item_object", "bow");
+        final int halberdId = idForCode(jdbc, "item_object", "halberd");
+        final int historicalModifierId = idForCode(jdbc, "item_modifier", "cunning");
+        final var previousBow = previousObjects.itemObjects().stream()
+            .filter(item -> item.code().equals("bow"))
+            .findFirst()
+            .orElseThrow();
+        final var previousHalberd = previousObjects.itemObjects().stream()
+            .filter(item -> item.code().equals("halberd"))
+            .findFirst()
+            .orElseThrow();
+        final var previousObjectRows = jdbc.queryForList(
+            "SELECT to_jsonb(source)::text FROM item_object source ORDER BY id", String.class
+        );
+        final var previousModifierRows = jdbc.queryForList(
+            "SELECT to_jsonb(source)::text FROM item_modifier source ORDER BY id", String.class
+        );
+        final long bowItemId = jdbc.queryForObject("""
+                INSERT INTO item (
+                    item_object_id, item_modifier_id, rarity, personage_id, is_equipped,
+                    enhance_level, enhance_revision
+                ) VALUES (?, ?, ?, ?, true, 6, 7)
+                RETURNING id
+                """, Long.class, bowId, historicalModifierId, ItemRarity.RARE.ordinal(), ownerId);
+        final long halberdItemId = jdbc.queryForObject("""
+                INSERT INTO item (
+                    item_object_id, item_modifier_id, rarity, personage_id, is_equipped,
+                    enhance_level, enhance_revision
+                ) VALUES (?, ?, ?, ?, false, 6, 11)
+                RETURNING id
+                """, Long.class, halberdId, historicalModifierId, ItemRarity.RARE.ordinal(), ownerId);
+        migrate();
+
+        final var objectDao = new ItemObjectDao(schemaDataSource, jsonUtils);
+        final var modifierDao = new ItemModifierDao(schemaDataSource, jsonUtils);
+        final var itemDao = new ItemDao(schemaDataSource, objectDao, modifierDao);
+        final var lifecycleDao = new ItemCatalogLifecycleDao(schemaDataSource);
+        final var service = new ItemCatalogService(objectDao, modifierDao, lifecycleDao);
+        inTransaction(() -> service.stageRelease(
+            EquipmentCatalogVersion.SCALING_V1, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        Assertions.assertEquals(8, itemDao.getById(bowItemId).orElseThrow().enhanceRevision());
+        Assertions.assertEquals(330, itemDao.getById(bowItemId).orElseThrow().toItem().itemAttacks().getFirst().attack());
+        Assertions.assertEquals(12, itemDao.getById(halberdItemId).orElseThrow().enhanceRevision());
+        Assertions.assertEquals(396, itemDao.getById(halberdItemId).orElseThrow().toItem().itemAttacks().getFirst().attack());
+        final var objectBaseline = jdbc.queryForList(
+            "SELECT row_to_json(backup)::text FROM item_object_catalog_lifecycle_backup backup ORDER BY id",
+            String.class
+        );
+        final var modifierBaseline = jdbc.queryForList(
+            "SELECT row_to_json(backup)::text FROM item_modifier_catalog_lifecycle_backup backup ORDER BY id",
+            String.class
+        );
+        final int tunicId = idForCode(jdbc, "item_object", "ceremonial_tunic");
+        final int trousersId = idForCode(jdbc, "item_object", "ceremonial_trousers");
+        final int guardModifierId = idForCode(jdbc, "item_modifier", "guarding");
+        final long tunicItemId = jdbc.queryForObject("""
+                INSERT INTO item (
+                    item_object_id, item_modifier_id, rarity, personage_id, is_equipped,
+                    enhance_level, enhance_revision
+                ) VALUES (?, ?, ?, ?, false, 10, 4)
+                RETURNING id
+                """, Long.class, tunicId, guardModifierId, ItemRarity.LEGENDARY.ordinal(), ownerId);
+        final long trousersItemId = jdbc.queryForObject("""
+                INSERT INTO item (
+                    item_object_id, item_modifier_id, rarity, personage_id, is_equipped,
+                    enhance_level, enhance_revision
+                ) VALUES (?, NULL, ?, ?, true, 3, 8)
+                RETURNING id
+                """, Long.class, trousersId, ItemRarity.COMMON.ordinal(), ownerId);
+        final var itemIdentities = jdbc.queryForList("""
+            SELECT id, item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level
+            FROM item ORDER BY id
+            """);
+
+        inTransaction(() -> service.stageRelease(
+            EquipmentCatalogVersion.SCALING_V3, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(9, itemDao.getById(bowItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(264, itemDao.getById(bowItemId).orElseThrow()
+                .toItem().itemAttacks().getFirst().attack()),
+            () -> Assertions.assertEquals(34, itemDao.getById(tunicItemId).orElseThrow().object().speed()),
+            () -> Assertions.assertEquals(24, itemDao.getById(trousersItemId).orElseThrow().object().speed()),
+            () -> Assertions.assertEquals(4, itemDao.getById(tunicItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(8, itemDao.getById(trousersItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(12, itemDao.getById(halberdItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(
+                EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V3).itemObjects().size(),
+                count(jdbc, "item_object")
+            ),
+            () -> Assertions.assertEquals(40, countEnabled(jdbc, "item_object", "acquisition_enabled"))
+        );
+        inTransaction(() -> service.stageRelease(
+            EquipmentCatalogVersion.SCALING_V4, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(9, itemDao.getById(bowItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(40, itemDao.getById(tunicItemId).orElseThrow().object().speed()),
+            () -> Assertions.assertEquals(30, itemDao.getById(trousersItemId).orElseThrow().object().speed()),
+            () -> Assertions.assertEquals(5, itemDao.getById(tunicItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(9, itemDao.getById(trousersItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(12, itemDao.getById(halberdItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(360, itemDao.getById(halberdItemId).orElseThrow()
+                .object().attacks().getFirst().attack()),
+            () -> Assertions.assertEquals(396, itemDao.getById(halberdItemId).orElseThrow()
+                .toItem().itemAttacks().getFirst().attack()),
+            () -> Assertions.assertEquals(itemIdentities, jdbc.queryForList("""
+                SELECT id, item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level
+                FROM item ORDER BY id
+                """)),
+            () -> Assertions.assertEquals(objectBaseline, jdbc.queryForList(
+                "SELECT row_to_json(backup)::text FROM item_object_catalog_lifecycle_backup backup ORDER BY id",
+                String.class
+            )),
+            () -> Assertions.assertEquals(modifierBaseline, jdbc.queryForList(
+                "SELECT row_to_json(backup)::text FROM item_modifier_catalog_lifecycle_backup backup ORDER BY id",
+                String.class
+            ))
+        );
+
+        inTransaction(() -> service.stageRelease(
+            EquipmentCatalogVersion.SCALING_V5, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        final var revisedHalberd = itemDao.getById(halberdItemId).orElseThrow();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(halberdItemId, revisedHalberd.id()),
+            () -> Assertions.assertEquals(halberdId, revisedHalberd.objectId()),
+            () -> Assertions.assertEquals(ownerId, revisedHalberd.personageId().orElseThrow().value()),
+            () -> Assertions.assertEquals(historicalModifierId, revisedHalberd.modifierId().orElseThrow()),
+            () -> Assertions.assertEquals(ItemRarity.RARE, revisedHalberd.rarity()),
+            () -> Assertions.assertFalse(revisedHalberd.isEquipped()),
+            () -> Assertions.assertEquals(6, revisedHalberd.enhanceLevel()),
+            () -> Assertions.assertEquals(13, revisedHalberd.enhanceRevision()),
+            () -> Assertions.assertEquals(420, revisedHalberd.object().attacks().getFirst().attack()),
+            () -> Assertions.assertEquals(462, revisedHalberd.toItem().itemAttacks().getFirst().attack()),
+            () -> Assertions.assertEquals(9, itemDao.getById(bowItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(40, itemDao.getById(tunicItemId).orElseThrow().object().speed()),
+            () -> Assertions.assertEquals(30, itemDao.getById(trousersItemId).orElseThrow().object().speed()),
+            () -> Assertions.assertEquals(5, itemDao.getById(tunicItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(9, itemDao.getById(trousersItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(itemIdentities, jdbc.queryForList("""
+                SELECT id, item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level
+                FROM item ORDER BY id
+                """)),
+            () -> Assertions.assertEquals(objectBaseline, jdbc.queryForList(
+                "SELECT row_to_json(backup)::text FROM item_object_catalog_lifecycle_backup backup ORDER BY id",
+                String.class
+            )),
+            () -> Assertions.assertEquals(modifierBaseline, jdbc.queryForList(
+                "SELECT row_to_json(backup)::text FROM item_modifier_catalog_lifecycle_backup backup ORDER BY id",
+                String.class
+            )),
+            () -> Assertions.assertEquals(40, countEnabled(jdbc, "item_object", "acquisition_enabled")),
+            () -> Assertions.assertEquals(11, countEnabled(jdbc, "item_modifier", "assignment_enabled"))
+        );
+        inTransaction(() -> service.stageRelease(
+            EquipmentCatalogVersion.SCALING_V5, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        Assertions.assertEquals(revisedHalberd, itemDao.getById(halberdItemId).orElseThrow());
+
+        final var restartedObjectDao = new ItemObjectDao(schemaDataSource, jsonUtils);
+        final var restartedModifierDao = new ItemModifierDao(schemaDataSource, jsonUtils);
+        final var restartedItemDao = new ItemDao(schemaDataSource, restartedObjectDao, restartedModifierDao);
+        final var restartedService = new ItemCatalogService(
+            restartedObjectDao, restartedModifierDao, new ItemCatalogLifecycleDao(schemaDataSource)
+        );
+        inTransaction(() -> restartedService.stageRelease(
+            EquipmentCatalogVersion.SCALING_V5, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(itemDao.getById(bowItemId), restartedItemDao.getById(bowItemId)),
+            () -> Assertions.assertEquals(revisedHalberd, restartedItemDao.getById(halberdItemId).orElseThrow()),
+            () -> Assertions.assertEquals(5, restartedItemDao.getById(tunicItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(9, restartedItemDao.getById(trousersItemId).orElseThrow().enhanceRevision()),
+            () -> Assertions.assertEquals(40, count(jdbc, "item_object_catalog_lifecycle_backup")),
+            () -> Assertions.assertEquals(11, count(jdbc, "item_modifier_catalog_lifecycle_backup")),
+            () -> Assertions.assertEquals(4, count(jdbc, "item_catalog_release")),
+            () -> Assertions.assertTrue(restartedObjectDao.getAvailableById(tunicId).isEmpty())
+        );
+        inTransaction(() -> restartedService.activateRelease(EquipmentCatalogVersion.SCALING_V5));
+        inTransaction(() -> restartedService.stageRelease(
+            EquipmentCatalogVersion.SCALING_V5, previousObjects.itemObjects(), previousModifiers.modifiers()
+        ));
+        Assertions.assertEquals(revisedHalberd, restartedItemDao.getById(halberdItemId).orElseThrow());
+        final var catalog = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V5);
+        Assertions.assertEquals(Set.of(EquipmentCatalogVersion.SCALING_V5), Set.copyOf(lifecycleDao.getActiveVersions()));
+        Assertions.assertEquals(4, count(jdbc, "item_catalog_release"));
+        final var releaseItemCodes = catalog.itemObjects().stream().map(ItemObject::code)
+            .collect(Collectors.toUnmodifiableSet());
+        Assertions.assertEquals(catalog.itemObjects().size(), countEnabled(jdbc, "item_object", "acquisition_enabled"));
+        Assertions.assertEquals(15, countEnabled(jdbc, "item_modifier", "assignment_enabled"));
+        for (final var item : catalog.itemObjects()) {
+            final int objectId = idForCode(jdbc, "item_object", item.code());
+            Assertions.assertEquals(item, restartedObjectDao.getAvailableById(objectId).orElseThrow().object(), item.code());
+        }
+        assertArmorDistribution(restartedObjectDao);
+        for (int attempt = 0; attempt < 100; attempt++) {
+            Assertions.assertTrue(releaseItemCodes.contains(
+                restartedObjectDao.getRandomObject(PersonageSlot.BODY).object().code()
+            ));
+        }
+        Assertions.assertThrows(Exception.class, this::rollbackLastChangeSet);
+        Assertions.assertEquals(4, count(jdbc, "item"));
+        jdbc.update("DELETE FROM item WHERE id IN (?, ?)", tunicItemId, trousersItemId);
+        rollbackLastChangeSet();
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(40, count(jdbc, "item_object")),
+            () -> Assertions.assertEquals(11, count(jdbc, "item_modifier")),
+            () -> Assertions.assertEquals(2, count(jdbc, "item")),
+            () -> Assertions.assertEquals(bowId, idForCode(jdbc, "item_object", "bow")),
+            () -> Assertions.assertEquals(previousBow.attacks().getFirst().attack(),
+                intValue(jdbc, "SELECT attack FROM item_object WHERE id = ?", bowId)),
+            () -> Assertions.assertEquals(ItemProgressionVersion.LEGACY.name(),
+                stringValue(jdbc, "SELECT progression_version FROM item_object WHERE id = ?", bowId)),
+            () -> Assertions.assertEquals(6,
+                intValue(jdbc, "SELECT enhance_level FROM item WHERE id = ?", bowItemId)),
+            () -> Assertions.assertEquals(10,
+                longValue(jdbc, "SELECT enhance_revision FROM item WHERE id = ?", bowItemId)),
+            () -> Assertions.assertEquals(ownerId,
+                longValue(jdbc, "SELECT personage_id FROM item WHERE id = ?", bowItemId)),
+            () -> Assertions.assertEquals(historicalModifierId,
+                intValue(jdbc, "SELECT item_modifier_id FROM item WHERE id = ?", bowItemId)),
+            () -> Assertions.assertEquals(halberdId, idForCode(jdbc, "item_object", "halberd")),
+            () -> Assertions.assertEquals(previousHalberd.attacks().getFirst().attack(),
+                intValue(jdbc, "SELECT attack FROM item_object WHERE id = ?", halberdId)),
+            () -> Assertions.assertEquals(ItemProgressionVersion.LEGACY.name(),
+                stringValue(jdbc, "SELECT progression_version FROM item_object WHERE id = ?", halberdId)),
+            () -> Assertions.assertEquals(6,
+                intValue(jdbc, "SELECT enhance_level FROM item WHERE id = ?", halberdItemId)),
+            () -> Assertions.assertEquals(14,
+                longValue(jdbc, "SELECT enhance_revision FROM item WHERE id = ?", halberdItemId)),
+            () -> Assertions.assertEquals(ownerId,
+                longValue(jdbc, "SELECT personage_id FROM item WHERE id = ?", halberdItemId)),
+            () -> Assertions.assertEquals(historicalModifierId,
+                intValue(jdbc, "SELECT item_modifier_id FROM item WHERE id = ?", halberdItemId)),
+            () -> Assertions.assertEquals(itemIdentities.subList(0, 2), jdbc.queryForList("""
+                SELECT id, item_object_id, item_modifier_id, rarity, personage_id, is_equipped, enhance_level
+                FROM item ORDER BY id
+                """)),
+            () -> Assertions.assertEquals(previousObjectRows, jdbc.queryForList(
+                "SELECT to_jsonb(source)::text FROM item_object source ORDER BY id", String.class
+            )),
+            () -> Assertions.assertEquals(previousModifierRows, jdbc.queryForList(
+                "SELECT to_jsonb(source)::text FROM item_modifier source ORDER BY id", String.class
+            )),
             () -> Assertions.assertEquals(0, countLifecycleSchemaObjects(jdbc))
         );
     }

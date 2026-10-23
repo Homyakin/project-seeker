@@ -1,0 +1,29 @@
+# Commands used for the successful verification; repository paths are relative to project-seeker.
+# Maven and Java commands below use cwd=game. Database URL refers ONLY to the disposable test container.
+export JAVA_HOME=/home/user/.jdks/axiomjdk-25.0.1
+export JAVA_TOOL_OPTIONS=-javaagent:/home/user/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar
+export SEEKER_POSTGRES_TEST_URL=jdbc:postgresql://127.0.0.1:55434/seeker_step12_3_corrections
+export SEEKER_POSTGRES_TEST_USER=dev
+export SEEKER_POSTGRES_TEST_PASSWORD=dev
+/opt/apache-maven-3.9.12/bin/mvn clean package
+
+# The successful PostgreSQL-only prerequisite used the same environment and -Dtest=EquipmentCatalogPostgresIntegrationTest.
+# Full build includes those nine cases again. Earlier targeted tests: targeted-tests-1.log.
+study_cp=$(sed -n 's/.*<property name="java.class.path" value="\([^"]*\)"\/>.*/\1/p' target/surefire-reports/TEST-ru.homyakin.seeker.game.battle.Step123CorrectionsStudyTest.xml)
+$JAVA_HOME/bin/java -Xmx768m -cp "$study_cp" ru.homyakin.seeker.game.battle.Step123CorrectionsStudy ../documentation/raid-redesign-step-12-3-corrections-evidence/diagnostic 2026102405 100
+$JAVA_HOME/bin/java -Xmx768m -cp "$study_cp" ru.homyakin.seeker.game.battle.Step123CorrectionsStudy ../documentation/raid-redesign-step-12-3-corrections-evidence/confirmation 2026102406 500
+$JAVA_HOME/bin/java -Xmx512m -cp "$study_cp" -Dstep123.seed=2026102407 -Dstep123.pairs=1000 -Dstep123.workers=4 -Dstep123.filter='^MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_(BRUISER_BLUNT|BREAKER_CLOSE_SLASH)_L(0|10|20)(_OFF)?$' -Dstep123.output=../documentation/raid-redesign-step-12-3-corrections-evidence/mobile-niche ru.homyakin.seeker.game.battle.Step123BattleStudy
+$JAVA_HOME/bin/java -cp "$study_cp" ru.homyakin.seeker.game.battle.Step123ReferenceTeams ../documentation/raid-redesign-step-12-3-corrections-evidence/reference-teams.json
+
+# Use fresh output paths when repeating studies; each study intentionally rejects existing outputs.
+# The seed roots here document the completed runs; a new independent experiment requires new roots.
+# A historical replay must retain the exact source snapshot and be labelled a replay, not independent evidence.
+
+# Read-only checks from repository root:
+/home/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node documentation/raid-redesign-step-12-3-corrections-evidence/verify-results.mjs --full-build-finished
+sha256sum -c documentation/raid-redesign-step-12-3-corrections-evidence/unchanged-enhancement-inputs.sha256
+sha256sum -c documentation/raid-redesign-step-12-3-evidence/outputs.sha256
+
+# Temporary container: postgres:16, 127.0.0.1:55434, tmpfs /var/lib/postgresql/data:rw,size=512m.
+# Its dev/dev user and seeker_step12_3_corrections database were newly created for these tests.
+# Created container seeker-step12-3-corrections-pg16 was removed after full success; production DB never connected.

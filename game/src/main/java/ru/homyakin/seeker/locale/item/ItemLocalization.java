@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.event.models.EventType;
+import ru.homyakin.seeker.game.item.DefaultItemProvider;
 import ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutService;
 import ru.homyakin.seeker.game.item.loadout.entity.ApplyLoadoutError;
 import ru.homyakin.seeker.game.item.loadout.entity.EquipmentLoadout;
 import ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameError;
-import ru.homyakin.seeker.game.item.models.DefaultItems;
 import ru.homyakin.seeker.game.item.models.Inventory;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemAttack;
@@ -57,7 +57,7 @@ public class ItemLocalization {
         return fullItem(requestedlanguage, item, optionalCommand, SkillFormulaVersion.LEGACY_SKILLS_V1);
     }
 
-    private static String fullItem(
+    public static String fullItem(
         Language requestedlanguage,
         PersonageItem item,
         String optionalCommand,
@@ -122,11 +122,23 @@ public class ItemLocalization {
         PersonageSlot shopSlot,
         String optionalCommand
     ) {
+        return fullItemForShopSlot(
+            requestedlanguage, item, shopSlot, optionalCommand, SkillFormulaVersion.LEGACY_SKILLS_V1
+        );
+    }
+
+    public static String fullItemForShopSlot(
+        Language requestedlanguage,
+        PersonageItem item,
+        PersonageSlot shopSlot,
+        String optionalCommand,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
         return fullItem(
             requestedlanguage,
             item,
             optionalCommand,
-            SkillFormulaVersion.LEGACY_SKILLS_V1,
+            skillFormulaVersion,
             slotIcons(item, shopSlot)
         ).trim();
     }
@@ -181,11 +193,24 @@ public class ItemLocalization {
     }
 
     public static String equipment(Language language, Inventory inventory) {
+        return equipment(language, inventory, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String equipment(Language language, Inventory inventory, SkillFormulaVersion skillFormulaVersion) {
+        return equipment(language, inventory, skillFormulaVersion, DefaultItemProvider.legacy().defaultsBySlot());
+    }
+
+    public static String equipment(
+        Language language,
+        Inventory inventory,
+        SkillFormulaVersion skillFormulaVersion,
+        Map<PersonageSlot, Item> defaultsBySlot
+    ) {
         final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
         final var params = new HashMap<String, Object>();
         params.put(
             "equipped_items_and_free_slots",
-            String.join("\n", buildEquipmentSlotLines(language, sortedItems, false))
+            String.join("\n", buildEquipmentSlotLines(language, sortedItems, false, skillFormulaVersion, defaultsBySlot))
         );
         params.put("battle_stats_command", CommandType.BATTLE_STATS.getText());
         return StringNamedTemplate.format(
@@ -195,6 +220,10 @@ public class ItemLocalization {
     }
 
     public static String bag(Language language, Inventory inventory, int page) {
+        return bag(language, inventory, page, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String bag(Language language, Inventory inventory, int page, SkillFormulaVersion skillFormulaVersion) {
         final var params = new HashMap<String, Object>();
         params.put("max_items_in_bag", inventory.maxBagSize());
         final var bagItems = inventory.items().stream()
@@ -204,7 +233,7 @@ public class ItemLocalization {
         final var pageItems = PageUtils.pageSlice(bagItems, page);
         final var itemsInBagBuilder = new StringBuilder();
         for (final var item : pageItems) {
-            itemsInBagBuilder.append(itemInBag(language, item)).append("\n");
+            itemsInBagBuilder.append(itemInBag(language, item, skillFormulaVersion)).append("\n");
         }
         params.put("items_in_bag_count", bagItems.size());
         params.put("items_in_bag", itemsInBagBuilder.toString());
@@ -222,11 +251,22 @@ public class ItemLocalization {
     }
 
     public static String compactInventory(Language language, Inventory inventory, int page) {
+        return compactInventory(language, inventory, page, DefaultItemProvider.legacy().defaultsBySlot());
+    }
+
+    public static String compactInventory(
+        Language language,
+        Inventory inventory,
+        int page,
+        Map<PersonageSlot, Item> defaultsBySlot
+    ) {
         final var sortedItems = inventory.items().stream().sorted(ItemLocalization::itemComparator).toList();
         final var params = new HashMap<String, Object>();
         params.put(
             "equipped_items_and_free_slots",
-            String.join("\n", buildEquipmentSlotLines(language, sortedItems, true))
+            String.join("\n", buildEquipmentSlotLines(
+                language, sortedItems, true, SkillFormulaVersion.LEGACY_SKILLS_V1, defaultsBySlot
+            ))
         );
         params.put("max_items_in_bag", inventory.maxBagSize());
         final var bagItems = sortedItems.stream()
@@ -340,6 +380,29 @@ public class ItemLocalization {
         Inventory inventory,
         boolean compactItems
     ) {
+        return loadoutDetail(language, loadout, inventory, compactItems, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String loadoutDetail(
+        Language language,
+        EquipmentLoadout loadout,
+        Inventory inventory,
+        boolean compactItems,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
+        return loadoutDetail(
+            language, loadout, inventory, compactItems, skillFormulaVersion, DefaultItemProvider.legacy().defaultsBySlot()
+        );
+    }
+
+    public static String loadoutDetail(
+        Language language,
+        EquipmentLoadout loadout,
+        Inventory inventory,
+        boolean compactItems,
+        SkillFormulaVersion skillFormulaVersion,
+        Map<PersonageSlot, Item> defaultsBySlot
+    ) {
         final var ownedById = inventory.items().stream()
             .collect(Collectors.toMap(PersonageItem::id, item -> item));
         final var wornItems = new ArrayList<PersonageItem>();
@@ -355,7 +418,9 @@ public class ItemLocalization {
                 wornItems.add(item);
             }
         }
-        final var lines = new ArrayList<>(buildSlotLines(language, wornItems, compactItems, false));
+        final var lines = new ArrayList<>(buildSlotLines(
+            language, wornItems, compactItems, false, skillFormulaVersion, defaultsBySlot
+        ));
         lines.addAll(missingLines);
         final var params = new HashMap<String, Object>();
         params.put("name", loadout.name());
@@ -447,12 +512,37 @@ public class ItemLocalization {
     }
 
     public static String initCreateLoadout(Language language, Inventory inventory, boolean compactItems) {
+        return initCreateLoadout(language, inventory, compactItems, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String initCreateLoadout(
+        Language language,
+        Inventory inventory,
+        boolean compactItems,
+        SkillFormulaVersion skillFormulaVersion
+    ) {
+        return initCreateLoadout(
+            language, inventory, compactItems, skillFormulaVersion, DefaultItemProvider.legacy().defaultsBySlot()
+        );
+    }
+
+    public static String initCreateLoadout(
+        Language language,
+        Inventory inventory,
+        boolean compactItems,
+        SkillFormulaVersion skillFormulaVersion,
+        Map<PersonageSlot, Item> defaultsBySlot
+    ) {
         final var wornItems = inventory.items().stream()
             .filter(PersonageItem::isEquipped)
             .toList();
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::initCreateLoadout),
-            Collections.singletonMap("items", String.join("\n", buildSlotLines(language, wornItems, compactItems, false)))
+            Collections.singletonMap(
+                "items", String.join("\n", buildSlotLines(
+                    language, wornItems, compactItems, false, skillFormulaVersion, defaultsBySlot
+                ))
+            )
         );
     }
 
@@ -600,8 +690,12 @@ public class ItemLocalization {
     }
 
     public static String successPutOn(Language language, PutOnItemResult result) {
+        return successPutOn(language, result, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successPutOn(Language language, PutOnItemResult result, SkillFormulaVersion skillFormulaVersion) {
         final var params = new HashMap<String, Object>();
-        params.put("item", fullItem(language, result.item()));
+        params.put("item", fullItem(language, result.item(), skillFormulaVersion));
         if (result.takenOffItems().isEmpty()) {
             return StringNamedTemplate.format(
                 resources.getOrDefault(language, ItemResource::successPutOn),
@@ -611,7 +705,7 @@ public class ItemLocalization {
         params.put(
             "taken_off_items",
             result.takenOffItems().stream()
-                .map(item -> fullItem(language, item))
+                .map(item -> fullItem(language, item, skillFormulaVersion))
                 .collect(Collectors.joining("\n"))
         );
         return StringNamedTemplate.format(
@@ -621,18 +715,22 @@ public class ItemLocalization {
     }
 
     public static String successTakeOff(Language language, PersonageItem item) {
+        return successTakeOff(language, item, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public static String successTakeOff(Language language, PersonageItem item, SkillFormulaVersion skillFormulaVersion) {
         return StringNamedTemplate.format(
             resources.getOrDefault(language, ItemResource::successTakeOff),
-            Collections.singletonMap("item", fullItem(language, item))
+            Collections.singletonMap("item", fullItem(language, item, skillFormulaVersion))
         );
     }
 
-    private static String itemInBag(Language language, PersonageItem item) {
-        return fullItem(language, item, item.putOnCommand());
+    private static String itemInBag(Language language, PersonageItem item, SkillFormulaVersion skillFormulaVersion) {
+        return fullItem(language, item, item.putOnCommand(), skillFormulaVersion);
     }
 
-    private static String equippedItem(Language language, PersonageItem item) {
-        return fullItem(language, item, item.takeOffCommand());
+    private static String equippedItem(Language language, PersonageItem item, SkillFormulaVersion skillFormulaVersion) {
+        return fullItem(language, item, item.takeOffCommand(), skillFormulaVersion);
     }
 
     private static String personageFreeSlot(Language language, PersonageSlot slot) {
@@ -645,13 +743,17 @@ public class ItemLocalization {
     private static List<String> buildEquipmentSlotLines(
         Language language,
         List<PersonageItem> items,
-        boolean compact
+        boolean compact,
+        SkillFormulaVersion skillFormulaVersion,
+        Map<PersonageSlot, Item> defaultsBySlot
     ) {
         return buildSlotLines(
             language,
             items.stream().filter(PersonageItem::isEquipped).toList(),
             compact,
-            true
+            true,
+            skillFormulaVersion,
+            defaultsBySlot
         );
     }
 
@@ -659,7 +761,9 @@ public class ItemLocalization {
         Language language,
         List<PersonageItem> wornItems,
         boolean compact,
-        boolean withTakeOffCommand
+        boolean withTakeOffCommand,
+        SkillFormulaVersion skillFormulaVersion,
+        Map<PersonageSlot, Item> defaultsBySlot
     ) {
         final var equipped = wornItems.stream()
             .sorted(ItemLocalization::itemComparator)
@@ -687,20 +791,21 @@ public class ItemLocalization {
                                         withTakeOffCommand ? item.takeOffCommand() : ""
                                     ));
                                 } else if (withTakeOffCommand) {
-                                    lines.add(equippedItem(language, item));
+                                    lines.add(equippedItem(language, item, skillFormulaVersion));
                                 } else {
-                                    lines.add(fullItem(language, item));
+                                    lines.add(fullItem(language, item, skillFormulaVersion));
                                 }
                             }
                         });
                 } else {
-                    DefaultItems.defaultItemForSlot(slot, occupiedSlots)
+                    Optional.ofNullable(defaultsBySlot.get(slot))
                         .ifPresentOrElse(
                             item -> {
                                 final var code = item.object().code();
                                 if (code == null || shownDefaultItemCodes.add(code)) {
                                     lines.add(
-                                        compact ? shortItem(language, toDisplayItem(item)) : fullItem(language, item)
+                                        compact ? shortItem(language, toDisplayItem(item))
+                                            : fullItem(language, item, skillFormulaVersion)
                                     );
                                 }
                             },

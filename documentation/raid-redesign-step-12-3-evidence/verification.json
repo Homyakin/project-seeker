@@ -1,0 +1,79 @@
+{
+  "sourceFilesVerified": 1508,
+  "runs": [
+    {
+      "prefix": "diagnostic",
+      "conditions": 837,
+      "battles": 167400,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 208,
+      "uniqueSeeds": 42900
+    },
+    {
+      "prefix": "mobile-line",
+      "conditions": 240,
+      "battles": 48000,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 139,
+      "uniqueSeeds": 12000
+    },
+    {
+      "prefix": "mobile-niche",
+      "conditions": 108,
+      "battles": 21600,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 177,
+      "uniqueSeeds": 5400
+    },
+    {
+      "prefix": "confirmation",
+      "conditions": 189,
+      "battles": 378000,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 193,
+      "uniqueSeeds": 105000
+    },
+    {
+      "prefix": "confirmation-slash",
+      "conditions": 12,
+      "battles": 24000,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 87,
+      "uniqueSeeds": 6000
+    },
+    {
+      "prefix": "mobile-answers",
+      "conditions": 18,
+      "battles": 36000,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 214,
+      "uniqueSeeds": 9000
+    },
+    {
+      "prefix": "accessible-pressure",
+      "conditions": 3,
+      "battles": 6000,
+      "timeouts": 0,
+      "draws": 0,
+      "maximumRounds": 176,
+      "uniqueSeeds": 3000
+    }
+  ],
+  "seedOverlapBetweenRuns": 0,
+  "totalBattles": 681000,
+  "tests": {
+    "tests": 1256,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 19,
+    "executed": 1237
+  },
+  "postgresExecuted": 7,
+  "referenceTeams": 18
+}

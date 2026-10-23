@@ -32,6 +32,33 @@ public record EquipmentCatalogRelease(
         SCALING_V2_FOLDER + "item_modifiers.toml",
         SCALING_V2_FOLDER + "default_items.toml"
     );
+    private static final String SCALING_V3_FOLDER = "game-data/catalog/scaling_v3/";
+    private static final EquipmentCatalogRelease SCALING_V3 = new EquipmentCatalogRelease(
+        EquipmentCatalogVersion.SCALING_V3,
+        ItemProgressionVersion.V1,
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V3_FOLDER + "item_objects.toml",
+        SCALING_V3_FOLDER + "item_modifiers.toml",
+        SCALING_V3_FOLDER + "default_items.toml"
+    );
+    private static final String SCALING_V4_FOLDER = "game-data/catalog/scaling_v4/";
+    private static final EquipmentCatalogRelease SCALING_V4 = new EquipmentCatalogRelease(
+        EquipmentCatalogVersion.SCALING_V4,
+        ItemProgressionVersion.V1,
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V4_FOLDER + "item_objects.toml",
+        SCALING_V4_FOLDER + "item_modifiers.toml",
+        SCALING_V4_FOLDER + "default_items.toml"
+    );
+    private static final String SCALING_V5_FOLDER = "game-data/catalog/scaling_v5/";
+    private static final EquipmentCatalogRelease SCALING_V5 = new EquipmentCatalogRelease(
+        EquipmentCatalogVersion.SCALING_V5,
+        ItemProgressionVersion.V1,
+        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SCALING_V5_FOLDER + "item_objects.toml",
+        SCALING_V5_FOLDER + "item_modifiers.toml",
+        SCALING_V5_FOLDER + "default_items.toml"
+    );
 
     public EquipmentCatalogRelease {
         if (catalogVersion == null) {
@@ -55,6 +82,9 @@ public record EquipmentCatalogRelease(
         return switch (version) {
             case SCALING_V1 -> SCALING_V1;
             case SCALING_V2 -> SCALING_V2;
+            case SCALING_V3 -> SCALING_V3;
+            case SCALING_V4 -> SCALING_V4;
+            case SCALING_V5 -> SCALING_V5;
         };
     }
 

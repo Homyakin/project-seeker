@@ -1,0 +1,2 @@
+Error: Could not find or load main class ru.homyakin.seeker.game.battle.Step123BattleStudy
+Caused by: java.lang.ClassNotFoundException: ru.homyakin.seeker.game.battle.Step123BattleStudy

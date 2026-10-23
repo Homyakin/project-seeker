@@ -1,0 +1,563 @@
+{
+  "schema": "Step123CorrectionsVerification/v1",
+  "verified": true,
+  "tests": {
+    "status": "complete",
+    "suites": 177,
+    "tests": 1331,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 19,
+    "executed": 1312
+  },
+  "aggregate": {
+    "battles": 136800,
+    "timeouts": 0,
+    "rounds": 13612715,
+    "maxRounds": 180,
+    "hitAndRunMoves": 53104,
+    "forcedMovesAudited": 97560,
+    "forcedMoveViolations": 0,
+    "maxForcedDistance": 1
+  },
+  "forcedMovementAuditedBattles": 112800,
+  "runs": [
+    {
+      "name": "diagnostic",
+      "rootSeed": "2026102405",
+      "pairsPerCondition": 100,
+      "conditions": 94,
+      "uniqueSeeds": 7700,
+      "battles": 18800,
+      "timeouts": 0,
+      "rounds": 1812296,
+      "maxRounds": 167,
+      "hitAndRunMoves": 4916,
+      "forcedMovesAudited": 16357,
+      "forcedMoveViolations": 0,
+      "maxForcedDistance": 1,
+      "sourceManifest": {
+        "file": "diagnostic/inputs.sha256",
+        "entries": 1514,
+        "sha256": "ef661974dcacb003734362d94ab07a02d4d2191b51588afcda5bac86dba35f45"
+      }
+    },
+    {
+      "name": "confirmation",
+      "rootSeed": "2026102406",
+      "pairsPerCondition": 500,
+      "conditions": 94,
+      "uniqueSeeds": 38500,
+      "battles": 94000,
+      "timeouts": 0,
+      "rounds": 9071308,
+      "maxRounds": 180,
+      "hitAndRunMoves": 24529,
+      "forcedMovesAudited": 81203,
+      "forcedMoveViolations": 0,
+      "maxForcedDistance": 1,
+      "sourceManifest": {
+        "file": "confirmation/inputs.sha256",
+        "entries": 1514,
+        "sha256": "ef661974dcacb003734362d94ab07a02d4d2191b51588afcda5bac86dba35f45"
+      }
+    },
+    {
+      "name": "mobile-niche",
+      "rootSeed": "2026102407",
+      "pairsPerCondition": 1000,
+      "conditions": 12,
+      "uniqueSeeds": 6000,
+      "battles": 24000,
+      "timeouts": 0,
+      "rounds": 2729111,
+      "maxRounds": 179,
+      "hitAndRunMoves": 23659,
+      "forcedMovesAudited": 0,
+      "forcedMoveViolations": 0,
+      "maxForcedDistance": 0,
+      "sourceManifest": {
+        "file": "mobile-niche-inputs.sha256",
+        "entries": 1298,
+        "sha256": "727ff93007499dc3699732d94a1a4da20e3abf09bfac11ffa0c27b0e22fe6dba"
+      }
+    }
+  ],
+  "seedOverlap": [
+    {
+      "runs": [
+        "diagnostic",
+        "confirmation"
+      ],
+      "overlappingSeeds": 0
+    },
+    {
+      "runs": [
+        "diagnostic",
+        "mobile-niche"
+      ],
+      "overlappingSeeds": 0
+    },
+    {
+      "runs": [
+        "confirmation",
+        "mobile-niche"
+      ],
+      "overlappingSeeds": 0
+    }
+  ],
+  "sourceManifests": [
+    {
+      "file": "final-source-inputs.sha256",
+      "entries": 1514,
+      "sha256": "ef661974dcacb003734362d94ab07a02d4d2191b51588afcda5bac86dba35f45"
+    },
+    {
+      "file": "unchanged-enhancement-inputs.sha256",
+      "entries": 8,
+      "sha256": "72a3ad8241ba10df2974ca4bf6ae75463d228e45705071ef8a88934e196341da"
+    }
+  ],
+  "intervals": {
+    "confidence": 0.95,
+    "unit": "one seed pair averaged across both orientations",
+    "scoreRange": [
+      0,
+      1
+    ],
+    "scoreRadius": "sqrt(ln(40)/(2*n))",
+    "differenceRange": [
+      -1,
+      1
+    ],
+    "differenceRadius": "sqrt(2*ln(40)/n)",
+    "scope": "Pointwise bounds for each listed estimate; no simultaneous or multiple-comparison guarantee. Contrasts exclude any seed pair with a timeout in either variant."
+  },
+  "nicheScope": "12 historical Study V4-gear conditions, six ON-minus-OFF contrasts; current corrected engine. Their equipped objects/modifiers match V5 (no halberd); no claim about other builds or PvE wins. Niche raw logs count HIT_AND_RUN moves but do not audit all forced movement distances.",
+  "nicheUsedCodes": [
+    "boots",
+    "breastplate",
+    "cloth_boots",
+    "cloth_chausses",
+    "cloth_gloves",
+    "crossbow",
+    "dirk",
+    "hood",
+    "leather_chausses",
+    "leather_gloves",
+    "leather_helm",
+    "robe",
+    "sledgehammer",
+    "spear",
+    "two_handed_sword"
+  ],
+  "referenceConfirmation": [
+    {
+      "case": "REFERENCE_MAIN3_VS_COMMON_FRONT_PRESSURE_BEGINNER",
+      "tier": "BEGINNER",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_COMMON_FRONT_PRESSURE_EXTENDED",
+      "tier": "EXTENDED",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_COMMON_FRONT_PRESSURE_MID",
+      "tier": "MID",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_COMMON_FRONT_PRESSURE_STRESS",
+      "tier": "STRESS",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_COMMON_FRONT_PRESSURE_STRONG",
+      "tier": "STRONG",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_FLANK_BEGINNER",
+      "tier": "BEGINNER",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_FLANK_EXTENDED",
+      "tier": "EXTENDED",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_FLANK_MID",
+      "tier": "MID",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_FLANK_STRESS",
+      "tier": "STRESS",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_FLANK_STRONG",
+      "tier": "STRONG",
+      "resolvedSeedPairs": 500,
+      "score": 0.001,
+      "pointwise95": [
+        0,
+        0.06173614619083052
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_MOBILE_BEGINNER",
+      "tier": "BEGINNER",
+      "resolvedSeedPairs": 500,
+      "score": 0.025,
+      "pointwise95": [
+        0,
+        0.08573614619083052
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_MOBILE_EXTENDED",
+      "tier": "EXTENDED",
+      "resolvedSeedPairs": 500,
+      "score": 0.132,
+      "pointwise95": [
+        0.0712638538091695,
+        0.19273614619083052
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_MOBILE_MID",
+      "tier": "MID",
+      "resolvedSeedPairs": 500,
+      "score": 0.074,
+      "pointwise95": [
+        0.01326385380916948,
+        0.13473614619083052
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_MOBILE_STRESS",
+      "tier": "STRESS",
+      "resolvedSeedPairs": 500,
+      "score": 0.201,
+      "pointwise95": [
+        0.1402638538091695,
+        0.2617361461908305
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_MOBILE_STRONG",
+      "tier": "STRONG",
+      "resolvedSeedPairs": 500,
+      "score": 0.172,
+      "pointwise95": [
+        0.11126385380916948,
+        0.2327361461908305
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_PRESSURE_BEGINNER",
+      "tier": "BEGINNER",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_PRESSURE_EXTENDED",
+      "tier": "EXTENDED",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_PRESSURE_MID",
+      "tier": "MID",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_PRESSURE_STRESS",
+      "tier": "STRESS",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    },
+    {
+      "case": "REFERENCE_MAIN3_VS_PRESSURE_STRONG",
+      "tier": "STRONG",
+      "resolvedSeedPairs": 500,
+      "score": 0,
+      "pointwise95": [
+        0,
+        0.060736146190830516
+      ]
+    }
+  ],
+  "referenceScope": "MAIN3 is the frozen Guardian/physical-ranger/magical-ranger composition. BEGINNER/MID/STRONG identify equipment inputs, not guaranteed combat effectiveness. These PvP observations do not justify tuning PvE difficulty from MAIN alone; use the set of alternative reference compositions. Fixtures were not retuned after observing these outcomes.",
+  "nicheDeltas": [
+    {
+      "on": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BREAKER_CLOSE_SLASH_L0",
+      "off": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BREAKER_CLOSE_SLASH_L0_OFF",
+      "resolvedSeedPairs": 1000,
+      "delta": 0.2815,
+      "pointwise95": [
+        0.19560611833065245,
+        0.3673938816693475
+      ],
+      "radius": 0.08589388166934751
+    },
+    {
+      "on": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BREAKER_CLOSE_SLASH_L10",
+      "off": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BREAKER_CLOSE_SLASH_L10_OFF",
+      "resolvedSeedPairs": 1000,
+      "delta": 0.262,
+      "pointwise95": [
+        0.17610611833065248,
+        0.34789388166934754
+      ],
+      "radius": 0.08589388166934751
+    },
+    {
+      "on": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BREAKER_CLOSE_SLASH_L20",
+      "off": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BREAKER_CLOSE_SLASH_L20_OFF",
+      "resolvedSeedPairs": 1000,
+      "delta": 0.2475,
+      "pointwise95": [
+        0.16160611833065247,
+        0.3333938816693475
+      ],
+      "radius": 0.08589388166934751
+    },
+    {
+      "on": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BRUISER_BLUNT_L0",
+      "off": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BRUISER_BLUNT_L0_OFF",
+      "resolvedSeedPairs": 1000,
+      "delta": 0.372,
+      "pointwise95": [
+        0.28610611833065247,
+        0.4578938816693475
+      ],
+      "radius": 0.08589388166934751
+    },
+    {
+      "on": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BRUISER_BLUNT_L10",
+      "off": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BRUISER_BLUNT_L10_OFF",
+      "resolvedSeedPairs": 1000,
+      "delta": 0.3825,
+      "pointwise95": [
+        0.2966061183306525,
+        0.46839388166934753
+      ],
+      "radius": 0.08589388166934751
+    },
+    {
+      "on": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BRUISER_BLUNT_L20",
+      "off": "MOBILE_NICHE_MOBILE_spear_dirk_LEATHER_CROSSBOW_MID_BRUISER_BLUNT_L20_OFF",
+      "resolvedSeedPairs": 1000,
+      "delta": 0.392,
+      "pointwise95": [
+        0.3061061183306525,
+        0.47789388166934754
+      ],
+      "radius": 0.08589388166934751
+    }
+  ],
+  "halberdV5MinusV4": {
+    "duel": [
+      {
+        "on": "HALBERD_VS_CROSSBOW_DUEL_SCALING_V5_L0",
+        "off": "HALBERD_VS_CROSSBOW_DUEL_SCALING_V4_L0",
+        "resolvedSeedPairs": 500,
+        "delta": 0.312,
+        "pointwise95": [
+          0.19052770761833898,
+          0.433472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_CROSSBOW_DUEL_SCALING_V5_L3",
+        "off": "HALBERD_VS_CROSSBOW_DUEL_SCALING_V4_L3",
+        "resolvedSeedPairs": 500,
+        "delta": 0.298,
+        "pointwise95": [
+          0.17652770761833897,
+          0.419472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_CROSSBOW_DUEL_SCALING_V5_L6",
+        "off": "HALBERD_VS_CROSSBOW_DUEL_SCALING_V4_L6",
+        "resolvedSeedPairs": 500,
+        "delta": 0.32,
+        "pointwise95": [
+          0.198527707618339,
+          0.441472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_STAFF_ORB_DUEL_SCALING_V5_L0",
+        "off": "HALBERD_VS_STAFF_ORB_DUEL_SCALING_V4_L0",
+        "resolvedSeedPairs": 500,
+        "delta": 0.227,
+        "pointwise95": [
+          0.10552770761833898,
+          0.34847229238166105
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_STAFF_ORB_DUEL_SCALING_V5_L3",
+        "off": "HALBERD_VS_STAFF_ORB_DUEL_SCALING_V4_L3",
+        "resolvedSeedPairs": 500,
+        "delta": 0.223,
+        "pointwise95": [
+          0.10152770761833897,
+          0.34447229238166105
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_STAFF_ORB_DUEL_SCALING_V5_L6",
+        "off": "HALBERD_VS_STAFF_ORB_DUEL_SCALING_V4_L6",
+        "resolvedSeedPairs": 500,
+        "delta": 0.236,
+        "pointwise95": [
+          0.11452770761833896,
+          0.357472292381661
+        ],
+        "radius": 0.12147229238166103
+      }
+    ],
+    "anchored3": [
+      {
+        "on": "HALBERD_VS_CROSSBOW_ANCHORED3_SCALING_V5_L0",
+        "off": "HALBERD_VS_CROSSBOW_ANCHORED3_SCALING_V4_L0",
+        "resolvedSeedPairs": 500,
+        "delta": 0.287,
+        "pointwise95": [
+          0.16552770761833896,
+          0.408472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_CROSSBOW_ANCHORED3_SCALING_V5_L3",
+        "off": "HALBERD_VS_CROSSBOW_ANCHORED3_SCALING_V4_L3",
+        "resolvedSeedPairs": 500,
+        "delta": 0.287,
+        "pointwise95": [
+          0.16552770761833896,
+          0.408472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_CROSSBOW_ANCHORED3_SCALING_V5_L6",
+        "off": "HALBERD_VS_CROSSBOW_ANCHORED3_SCALING_V4_L6",
+        "resolvedSeedPairs": 500,
+        "delta": 0.317,
+        "pointwise95": [
+          0.195527707618339,
+          0.438472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_STAFF_ORB_ANCHORED3_SCALING_V5_L0",
+        "off": "HALBERD_VS_STAFF_ORB_ANCHORED3_SCALING_V4_L0",
+        "resolvedSeedPairs": 500,
+        "delta": 0.223,
+        "pointwise95": [
+          0.10152770761833897,
+          0.34447229238166105
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_STAFF_ORB_ANCHORED3_SCALING_V5_L3",
+        "off": "HALBERD_VS_STAFF_ORB_ANCHORED3_SCALING_V4_L3",
+        "resolvedSeedPairs": 500,
+        "delta": 0.198,
+        "pointwise95": [
+          0.07652770761833898,
+          0.319472292381661
+        ],
+        "radius": 0.12147229238166103
+      },
+      {
+        "on": "HALBERD_VS_STAFF_ORB_ANCHORED3_SCALING_V5_L6",
+        "off": "HALBERD_VS_STAFF_ORB_ANCHORED3_SCALING_V4_L6",
+        "resolvedSeedPairs": 500,
+        "delta": 0.237,
+        "pointwise95": [
+          0.11552770761833896,
+          0.358472292381661
+        ],
+        "radius": 0.12147229238166103
+      }
+    ]
+  }
+}
