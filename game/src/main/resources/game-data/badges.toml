@@ -114,3 +114,9 @@ code = "fifth-season"
 
 [badge.locales.RU]
 description = "Пятый Сезон"
+
+[[badge]]
+code = "krezar-revival"
+
+[badge.locales.RU]
+description = "За поднятие Крезара"

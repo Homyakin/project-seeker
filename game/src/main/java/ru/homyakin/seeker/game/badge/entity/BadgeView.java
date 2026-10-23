@@ -20,6 +20,7 @@ public enum BadgeView {
     VALENTINE("valentine", EmojiManager.getByAlias(":two_hearts:").orElseThrow().getFirst().getEmoji()),
     BUG("bug", EmojiManager.getByAlias(":beetle:").orElseThrow().getFirst().getEmoji()),
     FIFTH_SEASON("fifth-season", EmojiManager.getByAlias(":frog:").orElseThrow().getFirst().getEmoji()),
+    KREZAR_REVIVAL("krezar-revival", EmojiManager.getByAlias(":key:").orElseThrow().getFirst().getEmoji()),
     ;
 
     private final String code;
