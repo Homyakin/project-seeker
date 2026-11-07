@@ -100,7 +100,7 @@ public class AnomalyBattleService {
     ) {
         final var players = toBattlePersonages(participants);
         final var enemies = new AnomalySafePveGenerator().generate(template, players);
-        final var battleResult = battle.process(enemies, players);
+        final var battleResult = battle.process(enemies, players, playerCombatConfig.tempoVersion());
         eventBattleLogService.save(event.id(), battleResult);
 
         final boolean victory = !battleResult.firstWin();
@@ -141,7 +141,7 @@ public class AnomalyBattleService {
 
         final var initiatorTeam = toBattlePersonages(initiatorParticipants);
         final var opponentTeam = toBattlePersonages(opponentParticipants);
-        final var battleResult = battle.process(initiatorTeam, opponentTeam);
+        final var battleResult = battle.process(initiatorTeam, opponentTeam, playerCombatConfig.tempoVersion());
         eventBattleLogService.save(event.id(), battleResult);
 
         final boolean initiatorWins = battleResult.firstWin();

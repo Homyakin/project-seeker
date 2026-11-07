@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ public class BattleContext {
     private final VersionedTeamSkillState secondTeamSkillState = new VersionedTeamSkillState();
     private final BattleRandom random;
     private final boolean scalingSkillOrder;
+    private final BattleTempoVersion tempoVersion;
 
     public BattleContext(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
         this(firstTeam, secondTeam, new DefaultBattleRandom());
@@ -31,7 +33,19 @@ public class BattleContext {
         List<BattlePersonage> secondTeam,
         BattleRandom random
     ) {
+        this(firstTeam, secondTeam, random, BattleTempoVersion.BASELINE_V1);
+    }
+
+    BattleContext(
+        List<BattlePersonage> firstTeam,
+        List<BattlePersonage> secondTeam,
+        BattleRandom random,
+        BattleTempoVersion tempoVersion
+    ) {
         this.random = random;
+        this.tempoVersion = Objects.requireNonNull(tempoVersion, "Battle tempo version must be specified");
+        Stream.concat(firstTeam.stream(), secondTeam.stream())
+            .forEach(personage -> personage.setBattleTempoVersion(tempoVersion));
         this.scalingSkillOrder = firstTeam.stream().anyMatch(BattlePersonage::usesScalingCombatRules)
             || secondTeam.stream().anyMatch(BattlePersonage::usesScalingCombatRules);
         this.firstAliveTeam = new LinkedHashMap<>();
@@ -110,6 +124,10 @@ public class BattleContext {
 
     boolean usesScalingSkillOrder() {
         return scalingSkillOrder;
+    }
+
+    public BattleTempoVersion tempoVersion() {
+        return tempoVersion;
     }
 
     /**

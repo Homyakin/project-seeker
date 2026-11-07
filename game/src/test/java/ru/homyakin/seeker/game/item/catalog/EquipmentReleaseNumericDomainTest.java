@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.homyakin.seeker.game.battle.BattleTempoVersion;
 import ru.homyakin.seeker.game.battle.CombatRules;
 import ru.homyakin.seeker.game.battle.skill.scaling.NonNegativeRational;
 import ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMath;
@@ -137,6 +138,14 @@ class EquipmentReleaseNumericDomainTest {
         final long maximumHeal = (envelope.health() * 30 + 200) / 400;
         Assertions.assertTrue(maximumCritical + maximumCritical / 10 < Integer.MAX_VALUE);
         Assertions.assertTrue(maximumPacketWithSpread < Integer.MAX_VALUE);
+        final int pacedNormal = Assertions.assertDoesNotThrow(() -> BattleTempoVersion.ACCELERATED_V1.scaleDamage(
+            Math.toIntExact(maximumCritical + maximumCritical / 10)
+        ));
+        final int pacedSkill = Assertions.assertDoesNotThrow(() -> BattleTempoVersion.ACCELERATED_V1.scaleDamage(
+            Math.toIntExact(maximumPacketWithSpread)
+        ));
+        Assertions.assertTrue(pacedNormal >= maximumCritical && pacedNormal < Integer.MAX_VALUE);
+        Assertions.assertTrue(pacedSkill >= maximumPacketWithSpread && pacedSkill < Integer.MAX_VALUE);
         Assertions.assertTrue(thornsHealthBasis < Integer.MAX_VALUE);
         Assertions.assertTrue(thornsAttackBasis < Integer.MAX_VALUE);
         Assertions.assertTrue(envelope.health() + maximumHeal < Integer.MAX_VALUE);

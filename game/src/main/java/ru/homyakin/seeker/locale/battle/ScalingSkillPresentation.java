@@ -38,13 +38,18 @@ final class ScalingSkillPresentation {
             }
             case DOUBLE_ATTACK -> params.put(
                 "effect_percent",
-                coefficientPercent(points, version == SkillFormulaVersion.SCALING_SKILLS_V2 ? 100 : 50)
+                coefficientPercent(points, version.isV2OrLater() ? 100 : 50)
             );
             case BERSERK -> params.put("effect_percent", percent(multiplier, 25));
-            case HIT_AND_RUN -> params.put(
-                "cooldown",
-                cooldownFormatter.apply(ScalingCooldowns.hitAndRun(version, points).orElseThrow())
-            );
+            case HIT_AND_RUN -> {
+                params.put(
+                    "cooldown",
+                    cooldownFormatter.apply(ScalingCooldowns.hitAndRun(version, points).orElseThrow())
+                );
+                if (version == SkillFormulaVersion.SCALING_SKILLS_V3) {
+                    params.put("chance_percent", ScalingSkillMath.hitAndRunV3Chance(points) / 100);
+                }
+            }
             case BLEEDING -> params.put("effect_percent", percent(multiplier, 25));
             case KNOCKBACK, RETREAT -> params.put("effect_percent", percent(multiplier, 50));
             case SELF_HEAL -> params.put("effect_percent", percent(multiplier, 5));
@@ -59,16 +64,16 @@ final class ScalingSkillPresentation {
                     "cooldown",
                     cooldownFormatter.apply(ScalingCooldowns.guardOrPenetration(version, points).orElseThrow())
                 );
-                if (version == SkillFormulaVersion.SCALING_SKILLS_V2) {
+                if (version.isV2OrLater()) {
                     params.put("effect_percent", coefficientPercent(points, 12));
                 }
             }
             case ACCUMULATION -> params.put(
                 "effect_percent",
-                coefficientPercent(points, version == SkillFormulaVersion.SCALING_SKILLS_V2 ? 28 : 25)
+                coefficientPercent(points, version.isV2OrLater() ? 28 : 25)
             );
             case TEMPO_BREAK -> {
-                final int denominator = version == SkillFormulaVersion.SCALING_SKILLS_V2 ? 5 : 20;
+                final int denominator = version.isV2OrLater() ? 5 : 20;
                 params.put("effect_percent", percent(multiplier, 100));
                 params.put(
                     "effect_at_100",

@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-04",
+  "scope": "Documentation and additive test-reference update; no production formula, settings, database or release changes",
+  "archive": {
+    "file": "adaptive-audit.tar.gz",
+    "sha256": "fa529f1a156c557f3dba52c85355aa98d9e555cbbafe7f9ecc5a707df01a157a",
+    "checksumVerified": true,
+    "validatorsRepeatedOnExtractedArchive": true,
+    "unchangedProductionClassHashes": 9
+  },
+  "targetedTests": {
+    "workingDirectory": "game",
+    "command": "env JAVA_HOME=/home/user/.jdks/axiomjdk-25.0.1 /opt/apache-maven-3.9.12/bin/mvn test -Dtest=Step123ReferenceTeamsTest,Step123BattleRunnerTest",
+    "javaVersion": "25.0.1, source/target 24 from POM",
+    "classes": {
+      "Step123ReferenceTeamsTest": 12,
+      "Step123BattleRunnerTest": 5
+    },
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "checkstyleViolations": 0,
+    "buildResult": "SUCCESS"
+  },
+  "fullBuildRepeated": false,
+  "newLargeBattleStudyRun": false,
+  "postgresRun": false,
+  "releaseActivated": false
+}

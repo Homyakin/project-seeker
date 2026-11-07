@@ -24,6 +24,25 @@ class ScalingSkillMathTest {
         Assertions.assertEquals(expected, ScalingSkillMath.multiplierNumerator(points));
     }
 
+    @ParameterizedTest
+    @CsvSource({
+        "-2147483648, 0", "-1, 0", "0, 0",
+        "1, 3000", "2, 4000", "3, 5000", "4, 6000",
+        "5, 7000", "6, 8000", "7, 9000", "8, 10000",
+        "9, 10000", "2147483647, 10000",
+    })
+    void mapsV3HitAndRunPointsToExactChanceAndClampsTheEffectiveRange(int points, int expected) {
+        final int threshold = ScalingSkillMath.hitAndRunV3Chance(points);
+
+        Assertions.assertEquals(expected, threshold);
+        if (threshold > 0) {
+            Assertions.assertTrue(ScalingSkillMath.probabilityRollSucceeds(threshold, threshold));
+        }
+        if (threshold < ScalingSkillMath.PROBABILITY_BASIS) {
+            Assertions.assertFalse(ScalingSkillMath.probabilityRollSucceeds(threshold, threshold + 1));
+        }
+    }
+
     @Test
     void clampsPointsOutsideEffectiveRange() {
         Assertions.assertEquals(0, ScalingSkillMath.effectivePoints(-10));

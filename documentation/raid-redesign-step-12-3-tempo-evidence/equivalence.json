@@ -1,0 +1,208 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "checks": [
+    {
+      "label": "PvP fast: complete equipment manifests",
+      "equal": true
+    },
+    {
+      "label": "PvP fast: complete raw observations including exact 64-bit seed lexemes",
+      "equal": true
+    },
+    {
+      "label": "PvP fast: complete summaries",
+      "equal": true
+    },
+    {
+      "label": "PvP fast: complete artifact excluding provenance hashes",
+      "equal": true
+    },
+    {
+      "label": "PvE fast: exact complete artifact including 64-bit seeds, initial stats, IDs, outcomes and duration",
+      "equal": true
+    },
+    {
+      "label": "screen: every raw row, all combat metrics, pair side, exact 64-bit seed",
+      "equal": true
+    },
+    {
+      "label": "screen: exact full case/equipment manifests",
+      "equal": true
+    },
+    {
+      "label": "screen: all summary metadata/statistics except obsolete experimental counter",
+      "equal": true
+    },
+    {
+      "label": "confirm: every raw row, all combat metrics, pair side, exact 64-bit seed",
+      "equal": true
+    },
+    {
+      "label": "confirm: exact full case/equipment manifests",
+      "equal": true
+    },
+    {
+      "label": "confirm: all summary metadata/statistics except obsolete experimental counter",
+      "equal": true
+    },
+    {
+      "label": "PvP baseline: complete equipment manifests",
+      "equal": true
+    },
+    {
+      "label": "PvP baseline: complete raw observations including exact 64-bit seed lexemes",
+      "equal": true
+    },
+    {
+      "label": "PvP baseline: complete summaries",
+      "equal": true
+    },
+    {
+      "label": "PvP baseline: complete artifact excluding provenance hashes",
+      "equal": true
+    },
+    {
+      "label": "PvE baseline: exact complete artifact including 64-bit seeds, initial stats, IDs, outcomes and duration",
+      "equal": true
+    },
+    {
+      "label": "DurationComparison.java: only explicit production tempo selection differs from tested original",
+      "equal": true
+    },
+    {
+      "label": "RaidDurationProbe.java: only explicit production tempo selection differs from tested original",
+      "equal": true
+    },
+    {
+      "label": "Step123BattleRunner.java: only explicit production tempo selection differs from tested original",
+      "equal": true
+    },
+    {
+      "label": "DurationDamageScale.java: byte-identical metadata/study helper",
+      "equal": true
+    },
+    {
+      "label": "DamageTempoBalanceStudy.java: byte-identical metadata/study helper",
+      "equal": true
+    }
+  ],
+  "summaryNumbersChecked": 7280,
+  "comparisons": [
+    {
+      "kind": "pvp",
+      "variant": "fast",
+      "previousNumerator": 7,
+      "battles": 24000,
+      "conditions": 48,
+      "capturedSourceHashesValidated": 44,
+      "timeouts": 0
+    },
+    {
+      "kind": "pve",
+      "variant": "fast",
+      "previousNumerator": 7,
+      "battles": 1000,
+      "timeouts": 0
+    },
+    {
+      "kind": "screen",
+      "variant": "fast",
+      "previousNumerator": 7,
+      "battles": 23200,
+      "conditions": 116,
+      "timeouts": 0,
+      "forcedMoveViolations": 0
+    },
+    {
+      "kind": "confirm",
+      "variant": "fast",
+      "previousNumerator": 7,
+      "battles": 17000,
+      "conditions": 17,
+      "timeouts": 0,
+      "forcedMoveViolations": 0
+    },
+    {
+      "kind": "pvp",
+      "variant": "baseline",
+      "previousNumerator": 4,
+      "battles": 24000,
+      "conditions": 48,
+      "capturedSourceHashesValidated": 44,
+      "timeouts": 0
+    },
+    {
+      "kind": "pve",
+      "variant": "baseline",
+      "previousNumerator": 4,
+      "battles": 1000,
+      "timeouts": 0
+    }
+  ],
+  "totalBattles": 90200,
+  "baselinesPending": [],
+  "seedPrecision": "JSON numeric seed lexemes preserved as strings using JSON.parse reviver source; no Number conversion",
+  "excludedMetadata": "PvP sourceHashes necessarily differ for new production files/harness. Screening sinkAudit is obsolete experimental helper counter unused in production. No combat numeric fields or outcomes excluded.",
+  "productionOverlayAbsent": true,
+  "provenanceNote": "Frozen public sources and production class snapshots are preferred when present. class-origins.json records the original JVM location; extraction-relative directories are not expected to match it.",
+  "productionClassOrigins": {
+    "ru.homyakin.seeker.game.battle.Battle": {
+      "origin": "file:/home/user/projects/project-seeker/game/target/classes/",
+      "sha256": "5ecd89e81c1b53ed868cf2a39adc7eece59a0e96b25c51c6b905a649bdf4ca5d"
+    },
+    "ru.homyakin.seeker.game.battle.BattleContext": {
+      "origin": "file:/home/user/projects/project-seeker/game/target/classes/",
+      "sha256": "6aa8325436b168300ea0b35fd6ceb68d19107323b85ac816f5a372b58fb4c659"
+    },
+    "ru.homyakin.seeker.game.battle.BattlePersonage": {
+      "origin": "file:/home/user/projects/project-seeker/game/target/classes/",
+      "sha256": "fdd3d0d2a203fd5da7424dd070fafeb8fb09240188f7a4db6bae69611bdbb616"
+    },
+    "ru.homyakin.seeker.game.battle.BattleTempoVersion": {
+      "origin": "file:/home/user/projects/project-seeker/game/target/classes/",
+      "sha256": "dcde68dabb09c8282ad56e429b130c792b0f69144440a0c72db2b4163dacd3ca"
+    }
+  },
+  "defaultResources": {
+    "game/src/main/resources/application.properties": {
+      "sha256": "6194bb8ac7320e497b39baa59a9468b6b7d4c62b6d3bfe1fea3d81ac1dd62796",
+      "tempo": "BASELINE_V1",
+      "combat": "LEGACY_SKILLS_V1",
+      "activateOnStartup": false
+    },
+    "game/target/classes/application.properties": {
+      "sha256": "6194bb8ac7320e497b39baa59a9468b6b7d4c62b6d3bfe1fea3d81ac1dd62796",
+      "tempo": "BASELINE_V1",
+      "combat": "LEGACY_SKILLS_V1",
+      "activateOnStartup": false
+    }
+  },
+  "temporaryClassHashes": {
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy$Case.class": "ba5d399f279f11fd495468022ee0b213f30880a38cfda983e4311f48f9c39e54",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy$Sample.class": "f5c1c63d11194d99bd0fa937d4578d4fce2a5b2f28701ab5afdbb210da14b4a1",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy.class": "1bfb88b6f171a146eec174c917fc9ab2a958e72305781c7139c150ff8cd529d2",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$1.class": "227024b93fb2fbaa6e978783260a07704220cf8ea15e5b19e6f5d207978f427b",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$Build.class": "79d20cc2283a879ec3629c034c9e32a85104211e72d0ec255b24c3a1040eceb2",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$Catalog.class": "8d5bcafdf7cd519ded19d40384b630c2a2c330f6c054d47aa4ab8fa26cc78b83",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$Scenario.class": "3eeb2b562a2ec0a4248accda048f50eb9f62e369eed3efc379e05caa61419b60",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison.class": "2ea883d38e79e01e9d2d51c8fc870bcbd89f82d88f42201e61260bae83efd69b",
+    "classes/ru/homyakin/seeker/game/battle/DurationDamageScale.class": "84df6ce81101870b2a381698f81bc90d1129c62a7c19767a9b405c4a71503bd8",
+    "classes/ru/homyakin/seeker/game/battle/RaidDurationProbe$Sample.class": "440ec0dbb82698edeb3328a3307119c109d0a69c4adf0b62a3eb8d93f72a9dfd",
+    "classes/ru/homyakin/seeker/game/battle/RaidDurationProbe$Statistics.class": "f057344bd99f094716180ef8ef9a78e0419a72f407195a046406132999e3ca2c",
+    "classes/ru/homyakin/seeker/game/battle/RaidDurationProbe.class": "9066e5e81bc702c9d5176ee5b045365cb18028cba61869d37fd651d261590300",
+    "classes/ru/homyakin/seeker/game/battle/Step123BattleRunner$Catalog.class": "8450f14e49ae154ac07f58a11fb35307a2e03fd486a271fc9a3c3f0a98564d0b",
+    "classes/ru/homyakin/seeker/game/battle/Step123BattleRunner$Gear.class": "5a53f1a886bda050a7aba205fb56536a5f67a6ab149ca0e90f0b472875b4f7ab",
+    "classes/ru/homyakin/seeker/game/battle/Step123BattleRunner$Mover.class": "367b291c1b9bb3ff9207df12bd9d9dd0a93c8fe7b2f82e84cca081afbd37c2b1",
+    "classes/ru/homyakin/seeker/game/battle/Step123BattleRunner.class": "4528c5e822d2172a200d940f22513216bcfadd0c797bb7d03a5794cd7a65fbf9",
+    "classes/ru/homyakin/seeker/game/battle/TempoIntegrationOrigin.class": "c18ad3fb572b9016f17d413ce11a90eecc77f8ea4bd065d8a0b209a67d2db1e2"
+  },
+  "sources": {
+    "DamageTempoBalanceStudy.java": "cfbc7e62b7255a05f16813945c23b7d6dbcc7177a6448c97c1afe5f3ca37a7e0",
+    "DurationComparison.java": "776bbbfda849cbf49e42eed4c7320c0987f12fdfdae7898fc6635359dc24ad13",
+    "DurationDamageScale.java": "949ac9ef2756f7ed672c291f358fa113e9fc5731941fed59ffacdebd6ebae163",
+    "RaidDurationProbe.java": "bc48f6d9159235be721b593b73a843430ff9697fd620f534fbcf53fb56dc9f57",
+    "Step123BattleRunner.java": "bb7abd3967c68683ea2bd32e4e3051bd8bd1c9b1dc23264d9d562d6409062102",
+    "TempoIntegrationOrigin.java": "7cea865d5c0d8751110245c6c61fbadacf5980ae6725d4e0d58a1c96ba5b5f90"
+  }
+}

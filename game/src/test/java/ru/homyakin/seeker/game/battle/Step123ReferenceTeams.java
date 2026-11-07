@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.Set;
 import ru.homyakin.seeker.game.battle.Step123BattleRunner.Gear;
 import ru.homyakin.seeker.game.battle.Step12RepresentativeBuilds.Assignment;
 import ru.homyakin.seeker.game.battle.Step12RepresentativeBuilds.Build;
@@ -18,6 +18,7 @@ import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.RoleBu
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.V3Build;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogRelease;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
@@ -34,6 +35,10 @@ import ru.homyakin.seeker.game.item.models.ItemRarity;
  * <p>BEGINNER/MID/STRONG are working inputs at +0/+3/+6 and 0/2/4 profile points. EXTENDED/STRESS
  * retain +10/+20 as technical controls. These names promise neither acquisition time nor PvE wins.
  * A requested modifier is random when first added; nominal gold is not its full acquisition cost.</p>
+ *
+ * <p>The separate adaptive counterplay pool preserves the fixed main inputs above. Its explicit
+ * modifier profiles are independent of the enhancement tiers: +0 does not imply common items.
+ * These are the inputs confirmed on 2026-11-04, not universal counters or accepted PvE teams.</p>
  */
 public final class Step123ReferenceTeams {
     private static final List<RoleBuild> CYCLE = List.of(
@@ -89,6 +94,69 @@ public final class Step123ReferenceTeams {
                 ? new Gear(build, EquipmentCatalogVersion.SCALING_V5) : gear(build, tier)).toList());
     }
 
+    /**
+     * Exact adaptive inputs confirmed at N=7/15 and +0/+6. Both teams have the same nominal
+     * equipment gold, not a promise of equal acquisition time or desired-modifier availability.
+     * Each has one unchanged legendary Guard 4 guardian followed by the specified repeated build.
+     */
+    public static AdaptiveCounterplay adaptiveCounterplay(AdaptiveVariant variant, int size, int enhanceLevel) {
+        Objects.requireNonNull(variant, "Adaptive variant must be specified");
+        if (size != 7 && size != 15) {
+            throw new IllegalArgumentException("Confirmed adaptive team size must be 7 or 15");
+        }
+        if (enhanceLevel != 0 && enhanceLevel != 6) {
+            throw new IllegalArgumentException("Confirmed adaptive enhance level must be 0 or 6");
+        }
+        final var raiderAssignments = switch (variant) {
+            case ORDINARY_BLEEDING -> Map.of(
+                "rapier", new Assignment(ActiveEnum.BLEEDING, ItemRarity.RARE),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.RARE)
+            );
+            case SIX_UNCOMMON -> Map.of(
+                "rapier", new Assignment(ActiveEnum.BLEEDING, ItemRarity.UNCOMMON),
+                "dirk", new Assignment(ActiveEnum.DOUBLE_ATTACK, ItemRarity.UNCOMMON),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.UNCOMMON),
+                "cloth_boots", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.UNCOMMON),
+                "robe", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.UNCOMMON),
+                "cloth_chausses", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.UNCOMMON)
+            );
+            case HEAVY_BLEEDING, HEAVY_DOUBLE_BLEEDING -> Map.of(
+                "rapier", new Assignment(variant == AdaptiveVariant.HEAVY_BLEEDING
+                    ? ActiveEnum.BLEEDING : ActiveEnum.DOUBLE_ATTACK, ItemRarity.LEGENDARY),
+                "dirk", new Assignment(ActiveEnum.BLEEDING, ItemRarity.LEGENDARY),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.LEGENDARY),
+                "cloth_boots", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.LEGENDARY)
+            );
+        };
+        final var responseAssignments = variant.heavy() ? Map.of(
+            "command_staff", new Assignment(ActiveEnum.BERSERK, ItemRarity.LEGENDARY),
+            "breastplate", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.LEGENDARY),
+            "leather_chausses", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.LEGENDARY),
+            "leather_gloves", new Assignment(ActiveEnum.FEINT, ItemRarity.LEGENDARY)
+        ) : Map.of(
+            "command_staff", new Assignment(ActiveEnum.BERSERK, ItemRarity.RARE),
+            "breastplate", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.RARE)
+        );
+        final var guardian = Step12RepresentativeBuilds.role(RoleBuild.GUARDIAN);
+        final var raider = Step12RepresentativeBuilds.mixed(MixedBuild.RAIDER)
+            .withAssignments(raiderAssignments);
+        final var response = Step12RepresentativeBuilds.hand(
+            "RESPONSE_COMMAND_LEATHER", List.of("command_staff"), "LEATHER",
+            Position.FRONT, TargetingTactic.WOUNDED_HUNTER
+        ).withAssignments(responseAssignments);
+        return new AdaptiveCounterplay(variant, enhanceLevel,
+            guardedMembers(guardian, raider, size), guardedMembers(guardian, response, size));
+    }
+
+    private static List<Gear> guardedMembers(Build guardian, Build member, int size) {
+        final var result = new ArrayList<Gear>();
+        result.add(new Gear(guardian, EquipmentCatalogVersion.SCALING_V5));
+        for (int index = 1; index < size; index++) {
+            result.add(new Gear(member, EquipmentCatalogVersion.SCALING_V5));
+        }
+        return List.copyOf(result);
+    }
+
     private static Gear gear(Build build, Tier tier) {
         final var assignments = new java.util.LinkedHashMap<String, Assignment>();
         if (tier.profilePoints() > 0) {
@@ -132,6 +200,18 @@ public final class Step123ReferenceTeams {
             }
         }
         final var economy = Step123ReferenceEconomy.configured();
+        final var adaptive = new ArrayList<ExportedAdaptiveCounterplay>();
+        for (final var variant : AdaptiveVariant.values()) {
+            for (final int size : List.of(7, 15)) {
+                for (final int level : List.of(0, 6)) {
+                    final var pair = adaptiveCounterplay(variant, size, level);
+                    adaptive.add(new ExportedAdaptiveCounterplay(pair.code(), level, size,
+                        economy.nominalGold(pair.raiders().stream().flatMap(member -> member.items(level).stream()).toList()),
+                        economy.nominalGold(pair.response().stream().flatMap(member -> member.items(level).stream()).toList()),
+                        exportedMembers(pair.raiders(), level), exportedMembers(pair.response(), level)));
+                }
+            }
+        }
         final var exported = teams.stream().map(team -> new ExportedTeam(
             team.code(), team.tier(), team.tier().group(), team.tier().level(),
             team.members().stream().mapToInt(member -> member.items(team.tier().level()).stream()
@@ -153,8 +233,46 @@ public final class Step123ReferenceTeams {
                 "nominalGoldScope", "Common bases plus one rarity-upgrade chain per carrier; "
                     + "excludes random desired-modifier acquisition and storm shards",
                 "stormConfiguration", economy.values(), "stormEconomyFingerprint", economy.fingerprint(),
-                "combat", "SCALING_SKILLS_V2", "teams", exported
+                "combat", EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V5).skillFormulaVersion(),
+                "teams", exported,
+                "adaptiveCounterplay", Map.of(
+                    "purpose", "Confirmed adaptive inputs only, not universal counters or accepted PvE teams",
+                    "profileScope", "Fixed rare/legendary/uncommon modifiers at both +0 and +6; independent of main tiers",
+                    "tempo", BattleTempoVersion.ACCELERATED_V1,
+                    "cases", adaptive
+                )
             ));
+        }
+    }
+
+    private static List<ExportedMember> exportedMembers(List<Gear> members, int level) {
+        return members.stream().map(member -> new ExportedMember(
+            member.build().code(), member.catalog(), member.build().position(), member.build().tactic(),
+            member.items(level)
+        )).toList();
+    }
+
+    public enum AdaptiveVariant {
+        ORDINARY_BLEEDING,
+        SIX_UNCOMMON,
+        HEAVY_BLEEDING,
+        HEAVY_DOUBLE_BLEEDING;
+
+        public boolean heavy() {
+            return this == HEAVY_BLEEDING || this == HEAVY_DOUBLE_BLEEDING;
+        }
+    }
+
+    public record AdaptiveCounterplay(AdaptiveVariant variant, int enhanceLevel,
+                                      List<Gear> raiders, List<Gear> response) {
+        public AdaptiveCounterplay {
+            Objects.requireNonNull(variant);
+            raiders = List.copyOf(raiders);
+            response = List.copyOf(response);
+        }
+
+        public String code() {
+            return "ADAPTIVE_" + variant + "_N" + raiders.size() + "_L" + enhanceLevel;
         }
     }
 
@@ -208,20 +326,18 @@ public final class Step123ReferenceTeams {
 
         /** Creates fresh battle state; callers may wrap this in RandomUtils.withSeed when they need fixed UUIDs. */
         public List<BattlePersonage> personages() {
-            return members.stream().map(member -> {
-                final var build = member.build();
-                final var personage = BattlePersonage.forScalingSkillsV2Combat(
-                    member.items(tier.level()), build.position(), Map.of(), Optional.of(build.code())
-                );
-                personage.setTargetingTactic(build.tactic());
-                return personage;
-            }).toList();
+            return members.stream().map(member -> member.personage(tier.level(), Set.of())).toList();
         }
     }
 
     private record ExportedTeam(String code, Tier tier, String group, int enhanceLevel, int maximumMemberSkillPoints,
                                 double expectedAttemptsPerItemFromZero, long nominalEquipmentGold,
                                 List<ExportedMember> members) {
+    }
+
+    private record ExportedAdaptiveCounterplay(String code, int enhanceLevel, int size,
+                                               long raiderNominalGold, long responseNominalGold,
+                                               List<ExportedMember> raiders, List<ExportedMember> response) {
     }
 
     private record ExportedMember(String code, EquipmentCatalogVersion catalog, Position position,

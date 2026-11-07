@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.battle.skill.scaling;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import ru.homyakin.seeker.game.battle.BattleSkillInitSnapshot;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 
@@ -51,5 +53,16 @@ class BattleSkillInitSnapshotVersionTest {
         );
 
         Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, snapshot.formulaVersion());
+    }
+
+    @ParameterizedTest
+    @EnumSource(SkillFormulaVersion.class)
+    void everyExplicitFormulaVersionSurvivesJsonRoundTripWithoutAnUpgrade(SkillFormulaVersion version) throws Exception {
+        final var mapper = new ObjectMapper();
+        final var expected = new BattleSkillInitSnapshot(ActiveEnum.HIT_AND_RUN, 4, version);
+
+        final var restored = mapper.readValue(mapper.writeValueAsString(expected), BattleSkillInitSnapshot.class);
+
+        Assertions.assertEquals(expected, restored);
     }
 }

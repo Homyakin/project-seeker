@@ -20,7 +20,11 @@ class VersionedSkillHelpLocalizationTest {
     void everyScalingSkillHasARealGeneralDescriptionWithoutAnExampleRank() {
         Assertions.assertEquals(15, ActiveEnum.values().length);
         for (final var language : List.of(Language.RU, Language.ES)) {
-            for (final var version : List.of(SkillFormulaVersion.SCALING_SKILLS_V1, SkillFormulaVersion.SCALING_SKILLS_V2)) {
+            for (final var version : List.of(
+                SkillFormulaVersion.SCALING_SKILLS_V1,
+                SkillFormulaVersion.SCALING_SKILLS_V2,
+                SkillFormulaVersion.SCALING_SKILLS_V3
+            )) {
                 for (final var skill : ActiveEnum.values()) {
                     final var description = BattleLocalization.skillGeneralDescription(language, skill, version);
                     final var help = HelpLocalization.battleSkill(language, skill, version);
@@ -32,6 +36,51 @@ class VersionedSkillHelpLocalizationTest {
                     Assertions.assertFalse(description.contains("оч.)"), description);
                     Assertions.assertFalse(description.contains("пример"), description);
                 }
+            }
+        }
+    }
+
+    @Test
+    void thirdVersionExplainsMobileChanceAndPreservesPenetrationInBothLanguages() {
+        for (final var language : List.of(Language.RU, Language.ES)) {
+            final var mobile = HelpLocalization.battleSkill(
+                language, ActiveEnum.HIT_AND_RUN, SkillFormulaVersion.SCALING_SKILLS_V3
+            );
+            final var penetration = HelpLocalization.battleSkill(
+                language, ActiveEnum.PENETRATION, SkillFormulaVersion.SCALING_SKILLS_V3
+            );
+            Assertions.assertAll(
+                () -> Assertions.assertTrue(mobile.contains("один раз за собственный ход проверяет шанс")),
+                () -> Assertions.assertTrue(mobile.contains("зависящий от очков умения")),
+                () -> Assertions.assertTrue(mobile.contains("дальностью +1")),
+                () -> Assertions.assertTrue(mobile.contains("При неудачной проверке действует обычная дальность")),
+                () -> Assertions.assertTrue(mobile.contains("перезарядка не начинается")),
+                () -> Assertions.assertEquals(
+                    HelpLocalization.battleSkill(language, ActiveEnum.PENETRATION, SkillFormulaVersion.SCALING_SKILLS_V2),
+                    penetration
+                ),
+                () -> Assertions.assertTrue(penetration.contains("ещё на две обычные попытки")),
+                () -> Assertions.assertTrue(penetration.contains("без повторного дополнительного урона"))
+            );
+        }
+    }
+
+    @Test
+    void thirdVersionInheritsUnchangedSecondVersionGeneralHelpAndSpanishFallback() {
+        for (final var skill : ActiveEnum.values()) {
+            final var description = BattleLocalization.skillGeneralDescription(
+                Language.RU, skill, SkillFormulaVersion.SCALING_SKILLS_V3
+            );
+            Assertions.assertEquals(
+                description,
+                BattleLocalization.skillGeneralDescription(Language.ES, skill, SkillFormulaVersion.SCALING_SKILLS_V3)
+            );
+            if (skill != ActiveEnum.HIT_AND_RUN) {
+                Assertions.assertEquals(
+                    BattleLocalization.skillGeneralDescription(Language.RU, skill, SkillFormulaVersion.SCALING_SKILLS_V2),
+                    description,
+                    skill.name()
+                );
             }
         }
     }

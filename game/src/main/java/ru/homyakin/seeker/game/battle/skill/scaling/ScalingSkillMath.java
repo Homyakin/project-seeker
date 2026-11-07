@@ -32,6 +32,11 @@ public final class ScalingSkillMath {
         return NonNegativeRational.of(multiplierNumerator(points), 20);
     }
 
+    public static int hitAndRunV3Chance(int points) {
+        final int effective = effectivePoints(points);
+        return effective == 0 ? 0 : (20 + 10 * effective) * 100;
+    }
+
     public static BigInteger roundHalfUp(BigInteger numerator, BigInteger denominator) {
         return new NonNegativeRational(numerator, denominator).roundHalfUp();
     }

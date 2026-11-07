@@ -1,0 +1,24 @@
+{
+  "existingReferenceTeamsUnchanged": 35,
+  "confirmedAdaptivePairsMatched": 16,
+  "comparisonNormalization": "Only Java set arrays slots/availableOnSlots are sorted; team and item order are preserved.",
+  "participantDefinitionsMatched": 352,
+  "itemDefinitionsMatched": 2304,
+  "checked": [
+    "catalog",
+    "positions",
+    "tactics",
+    "item order and codes",
+    "rarities",
+    "enhance levels",
+    "modifiers",
+    "skill points",
+    "health",
+    "speed",
+    "attacks and ranges",
+    "defense",
+    "nominal prices"
+  ],
+  "scope": "Exact reference inputs matched; no new battles, database checks or global acceptance.",
+  "referenceSha256": "631e687b9a2008b051fe8aee3e789e4de46713146219b2d26d66d688f6380f38"
+}

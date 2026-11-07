@@ -56,11 +56,12 @@ class BattleLocalizationTest {
     }
 
     @Test
-    void bothScalingVersionsShowExactEffectForEverySkillAndPoint() {
+    void allScalingVersionsShowExactEffectForEverySkillAndPoint() {
         assertEquals(15, ActiveEnum.values().length);
         for (final var version : List.of(
             SkillFormulaVersion.SCALING_SKILLS_V1,
-            SkillFormulaVersion.SCALING_SKILLS_V2
+            SkillFormulaVersion.SCALING_SKILLS_V2,
+            SkillFormulaVersion.SCALING_SKILLS_V3
         )) {
             for (final var skill : ActiveEnum.values()) {
                 for (int points = 1; points <= 9; points++) {
@@ -91,13 +92,63 @@ class BattleLocalizationTest {
 
     @Test
     void ninthPointShowsEighthPointEffectAndExcessWarningForEverySkill() {
+        for (final var version : List.of(
+            SkillFormulaVersion.SCALING_SKILLS_V1,
+            SkillFormulaVersion.SCALING_SKILLS_V2,
+            SkillFormulaVersion.SCALING_SKILLS_V3
+        )) {
+            for (final var skill : ActiveEnum.values()) {
+                final var description = BattleLocalization.skillDescription(Language.RU, skill, 9, version);
+                assertScalingValue(version, skill, 8, description);
+                assertTrue(
+                    description.contains("Учитываются только 8 из 9 очков"),
+                    () -> version + " " + skill + " must warn about its ninth point"
+                );
+            }
+        }
+    }
+
+    @Test
+    void thirdVersionShowsMobileChanceAndInheritedPenetrationWithoutChangingHistoricalDescriptions() {
+        for (int points = 1; points <= 9; points++) {
+            final var mobile = v3Description(ActiveEnum.HIT_AND_RUN, points);
+            assertTrue(mobile.contains("с шансом " + ScalingSkillMath.hitAndRunV3Chance(points) / 100 + "%"));
+            assertTrue(mobile.contains("один раз за собственный ход"));
+            assertTrue(mobile.contains("дальностью +1"));
+            assertTrue(mobile.contains("при неудачной проверке действует обычная дальность"));
+            assertTrue(mobile.contains("без начала перезарядки"));
+            assertFalse(v2Description(ActiveEnum.HIT_AND_RUN, points).contains("с шансом"));
+
+            final var penetration = v3Description(ActiveEnum.PENETRATION, points);
+            assertEquals(v2Description(ActiveEnum.PENETRATION, points), penetration);
+            assertTrue(penetration.contains("ещё на 2 обычные попытки"));
+        }
+    }
+
+    @Test
+    void thirdVersionInheritsEveryOtherSecondVersionDescription() {
         for (final var skill : ActiveEnum.values()) {
-            final var description = v2Description(skill, 9);
-            assertScalingValue(SkillFormulaVersion.SCALING_SKILLS_V2, skill, 8, description);
-            assertTrue(
-                description.contains("Учитываются только 8 из 9 очков"),
-                () -> skill + " must warn about its ninth point"
-            );
+            if (skill == ActiveEnum.HIT_AND_RUN) {
+                continue;
+            }
+            for (int points = 1; points <= 9; points++) {
+                assertEquals(v2Description(skill, points), v3Description(skill, points), skill.name());
+            }
+        }
+    }
+
+    @Test
+    void spanishFallbackPreservesThirdVersionRulesAndResolvedValues() {
+        for (final var skill : ActiveEnum.values()) {
+            for (int points = 1; points <= 9; points++) {
+                assertEquals(
+                    v3Description(skill, points),
+                    BattleLocalization.skillDescription(
+                        Language.ES, skill, points, SkillFormulaVersion.SCALING_SKILLS_V3
+                    ),
+                    skill.name()
+                );
+            }
         }
     }
 
@@ -115,6 +166,23 @@ class BattleLocalizationTest {
         assertTrue(stats.contains("Двойная атака (II, 3 оч.)"));
         assertTrue(stats.contains("15% сохранённой атаки"));
         assertFalse(stats.contains("15 дополнительного урона"));
+    }
+
+    @Test
+    void battleStatsUsesThirdVersionChanceAndInheritedPenetrationFromSnapshots() {
+        final var personage = BattlePersonage.forScalingSkills(
+            baseItems(),
+            Position.FRONT,
+            Map.of(ActiveEnum.HIT_AND_RUN, 4, ActiveEnum.PENETRATION, 4),
+            SkillFormulaVersion.SCALING_SKILLS_V3
+        );
+
+        final var stats = BattleLocalization.battleStats(Language.ES, personage, List.of());
+
+        assertTrue(stats.contains(v3Description(ActiveEnum.HIT_AND_RUN, 4)));
+        assertTrue(stats.contains(v3Description(ActiveEnum.PENETRATION, 4)));
+        assertTrue(stats.contains("ещё на 2 обычные попытки"));
+        assertFalse(stats.contains("${"));
     }
 
     private static String v1Description(ActiveEnum skill, int points) {
@@ -135,6 +203,15 @@ class BattleLocalizationTest {
         );
     }
 
+    private static String v3Description(ActiveEnum skill, int points) {
+        return BattleLocalization.skillDescription(
+            Language.RU,
+            skill,
+            points,
+            SkillFormulaVersion.SCALING_SKILLS_V3
+        );
+    }
+
     private static void assertScalingValue(
         SkillFormulaVersion version,
         ActiveEnum skill,
@@ -142,7 +219,7 @@ class BattleLocalizationTest {
         String description
     ) {
         final var multiplier = ScalingSkillMath.multiplier(points);
-        final boolean v2 = version == SkillFormulaVersion.SCALING_SKILLS_V2;
+        final boolean v2 = version.isV2OrLater();
         final var expected = switch (skill) {
             case COUNTER_ATTACK -> percent(multiplier, 30) + "% своей атаки";
             case THORNS -> exact(multiplier.multiply(5).divide(NonNegativeRational.of(4)))

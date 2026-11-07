@@ -54,7 +54,7 @@ public record EquipmentCatalogRelease(
     private static final EquipmentCatalogRelease SCALING_V5 = new EquipmentCatalogRelease(
         EquipmentCatalogVersion.SCALING_V5,
         ItemProgressionVersion.V1,
-        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SkillFormulaVersion.SCALING_SKILLS_V3,
         SCALING_V5_FOLDER + "item_objects.toml",
         SCALING_V5_FOLDER + "item_modifiers.toml",
         SCALING_V5_FOLDER + "default_items.toml"

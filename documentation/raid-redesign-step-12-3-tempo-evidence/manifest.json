@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-02",
+  "baseCommit": "09bb5ef70753e9c95cb3772e4024456ba7d7a208",
+  "battleTempoVersion": "ACCELERATED_V1",
+  "damageMultiplier": "7/4",
+  "defaultTempo": "BASELINE_V1",
+  "activated": false,
+  "scope": "Selected public source and class snapshots, not the whole repository or private profiles",
+  "files": {
+    "equivalence.json": {
+      "sha256": "85f20c5c15edbf4f3232ac3c77728ee29a95e9f603f98d5e6456bebf88f05718",
+      "bytes": 8872
+    },
+    "test-summary.json": {
+      "sha256": "3f7c02537f62d096de80dad119ee7d9820e96d226c4e0bca0a3a805d52a1c797",
+      "bytes": 32238
+    },
+    "sources.tar.gz": {
+      "sha256": "53d87c71d47d67ba169941bf5fd8132bff934238a6e97a563ceecee788f6d25c",
+      "bytes": 174542
+    },
+    "measurements.tar.gz": {
+      "sha256": "aedcca893f5d92789c0cf59a4c13595a12aef97fe358988ddd19e56817898cf3",
+      "bytes": 3681079
+    }
+  },
+  "implementationInputs": {
+    "game/src/main/java/ru/homyakin/seeker/game/battle/Battle.java": "1d62380531e1d32f32390d0f9f2dd83ec08a740cec2eb99a334f99ce610ed80d",
+    "game/src/main/java/ru/homyakin/seeker/game/battle/BattleContext.java": "7fe2d50af7217fd046d95295ec875a3ece91382fde8bb831396eaa6281c1c0f5",
+    "game/src/main/java/ru/homyakin/seeker/game/battle/BattleInitState.java": "23712dafce70ef5b4e45c72849ded27f1e331aa85b7ea6e72b22cc928ee267d7",
+    "game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java": "c4585a45b503715b9219b1bc45fa359d14c0aa67d81a5f92a6e8fa926ee797e1",
+    "game/src/main/java/ru/homyakin/seeker/game/battle/BattleTempoVersion.java": "f96c83f2cdd4397ce3f24032ccf182bc9b52e20febf32ec0c8c2a5814b6b8ace",
+    "game/src/main/java/ru/homyakin/seeker/game/battle/PlayerCombatConfig.java": "59eb8a5c2ab0cc49a83e25e45109aeaca354516b2e7d65af72e391435d5e0cfd",
+    "game/src/main/java/ru/homyakin/seeker/game/duel/DuelService.java": "40b8ace6acff75a1525e5233e23bc38133bc59676ba3d7819267761f9bc83b63",
+    "game/src/main/java/ru/homyakin/seeker/game/event/anomaly/action/AnomalyBattleService.java": "2f46e83ddc5f57d424bc3fc5d6f1396e059925173934b078350687efd40c1695",
+    "game/src/main/java/ru/homyakin/seeker/game/event/raid/processing/RaidProcessing.java": "66467afc116a3f7b35be60ebe6b379e69d8d569d3c014430e1beb5ef2851bc8c",
+    "game/src/main/java/ru/homyakin/seeker/game/event/world_raid/action/ProcessWorldRaidBattleCommand.java": "0b00c83987038ca817b68d6ec8c65abca1582490bb98887dddafc4de50b5eefe",
+    "game/src/main/java/ru/homyakin/seeker/game/item/catalog/EquipmentReleaseCoordinator.java": "ade54f3bd4bb5851923dca028b0808885c552c9e3ce4adac673dc90f5123cf9b",
+    "game/src/main/resources/application.properties": "6194bb8ac7320e497b39baa59a9468b6b7d4c62b6d3bfe1fea3d81ac1dd62796",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/Step123BattleRunner.java": "8827355a16d4b744bb2dad3e66a80b17837511d021497218c32773b26ee44270",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/BattleTempoTest.java": "5956cacb3e4d6778ac0ae041b51072d4fc117aa2ed338b1feba9e6e9c1cfc1f0",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/BattleTempoVersionTest.java": "d10166b31d421fdf66de411ae191e50320eb93f8ad12aec0c4e288fb55574d3d",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/PlayerCombatConfigTest.java": "df28a1d4cf2e3eda891e041c3833ad115dabe1ca5a21105342e134f751795825",
+    "game/src/test/java/ru/homyakin/seeker/game/item/catalog/EquipmentReleaseCoordinatorTest.java": "3bf021a85e02b7cd52594b27d8eea2ce3e51cd10d07b655a6fde3713b07c058e",
+    "game/src/test/java/ru/homyakin/seeker/game/item/catalog/EquipmentReleaseNumericDomainTest.java": "b0b9d58ec37d094099adc280e8ec2f961f08b28f31b6e5222c19d5d7e3415a37"
+  }
+}

@@ -1,0 +1,2196 @@
+{
+  "status": "PASS",
+  "errors": [],
+  "statChecks": 25200,
+  "seedChecks": 260800,
+  "identityChecks": 38,
+  "hashes": 176,
+  "privateSinkProbeChecks": 48,
+  "publicPathProbeChecks": 48,
+  "totalBattles": 260800,
+  "provenanceNote": "Probe classOrigin is recorded run metadata ending in /classes/, not an extraction-relative path. Actual temporary source/class SHA256 hashes are listed separately; repository sourceHashes describe unmodified base sources. Frozen source snapshots are preferred when present.",
+  "sourceAndClassHashes": {
+    "source/ru/homyakin/seeker/game/battle/BattlePersonage.java": "69d7c8e5a062536f670a2c8b3a31f68cd24d051d83adebb8d4403e8b28111c5a",
+    "source/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy.java": "cfbc7e62b7255a05f16813945c23b7d6dbcc7177a6448c97c1afe5f3ca37a7e0",
+    "source/ru/homyakin/seeker/game/battle/DamageTempoHistoricalStudy.java": "2c28d4025ce251fe3da5bec283f991c5b59d6dc87e9e2ceffa605dcb22454865",
+    "source/ru/homyakin/seeker/game/battle/DamageTempoProbe.java": "0bad4e27a275c5b06f607052484913a24dee620e5c9fe9336a834bad10435fa2",
+    "source/ru/homyakin/seeker/game/battle/DamageTempoPublicPathProbe.java": "f52346e0b5249ec3e7f90b893096368c24dc2b3b58f18c9fbb90fe17c252a445",
+    "source/ru/homyakin/seeker/game/battle/DurationDamageScale.java": "949ac9ef2756f7ed672c291f358fa113e9fc5731941fed59ffacdebd6ebae163",
+    "classes/ru/homyakin/seeker/game/battle/BattlePersonage$1.class": "f307c6399de2be7b84e2ba97c2b00d6c9ac44b24fb4ac1200833134e7d9f7b31",
+    "classes/ru/homyakin/seeker/game/battle/BattlePersonage$Target.class": "ac84eae0ff2d1964832873f261e9845bc82f8943edff5add29b5a5c1a308b231",
+    "classes/ru/homyakin/seeker/game/battle/BattlePersonage.class": "eb7bd7ceba8674402a0ae0c63b666a6f23282460a95cfac5c58fc37fc9f63bb1",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy$Case.class": "ba5d399f279f11fd495468022ee0b213f30880a38cfda983e4311f48f9c39e54",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy$Sample.class": "f5c1c63d11194d99bd0fa937d4578d4fce2a5b2f28701ab5afdbb210da14b4a1",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoBalanceStudy.class": "1bfb88b6f171a146eec174c917fc9ab2a958e72305781c7139c150ff8cd529d2",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoHistoricalStudy.class": "20f5216a77b08b689c8b9fa9f1c37089caa7ea08b267b74fed042d785ab28b09",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoProbe.class": "32a1068d8cdb42d213091f63fdea3ef2a4749328a5f35916379f23a20a318a7a",
+    "classes/ru/homyakin/seeker/game/battle/DamageTempoPublicPathProbe.class": "497d5b377d220ed56104dee606e2f605a96e94da0fd19cf508a77fe38e57ed42",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$1.class": "227024b93fb2fbaa6e978783260a07704220cf8ea15e5b19e6f5d207978f427b",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$Build.class": "79d20cc2283a879ec3629c034c9e32a85104211e72d0ec255b24c3a1040eceb2",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$Catalog.class": "8d5bcafdf7cd519ded19d40384b630c2a2c330f6c054d47aa4ab8fa26cc78b83",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison$Scenario.class": "3eeb2b562a2ec0a4248accda048f50eb9f62e369eed3efc379e05caa61419b60",
+    "classes/ru/homyakin/seeker/game/battle/DurationComparison.class": "988f956b4b6952964053a446fd4129eab20988f6f73298c96c2d17899f5d7d0f",
+    "classes/ru/homyakin/seeker/game/battle/DurationDamageScale.class": "84df6ce81101870b2a381698f81bc90d1129c62a7c19767a9b405c4a71503bd8",
+    "classes/ru/homyakin/seeker/game/battle/RaidDurationProbe$Sample.class": "440ec0dbb82698edeb3328a3307119c109d0a69c4adf0b62a3eb8d93f72a9dfd",
+    "classes/ru/homyakin/seeker/game/battle/RaidDurationProbe$Statistics.class": "f057344bd99f094716180ef8ef9a78e0419a72f407195a046406132999e3ca2c",
+    "classes/ru/homyakin/seeker/game/battle/RaidDurationProbe.class": "4328f0740777cdc09099a0055cf72a4c8f021592dd0c7c78cc5bc8521a0e180b"
+  },
+  "baselineEvidenceHashes": {
+    "pvp-new.json": "698bb5fc6e253202121c9e58f0daf5e76b443230d734a47e6af061aceda14aff",
+    "raid-new.json": "3093fc719ad4e444862ebcf20c8b260e6d81141f1fb9623e16f0438af72364c5"
+  },
+  "pve": {
+    "4": {
+      "attempted": 1000,
+      "completed": 1000,
+      "timeouts": 0,
+      "draws": 0,
+      "wins": 475,
+      "winRateAmongCompleted": 0.475,
+      "rounds": {
+        "count": 1000,
+        "mean": 74.749,
+        "median": 74,
+        "p95": 95,
+        "min": 49,
+        "max": 115
+      },
+      "turnsBothTeams": {
+        "count": 1000,
+        "mean": 52.004,
+        "median": 52,
+        "p95": 59,
+        "min": 39,
+        "max": 63
+      },
+      "turnsPlayersOnly": {
+        "count": 1000,
+        "mean": 20.796,
+        "median": 21,
+        "p95": 24,
+        "min": 15,
+        "max": 26
+      },
+      "turnsEnemiesOnly": {
+        "count": 1000,
+        "mean": 31.208,
+        "median": 32,
+        "p95": 37,
+        "min": 18,
+        "max": 40
+      }
+    },
+    "5": {
+      "attempted": 1000,
+      "completed": 1000,
+      "timeouts": 0,
+      "draws": 0,
+      "wins": 527,
+      "winRateAmongCompleted": 0.527,
+      "rounds": {
+        "count": 1000,
+        "mean": 62.091,
+        "median": 62,
+        "p95": 77,
+        "min": 41,
+        "max": 98
+      },
+      "turnsBothTeams": {
+        "count": 1000,
+        "mean": 42.33,
+        "median": 43,
+        "p95": 48,
+        "min": 31,
+        "max": 54
+      },
+      "turnsPlayersOnly": {
+        "count": 1000,
+        "mean": 17.149,
+        "median": 17,
+        "p95": 20,
+        "min": 11,
+        "max": 23
+      },
+      "turnsEnemiesOnly": {
+        "count": 1000,
+        "mean": 25.181,
+        "median": 26,
+        "p95": 30,
+        "min": 15,
+        "max": 34
+      }
+    },
+    "6": {
+      "attempted": 1000,
+      "completed": 1000,
+      "timeouts": 0,
+      "draws": 0,
+      "wins": 550,
+      "winRateAmongCompleted": 0.55,
+      "rounds": {
+        "count": 1000,
+        "mean": 53.501,
+        "median": 54,
+        "p95": 69,
+        "min": 32,
+        "max": 88
+      },
+      "turnsBothTeams": {
+        "count": 1000,
+        "mean": 35.957,
+        "median": 36,
+        "p95": 42,
+        "min": 24,
+        "max": 47
+      },
+      "turnsPlayersOnly": {
+        "count": 1000,
+        "mean": 14.634,
+        "median": 15,
+        "p95": 17,
+        "min": 10,
+        "max": 20
+      },
+      "turnsEnemiesOnly": {
+        "count": 1000,
+        "mean": 21.323,
+        "median": 22,
+        "p95": 26,
+        "min": 11,
+        "max": 29
+      }
+    },
+    "7": {
+      "attempted": 1000,
+      "completed": 1000,
+      "timeouts": 0,
+      "draws": 0,
+      "wins": 634,
+      "winRateAmongCompleted": 0.634,
+      "rounds": {
+        "count": 1000,
+        "mean": 46.307,
+        "median": 47,
+        "p95": 61,
+        "min": 29,
+        "max": 74
+      },
+      "turnsBothTeams": {
+        "count": 1000,
+        "mean": 30.571,
+        "median": 31,
+        "p95": 36,
+        "min": 21,
+        "max": 42
+      },
+      "turnsPlayersOnly": {
+        "count": 1000,
+        "mean": 12.714,
+        "median": 13,
+        "p95": 15,
+        "min": 9,
+        "max": 17
+      },
+      "turnsEnemiesOnly": {
+        "count": 1000,
+        "mean": 17.857,
+        "median": 18,
+        "p95": 22,
+        "min": 10,
+        "max": 27
+      }
+    }
+  },
+  "pvpSelected": {
+    "4": [
+      {
+        "condition": "N3_FDA/+0/RARE_FULL",
+        "rounds": {
+          "median": 116,
+          "p95": 132,
+          "mean": 117.326,
+          "min": 94,
+          "max": 154
+        },
+        "turns": {
+          "median": 77,
+          "p95": 85,
+          "mean": 77.4,
+          "min": 66,
+          "max": 90
+        }
+      },
+      {
+        "condition": "N3_FDM/+0/RARE_FULL",
+        "rounds": {
+          "median": 123,
+          "p95": 143,
+          "mean": 122.9,
+          "min": 97,
+          "max": 158
+        },
+        "turns": {
+          "median": 79,
+          "p95": 85,
+          "mean": 78.57,
+          "min": 66,
+          "max": 91
+        }
+      },
+      {
+        "condition": "N7_FFDDAAM/+0/RARE_FULL",
+        "rounds": {
+          "median": 119,
+          "p95": 137,
+          "mean": 120.61,
+          "min": 102,
+          "max": 158
+        },
+        "turns": {
+          "median": 170,
+          "p95": 183,
+          "mean": 171.126,
+          "min": 152,
+          "max": 196
+        }
+      },
+      {
+        "condition": "N15_4F4D4A3M/+0/RARE_FULL",
+        "rounds": {
+          "median": 125,
+          "p95": 144,
+          "mean": 125.876,
+          "min": 109,
+          "max": 172
+        },
+        "turns": {
+          "median": 361,
+          "p95": 379,
+          "mean": 361.344,
+          "min": 331,
+          "max": 393
+        }
+      }
+    ],
+    "5": [
+      {
+        "condition": "N3_FDA/+0/RARE_FULL",
+        "rounds": {
+          "median": 101,
+          "p95": 111,
+          "mean": 99.938,
+          "min": 80,
+          "max": 121
+        },
+        "turns": {
+          "median": 63,
+          "p95": 68,
+          "mean": 62.81,
+          "min": 53,
+          "max": 74
+        }
+      },
+      {
+        "condition": "N3_FDM/+0/RARE_FULL",
+        "rounds": {
+          "median": 97,
+          "p95": 116,
+          "mean": 98.026,
+          "min": 74,
+          "max": 132
+        },
+        "turns": {
+          "median": 62,
+          "p95": 69,
+          "mean": 62.108,
+          "min": 51,
+          "max": 75
+        }
+      },
+      {
+        "condition": "N7_FFDDAAM/+0/RARE_FULL",
+        "rounds": {
+          "median": 103,
+          "p95": 117,
+          "mean": 103.904,
+          "min": 81,
+          "max": 135
+        },
+        "turns": {
+          "median": 140,
+          "p95": 147,
+          "mean": 139.604,
+          "min": 123,
+          "max": 155
+        }
+      },
+      {
+        "condition": "N15_4F4D4A3M/+0/RARE_FULL",
+        "rounds": {
+          "median": 107,
+          "p95": 126,
+          "mean": 107.828,
+          "min": 88,
+          "max": 144
+        },
+        "turns": {
+          "median": 294,
+          "p95": 306,
+          "mean": 294.322,
+          "min": 266,
+          "max": 314
+        }
+      }
+    ],
+    "6": [
+      {
+        "condition": "N3_FDA/+0/RARE_FULL",
+        "rounds": {
+          "median": 83,
+          "p95": 100,
+          "mean": 84.654,
+          "min": 67,
+          "max": 108
+        },
+        "turns": {
+          "median": 53,
+          "p95": 59,
+          "mean": 52.706,
+          "min": 44,
+          "max": 62
+        }
+      },
+      {
+        "condition": "N3_FDM/+0/RARE_FULL",
+        "rounds": {
+          "median": 76,
+          "p95": 97,
+          "mean": 79.494,
+          "min": 62,
+          "max": 118
+        },
+        "turns": {
+          "median": 51,
+          "p95": 57,
+          "mean": 50.716,
+          "min": 43,
+          "max": 62
+        }
+      },
+      {
+        "condition": "N7_FFDDAAM/+0/RARE_FULL",
+        "rounds": {
+          "median": 89,
+          "p95": 107,
+          "mean": 89.906,
+          "min": 69,
+          "max": 118
+        },
+        "turns": {
+          "median": 118,
+          "p95": 127,
+          "mean": 118.07,
+          "min": 105,
+          "max": 135
+        }
+      },
+      {
+        "condition": "N15_4F4D4A3M/+0/RARE_FULL",
+        "rounds": {
+          "median": 95,
+          "p95": 109,
+          "mean": 93.516,
+          "min": 75,
+          "max": 125
+        },
+        "turns": {
+          "median": 250,
+          "p95": 266,
+          "mean": 250.242,
+          "min": 222,
+          "max": 278
+        }
+      }
+    ],
+    "7": [
+      {
+        "condition": "N3_FDA/+0/RARE_FULL",
+        "rounds": {
+          "median": 74,
+          "p95": 87,
+          "mean": 73.8,
+          "min": 60,
+          "max": 96
+        },
+        "turns": {
+          "median": 46,
+          "p95": 51,
+          "mean": 45.834,
+          "min": 39,
+          "max": 58
+        }
+      },
+      {
+        "condition": "N3_FDM/+0/RARE_FULL",
+        "rounds": {
+          "median": 68,
+          "p95": 81,
+          "mean": 68.832,
+          "min": 53,
+          "max": 97
+        },
+        "turns": {
+          "median": 44,
+          "p95": 49,
+          "mean": 44.004,
+          "min": 37,
+          "max": 55
+        }
+      },
+      {
+        "condition": "N7_FFDDAAM/+0/RARE_FULL",
+        "rounds": {
+          "median": 76,
+          "p95": 95,
+          "mean": 77.954,
+          "min": 62,
+          "max": 105
+        },
+        "turns": {
+          "median": 103,
+          "p95": 111,
+          "mean": 102.916,
+          "min": 90,
+          "max": 118
+        }
+      },
+      {
+        "condition": "N15_4F4D4A3M/+0/RARE_FULL",
+        "rounds": {
+          "median": 77,
+          "p95": 97,
+          "mean": 80.636,
+          "min": 63,
+          "max": 116
+        },
+        "turns": {
+          "median": 216,
+          "p95": 229,
+          "mean": 216.574,
+          "min": 193,
+          "max": 241
+        }
+      }
+    ]
+  },
+  "confirmation": {
+    "4": [
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_MID",
+        "wins": 864,
+        "rounds": {
+          "median": 103,
+          "p95": 129,
+          "mean": 105.846,
+          "min": 89,
+          "max": 150
+        },
+        "actions": {
+          "median": 63,
+          "p95": 70,
+          "mean": 63.528,
+          "min": 52,
+          "max": 73
+        },
+        "firstDeathRound": {
+          "median": 44,
+          "p95": 54,
+          "mean": 44.823,
+          "min": 23,
+          "max": 62
+        }
+      },
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_STRONG",
+        "wins": 893,
+        "rounds": {
+          "median": 105,
+          "p95": 128,
+          "mean": 105.946,
+          "min": 82,
+          "max": 150
+        },
+        "actions": {
+          "median": 64,
+          "p95": 70,
+          "mean": 64.273,
+          "min": 53,
+          "max": 76
+        },
+        "firstDeathRound": {
+          "median": 45,
+          "p95": 58,
+          "mean": 46.379,
+          "min": 29,
+          "max": 68
+        }
+      },
+      {
+        "case": "FULL_RISK05_GUARD_REACTIONS_MELEE_L6",
+        "wins": 0,
+        "rounds": {
+          "median": 97,
+          "p95": 107,
+          "mean": 97.277,
+          "min": 85,
+          "max": 127
+        },
+        "actions": {
+          "median": 65,
+          "p95": 69,
+          "mean": 65.073,
+          "min": 58,
+          "max": 79
+        },
+        "firstDeathRound": {
+          "median": 39,
+          "p95": 58,
+          "mean": 42.025,
+          "min": 29,
+          "max": 75
+        }
+      },
+      {
+        "case": "FULL_RISK06_GUARD_MAGIC_ACCESS_RESPONSE_L6",
+        "wins": 909,
+        "rounds": {
+          "median": 97,
+          "p95": 136,
+          "mean": 102.043,
+          "min": 78,
+          "max": 173
+        },
+        "actions": {
+          "median": 64,
+          "p95": 75,
+          "mean": 65.232,
+          "min": 53,
+          "max": 82
+        },
+        "firstDeathRound": {
+          "median": 31,
+          "p95": 39,
+          "mean": 32.005,
+          "min": 23,
+          "max": 64
+        }
+      },
+      {
+        "case": "FULL_RISK09_ACCUMULATION_DAMAGE_L6",
+        "wins": 906,
+        "rounds": {
+          "median": 90,
+          "p95": 126,
+          "mean": 95.586,
+          "min": 74,
+          "max": 162
+        },
+        "actions": {
+          "median": 63,
+          "p95": 73,
+          "mean": 63.251,
+          "min": 49,
+          "max": 78
+        },
+        "firstDeathRound": {
+          "median": 55,
+          "p95": 68,
+          "mean": 56.494,
+          "min": 25,
+          "max": 81
+        }
+      },
+      {
+        "case": "FULL_RISK10_ACCUMULATION_ACCESS_RESPONSE_L6",
+        "wins": 210,
+        "rounds": {
+          "median": 89,
+          "p95": 110,
+          "mean": 88.902,
+          "min": 64,
+          "max": 137
+        },
+        "actions": {
+          "median": 58,
+          "p95": 65,
+          "mean": 56.901,
+          "min": 40,
+          "max": 72
+        },
+        "firstDeathRound": {
+          "median": 45,
+          "p95": 57,
+          "mean": 45.132,
+          "min": 11,
+          "max": 69
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_OFF_STRONG",
+        "wins": 855,
+        "rounds": {
+          "median": 101,
+          "p95": 126,
+          "mean": 102.301,
+          "min": 75,
+          "max": 149
+        },
+        "actions": {
+          "median": 72,
+          "p95": 82,
+          "mean": 71.91,
+          "min": 56,
+          "max": 90
+        },
+        "firstDeathRound": {
+          "median": 44,
+          "p95": 63,
+          "mean": 45.884,
+          "min": 18,
+          "max": 94
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_ON_STRONG",
+        "wins": 925,
+        "rounds": {
+          "median": 103,
+          "p95": 131,
+          "mean": 105.795,
+          "min": 80,
+          "max": 155
+        },
+        "actions": {
+          "median": 73,
+          "p95": 85,
+          "mean": 74.04,
+          "min": 58,
+          "max": 94
+        },
+        "firstDeathRound": {
+          "median": 43,
+          "p95": 59,
+          "mean": 42.891,
+          "min": 19,
+          "max": 80
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_OFF_STRONG",
+        "wins": 693,
+        "rounds": {
+          "median": 109,
+          "p95": 134,
+          "mean": 108.202,
+          "min": 72,
+          "max": 171
+        },
+        "actions": {
+          "median": 68,
+          "p95": 78,
+          "mean": 68.608,
+          "min": 51,
+          "max": 86
+        },
+        "firstDeathRound": {
+          "median": 35,
+          "p95": 44,
+          "mean": 33.082,
+          "min": 13,
+          "max": 56
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_ON_STRONG",
+        "wins": 963,
+        "rounds": {
+          "median": 100,
+          "p95": 124,
+          "mean": 101.51,
+          "min": 80,
+          "max": 148
+        },
+        "actions": {
+          "median": 69,
+          "p95": 78,
+          "mean": 69.221,
+          "min": 57,
+          "max": 89
+        },
+        "firstDeathRound": {
+          "median": 30,
+          "p95": 42,
+          "mean": 29.888,
+          "min": 13,
+          "max": 51
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_OFF_STRONG",
+        "wins": 460,
+        "rounds": {
+          "median": 117,
+          "p95": 140,
+          "mean": 116,
+          "min": 80,
+          "max": 169
+        },
+        "actions": {
+          "median": 74,
+          "p95": 83,
+          "mean": 74.24,
+          "min": 55,
+          "max": 92
+        },
+        "firstDeathRound": {
+          "median": 43,
+          "p95": 56,
+          "mean": 44.362,
+          "min": 27,
+          "max": 72
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_ON_STRONG",
+        "wins": 850,
+        "rounds": {
+          "median": 112,
+          "p95": 140,
+          "mean": 114.535,
+          "min": 87,
+          "max": 164
+        },
+        "actions": {
+          "median": 77,
+          "p95": 86,
+          "mean": 77.054,
+          "min": 63,
+          "max": 97
+        },
+        "firstDeathRound": {
+          "median": 42,
+          "p95": 52,
+          "mean": 41.586,
+          "min": 23,
+          "max": 67
+        }
+      },
+      {
+        "case": "ROLE_ASSASSIN_VS_BRUISER_MID",
+        "wins": 164,
+        "rounds": {
+          "median": 99,
+          "p95": 128,
+          "mean": 101.936,
+          "min": 78,
+          "max": 148
+        },
+        "actions": {
+          "median": 65,
+          "p95": 72,
+          "mean": 65.17,
+          "min": 54,
+          "max": 77
+        },
+        "firstDeathRound": {
+          "median": 58,
+          "p95": 69,
+          "mean": 58.506,
+          "min": 36,
+          "max": 77
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_ASSASSIN_STRONG",
+        "wins": 541,
+        "rounds": {
+          "median": 87.5,
+          "p95": 108,
+          "mean": 88.023,
+          "min": 69,
+          "max": 135
+        },
+        "actions": {
+          "median": 60,
+          "p95": 67,
+          "mean": 59.9,
+          "min": 45,
+          "max": 73
+        },
+        "firstDeathRound": {
+          "median": 50,
+          "p95": 64,
+          "mean": 49.522,
+          "min": 15,
+          "max": 78
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_BRUISER_STRONG",
+        "wins": 739,
+        "rounds": {
+          "median": 106,
+          "p95": 123,
+          "mean": 106.938,
+          "min": 81,
+          "max": 138
+        },
+        "actions": {
+          "median": 66,
+          "p95": 72,
+          "mean": 66.391,
+          "min": 57,
+          "max": 80
+        },
+        "firstDeathRound": {
+          "median": 50,
+          "p95": 54,
+          "mean": 46.852,
+          "min": 15,
+          "max": 59
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_MAGICAL_VS_BREAKER_MAGICAL_MID",
+        "wins": 488,
+        "rounds": {
+          "median": 104,
+          "p95": 123,
+          "mean": 105.376,
+          "min": 82,
+          "max": 145
+        },
+        "actions": {
+          "median": 67,
+          "p95": 73,
+          "mean": 67.355,
+          "min": 56,
+          "max": 80
+        },
+        "firstDeathRound": {
+          "median": 56,
+          "p95": 62,
+          "mean": 56.076,
+          "min": 31,
+          "max": 70
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_PHYSICAL_VS_BREAKER_PHYSICAL_STRONG",
+        "wins": 612,
+        "rounds": {
+          "median": 102,
+          "p95": 118,
+          "mean": 102.039,
+          "min": 81,
+          "max": 135
+        },
+        "actions": {
+          "median": 65,
+          "p95": 71,
+          "mean": 65.321,
+          "min": 55,
+          "max": 75
+        },
+        "firstDeathRound": {
+          "median": 56,
+          "p95": 62,
+          "mean": 55.859,
+          "min": 32,
+          "max": 68
+        }
+      }
+    ],
+    "5": [
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_MID",
+        "wins": 787,
+        "rounds": {
+          "median": 89,
+          "p95": 109,
+          "mean": 88.782,
+          "min": 59,
+          "max": 126
+        },
+        "actions": {
+          "median": 52,
+          "p95": 58,
+          "mean": 51.701,
+          "min": 39,
+          "max": 62
+        },
+        "firstDeathRound": {
+          "median": 36,
+          "p95": 45,
+          "mean": 35.384,
+          "min": 21,
+          "max": 52
+        }
+      },
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_STRONG",
+        "wins": 814,
+        "rounds": {
+          "median": 90,
+          "p95": 110,
+          "mean": 90.982,
+          "min": 65,
+          "max": 128
+        },
+        "actions": {
+          "median": 53,
+          "p95": 59,
+          "mean": 53.245,
+          "min": 41,
+          "max": 65
+        },
+        "firstDeathRound": {
+          "median": 36,
+          "p95": 45,
+          "mean": 36.487,
+          "min": 20,
+          "max": 54
+        }
+      },
+      {
+        "case": "FULL_RISK05_GUARD_REACTIONS_MELEE_L6",
+        "wins": 0,
+        "rounds": {
+          "median": 82,
+          "p95": 92,
+          "mean": 81.731,
+          "min": 68,
+          "max": 121
+        },
+        "actions": {
+          "median": 54,
+          "p95": 58,
+          "mean": 53.849,
+          "min": 47,
+          "max": 65
+        },
+        "firstDeathRound": {
+          "median": 31,
+          "p95": 44,
+          "mean": 33.585,
+          "min": 25,
+          "max": 60
+        }
+      },
+      {
+        "case": "FULL_RISK06_GUARD_MAGIC_ACCESS_RESPONSE_L6",
+        "wins": 821,
+        "rounds": {
+          "median": 83,
+          "p95": 114,
+          "mean": 87.267,
+          "min": 65,
+          "max": 140
+        },
+        "actions": {
+          "median": 53,
+          "p95": 61,
+          "mean": 53.751,
+          "min": 43,
+          "max": 69
+        },
+        "firstDeathRound": {
+          "median": 25,
+          "p95": 32,
+          "mean": 25.728,
+          "min": 17,
+          "max": 44
+        }
+      },
+      {
+        "case": "FULL_RISK09_ACCUMULATION_DAMAGE_L6",
+        "wins": 869,
+        "rounds": {
+          "median": 75.5,
+          "p95": 104,
+          "mean": 77.956,
+          "min": 55,
+          "max": 133
+        },
+        "actions": {
+          "median": 51,
+          "p95": 59,
+          "mean": 50.554,
+          "min": 38,
+          "max": 63
+        },
+        "firstDeathRound": {
+          "median": 46,
+          "p95": 55,
+          "mean": 45.542,
+          "min": 25,
+          "max": 64
+        }
+      },
+      {
+        "case": "FULL_RISK10_ACCUMULATION_ACCESS_RESPONSE_L6",
+        "wins": 280,
+        "rounds": {
+          "median": 71,
+          "p95": 89,
+          "mean": 72.516,
+          "min": 51,
+          "max": 115
+        },
+        "actions": {
+          "median": 46,
+          "p95": 52,
+          "mean": 45.595,
+          "min": 32,
+          "max": 55
+        },
+        "firstDeathRound": {
+          "median": 36,
+          "p95": 47,
+          "mean": 35.46,
+          "min": 11,
+          "max": 58
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_OFF_STRONG",
+        "wins": 805,
+        "rounds": {
+          "median": 82,
+          "p95": 104,
+          "mean": 83.954,
+          "min": 60,
+          "max": 126
+        },
+        "actions": {
+          "median": 58,
+          "p95": 67,
+          "mean": 57.904,
+          "min": 44,
+          "max": 73
+        },
+        "firstDeathRound": {
+          "median": 36,
+          "p95": 52,
+          "mean": 36.839,
+          "min": 12,
+          "max": 67
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_ON_STRONG",
+        "wins": 880,
+        "rounds": {
+          "median": 87,
+          "p95": 109,
+          "mean": 87.653,
+          "min": 63,
+          "max": 139
+        },
+        "actions": {
+          "median": 59,
+          "p95": 69,
+          "mean": 59.789,
+          "min": 46,
+          "max": 75
+        },
+        "firstDeathRound": {
+          "median": 35.5,
+          "p95": 50,
+          "mean": 34.763,
+          "min": 13,
+          "max": 62
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_OFF_STRONG",
+        "wins": 684,
+        "rounds": {
+          "median": 88,
+          "p95": 111,
+          "mean": 87.785,
+          "min": 58,
+          "max": 134
+        },
+        "actions": {
+          "median": 55,
+          "p95": 63,
+          "mean": 55.068,
+          "min": 42,
+          "max": 71
+        },
+        "firstDeathRound": {
+          "median": 27,
+          "p95": 37,
+          "mean": 26.4,
+          "min": 12,
+          "max": 49
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_ON_STRONG",
+        "wins": 950,
+        "rounds": {
+          "median": 81,
+          "p95": 102,
+          "mean": 83.735,
+          "min": 59,
+          "max": 131
+        },
+        "actions": {
+          "median": 56,
+          "p95": 64,
+          "mean": 56.045,
+          "min": 44,
+          "max": 70
+        },
+        "firstDeathRound": {
+          "median": 24,
+          "p95": 36,
+          "mean": 24.637,
+          "min": 12,
+          "max": 50
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_OFF_STRONG",
+        "wins": 462,
+        "rounds": {
+          "median": 95,
+          "p95": 117,
+          "mean": 94.217,
+          "min": 58,
+          "max": 142
+        },
+        "actions": {
+          "median": 60,
+          "p95": 68,
+          "mean": 59.673,
+          "min": 43,
+          "max": 76
+        },
+        "firstDeathRound": {
+          "median": 35,
+          "p95": 45,
+          "mean": 35.196,
+          "min": 20,
+          "max": 62
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_ON_STRONG",
+        "wins": 826,
+        "rounds": {
+          "median": 94,
+          "p95": 112,
+          "mean": 93.96,
+          "min": 64,
+          "max": 134
+        },
+        "actions": {
+          "median": 62,
+          "p95": 70,
+          "mean": 62.061,
+          "min": 47,
+          "max": 81
+        },
+        "firstDeathRound": {
+          "median": 34,
+          "p95": 44,
+          "mean": 33.538,
+          "min": 19,
+          "max": 57
+        }
+      },
+      {
+        "case": "ROLE_ASSASSIN_VS_BRUISER_MID",
+        "wins": 204,
+        "rounds": {
+          "median": 82,
+          "p95": 107,
+          "mean": 83.879,
+          "min": 62,
+          "max": 128
+        },
+        "actions": {
+          "median": 52,
+          "p95": 59,
+          "mean": 52.546,
+          "min": 42,
+          "max": 64
+        },
+        "firstDeathRound": {
+          "median": 45,
+          "p95": 56,
+          "mean": 45.439,
+          "min": 25,
+          "max": 66
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_ASSASSIN_STRONG",
+        "wins": 711,
+        "rounds": {
+          "median": 68,
+          "p95": 87,
+          "mean": 70.141,
+          "min": 53,
+          "max": 103
+        },
+        "actions": {
+          "median": 47,
+          "p95": 53,
+          "mean": 47.363,
+          "min": 35,
+          "max": 58
+        },
+        "firstDeathRound": {
+          "median": 38,
+          "p95": 50,
+          "mean": 35.328,
+          "min": 11,
+          "max": 56
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_BRUISER_STRONG",
+        "wins": 813,
+        "rounds": {
+          "median": 83,
+          "p95": 99,
+          "mean": 84.364,
+          "min": 65,
+          "max": 120
+        },
+        "actions": {
+          "median": 52,
+          "p95": 59,
+          "mean": 52.403,
+          "min": 44,
+          "max": 65
+        },
+        "firstDeathRound": {
+          "median": 38,
+          "p95": 45,
+          "mean": 34.543,
+          "min": 11,
+          "max": 51
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_MAGICAL_VS_BREAKER_MAGICAL_MID",
+        "wins": 429,
+        "rounds": {
+          "median": 84.5,
+          "p95": 102,
+          "mean": 86.082,
+          "min": 67,
+          "max": 123
+        },
+        "actions": {
+          "median": 54,
+          "p95": 60,
+          "mean": 54.264,
+          "min": 43,
+          "max": 64
+        },
+        "firstDeathRound": {
+          "median": 45,
+          "p95": 49,
+          "mean": 44.642,
+          "min": 20,
+          "max": 56
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_PHYSICAL_VS_BREAKER_PHYSICAL_STRONG",
+        "wins": 518,
+        "rounds": {
+          "median": 83,
+          "p95": 98,
+          "mean": 83.916,
+          "min": 67,
+          "max": 120
+        },
+        "actions": {
+          "median": 53,
+          "p95": 58,
+          "mean": 52.736,
+          "min": 43,
+          "max": 63
+        },
+        "firstDeathRound": {
+          "median": 45,
+          "p95": 49,
+          "mean": 44.39,
+          "min": 24,
+          "max": 56
+        }
+      }
+    ],
+    "6": [
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_MID",
+        "wins": 735,
+        "rounds": {
+          "median": 68,
+          "p95": 93,
+          "mean": 73.245,
+          "min": 54,
+          "max": 115
+        },
+        "actions": {
+          "median": 42,
+          "p95": 49,
+          "mean": 42.318,
+          "min": 35,
+          "max": 55
+        },
+        "firstDeathRound": {
+          "median": 29,
+          "p95": 37,
+          "mean": 29.462,
+          "min": 16,
+          "max": 44
+        }
+      },
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_STRONG",
+        "wins": 752,
+        "rounds": {
+          "median": 77,
+          "p95": 94,
+          "mean": 76.766,
+          "min": 55,
+          "max": 110
+        },
+        "actions": {
+          "median": 45,
+          "p95": 50,
+          "mean": 44.161,
+          "min": 36,
+          "max": 54
+        },
+        "firstDeathRound": {
+          "median": 30,
+          "p95": 38,
+          "mean": 30.331,
+          "min": 17,
+          "max": 45
+        }
+      },
+      {
+        "case": "FULL_RISK05_GUARD_REACTIONS_MELEE_L6",
+        "wins": 6,
+        "rounds": {
+          "median": 69,
+          "p95": 83,
+          "mean": 71.602,
+          "min": 60,
+          "max": 100
+        },
+        "actions": {
+          "median": 46,
+          "p95": 50,
+          "mean": 46.347,
+          "min": 40,
+          "max": 54
+        },
+        "firstDeathRound": {
+          "median": 28,
+          "p95": 37,
+          "mean": 28.329,
+          "min": 20,
+          "max": 46
+        }
+      },
+      {
+        "case": "FULL_RISK06_GUARD_MAGIC_ACCESS_RESPONSE_L6",
+        "wins": 727,
+        "rounds": {
+          "median": 76,
+          "p95": 94,
+          "mean": 76.137,
+          "min": 55,
+          "max": 115
+        },
+        "actions": {
+          "median": 46,
+          "p95": 51,
+          "mean": 45.658,
+          "min": 36,
+          "max": 57
+        },
+        "firstDeathRound": {
+          "median": 20,
+          "p95": 26,
+          "mean": 21.421,
+          "min": 17,
+          "max": 33
+        }
+      },
+      {
+        "case": "FULL_RISK09_ACCUMULATION_DAMAGE_L6",
+        "wins": 882,
+        "rounds": {
+          "median": 62,
+          "p95": 88,
+          "mean": 65.316,
+          "min": 48,
+          "max": 115
+        },
+        "actions": {
+          "median": 42,
+          "p95": 49,
+          "mean": 41.995,
+          "min": 32,
+          "max": 54
+        },
+        "firstDeathRound": {
+          "median": 35,
+          "p95": 46,
+          "mean": 37.052,
+          "min": 19,
+          "max": 54
+        }
+      },
+      {
+        "case": "FULL_RISK10_ACCUMULATION_ACCESS_RESPONSE_L6",
+        "wins": 357,
+        "rounds": {
+          "median": 62,
+          "p95": 81,
+          "mean": 62.769,
+          "min": 43,
+          "max": 102
+        },
+        "actions": {
+          "median": 39,
+          "p95": 43,
+          "mean": 38.449,
+          "min": 27,
+          "max": 48
+        },
+        "firstDeathRound": {
+          "median": 30,
+          "p95": 39,
+          "mean": 29.714,
+          "min": 11,
+          "max": 46
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_OFF_STRONG",
+        "wins": 764,
+        "rounds": {
+          "median": 70,
+          "p95": 89,
+          "mean": 71.251,
+          "min": 50,
+          "max": 109
+        },
+        "actions": {
+          "median": 48,
+          "p95": 56,
+          "mean": 48.418,
+          "min": 38,
+          "max": 63
+        },
+        "firstDeathRound": {
+          "median": 29,
+          "p95": 44,
+          "mean": 30.52,
+          "min": 11,
+          "max": 58
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_ON_STRONG",
+        "wins": 860,
+        "rounds": {
+          "median": 73,
+          "p95": 94,
+          "mean": 73.817,
+          "min": 55,
+          "max": 109
+        },
+        "actions": {
+          "median": 50,
+          "p95": 58,
+          "mean": 50.013,
+          "min": 38,
+          "max": 65
+        },
+        "firstDeathRound": {
+          "median": 29,
+          "p95": 43,
+          "mean": 29.123,
+          "min": 11,
+          "max": 55
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_OFF_STRONG",
+        "wins": 691,
+        "rounds": {
+          "median": 73,
+          "p95": 96,
+          "mean": 74.493,
+          "min": 49,
+          "max": 118
+        },
+        "actions": {
+          "median": 46,
+          "p95": 54,
+          "mean": 46.497,
+          "min": 35,
+          "max": 64
+        },
+        "firstDeathRound": {
+          "median": 22,
+          "p95": 30,
+          "mean": 22.108,
+          "min": 10,
+          "max": 42
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_ON_STRONG",
+        "wins": 939,
+        "rounds": {
+          "median": 67,
+          "p95": 88,
+          "mean": 70.602,
+          "min": 54,
+          "max": 109
+        },
+        "actions": {
+          "median": 47,
+          "p95": 54,
+          "mean": 46.841,
+          "min": 38,
+          "max": 61
+        },
+        "firstDeathRound": {
+          "median": 20,
+          "p95": 30,
+          "mean": 20.915,
+          "min": 10,
+          "max": 44
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_OFF_STRONG",
+        "wins": 501,
+        "rounds": {
+          "median": 80,
+          "p95": 102,
+          "mean": 79.882,
+          "min": 53,
+          "max": 111
+        },
+        "actions": {
+          "median": 50,
+          "p95": 58,
+          "mean": 50.007,
+          "min": 37,
+          "max": 64
+        },
+        "firstDeathRound": {
+          "median": 28,
+          "p95": 38,
+          "mean": 29.086,
+          "min": 17,
+          "max": 52
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_ON_STRONG",
+        "wins": 826,
+        "rounds": {
+          "median": 79,
+          "p95": 97,
+          "mean": 79.379,
+          "min": 52,
+          "max": 120
+        },
+        "actions": {
+          "median": 52,
+          "p95": 59,
+          "mean": 51.883,
+          "min": 37,
+          "max": 72
+        },
+        "firstDeathRound": {
+          "median": 28,
+          "p95": 37,
+          "mean": 28.047,
+          "min": 16,
+          "max": 50
+        }
+      },
+      {
+        "case": "ROLE_ASSASSIN_VS_BRUISER_MID",
+        "wins": 249,
+        "rounds": {
+          "median": 69,
+          "p95": 90,
+          "mean": 71.777,
+          "min": 51,
+          "max": 115
+        },
+        "actions": {
+          "median": 45,
+          "p95": 50,
+          "mean": 44.449,
+          "min": 34,
+          "max": 54
+        },
+        "firstDeathRound": {
+          "median": 37,
+          "p95": 45,
+          "mean": 37.327,
+          "min": 17,
+          "max": 53
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_ASSASSIN_STRONG",
+        "wins": 783,
+        "rounds": {
+          "median": 57,
+          "p95": 70,
+          "mean": 58.675,
+          "min": 45,
+          "max": 115
+        },
+        "actions": {
+          "median": 39,
+          "p95": 45,
+          "mean": 39.223,
+          "min": 30,
+          "max": 51
+        },
+        "firstDeathRound": {
+          "median": 30,
+          "p95": 43,
+          "mean": 27.178,
+          "min": 9,
+          "max": 50
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_BRUISER_STRONG",
+        "wins": 800,
+        "rounds": {
+          "median": 68.5,
+          "p95": 83,
+          "mean": 69.471,
+          "min": 54,
+          "max": 100
+        },
+        "actions": {
+          "median": 43,
+          "p95": 49,
+          "mean": 43.101,
+          "min": 33,
+          "max": 58
+        },
+        "firstDeathRound": {
+          "median": 31,
+          "p95": 37,
+          "mean": 26.943,
+          "min": 9,
+          "max": 39
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_MAGICAL_VS_BREAKER_MAGICAL_MID",
+        "wins": 401,
+        "rounds": {
+          "median": 73,
+          "p95": 87,
+          "mean": 73.43,
+          "min": 53,
+          "max": 103
+        },
+        "actions": {
+          "median": 46,
+          "p95": 50,
+          "mean": 45.772,
+          "min": 36,
+          "max": 55
+        },
+        "firstDeathRound": {
+          "median": 38,
+          "p95": 43,
+          "mean": 37.367,
+          "min": 14,
+          "max": 47
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_PHYSICAL_VS_BREAKER_PHYSICAL_STRONG",
+        "wins": 469,
+        "rounds": {
+          "median": 71,
+          "p95": 83,
+          "mean": 71.949,
+          "min": 53,
+          "max": 100
+        },
+        "actions": {
+          "median": 44,
+          "p95": 49,
+          "mean": 44.438,
+          "min": 35,
+          "max": 55
+        },
+        "firstDeathRound": {
+          "median": 38,
+          "p95": 43,
+          "mean": 36.897,
+          "min": 17,
+          "max": 47
+        }
+      }
+    ],
+    "7": [
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_MID",
+        "wins": 696,
+        "rounds": {
+          "median": 62,
+          "p95": 83,
+          "mean": 64.554,
+          "min": 44,
+          "max": 99
+        },
+        "actions": {
+          "median": 36.5,
+          "p95": 42,
+          "mean": 36.685,
+          "min": 29,
+          "max": 49
+        },
+        "firstDeathRound": {
+          "median": 23,
+          "p95": 31,
+          "mean": 24.46,
+          "min": 11,
+          "max": 38
+        }
+      },
+      {
+        "case": "DIRECT_PRESSURE_VS_FLANK_STRONG",
+        "wins": 678,
+        "rounds": {
+          "median": 62,
+          "p95": 84,
+          "mean": 66.899,
+          "min": 50,
+          "max": 105
+        },
+        "actions": {
+          "median": 37,
+          "p95": 44,
+          "mean": 37.8,
+          "min": 31,
+          "max": 51
+        },
+        "firstDeathRound": {
+          "median": 23,
+          "p95": 32,
+          "mean": 25.245,
+          "min": 14,
+          "max": 38
+        }
+      },
+      {
+        "case": "FULL_RISK05_GUARD_REACTIONS_MELEE_L6",
+        "wins": 19,
+        "rounds": {
+          "median": 62,
+          "p95": 76,
+          "mean": 64.525,
+          "min": 53,
+          "max": 90
+        },
+        "actions": {
+          "median": 40,
+          "p95": 45,
+          "mean": 40.878,
+          "min": 35,
+          "max": 50
+        },
+        "firstDeathRound": {
+          "median": 23,
+          "p95": 31,
+          "mean": 24.116,
+          "min": 17,
+          "max": 45
+        }
+      },
+      {
+        "case": "FULL_RISK06_GUARD_MAGIC_ACCESS_RESPONSE_L6",
+        "wins": 574,
+        "rounds": {
+          "median": 68,
+          "p95": 84,
+          "mean": 68.213,
+          "min": 50,
+          "max": 97
+        },
+        "actions": {
+          "median": 40,
+          "p95": 44,
+          "mean": 39.821,
+          "min": 31,
+          "max": 48
+        },
+        "firstDeathRound": {
+          "median": 18,
+          "p95": 25,
+          "mean": 19.151,
+          "min": 13,
+          "max": 32
+        }
+      },
+      {
+        "case": "FULL_RISK09_ACCUMULATION_DAMAGE_L6",
+        "wins": 835,
+        "rounds": {
+          "median": 55,
+          "p95": 75,
+          "mean": 57.503,
+          "min": 42,
+          "max": 90
+        },
+        "actions": {
+          "median": 36,
+          "p95": 42,
+          "mean": 36.531,
+          "min": 26,
+          "max": 47
+        },
+        "firstDeathRound": {
+          "median": 32,
+          "p95": 41,
+          "mean": 31.26,
+          "min": 11,
+          "max": 49
+        }
+      },
+      {
+        "case": "FULL_RISK10_ACCUMULATION_ACCESS_RESPONSE_L6",
+        "wins": 408,
+        "rounds": {
+          "median": 54,
+          "p95": 70,
+          "mean": 54.823,
+          "min": 37,
+          "max": 83
+        },
+        "actions": {
+          "median": 33,
+          "p95": 38,
+          "mean": 33.022,
+          "min": 23,
+          "max": 42
+        },
+        "firstDeathRound": {
+          "median": 25,
+          "p95": 33,
+          "mean": 25.387,
+          "min": 11,
+          "max": 41
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_OFF_STRONG",
+        "wins": 786,
+        "rounds": {
+          "median": 60,
+          "p95": 80,
+          "mean": 62.228,
+          "min": 44,
+          "max": 104
+        },
+        "actions": {
+          "median": 41,
+          "p95": 49,
+          "mean": 41.578,
+          "min": 30,
+          "max": 57
+        },
+        "firstDeathRound": {
+          "median": 25,
+          "p95": 37,
+          "mean": 25.443,
+          "min": 5,
+          "max": 57
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_ASSASSIN_PIERCE_ON_STRONG",
+        "wins": 820,
+        "rounds": {
+          "median": 64,
+          "p95": 82,
+          "mean": 64.552,
+          "min": 49,
+          "max": 111
+        },
+        "actions": {
+          "median": 43,
+          "p95": 50,
+          "mean": 42.981,
+          "min": 33,
+          "max": 59
+        },
+        "firstDeathRound": {
+          "median": 24,
+          "p95": 37,
+          "mean": 24.819,
+          "min": 5,
+          "max": 50
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_OFF_STRONG",
+        "wins": 756,
+        "rounds": {
+          "median": 64,
+          "p95": 82,
+          "mean": 64.213,
+          "min": 43,
+          "max": 104
+        },
+        "actions": {
+          "median": 39,
+          "p95": 46,
+          "mean": 39.787,
+          "min": 31,
+          "max": 52
+        },
+        "firstDeathRound": {
+          "median": 19,
+          "p95": 27,
+          "mean": 18.813,
+          "min": 10,
+          "max": 36
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BREAKER_CLOSE_SLASH_ON_STRONG",
+        "wins": 933,
+        "rounds": {
+          "median": 59,
+          "p95": 80,
+          "mean": 61.716,
+          "min": 44,
+          "max": 104
+        },
+        "actions": {
+          "median": 40,
+          "p95": 47,
+          "mean": 40.442,
+          "min": 32,
+          "max": 56
+        },
+        "firstDeathRound": {
+          "median": 18,
+          "p95": 26,
+          "mean": 17.798,
+          "min": 10,
+          "max": 38
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_OFF_STRONG",
+        "wins": 496,
+        "rounds": {
+          "median": 67,
+          "p95": 88,
+          "mean": 69.244,
+          "min": 43,
+          "max": 103
+        },
+        "actions": {
+          "median": 43,
+          "p95": 50,
+          "mean": 43.144,
+          "min": 31,
+          "max": 58
+        },
+        "firstDeathRound": {
+          "median": 25,
+          "p95": 34,
+          "mean": 24.729,
+          "min": 12,
+          "max": 47
+        }
+      },
+      {
+        "case": "MOBILE_NICHE_VS_BRUISER_BLUNT_ON_STRONG",
+        "wins": 812,
+        "rounds": {
+          "median": 67,
+          "p95": 87,
+          "mean": 69.358,
+          "min": 48,
+          "max": 103
+        },
+        "actions": {
+          "median": 45,
+          "p95": 51,
+          "mean": 44.831,
+          "min": 33,
+          "max": 58
+        },
+        "firstDeathRound": {
+          "median": 23.5,
+          "p95": 32,
+          "mean": 24.204,
+          "min": 13,
+          "max": 44
+        }
+      },
+      {
+        "case": "ROLE_ASSASSIN_VS_BRUISER_MID",
+        "wins": 295,
+        "rounds": {
+          "median": 62,
+          "p95": 82,
+          "mean": 63.012,
+          "min": 43,
+          "max": 101
+        },
+        "actions": {
+          "median": 38,
+          "p95": 43,
+          "mean": 38.354,
+          "min": 29,
+          "max": 49
+        },
+        "firstDeathRound": {
+          "median": 31,
+          "p95": 39,
+          "mean": 31.553,
+          "min": 13,
+          "max": 46
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_ASSASSIN_STRONG",
+        "wins": 810,
+        "rounds": {
+          "median": 50,
+          "p95": 65,
+          "mean": 51.774,
+          "min": 42,
+          "max": 90
+        },
+        "actions": {
+          "median": 33,
+          "p95": 40,
+          "mean": 33.657,
+          "min": 26,
+          "max": 44
+        },
+        "firstDeathRound": {
+          "median": 17,
+          "p95": 34,
+          "mean": 21.15,
+          "min": 9,
+          "max": 45
+        }
+      },
+      {
+        "case": "ROLE_RAIDER_VS_BRUISER_STRONG",
+        "wins": 802,
+        "rounds": {
+          "median": 59,
+          "p95": 71,
+          "mean": 59.254,
+          "min": 46,
+          "max": 91
+        },
+        "actions": {
+          "median": 36,
+          "p95": 42,
+          "mean": 36.594,
+          "min": 28,
+          "max": 49
+        },
+        "firstDeathRound": {
+          "median": 22,
+          "p95": 31,
+          "mean": 21.619,
+          "min": 9,
+          "max": 35
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_MAGICAL_VS_BREAKER_MAGICAL_MID",
+        "wins": 376,
+        "rounds": {
+          "median": 63,
+          "p95": 76,
+          "mean": 64.198,
+          "min": 49,
+          "max": 89
+        },
+        "actions": {
+          "median": 40,
+          "p95": 44,
+          "mean": 39.607,
+          "min": 31,
+          "max": 50
+        },
+        "firstDeathRound": {
+          "median": 32,
+          "p95": 35,
+          "mean": 32.03,
+          "min": 13,
+          "max": 42
+        }
+      },
+      {
+        "case": "ROLE_TACTICIAN_PHYSICAL_VS_BREAKER_PHYSICAL_STRONG",
+        "wins": 415,
+        "rounds": {
+          "median": 62,
+          "p95": 75,
+          "mean": 62.57,
+          "min": 49,
+          "max": 95
+        },
+        "actions": {
+          "median": 39,
+          "p95": 43,
+          "mean": 38.544,
+          "min": 30,
+          "max": 47
+        },
+        "firstDeathRound": {
+          "median": 32,
+          "p95": 35,
+          "mean": 31.713,
+          "min": 12,
+          "max": 42
+        }
+      }
+    ]
+  }
+}

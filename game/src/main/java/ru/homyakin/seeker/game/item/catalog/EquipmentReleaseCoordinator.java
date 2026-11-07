@@ -3,8 +3,8 @@ package ru.homyakin.seeker.game.item.catalog;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.homyakin.seeker.game.battle.BattleTempoVersion;
 import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
-import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.ItemCatalogService;
 import ru.homyakin.seeker.game.item.database.ItemCatalogLifecycleDao;
 import ru.homyakin.seeker.game.item.models.ItemObject;
@@ -42,6 +42,7 @@ public class EquipmentReleaseCoordinator {
     @Transactional
     public void prepare(List<ItemObject> previousItemObjects, List<Modifier> previousModifiers) {
         // Validate resources and requested activation before the first database operation.
+        playerCombatConfig.tempoVersion();
         final var catalog = selectedCatalog();
         final var version = catalog.release().catalogVersion();
         if (config.activateOnStartup()) {
@@ -69,8 +70,15 @@ public class EquipmentReleaseCoordinator {
     }
 
     private void requireCompatibleRuntime(EquipmentCatalogVersion version) {
-        if (playerCombatConfig.version() != SkillFormulaVersion.SCALING_SKILLS_V2) {
-            throw new IllegalStateException(version + " requires player combat SCALING_SKILLS_V2");
+        final var requiredFormula = EquipmentCatalogRelease.forVersion(version).skillFormulaVersion();
+        if (playerCombatConfig.version() != requiredFormula) {
+            throw new IllegalStateException(version + " requires player combat " + requiredFormula);
+        }
+        final var requiredTempo = version == EquipmentCatalogVersion.SCALING_V5
+            ? BattleTempoVersion.ACCELERATED_V1
+            : BattleTempoVersion.BASELINE_V1;
+        if (playerCombatConfig.tempoVersion() != requiredTempo) {
+            throw new IllegalStateException(version + " requires battle tempo " + requiredTempo);
         }
         if (powerDisplayService.version() != PowerDisplayVersion.REFERENCE_V1) {
             throw new IllegalStateException(version + " requires reference power display REFERENCE_V1");

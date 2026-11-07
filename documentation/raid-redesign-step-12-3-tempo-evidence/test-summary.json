@@ -1,0 +1,1319 @@
+{
+  "status": "PASS",
+  "command": "mvn clean package with explicit Mockito and JaCoCo JVM agents",
+  "jdk": "25.0.1",
+  "checkstyle": "PASS",
+  "tests": 1383,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 22,
+  "passed": 1361,
+  "skippedSuites": [
+    {
+      "name": "ru.homyakin.seeker.game.badge.entity.BadgeViewPrintTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.RaidWinrateTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 12
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.WorldRaidBattleSimulatorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.generator.WolfPackGeneratorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.EquipmentCatalogPostgresIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 3
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4
+    }
+  ],
+  "suites": [
+    {
+      "name": "ru.homyakin.seeker.RandomUtilsSeedTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.RandomUtilsTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.MoneyTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.badge.entity.BadgeViewPrintTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattleContextBackwardMovementTest",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattleDeterminismTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattleEventJsonTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattleInitSnapshotTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattlePersonageMitigatedDamageTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattlePersonagePersonageEffectsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattleTempoTest",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattleTempoVersionTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.ForcedMovementRegressionTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.ItemModifierSlotStatsTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.ItemObjectsCombinationTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.NewScalingSkillsBattleIntegrationTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.PenetrationTargetLockBattleTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.PlayerCombatConfigTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.PlayerCombatVersionTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.RaidWinrateTest",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 12
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.ScalingSkillFormulaVersionBattleTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.SeededBattleRandomTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step123BattleRunnerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step123BattleStudyTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step123CorrectionsStudyTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step123ReferenceTeamsTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12CausalObservationRunnerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12CausalStatisticsTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12CombatNumericSafetyTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedBuildMatrixTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedBuildObservationRunnerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedBuildSimulatorTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedBuildStatisticsTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedV1AcceptanceLedgerTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedV1InputManifestTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedV2AcceptanceLedgerTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedV2InputManifestTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedV2ObservationRunnerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12MixedV2SimulatorTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12OneShotBattleRandomTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12RepresentativeMatrixTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12RepresentativeRunnerTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12RepresentativeStatisticsTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12V2CausalWiringTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12V2ControlledCausalityTest",
+      "tests": 80,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12V3CausalSimulatorTest",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12V3FormulaWiringTest",
+      "tests": 31,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.Step12V3ObservationCorrectionTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.TargetingTacticWeightTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.VersionedAttemptThreatTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.VersionedBattleBoundaryTest",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.VersionedExistingSkillsBattleTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.VersionedSkillIntegrationTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.VersionedTeamSkillStateTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.VersionedTurnExecutionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.WorldRaidBattleSimulatorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.CombatSimulatorTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.CombatTelemetryTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12CombatMatrixTest",
+      "tests": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12InputManifestTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12MixedBuildFixturesTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12ScalingV3FixturesTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12V2SimulationFixturesTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12V3AcceptanceLedgerTest",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12V4AcceptanceLedgerTest",
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.simulation.Step12V4InputManifestTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.ActiveSkillSlotsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.scaling.BattleSkillInitSnapshotVersionTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.scaling.NonNegativeRationalTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldownsTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillBookTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMathTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.skill.scaling.SkillDamageCalculatorTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.anomaly.AnomalyGvgMatchRulesTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.anomaly.AnomalyMatchmakerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.anomaly.AnomalyServiceTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGeneratorTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.personal_quest.PersonalQuestServiceStopQuestTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.personal_quest.PersonalQuestServiceTakeQuestTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.RaidServiceAddPersonageTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.generator.WolfPackGeneratorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.processing.RaidItemGeneratorTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonageSkillCompatibilityTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.GroupRegistrationCommandTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.GroupTagServiceChangeTagTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.GroupTaxFormulasTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.InitGroupRegistrationCommandTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.personage.ConfirmLeaveGroupMemberCommandTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.personage.JoinGroupMemberCommandConfirmTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.personage.JoinGroupMemberCommandJoinTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.action.personage.LeaveGroupMemberCommandTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.entity.EventIntervalsEventDateInNextIntervalTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.entity.EventIntervalsIsActiveTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.group.entity.EventIntervalsToggleIntervalTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.DefaultItemProviderTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.EquipmentCatalogPostgresIntegrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 3
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.EquippedCharacteristicsTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.ItemCatalogServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.ItemServiceGenerateItemTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.ItemServiceReleaseDefaultsTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoaderTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.EquipmentCatalogValidatorTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.EquipmentReleaseCoordinatorTest",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.EquipmentReleaseNumericDomainTest",
+      "tests": 154,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ItemObjectRevisionPolicyTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ItemObjectsTomlCompatibilityTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingItemModifiersCatalogTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV1CatalogIsolationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV1CatalogStagingTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV1ExistingItemMigrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV1ItemCatalogTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV1ModifierCatalogTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV2ExistingItemMigrationTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV2ItemCatalogTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV2ModifierCatalogTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV3CatalogRevisionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV4CatalogRevisionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.ScalingV5CatalogRevisionTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.catalog.Step12CatalogAcceptanceTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.database.ItemAttackPersistenceCodecTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.loadout.action.EquipmentLoadoutServiceTest",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.loadout.entity.LoadoutNameValidatorTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.models.ImpactStrengthTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.models.InventoryPutOnItemTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.models.ItemStormEnhanceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.modifier.ModifierCompatibilityTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.storm.ItemEnhancementDeltaTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.storm.ItemProgressionTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.storm.StormEnhanceConfigTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.item.storm.StormEnhanceTechnicalLimitTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.online.entity.OnlineStreakTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.outpost.OutpostBuildingConfigSlotsTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.outpost.passive.FieldArsenalPassiveProviderTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.CharacteristicsApplyEffectTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.EnergyReduceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.EnergyRegenTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.PersonageEffectsExpireTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.RegenEnergySchedulerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.badge.BadgeServiceActivatePersonageBadgeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.models.EnergyRecoveryTimeTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.models.EnergyRemainTimeForFullRegenTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.PowerDependencyGuardTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.PowerDisplayServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.ReferencePowerCalculatorTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.settings.action.SetSettingValueCommandTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.action.pool.ItemRandomPoolRenewTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.action.raid.PersonageNextRaidItemParamsTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.action.shop.PersonageNextShopItemParamsTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigIntegrationTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.entity.RaidLevelItemConfigTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4
+    },
+    {
+      "name": "ru.homyakin.seeker.game.random.item.entity.pool.SlotRandomPoolTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.shop.EnhanceServiceStormTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.shop.ShopConfigTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.shop.ShopServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.tavern_menu.OrderServiceConsumeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.tavern_menu.OrderServiceThrowOrderTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.infrastructure.init.InitGameDataTest",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.infrastructure.lock.InMemoryLockServiceTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.infrastructure.migration.EquipmentCatalogLifecycleChangelogTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.LocalizationTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.PowerPresentationLocalizationTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.battle.BattleLocalizationTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.battle.VersionedSkillHelpLocalizationTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.item.ItemLocalizationDefaultItemsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.item.ItemLocalizationSkillTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.shop.ShopFormulaVersionLocalizationTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.shop.ShopLocalizationStormEnhanceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.locale.top.TopUtilsCreateTopListTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.TelegramUtilsTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.common.help.SelectHelpCatalogTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.common.help.SelectHelpSlotFiltersTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.common.world_raid.WorldRaidDonateExecutorTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.group.duel.AcceptDuelExecutorTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.group.duel.DeclineDuelExecutorTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.group.duel.ProcessDuelExecutorTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.command.user.shop.ConfirmStormEnhanceTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.personage.TgPersonageNotificationServiceTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.telegram.statistic.StatisticServiceTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.utils.PageUtilsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.utils.ProbabilityPickerTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "fullBuildLogSha256": "f1afe7a679b7e59b7ba42fd709c5456096fad3674334575778216ddf30a11364",
+  "note": "Private process properties from Surefire XML and the local application profile are deliberately not exported. PostgreSQL integration environment not enabled."
+}

@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
@@ -111,6 +112,7 @@ public class BattlePersonage {
     private final int speed;
     private final int baseThreat;
     private final boolean scalingCombatRules;
+    private BattleTempoVersion battleTempoVersion = BattleTempoVersion.BASELINE_V1;
     private int bonusThreat = 0;
     private boolean suppressAutomaticThreatLoss;
     private int cumulativeSpeed;
@@ -176,8 +178,8 @@ public class BattlePersonage {
             name,
             formulaVersion,
             Map.of(),
-            formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2,
-            formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2
+            formulaVersion.isV2OrLater(),
+            formulaVersion.isV2OrLater()
                 ? PowerDisplaySnapshot.forEquipment(items)
                 : Optional.empty()
         );
@@ -232,8 +234,7 @@ public class BattlePersonage {
         Map<ActiveEnum, Integer> skillPointsByActive,
         SkillFormulaVersion formulaVersion
     ) {
-        if (formulaVersion != SkillFormulaVersion.SCALING_SKILLS_V1
-            && formulaVersion != SkillFormulaVersion.SCALING_SKILLS_V2) {
+        if (formulaVersion == null || !formulaVersion.isScaling()) {
             throw new IllegalArgumentException("A scaling formula version is required");
         }
         return new BattlePersonage(
@@ -265,6 +266,26 @@ public class BattlePersonage {
             null,
             name,
             SkillFormulaVersion.SCALING_SKILLS_V2,
+            Map.of(),
+            true
+        );
+    }
+
+    /** Creates the current scaling combat participant, including the no-modifier case. */
+    public static BattlePersonage forScalingSkillsV3Combat(
+        List<Item> items,
+        Position startPosition,
+        Map<ActiveEnum, Integer> skillPointsByActive,
+        Optional<String> name
+    ) {
+        return new BattlePersonage(
+            items,
+            startPosition,
+            skillPointsByActive,
+            PersonageEffects.EMPTY,
+            null,
+            name,
+            SkillFormulaVersion.SCALING_SKILLS_V3,
             Map.of(),
             true
         );
@@ -441,8 +462,7 @@ public class BattlePersonage {
                         ? SkillFormulaVersion.LEGACY_SKILLS_V1
                         : defaultFormulaVersion
                 );
-                if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1
-                    || formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2) {
+                if (formulaVersion.isScaling()) {
                     scalingSkillPoints.put(entry.getKey(), entry.getValue());
                     scalingSkillVersions.put(entry.getKey(), formulaVersion);
                 } else {
@@ -741,7 +761,7 @@ public class BattlePersonage {
         blockCount++;
         final int healthBefore = health;
         final int withVariance = RandomUtils.getInPercentRange(mitigated, RANGE_PERCENT);
-        this.health = Math.max(0, health - withVariance);
+        this.health = Math.max(0, health - battleTempoVersion.scaleDamage(withVariance));
         final int damageTaken = healthBefore - health;
         actualDamageTaken += damageTaken;
         return damageTaken;
@@ -1143,7 +1163,15 @@ public class BattlePersonage {
             0.0,
             1.0
         );
-        return withCrit * hitProbability;
+        return withCrit * hitProbability * battleTempoVersion.damageMultiplier();
+    }
+
+    public BattleTempoVersion battleTempoVersion() {
+        return battleTempoVersion;
+    }
+
+    void setBattleTempoVersion(BattleTempoVersion tempoVersion) {
+        battleTempoVersion = Objects.requireNonNull(tempoVersion, "Battle tempo version must be specified");
     }
 
     public TargetingTactic targetingTactic() {
@@ -1406,7 +1434,7 @@ public class BattlePersonage {
         damageBlocked += Math.max(0, rawDamage);
         blockCount++;
         final int healthBefore = health;
-        health = Math.max(0, health - damage);
+        health = Math.max(0, health - battleTempoVersion.scaleDamage(damage));
         final int damageTaken = healthBefore - health;
         actualDamageTaken += damageTaken;
         return damageTaken;

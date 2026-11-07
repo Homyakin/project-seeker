@@ -1,0 +1,19 @@
+{
+  "valid": true,
+  "records": 52000,
+  "conditions": 52,
+  "pairsPerCondition": 500,
+  "orders": 2,
+  "uniqueSeedGroups": 20,
+  "exactUniqueJavaLongSeeds": 10000,
+  "participants": 1144,
+  "items": 7408,
+  "legalModifierAssignments": 4040,
+  "numericSummaryValues": 624,
+  "equalNominalGoldConditions": 52,
+  "responseConditionsDifferOnlyByWeapon": 16,
+  "movementViolations": 0,
+  "timeouts": 0,
+  "currentAdaptiveReferenceCases": 16,
+  "scope": "Saved observation consistency, exact seeds, structural equipment legality and nominal prices; not an engine rerun or global/PvE acceptance"
+}

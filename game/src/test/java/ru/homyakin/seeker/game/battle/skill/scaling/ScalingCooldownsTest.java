@@ -9,6 +9,22 @@ import ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldowns.Phase;
 
 class ScalingCooldownsTest {
     @ParameterizedTest
+    @CsvSource({"1", "2", "3", "4", "5", "6", "7", "8", "9", "2147483647"})
+    void mapsEveryPositiveV3HitAndRunRankToEightCompletedOwnTurns(int points) {
+        assertSchedule(
+            ScalingCooldowns.hitAndRun(SkillFormulaVersion.SCALING_SKILLS_V3, points).orElseThrow(),
+            8,
+            8
+        );
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-2147483648", "-1", "0"})
+    void nonPositiveV3HitAndRunPointsHaveNoSchedule(int points) {
+        Assertions.assertTrue(ScalingCooldowns.hitAndRun(SkillFormulaVersion.SCALING_SKILLS_V3, points).isEmpty());
+    }
+
+    @ParameterizedTest
     @CsvSource({
         "1, 11, 11",
         "2, 10, 10",

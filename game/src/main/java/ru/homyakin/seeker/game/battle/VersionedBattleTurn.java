@@ -122,7 +122,7 @@ final class VersionedBattleTurn {
             self.scalingSkills().consumePenetrationFollowUp();
         }
         final boolean penetrationAccess = penetrationOpened || penetrationFollowUp;
-        final boolean hitAndRunUsed = (!penetrationAccess
+        final boolean hitAndRunUsed = selection.hitAndRunReady() && (!penetrationAccess
             || !usesV2(self, ActiveEnum.PENETRATION)) && consumeHitAndRunIfApplicable(
                 self,
                 selection.target(),
@@ -260,12 +260,17 @@ final class VersionedBattleTurn {
                     lockedTarget,
                     accessibleCandidates,
                     ordinaryRange,
-                    PenetrationAttempt.FOLLOW_UP
+                    PenetrationAttempt.FOLLOW_UP,
+                    false
                 );
             }
             self.scalingSkills().clearPenetrationTarget();
         }
-        final boolean hitAndRunReady = self.scalingSkills().ready(ActiveEnum.HIT_AND_RUN);
+        final boolean hitAndRunReady = self.scalingSkills().ready(ActiveEnum.HIT_AND_RUN)
+            && (!usesV3(self, ActiveEnum.HIT_AND_RUN) || context.random().chance(
+                "skill-chance:HIT_AND_RUN:" + self.id(),
+                ScalingSkillMath.hitAndRunV3Chance(self.scalingSkills().points(ActiveEnum.HIT_AND_RUN))
+            ));
         final boolean penetrationReady = self.scalingSkills().ready(ActiveEnum.PENETRATION);
         final int extendedRange = Math.addExact(ordinaryRange, hitAndRunReady ? 1 : 0);
         final var ordinaryCandidates = new ArrayList<BattlePersonage>();
@@ -307,7 +312,8 @@ final class VersionedBattleTurn {
             target,
             List.copyOf(accessibleCandidates),
             ordinaryRange,
-            penetrationExpanded ? PenetrationAttempt.OPENING : PenetrationAttempt.NONE
+            penetrationExpanded ? PenetrationAttempt.OPENING : PenetrationAttempt.NONE,
+            hitAndRunReady
         );
     }
 
@@ -1168,7 +1174,12 @@ final class VersionedBattleTurn {
 
     private static boolean usesV2(BattlePersonage personage, ActiveEnum skill) {
         return personage.scalingSkills().has(skill)
-            && personage.scalingSkills().version(skill) == SkillFormulaVersion.SCALING_SKILLS_V2;
+            && personage.scalingSkills().version(skill).isV2OrLater();
+    }
+
+    private static boolean usesV3(BattlePersonage personage, ActiveEnum skill) {
+        return personage.scalingSkills().has(skill)
+            && personage.scalingSkills().version(skill) == SkillFormulaVersion.SCALING_SKILLS_V3;
     }
 
     private static int sum(Map<AttackType, Integer> values) {
@@ -1219,7 +1230,8 @@ final class VersionedBattleTurn {
         BattlePersonage target,
         List<BattlePersonage> candidates,
         int ordinaryRange,
-        PenetrationAttempt penetrationAttempt
+        PenetrationAttempt penetrationAttempt,
+        boolean hitAndRunReady
     ) {
     }
 

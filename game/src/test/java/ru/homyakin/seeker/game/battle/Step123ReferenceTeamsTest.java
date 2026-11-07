@@ -1,16 +1,25 @@
 package ru.homyakin.seeker.game.battle;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import ru.homyakin.seeker.game.battle.Step123BattleRunner.Gear;
+import ru.homyakin.seeker.game.battle.Step123ReferenceTeams.AdaptiveVariant;
 import ru.homyakin.seeker.game.battle.Step123ReferenceTeams.ReferenceTeam;
 import ru.homyakin.seeker.game.battle.Step123ReferenceTeams.Specialization;
 import ru.homyakin.seeker.game.battle.Step123ReferenceTeams.Tier;
+import ru.homyakin.seeker.game.battle.Step12RepresentativeBuilds.Assignment;
+import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.RoleBuild;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
+import ru.homyakin.seeker.game.battle.targeting.TargetingTactic;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogRelease;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.item.models.ItemProgressionVersion;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
@@ -19,6 +28,153 @@ import ru.homyakin.seeker.game.personage.models.PersonageSlot;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 class Step123ReferenceTeamsTest {
+    @Test
+    void adaptiveCounterplayPreservesTheExactConfirmedModifiersItemsAndFrontPositions() {
+        for (final var variant : AdaptiveVariant.values()) {
+            for (final int size : List.of(7, 15)) {
+                for (final int level : List.of(0, 6)) {
+                    final var pair = Step123ReferenceTeams.adaptiveCounterplay(variant, size, level);
+                    Assertions.assertEquals(pair, Step123ReferenceTeams.adaptiveCounterplay(variant, size, level));
+                    Assertions.assertEquals(size, pair.raiders().size());
+                    Assertions.assertEquals(size, pair.response().size());
+                    Assertions.assertEquals(level, pair.enhanceLevel());
+                    Assertions.assertEquals(pair.raiders().getFirst(), pair.response().getFirst());
+                    final var guardian = pair.raiders().getFirst().build();
+                    Assertions.assertEquals(List.of("mace", "tower_shield", "cuirass", "greaves", "sabatons",
+                        "great_helm", "gauntlets"), guardian.itemCodes());
+                    Assertions.assertEquals(Map.of("tower_shield", new Assignment(ActiveEnum.GUARD,
+                        ItemRarity.LEGENDARY)), guardian.assignments());
+                    Assertions.assertEquals(Position.FRONT, guardian.position());
+                    Assertions.assertEquals(TargetingTactic.THREAT, guardian.tactic());
+                    for (final var member : pair.raiders().subList(1, size)) {
+                        Assertions.assertEquals(List.of("rapier", "dirk", "robe", "cloth_chausses", "cloth_boots",
+                            "hood", "cloth_gloves"), member.build().itemCodes());
+                        Assertions.assertEquals(adaptiveRaiderAssignments(variant), member.build().assignments());
+                        Assertions.assertEquals(Position.FRONT, member.build().position());
+                        Assertions.assertEquals(TargetingTactic.EXECUTIONER, member.build().tactic());
+                    }
+                    for (final var member : pair.response().subList(1, size)) {
+                        Assertions.assertEquals(List.of("command_staff", "breastplate", "leather_chausses", "boots",
+                            "leather_helm", "leather_gloves"), member.build().itemCodes());
+                        final var expected = variant.heavy() ? Map.of(
+                            "command_staff", new Assignment(ActiveEnum.BERSERK, ItemRarity.LEGENDARY),
+                            "breastplate", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.LEGENDARY),
+                            "leather_chausses", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.LEGENDARY),
+                            "leather_gloves", new Assignment(ActiveEnum.FEINT, ItemRarity.LEGENDARY)
+                        ) : Map.of(
+                            "command_staff", new Assignment(ActiveEnum.BERSERK, ItemRarity.RARE),
+                            "breastplate", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.RARE)
+                        );
+                        Assertions.assertEquals(expected, member.build().assignments());
+                        Assertions.assertEquals(Position.FRONT, member.build().position());
+                        Assertions.assertEquals(TargetingTactic.WOUNDED_HUNTER, member.build().tactic());
+                    }
+                    for (final var members : List.of(pair.raiders(), pair.response())) {
+                        assertLegal(members, level);
+                        for (final var member : members) {
+                            final var personage = member.personage(level, Set.of());
+                            Assertions.assertTrue(personage.skillSnapshots().stream().allMatch(snapshot ->
+                                snapshot.formulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V3));
+                            for (final var item : member.items(level)) {
+                                final var assignment = member.build().assignments().get(item.object().code());
+                                Assertions.assertEquals(assignment == null ? ItemRarity.COMMON : assignment.rarity(),
+                                    item.rarity());
+                                Assertions.assertEquals(assignment == null ? 0
+                                    : assignment.rarity().skillPoints() * item.object().slots().size(),
+                                    item.skillPoints());
+                                Assertions.assertEquals(assignment == null ? java.util.Optional.empty()
+                                    : java.util.Optional.of(assignment.skill()), item.modifier().map(modifier -> modifier.activeEnum()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    void adaptiveCounterplayComparesEqualNominalGoldWithoutChangingTheMainTierProfiles() throws Exception {
+        final var economy = Step123ReferenceEconomy.configured();
+        for (final var variant : AdaptiveVariant.values()) {
+            for (final int size : List.of(7, 15)) {
+                for (final int level : List.of(0, 6)) {
+                    final var pair = Step123ReferenceTeams.adaptiveCounterplay(variant, size, level);
+                    final long expected = 2425L + (size - 1) * (variant.heavy() ? 7600 : 1600);
+                    for (final var members : List.of(pair.raiders(), pair.response())) {
+                        Assertions.assertEquals(expected, economy.nominalGold(members.stream()
+                            .flatMap(member -> member.items(level).stream()).toList()));
+                    }
+                    final int expectedRaiderPoints = variant.heavy() ? 16 : variant == AdaptiveVariant.SIX_UNCOMMON ? 6 : 4;
+                    Assertions.assertEquals(expectedRaiderPoints, pair.raiders().get(1).items(level).stream()
+                        .mapToInt(item -> item.skillPoints()).sum());
+                    Assertions.assertEquals(variant.heavy() ? 20 : 6, pair.response().get(1).items(level).stream()
+                        .mapToInt(item -> item.skillPoints()).sum());
+                }
+            }
+        }
+        Assertions.assertTrue(Step123ReferenceTeams.mainTeam(Tier.BEGINNER, 15).members().stream()
+            .flatMap(member -> member.items(0).stream()).allMatch(item -> item.rarity() == ItemRarity.COMMON));
+    }
+
+    @Test
+    void adaptiveCounterplayRejectsUnconfirmedSizesAndEnhancementLevels() {
+        for (final int size : List.of(0, 1, 3, 8, 30)) {
+            Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Step123ReferenceTeams.adaptiveCounterplay(AdaptiveVariant.ORDINARY_BLEEDING, size, 0));
+        }
+        for (final int level : List.of(-1, 1, 3, 10, 20)) {
+            Assertions.assertThrows(IllegalArgumentException.class,
+                () -> Step123ReferenceTeams.adaptiveCounterplay(AdaptiveVariant.ORDINARY_BLEEDING, 7, level));
+        }
+        Assertions.assertThrows(NullPointerException.class, () -> Step123ReferenceTeams.adaptiveCounterplay(null, 7, 0));
+    }
+
+    @Test
+    void referenceExportAddsSixteenAdaptivePairsWithoutReplacingTheThirtyFiveExistingTeams(@TempDir Path directory)
+        throws Exception {
+        final var file = directory.resolve("reference-teams.json");
+        Step123ReferenceTeams.main(new String[]{file.toString()});
+        final var exported = JsonMapper.builder().build().readTree(file.toFile());
+        Assertions.assertEquals(35, exported.path("teams").size());
+        final var adaptive = exported.path("adaptiveCounterplay");
+        Assertions.assertEquals("ACCELERATED_V1", adaptive.path("tempo").asText());
+        Assertions.assertEquals(16, adaptive.path("cases").size());
+        final var codes = new java.util.HashSet<String>();
+        for (final var pair : adaptive.path("cases")) {
+            Assertions.assertTrue(codes.add(pair.path("code").asText()));
+            Assertions.assertTrue(Set.of(0, 6).contains(pair.path("enhanceLevel").asInt()));
+            Assertions.assertTrue(Set.of(7, 15).contains(pair.path("size").asInt()));
+            Assertions.assertEquals(pair.path("raiderNominalGold"), pair.path("responseNominalGold"));
+            Assertions.assertEquals(pair.path("size").asInt(), pair.path("raiders").size());
+            Assertions.assertEquals(pair.path("size").asInt(), pair.path("response").size());
+            for (final var side : List.of("raiders", "response")) {
+                for (final var member : pair.path(side)) {
+                    Assertions.assertEquals("SCALING_V5", member.path("catalog").asText());
+                    Assertions.assertEquals("FRONT", member.path("position").asText());
+                }
+            }
+        }
+    }
+
+    @Test
+    void referencePersonagesUseEachMembersReleaseVersionWithoutChangingHistoricalCatalogs() {
+        final var build = Step12RepresentativeBuilds.role(RoleBuild.ASSASSIN);
+        final var versions = List.of(EquipmentCatalogVersion.SCALING_V2, EquipmentCatalogVersion.SCALING_V3,
+            EquipmentCatalogVersion.SCALING_V4, EquipmentCatalogVersion.SCALING_V5);
+        final var team = new ReferenceTeam("MIXED_CATALOG_VERSIONS", Tier.STRONG,
+            versions.stream().map(version -> new Gear(build, version)).toList());
+        final var personages = team.personages();
+
+        for (int index = 0; index < versions.size(); index++) {
+            final var expected = EquipmentCatalogRelease.forVersion(versions.get(index)).skillFormulaVersion();
+            final var personage = personages.get(index);
+            Assertions.assertEquals(expected, personage.scalingSkills().version(ActiveEnum.PENETRATION));
+            Assertions.assertTrue(personage.skillSnapshots().stream().allMatch(snapshot -> snapshot.formulaVersion() == expected));
+            Assertions.assertTrue(personage.usesScalingCombatRules());
+            Assertions.assertEquals(BattleTempoVersion.BASELINE_V1, personage.battleTempoVersion());
+        }
+    }
+
     @Test
     void mainTeamsCoverEverySizeWithLegalCatalogItemsAndExplicitCombatOrder() {
         for (final var tier : Tier.values()) {
@@ -35,7 +191,7 @@ class Step123ReferenceTeamsTest {
                 Assertions.assertTrue(context.usesScalingSkillOrder());
                 for (final var personage : personages) {
                     Assertions.assertTrue(personage.skillSnapshots().stream().allMatch(snapshot ->
-                        snapshot.formulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V2
+                        snapshot.formulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V3
                     ));
                 }
             }
@@ -213,18 +369,51 @@ class Step123ReferenceTeamsTest {
         return team.members().stream().map(member -> member.build().code()).toList();
     }
 
+    private static Map<String, Assignment> adaptiveRaiderAssignments(AdaptiveVariant variant) {
+        return switch (variant) {
+            case ORDINARY_BLEEDING -> Map.of(
+                "rapier", new Assignment(ActiveEnum.BLEEDING, ItemRarity.RARE),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.RARE)
+            );
+            case SIX_UNCOMMON -> Map.of(
+                "rapier", new Assignment(ActiveEnum.BLEEDING, ItemRarity.UNCOMMON),
+                "dirk", new Assignment(ActiveEnum.DOUBLE_ATTACK, ItemRarity.UNCOMMON),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.UNCOMMON),
+                "cloth_boots", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.UNCOMMON),
+                "robe", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.UNCOMMON),
+                "cloth_chausses", new Assignment(ActiveEnum.SELF_HEAL, ItemRarity.UNCOMMON)
+            );
+            case HEAVY_BLEEDING -> Map.of(
+                "rapier", new Assignment(ActiveEnum.BLEEDING, ItemRarity.LEGENDARY),
+                "dirk", new Assignment(ActiveEnum.BLEEDING, ItemRarity.LEGENDARY),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.LEGENDARY),
+                "cloth_boots", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.LEGENDARY)
+            );
+            case HEAVY_DOUBLE_BLEEDING -> Map.of(
+                "rapier", new Assignment(ActiveEnum.DOUBLE_ATTACK, ItemRarity.LEGENDARY),
+                "dirk", new Assignment(ActiveEnum.BLEEDING, ItemRarity.LEGENDARY),
+                "hood", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.LEGENDARY),
+                "cloth_boots", new Assignment(ActiveEnum.HIT_AND_RUN, ItemRarity.LEGENDARY)
+            );
+        };
+    }
+
     private static long nominalGold(ReferenceTeam team) throws Exception {
         return Step123ReferenceEconomy.configured().nominalGold(team.members().stream()
             .flatMap(member -> member.items(team.tier().level()).stream()).toList());
     }
 
     private static void assertLegal(ReferenceTeam team) {
-        for (final var member : team.members()) {
+        assertLegal(team.members(), team.tier().level());
+    }
+
+    private static void assertLegal(List<Gear> members, int level) {
+        for (final var member : members) {
             Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V5, member.catalog());
             final var occupied = EnumSet.noneOf(PersonageSlot.class);
-            for (final var item : member.items(team.tier().level())) {
+            for (final var item : member.items(level)) {
                 Assertions.assertEquals(ItemProgressionVersion.V1, item.object().progressionVersion());
-                Assertions.assertEquals(team.tier().level(), item.enhanceLevel());
+                Assertions.assertEquals(level, item.enhanceLevel());
                 item.object().slots().forEach(slot -> Assertions.assertTrue(occupied.add(slot)));
             }
             Assertions.assertEquals(EnumSet.allOf(PersonageSlot.class), occupied);

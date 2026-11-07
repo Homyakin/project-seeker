@@ -46,10 +46,11 @@ class ScalingSkillBookTest {
     @Test
     void remembersFormulaVersionForEachSkill() {
         final var book = new ScalingSkillBook(
-            Map.of(ActiveEnum.DOUBLE_ATTACK, 3, ActiveEnum.TEMPO_BREAK, 5),
+            Map.of(ActiveEnum.DOUBLE_ATTACK, 3, ActiveEnum.TEMPO_BREAK, 5, ActiveEnum.PENETRATION, 2),
             Map.of(
                 ActiveEnum.DOUBLE_ATTACK, SkillFormulaVersion.SCALING_SKILLS_V1,
-                ActiveEnum.TEMPO_BREAK, SkillFormulaVersion.SCALING_SKILLS_V2
+                ActiveEnum.TEMPO_BREAK, SkillFormulaVersion.SCALING_SKILLS_V2,
+                ActiveEnum.PENETRATION, SkillFormulaVersion.SCALING_SKILLS_V3
             )
         );
 
@@ -61,7 +62,20 @@ class ScalingSkillBookTest {
             () -> Assertions.assertEquals(
                 SkillFormulaVersion.SCALING_SKILLS_V2,
                 book.version(ActiveEnum.TEMPO_BREAK)
+            ),
+            () -> Assertions.assertEquals(
+                SkillFormulaVersion.SCALING_SKILLS_V3,
+                book.version(ActiveEnum.PENETRATION)
             )
         );
+    }
+
+    @Test
+    void missingAndLegacyFormulaVersionsRemainInvalidForActiveScalingSkills() {
+        final var points = Map.of(ActiveEnum.PENETRATION, 2);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new ScalingSkillBook(points, Map.of()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new ScalingSkillBook(
+            points, Map.of(ActiveEnum.PENETRATION, SkillFormulaVersion.LEGACY_SKILLS_V1)
+        ));
     }
 }

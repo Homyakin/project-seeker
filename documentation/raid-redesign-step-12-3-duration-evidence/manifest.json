@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-02",
+  "repositoryHead": "09bb5ef70753e9c95cb3772e4024456ba7d7a208",
+  "productionChanged": false,
+  "jdk": "Axiom OpenJDK25.0.1+11-LTS",
+  "node": "24.22.1",
+  "sourceScope": "Selected public Java/TOML inputs, temporary source/classes and diagnostic fixtures; base repository commit needed for other dependencies",
+  "selection": "No whole src trees, application profiles, environment dumps or production database contents",
+  "files": {
+    "analysis.json": {
+      "sha256": "c3a429b4766b1aaea5580710b841995196b283a4ce4c69cb25544bd555ed6008",
+      "bytes": 1642454
+    },
+    "outcome-changes.tsv": {
+      "sha256": "630f974db7de6f1afdb40a70aeaf3b7777962e3151afd5875e7025602d6b5e85",
+      "bytes": 39879
+    },
+    "independent-validation.json": {
+      "sha256": "b38f382930cf2e18ad5821ccc3008a06583ac149de43b31bb4489d2f1a959896",
+      "bytes": 49613
+    },
+    "sources.tar.gz": {
+      "sha256": "c487b8cdb86dd0715e6894c13a05ea10c8c63cd9be3b2f102a75130504316d0a",
+      "bytes": 188901
+    },
+    "measurements.tar.gz": {
+      "sha256": "24db90d92c3259c7538711a9eeb1a8c931e8f687aa4eb43ab34da12cec42445f",
+      "bytes": 12978936
+    }
+  }
+}

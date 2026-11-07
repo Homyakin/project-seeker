@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mockito;
+import ru.homyakin.seeker.game.battle.BattleTempoVersion;
 import ru.homyakin.seeker.game.battle.PlayerCombatConfig;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.item.ItemCatalogService;
@@ -30,6 +31,20 @@ class EquipmentReleaseCoordinatorTest {
         Mockito.verify(lifecycleDao).getActiveVersions();
         Mockito.verify(catalogService).stageRelease(EquipmentCatalogVersion.SCALING_V1, List.of(), List.of());
         Mockito.verifyNoMoreInteractions(catalogService, lifecycleDao);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = {"SCALING_SKILLS_V2", "SCALING_SKILLS_V3"},
+        mode = EnumSource.Mode.EXCLUDE)
+    void invalidTempoIsRejectedBeforeDatabaseOperationsEvenWithoutActivation(SkillFormulaVersion version) {
+        combatConfig.setVersion(version);
+        combatConfig.setTempoVersion(BattleTempoVersion.ACCELERATED_V1);
+
+        Assertions.assertThrows(IllegalStateException.class,
+            () -> coordinator(PowerDisplayVersion.LEGACY_V1).prepare(List.of(), List.of()));
+
+        Assertions.assertFalse(config.activateOnStartup());
+        Mockito.verifyNoInteractions(catalogService, lifecycleDao);
     }
 
     @Test
@@ -59,7 +74,7 @@ class EquipmentReleaseCoordinatorTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = SkillFormulaVersion.class, names = "SCALING_SKILLS_V2", mode = EnumSource.Mode.EXCLUDE)
+    @EnumSource(value = SkillFormulaVersion.class, names = "SCALING_SKILLS_V3", mode = EnumSource.Mode.EXCLUDE)
     void mismatchedCombatRulesAreRejectedBeforeAnyDatabaseOperation(SkillFormulaVersion version) {
         acceptedConfiguration();
         combatConfig.setVersion(version);
@@ -76,6 +91,17 @@ class EquipmentReleaseCoordinatorTest {
 
         Assertions.assertThrows(IllegalStateException.class,
             () -> coordinator(PowerDisplayVersion.LEGACY_V1).prepare(List.of(), List.of()));
+
+        Mockito.verifyNoInteractions(catalogService, lifecycleDao);
+    }
+
+    @Test
+    void reviewedReleaseRequiresAcceleratedTempoBeforeAnyDatabaseOperation() {
+        acceptedConfiguration();
+        combatConfig.setTempoVersion(BattleTempoVersion.BASELINE_V1);
+
+        Assertions.assertThrows(IllegalStateException.class,
+            () -> coordinator(PowerDisplayVersion.REFERENCE_V1).prepare(List.of(), List.of()));
 
         Mockito.verifyNoInteractions(catalogService, lifecycleDao);
     }
@@ -133,6 +159,7 @@ class EquipmentReleaseCoordinatorTest {
         acceptedConfiguration();
         config.setCatalogVersion(version);
         config.setActivateOnStartup(false);
+        setCompatibleTempo(version);
         Mockito.when(lifecycleDao.getActiveVersions()).thenReturn(List.of(version));
 
         Assertions.assertThrows(IllegalStateException.class,
@@ -148,12 +175,60 @@ class EquipmentReleaseCoordinatorTest {
         acceptedConfiguration();
         config.setCatalogVersion(version);
         config.setActivateOnStartup(false);
+        setCompatibleTempo(version);
         Mockito.when(lifecycleDao.getActiveVersions()).thenReturn(List.of(version));
 
         coordinator(PowerDisplayVersion.REFERENCE_V1).prepare(List.of(), List.of());
 
         Mockito.verify(catalogService).stageRelease(version, List.of(), List.of());
         Mockito.verify(catalogService, Mockito.never()).activateRelease(Mockito.any());
+    }
+
+    @Test
+    void resettingTheActivationFlagDoesNotPermitBaselineTempoOnTheActiveReviewedRelease() {
+        acceptedConfiguration();
+        config.setActivateOnStartup(false);
+        combatConfig.setTempoVersion(BattleTempoVersion.BASELINE_V1);
+        Mockito.when(lifecycleDao.getActiveVersions()).thenReturn(List.of(EquipmentCatalogVersion.SCALING_V5));
+
+        Assertions.assertThrows(IllegalStateException.class,
+            () -> coordinator(PowerDisplayVersion.REFERENCE_V1).prepare(List.of(), List.of()));
+
+        Mockito.verify(lifecycleDao).getActiveVersions();
+        Mockito.verifyNoInteractions(catalogService);
+    }
+
+    @Test
+    void historicalActiveReleaseCannotSilentlyAcquireAcceleratedTempo() {
+        acceptedConfiguration();
+        combatConfig.setVersion(SkillFormulaVersion.SCALING_SKILLS_V2);
+        config.setCatalogVersion(EquipmentCatalogVersion.SCALING_V4);
+        config.setActivateOnStartup(false);
+        Mockito.when(lifecycleDao.getActiveVersions()).thenReturn(List.of(EquipmentCatalogVersion.SCALING_V4));
+
+        Assertions.assertThrows(IllegalStateException.class,
+            () -> coordinator(PowerDisplayVersion.REFERENCE_V1).prepare(List.of(), List.of()));
+
+        Mockito.verify(lifecycleDao).getActiveVersions();
+        Mockito.verifyNoInteractions(catalogService);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = EquipmentCatalogVersion.class, names = {"SCALING_V4", "SCALING_V5"})
+    void anActiveReleaseCannotSilentlySwitchBetweenHistoricalAndCurrentSkillFormulas(EquipmentCatalogVersion version) {
+        acceptedConfiguration();
+        config.setCatalogVersion(version);
+        config.setActivateOnStartup(false);
+        setCompatibleTempo(version);
+        combatConfig.setVersion(version == EquipmentCatalogVersion.SCALING_V4
+            ? SkillFormulaVersion.SCALING_SKILLS_V3 : SkillFormulaVersion.SCALING_SKILLS_V2);
+        Mockito.when(lifecycleDao.getActiveVersions()).thenReturn(List.of(version));
+
+        Assertions.assertThrows(IllegalStateException.class,
+            () -> coordinator(PowerDisplayVersion.REFERENCE_V1).prepare(List.of(), List.of()));
+
+        Mockito.verify(lifecycleDao).getActiveVersions();
+        Mockito.verifyNoInteractions(catalogService);
     }
 
     @ParameterizedTest
@@ -175,6 +250,14 @@ class EquipmentReleaseCoordinatorTest {
     private void acceptedConfiguration() {
         config.setCatalogVersion(EquipmentCatalogVersion.SCALING_V5);
         config.setActivateOnStartup(true);
-        combatConfig.setVersion(SkillFormulaVersion.SCALING_SKILLS_V2);
+        combatConfig.setVersion(SkillFormulaVersion.SCALING_SKILLS_V3);
+        combatConfig.setTempoVersion(BattleTempoVersion.ACCELERATED_V1);
+    }
+
+    private void setCompatibleTempo(EquipmentCatalogVersion version) {
+        combatConfig.setVersion(EquipmentCatalogRelease.forVersion(version).skillFormulaVersion());
+        combatConfig.setTempoVersion(version == EquipmentCatalogVersion.SCALING_V5
+            ? BattleTempoVersion.ACCELERATED_V1
+            : BattleTempoVersion.BASELINE_V1);
     }
 }

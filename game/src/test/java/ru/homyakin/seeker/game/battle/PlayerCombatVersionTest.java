@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.effect.Effect;
@@ -34,12 +36,13 @@ class PlayerCombatVersionTest {
         ));
     }
 
-    @Test
-    void explicitV2UsesOrderedTurnsEvenWithoutAnySkill() {
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = {"SCALING_SKILLS_V2", "SCALING_SKILLS_V3"})
+    void explicitModernVersionUsesOrderedTurnsEvenWithoutAnySkill(SkillFormulaVersion version) {
         final var commonItems = ordinaryItems();
         final var player = BattlePersonage.forCombat(
             commonItems, Position.FRONT, PersonageEffects.EMPTY, Optional.of("player"),
-            SkillFormulaVersion.SCALING_SKILLS_V2
+            version
         );
         final var legacyEnemy = new BattlePersonage(commonItems, Position.FRONT);
         final var context = new BattleContext(List.of(player), List.of(legacyEnemy));
@@ -57,19 +60,20 @@ class PlayerCombatVersionTest {
         );
     }
 
-    @Test
-    void explicitV2AssignsTheSelectedVersionToAllEquippedSkills() {
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = {"SCALING_SKILLS_V2", "SCALING_SKILLS_V3"})
+    void explicitModernVersionAssignsTheSelectedVersionToAllEquippedSkills(SkillFormulaVersion version) {
         final var catalog = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V3);
         final var sword = catalog.itemObjects().stream().filter(object -> object.code().equals("sword"))
             .findFirst().orElseThrow();
         final var equipped = new Item(sword, Optional.of(new Modifier(ActiveEnum.DOUBLE_ATTACK)), ItemRarity.RARE);
         final var player = BattlePersonage.forCombat(
             List.of(equipped), Position.FRONT, PersonageEffects.EMPTY, Optional.empty(),
-            SkillFormulaVersion.SCALING_SKILLS_V2
+            version
         );
 
         Assertions.assertEquals(
-            List.of(new BattleSkillInitSnapshot(ActiveEnum.DOUBLE_ATTACK, 2, SkillFormulaVersion.SCALING_SKILLS_V2)),
+            List.of(new BattleSkillInitSnapshot(ActiveEnum.DOUBLE_ATTACK, 2, version)),
             player.skillSnapshots()
         );
     }
@@ -91,8 +95,9 @@ class PlayerCombatVersionTest {
         }
     }
 
-    @Test
-    void referencePowerSnapshotUsesOriginalEquipmentNotTemporaryEffectsOrDamage() {
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = {"SCALING_SKILLS_V2", "SCALING_SKILLS_V3"})
+    void referencePowerSnapshotUsesOriginalEquipmentNotTemporaryEffectsOrDamage(SkillFormulaVersion version) {
         final var catalog = EquipmentCatalogLoader.loadValidated(EquipmentCatalogVersion.SCALING_V3);
         final var items = catalog.itemObjects().stream()
             .filter(object -> List.of(
@@ -105,7 +110,7 @@ class PlayerCombatVersionTest {
             new PersonageEffect(new Effect.Multiplier(50, EffectCharacteristic.HEALTH), null)
         ));
         final var player = BattlePersonage.forCombat(
-            items, Position.FRONT, effects, Optional.empty(), SkillFormulaVersion.SCALING_SKILLS_V2
+            items, Position.FRONT, effects, Optional.empty(), version
         );
         final var originalSnapshot = PowerDisplaySnapshot.forEquipment(items);
         final var before = player.battlePersonageStats();
@@ -117,6 +122,61 @@ class PlayerCombatVersionTest {
             () -> Assertions.assertEquals(originalSnapshot, player.battlePersonageStats().displayedPower()),
             () -> Assertions.assertEquals(1000, originalSnapshot.orElseThrow().value())
         );
+    }
+
+    @Test
+    void explicitThirdCombatFactoryPreservesItsVersionAndDoesNotUpgradeTheSecondFactory() {
+        final var skills = Map.of(ActiveEnum.PENETRATION, 2);
+        final var second = BattlePersonage.forScalingSkillsV2Combat(
+            ordinaryItems(), Position.FRONT, skills, Optional.empty()
+        );
+        final var third = BattlePersonage.forScalingSkillsV3Combat(
+            ordinaryItems(), Position.FRONT, skills, Optional.of("third")
+        );
+        final var emptyThird = BattlePersonage.forScalingSkillsV3Combat(
+            ordinaryItems(), Position.FRONT, Map.of(), Optional.empty()
+        );
+
+        Assertions.assertAll(
+            () -> Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2,
+                second.scalingSkills().version(ActiveEnum.PENETRATION)),
+            () -> Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V3,
+                third.scalingSkills().version(ActiveEnum.PENETRATION)),
+            () -> Assertions.assertTrue(third.usesScalingCombatRules()),
+            () -> Assertions.assertTrue(emptyThird.usesScalingCombatRules()),
+            () -> Assertions.assertTrue(emptyThird.skillSnapshots().isEmpty()),
+            () -> Assertions.assertEquals(Optional.of("third"), third.name())
+        );
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = {"SCALING_SKILLS_V1", "SCALING_SKILLS_V2", "SCALING_SKILLS_V3"})
+    void explicitScalingFactoryKeepsTheRequestedFormula(SkillFormulaVersion version) {
+        final var personage = BattlePersonage.forScalingSkills(
+            ordinaryItems(), Position.FRONT, Map.of(ActiveEnum.HIT_AND_RUN, 2), version
+        );
+
+        Assertions.assertEquals(version, personage.scalingSkills().version(ActiveEnum.HIT_AND_RUN));
+        Assertions.assertEquals(version, personage.skillSnapshots().getFirst().formulaVersion());
+    }
+
+    @Test
+    void loadingExplicitPerSkillVersionsDoesNotUpgradeHistoricalSkills() {
+        final var versions = Map.of(
+            ActiveEnum.BERSERK, SkillFormulaVersion.SCALING_SKILLS_V1,
+            ActiveEnum.DOUBLE_ATTACK, SkillFormulaVersion.SCALING_SKILLS_V2,
+            ActiveEnum.PENETRATION, SkillFormulaVersion.SCALING_SKILLS_V3
+        );
+        final var personage = BattlePersonage.withSkillVersions(
+            ordinaryItems(), Position.FRONT,
+            Map.of(ActiveEnum.BERSERK, 2, ActiveEnum.DOUBLE_ATTACK, 2, ActiveEnum.PENETRATION, 2), versions
+        );
+
+        Assertions.assertEquals(3, personage.skillSnapshots().size());
+        for (final var snapshot : personage.skillSnapshots()) {
+            Assertions.assertEquals(versions.get(snapshot.code()), snapshot.formulaVersion());
+            Assertions.assertEquals(versions.get(snapshot.code()), personage.scalingSkills().version(snapshot.code()));
+        }
     }
 
     private static List<Item> ordinaryItems() {

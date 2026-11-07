@@ -120,7 +120,7 @@ public final class EquipmentCatalogValidator {
     );
     private static final CatalogContract SCALING_V5_CONTRACT = new CatalogContract(
         "SCALING_V5",
-        SkillFormulaVersion.SCALING_SKILLS_V2,
+        SkillFormulaVersion.SCALING_SKILLS_V3,
         SCALING_V2_ITEM_CODES,
         63,
         9,
@@ -154,7 +154,7 @@ public final class EquipmentCatalogValidator {
             release.skillFormulaVersion() == contract.skillFormulaVersion(),
             "%s must use scaling skill formulas %s".formatted(
                 contract.name(),
-                contract.skillFormulaVersion() == SkillFormulaVersion.SCALING_SKILLS_V1 ? "V1" : "V2"
+                contract.skillFormulaVersion().name().replace("SCALING_SKILLS_", "")
             )
         );
         require(

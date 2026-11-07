@@ -4,6 +4,8 @@ import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.SkillRank;
@@ -68,13 +70,16 @@ class WorldRaidPersonageSkillCompatibilityTest {
         Assertions.assertEquals(expected, actual);
     }
 
-    @Test
-    void scalingV2SurvivesFullWorldRaidJsonRoundTripAndBattleMaterialization() throws Exception {
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = {"SCALING_SKILLS_V2", "SCALING_SKILLS_V3"})
+    void modernScalingVersionSurvivesFullWorldRaidJsonRoundTripAndBattleMaterialization(
+        SkillFormulaVersion version
+    ) throws Exception {
         final var expected = new WorldRaidPersonage(
             List.of(new WorldRaidPersonage.PersonageSkill(
                 ActiveEnum.PENETRATION,
                 SkillRank.FOURTH,
-                SkillFormulaVersion.SCALING_SKILLS_V2
+                version
             )),
             1_200,
             17,
@@ -95,11 +100,11 @@ class WorldRaidPersonageSkillCompatibilityTest {
 
         Assertions.assertAll(
             () -> Assertions.assertEquals(expected, restored),
-            () -> Assertions.assertTrue(json.contains("\"version\":\"SCALING_SKILLS_V2\"")),
+            () -> Assertions.assertTrue(json.contains("\"version\":\"" + version.name() + "\"")),
             () -> Assertions.assertEquals(ActiveEnum.PENETRATION, skillSnapshot.code()),
             () -> Assertions.assertEquals(SkillRank.FOURTH.requiredPoints(), skillSnapshot.points()),
             () -> Assertions.assertEquals(
-                SkillFormulaVersion.SCALING_SKILLS_V2,
+                version,
                 skillSnapshot.formulaVersion()
             )
         );

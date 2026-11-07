@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-07",
+  "candidate": "SCALING_V5 / SCALING_SKILLS_V3 / ACCELERATED_V1",
+  "balanceCorrectionIterations": 0,
+  "maximumCorrectionIterations": 5,
+  "productionSourceChangedInThisSeries": false,
+  "catalogOrSkillFormulaChangedInThisSeries": false,
+  "enhancementChanged": false,
+  "productionActivationChanged": false,
+  "engineClassesMatchPriorAudit": 9,
+  "selectedPublicSourceFiles": 62,
+  "studySourceSha256": "7e681ddcc320cabc8c1cab24295de9ca98f5bd1aeb55a7baa9ba2288fa4e1a04",
+  "studiesArchiveSha256": "554512af3a259ea61cb41379d85bbec1b361abd96ce53ab1d8781ca4b1f4080b",
+  "acceptedExploratoryBattles": 145440,
+  "acceptedConfirmationBattles": 418000,
+  "excludedDependentBattles": 42000,
+  "excludedTechnicalSmokeBattles": 2,
+  "targetedMavenChecks": {
+    "workingDirectory": "game",
+    "command": "env JAVA_HOME=/home/user/.jdks/axiomjdk-25.0.1 /opt/apache-maven-3.9.12/bin/mvn test -Dtest=Step123ReferenceTeamsTest,Step123BattleRunnerTest,ScalingSkillMathTest,ScalingSkillBookTest",
+    "tests": 52,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "checkstyleViolations": 0,
+    "javaVersion": "25.0.1, POM source/target 24"
+  },
+  "fullBuildRun": false,
+  "postgresRun": false,
+  "finalStage": "Fresh independent multi-agent analysis. Only the reviewers' findings are added after this freeze; no subsequent balance adjustment without another iteration and another final analysis."
+}

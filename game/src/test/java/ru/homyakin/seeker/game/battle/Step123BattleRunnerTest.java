@@ -8,10 +8,35 @@ import ru.homyakin.seeker.game.battle.Step123BattleRunner.Gear;
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.MixedBuild;
 import ru.homyakin.seeker.game.battle.simulation.Step12SimulationFixtures.RoleBuild;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogRelease;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.item.models.Item;
 
 class Step123BattleRunnerTest {
+    @Test
+    void gearPersonagesUseTheirCatalogFormulaAndPreserveTheDefaultTempo() {
+        final var build = Step12RepresentativeBuilds.role(RoleBuild.ASSASSIN);
+        for (final var catalog : EquipmentCatalogVersion.values()) {
+            final var gear = new Gear(build, catalog);
+            final var formula = EquipmentCatalogRelease.forVersion(catalog).skillFormulaVersion();
+            final var personage = gear.personage(6, Set.of());
+            final var disabled = gear.personage(6, Set.of(ActiveEnum.PENETRATION));
+
+            Assertions.assertFalse(personage.skillSnapshots().isEmpty());
+            Assertions.assertTrue(personage.skillSnapshots().stream().allMatch(snapshot -> snapshot.formulaVersion() == formula));
+            Assertions.assertEquals(formula, personage.scalingSkills().version(ActiveEnum.PENETRATION));
+            Assertions.assertEquals(build.tactic(), personage.targetingTactic());
+            Assertions.assertEquals(build.position(), personage.startPosition());
+            Assertions.assertEquals(BattleTempoVersion.BASELINE_V1, personage.battleTempoVersion());
+            Assertions.assertTrue(disabled.skillSnapshots().isEmpty());
+            Assertions.assertEquals(formula.isV2OrLater(), disabled.usesScalingCombatRules());
+            if (catalog == EquipmentCatalogVersion.SCALING_V5) {
+                Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V3, formula);
+            }
+        }
+    }
+
     @Test
     void thirdCatalogExactlyMatchesTheHistoricalRunnerInBothOrders() {
         final var left = List.of(

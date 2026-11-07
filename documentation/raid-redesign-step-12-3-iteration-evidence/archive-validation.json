@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "studies": 14,
+  "cases": 4097,
+  "records": 605442,
+  "timeouts": 0,
+  "forcedMoveViolations": 0,
+  "scope": "All archived studies were extracted and checked, including excluded dependent and smoke records. This total is not the accepted confirmation count."
+}

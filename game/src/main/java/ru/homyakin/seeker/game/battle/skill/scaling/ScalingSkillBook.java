@@ -41,8 +41,7 @@ public final class ScalingSkillBook {
             if (entry.getValue() > 0) {
                 points.put(entry.getKey(), Math.min(MAX_POINTS, entry.getValue()));
                 final var version = skillVersions.get(entry.getKey());
-                if (version != SkillFormulaVersion.SCALING_SKILLS_V1
-                    && version != SkillFormulaVersion.SCALING_SKILLS_V2) {
+                if (version == null || !version.isScaling()) {
                     throw new IllegalArgumentException(
                         "Scaling formula version must be specified for " + entry.getKey()
                     );

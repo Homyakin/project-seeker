@@ -151,8 +151,8 @@ public class BattleLocalization {
             final var entry = skillEntry(resource, activeEnum);
             return switch (formulaVersion) {
                 case LEGACY_SKILLS_V1 -> entry.description();
-                case SCALING_SKILLS_V1 -> entry.scalingGeneral();
-                case SCALING_SKILLS_V2 -> entry.scalingV2General() == null ? entry.scalingGeneral() : entry.scalingV2General();
+                case SCALING_SKILLS_V1, SCALING_SKILLS_V2, SCALING_SKILLS_V3 ->
+                    scalingGeneralDescription(entry, formulaVersion);
             };
         });
     }
@@ -171,19 +171,15 @@ public class BattleLocalization {
         final var entry = skillEntry(language, activeEnum);
         var description = switch (formulaVersion) {
             case LEGACY_SKILLS_V1 -> legacySkillDescription(entry, rank);
-            case SCALING_SKILLS_V1, SCALING_SKILLS_V2 -> ScalingSkillPresentation.description(
+            case SCALING_SKILLS_V1, SCALING_SKILLS_V2, SCALING_SKILLS_V3 -> ScalingSkillPresentation.description(
                 activeEnum,
                 points,
                 formulaVersion,
-                formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2 && entry.scalingV2() != null
-                    ? entry.scalingV2()
-                    : entry.scaling(),
+                scalingDescription(entry, formulaVersion),
                 schedule -> cooldown(language, schedule)
             );
         };
-        if ((formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V1
-            || formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V2)
-            && points > ScalingSkillMath.effectivePoints(points)) {
+        if (formulaVersion.isScaling() && points > ScalingSkillMath.effectivePoints(points)) {
             description += StringNamedTemplate.format(
                 resources.getOrDefault(language, BattleResource::battleStatsSkillExcess),
                 Map.of(
@@ -201,6 +197,29 @@ public class BattleLocalization {
                 "skill_description", description
             )
         );
+    }
+
+    private static String scalingGeneralDescription(
+        BattleResource.SkillEntry entry,
+        SkillFormulaVersion version
+    ) {
+        if (version == SkillFormulaVersion.SCALING_SKILLS_V3 && entry.scalingV3General() != null) {
+            return entry.scalingV3General();
+        }
+        if (version.isV2OrLater() && entry.scalingV2General() != null) {
+            return entry.scalingV2General();
+        }
+        return entry.scalingGeneral();
+    }
+
+    private static String scalingDescription(BattleResource.SkillEntry entry, SkillFormulaVersion version) {
+        if (version == SkillFormulaVersion.SCALING_SKILLS_V3 && entry.scalingV3() != null) {
+            return entry.scalingV3();
+        }
+        if (version.isV2OrLater() && entry.scalingV2() != null) {
+            return entry.scalingV2();
+        }
+        return entry.scaling();
     }
 
     private static String legacySkillDescription(BattleResource.SkillEntry entry, SkillRank rank) {

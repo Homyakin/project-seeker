@@ -210,7 +210,8 @@ public class DuelService {
         secondBattlePersonage.setTargetingTactic(secondGear.targetingTactic());
         final var battleResult = battle.process(
             List.of(firstBattlePersonage),
-            List.of(secondBattlePersonage)
+            List.of(secondBattlePersonage),
+            playerCombatConfig.tempoVersion()
         );
         eventBattleLogService.save(duel.id(), battleResult);
 

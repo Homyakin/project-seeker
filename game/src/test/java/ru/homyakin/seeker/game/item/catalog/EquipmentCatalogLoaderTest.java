@@ -55,12 +55,12 @@ class EquipmentCatalogLoaderTest {
     }
 
     @Test
-    void scalingV5ReleaseUsesItsOwnResourcesAndSecondSkillFormulas() {
+    void scalingV5ReleaseUsesItsOwnResourcesAndThirdSkillFormulas() {
         final var release = EquipmentCatalogRelease.forVersion(EquipmentCatalogVersion.SCALING_V5);
 
         Assertions.assertEquals(EquipmentCatalogVersion.SCALING_V5, release.catalogVersion());
         Assertions.assertEquals(ItemProgressionVersion.V1, release.progressionVersion());
-        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V2, release.skillFormulaVersion());
+        Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V3, release.skillFormulaVersion());
         Assertions.assertEquals("game-data/catalog/scaling_v5/item_objects.toml", release.itemObjectsPath());
         Assertions.assertEquals("game-data/catalog/scaling_v5/item_modifiers.toml", release.itemModifiersPath());
         Assertions.assertEquals("game-data/catalog/scaling_v5/default_items.toml", release.defaultItemsPath());

@@ -14,6 +14,7 @@ public final class ScalingCooldowns {
         return switch (version) {
             case SCALING_SKILLS_V1 -> hitAndRunV1(points);
             case SCALING_SKILLS_V2 -> hitAndRunV2(points);
+            case SCALING_SKILLS_V3 -> ScalingSkillMath.effectivePoints(points) == 0 ? Optional.empty() : fixed(8);
             case LEGACY_SKILLS_V1 -> throw new IllegalArgumentException(
                 "Legacy skills do not use scaling cooldown schedules"
             );
@@ -55,8 +56,7 @@ public final class ScalingCooldowns {
     }
 
     public static Optional<CooldownSchedule> guardOrPenetration(SkillFormulaVersion version, int points) {
-        if (version != SkillFormulaVersion.SCALING_SKILLS_V1
-            && version != SkillFormulaVersion.SCALING_SKILLS_V2) {
+        if (!version.isScaling()) {
             throw new IllegalArgumentException("Legacy skills do not use scaling cooldown schedules");
         }
         return switch (ScalingSkillMath.effectivePoints(points)) {

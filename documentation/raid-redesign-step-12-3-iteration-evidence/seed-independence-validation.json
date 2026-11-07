@@ -1,0 +1,1127 @@
+{
+  "ok": true,
+  "scope": "Exact signed Java long root+JavaHash(seedGroup) blocks plus all actual raw integer seed lexemes; each matches regenerated SplitMix64 schedule",
+  "intentionallyExcludedPreliminary": [
+    "ritual-counter-confirmation",
+    "progression-confirmation"
+  ],
+  "acceptedVsScreen": [],
+  "acceptedVsAccepted": [],
+  "studies": [
+    {
+      "name": "adaptation-screen",
+      "rootSeed": "2026110702",
+      "category": "screen",
+      "pairs": 20,
+      "records": 18720,
+      "uniqueActualSeeds": 80,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464592",
+          "cases": 117,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "5015821357813078174",
+          "lastExactSeed": "5660715520151495463"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464598",
+          "cases": 117,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-7589610486289816320",
+          "lastExactSeed": "-7114811416143873440"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756811",
+          "cases": 117,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "8474638791401609938",
+          "lastExactSeed": "4439195028802066547"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756817",
+          "cases": 117,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "8457357827051817202",
+          "lastExactSeed": "5947153140649169220"
+        }
+      ]
+    },
+    {
+      "name": "armor-matched-screen",
+      "rootSeed": "2026110703",
+      "category": "screen",
+      "pairs": 20,
+      "records": 4320,
+      "uniqueActualSeeds": 80,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464593",
+          "cases": 27,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "4297004481498433276",
+          "lastExactSeed": "8237885378950587014"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464599",
+          "cases": 27,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "8915537931125275191",
+          "lastExactSeed": "-64145724914129632"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756812",
+          "cases": 27,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-3604082494760314438",
+          "lastExactSeed": "-6657461057170146756"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756818",
+          "cases": 27,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "9052568143796384798",
+          "lastExactSeed": "1088106013389155692"
+        }
+      ]
+    },
+    {
+      "name": "baseline-screen",
+      "rootSeed": "2026110701",
+      "category": "screen",
+      "pairs": 20,
+      "records": 48000,
+      "uniqueActualSeeds": 80,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464591",
+          "cases": 300,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-5681095577883308464",
+          "lastExactSeed": "491235682324447653"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464597",
+          "cases": 300,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "5935149924106853852",
+          "lastExactSeed": "8737710396224997391"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756810",
+          "cases": 300,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "4059519590686240686",
+          "lastExactSeed": "-157695922639101423"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756816",
+          "cases": 300,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-7731523722900630213",
+          "lastExactSeed": "5310027822080268819"
+        }
+      ]
+    },
+    {
+      "name": "core-confirmation",
+      "rootSeed": "2026110704",
+      "category": "accepted-confirmation",
+      "pairs": 500,
+      "records": 112000,
+      "uniqueActualSeeds": 2000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464594",
+          "cases": 28,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "8956860895285113215",
+          "lastExactSeed": "-3022073613416384256"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464600",
+          "cases": 28,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-1015595567926113227",
+          "lastExactSeed": "258034876144711749"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756813",
+          "cases": 28,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "6900226695960055393",
+          "lastExactSeed": "-679480001031114410"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756819",
+          "cases": 28,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "7769033001248451702",
+          "lastExactSeed": "-8056422486183722165"
+        }
+      ]
+    },
+    {
+      "name": "counterchain-screen",
+      "rootSeed": "2026110703",
+      "category": "screen",
+      "pairs": 20,
+      "records": 12640,
+      "uniqueActualSeeds": 80,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464593",
+          "cases": 79,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "4297004481498433276",
+          "lastExactSeed": "8237885378950587014"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464599",
+          "cases": 79,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "8915537931125275191",
+          "lastExactSeed": "-64145724914129632"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756812",
+          "cases": 79,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-3604082494760314438",
+          "lastExactSeed": "-6657461057170146756"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756818",
+          "cases": 79,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "9052568143796384798",
+          "lastExactSeed": "1088106013389155692"
+        }
+      ]
+    },
+    {
+      "name": "progression-confirmation",
+      "rootSeed": "2026110708",
+      "category": "excluded-preliminary",
+      "pairs": 500,
+      "records": 18000,
+      "uniqueActualSeeds": 3000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L10",
+          "javaHash": "1749265005",
+          "signedLongBase": "3775375713",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "7639792347271065921",
+          "lastExactSeed": "5003774657037891485"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L20",
+          "javaHash": "1749265036",
+          "signedLongBase": "3775375744",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "9150391362996761112",
+          "lastExactSeed": "-8536975020244485055"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L3",
+          "javaHash": "1303353893",
+          "signedLongBase": "3329464601",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "8844766997914415994",
+          "lastExactSeed": "4059758388342079967"
+        },
+        {
+          "seedGroup": "RARE_N7_L10",
+          "javaHash": "1598094866",
+          "signedLongBase": "3624205574",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "8176608899706960119",
+          "lastExactSeed": "-3389851291237034766"
+        },
+        {
+          "seedGroup": "RARE_N7_L20",
+          "javaHash": "1598094897",
+          "signedLongBase": "3624205605",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-6965133035203332763",
+          "lastExactSeed": "-5510228678397019492"
+        },
+        {
+          "seedGroup": "RARE_N7_L3",
+          "javaHash": "328646112",
+          "signedLongBase": "2354756820",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-9113980172162164127",
+          "lastExactSeed": "-16321431786297065"
+        }
+      ]
+    },
+    {
+      "name": "progression-confirmation-independent",
+      "rootSeed": "2026110708000",
+      "category": "accepted-confirmation",
+      "pairs": 500,
+      "records": 18000,
+      "uniqueActualSeeds": 3000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N7_L10",
+          "javaHash": "1749265005",
+          "signedLongBase": "2027859973005",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-392765488560440581",
+          "lastExactSeed": "-8272332567259456681"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L20",
+          "javaHash": "1749265036",
+          "signedLongBase": "2027859973036",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-2898628594905671597",
+          "lastExactSeed": "-6715941194130365120"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L3",
+          "javaHash": "1303353893",
+          "signedLongBase": "2027414061893",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "6158303450677692852",
+          "lastExactSeed": "2140339954703319286"
+        },
+        {
+          "seedGroup": "RARE_N7_L10",
+          "javaHash": "1598094866",
+          "signedLongBase": "2027708802866",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-7944966047661548544",
+          "lastExactSeed": "-3932002167290375806"
+        },
+        {
+          "seedGroup": "RARE_N7_L20",
+          "javaHash": "1598094897",
+          "signedLongBase": "2027708802897",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-8686480733443408538",
+          "lastExactSeed": "7740969892540698467"
+        },
+        {
+          "seedGroup": "RARE_N7_L3",
+          "javaHash": "328646112",
+          "signedLongBase": "2026439354112",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-5008420185189524000",
+          "lastExactSeed": "-6000625886806531672"
+        }
+      ]
+    },
+    {
+      "name": "protected-confirmation",
+      "rootSeed": "2026110706",
+      "category": "accepted-confirmation",
+      "pairs": 500,
+      "records": 168000,
+      "uniqueActualSeeds": 4000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N15_L0",
+          "javaHash": "1742491753",
+          "signedLongBase": "3768602459",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "5595613274054954129",
+          "lastExactSeed": "3777889712396141624"
+        },
+        {
+          "seedGroup": "HEAVY_N15_L6",
+          "javaHash": "1742491759",
+          "signedLongBase": "3768602465",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "1013982592905490407",
+          "lastExactSeed": "6956624102115295517"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464596",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-3603935742697098344",
+          "lastExactSeed": "-4666859776526859311"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464602",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "312880105474022677",
+          "lastExactSeed": "-2259809610912166642"
+        },
+        {
+          "seedGroup": "RARE_N15_L0",
+          "javaHash": "1591321614",
+          "signedLongBase": "3617432320",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "2036142115204089614",
+          "lastExactSeed": "-8970575955157399918"
+        },
+        {
+          "seedGroup": "RARE_N15_L6",
+          "javaHash": "1591321620",
+          "signedLongBase": "3617432326",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "2609963096476187785",
+          "lastExactSeed": "8391735598295780416"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756815",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-8887873947695587598",
+          "lastExactSeed": "3232711922024345269"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756821",
+          "cases": 21,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-5423959431622389776",
+          "lastExactSeed": "945855406484675004"
+        }
+      ]
+    },
+    {
+      "name": "protected-screen",
+      "rootSeed": "2026110705",
+      "category": "screen",
+      "pairs": 20,
+      "records": 46080,
+      "uniqueActualSeeds": 160,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N15_L0",
+          "javaHash": "1742491753",
+          "signedLongBase": "3768602458",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "4507015891324487787",
+          "lastExactSeed": "7488688315485333065"
+        },
+        {
+          "seedGroup": "HEAVY_N15_L6",
+          "javaHash": "1742491759",
+          "signedLongBase": "3768602464",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-8215062022199653655",
+          "lastExactSeed": "5974695308391690391"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464595",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "3633908433088225452",
+          "lastExactSeed": "-1002269521967623316"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464601",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "8844766997914415994",
+          "lastExactSeed": "-8647099632603965281"
+        },
+        {
+          "seedGroup": "RARE_N15_L0",
+          "javaHash": "1591321614",
+          "signedLongBase": "3617432319",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-8074725916927841870",
+          "lastExactSeed": "-5607372869936509278"
+        },
+        {
+          "seedGroup": "RARE_N15_L6",
+          "javaHash": "1591321620",
+          "signedLongBase": "3617432325",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-5057537533818273037",
+          "lastExactSeed": "-3844853828162880891"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756814",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "6857641653258273376",
+          "lastExactSeed": "8182303699968261835"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756820",
+          "cases": 144,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-9113980172162164127",
+          "lastExactSeed": "2682390653935201582"
+        }
+      ]
+    },
+    {
+      "name": "ritual-counter-confirmation",
+      "rootSeed": "2026110710",
+      "category": "excluded-preliminary",
+      "pairs": 500,
+      "records": 24000,
+      "uniqueActualSeeds": 4000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N15_L0",
+          "javaHash": "1742491753",
+          "signedLongBase": "3768602463",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-4050508065874044318",
+          "lastExactSeed": "-7303587897129687036"
+        },
+        {
+          "seedGroup": "HEAVY_N15_L6",
+          "javaHash": "1742491759",
+          "signedLongBase": "3768602469",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "7722430772167362991",
+          "lastExactSeed": "1759593142045398240"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464600",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-1015595567926113227",
+          "lastExactSeed": "258034876144711749"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464606",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "5946797058798679941",
+          "lastExactSeed": "-1682214053573991345"
+        },
+        {
+          "seedGroup": "RARE_N15_L0",
+          "javaHash": "1591321614",
+          "signedLongBase": "3617432324",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-8966927453746603816",
+          "lastExactSeed": "-7371916744531065109"
+        },
+        {
+          "seedGroup": "RARE_N15_L6",
+          "javaHash": "1591321620",
+          "signedLongBase": "3617432330",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-2593164586163812741",
+          "lastExactSeed": "1920501992097312379"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756819",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "7769033001248451702",
+          "lastExactSeed": "-8056422486183722165"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756825",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "5620376242166462861",
+          "lastExactSeed": "-105001229008254905"
+        }
+      ]
+    },
+    {
+      "name": "ritual-counter-confirmation-independent",
+      "rootSeed": "2026110710000",
+      "category": "accepted-confirmation",
+      "pairs": 500,
+      "records": 24000,
+      "uniqueActualSeeds": 4000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N15_L0",
+          "javaHash": "1742491753",
+          "signedLongBase": "2027853201753",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-1826599319167605094",
+          "lastExactSeed": "2119089730208762205"
+        },
+        {
+          "seedGroup": "HEAVY_N15_L6",
+          "javaHash": "1742491759",
+          "signedLongBase": "2027853201759",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-2632346222807535421",
+          "lastExactSeed": "8016723672179659757"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "2027414063890",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "2157387896332544516",
+          "lastExactSeed": "-7246879794067496422"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "2027414063896",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "81702671935423392",
+          "lastExactSeed": "8915534159786320072"
+        },
+        {
+          "seedGroup": "RARE_N15_L0",
+          "javaHash": "1591321614",
+          "signedLongBase": "2027702031614",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "1533979446144730803",
+          "lastExactSeed": "4473031852957868298"
+        },
+        {
+          "seedGroup": "RARE_N15_L6",
+          "javaHash": "1591321620",
+          "signedLongBase": "2027702031620",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-646952016541670358",
+          "lastExactSeed": "-5838249138030381370"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2026439356109",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-4237291800667648031",
+          "lastExactSeed": "2829264634053627059"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2026439356115",
+          "cases": 3,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "3776738651397264793",
+          "lastExactSeed": "3300970450706174581"
+        }
+      ]
+    },
+    {
+      "name": "ritual-counter-screen",
+      "rootSeed": "2026110709",
+      "category": "screen",
+      "pairs": 20,
+      "records": 15680,
+      "uniqueActualSeeds": 160,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N15_L0",
+          "javaHash": "1742491753",
+          "signedLongBase": "3768602462",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "7238745580753943450",
+          "lastExactSeed": "4035963674729776854"
+        },
+        {
+          "seedGroup": "HEAVY_N15_L6",
+          "javaHash": "1742491759",
+          "signedLongBase": "3768602468",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-8731074245780452763",
+          "lastExactSeed": "-8476397287252006113"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L0",
+          "javaHash": "1303353890",
+          "signedLongBase": "3329464599",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "8915537931125275191",
+          "lastExactSeed": "-64145724914129632"
+        },
+        {
+          "seedGroup": "HEAVY_N7_L6",
+          "javaHash": "1303353896",
+          "signedLongBase": "3329464605",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "3651281591460130444",
+          "lastExactSeed": "8419941021660278198"
+        },
+        {
+          "seedGroup": "RARE_N15_L0",
+          "javaHash": "1591321614",
+          "signedLongBase": "3617432323",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "-371330803998436817",
+          "lastExactSeed": "8131460421901697582"
+        },
+        {
+          "seedGroup": "RARE_N15_L6",
+          "javaHash": "1591321620",
+          "signedLongBase": "3617432329",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "2157992143984223024",
+          "lastExactSeed": "-7442422153357082106"
+        },
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756818",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "9052568143796384798",
+          "lastExactSeed": "1088106013389155692"
+        },
+        {
+          "seedGroup": "RARE_N7_L6",
+          "javaHash": "328646115",
+          "signedLongBase": "2354756824",
+          "cases": 49,
+          "actualAndExpectedSeedCount": 20,
+          "firstExactSeed": "4614445243987937763",
+          "lastExactSeed": "6295546244360005273"
+        }
+      ]
+    },
+    {
+      "name": "size-confirmation",
+      "rootSeed": "2026110707",
+      "category": "accepted-confirmation",
+      "pairs": 500,
+      "records": 96000,
+      "uniqueActualSeeds": 8000,
+      "groups": [
+        {
+          "seedGroup": "HEAVY_N15_L0",
+          "javaHash": "1742491753",
+          "signedLongBase": "3768602460",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-69508854542538475",
+          "lastExactSeed": "-6718044010660374692"
+        },
+        {
+          "seedGroup": "HEAVY_N15_L6",
+          "javaHash": "1742491759",
+          "signedLongBase": "3768602466",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "1765916953694421446",
+          "lastExactSeed": "-8527336238178965459"
+        },
+        {
+          "seedGroup": "HEAVY_N1_L0",
+          "javaHash": "1303175144",
+          "signedLongBase": "3329285851",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-3272165532964304263",
+          "lastExactSeed": "-7948427620872839091"
+        },
+        {
+          "seedGroup": "HEAVY_N1_L6",
+          "javaHash": "1303175150",
+          "signedLongBase": "3329285857",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "1472833505883302113",
+          "lastExactSeed": "7266357702627084190"
+        },
+        {
+          "seedGroup": "HEAVY_N30_L0",
+          "javaHash": "1744189840",
+          "signedLongBase": "3770300547",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "565138973267740386",
+          "lastExactSeed": "-2189203374104754773"
+        },
+        {
+          "seedGroup": "HEAVY_N30_L6",
+          "javaHash": "1744189846",
+          "signedLongBase": "3770300553",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-3944017704738572734",
+          "lastExactSeed": "4540259855059082067"
+        },
+        {
+          "seedGroup": "HEAVY_N3_L0",
+          "javaHash": "1303234726",
+          "signedLongBase": "3329345433",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-1987028171414997998",
+          "lastExactSeed": "2340813246784698567"
+        },
+        {
+          "seedGroup": "HEAVY_N3_L6",
+          "javaHash": "1303234732",
+          "signedLongBase": "3329345439",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "9217792252364964404",
+          "lastExactSeed": "4901507660048575070"
+        },
+        {
+          "seedGroup": "RARE_N15_L0",
+          "javaHash": "1591321614",
+          "signedLongBase": "3617432321",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "4389584901071663307",
+          "lastExactSeed": "-3652387583655225736"
+        },
+        {
+          "seedGroup": "RARE_N15_L6",
+          "javaHash": "1591321620",
+          "signedLongBase": "3617432327",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-6623059022361422762",
+          "lastExactSeed": "-8863266878271366629"
+        },
+        {
+          "seedGroup": "RARE_N1_L0",
+          "javaHash": "328467363",
+          "signedLongBase": "2354578070",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-7536634713788653587",
+          "lastExactSeed": "-3336983156752337689"
+        },
+        {
+          "seedGroup": "RARE_N1_L6",
+          "javaHash": "328467369",
+          "signedLongBase": "2354578076",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "5899056654486640369",
+          "lastExactSeed": "-6574434194414565784"
+        },
+        {
+          "seedGroup": "RARE_N30_L0",
+          "javaHash": "1593019701",
+          "signedLongBase": "3619130408",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-4406938421635934119",
+          "lastExactSeed": "-4003623809436547287"
+        },
+        {
+          "seedGroup": "RARE_N30_L6",
+          "javaHash": "1593019707",
+          "signedLongBase": "3619130414",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "-8536561534236741908",
+          "lastExactSeed": "-1115600081247747477"
+        },
+        {
+          "seedGroup": "RARE_N3_L0",
+          "javaHash": "328526945",
+          "signedLongBase": "2354637652",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "8044310276456153678",
+          "lastExactSeed": "-5762211014294476031"
+        },
+        {
+          "seedGroup": "RARE_N3_L6",
+          "javaHash": "328526951",
+          "signedLongBase": "2354637658",
+          "cases": 6,
+          "actualAndExpectedSeedCount": 500,
+          "firstExactSeed": "6670589206855950089",
+          "lastExactSeed": "-7034474048407746922"
+        }
+      ]
+    },
+    {
+      "name": "smoke",
+      "rootSeed": "2026110701",
+      "category": "screen",
+      "pairs": 1,
+      "records": 2,
+      "uniqueActualSeeds": 1,
+      "groups": [
+        {
+          "seedGroup": "RARE_N7_L0",
+          "javaHash": "328646109",
+          "signedLongBase": "2354756810",
+          "cases": 1,
+          "actualAndExpectedSeedCount": 1,
+          "firstExactSeed": "4059519590686240686",
+          "lastExactSeed": "4059519590686240686"
+        }
+      ]
+    }
+  ],
+  "allCrossStudyOverlaps": [
+    {
+      "left": "armor-matched-screen",
+      "leftCategory": "screen",
+      "right": "counterchain-screen",
+      "rightCategory": "screen",
+      "sharedActualSeeds": 80,
+      "blocks": [
+        {
+          "leftGroup": "HEAVY_N7_L0",
+          "rightGroup": "HEAVY_N7_L0",
+          "leftBase": "3329464593",
+          "rightBase": "3329464593",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "4297004481498433276"
+        },
+        {
+          "leftGroup": "HEAVY_N7_L6",
+          "rightGroup": "HEAVY_N7_L6",
+          "leftBase": "3329464599",
+          "rightBase": "3329464599",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "8915537931125275191"
+        },
+        {
+          "leftGroup": "RARE_N7_L0",
+          "rightGroup": "RARE_N7_L0",
+          "leftBase": "2354756812",
+          "rightBase": "2354756812",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "-3604082494760314438"
+        },
+        {
+          "leftGroup": "RARE_N7_L6",
+          "rightGroup": "RARE_N7_L6",
+          "leftBase": "2354756818",
+          "rightBase": "2354756818",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "9052568143796384798"
+        }
+      ]
+    },
+    {
+      "left": "armor-matched-screen",
+      "leftCategory": "screen",
+      "right": "ritual-counter-screen",
+      "rightCategory": "screen",
+      "sharedActualSeeds": 40,
+      "blocks": [
+        {
+          "leftGroup": "HEAVY_N7_L6",
+          "rightGroup": "HEAVY_N7_L0",
+          "leftBase": "3329464599",
+          "rightBase": "3329464599",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "8915537931125275191"
+        },
+        {
+          "leftGroup": "RARE_N7_L6",
+          "rightGroup": "RARE_N7_L0",
+          "leftBase": "2354756818",
+          "rightBase": "2354756818",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "9052568143796384798"
+        }
+      ]
+    },
+    {
+      "left": "baseline-screen",
+      "leftCategory": "screen",
+      "right": "smoke",
+      "rightCategory": "screen",
+      "sharedActualSeeds": 1,
+      "blocks": [
+        {
+          "leftGroup": "RARE_N7_L0",
+          "rightGroup": "RARE_N7_L0",
+          "leftBase": "2354756810",
+          "rightBase": "2354756810",
+          "equalBase": true,
+          "sharedActualSeeds": 1,
+          "firstSharedExactSeed": "4059519590686240686"
+        }
+      ]
+    },
+    {
+      "left": "core-confirmation",
+      "leftCategory": "accepted-confirmation",
+      "right": "ritual-counter-confirmation",
+      "rightCategory": "excluded-preliminary",
+      "sharedActualSeeds": 1000,
+      "blocks": [
+        {
+          "leftGroup": "HEAVY_N7_L6",
+          "rightGroup": "HEAVY_N7_L0",
+          "leftBase": "3329464600",
+          "rightBase": "3329464600",
+          "equalBase": true,
+          "sharedActualSeeds": 500,
+          "firstSharedExactSeed": "-1015595567926113227"
+        },
+        {
+          "leftGroup": "RARE_N7_L6",
+          "rightGroup": "RARE_N7_L0",
+          "leftBase": "2354756819",
+          "rightBase": "2354756819",
+          "equalBase": true,
+          "sharedActualSeeds": 500,
+          "firstSharedExactSeed": "7769033001248451702"
+        }
+      ]
+    },
+    {
+      "left": "counterchain-screen",
+      "leftCategory": "screen",
+      "right": "ritual-counter-screen",
+      "rightCategory": "screen",
+      "sharedActualSeeds": 40,
+      "blocks": [
+        {
+          "leftGroup": "HEAVY_N7_L6",
+          "rightGroup": "HEAVY_N7_L0",
+          "leftBase": "3329464599",
+          "rightBase": "3329464599",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "8915537931125275191"
+        },
+        {
+          "leftGroup": "RARE_N7_L6",
+          "rightGroup": "RARE_N7_L0",
+          "leftBase": "2354756818",
+          "rightBase": "2354756818",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "9052568143796384798"
+        }
+      ]
+    },
+    {
+      "left": "progression-confirmation",
+      "leftCategory": "excluded-preliminary",
+      "right": "protected-screen",
+      "rightCategory": "screen",
+      "sharedActualSeeds": 40,
+      "blocks": [
+        {
+          "leftGroup": "HEAVY_N7_L3",
+          "rightGroup": "HEAVY_N7_L6",
+          "leftBase": "3329464601",
+          "rightBase": "3329464601",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "8844766997914415994"
+        },
+        {
+          "leftGroup": "RARE_N7_L3",
+          "rightGroup": "RARE_N7_L6",
+          "leftBase": "2354756820",
+          "rightBase": "2354756820",
+          "equalBase": true,
+          "sharedActualSeeds": 20,
+          "firstSharedExactSeed": "-9113980172162164127"
+        }
+      ]
+    }
+  ],
+  "limitations": "Within-study pairing is intentional; reported cross-screen overlaps are not independent confirmations. Zero observed overlap establishes these enumerated studies only, not arbitrary future Java hashes or seeds"
+}

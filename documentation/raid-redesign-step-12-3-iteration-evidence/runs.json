@@ -1,0 +1,232 @@
+{
+  "date": "2026-11-07",
+  "candidate": "SCALING_V5 / SCALING_SKILLS_V3 / ACCELERATED_V1",
+  "balanceCorrectionIterations": 0,
+  "maximumCorrectionIterations": 5,
+  "productionSourceUnchanged": true,
+  "acceptedScreens": 145440,
+  "acceptedConfirmationBattles": 418000,
+  "dependentExcludedBattles": 42000,
+  "technicalSmokeExcluded": 2,
+  "runs": [
+    {
+      "prefix": "baseline-screen",
+      "classification": "exploratory-screen",
+      "rootSeed": 2026110701,
+      "pairs": 20,
+      "cases": 1200,
+      "battles": 48000,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "adaptation-screen",
+      "classification": "exploratory-screen",
+      "rootSeed": 2026110702,
+      "pairs": 20,
+      "cases": 468,
+      "battles": 18720,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "counterchain-screen",
+      "classification": "exploratory-screen",
+      "rootSeed": 2026110703,
+      "pairs": 20,
+      "cases": 316,
+      "battles": 12640,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "armor-matched-screen",
+      "classification": "exploratory-screen",
+      "rootSeed": 2026110703,
+      "pairs": 20,
+      "cases": 108,
+      "battles": 4320,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "protected-screen",
+      "classification": "exploratory-screen",
+      "rootSeed": 2026110705,
+      "pairs": 20,
+      "cases": 1152,
+      "battles": 46080,
+      "sizes": [
+        7,
+        15
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "ritual-counter-screen",
+      "classification": "exploratory-screen",
+      "rootSeed": 2026110709,
+      "pairs": 20,
+      "cases": 392,
+      "battles": 15680,
+      "sizes": [
+        7,
+        15
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "core-confirmation",
+      "classification": "accepted-confirmation",
+      "rootSeed": 2026110704,
+      "pairs": 500,
+      "cases": 112,
+      "battles": 112000,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "protected-confirmation",
+      "classification": "accepted-confirmation",
+      "rootSeed": 2026110706,
+      "pairs": 500,
+      "cases": 168,
+      "battles": 168000,
+      "sizes": [
+        7,
+        15
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "size-confirmation",
+      "classification": "accepted-confirmation",
+      "rootSeed": 2026110707,
+      "pairs": 500,
+      "cases": 96,
+      "battles": 96000,
+      "sizes": [
+        1,
+        3,
+        15,
+        30
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "progression-confirmation-independent",
+      "classification": "accepted-confirmation",
+      "rootSeed": 2026110708000,
+      "pairs": 500,
+      "cases": 18,
+      "battles": 18000,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        3,
+        10,
+        20
+      ]
+    },
+    {
+      "prefix": "ritual-counter-confirmation-independent",
+      "classification": "accepted-confirmation",
+      "rootSeed": 2026110710000,
+      "pairs": 500,
+      "cases": 24,
+      "battles": 24000,
+      "sizes": [
+        7,
+        15
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "progression-confirmation",
+      "classification": "dependent-excluded",
+      "rootSeed": 2026110708,
+      "pairs": 500,
+      "cases": 18,
+      "battles": 18000,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        3,
+        10,
+        20
+      ]
+    },
+    {
+      "prefix": "ritual-counter-confirmation",
+      "classification": "dependent-excluded",
+      "rootSeed": 2026110710,
+      "pairs": 500,
+      "cases": 24,
+      "battles": 24000,
+      "sizes": [
+        7,
+        15
+      ],
+      "levels": [
+        0,
+        6
+      ]
+    },
+    {
+      "prefix": "smoke",
+      "classification": "technical-smoke-excluded",
+      "rootSeed": 2026110701,
+      "pairs": 1,
+      "cases": 1,
+      "battles": 2,
+      "sizes": [
+        7
+      ],
+      "levels": [
+        0
+      ]
+    }
+  ]
+}

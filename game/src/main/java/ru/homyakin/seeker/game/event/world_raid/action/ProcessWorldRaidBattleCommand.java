@@ -95,7 +95,7 @@ public class ProcessWorldRaidBattleCommand {
         final var participants = personageEventService.getWorldRaidParticipants(launchedEvent.id());
         final var personageTeam = toBattlePersonages(participants);
         final var enemies = battleGenerator.generate(raid);
-        final var result = battle.process(enemies, personageTeam);
+        final var result = battle.process(enemies, personageTeam, playerCombatConfig.tempoVersion());
         eventBattleLogService.save(launchedEvent.id(), result);
         final var remainedInfo = battleGenerator.remainedInfo(raid.info(), enemies, result.personageStats());
         final var doesParticipantsWin = !result.firstWin();

@@ -3,6 +3,8 @@ package ru.homyakin.seeker.game.item.catalog;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 
 class EquipmentCatalogValidatorTest {
@@ -134,14 +136,15 @@ class EquipmentCatalogValidatorTest {
         Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
     }
 
-    @Test
-    void scalingV5CannotSilentlyUseFirstSkillFormulas() {
+    @ParameterizedTest
+    @EnumSource(value = SkillFormulaVersion.class, names = "SCALING_SKILLS_V3", mode = EnumSource.Mode.EXCLUDE)
+    void scalingV5CannotSilentlyUseHistoricalSkillFormulas(SkillFormulaVersion formulaVersion) {
         final var catalog = EquipmentCatalogLoader.load(EquipmentCatalogVersion.SCALING_V5);
         final var release = catalog.release();
         final var invalidRelease = new EquipmentCatalogRelease(
             release.catalogVersion(),
             release.progressionVersion(),
-            SkillFormulaVersion.SCALING_SKILLS_V1,
+            formulaVersion,
             release.itemObjectsPath(),
             release.itemModifiersPath(),
             release.defaultItemsPath()
@@ -158,6 +161,21 @@ class EquipmentCatalogValidatorTest {
             () -> EquipmentCatalogValidator.validate(invalidCatalog)
         );
 
-        Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V2"));
+        Assertions.assertTrue(exception.getMessage().contains("scaling skill formulas V3"));
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = EquipmentCatalogVersion.class, names = "SCALING_V5", mode = EnumSource.Mode.EXCLUDE)
+    void historicalCatalogsCannotSilentlyAcquireThirdSkillFormulas(EquipmentCatalogVersion version) {
+        final var catalog = EquipmentCatalogLoader.load(version);
+        final var release = catalog.release();
+        final var mismatchedRelease = new EquipmentCatalogRelease(
+            release.catalogVersion(), release.progressionVersion(), SkillFormulaVersion.SCALING_SKILLS_V3,
+            release.itemObjectsPath(), release.itemModifiersPath(), release.defaultItemsPath()
+        );
+
+        Assertions.assertThrows(IllegalStateException.class, () -> EquipmentCatalogValidator.validate(
+            new LoadedEquipmentCatalog(mismatchedRelease, catalog.itemObjects(), catalog.modifiers(), catalog.defaultItems())
+        ));
     }
 }

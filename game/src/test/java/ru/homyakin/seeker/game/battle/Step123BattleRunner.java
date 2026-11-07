@@ -14,6 +14,7 @@ import ru.homyakin.seeker.game.battle.Step12RepresentativeBattleRunner.Observati
 import ru.homyakin.seeker.game.battle.Step12RepresentativeBuilds.Build;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogLoader;
+import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogRelease;
 import ru.homyakin.seeker.game.item.catalog.EquipmentCatalogVersion;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemObject;
@@ -55,17 +56,7 @@ final class Step123BattleRunner {
     }
 
     private static List<BattlePersonage> team(List<Gear> gear, int level, Set<ActiveEnum> disabled) {
-        return gear.stream().map(equipment -> {
-            final var build = equipment.build();
-            final var personage = BattlePersonage.forScalingSkillsV2Combat(
-                equipment.items(level, disabled),
-                build.position(),
-                Map.of(),
-                Optional.of(build.code())
-            );
-            personage.setTargetingTactic(build.tactic());
-            return personage;
-        }).toList();
+        return gear.stream().map(equipment -> equipment.personage(level, disabled)).toList();
     }
 
     private static Observation run(
@@ -169,6 +160,26 @@ final class Step123BattleRunner {
         Gear {
             Objects.requireNonNull(build, "Build must be specified");
             Objects.requireNonNull(catalog, "Catalog version must be specified");
+        }
+
+        BattlePersonage personage(int level, Set<ActiveEnum> disabled) {
+            final var formula = EquipmentCatalogRelease.forVersion(catalog).skillFormulaVersion();
+            final var equipped = items(level, disabled);
+            final var name = Optional.of(build.code());
+            final var personage = switch (formula) {
+                case SCALING_SKILLS_V3 -> BattlePersonage.forScalingSkillsV3Combat(
+                    equipped, build.position(), Map.of(), name
+                );
+                case SCALING_SKILLS_V2 -> BattlePersonage.forScalingSkillsV2Combat(
+                    equipped, build.position(), Map.of(), name
+                );
+                case SCALING_SKILLS_V1 -> BattlePersonage.forScalingSkills(
+                    equipped, build.position(), Map.of(), formula
+                );
+                case LEGACY_SKILLS_V1 -> throw new IllegalStateException("A scaling catalog must select scaling formulas");
+            };
+            personage.setTargetingTactic(build.tactic());
+            return personage;
         }
 
         List<Item> items(int level) {

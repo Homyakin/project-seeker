@@ -6,6 +6,16 @@ import java.util.UUID;
 
 public record BattleInitState(
     List<BattleLineInitSnapshot> lines,
-    Map<UUID, BattlePersonageInitSnapshot> personagesById
+    Map<UUID, BattlePersonageInitSnapshot> personagesById,
+    BattleTempoVersion tempoVersion
 ) {
+    public BattleInitState {
+        if (tempoVersion == null) {
+            tempoVersion = BattleTempoVersion.BASELINE_V1;
+        }
+    }
+
+    public BattleInitState(List<BattleLineInitSnapshot> lines, Map<UUID, BattlePersonageInitSnapshot> personagesById) {
+        this(lines, personagesById, BattleTempoVersion.BASELINE_V1);
+    }
 }

@@ -29,7 +29,15 @@ public class Battle {
     }
 
     public BattleResult process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
-        return process(firstTeam, secondTeam, Integer.MAX_VALUE);
+        return process(firstTeam, secondTeam, Integer.MAX_VALUE, BattleTempoVersion.BASELINE_V1);
+    }
+
+    public BattleResult process(
+        List<BattlePersonage> firstTeam,
+        List<BattlePersonage> secondTeam,
+        BattleTempoVersion tempoVersion
+    ) {
+        return process(firstTeam, secondTeam, Integer.MAX_VALUE, tempoVersion);
     }
 
     public BattleResult process(
@@ -37,10 +45,19 @@ public class Battle {
         List<BattlePersonage> secondTeam,
         int maxRounds
     ) {
+        return process(firstTeam, secondTeam, maxRounds, BattleTempoVersion.BASELINE_V1);
+    }
+
+    public BattleResult process(
+        List<BattlePersonage> firstTeam,
+        List<BattlePersonage> secondTeam,
+        int maxRounds,
+        BattleTempoVersion tempoVersion
+    ) {
         if (maxRounds <= 0) {
             throw new IllegalArgumentException("maxRounds must be positive");
         }
-        final var battleMap = new BattleContext(firstTeam, secondTeam, random);
+        final var battleMap = new BattleContext(firstTeam, secondTeam, random, tempoVersion);
         final var initState = captureInitState(battleMap, firstTeam, secondTeam);
         final var actionLog = new BattleActionLog();
 
@@ -134,6 +151,6 @@ public class Battle {
                 )
             )
         );
-        return new BattleInitState(List.copyOf(lineSnapshots), Map.copyOf(personagesById));
+        return new BattleInitState(List.copyOf(lineSnapshots), Map.copyOf(personagesById), battleContext.tempoVersion());
     }
 }

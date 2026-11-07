@@ -1,0 +1,15 @@
+{
+  "unchangedEngineClasses": 9,
+  "comparedTo": "2026-11-04 adaptive audit",
+  "hashes": {
+    "ru.homyakin.seeker.game.battle.Battle": "5ecd89e81c1b53ed868cf2a39adc7eece59a0e96b25c51c6b905a649bdf4ca5d",
+    "ru.homyakin.seeker.game.battle.BattleContext": "6aa8325436b168300ea0b35fd6ceb68d19107323b85ac816f5a372b58fb4c659",
+    "ru.homyakin.seeker.game.battle.BattlePersonage": "9417197afe0b9fff8c09a32ada5e778bf1d66e393011b1780e51ac2175680750",
+    "ru.homyakin.seeker.game.battle.BattleTempoVersion": "dcde68dabb09c8282ad56e429b130c792b0f69144440a0c72db2b4163dacd3ca",
+    "ru.homyakin.seeker.game.battle.VersionedBattleTurn": "9257f91f88e2b9b400481d0532565fa0e5eb11c467e333f2c19f03baf6922ebb",
+    "ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion": "ac644da26c1840c95e383ae61110280b41593af9f5c2cab4450735cc7c079766",
+    "ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillBook": "354c8ce1a05f4e4ee85da40bcfb53aea23b49d5b1754a83c710444f7131b795c",
+    "ru.homyakin.seeker.game.battle.skill.scaling.ScalingSkillMath": "a50683c276589c0460bfee82828e1d7de2e9d3199b821b8104fda55c701ad8aa",
+    "ru.homyakin.seeker.game.battle.skill.scaling.ScalingCooldowns": "55455316cea13484e6d1bfdf1b8ffd3f8ffc88442bbec8d8f90cb0a659215ac1"
+  }
+}
