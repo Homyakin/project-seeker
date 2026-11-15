@@ -1,0 +1,21 @@
+{
+  "userMessage": "соседняя — 57% - сойдет",
+  "scope": "Explicit user acceptance of the already measured closest WOLFPACK candidate; no second screen or new correction search",
+  "screenDirectory": "screen",
+  "screenStrictRulePassed": false,
+  "reason": "WOLFPACK closest correction 0.75 yielded 373/660 wins (56.515%), outside the original 45-55% band; the other three raids passed",
+  "selectedCorrections": {
+    "WOLFPACK": 0.75,
+    "ZOMBIE_HORDE": 0.78,
+    "MYCONID_COLONY": 0.82,
+    "MAGGEESE_FLOCK": 0.725
+  },
+  "confirmationBounds": {
+    "WOLFPACK": {"min": 0.45, "max": 0.60},
+    "ZOMBIE_HORDE": {"min": 0.45, "max": 0.55},
+    "MYCONID_COLONY": {"min": 0.45, "max": 0.55},
+    "MAGGEESE_FLOCK": {"min": 0.45, "max": 0.55}
+  },
+  "boundPolicy": "The assistant sets the fresh confirmation tolerance before holdout, reflecting user acceptance of approximately 57% for WOLFPACK; this is not a claim that the user specified the literal 60% boundary. Other acceptance bands remain unchanged.",
+  "unchanged": "New equipment power, combat, level and group scaling, accepted ally penalty, historical formulas, items, rewards and enhance outcome curve"
+}

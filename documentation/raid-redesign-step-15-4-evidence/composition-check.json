@@ -1,0 +1,541 @@
+{
+  "purpose": "NUMERICAL_COMPOSITION_NORMALIZATION_REVIEW_NOT_NEW_BATTLES_NOT_PRODUCTION",
+  "method": "Independent JavaScript arithmetic mirror; NPC source factory is authoritative for any future prototype",
+  "status": "PASS_FOR_DOCUMENTED_IDENTITIES_NOT_BALANCE_ACCEPTANCE",
+  "sourceManifest": {
+    "path": "/tmp/seeker-step15-4-b-min.siriKz/preparation/manifest.json",
+    "sha256": "6ae922129a946becc62d1f24ce04cfcee70d557fb01697ebca2169bb0f4dbe99"
+  },
+  "sourceSha256": {
+    "game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java": "13fe6e9a0436c2f686c5b9923d8280b443aa668085fb97d89d30fa5b39e2dc43",
+    "game/src/main/java/ru/homyakin/seeker/game/event/pve/PveTeamAssessment.java": "6ab3957062f028342f7a124f0bf10dec87876031d093ddba68977f5ac0e12cd2",
+    "game/src/main/java/ru/homyakin/seeker/game/event/pve/PveCharacteristicScaling.java": "8358db4b5c0388738f5939b16d42884b97802f38a39197b105b053bbac3c17a7",
+    "game/src/main/java/ru/homyakin/seeker/game/battle/CombatRules.java": "69280794014a74db51061142c963e31da7a14e6bd954ae2637fbc1fc48efe116",
+    "game/src/main/java/ru/homyakin/seeker/game/item/models/AttackType.java": "7fec6d94938e77201f4dd466c66103e4a573affde89fc891ab862f63b9b4cdce"
+  },
+  "scriptSha256": "c74d14e6e0e6c2896eccda198a1c4b81b30dc66f7c4e5253bcb5980f5867d050",
+  "mReference": 4.414285714285715,
+  "unchangedC": 0.47754531235323505,
+  "priorB_a": 0.6046927918979718,
+  "correctedA": 0.8766292004637334,
+  "Bnpc3Reference": 1466224.9940141398,
+  "r2": 1.2945040158323535,
+  "effectiveH2": 1.4941340101275353,
+  "effectiveH3": 1,
+  "exactSourceBridge": {
+    "conditions": 2,
+    "npcs": 5,
+    "compared": "hp, attack, personal neutral product; exact equality to saved actual factory parts"
+  },
+  "normalizedReferencePlaneMaximumError": 2.220446049250313e-16,
+  "conditionalAnalyticUnroundedPersonalProducts": {
+    "u": 264659.6448853929,
+    "v": 192874.76359105427,
+    "ratio": 1.3721838977676812
+  },
+  "maxRoundingRelativeDifference": {
+    "value": 0.0015731954883536625,
+    "count": 46,
+    "rawR": 1.294504015832353,
+    "analyticR": 1.2965437325829057
+  },
+  "checkedMonotonicTransitions": 1029,
+  "multiplierGrid": [
+    0,
+    1e-8,
+    0.01,
+    0.05,
+    0.1,
+    0.25,
+    0.5,
+    1,
+    1.5,
+    2,
+    2.328571428571429,
+    3,
+    4,
+    4.414285714285715,
+    5,
+    7,
+    10,
+    15,
+    25,
+    50,
+    100
+  ],
+  "residualDefinition": "B_M(m) / ((M/3)^2 * B_3(m) * r_M); equals 1 at m_reference, not in general",
+  "residualAll": {
+    "minimum": {
+      "value": 0.7880167485665426,
+      "count": 10,
+      "multiplier": 0
+    },
+    "maximum": {
+      "value": 1.2551791361487379,
+      "count": 5,
+      "multiplier": 0.01
+    }
+  },
+  "residualFromOneToTen": {
+    "minimum": {
+      "value": 0.9861156079481971,
+      "count": 45,
+      "multiplier": 10
+    },
+    "maximum": {
+      "value": 1.0274582169996682,
+      "count": 33,
+      "multiplier": 1
+    }
+  },
+  "rows": [
+    {
+      "count": 2,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 1.4941340101275353,
+      "newH": 1.4941340101275353,
+      "targetMultiplierRelativeToPriorB": 1,
+      "fixedReferenceNpcB": 843570.7301622544
+    },
+    {
+      "count": 3,
+      "rawR": 1,
+      "analyticR": 1,
+      "oldH": 1,
+      "newH": 1,
+      "targetMultiplierRelativeToPriorB": 1,
+      "fixedReferenceNpcB": 1466224.9940141398
+    },
+    {
+      "count": 4,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.8270530964553626,
+      "newH": 1.22463351782904,
+      "targetMultiplierRelativeToPriorB": 1.4807193432654482,
+      "fixedReferenceNpcB": 3374282.9206490177
+    },
+    {
+      "count": 5,
+      "rawR": 1.098757304187499,
+      "analyticR": 1.0988479108609686,
+      "oldH": 0.7470033868147019,
+      "newH": 1.012002381234587,
+      "targetMultiplierRelativeToPriorB": 1.3547493881518633,
+      "fixedReferenceNpcB": 4475070.615986967
+    },
+    {
+      "count": 6,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.7035195939234788,
+      "newH": 1.1747260192552444,
+      "targetMultiplierRelativeToPriorB": 1.6697843662091638,
+      "fixedReferenceNpcB": 7592136.57146029
+    },
+    {
+      "count": 7,
+      "rawR": 1.148271035346172,
+      "analyticR": 1.1482718662914528,
+      "oldH": 0.6773002382840586,
+      "newH": 1.0326276755788302,
+      "targetMultiplierRelativeToPriorB": 1.5246232279424474,
+      "fixedReferenceNpcB": 9166395.65604728
+    },
+    {
+      "count": 8,
+      "rawR": 1.2945040158323533,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6602828680373195,
+      "newH": 1.1572583947544157,
+      "targetMultiplierRelativeToPriorB": 1.752670636744443,
+      "fixedReferenceNpcB": 13497131.682596069
+    },
+    {
+      "count": 9,
+      "rawR": 1.1773632049749498,
+      "analyticR": 1.1779262395497434,
+      "oldH": 0.6486158150204193,
+      "newH": 1.0482501028039801,
+      "targetMultiplierRelativeToPriorB": 1.6161340481205808,
+      "fixedReferenceNpcB": 15536514.223501777
+    },
+    {
+      "count": 10,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6402704406271543,
+      "newH": 1.149173379985461,
+      "targetMultiplierRelativeToPriorB": 1.7948249787384045,
+      "fixedReferenceNpcB": 21089268.25405636
+    },
+    {
+      "count": 11,
+      "rawR": 1.197090898547402,
+      "analyticR": 1.1976958217219371,
+      "oldH": 0.634095807376635,
+      "newH": 1.0603897509243057,
+      "targetMultiplierRelativeToPriorB": 1.6722863305331148,
+      "fixedReferenceNpcB": 23597750.67360028
+    },
+    {
+      "count": 12,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6293994924043486,
+      "newH": 1.1447815201109672,
+      "targetMultiplierRelativeToPriorB": 1.8188472248965828,
+      "fixedReferenceNpcB": 30368546.28584116
+    },
+    {
+      "count": 13,
+      "rawR": 1.2103037086602666,
+      "analyticR": 1.2118169518449329,
+      "oldH": 0.6257446550513343,
+      "newH": 1.0689393193403842,
+      "targetMultiplierRelativeToPriorB": 1.7082675987902631,
+      "fixedReferenceNpcB": 33322622.845509075
+    },
+    {
+      "count": 14,
+      "rawR": 1.2945040158323533,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6228446534944935,
+      "newH": 1.1421333671254186,
+      "targetMultiplierRelativeToPriorB": 1.8337371296637712,
+      "fixedReferenceNpcB": 41334965.777950466
+    },
+    {
+      "count": 15,
+      "rawR": 1.2215151564042503,
+      "analyticR": 1.2224077994371794,
+      "oldH": 0.6205050802220529,
+      "newH": 1.0768438269726406,
+      "targetMultiplierRelativeToPriorB": 1.735431121026895,
+      "fixedReferenceNpcB": 44775401.32217508
+    },
+    {
+      "count": 16,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6185903109328087,
+      "newH": 1.14041461398576,
+      "targetMultiplierRelativeToPriorB": 1.8435701203694281,
+      "fixedReferenceNpcB": 53988526.73038428
+    },
+    {
+      "count": 17,
+      "rawR": 1.229673309404306,
+      "analyticR": 1.23064512534226,
+      "oldH": 0.6170033969945747,
+      "newH": 1.0826919314877228,
+      "targetMultiplierRelativeToPriorB": 1.7547584612362237,
+      "fixedReferenceNpcB": 57895618.56314171
+    },
+    {
+      "count": 18,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6156735476785836,
+      "newH": 1.1392362424916567,
+      "targetMultiplierRelativeToPriorB": 1.8503901081785674,
+      "fixedReferenceNpcB": 68329229.14314261
+    },
+    {
+      "count": 19,
+      "rawR": 1.237950218405403,
+      "analyticR": 1.2372349860663245,
+      "oldH": 0.614548096255086,
+      "newH": 1.0890309062247072,
+      "targetMultiplierRelativeToPriorB": 1.7720840937609437,
+      "fixedReferenceNpcB": 72806221.34635851
+    },
+    {
+      "count": 20,
+      "rawR": 1.2945040158323537,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6135872040802673,
+      "newH": 1.1383933602935217,
+      "targetMultiplierRelativeToPriorB": 1.8553081823143773,
+      "fixedReferenceNpcB": 84357073.01622546
+    },
+    {
+      "count": 21,
+      "rawR": 1.2414758331286309,
+      "analyticR": 1.2426266902951049,
+      "oldH": 0.6127602859408703,
+      "newH": 1.0914397193607628,
+      "targetMultiplierRelativeToPriorB": 1.7811854723660792,
+      "fixedReferenceNpcB": 89193861.90388857
+    },
+    {
+      "count": 22,
+      "rawR": 1.2945040158323537,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6120435457676375,
+      "newH": 1.137769722790682,
+      "targetMultiplierRelativeToPriorB": 1.8589685826417268,
+      "fixedReferenceNpcB": 102072058.3496328
+    },
+    {
+      "count": 23,
+      "rawR": 1.246523100285914,
+      "analyticR": 1.2471197771524214,
+      "oldH": 0.611418245343942,
+      "newH": 1.0953549210953593,
+      "targetMultiplierRelativeToPriorB": 1.7914985845396023,
+      "fixedReferenceNpcB": 107427164.34000018
+    },
+    {
+      "count": 24,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6108694670245659,
+      "newH": 1.1372953953248979,
+      "targetMultiplierRelativeToPriorB": 1.86176500335572,
+      "fixedReferenceNpcB": 121474185.14336464
+    },
+    {
+      "count": 25,
+      "rawR": 1.2495535250323135,
+      "analyticR": 1.2509216198778432,
+      "oldH": 0.610385215694641,
+      "newH": 1.0976149887969477,
+      "targetMultiplierRelativeToPriorB": 1.7982332477496545,
+      "fixedReferenceNpcB": 127231014.56672579
+    },
+    {
+      "count": 26,
+      "rawR": 1.294504015832354,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6099557576863124,
+      "newH": 1.1369262570218377,
+      "targetMultiplierRelativeToPriorB": 1.8639487252885893,
+      "fixedReferenceNpcB": 142563453.39742103
+    },
+    {
+      "count": 27,
+      "rawR": 1.2531497735021695,
+      "analyticR": 1.2541803422139193,
+      "oldH": 0.6095731278004659,
+      "newH": 1.1004563517780668,
+      "targetMultiplierRelativeToPriorB": 1.8052901310608358,
+      "fixedReferenceNpcB": 148829361.05131516
+    },
+    {
+      "count": 28,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6092307572971022,
+      "newH": 1.136633357078511,
+      "targetMultiplierRelativeToPriorB": 1.8656861024569242,
+      "fixedReferenceNpcB": 165339863.1118019
+    },
+    {
+      "count": 29,
+      "rawR": 1.2565480128964337,
+      "analyticR": 1.2570045682385185,
+      "oldH": 0.608923190082179,
+      "newH": 1.1031856477815614,
+      "targetMultiplierRelativeToPriorB": 1.811699185955913,
+      "fixedReferenceNpcB": 172160372.04002574
+    },
+    {
+      "count": 30,
+      "rawR": 1.2945040158323537,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.608645863978992,
+      "newH": 1.1363970603505698,
+      "targetMultiplierRelativeToPriorB": 1.8670907462040909,
+      "fixedReferenceNpcB": 189803414.28650728
+    },
+    {
+      "count": 31,
+      "rawR": 1.2585600958930736,
+      "analyticR": 1.2594757660100424,
+      "oldH": 0.6083949405690625,
+      "newH": 1.1047446680464348,
+      "targetMultiplierRelativeToPriorB": 1.8158347388837772,
+      "fixedReferenceNpcB": 197040478.95262602
+    },
+    {
+      "count": 32,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.608167171656681,
+      "newH": 1.1362036687935961,
+      "targetMultiplierRelativeToPriorB": 1.8682423546448825,
+      "fixedReferenceNpcB": 215954106.92153713
+    },
+    {
+      "count": 33,
+      "rawR": 1.2599777266548131,
+      "analyticR": 1.2616562346319757,
+      "oldH": 0.6079597936178233,
+      "newH": 1.1058179320743584,
+      "targetMultiplierRelativeToPriorB": 1.8188997754175493,
+      "fixedReferenceNpcB": 223536711.00141075
+    },
+    {
+      "count": 34,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6077704431721225,
+      "newH": 1.1360433906028908,
+      "targetMultiplierRelativeToPriorB": 1.8691981542793779,
+      "fixedReferenceNpcB": 243791941.01689154
+    },
+    {
+      "count": 35,
+      "rawR": 1.2628071295935102,
+      "analyticR": 1.2635944289625827,
+      "oldH": 0.6075970897534152,
+      "newH": 1.108158209847006,
+      "targetMultiplierRelativeToPriorB": 1.8238372575101314,
+      "fixedReferenceNpcB": 252017803.95953777
+    },
+    {
+      "count": 36,
+      "rawR": 1.2945040158323533,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6074379808431247,
+      "newH": 1.13590907592007,
+      "targetMultiplierRelativeToPriorB": 1.8700000851830614,
+      "fixedReferenceNpcB": 273316916.5725704
+    },
+    {
+      "count": 37,
+      "rawR": 1.2642975923705422,
+      "analyticR": 1.2653286028373367,
+      "oldH": 0.6072915975027331,
+      "newH": 1.1093456051107602,
+      "targetMultiplierRelativeToPriorB": 1.826709952307166,
+      "fixedReferenceNpcB": 281975170.5670947
+    },
+    {
+      "count": 38,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6071566179872503,
+      "newH": 1.1357954054093142,
+      "targetMultiplierRelativeToPriorB": 1.8706794454032696,
+      "fixedReferenceNpcB": 304529033.5885738
+    },
+    {
+      "count": 39,
+      "rawR": 1.267015646697377,
+      "analyticR": 1.266889359324615,
+      "oldH": 0.6070318878039009,
+      "newH": 1.1116278407556812,
+      "targetMultiplierRelativeToPriorB": 1.8312511469163344,
+      "fixedReferenceNpcB": 313956371.5201014
+    },
+    {
+      "count": 40,
+      "rawR": 1.2945040158323533,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6069163949435457,
+      "newH": 1.1356983553705362,
+      "targetMultiplierRelativeToPriorB": 1.871259970619474,
+      "fixedReferenceNpcB": 337428292.0649017
+    },
+    {
+      "count": 41,
+      "rawR": 1.2679103285311681,
+      "analyticR": 1.2683014723369148,
+      "oldH": 0.606809249288167,
+      "newH": 1.1123247000101604,
+      "targetMultiplierRelativeToPriorB": 1.833071432769031,
+      "fixedReferenceNpcB": 347227698.7889413
+    },
+    {
+      "count": 42,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6067096654086964,
+      "newH": 1.1356148366994536,
+      "targetMultiplierRelativeToPriorB": 1.8717599231495217,
+      "fixedReferenceNpcB": 372014692.0015542
+    },
+    {
+      "count": 43,
+      "rawR": 1.2685149699790939,
+      "analyticR": 1.2695852114390052,
+      "oldH": 0.6066169481299448,
+      "newH": 1.1127790158585524,
+      "targetMultiplierRelativeToPriorB": 1.834401460903762,
+      "fixedReferenceNpcB": 382111947.4483285
+    },
+    {
+      "count": 44,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6065304803653883,
+      "newH": 1.1355424459948265,
+      "targetMultiplierRelativeToPriorB": 1.8721935380902026,
+      "fixedReferenceNpcB": 408288233.3985311
+    },
+    {
+      "count": 45,
+      "rawR": 1.2713382222550083,
+      "analyticR": 1.2707573210539576,
+      "oldH": 0.6064497128228696,
+      "newH": 1.1151893026853281,
+      "targetMultiplierRelativeToPriorB": 1.8388817392532097,
+      "fixedReferenceNpcB": 419415272.3960542
+    },
+    {
+      "count": 46,
+      "rawR": 1.294504015832353,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6063741552594644,
+      "newH": 1.1354792906981572,
+      "targetMultiplierRelativeToPriorB": 1.8725720429365784,
+      "fixedReferenceNpcB": 446248916.2558325
+    },
+    {
+      "count": 47,
+      "rawR": 1.270597978978698,
+      "analyticR": 1.2718317548676636,
+      "oldH": 0.606303369024689,
+      "newH": 1.1144819469177265,
+      "targetMultiplierRelativeToPriorB": 1.8381589215156484,
+      "fixedReferenceNpcB": 457258708.18849164
+    },
+    {
+      "count": 48,
+      "rawR": 1.2945040158323535,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.6062369606796203,
+      "newH": 1.1354238641283807,
+      "targetMultiplierRelativeToPriorB": 1.8729043885010193,
+      "fixedReferenceNpcB": 485896740.57345855
+    },
+    {
+      "count": 49,
+      "rawR": 1.2726577268969133,
+      "analyticR": 1.272820233976273,
+      "oldH": 0.606174576518096,
+      "newH": 1.1162374633744454,
+      "targetMultiplierRelativeToPriorB": 1.841445528425461,
+      "fixedReferenceNpcB": 497808018.4190602
+    },
+    {
+      "count": 50,
+      "rawR": 1.294504015832353,
+      "analyticR": 1.2965437325829057,
+      "oldH": 0.606115897847139,
+      "newH": 1.1353749547797778,
+      "targetMultiplierRelativeToPriorB": 1.87319778084111,
+      "fixedReferenceNpcB": 527231706.35140896
+    }
+  ],
+  "limitations": [
+    "The source bridge covers two saved reference conditions, not a full factory equivalence proof.",
+    "The residual grid is deterministic numerical exploration, not battle evidence or bounds between grid points.",
+    "The reference m is fixed once from actual 15.2 MID MAIN N3 L25; it must not become a function of live players or level.",
+    "The altered tail changes actual generated difficulty, even though old q(level), rewards and displayed power stay unchanged.",
+    "For future Java use, reference factory calls must not consume the final random stream."
+  ]
+}

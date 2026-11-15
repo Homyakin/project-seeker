@@ -1,0 +1,5 @@
+game/src/test/java/ru/homyakin/seeker/game/battle/MyconidAdaptationStudy.java: OK
+game/src/test/java/ru/homyakin/seeker/game/battle/PveAdaptationStudy.java: OK
+game/src/test/java/ru/homyakin/seeker/game/battle/Step123ReferenceTeams.java: OK
+game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java: OK
+game/src/main/java/ru/homyakin/seeker/game/event/pve/PveTeamAssessment.java: OK

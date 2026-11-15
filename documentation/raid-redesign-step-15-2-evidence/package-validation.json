@@ -1,0 +1,11 @@
+{
+  "status": "EXTRACTED_ARCHIVES_VALIDATED_BY_PRIMARY_AGENT",
+  "publicSourceFiles": 203,
+  "sourceHashesMatch": true,
+  "internalVerificationHashesMatch": true,
+  "comparisonRecomputed": true,
+  "combatReplayComparisonRecomputed": true,
+  "productionClassesUnchanged": true,
+  "sourcesSha256": "88cb5b11036788a0f211f417d2f2cde81c2268aed373afa31c447686c38cf842",
+  "verificationSha256": "4029edfc0e6b00079fc2e82c1e7cd9fcfc055c6223409e061229c5522b81af27"
+}

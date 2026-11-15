@@ -1,0 +1,36 @@
+{
+  "directory": "/tmp/seeker-step15-package.tDJ8Np/artifacts/runs/available-answers",
+  "phase": "CONFIRMATION_077",
+  "suite": "full",
+  "cases": 4,
+  "pairsPerCase": 500,
+  "battles": 4000,
+  "outcomes": {
+    "LOSS": 2494,
+    "WIN": 1506
+  },
+  "rawSha256": "4609dbe9dbad8e97f9fc91451085d7109a73f986142df85c445b831c180eacef",
+  "uncompressedSha256": "436823edf688392a6bffca27a769e801909c67d8af9b8a4df46c794c8eb6b9f8",
+  "parameters": {
+    "guardian": {
+      "attack": 70,
+      "defense": 160,
+      "health": 420
+    },
+    "slinger": {
+      "attack": 130,
+      "defense": 70,
+      "health": 280
+    },
+    "correction": 0.77,
+    "g": "LOG4",
+    "origin": "EXPLICIT_HISTORICAL_PHASE_PROFILE"
+  },
+  "warnings": [],
+  "valid": true,
+  "exactReplay": null,
+  "limitations": [
+    "Action and trace digests are checked for presence/format; full logs are not stored.",
+    "Sampling results are not a requirement that all compositions win 50% of their fights."
+  ]
+}

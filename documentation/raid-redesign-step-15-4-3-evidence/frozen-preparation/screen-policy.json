@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-08",
+  "purpose": "BOUNDED_PARTICIPANT_TARGET_PROJECT_NOT_IMPLEMENTATION_OR_BALANCE_ACCEPTANCE",
+  "userScope": "Show the checked project first; no production implementation, release activation, database, enhancement curve, commit or push",
+  "rules": ["BASELINE", "BLEND_B", "BLEND_T"],
+  "conditions": 76,
+  "modelConditions": 224,
+  "pairsPerModelCondition": 25,
+  "mirrorsPerPair": 2,
+  "totalExecutions": 11200,
+  "modelPolicy": "74 conditions use all three rules; 2 immutable-NPC diagnostic conditions use BASELINE only",
+  "helperSHA256": "29804e3355279d65147c91e6c71b0fc0231b2070fce80b62603cbcebfc3deaf9",
+  "manifestSHA256": "4e1a84233a62c7fb20d833301a8f5166f27c2148f3bf49860bff2a48572f854a",
+  "formula": "p_i=H_i*D_i; Q=sum(H_i)*sum(D_i); B=sum_ij min(p_i,p_j); T=max_k k*k*p_desc(k). F_B=Q/2+min(B,Q)/2; F_T=Q/2+min(T,Q)/2. Original NPC Q, factories, constants and target multiplication order unchanged, then exact original target multiplied by F/Q",
+  "numericPolicy": "Solo and exactly equal H,D return Q directly; Q=0 means F=0,discount=1; stable sorted sums; bounds/clamps and finite checks as frozen manifest",
+  "generationNamespace": "MYCONID-15.4.3-HETEROGENEITY-SCREEN-GEN-20261108-v1",
+  "battleNamespace": "MYCONID-15.4.3-HETEROGENEITY-SCREEN-BATTLE-20261108-v1",
+  "npcNamespace": "MYCONID-15.4.3-HETEROGENEITY-SCREEN-NPC-20261108-v1",
+  "seedPolicy": "SHA256(namespace+'/'+groupId+'/'+pair), first48bits big-endian; independent NPC stream used only in explicitly labelled fixed-NPC diagnostic",
+  "selectionPriorityBeforeOutcomes": [
+    "Exact unchanged-production and solo paths are mandatory validity checks",
+    "Improve the worst weak-append delta across the three frozen historical risk inputs, not closeness to 50percent or maximum absolute winrate",
+    "Reject a clear new major ordinary-append or N8-weak regression, counter-order collapse, advantageous intentional stripping, or effectively free upper levels for ordinary MAIN groups",
+    "A specialized valid counter winning often is not automatically free difficulty or a defect",
+    "Prefer BLEND_B as the smaller correction if both address the risks with indistinguishable remaining signals",
+    "Select at most one candidate for a separately frozen fresh confirmation; if neither is suitable report failure without tuning the half coefficient"
+  ],
+  "inference": "25 mirrored pairs are descriptive, not universal acceptance or a guarantee of monotonic ally benefit; saturated outcomes are not proof of correction",
+  "stopping": "Exactly this screen. No formula, coefficients, cases, seeds or sample extensions after outcomes. A selected candidate needs a separate fresh-confirmation policy before additional battles. Pilot observations will not be pooled into that confirmation"
+}

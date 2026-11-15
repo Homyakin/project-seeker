@@ -1,0 +1,243 @@
+{
+  "purpose": "INDEPENDENT_READ_ONLY_FACTORY_ARITHMETIC_COMPARISON_NO_BATTLES",
+  "javaPath": "/tmp/seeker-step15-4-bnorm-wide.bB1Bsl/preparation/manifest.json",
+  "nodePath": "/tmp/seeker-step154-analytic.V37WLl/composition-correction.json",
+  "checks": {
+    "mReference": true,
+    "npc3Score": true,
+    "C": true,
+    "a": true,
+    "r2": true
+  },
+  "rows": [
+    {
+      "M": 2,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 3,
+      "actualJavaFactory": 1,
+      "pureNodeFactory": 1,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 4,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 5,
+      "actualJavaFactory": 1.098757304187499,
+      "pureNodeFactory": 1.098757304187499,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 6,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 7,
+      "actualJavaFactory": 1.148271035346172,
+      "pureNodeFactory": 1.148271035346172,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 8,
+      "actualJavaFactory": 1.2945040158323533,
+      "pureNodeFactory": 1.2945040158323533,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 9,
+      "actualJavaFactory": 1.1773632049749498,
+      "pureNodeFactory": 1.1773632049749498,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 10,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 11,
+      "actualJavaFactory": 1.197090898547402,
+      "pureNodeFactory": 1.197090898547402,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 12,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 13,
+      "actualJavaFactory": 1.2103037086602666,
+      "pureNodeFactory": 1.2103037086602666,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 14,
+      "actualJavaFactory": 1.2945040158323533,
+      "pureNodeFactory": 1.2945040158323533,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 15,
+      "actualJavaFactory": 1.2215151564042503,
+      "pureNodeFactory": 1.2215151564042503,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 16,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 17,
+      "actualJavaFactory": 1.229673309404306,
+      "pureNodeFactory": 1.229673309404306,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 18,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 19,
+      "actualJavaFactory": 1.237950218405403,
+      "pureNodeFactory": 1.237950218405403,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 20,
+      "actualJavaFactory": 1.2945040158323537,
+      "pureNodeFactory": 1.2945040158323537,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 21,
+      "actualJavaFactory": 1.2414758331286309,
+      "pureNodeFactory": 1.2414758331286309,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 22,
+      "actualJavaFactory": 1.2945040158323537,
+      "pureNodeFactory": 1.2945040158323537,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 23,
+      "actualJavaFactory": 1.246523100285914,
+      "pureNodeFactory": 1.246523100285914,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 24,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 25,
+      "actualJavaFactory": 1.2495535250323135,
+      "pureNodeFactory": 1.2495535250323135,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 26,
+      "actualJavaFactory": 1.294504015832354,
+      "pureNodeFactory": 1.294504015832354,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 27,
+      "actualJavaFactory": 1.2531497735021695,
+      "pureNodeFactory": 1.2531497735021695,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 28,
+      "actualJavaFactory": 1.2945040158323535,
+      "pureNodeFactory": 1.2945040158323535,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 29,
+      "actualJavaFactory": 1.2565480128964337,
+      "pureNodeFactory": 1.2565480128964337,
+      "exact": true,
+      "difference": 0
+    },
+    {
+      "M": 30,
+      "actualJavaFactory": 1.2945040158323537,
+      "pureNodeFactory": 1.2945040158323537,
+      "exact": true,
+      "difference": 0
+    }
+  ],
+  "allExact": true,
+  "maxAbsoluteDifference": 0,
+  "bridgeReports": {
+    "originalCurrentNPC": {
+      "compared": "calibration,traits,UUID,gauge",
+      "conditions": 6,
+      "status": "EXACT_ACTUAL_CURRENT_BASELINE_BRIDGE"
+    },
+    "actualEffects": {
+      "conditions": 6,
+      "effects": "Actual private combatEffects;20percentAttack15percentHP;nullExpiry is the original permanent fixture, not a manual substitute",
+      "status": "EXACT_ACTUAL_PREPARED_EFFECTFUL_PLAYERS"
+    },
+    "allNPCCount2or3": {
+      "conditions": 144,
+      "scope": "All fixed screen conditions with NPC count2or3, effects included; no battle run",
+      "status": "EXACT_CHARACTERISTICS_UUID_GAUGE_VS_UNNORMALIZED_B"
+    },
+    "midAnchorFactoryCharacteristicsExact": true,
+    "soloAnchorFactoryCharacteristicsExact": true
+  },
+  "limitations": [
+    "Checks saved Java factory manifest values against independent arithmetic; does not rerun Java or verify every raw battle",
+    "Bridge status fields are reported from Java manifest, not independently recomputed by this script",
+    "Arithmetic agreement is not evidence that outcomes are balanced"
+  ]
+}

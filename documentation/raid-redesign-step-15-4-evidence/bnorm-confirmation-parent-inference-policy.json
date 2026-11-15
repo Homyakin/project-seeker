@@ -1,0 +1,21 @@
+{
+  "status": "FIXED_BEFORE_READING_CONFIRMATION_OUTCOMES",
+  "purpose": "Last approved diagnostic17-condition B_NORM run; no new formulas or tuning",
+  "pairsPerCondition": 500,
+  "conditions": 17,
+  "battles": 17000,
+  "pairedComparisons": 9,
+  "generationNamespace": "MYCONID-15.4-COMPOSITION-CONFIRM-GEN-20261108-v1",
+  "battleNamespace": "MYCONID-15.4-COMPOSITION-CONFIRM-BATTLE-20261108-v1",
+  "npcNamespace": "MYCONID-15.4-COMPOSITION-CONFIRM-NPC-20261108-v1",
+  "seedFunction": "SHA256(namespace+'/'+groupId+'/'+pair), first6bytes unsigned big-endian",
+  "samplingUnit": "Mean of two mirrored battles WIN1 DRAW0.5 LOSS0; pair, not battle",
+  "pointwiseCausal95": "Differences in[-1,1], half=sqrt(2*ln(40)/500)",
+  "simultaneousCausal95": "One fixed family of9comparisons, Bonferroni half=sqrt(2*ln(2*9/.05)/500)",
+  "ordinaryReferenceMarginPP": 20,
+  "weakMarginLimitation": "The ordinary20pp margin does not automatically authorize weak-addition penalties",
+  "fixedNpcDiagnostics": "Not a proposed game model: BASE-calibrated count/m/fullNPCidentity/gauge/traits retained after append; independent NPC seed prevents player ID collision",
+  "betweenGroupLimitation": "Actual and fixed-NPC groups use different group seeds; describe each paired effect, not a cross-group paired difference",
+  "absoluteControls": "Group5BEGINNERRITUAL15L50 andgroup6MIDMAIN30L30 have separate descriptive pointwise mean intervals, outside nine-difference simultaneous family",
+  "stoppingPolicy": "Complete all17conditions, no early stopping/adaptive extensions. After this run only validation and analysis; no further simulations."
+}

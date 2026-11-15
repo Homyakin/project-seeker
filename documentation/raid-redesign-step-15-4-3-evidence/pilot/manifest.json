@@ -1,0 +1,33 @@
+{
+  "battleNamespace" : "MYCONID-15.4.3-HETEROGENEITY-SCREEN-BATTLE-20261108-v1",
+  "battles" : 11200,
+  "bridge" : {
+    "actual15.2FullCalibrationTraitsUuidGaugeAndRngTail" : 148,
+    "actualNeutralPartsExact" : 148,
+    "appendPrefixes" : 15,
+    "archivedInputsCurrentEquality" : 7,
+    "battles" : 0,
+    "fixedNPCexact" : true,
+    "reflection" : "READONLY_CONSTRUCTOR_AND_PRIVATE_METHODS_NO_FIELD_WRITES",
+    "status" : "PASS",
+    "weakHP" : 840
+  },
+  "combat" : [ "SCALING_V5", "SCALING_SKILLS_V3", "ACCELERATED_V1" ],
+  "conditions" : 76,
+  "effects" : "NONE",
+  "factory" : "Actual15.2 privateFormation/teamColony and constants read-onlyreflection; samePveCharacteristicScaling bounds/search;trialsisolatedseed0 asproduction",
+  "fixedNPCPolicy" : "Only2FIXED_NPCconditions/BASELINE: assessunchangedRITUALsolo and generateactual2NPCs under separateNPCseed, reusefullNPCtraits/UUID/gauge in BASE/WEAK_APPEND with realgeometry. Diagnosticnotproduction-equivalent.",
+  "formula" : "pi=Hi*Di;B=sum_ijmin(pi,pj), ascendingp weighted sum coefficients2*(N-i)-1;T=max_k k*k*p_desc(k),smallestk on exactties;F=Q/2+min(alt,Q)/2;solo/bitidenticalH,D returnsQexact;Q0:F0,d1;otherwise d=F/Q;BASELINEd1",
+  "generationNamespace" : "MYCONID-15.4.3-HETEROGENEITY-SCREEN-GEN-20261108-v1",
+  "limitations" : "25pairs descriptiveonly; no universal50/50claim; strippedcontrols fill only freedslots with actualunupgradedV5defaults; continuityweakonlyrealSword+0/+1; afterscreen noextensions without newrootpolicy",
+  "modelConditions" : 224,
+  "npcNamespace" : "MYCONID-15.4.3-HETEROGENEITY-SCREEN-NPC-20261108-v1",
+  "numericPolicy" : "Neutral components reproduce actual15.2 fixedAttackType iteration and sortedteam sums; B/T computed from ascendingpi; finitecheck,fail if mathematicalB<=Q orT<=B violated by >64maxULP; min-clamp alt toQ, d clamped[.5,1] only within64ULP; equalH/D testedbitexact",
+  "pairs" : 25,
+  "purpose" : "15.4.3_APPROVED_TARGET_ONLY_HETEROGENEITY_PILOT_NOT_IMPLEMENTATION_OR_ACCEPTANCE",
+  "roundLimit" : 2000,
+  "rules" : [ "BASELINE", "BLEND_B", "BLEND_T" ],
+  "seedPolicy" : "SHA256(namespace+'/'+groupId+'/'+pair)first48BE;no rule/variant; thirdNPCseed onlyused by FIXED_NPC diagnostic, independent to avoid newplayer/NPCUUID collision; other npcSeed values explicitlyunused",
+  "targetOrder" : "baselineTarget=actualQ*q*g*C*h left-associative; requestedTarget=baselineTarget*discount. q/g/C/h/weights/search/bases unchanged; no folding discount into levelPowerBonus",
+  "telemetry" : "Allinitial/finaltraits,stats,counts,action/tracehashes; full actionLog.events and separate traceEvents for pair0 only eachcondition/model/mirror"
+}

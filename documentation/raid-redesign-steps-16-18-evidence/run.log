@@ -1,0 +1,135 @@
+20:37:53,338 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+20:37:53,339 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - Here is a list of configurators discovered as a service, by rank: 
+20:37:53,339 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+20:37:53,339 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+20:37:53,339 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+20:37:53,341 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+20:37:53,341 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+20:37:53,341 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+20:37:53,341 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+20:37:53,342 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+20:37:53,342 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+20:37:53,342 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+20:37:53,342 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+20:37:53,342 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+20:37:53,342 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+20:37:53,404 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+20:37:53,404 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+20:37:53,439 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+20:37:53,439 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+20:37:53,439 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+20:37:53,439 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+20:37:53,439 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+20:37:53,439 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+20:37:53,439 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+20:37:53,439 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+20:37:53,440 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@c94fd30 - End of configuration.
+20:37:53,440 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@36328d33 - Registering current configuration as safe fallback point
+20:37:53,440 |-INFO in ch.qos.logback.classic.util.ContextInitializer@76f4b65 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 98 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+completed cells=10/1044
+completed cells=20/1044
+completed cells=30/1044
+completed cells=40/1044
+completed cells=50/1044
+completed cells=60/1044
+completed cells=70/1044
+completed cells=80/1044
+completed cells=90/1044
+completed cells=100/1044
+completed cells=110/1044
+completed cells=120/1044
+completed cells=130/1044
+completed cells=140/1044
+completed cells=150/1044
+completed cells=160/1044
+completed cells=170/1044
+completed cells=180/1044
+completed cells=190/1044
+completed cells=200/1044
+completed cells=210/1044
+completed cells=220/1044
+completed cells=230/1044
+completed cells=240/1044
+completed cells=250/1044
+completed cells=260/1044
+completed cells=270/1044
+completed cells=280/1044
+completed cells=290/1044
+completed cells=300/1044
+completed cells=310/1044
+completed cells=320/1044
+completed cells=330/1044
+completed cells=340/1044
+completed cells=350/1044
+completed cells=360/1044
+completed cells=370/1044
+completed cells=380/1044
+completed cells=390/1044
+completed cells=400/1044
+completed cells=410/1044
+completed cells=420/1044
+completed cells=430/1044
+completed cells=440/1044
+completed cells=450/1044
+completed cells=460/1044
+completed cells=470/1044
+completed cells=480/1044
+completed cells=490/1044
+completed cells=500/1044
+completed cells=510/1044
+completed cells=520/1044
+completed cells=530/1044
+completed cells=540/1044
+completed cells=550/1044
+completed cells=560/1044
+completed cells=570/1044
+completed cells=580/1044
+completed cells=590/1044
+completed cells=600/1044
+completed cells=610/1044
+completed cells=620/1044
+completed cells=630/1044
+completed cells=640/1044
+completed cells=650/1044
+completed cells=660/1044
+completed cells=670/1044
+completed cells=680/1044
+completed cells=690/1044
+completed cells=700/1044
+completed cells=710/1044
+completed cells=720/1044
+completed cells=730/1044
+completed cells=740/1044
+completed cells=750/1044
+completed cells=760/1044
+completed cells=770/1044
+completed cells=780/1044
+completed cells=790/1044
+completed cells=800/1044
+completed cells=810/1044
+completed cells=820/1044
+completed cells=830/1044
+completed cells=840/1044
+completed cells=850/1044
+completed cells=860/1044
+completed cells=870/1044
+completed cells=880/1044
+completed cells=890/1044
+completed cells=900/1044
+completed cells=910/1044
+completed cells=920/1044
+completed cells=930/1044
+completed cells=940/1044
+completed cells=950/1044
+completed cells=960/1044
+completed cells=970/1044
+completed cells=980/1044
+completed cells=990/1044
+completed cells=1000/1044
+completed cells=1010/1044
+completed cells=1020/1044
+completed cells=1030/1044
+completed cells=1040/1044
+completed cells=1044/1044
+complete cells=1044 battles=18480

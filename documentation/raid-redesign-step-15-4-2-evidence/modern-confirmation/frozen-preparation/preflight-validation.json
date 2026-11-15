@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "conditions": 2,
+  "pairs": 500,
+  "modernExecutions": 2000,
+  "scope": "Fresh C9 only, same calibration/traits except expected new UUID/gauges, exact sharedfixture and policy, no outcomes read",
+  "files": {
+    "manifest.json": "33203f548fd0a9945cc5c98c517e34944db3b333960359f1c42b0a5b2c307260",
+    "fixture-manifest.json": "b4aa68845c6498a93b81a6ff70051f970721ba4bd0ddcdcdf08c41289f161058",
+    "inputs.json": "7413d23c0130b8b1027caada530605221fc278e6bb5e2a585f39f414d7616b4a",
+    "seeds.json": "52a2d4cb2d8177237fbde5bb1974394e891d268686f109b5be01323e0969db67",
+    "prepared-pair0.json": "a3c0525371d528ad2cdf7b8b8a8491237db92eeb32d8930083ef929c6c2be214"
+  }
+}

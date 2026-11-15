@@ -1,0 +1,183 @@
+{
+  "anchorPolicy" : "C and a from exact actual 15.2 MID MAIN N3 L25 and STRONG MAIN N1 L5 NPC factories; no outcome fitting; same g/h/role weights and bases",
+  "anchors" : {
+    "Cnew" : 0.47754531235323505,
+    "midAnchorFactoryCharacteristicsExact" : true,
+    "midNpcParts" : [ {
+      "criticalFactor" : 1.02,
+      "effectiveHealth" : 6629.285643426635,
+      "frequency" : 0.19,
+      "hp" : 2781,
+      "id" : "97c9cc58-68fb-4b1a-8229-d9a817d512a6",
+      "maximumAttack" : 464.0,
+      "mu" : 0.4195022132976788,
+      "normalRate" : 89.92320000000001,
+      "selfProduct" : 596126.5787709821,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.056,
+      "effectiveHealth" : 1493.5412424170288,
+      "frequency" : 0.16,
+      "hp" : 928,
+      "id" : "e69e21da-0b42-493a-9fce-278c1794e5c9",
+      "maximumAttack" : 431.0,
+      "mu" : 0.621342065183415,
+      "normalRate" : 72.82176000000001,
+      "selfProduct" : 108762.3019053947,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.056,
+      "effectiveHealth" : 1493.5412424170288,
+      "frequency" : 0.16,
+      "hp" : 928,
+      "id" : "452ef1e9-1757-424e-a0b5-4e15d5b0086c",
+      "maximumAttack" : 431.0,
+      "mu" : 0.621342065183415,
+      "normalRate" : 72.82176000000001,
+      "selfProduct" : 108762.3019053947,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "midPlayersParts" : [ {
+      "criticalFactor" : 1.005,
+      "effectiveHealth" : 6681.032422174889,
+      "frequency" : 0.086,
+      "hp" : 2835,
+      "id" : "97cfab45-241c-4f7a-96c2-96b34ac089d2",
+      "maximumAttack" : 378.0,
+      "mu" : 0.4243356147457697,
+      "normalRate" : 32.670539999999995,
+      "selfProduct" : 218272.93698996157,
+      "skills" : [ {
+        "code" : "GUARD",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.0312000000000001,
+      "effectiveHealth" : 2527.2873206471563,
+      "frequency" : 0.156,
+      "hp" : 1449,
+      "id" : "2c755923-42fe-480c-9516-c6b1b8cec632",
+      "maximumAttack" : 378.0,
+      "mu" : 0.5733420130596619,
+      "normalRate" : 60.807801600000005,
+      "selfProduct" : 153678.78598010787,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.0312000000000001,
+      "effectiveHealth" : 2527.2873206471563,
+      "frequency" : 0.156,
+      "hp" : 1449,
+      "id" : "98ebd9a2-30f3-4a87-8c9b-b47f49c5d63c",
+      "maximumAttack" : 378.0,
+      "mu" : 0.5733420130596619,
+      "normalRate" : 60.807801600000005,
+      "selfProduct" : 153678.78598010787,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "oldC" : 0.5900075417594784,
+    "r2" : 0.7135166925639456,
+    "r3" : 0.47754531235323505,
+    "referenceMultiplierMID3L25" : 4.414285714285715,
+    "referenceMultiplierSTRONG1L5" : 2.328571428571429,
+    "screenA" : 0.6046927918979718,
+    "soloAnchorFactoryCharacteristicsExact" : true,
+    "soloNpcParts" : [ {
+      "criticalFactor" : 1.02,
+      "effectiveHealth" : 1697.9828842667146,
+      "frequency" : 0.19,
+      "hp" : 979,
+      "id" : "97d58a31-df3c-43da-ab5b-53be7dac00ff",
+      "maximumAttack" : 164.0,
+      "mu" : 0.5765664713533245,
+      "normalRate" : 31.7832,
+      "selfProduct" : 53967.329607225845,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.056,
+      "effectiveHealth" : 865.2641149425916,
+      "frequency" : 0.16,
+      "hp" : 653,
+      "id" : "724c906d-7abb-46df-8a5f-65d75a08a69a",
+      "maximumAttack" : 303.0,
+      "mu" : 0.754682863559325,
+      "normalRate" : 51.194880000000005,
+      "selfProduct" : 44297.09253279219,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "soloPlayersParts" : [ {
+      "criticalFactor" : 1.0304,
+      "effectiveHealth" : 4300.5370475489235,
+      "frequency" : 0.13,
+      "hp" : 2112,
+      "id" : "97db691e-9a5d-483a-bff4-10c7b097782b",
+      "maximumAttack" : 528.0,
+      "mu" : 0.491101454690113,
+      "normalRate" : 70.726656,
+      "selfProduct" : 304162.6043772484,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "twoAnchorScreenParameters" : {
+      "C" : 0.47754531235323505,
+      "a" : 0.6046927918979718,
+      "aLessThan1_8" : true,
+      "allMPositive" : true,
+      "h2" : 1.4941340101275353,
+      "h3" : 1.0,
+      "hInfinity" : 0.6046927918979718,
+      "rangeMaximumMAtLeast2" : 1.4941340101275353,
+      "rangeMinimumMAtLeast2" : 0.6046927918979718
+    }
+  },
+  "battleRoot" : 3032110815400,
+  "bridgeValidation" : {
+    "compared" : "calibration,traits,UUID,gauge",
+    "conditions" : 6,
+    "status" : "EXACT_ACTUAL_CURRENT_BASELINE_BRIDGE"
+  },
+  "conditionsPerModel" : 36,
+  "confidencePolicy" : "Pointwise Hoeffding on independent mirrored-pair scores; no shared50/50 goal",
+  "factory" : "Current private MyconidColonyGenerator.teamColony via reflection; no copied factory, class override or production edit",
+  "formula" : "B_TWO_ANCHOR=sum_i,j(min(p_i,p_j)), p_i=EHP_i*normalRate_i; same exact neutral components; ascending self-products then sum (2*(N-i)-1)*p_i, zero-based i",
+  "generationRoot" : 2032110815400,
+  "ignored" : "Skills, dodge, actual matchup, opportunity to attack at best range, actual lifetime",
+  "models" : [ "B_TWO_ANCHOR" ],
+  "pairs" : 20,
+  "purpose" : "OUTSIDE_PRODUCTION_CANDIDATE_COMPARISON_NOT_BALANCE_ACCEPTANCE",
+  "roundLimit" : 2000,
+  "seedOffset" : 0,
+  "seedPolicy" : "root+offset+groupId*1000+pair; model/variant absent; one mirrored pair; fresh objects and seeded trial isolation",
+  "versions" : [ "SCALING_V5", "SCALING_SKILLS_V3", "ACCELERATED_V1" ]
+}

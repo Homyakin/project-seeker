@@ -1,0 +1,8 @@
+66a85403124f0353fae2fc4d72bcb8727340d69618eb083582870c105bbc10cd  documentation/raid-redesign-step-17-2-evidence/screen/protocol.json
+72a054cfe0254936e8f77f29656b303bcdd5ff83dce626dbb3a4bf292412e19c  documentation/raid-redesign-step-17-2-evidence/screen-sources.tar.gz
+a9cc795dcf89533981866e4bc4eefeedef238b8ad1fad3d530fba86ee9242c2a  documentation/raid-redesign-step-17-2-evidence/pre-change-classes.tar.gz
+b41e8931e2d15dc9ff824f8e51b1b9bd5050e35b130ba64dcf8671b433c665d8  documentation/raid-redesign-step-17-2-evidence/protocol.md
+b938faec2536baebfb11000935c3b81a74ff40ec6aa38525e5a726192ad5536b  documentation/raid-redesign-step-17-2-evidence/validate-study.mjs
+a98f6849e342ecee087ae7e850d8e2b1e997fd5c0e59f2ab46ae8ff3702592c8  game/src/test/java/ru/homyakin/seeker/game/battle/Step172RaidCalibrationStudy.java
+873c3a5aaab4f9ae3c1f9764c623f3b608c7a1795a2eb5197bc2299a90e0850b  game/src/test/java/ru/homyakin/seeker/game/battle/Step172RaidCalibrationStudyTest.java
+90663a4f89f2a918fe0cd1cad33f2aaf90e324a8e64c1537166a11f60ab68718  game/src/test/java/ru/homyakin/seeker/game/battle/Step172RaidHistoricalCompatibilityStudy.java

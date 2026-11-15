@@ -1,0 +1,164 @@
+{
+  "status": "CONSISTENT_EXPLORATORY_DATA_NOT_ACCEPTANCE",
+  "cases": 60,
+  "rows": 7200,
+  "timeouts": 0,
+  "differences": [
+    {
+      "tier": "MID",
+      "level": 15,
+      "model": "OLD",
+      "pairs": 50,
+      "baseWins": 96,
+      "addedWins": 69,
+      "delta": -0.27,
+      "pointwiseHoeffding95": [
+        -0.6541291165279683,
+        0.11412911652796831
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 15,
+      "model": "Q_MAX",
+      "pairs": 50,
+      "baseWins": 96,
+      "addedWins": 91,
+      "delta": -0.04999999999999993,
+      "pointwiseHoeffding95": [
+        -0.43412911652796826,
+        0.3341291165279684
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 15,
+      "model": "Q_MAX_ROLE",
+      "pairs": 50,
+      "baseWins": 100,
+      "addedWins": 91,
+      "delta": -0.08999999999999997,
+      "pointwiseHoeffding95": [
+        -0.4741291165279683,
+        0.29412911652796836
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 25,
+      "model": "OLD",
+      "pairs": 100,
+      "baseWins": 112,
+      "addedWins": 1,
+      "delta": -0.555,
+      "pointwiseHoeffding95": [
+        -0.826620303148124,
+        -0.28337969685187614
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 25,
+      "model": "Q_MAX",
+      "pairs": 100,
+      "baseWins": 112,
+      "addedWins": 16,
+      "delta": -0.48000000000000004,
+      "pointwiseHoeffding95": [
+        -0.7516203031481239,
+        -0.20837969685187613
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 25,
+      "model": "Q_MAX_ROLE",
+      "pairs": 100,
+      "baseWins": 91,
+      "addedWins": 16,
+      "delta": -0.375,
+      "pointwiseHoeffding95": [
+        -0.6466203031481239,
+        -0.10337969685187609
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 15,
+      "model": "OLD",
+      "pairs": 50,
+      "baseWins": 100,
+      "addedWins": 67,
+      "delta": -0.32999999999999996,
+      "pointwiseHoeffding95": [
+        -0.7141291165279683,
+        0.05412911652796837
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 15,
+      "model": "Q_MAX",
+      "pairs": 50,
+      "baseWins": 100,
+      "addedWins": 82,
+      "delta": -0.18000000000000005,
+      "pointwiseHoeffding95": [
+        -0.5641291165279684,
+        0.20412911652796828
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 15,
+      "model": "Q_MAX_ROLE",
+      "pairs": 50,
+      "baseWins": 100,
+      "addedWins": 82,
+      "delta": -0.18000000000000005,
+      "pointwiseHoeffding95": [
+        -0.5641291165279684,
+        0.20412911652796828
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "model": "OLD",
+      "pairs": 100,
+      "baseWins": 128,
+      "addedWins": 0,
+      "delta": -0.64,
+      "pointwiseHoeffding95": [
+        -0.9116203031481239,
+        -0.3683796968518761
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "model": "Q_MAX",
+      "pairs": 100,
+      "baseWins": 128,
+      "addedWins": 27,
+      "delta": -0.505,
+      "pointwiseHoeffding95": [
+        -0.7766203031481239,
+        -0.2333796968518761
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "model": "Q_MAX_ROLE",
+      "pairs": 100,
+      "baseWins": 101,
+      "addedWins": 27,
+      "delta": -0.37,
+      "pointwiseHoeffding95": [
+        -0.6416203031481239,
+        -0.09837969685187609
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "manifest": "documentation/raid-redesign-step-14-evidence/artifacts.sha256",
+    "checkedFiles": 9,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-1-evidence/artifacts.sha256",
+    "checkedFiles": 10,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-2-evidence/artifacts.sha256",
+    "checkedFiles": 10,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-3-evidence/artifacts.sha256",
+    "checkedFiles": 72,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-4-1-evidence/artifacts.sha256",
+    "checkedFiles": 72,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-4-2-evidence/artifacts.sha256",
+    "checkedFiles": 111,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-4-3-evidence/artifacts.sha256",
+    "checkedFiles": 109,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-4-evidence/artifacts.sha256",
+    "checkedFiles": 150,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-6-evidence/artifacts.sha256",
+    "checkedFiles": 8,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-7-evidence/artifacts.sha256",
+    "checkedFiles": 12,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-15-evidence/artifacts.sha256",
+    "checkedFiles": 56,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-step-17-1-evidence/artifacts.sha256",
+    "checkedFiles": 33,
+    "status": "UNCHANGED"
+  },
+  {
+    "manifest": "documentation/raid-redesign-steps-16-18-evidence/artifacts.sha256",
+    "checkedFiles": 22,
+    "status": "UNCHANGED"
+  }
+]

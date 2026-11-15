@@ -1,0 +1,10 @@
+{
+  "status": "REPLAY_VALID",
+  "originalRows": 8620,
+  "comparedRows": 32,
+  "comparedPairs": 16,
+  "protocolSha256": "d7b4d8696853d55f1268dfe6b7589c5d02656779c4710fce85a0ffa37957b19d",
+  "originalRawSha256": "2098ed400ae1d53d6f674694d2330e7fad20633f5d118f37c9874a09793eeca5",
+  "replayRawSha256": "ddd14183f077ec9a8a0e22a4cf78267fa4801813197a73954371960eb4d5ca3a",
+  "allowedNormalization": "JSON map keys only; every array, number, outcome, action/trace hash exact"
+}

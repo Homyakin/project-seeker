@@ -1,0 +1,7612 @@
+{
+  "verdict": "PASS",
+  "purpose": "INDEPENDENT_RAW_COUNT_AND_PREDECLARED_K3_RECOMPUTATION_NO_BATTLE_EXECUTION",
+  "policySHA256": "b4c8ca144c8b454e6a123405390ea985f2f041ed9669a77a441233a51e714ebf",
+  "pilotExcludedFromConfirmation": true,
+  "raws": {
+    "H": {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/screen/battles.jsonl.gz",
+      "sha256": "1f7659ee00f1de63dbbed5508159b0e1c071b0dd8237bb00620ba95fcf32fd1d"
+    },
+    "C9": {
+      "path": "/tmp/seeker-step15-4-2-confirm.TpC9K3/screen/battles.jsonl.gz",
+      "sha256": "15f0ec4ab239fb64d7f71904bec97505d95e9f096de5fadd1e244ee161b3cf7f"
+    }
+  },
+  "completePairs": 500,
+  "incompletePairs": 0,
+  "counts": {
+    "H": {
+      "1": {
+        "executions": 1000,
+        "WIN": 340,
+        "LOSS": 660,
+        "DRAW": 0,
+        "TIMEOUT": 0,
+        "playersFirstWins": 169,
+        "npcFirstWins": 171
+      },
+      "2": {
+        "executions": 1000,
+        "WIN": 25,
+        "LOSS": 975,
+        "DRAW": 0,
+        "TIMEOUT": 0,
+        "playersFirstWins": 8,
+        "npcFirstWins": 17
+      }
+    },
+    "C9": {
+      "1": {
+        "executions": 1000,
+        "WIN": 396,
+        "LOSS": 604,
+        "DRAW": 0,
+        "TIMEOUT": 0,
+        "playersFirstWins": 195,
+        "npcFirstWins": 201
+      },
+      "2": {
+        "executions": 1000,
+        "WIN": 219,
+        "LOSS": 781,
+        "DRAW": 0,
+        "TIMEOUT": 0,
+        "playersFirstWins": 110,
+        "npcFirstWins": 109
+      }
+    }
+  },
+  "rates": {
+    "H": {
+      "base": 0.34,
+      "append": 0.025
+    },
+    "C9": {
+      "base": 0.396,
+      "append": 0.219
+    }
+  },
+  "confidence": {
+    "familySize": 3,
+    "alpha": 0.05,
+    "appendHalfWidth": 0.13838340569276428,
+    "didHalfWidth": 0.27676681138552855
+  },
+  "contrasts": [
+    {
+      "name": "deltaH",
+      "estimate": -0.315,
+      "halfWidth": 0.13838340569276428,
+      "simultaneousFamily95": [
+        -0.45338340569276425,
+        -0.17661659430723572
+      ]
+    },
+    {
+      "name": "deltaC9",
+      "estimate": -0.177,
+      "halfWidth": 0.13838340569276428,
+      "simultaneousFamily95": [
+        -0.31538340569276424,
+        -0.03861659430723571
+      ]
+    },
+    {
+      "name": "DID",
+      "estimate": 0.138,
+      "halfWidth": 0.27676681138552855,
+      "simultaneousFamily95": [
+        -0.13876681138552854,
+        0.41476681138552857
+      ]
+    }
+  ],
+  "pilotCoherentHistoricalVersusCurrentC0": {
+    "rows": 480,
+    "outcomesAndRoundsAllExact": true,
+    "scope": "Only frozen projection,30 pair pilot, not a claim that current LEGACY is generally identical to the old engine"
+  },
+  "pairs": [
+    {
+      "pair": 0,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 1,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 2,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 3,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 4,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 5,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 6,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 7,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 8,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 9,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 10,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 11,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 12,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 13,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 14,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 15,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 16,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 17,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 18,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 19,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 20,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 21,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 22,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 23,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 24,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 25,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 26,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 27,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 28,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 29,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 30,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 31,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 32,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 33,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 34,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 35,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 36,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 37,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 38,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 39,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 40,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -1
+    },
+    {
+      "pair": 41,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 42,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 43,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 44,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 45,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 46,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 47,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 48,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 49,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 50,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 51,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 52,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 53,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 54,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 55,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 56,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 57,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -1
+    },
+    {
+      "pair": 58,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 59,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 60,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 61,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 62,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 63,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 64,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 65,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 66,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 67,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 68,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 69,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 70,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 71,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 72,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 73,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 74,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 75,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 76,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 77,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 78,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 79,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 80,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 81,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 82,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 83,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 84,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 85,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 86,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 87,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 88,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 89,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 90,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 91,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 92,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 93,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 94,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 95,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 96,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 97,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 98,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1
+    },
+    {
+      "pair": 99,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 100,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 101,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 102,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 103,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 104,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 105,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 106,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 107,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 108,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 109,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 110,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 111,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 112,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 113,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 114,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 115,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 116,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 117,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 118,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 119,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 120,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 121,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 122,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 123,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 124,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 2
+    },
+    {
+      "pair": 125,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 126,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 127,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 128,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 129,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 130,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 131,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 132,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 133,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 134,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 135,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 136,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 137,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 138,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 139,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 140,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 141,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 142,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 143,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 144,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 145,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 146,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 147,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 148,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 149,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 150,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 151,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 152,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 153,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 154,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 155,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 156,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 157,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 158,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 159,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 160,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 161,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 162,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 163,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 164,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 165,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 166,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 167,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 168,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 169,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 170,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 171,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 172,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 173,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 174,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 175,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 176,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 177,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 178,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 179,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 180,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 181,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 182,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 183,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 184,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 185,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 186,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 187,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 188,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 189,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 190,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 191,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 192,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 193,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 194,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 195,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 196,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 197,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 198,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 199,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 200,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 201,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 202,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 203,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 204,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -1
+    },
+    {
+      "pair": 205,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 206,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 207,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 208,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 209,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 210,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 211,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 2
+    },
+    {
+      "pair": 212,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 213,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 214,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 215,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 216,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1
+    },
+    {
+      "pair": 217,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 218,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 219,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 220,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 221,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 222,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 223,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 224,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 225,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 226,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 227,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 228,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 229,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 230,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 231,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 232,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 233,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 234,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 235,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 236,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 237,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 238,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 239,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 240,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 241,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 242,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 243,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 244,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 245,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 246,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 247,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 248,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 249,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 250,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 251,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 252,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 253,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 254,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 255,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 256,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 257,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 258,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 259,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 260,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 261,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 262,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 263,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 264,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 265,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 266,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 267,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 268,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 269,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 270,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 271,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 272,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 273,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 274,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 275,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 276,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 277,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 278,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 279,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 280,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 281,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 282,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 283,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 284,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 285,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 286,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 287,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 288,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 289,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 290,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 291,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 292,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1
+    },
+    {
+      "pair": 293,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 294,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 295,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 296,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 297,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 298,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 299,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 300,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 301,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 302,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 303,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 304,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 305,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 306,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1
+    },
+    {
+      "pair": 307,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 308,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 309,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 310,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 311,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 312,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 313,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 314,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 315,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 316,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 317,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 318,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 319,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 320,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 321,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 322,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 323,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 324,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 325,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 326,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 327,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 328,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 329,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 330,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 331,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 332,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 333,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 334,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 335,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 336,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 337,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 338,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 339,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 340,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 341,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 342,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 343,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 344,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 345,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 346,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 347,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 348,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 349,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 350,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 351,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 352,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 353,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 354,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 355,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 356,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 357,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 358,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 359,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 360,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 361,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 362,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 363,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 364,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 365,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 366,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 367,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 368,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 369,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 370,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 371,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 372,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": 0
+    },
+    {
+      "pair": 373,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 374,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 375,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 376,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 377,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 378,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 379,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 380,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 381,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 382,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 383,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 384,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 385,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 386,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 387,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 388,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 389,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 390,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 391,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 392,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 393,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 394,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1.5
+    },
+    {
+      "pair": 395,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 396,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 397,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 398,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 399,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 400,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 401,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 402,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 403,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 404,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 405,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 406,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 407,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 408,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 409,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 410,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 411,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 412,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 413,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 414,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 415,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 416,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 417,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -1
+    },
+    {
+      "pair": 418,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 419,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 420,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 421,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 422,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 423,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 424,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 425,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 426,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 427,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 428,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 429,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 430,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 431,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 432,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 433,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 434,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 435,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 436,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 437,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 438,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 439,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 440,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 441,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 442,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -1
+    },
+    {
+      "pair": 443,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 444,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 445,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 446,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 447,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 448,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 449,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 450,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 451,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 452,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 453,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0.5,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 454,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 455,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 456,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 1,
+        "delta": 0.5
+      },
+      "DID": 1
+    },
+    {
+      "pair": 457,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 458,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 459,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 460,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1
+    },
+    {
+      "pair": 461,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 462,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 463,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 464,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 465,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 466,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 467,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 468,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 469,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 470,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 471,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 472,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 473,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 474,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 475,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 476,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 2
+    },
+    {
+      "pair": 477,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 478,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 479,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 480,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 481,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 482,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 483,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 2
+    },
+    {
+      "pair": 484,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 1,
+        "delta": 1
+      },
+      "DID": 1.5
+    },
+    {
+      "pair": 485,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 486,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 487,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 488,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 489,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 490,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 491,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 492,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0.5,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 493,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 1,
+        "delta": 0
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 494,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    },
+    {
+      "pair": 495,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "DID": 0
+    },
+    {
+      "pair": 496,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0.5,
+        "delta": 0.5
+      },
+      "DID": 0.5
+    },
+    {
+      "pair": 497,
+      "complete": true,
+      "H": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 0
+    },
+    {
+      "pair": 498,
+      "complete": true,
+      "H": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "C9": {
+        "base": 0,
+        "append": 0,
+        "delta": 0
+      },
+      "DID": 1
+    },
+    {
+      "pair": 499,
+      "complete": true,
+      "H": {
+        "base": 0.5,
+        "append": 0,
+        "delta": -0.5
+      },
+      "C9": {
+        "base": 1,
+        "append": 0,
+        "delta": -1
+      },
+      "DID": -0.5
+    }
+  ]
+}

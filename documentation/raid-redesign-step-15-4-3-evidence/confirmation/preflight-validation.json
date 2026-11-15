@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "conditions": 34,
+  "modelConditions": 37,
+  "seedRecords": 11000,
+  "executionsAuthorized": 80000,
+  "numericSamples": 37,
+  "exactUniformSamples": 3,
+  "counterTwinChecks": 6,
+  "allFreshInputsByteEqualPilot": true,
+  "fixedNPCIncluded": false,
+  "scope": "Pre-outcome construction and frozen policy only; no balance outcome or implementation claim"
+}

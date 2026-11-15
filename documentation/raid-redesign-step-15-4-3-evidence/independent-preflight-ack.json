@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "purpose": "INDEPENDENT_PREBATTLE_FROZEN_ACK_NO_OUTCOMES_OR_NEW_BATTLES",
+  "assertions": 83510,
+  "freeze": [
+    {
+      "file": "Step1543HeterogeneityProbe.java",
+      "sha256": "29804e3355279d65147c91e6c71b0fc0231b2070fce80b62603cbcebfc3deaf9"
+    },
+    {
+      "file": "source-inputs/fillers-main-confirmation-inputs.json",
+      "sha256": "69072f73588957454b26849a691c4b42600376bb5686efa1962ba1fcab2a20be"
+    },
+    {
+      "file": "source-inputs/fillers-pierce-confirmation-inputs.json",
+      "sha256": "7e5a3c84d9dcd0d3114318f4ae065c975bda1288f06846ada1f406098054069c"
+    },
+    {
+      "file": "source-inputs/fillers-ritual-confirmation-inputs.json",
+      "sha256": "6251d61f7e27ba859fdf83bbdd2226626b1cb80acc762984d553d507bbe95c07"
+    },
+    {
+      "file": "source-inputs/n8-selected-inputs.json",
+      "sha256": "1d616295ac044d56261b0f745eca78df64179fd2d62bf80b497149280304b670"
+    },
+    {
+      "file": "source-inputs/ordinary-selected-inputs.json",
+      "sha256": "09f9d2c3e222fe6f242305c429a67d671f2adbd856cabcc542ef5c1485679def"
+    },
+    {
+      "file": "frozen-preparation/construction-checks.json",
+      "sha256": "53efca5f8069361400842fd8120e4901f7fb01b7207f77adea144b014df12b87"
+    },
+    {
+      "file": "frozen-preparation/inputs.json",
+      "sha256": "738ccd90b9890fbe51a4c970b833a591e406e710156afc5b5bf2f6ee1b62f60a"
+    },
+    {
+      "file": "frozen-preparation/manifest.json",
+      "sha256": "4e1a84233a62c7fb20d833301a8f5166f27c2148f3bf49860bff2a48572f854a"
+    },
+    {
+      "file": "frozen-preparation/prepared-pair0.json",
+      "sha256": "c84f404e8f5edd97f9cfc537a5cb57840b115839684e76683900aadb72a2beb8"
+    },
+    {
+      "file": "frozen-preparation/seeds.json",
+      "sha256": "336678813fb398caa8a4b03470db40bc689901572faccc4547b9c97c86a82ec6"
+    },
+    {
+      "file": "source-basis.sha256",
+      "sha256": "f8498837cecb7329375e24b41741fe617ceb58bd0637b2cf8794d8c45209f53b"
+    },
+    {
+      "file": "class-basis.sha256",
+      "sha256": "52d3e1fda6450b54fb48e10b35b39ed60739f0752edf33589718a16192dd3a10"
+    }
+  ],
+  "policySha256": "e41947b273b6db0defa748fcd0a8edbcbd1dec482570a5049aa1f0b7e9c858cf",
+  "conditions": 76,
+  "modelConditions": 224,
+  "seedRecords": 475,
+  "approvedExecutions": 11200,
+  "fullHelperReadSeparately": true,
+  "limitations": [
+    "Actual engine execution/compiled runtime is not replayed here; source closure receipts remain separate.",
+    "No victory outcomes inspected or claimed by preflight."
+  ]
+}

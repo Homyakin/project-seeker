@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "conditions": 76,
+  "modelConditions": 224,
+  "seedRecords": 475,
+  "numericSamples": 224,
+  "exactUniformSamples": 55,
+  "counterTwinChecks": 18,
+  "fixedNPCExact": true,
+  "executionsAuthorized": 11200,
+  "scope": "Pre-outcome saved construction only, not balance acceptance; rootpolicy and helper/manifest hashes exact"
+}

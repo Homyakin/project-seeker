@@ -1,0 +1,2203 @@
+{
+  "RITUAL" : {
+    "firstHealth" : 1782,
+    "firstSkills" : [ {
+      "code" : "SELF_HEAL",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    }, {
+      "code" : "ACCUMULATION",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "fixedFirstMember" : {
+      "build" : "RITUAL",
+      "position" : "BACK",
+      "tactic" : "EXECUTIONER",
+      "items" : [ {
+        "object" : {
+          "code" : "ritual_staff",
+          "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+          "attacks" : [ {
+            "attackType" : "MAGICAL",
+            "minRange" : 1,
+            "maxRange" : 3,
+            "attack" : 360
+          } ],
+          "defense" : null,
+          "health" : 0,
+          "critChance" : 5,
+          "dodgeChance" : 1,
+          "critMultiplier" : 0.15,
+          "speed" : 28,
+          "baseThreat" : 3,
+          "impact" : 7,
+          "progressionVersion" : "V1",
+          "locales" : {
+            "RU" : {
+              "text" : "Ритуальный Посох",
+              "form" : "MASCULINE"
+            }
+          }
+        },
+        "modifier" : {
+          "code" : "charging",
+          "activeEnum" : "ACCUMULATION",
+          "type" : "ATTACK",
+          "availableOnSlots" : [ "MAIN_HAND", "OFF_HAND" ],
+          "locales" : {
+            "RU" : {
+              "form" : {
+                "MASCULINE" : "Накопительный",
+                "FEMININE" : "Накопительная",
+                "NEUTER" : "Накопительное",
+                "PLURAL" : "Накопительные"
+              }
+            }
+          }
+        },
+        "rarity" : "RARE",
+        "enhanceLevel" : 6
+      }, {
+        "object" : {
+          "code" : "phantom_vestment",
+          "slots" : [ "BODY" ],
+          "attacks" : [ ],
+          "defense" : {
+            "defenseType" : "ARCANE",
+            "defense" : 180
+          },
+          "health" : 540,
+          "critChance" : 1,
+          "dodgeChance" : 2,
+          "critMultiplier" : 0.03,
+          "speed" : 34,
+          "baseThreat" : 0,
+          "impact" : 1,
+          "progressionVersion" : "V1",
+          "locales" : {
+            "RU" : {
+              "text" : "Призрачное Облачение",
+              "form" : "NEUTER"
+            }
+          }
+        },
+        "modifier" : {
+          "code" : "healing",
+          "activeEnum" : "SELF_HEAL",
+          "type" : "DEFENSE",
+          "availableOnSlots" : [ "PANTS", "BODY" ],
+          "locales" : {
+            "RU" : {
+              "form" : {
+                "MASCULINE" : "Лечебный",
+                "FEMININE" : "Лечебная",
+                "NEUTER" : "Лечебное",
+                "PLURAL" : "Лечебные"
+              }
+            }
+          }
+        },
+        "rarity" : "LEGENDARY",
+        "enhanceLevel" : 6
+      }, {
+        "object" : {
+          "code" : "phantom_chausses",
+          "slots" : [ "PANTS" ],
+          "attacks" : [ ],
+          "defense" : {
+            "defenseType" : "ARCANE",
+            "defense" : 120
+          },
+          "health" : 360,
+          "critChance" : 0,
+          "dodgeChance" : 2,
+          "critMultiplier" : 0.01,
+          "speed" : 24,
+          "baseThreat" : 0,
+          "impact" : 1,
+          "progressionVersion" : "V1",
+          "locales" : {
+            "RU" : {
+              "text" : "Призрачные Шоссы",
+              "form" : "PLURAL"
+            }
+          }
+        },
+        "modifier" : null,
+        "rarity" : "COMMON",
+        "enhanceLevel" : 6
+      }, {
+        "object" : {
+          "code" : "phantom_boots",
+          "slots" : [ "SHOES" ],
+          "attacks" : [ ],
+          "defense" : {
+            "defenseType" : "ARCANE",
+            "defense" : 60
+          },
+          "health" : 240,
+          "critChance" : 0,
+          "dodgeChance" : 2,
+          "critMultiplier" : 0.0,
+          "speed" : 24,
+          "baseThreat" : 0,
+          "impact" : 1,
+          "progressionVersion" : "V1",
+          "locales" : {
+            "RU" : {
+              "text" : "Призрачные Сапоги",
+              "form" : "PLURAL"
+            }
+          }
+        },
+        "modifier" : null,
+        "rarity" : "COMMON",
+        "enhanceLevel" : 6
+      }, {
+        "object" : {
+          "code" : "phantom_crown",
+          "slots" : [ "HELMET" ],
+          "attacks" : [ ],
+          "defense" : {
+            "defenseType" : "ARCANE",
+            "defense" : 60
+          },
+          "health" : 240,
+          "critChance" : 1,
+          "dodgeChance" : 2,
+          "critMultiplier" : 0.02,
+          "speed" : 22,
+          "baseThreat" : 0,
+          "impact" : 1,
+          "progressionVersion" : "V1",
+          "locales" : {
+            "RU" : {
+              "text" : "Призрачный Венец",
+              "form" : "MASCULINE"
+            }
+          }
+        },
+        "modifier" : null,
+        "rarity" : "COMMON",
+        "enhanceLevel" : 6
+      }, {
+        "object" : {
+          "code" : "phantom_gloves",
+          "slots" : [ "GLOVES" ],
+          "attacks" : [ ],
+          "defense" : {
+            "defenseType" : "ARCANE",
+            "defense" : 60
+          },
+          "health" : 240,
+          "critChance" : 0,
+          "dodgeChance" : 2,
+          "critMultiplier" : 0.0,
+          "speed" : 22,
+          "baseThreat" : 0,
+          "impact" : 1,
+          "progressionVersion" : "V1",
+          "locales" : {
+            "RU" : {
+              "text" : "Призрачные Перчатки",
+              "form" : "PLURAL"
+            }
+          }
+        },
+        "modifier" : null,
+        "rarity" : "COMMON",
+        "enhanceLevel" : 6
+      } ]
+    },
+    "inputsBySize" : {
+      "1" : [ {
+        "build" : "RITUAL",
+        "position" : "BACK",
+        "tactic" : "EXECUTIONER",
+        "items" : [ {
+          "object" : {
+            "code" : "ritual_staff",
+            "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "MAGICAL",
+              "minRange" : 1,
+              "maxRange" : 3,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 5,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.15,
+            "speed" : 28,
+            "baseThreat" : 3,
+            "impact" : 7,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Ритуальный Посох",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : {
+            "code" : "charging",
+            "activeEnum" : "ACCUMULATION",
+            "type" : "ATTACK",
+            "availableOnSlots" : [ "MAIN_HAND", "OFF_HAND" ],
+            "locales" : {
+              "RU" : {
+                "form" : {
+                  "MASCULINE" : "Накопительный",
+                  "FEMININE" : "Накопительная",
+                  "NEUTER" : "Накопительное",
+                  "PLURAL" : "Накопительные"
+                }
+              }
+            }
+          },
+          "rarity" : "RARE",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_vestment",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 180
+            },
+            "health" : 540,
+            "critChance" : 1,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.03,
+            "speed" : 34,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачное Облачение",
+                "form" : "NEUTER"
+              }
+            }
+          },
+          "modifier" : {
+            "code" : "healing",
+            "activeEnum" : "SELF_HEAL",
+            "type" : "DEFENSE",
+            "availableOnSlots" : [ "PANTS", "BODY" ],
+            "locales" : {
+              "RU" : {
+                "form" : {
+                  "MASCULINE" : "Лечебный",
+                  "FEMININE" : "Лечебная",
+                  "NEUTER" : "Лечебное",
+                  "PLURAL" : "Лечебные"
+                }
+              }
+            }
+          },
+          "rarity" : "LEGENDARY",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_chausses",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 120
+            },
+            "health" : 360,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.01,
+            "speed" : 24,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Шоссы",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_boots",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Сапоги",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_crown",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 1,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.02,
+            "speed" : 22,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачный Венец",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_gloves",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.0,
+            "speed" : 22,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Перчатки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        } ]
+      } ],
+      "2" : [ {
+        "build" : "RITUAL",
+        "position" : "BACK",
+        "tactic" : "EXECUTIONER",
+        "items" : [ {
+          "object" : {
+            "code" : "ritual_staff",
+            "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "MAGICAL",
+              "minRange" : 1,
+              "maxRange" : 3,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 5,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.15,
+            "speed" : 28,
+            "baseThreat" : 3,
+            "impact" : 7,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Ритуальный Посох",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : {
+            "code" : "charging",
+            "activeEnum" : "ACCUMULATION",
+            "type" : "ATTACK",
+            "availableOnSlots" : [ "MAIN_HAND", "OFF_HAND" ],
+            "locales" : {
+              "RU" : {
+                "form" : {
+                  "MASCULINE" : "Накопительный",
+                  "FEMININE" : "Накопительная",
+                  "NEUTER" : "Накопительное",
+                  "PLURAL" : "Накопительные"
+                }
+              }
+            }
+          },
+          "rarity" : "RARE",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_vestment",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 180
+            },
+            "health" : 540,
+            "critChance" : 1,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.03,
+            "speed" : 34,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачное Облачение",
+                "form" : "NEUTER"
+              }
+            }
+          },
+          "modifier" : {
+            "code" : "healing",
+            "activeEnum" : "SELF_HEAL",
+            "type" : "DEFENSE",
+            "availableOnSlots" : [ "PANTS", "BODY" ],
+            "locales" : {
+              "RU" : {
+                "form" : {
+                  "MASCULINE" : "Лечебный",
+                  "FEMININE" : "Лечебная",
+                  "NEUTER" : "Лечебное",
+                  "PLURAL" : "Лечебные"
+                }
+              }
+            }
+          },
+          "rarity" : "LEGENDARY",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_chausses",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 120
+            },
+            "health" : 360,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.01,
+            "speed" : 24,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Шоссы",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_boots",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Сапоги",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_crown",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 1,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.02,
+            "speed" : 22,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачный Венец",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_gloves",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.0,
+            "speed" : 22,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Перчатки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      } ],
+      "7" : [ {
+        "build" : "RITUAL",
+        "position" : "BACK",
+        "tactic" : "EXECUTIONER",
+        "items" : [ {
+          "object" : {
+            "code" : "ritual_staff",
+            "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "MAGICAL",
+              "minRange" : 1,
+              "maxRange" : 3,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 5,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.15,
+            "speed" : 28,
+            "baseThreat" : 3,
+            "impact" : 7,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Ритуальный Посох",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : {
+            "code" : "charging",
+            "activeEnum" : "ACCUMULATION",
+            "type" : "ATTACK",
+            "availableOnSlots" : [ "MAIN_HAND", "OFF_HAND" ],
+            "locales" : {
+              "RU" : {
+                "form" : {
+                  "MASCULINE" : "Накопительный",
+                  "FEMININE" : "Накопительная",
+                  "NEUTER" : "Накопительное",
+                  "PLURAL" : "Накопительные"
+                }
+              }
+            }
+          },
+          "rarity" : "RARE",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_vestment",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 180
+            },
+            "health" : 540,
+            "critChance" : 1,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.03,
+            "speed" : 34,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачное Облачение",
+                "form" : "NEUTER"
+              }
+            }
+          },
+          "modifier" : {
+            "code" : "healing",
+            "activeEnum" : "SELF_HEAL",
+            "type" : "DEFENSE",
+            "availableOnSlots" : [ "PANTS", "BODY" ],
+            "locales" : {
+              "RU" : {
+                "form" : {
+                  "MASCULINE" : "Лечебный",
+                  "FEMININE" : "Лечебная",
+                  "NEUTER" : "Лечебное",
+                  "PLURAL" : "Лечебные"
+                }
+              }
+            }
+          },
+          "rarity" : "LEGENDARY",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_chausses",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 120
+            },
+            "health" : 360,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.01,
+            "speed" : 24,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Шоссы",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_boots",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Сапоги",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_crown",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 1,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.02,
+            "speed" : 22,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачный Венец",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        }, {
+          "object" : {
+            "code" : "phantom_gloves",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "ARCANE",
+              "defense" : 60
+            },
+            "health" : 240,
+            "critChance" : 0,
+            "dodgeChance" : 2,
+            "critMultiplier" : 0.0,
+            "speed" : 22,
+            "baseThreat" : 0,
+            "impact" : 1,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Призрачные Перчатки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 6
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      }, {
+        "build" : "WEAK_WITH_DEFAULTS",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "object" : {
+            "code" : "sword",
+            "slots" : [ "MAIN_HAND" ],
+            "attacks" : [ {
+              "attackType" : "SLASH",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 360
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 2,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.05,
+            "speed" : 18,
+            "baseThreat" : 8,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Меч",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "off-fists",
+            "slots" : [ "OFF_HAND" ],
+            "attacks" : [ {
+              "attackType" : "BLUNT",
+              "minRange" : 1,
+              "maxRange" : 1,
+              "attack" : 60
+            } ],
+            "defense" : null,
+            "health" : 0,
+            "critChance" : 1,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.03,
+            "speed" : 8,
+            "baseThreat" : 1,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Кулак",
+                "form" : "MASCULINE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "torn_jacket",
+            "slots" : [ "BODY" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 300,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 24,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Рваная Кофта",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "leaky_pants",
+            "slots" : [ "PANTS" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 180,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 20,
+            "baseThreat" : 2,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Дырявые Штаны",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "footcloths",
+            "slots" : [ "SHOES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Портянки",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "panama",
+            "slots" : [ "HELMET" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Панамка",
+                "form" : "FEMININE"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        }, {
+          "object" : {
+            "code" : "bandages",
+            "slots" : [ "GLOVES" ],
+            "attacks" : [ ],
+            "defense" : {
+              "defenseType" : "CLOTH",
+              "defense" : 60
+            },
+            "health" : 120,
+            "critChance" : 0,
+            "dodgeChance" : 1,
+            "critMultiplier" : 0.0,
+            "speed" : 16,
+            "baseThreat" : 0,
+            "impact" : 0,
+            "progressionVersion" : "V1",
+            "locales" : {
+              "RU" : {
+                "text" : "Бинты",
+                "form" : "PLURAL"
+              }
+            }
+          },
+          "modifier" : null,
+          "rarity" : "COMMON",
+          "enhanceLevel" : 0
+        } ]
+      } ]
+    },
+    "weakHealth" : 840
+  }
+}

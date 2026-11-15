@@ -1,0 +1,47 @@
+{
+  "purpose": "BEFORE_FIRST_FRESH_CONFIRMATION_OUTCOME",
+  "policySHA256": "b4c8ca144c8b454e6a123405390ea985f2f041ed9669a77a441233a51e714ebf",
+  "files": [
+    {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/HistoricalCausalConfirmProbe.java",
+      "sha256": "1326e5d840d6aa40fe62522ef26f5c795dca9788c7dfedcb0fa4c9bae13c90bb"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/classes/HistoricalCausalConfirmProbe.class",
+      "sha256": "e05f4d7527eb2933083ed7379e71289eea917b82381c86635e626c93d39abd19"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/preparation/manifest.json",
+      "sha256": "5e8f70a7918fe71c72511e7f721e58930676b31911d2d46c028ca8f04fb32a58"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/seeds.json",
+      "sha256": "2cd6cdb76511fcb111f731d188d80793986839c121b383cc60465897aef802aa"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/frozen-policy.json",
+      "sha256": "b4c8ca144c8b454e6a123405390ea985f2f041ed9669a77a441233a51e714ebf"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical-confirm.0V5RWa/frozen-common-fixture.json",
+      "sha256": "b4aa68845c6498a93b81a6ff70051f970721ba4bd0ddcdcdf08c41289f161058"
+    }
+  ],
+  "pilotRuntimeFreeze": "/tmp/seeker-step1542-historical.77NJth/runtime-freeze.json",
+  "pilotRuntimeFreezeSHA256": "4e1204c99cb5dcb003ac477711f921bc6fb60dc535b2d426136e867550515d82",
+  "executionLimit": 2000,
+  "conditions": [
+    {
+      "scenarioId": 1,
+      "level": 25
+    },
+    {
+      "scenarioId": 2,
+      "level": 25
+    }
+  ],
+  "pairCount": 500,
+  "seedRoots": 1000,
+  "freshRootsDisjoint": true,
+  "fixtureUnchanged": true
+}

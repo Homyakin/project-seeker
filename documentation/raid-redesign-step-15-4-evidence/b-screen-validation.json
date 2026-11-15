@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "rows": 1440,
+  "conditions": 36,
+  "models": [
+    "B_TWO_ANCHOR"
+  ],
+  "pairsPerCondition": 20,
+  "mirroredPairObservations": 720,
+  "outcomes": {
+    "WIN": 1033,
+    "LOSS": 407
+  },
+  "weakAliveChecks": 320,
+  "rawGzipSha256": "5ec5e6e98485921b544fbb3c837f333d36a980e88fb259a50be70769b22de38c",
+  "rawUncompressedSha256": "5f1d865cf8d62d190751bdd8ee40b2133f2b5a5a5215bd08dddae8a40615a29c",
+  "checks": [
+    "canonicalInputEquality",
+    "causalPrefixPreservation",
+    "weak840HPDefaults",
+    "pairSeedsAndMirrors",
+    "actorNeutralComponentsFromBattleInit",
+    "npcWeightedFactoryHPAttackDefense",
+    "V3FourPointSkillsRowsProfiles",
+    "symmetricScoresAndTargets",
+    "achievedCalibrationScore",
+    "outcomesFromFinalHP",
+    "summaryPairScoresCIAndRounds"
+  ],
+  "limitations": [
+    "20 mirrored pairs per condition is exploration, not balance acceptance",
+    "Shared seeds across models/causal variants mean pooled observations are not independent",
+    "hashes cannot validate battle engine independently",
+    "no repeated-JVM reproducibility run in this screen",
+    "pointwise intervals are broad and not simultaneous"
+  ]
+}

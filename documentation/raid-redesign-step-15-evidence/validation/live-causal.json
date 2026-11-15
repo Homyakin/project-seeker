@@ -1,0 +1,36 @@
+{
+  "directory": "/tmp/seeker-step15-package.tDJ8Np/artifacts/runs/live-causal",
+  "phase": "LIVE_CAUSAL_077",
+  "suite": "causal",
+  "cases": 180,
+  "pairsPerCase": 20,
+  "battles": 7200,
+  "outcomes": {
+    "LOSS": 2703,
+    "WIN": 4497
+  },
+  "rawSha256": "3bfb03dbace190630d883cbe4bb141ed3d0f8dcb2884f0291fe2d89d868780b7",
+  "uncompressedSha256": "1e9bf3235be8043e7fc6eeea3b2d36039dd56eb8d824b8a71209501698d6f465",
+  "parameters": {
+    "guardian": {
+      "attack": 70,
+      "defense": 160,
+      "health": 420
+    },
+    "slinger": {
+      "attack": 130,
+      "defense": 70,
+      "health": 280
+    },
+    "correction": 0.77,
+    "g": "LOG4",
+    "origin": "EXPLICIT_HISTORICAL_PHASE_PROFILE"
+  },
+  "warnings": [],
+  "valid": true,
+  "exactReplay": null,
+  "limitations": [
+    "Action and trace digests are checked for presence/format; full logs are not stored.",
+    "Sampling results are not a requirement that all compositions win 50% of their fights."
+  ]
+}

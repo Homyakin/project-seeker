@@ -1,0 +1,16 @@
+{
+  "status": "INVALID_DEAD_PROBE_NOT_BALANCE_EVIDENCE",
+  "reason": "Historical sword-only participant starts with zero health; production resolves empty slots with default items.",
+  "sourceRun": "causal-confirmation",
+  "fullRawRetainedInRepository": false,
+  "fullOriginalRawSha256": "c5f27b4947729197fc2160cd4a9860e75bc8e77aa0be86f0bb22983e70c0d690",
+  "sampleCaseId": 18,
+  "samplePair": 0,
+  "sampleRows": 2,
+  "sampleOrders": [
+    false,
+    true
+  ],
+  "copiedHistoricalSourceUnchanged": true,
+  "sampleSha256": "a105f7ceb862ca14570ac7efa917b8a30344c5ce2664a1851a3cee3dbdd6f870"
+}

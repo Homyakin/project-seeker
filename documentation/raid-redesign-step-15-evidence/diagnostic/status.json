@@ -1,0 +1,23 @@
+{
+  "status": "REJECTED_PARAMETER_EXPERIMENT_DIAGNOSTIC_NOT_FINAL_PROFILE",
+  "guardian": {
+    "attack": 105,
+    "defense": 160,
+    "health": 280,
+    "speed": 190
+  },
+  "slinger": {
+    "attack": 130,
+    "defense": 70,
+    "health": 280,
+    "speed": 160
+  },
+  "correction": 0.77,
+  "g": "LOG4",
+  "source": "source/guardian-redistribution-source.java",
+  "helper": "source/MyconidMarginalProbe.java",
+  "battles": 160,
+  "mirroredPairsPerCell": 20,
+  "fullLogs": 16,
+  "purpose": "Per-actor explanation of the N3-to-N4 cliff; does not validate the restored final parameter profile."
+}

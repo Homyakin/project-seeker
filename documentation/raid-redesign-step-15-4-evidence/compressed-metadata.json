@@ -1,0 +1,114 @@
+[
+  {
+    "file": "b-screen-summary.json",
+    "archiveFile": "b-screen-summary.json.xz",
+    "rawSha256": "dd648f511dc7eeed063924aa056ab08cd15709bc4e8dfe39de352df57823dfb3",
+    "rawBytes": 2533275,
+    "archiveSha256": "d4ec7df731f331415c391e609e4d290dc0131cc933561a403832186a0f053d1d",
+    "archivedBytes": 6540
+  },
+  {
+    "file": "b-screen-inputs.json",
+    "archiveFile": "b-screen-inputs.json.xz",
+    "rawSha256": "df8ebd35d459dee9ebe3cccad361a6e6c2b4eb0943070cb8e65151b21f1401bf",
+    "rawBytes": 2158618,
+    "archiveSha256": "8cf692d8f0bc238df78f0e3c704e804abc3140732352ad6b47294e929bfb744a",
+    "archivedBytes": 3372
+  },
+  {
+    "file": "b-screen-preparation-inputs.json",
+    "archiveFile": "b-screen-preparation-inputs.json.xz",
+    "rawSha256": "df8ebd35d459dee9ebe3cccad361a6e6c2b4eb0943070cb8e65151b21f1401bf",
+    "rawBytes": 2158618,
+    "archiveSha256": "8cf692d8f0bc238df78f0e3c704e804abc3140732352ad6b47294e929bfb744a",
+    "archivedBytes": 3372
+  },
+  {
+    "file": "b-wide-screen-summary.json",
+    "archiveFile": "b-wide-screen-summary.json.xz",
+    "rawSha256": "665bce2a1bf74d5d99ff98d9de0263f46c92de5c6da829f401f3f863c31d51be",
+    "rawBytes": 26143294,
+    "archiveSha256": "3ad7a4212d46c06cc11fc0e14bbf05618dcdbc4662f8b2f25d6d5b0279cea38a",
+    "archivedBytes": 25364
+  },
+  {
+    "file": "b-wide-screen-inputs.json",
+    "archiveFile": "b-wide-screen-inputs.json.xz",
+    "rawSha256": "fa508476a387bb100b1be7f40be46fefe4ec1bcbdc4239507f88339d93d08004",
+    "rawBytes": 22327579,
+    "archiveSha256": "dc8dbcf3ef8cc49e748c9ccd8ab7914367cb1ed91c441d674f54d63d35e30ffd",
+    "archivedBytes": 14220
+  },
+  {
+    "file": "b-wide-screen-preparation-inputs.json",
+    "archiveFile": "b-wide-screen-preparation-inputs.json.xz",
+    "rawSha256": "fa508476a387bb100b1be7f40be46fefe4ec1bcbdc4239507f88339d93d08004",
+    "rawBytes": 22327579,
+    "archiveSha256": "dc8dbcf3ef8cc49e748c9ccd8ab7914367cb1ed91c441d674f54d63d35e30ffd",
+    "archivedBytes": 14220
+  },
+  {
+    "file": "bnorm-wide-screen-summary.json",
+    "archiveFile": "bnorm-wide-screen-summary.json.xz",
+    "rawSha256": "d8a45c5f71fe6c9435c4a9690d46720c330c38570088515f8ce311d35be3aaf7",
+    "rawBytes": 26148444,
+    "archiveSha256": "2e936fa42b07736f5ae5f63164326dca4bd2ea62f8c3c497a63e0b9cc53c9566",
+    "archivedBytes": 26396
+  },
+  {
+    "file": "bnorm-wide-screen-inputs.json",
+    "archiveFile": "bnorm-wide-screen-inputs.json.xz",
+    "rawSha256": "fa508476a387bb100b1be7f40be46fefe4ec1bcbdc4239507f88339d93d08004",
+    "rawBytes": 22327579,
+    "archiveSha256": "dc8dbcf3ef8cc49e748c9ccd8ab7914367cb1ed91c441d674f54d63d35e30ffd",
+    "archivedBytes": 14220
+  },
+  {
+    "file": "bnorm-wide-screen-preparation-inputs.json",
+    "archiveFile": "bnorm-wide-screen-preparation-inputs.json.xz",
+    "rawSha256": "2c96322a1ab86c6ba9c7c400191551e715d5d6f6f8f75ef93626bcb49651ae78",
+    "rawBytes": 22327579,
+    "archiveSha256": "4637f8f7891c9ea596dfecf23237440200d4d68ad36d04181aef41f6ed5f32c2",
+    "archivedBytes": 14224
+  },
+  {
+    "file": "q-p-sum-screen-summary.json",
+    "archiveFile": "q-p-sum-screen-summary.json.xz",
+    "rawSha256": "9ea80455c135cec9f9d6ab8b97de3b297e5c8e5e239834c91989d7c9428d56f2",
+    "rawBytes": 5059345,
+    "archiveSha256": "d6f708ea9b8459c5ebad5c48e54bd651b8e8643c6e55fa5e896b84e31254925b",
+    "archivedBytes": 7544
+  },
+  {
+    "file": "q-p-sum-screen-inputs.json",
+    "archiveFile": "q-p-sum-screen-inputs.json.xz",
+    "rawSha256": "4773703603ace2fb0cf802254c714460ae7a55f45e8891e7f47e9b7ca06ca4dc",
+    "rawBytes": 2158618,
+    "archiveSha256": "a3f8856d666fee216bf7f4feb9cf7d89b7e566378102a5c1b68b5c57435638d2",
+    "archivedBytes": 3372
+  },
+  {
+    "file": "q-p-sum-screen-preparation-inputs.json",
+    "archiveFile": "q-p-sum-screen-preparation-inputs.json.xz",
+    "rawSha256": "4773703603ace2fb0cf802254c714460ae7a55f45e8891e7f47e9b7ca06ca4dc",
+    "rawBytes": 2158618,
+    "archiveSha256": "a3f8856d666fee216bf7f4feb9cf7d89b7e566378102a5c1b68b5c57435638d2",
+    "archivedBytes": 3372
+  },
+  {
+    "file": "bnorm-confirmation-parent-pilot-reference-inputs.json",
+    "archiveFile": "bnorm-confirmation-parent-pilot-reference-inputs.json.xz",
+    "rawSha256": "4773703603ace2fb0cf802254c714460ae7a55f45e8891e7f47e9b7ca06ca4dc",
+    "rawBytes": 2158618,
+    "archiveSha256": "a3f8856d666fee216bf7f4feb9cf7d89b7e566378102a5c1b68b5c57435638d2",
+    "archivedBytes": 3372
+  },
+  {
+    "file": "bnorm-confirmation-parent-wide-reference-inputs.json",
+    "archiveFile": "bnorm-confirmation-parent-wide-reference-inputs.json.xz",
+    "rawSha256": "fa508476a387bb100b1be7f40be46fefe4ec1bcbdc4239507f88339d93d08004",
+    "rawBytes": 22327579,
+    "archiveSha256": "dc8dbcf3ef8cc49e748c9ccd8ab7914367cb1ed91c441d674f54d63d35e30ffd",
+    "archivedBytes": 14220
+  }
+]

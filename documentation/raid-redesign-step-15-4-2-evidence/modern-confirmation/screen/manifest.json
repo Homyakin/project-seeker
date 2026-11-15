@@ -1,0 +1,42 @@
+{
+  "battleNamespace" : "MYCONID-15.4.2-CAUSAL-CONFIRM-BATTLE-20261108-v1",
+  "battles" : 2000,
+  "bridge" : {
+    "gBranchConstructionChecks" : 4,
+    "head32OracleFullTraitsAndRngTail" : 0,
+    "independentNpcSkillRangeForceChecks" : 0,
+    "legalFullEquipmentMembers" : 27,
+    "newWeakHP" : 840,
+    "noBattlesInPreparation" : true,
+    "oldWeakHP" : 720,
+    "priorPilotHead32OracleChecks" : 24,
+    "status" : "PASS"
+  },
+  "combinedApprovedBattles" : 4000,
+  "conditions" : 2,
+  "controllerPolicy" : "HEAD32step SUMactualLegacyPower*q*g*.77, unweighted roles; no PveCharacteristicScaling.search and no V3Q except declared aggregate referencesC9/C10",
+  "effects" : "NONE",
+  "expectedIndependentHistoricalBattles" : 2000,
+  "fullActionLogPolicy" : "Full actionLog.events and separately exported traceEvents array for pair0/1 in eachcondition and bothmirrors; hashes/counts/individualstats for all2000battles. Pilot trace omission retained unchanged.",
+  "generationNamespace" : "MYCONID-15.4.2-CAUSAL-CONFIRM-GEN-20261108-v1",
+  "levels" : [ 25 ],
+  "pairs" : 500,
+  "phaseComparisons" : "Only C9actualproduction commonprojectionL25T3/T3+B; fixed fresh confirmation selected after pilot, no otherphase/level/extension. Parent policy family3includesHdelta,C9delta,DID.",
+  "phases" : [ {
+    "id" : "C9",
+    "gear" : "V5",
+    "playerSkills" : "SCALING_SKILLS_V3",
+    "npcSkills" : "SCALING_SKILLS_V3",
+    "force" : true,
+    "tempo" : "ACCELERATED_V1",
+    "slingerRange" : 3,
+    "allLog4" : true,
+    "actualQ" : true,
+    "exactMain" : false
+  } ],
+  "purpose" : "FIXED15.4.2_FRESH_C9_CONFIRMATION_NOT_NEW_FORMULA_OR_ACCEPTANCE",
+  "qL" : "1+((L-10)*.06+.14)",
+  "roundLimit" : 2000,
+  "scope" : "C0 is CURRENT engine with old gear/skills, not the true historical engine; C2 changes the complete newer turn execution/combat-rules mode, NOT only initiative ordering; V3skill switch also removes its old skillPowerRating from legacyPower; actual/proxy reported.",
+  "seedPolicy" : "First48BE SHA256(namespace+'/'+groupId+'/'+pair); group251 only,pair0..499,no phase/variant. Bothconditions share same500seedrecords and historical phase shares seeds, not identical engine streams."
+}

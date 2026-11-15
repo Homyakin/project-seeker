@@ -1,0 +1,45 @@
+{
+  "name": "b-wide-screen",
+  "file": "b-wide-screen-battles.jsonl.xz",
+  "battles": 10380,
+  "originalGzipSha256": "489049cce82c71902796635e7ec5bc0af4dcc2bf3ae37ad146077609e3e8cc99",
+  "archivedSha256": "91b4eefa718004bee2129fcd4bc93c4624bd3a17e20272b2f62142629a376564",
+  "archivedBytes": 9212504,
+  "jsonlSha256": "bad75055303b71c0b68584a9a54eb8898a1cc1f7834633b98ea980951bbbe0d9",
+  "jsonlBytes": 562685189,
+  "artifacts": [
+    {
+      "file": "b-wide-screen-manifest.json",
+      "sha256": "3769ff75c33492adff3400c101971479530fba88bc8c97cc9118ef58364d87c2"
+    },
+    {
+      "file": "b-wide-screen-summary.json",
+      "sha256": "665bce2a1bf74d5d99ff98d9de0263f46c92de5c6da829f401f3f863c31d51be"
+    },
+    {
+      "file": "b-wide-screen-inputs.json",
+      "sha256": "fa508476a387bb100b1be7f40be46fefe4ec1bcbdc4239507f88339d93d08004"
+    },
+    {
+      "file": "b-wide-screen-analysis.json",
+      "sha256": "1277ab94b88db551565486b3bea9a699c219dd28976f0eda9949f5937f50b868"
+    },
+    {
+      "file": "b-wide-screen-validation.json",
+      "sha256": "d83b8b2129ca5afd7adbb0553cf26d865e372f5b85dde8e394b6a0e842c25292"
+    },
+    {
+      "file": "b-wide-screen-Step154FormulaProbe.java",
+      "sha256": "88d226a0580d445635f39dc8cf95fb7686147191d1941b248502de0a31724ad5"
+    },
+    {
+      "file": "b-wide-screen-preparation-manifest.json",
+      "sha256": "3769ff75c33492adff3400c101971479530fba88bc8c97cc9118ef58364d87c2"
+    },
+    {
+      "file": "b-wide-screen-preparation-inputs.json",
+      "sha256": "fa508476a387bb100b1be7f40be46fefe4ec1bcbdc4239507f88339d93d08004"
+    }
+  ],
+  "rawPolicy": "Every original JSONL byte retained; only gzip container replaced with xz"
+}

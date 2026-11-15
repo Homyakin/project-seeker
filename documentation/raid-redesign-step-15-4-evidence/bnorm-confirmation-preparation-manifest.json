@@ -1,0 +1,241 @@
+{
+  "N2N3UnnormalizedBBridge" : {
+    "conditions" : 2,
+    "scope" : "All fixed screen conditions with NPC count2or3, effects included; no battle run",
+    "status" : "EXACT_CHARACTERISTICS_UUID_GAUGE_VS_UNNORMALIZED_B"
+  },
+  "anchorPolicy" : "C and a from exact actual 15.2 MID MAIN N3 L25 and STRONG MAIN N1 L5 NPC factories; no outcome fitting; same g/h/role weights and bases",
+  "anchors" : {
+    "Cnew" : 0.47754531235323505,
+    "midAnchorFactoryCharacteristicsExact" : true,
+    "midNpcParts" : [ {
+      "criticalFactor" : 1.02,
+      "effectiveHealth" : 6629.285643426635,
+      "frequency" : 0.19,
+      "hp" : 2781,
+      "id" : "97c9cc58-68fb-4b1a-8229-d9a817d512a6",
+      "maximumAttack" : 464.0,
+      "mu" : 0.4195022132976788,
+      "normalRate" : 89.92320000000001,
+      "selfProduct" : 596126.5787709821,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.056,
+      "effectiveHealth" : 1493.5412424170288,
+      "frequency" : 0.16,
+      "hp" : 928,
+      "id" : "e69e21da-0b42-493a-9fce-278c1794e5c9",
+      "maximumAttack" : 431.0,
+      "mu" : 0.621342065183415,
+      "normalRate" : 72.82176000000001,
+      "selfProduct" : 108762.3019053947,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.056,
+      "effectiveHealth" : 1493.5412424170288,
+      "frequency" : 0.16,
+      "hp" : 928,
+      "id" : "452ef1e9-1757-424e-a0b5-4e15d5b0086c",
+      "maximumAttack" : 431.0,
+      "mu" : 0.621342065183415,
+      "normalRate" : 72.82176000000001,
+      "selfProduct" : 108762.3019053947,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "midPlayersParts" : [ {
+      "criticalFactor" : 1.005,
+      "effectiveHealth" : 6681.032422174889,
+      "frequency" : 0.086,
+      "hp" : 2835,
+      "id" : "97cfab45-241c-4f7a-96c2-96b34ac089d2",
+      "maximumAttack" : 378.0,
+      "mu" : 0.4243356147457697,
+      "normalRate" : 32.670539999999995,
+      "selfProduct" : 218272.93698996157,
+      "skills" : [ {
+        "code" : "GUARD",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.0312000000000001,
+      "effectiveHealth" : 2527.2873206471563,
+      "frequency" : 0.156,
+      "hp" : 1449,
+      "id" : "2c755923-42fe-480c-9516-c6b1b8cec632",
+      "maximumAttack" : 378.0,
+      "mu" : 0.5733420130596619,
+      "normalRate" : 60.807801600000005,
+      "selfProduct" : 153678.78598010787,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.0312000000000001,
+      "effectiveHealth" : 2527.2873206471563,
+      "frequency" : 0.156,
+      "hp" : 1449,
+      "id" : "98ebd9a2-30f3-4a87-8c9b-b47f49c5d63c",
+      "maximumAttack" : 378.0,
+      "mu" : 0.5733420130596619,
+      "normalRate" : 60.807801600000005,
+      "selfProduct" : 153678.78598010787,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "oldC" : 0.5900075417594784,
+    "oldUnnormalizedBA" : 0.6046927918979718,
+    "oldUnnormalizedBH2" : 1.4941340101275353,
+    "r2" : 0.7135166925639456,
+    "r3" : 0.47754531235323505,
+    "rNorm2" : 1.2945040158323535,
+    "referenceMultiplierMID3L25" : 4.414285714285715,
+    "referenceMultiplierSTRONG1L5" : 2.328571428571429,
+    "screenA" : 0.8766292004637334,
+    "soloAnchorFactoryCharacteristicsExact" : true,
+    "soloNpcParts" : [ {
+      "criticalFactor" : 1.02,
+      "effectiveHealth" : 1697.9828842667146,
+      "frequency" : 0.19,
+      "hp" : 979,
+      "id" : "97d58a31-df3c-43da-ab5b-53be7dac00ff",
+      "maximumAttack" : 164.0,
+      "mu" : 0.5765664713533245,
+      "normalRate" : 31.7832,
+      "selfProduct" : 53967.329607225845,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "criticalFactor" : 1.056,
+      "effectiveHealth" : 865.2641149425916,
+      "frequency" : 0.16,
+      "hp" : 653,
+      "id" : "724c906d-7abb-46df-8a5f-65d75a08a69a",
+      "maximumAttack" : 303.0,
+      "mu" : 0.754682863559325,
+      "normalRate" : 51.194880000000005,
+      "selfProduct" : 44297.09253279219,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "soloPlayersParts" : [ {
+      "criticalFactor" : 1.0304,
+      "effectiveHealth" : 4300.5370475489235,
+      "frequency" : 0.13,
+      "hp" : 2112,
+      "id" : "97db691e-9a5d-483a-bff4-10c7b097782b",
+      "maximumAttack" : 528.0,
+      "mu" : 0.491101454690113,
+      "normalRate" : 70.726656,
+      "selfProduct" : 304162.6043772484,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "twoAnchorScreenParameters" : {
+      "C" : 0.47754531235323505,
+      "a" : 0.8766292004637334,
+      "aLessThan1_8" : true,
+      "allMPositive" : true,
+      "h2" : 1.1542134994203332,
+      "h3" : 1.0,
+      "hInfinity" : 0.8766292004637334,
+      "rangeMaximumMAtLeast2" : 1.1542134994203332,
+      "rangeMinimumMAtLeast2" : 0.8766292004637334
+    }
+  },
+  "battleNamespace" : "MYCONID-15.4-COMPOSITION-CONFIRM-BATTLE-20261108-v1",
+  "bridgeValidation" : {
+    "compared" : "calibration,traits,UUID,gauge",
+    "conditions" : 6,
+    "status" : "EXACT_ACTUAL_CURRENT_BASELINE_BRIDGE"
+  },
+  "conditionsPerModel" : 17,
+  "confidencePolicy" : "Pointwise Hoeffding on independent mirrored-pair scores; no shared50/50 goal",
+  "diagnosticPolicy" : "NOT_A_GAME_MODEL: current players may change, but NPCs retain BASE calibration target, multiplier, count and full identity/traits. Separate diagnostic groups have their own independent group seeds; do not treat between-group differences as paired effects.",
+  "effectsBridgeValidation" : {
+    "conditions" : 6,
+    "effects" : "Actual private combatEffects;20percentAttack15percentHP;nullExpiry is the original permanent fixture, not a manual substitute",
+    "status" : "EXACT_ACTUAL_PREPARED_EFFECTFUL_PLAYERS"
+  },
+  "factory" : "Current private MyconidColonyGenerator.teamColony via reflection; no copied factory, class override or production edit",
+  "fixedConcentrationCorrection" : {
+    "byCount" : {
+      "2" : 1.2945040158323535,
+      "3" : 1.0,
+      "4" : 1.2945040158323535,
+      "5" : 1.098757304187499,
+      "6" : 1.2945040158323535,
+      "7" : 1.148271035346172,
+      "8" : 1.2945040158323533,
+      "9" : 1.1773632049749498,
+      "10" : 1.2945040158323535,
+      "11" : 1.197090898547402,
+      "12" : 1.2945040158323535,
+      "13" : 1.2103037086602666,
+      "14" : 1.2945040158323533,
+      "15" : 1.2215151564042503,
+      "16" : 1.2945040158323535,
+      "17" : 1.229673309404306,
+      "18" : 1.2945040158323535,
+      "19" : 1.237950218405403,
+      "20" : 1.2945040158323537,
+      "21" : 1.2414758331286309,
+      "22" : 1.2945040158323537,
+      "23" : 1.246523100285914,
+      "24" : 1.2945040158323535,
+      "25" : 1.2495535250323135,
+      "26" : 1.294504015832354,
+      "27" : 1.2531497735021695,
+      "28" : 1.2945040158323535,
+      "29" : 1.2565480128964337,
+      "30" : 1.2945040158323537
+    },
+    "formula" : "r(M)=B(actualNPC(M,mref))/((M/3)^2*B(actualNPC(3,mref))); independent of players,level,searched multiplier,battle outcomes",
+    "referenceMultiplier" : 4.414285714285715,
+    "referenceNPC3Score" : 1466224.9940141398
+  },
+  "fixedNpcDiagnosticBridge" : {
+    "conditions" : 5,
+    "scope" : "Construction only, all diagnostic variants; no battle run",
+    "seedPair" : 0,
+    "status" : "EXACT_FIXED_BASE_NPC_AND_PLAYER_PREFIX"
+  },
+  "fixedScreen" : "17conditions8groups500pairs approved before this last confirmation;9paired comparisons; no new formulas, tuning, extensions or further runs",
+  "formula" : "B_NORM_TWO_ANCHOR=sum_i,j(min(p_i,p_j)), p_i=EHP_i*normalRate_i; ascending sum (2*(N-i)-1)*p_i; target Bplayers*levelBonus*g*C*h*r(M)",
+  "generationNamespace" : "MYCONID-15.4-COMPOSITION-CONFIRM-GEN-20261108-v1",
+  "ignored" : "Skills, dodge, actual matchup, opportunity to attack at best range, actual lifetime",
+  "models" : [ "B_NORM_TWO_ANCHOR" ],
+  "npcNamespace" : "MYCONID-15.4-COMPOSITION-CONFIRM-NPC-20261108-v1",
+  "pairs" : 500,
+  "purpose" : "OUTSIDE_PRODUCTION_CANDIDATE_COMPARISON_NOT_BALANCE_ACCEPTANCE",
+  "roundLimit" : 2000,
+  "seedFunctionVersion" : "SHA256_NAMESPACE_SLASH_GROUP_SLASH_PAIR_FIRST48_BE_V1",
+  "seedPolicy" : "SHA256(namespace+'/'+groupId+'/'+pair), first6bytes unsigned big-endian; no model/variant; mirrored pair/fresh actors/isolated trials. Ordinary actual path: players+NPC share existing GEN construction stream. Fixed-NPC diagnostics only: separate NPC stream and BASE-calibrated unchanged count/m/UUID/gauge/traits for every variant.",
+  "versions" : [ "SCALING_V5", "SCALING_SKILLS_V3", "ACCELERATED_V1" ]
+}

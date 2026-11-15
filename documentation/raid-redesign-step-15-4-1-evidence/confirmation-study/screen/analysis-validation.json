@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "cases": 12,
+  "modelCases": 24,
+  "appendComparisons": 12,
+  "counterChoiceComparisons": 12,
+  "pairedDeltasChecked": 12000,
+  "halfWidthPP": 15.714688802393685,
+  "scope": "Each predeclared family has separate simultaneous95percent coverage; not joint95percent across families. Saved data only, no battles."
+}

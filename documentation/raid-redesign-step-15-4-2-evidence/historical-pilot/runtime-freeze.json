@@ -1,0 +1,642 @@
+{
+  "purpose": "BEFORE_FIRST_BATTLE_FROZEN_HISTORICAL_RUNTIME",
+  "classFiles": [
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/HistoricalCausalProbe$Fixture.class",
+      "sha256": "f03dfe8f1cbbe65f61a9ca8fdbffb5925eb8f5d38024eefa63cdb3d7fde97424"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/HistoricalCausalProbe$ItemSpec.class",
+      "sha256": "7fbc29bd322ec23a2cbfdd2ff2dc5c321dffb1b557ae43e8e39f0354ed774212"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/HistoricalCausalProbe$Member.class",
+      "sha256": "fca29dc83f2384af25f89a13c447475db24d4a431a74ce34c38af5cb0aec169c"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/HistoricalCausalProbe$Prepared.class",
+      "sha256": "418dc913f0100ce0a69157ef734c7ae92d3924892a57c3cdece6996eeafbc2f0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/HistoricalCausalProbe.class",
+      "sha256": "c086df25dee7082550e8a8ce4ef77448c398939cb96b01b256f281afc8b70aa6"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/HistoricalConstructionProbe.class",
+      "sha256": "091cf72582f8695fdea87350edda1a3cf32b9745825f5119756bcd6e9bde78e6"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/Battle$Mover.class",
+      "sha256": "7371c1454f671205023487cbd85d9a9866476c380a60a282f97d1b0e9ed35f71"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/Battle.class",
+      "sha256": "1f6b84f0e29acc70c399996c9a9a73aac69e9b0f5dab3dae284a3db73720ec1f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleActionLog.class",
+      "sha256": "222ee0e0f006d5f588528bcd4d1b43925ca4dfeb90b8aeafa2aada86e5038af2"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleAdvanceDirection.class",
+      "sha256": "d242113e245af1d4eabc0d9a6a8505237e54d78836d7df1275211c2146808f3d"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleContext$1.class",
+      "sha256": "0be30758bec04ab4325670c1b4d659ea5c2ff41ac3007aa51a48f2c5bcef967a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleContext.class",
+      "sha256": "366d22123b3a09c2009002ec31958b780ad9d3f2e2e836c0bba74a92ffdd4cb1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$AttackDodged.class",
+      "sha256": "cdc841faab37a0ecfe60516bb745534023019621f81a12e7e9966c85e1173f3c"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$DamageReceived.class",
+      "sha256": "0ee5983ae6a096967bd3bfca4c558e9cc03f2de7497e7b6bbbe97b5e027e193a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$EffectDamage.class",
+      "sha256": "a3d503519a23b95be4425195bf3fa0d8557894c4e19efdec64b03c8f2eab55fd"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$InitiativeAfterTick.class",
+      "sha256": "7149cf85e49de23ac58289fd8530f8b22896a27a91a5b0cadbb018d756b59837"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$MovedTowardEnemy.class",
+      "sha256": "6e13002e2b0cf2b2de3814c432bdc7ab425522a5026a2d2eddbe844c6c4a0a61"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$PersonageAttackBuffed.class",
+      "sha256": "c5e8b284b9cfb2e998bcbe7ad6d9ceb8c3431942edb70e857222be2508947ec1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$PersonageDefeated.class",
+      "sha256": "5fffff5f1c2c499185ed1363af7a61dfde88d85ac9891b4186b51cc1bfda67da"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$PersonageForcedMove.class",
+      "sha256": "1b329e7596b829c8b2ccd5cab542fffa4e96fd85f1d756b3b3989e9566b4d164"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$PersonageHealed.class",
+      "sha256": "0d1cd68bfb3b2c0e8ea62555123d136c82b41efa364ef5d070c8763a291b0a39"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$RoundStarted.class",
+      "sha256": "d58cc97c9388da95062526efc2ae2227485741fbbb6b8d3bb69d2e9bc86ae558"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent$SkillDamage.class",
+      "sha256": "8736bd7f8c46d1bd1d92121951e46e93e5362033e9697eac0b2a7dd0570f3e74"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleEvent.class",
+      "sha256": "4fe2fc11831c7140fc3c1aa11fad8c7c0d5d5987cf27819d750e23383291c353"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleInitState.class",
+      "sha256": "7a5f119c726c1806c213902d994645904d124b627f055a90b9bd024c447cccef"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleItemInitSnapshot.class",
+      "sha256": "27ab5518b71ec03f1508bc372cc4c5e135f8bea2fe6613293b053d47dc008b98"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleLine.class",
+      "sha256": "d60d20af4f7d934c4023673a42b44768c9d2dbc8ca4bb2ce94ddc208703a7dd3"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleLineInitSnapshot.class",
+      "sha256": "55601335eec9dc013eaa9935e416e049cc1de8e0836f85b825222fb0c0037efd"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattlePersonage$Target.class",
+      "sha256": "9329d993ce485e9039344eb55519c573e3f0c3eb7067b8722f4e6fff29021af7"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattlePersonage.class",
+      "sha256": "b6325ec1b464befbb70e752c0d148c23206677f75a3cb089a797d768b8e57790"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattlePersonageInitSnapshot.class",
+      "sha256": "ab7b57284c2f57bd7041c578823ad4a31ba0ef0acea526c76fb22919ab2c51b7"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattlePersonageStats.class",
+      "sha256": "a3e3c4054d42deb838f66272a26cccb7a3bb92621f7f259cfcdd095aef2c137e"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleRangeAttackInitSnapshot.class",
+      "sha256": "560860805dc50095e8206bed8fbc1108beacf731daa0691e077e5e071a86c6a0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleResult.class",
+      "sha256": "363613681ce07cc17116f22126cc59379cc3c547749bba792c1a86c430b520ed"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/BattleSkillInitSnapshot.class",
+      "sha256": "45223f2d813a3fd88094eed7a34082a88ece18e72a92720a1f44dc7f58730d84"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/DamageRoll.class",
+      "sha256": "33781b7c3f3a7d51ddb087396000438e9c23e50b4529dbafc3c68d210a2bb5e1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/Position.class",
+      "sha256": "54d812cac13ffb881c970e58609f6dbf5c36c733930f6b36fd3111c448f05b6d"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/effect/PeriodicDamageEffect.class",
+      "sha256": "20e6f8ad19169a431c7c50968c0abf82c4713ab2a340c779b323dbacbec807e2"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/effect/PersonageBattleEffects.class",
+      "sha256": "32130964158b0250d9dec4551dcba38f62d15d81696c5de154a7cf1ff4f9e7da"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/effect/TemporaryMaxRangeBonus.class",
+      "sha256": "08391b68eaabe1cf40ac9c6e06b72edf4a7910b63ae29bb3b5fffc00abd13d2a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/simulation/RaidSimulationFixtures$ReferenceBuild.class",
+      "sha256": "c40a4580e726ba8c41ad54e5b332d4fb2aeca666da183fdc112e955a5d2580d8"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/simulation/RaidSimulationFixtures.class",
+      "sha256": "0e4602f8da3720269f6155309f384bed15d20281461d169c46294dd7ae91c85e"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/ActiveSkill.class",
+      "sha256": "577a62b642f232933d5d9865eb4672d7c2701bdd5aeb5509aea2073f6e02af47"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/AttackPowerSkill.class",
+      "sha256": "fd2d522c201deb8e96285fe0e138b797e141237c553d44bd850a77bc457038f5"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill$OnCritReceiveSkill.class",
+      "sha256": "b1f3dc3d04ba118d56838be9599ce636540166fa2291f6de792605949c3f7aa9"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill$OnCritSkill.class",
+      "sha256": "57382020c1f94c0ba119972587a2ce8a54a4ce59339bd2a24a95093695e1df36"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill$OnDamageReceiveSkill.class",
+      "sha256": "df5f8429e5a045a925651deb7e5c5890bfe7b2a031480e68519ed5b0625e12b0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill$OnDodgeSkill.class",
+      "sha256": "0baad98178d05cbf42cef78c060d51bd0889f767e605f6b6fe86c355d8c6a4ec"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill$OnHitSkill.class",
+      "sha256": "cd15480e14dcc3ae1c9d89b41d035a6779fa74f58d1ba38638767852b8aaaad0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill$OnMissSkill.class",
+      "sha256": "2f2abbbfedeb0412423c0f126a34c0821f91234ab39db40f270c5f53d9658876"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/DamageDealSkill.class",
+      "sha256": "a10d905e40c22e6d89d8f53e138b81d5fe8a1227ed1d6ce457dee877cb724c69"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/HealthPowerSkill.class",
+      "sha256": "feade3694a0c4e365e5b8eb72454a2c3e0fa8deec0df2fce937196e5c084a3e6"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/ItemSkill.class",
+      "sha256": "7b2ac1ee149eedaecfe7201c34811ddf2f8bf1b40a1f4b23a38ad1b51c5af46f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/MovePowerSkill.class",
+      "sha256": "c501333d3f584400b2e6c10dd7d6c3421a3a5dcf69efca3735262290340cc53f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/SkillPowerInputs.class",
+      "sha256": "588cec40e810be7e1baac81ddada7f482a912576bdf116d336382550f513f127"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/SkillRank.class",
+      "sha256": "5387220d97a5d7c55a81bc81c7071995cd19577c6914c5fb48dab7b37df17834"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/TurnSkill$TurnEndSkill.class",
+      "sha256": "94523ff5ac7ee69ad8fd984628e46142706124ee1dedd114d8b201900bbf5a69"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/TurnSkill$TurnStartSkill.class",
+      "sha256": "5c5c8d3ff7a271427630bafa3fef3ab38fcc9daecc7efc11ba9abdfb4fed6370"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/TurnSkill.class",
+      "sha256": "3e0860a06906181972ed2628a1e2dec7d0338939ef4842990807be795a7fddb1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/ActiveEnum.class",
+      "sha256": "f052cef8630cfa33827109d0d2c783a6513fd60022ce6a0784bd79addff8b7f7"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Berserk$1.class",
+      "sha256": "26b864618e1d20874ff673a1248f5d9bc824ec8980b6cacb72b1a981b3b2a3da"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Berserk.class",
+      "sha256": "5130219978d8d94fb726bc207b93a289e5bb54504c6974956c475982ec4741cd"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Bleeding$1.class",
+      "sha256": "b10fa9ba026b6249012b613e94f83be4ce8506466bc7c9557fd71e553ec21d71"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Bleeding.class",
+      "sha256": "ebb71e4e38e6cb02b790f0bc26ed66bfd6b6e233959ab3adc9f50920fb8b61c1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/CounterAttack$1.class",
+      "sha256": "c713a8518248ce5d536b0327016aa5ba698e3fd0e9850139eeec6baddeebd281"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/CounterAttack.class",
+      "sha256": "744db3c0ccfad54a09021be695a04057286759f895fe50bae15adb140b661839"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/DoubleAttack$1.class",
+      "sha256": "bef87471bdbbd1e983b82f7620db848f5396119267f651f6fff958fd784330c1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/DoubleAttack.class",
+      "sha256": "2764f1af75f089e0b33798d983b41ebb4e08442d44606424e5ae90917778f64a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Feint$1.class",
+      "sha256": "30c2cab0373c1f08f1c0b11c2e18d7b5d47622a7789f387d72c4640a9fbfb7a8"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Feint.class",
+      "sha256": "1ff8d5ff1a58450743cd4df2e7375daafe792299124df8a7b69083aab3bfe75a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/HitAndRun$1.class",
+      "sha256": "a9d34a1f139ef190b03e8e478b149390d1e7bd4d11a42fd3202f2834974f0850"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/HitAndRun.class",
+      "sha256": "afdca9442e4d18c57e23cac860bef0f2c528a3c4b1391bd79d36edb47a523c80"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Knockback$1.class",
+      "sha256": "1c332ec2b851d9286c4319af4287e5e94ae0fddd2bac27a5239947c1206097df"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Knockback.class",
+      "sha256": "ef0bff335b3fe12716a77f20bb58884c2b8577260a58a7320dfc074b244fb79b"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/PreciseStrike$1.class",
+      "sha256": "e5e24350e25c90d87f61b1030f5bb2ecdd7eac099136faa3b2fa71ac56e60b46"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/PreciseStrike.class",
+      "sha256": "5e525e910cbda491134a9cfdfb5a4c01e6c30dcfde93091cad15e594f519067f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Retreat$1.class",
+      "sha256": "a3711d78351bf4995cd768c6ad511cab073ddb74b0d81838566d2ebe082caa26"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Retreat.class",
+      "sha256": "573aec75ac35e68ba4bbe44e62001090d795344b5217a5c9a09654b83bb93e1a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/SelfHeal$1.class",
+      "sha256": "760368d3decc7fc02efdf99ac74e3bafe91863d357741004f5ccfc4a2c1ca139"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/SelfHeal.class",
+      "sha256": "3f21105ae68acf0ce91e8bf935245f1d5979a30df67b9eae5776e078d33d2c36"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/SkillMapper$1.class",
+      "sha256": "4df4474d97db8a968db3270d025fc049348bdbe92bb942605129f736744f44ab"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/SkillMapper.class",
+      "sha256": "d2c3499cf5db222dff401a9e89e74b28baea92ad3f322d11676a066744772db9"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Thorns$1.class",
+      "sha256": "38c15e6f2a0162f8665a7bdaf099b1748f9b70074158cd3b2f0eb69501803c37"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/skill/active_impl/Thorns.class",
+      "sha256": "cfe2dc34e1daf88de9c874ee30e70d3657b1a236aab833dda360d1a95cd56fd9"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingMath.class",
+      "sha256": "1478d5e385d7646a78a8e3ed68262c2d89f556d57e8f2e96b0aecd9c8da59eb7"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$1.class",
+      "sha256": "78ac3848dd4e30507d25055aedaa373a2518ae92b6eed5c3fda8c2f7fe98a51d"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$2.class",
+      "sha256": "4060e5b3f977e7ab33d6f354c3dae27bad150e8991f9fc6c00efdc0a49b5d9ef"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$3.class",
+      "sha256": "3a5d21c48d76b380cb6a798d8d01f492b5a43d5c844b3d25f4caa47e4d315fa7"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$4.class",
+      "sha256": "53b7f83047559365ca9e6c4bdc23195ff493f84b483ca797af958d3521d361ba"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$5.class",
+      "sha256": "4321883065d01dabf6a5bf1e496377c9dde85edf5ce632bc8810e5afc238af8c"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$6.class",
+      "sha256": "1d080ccd773abb6aa9aeb26467ce4e8360128026738e2aece5eba6134d22936a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic$7.class",
+      "sha256": "c5fd9d151c0112e540b179aa55175262ffe724668593f4895c244dc68b6083b2"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTactic.class",
+      "sha256": "ba0a452b231c38f5b625e41801cf2341033a5640ff63b4daf585a1cd27b19ed1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/battle/targeting/TargetingTacticCoefficients.class",
+      "sha256": "095cbca4db0285e62867d56170e985274021f817548ade8c06f32ee1c61b1d5a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$Add.class",
+      "sha256": "974cc5725158e56c5cf384997d3c17d10aa138df668a645d093c2a53d4c95124"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$ExtraBagSpace.class",
+      "sha256": "e960fdd68f0893ce246ec1842aa10350ad89fcfef5fc78a1050b96a5fd48edbd"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$ExtraLoadouts.class",
+      "sha256": "564bace68dca141994f341523bec4efea43b182769538440ed479b109021ae45"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$ItemFoundChancePercent.class",
+      "sha256": "536e354aad53004979295fce02f968ab14e621f4aa5d6a6b5301c295fa320a3a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$MinusMultiplier.class",
+      "sha256": "c61c890bac22503a25cd05f4d15dcd0b426f72aeedeeba293db77cd1574dfe50"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$Multiplier.class",
+      "sha256": "49026e3a19237ccfab732d3e8385bd3825f85e2014ca9228796276eac39fad52"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect$RaidGoldRewardPercent.class",
+      "sha256": "75a9cad3901a9dde62a68ac87dfe36623340e209c9024754662b51c0129a6c2a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/Effect.class",
+      "sha256": "6a5367bd65c4beddf75aa6b141808f84a6b5826411c149d4cfa4e846ad59dc62"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/effect/EffectCharacteristic.class",
+      "sha256": "8f7cb563b7b82a5e7cd7118b8c96523f83545a1f710d61729c3d59b223aa7c19"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.class",
+      "sha256": "cdfdaba8aecac4fb30ab44ace7b5b9f925389105cf218f8f2a35c689f351b53b"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/event/raid/generator/RaidBattlePersonageGenerator.class",
+      "sha256": "aced273dbb3b4499cbc3246350819f90788fa1e8c3b20594cf4542b63c843683"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/event/world_raid/entity/WorldRaidPersonage$AttackTemplate.class",
+      "sha256": "012081fe438ff94a8f18f434959d7f7ecd19b973130950f2b3fc7b631c486c18"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/event/world_raid/entity/WorldRaidPersonage$DefenseTemplate.class",
+      "sha256": "df84bf06eebe7e6859bab9503ea829e0201eea1cb6aeb044f720f40e0d2280c5"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/event/world_raid/entity/WorldRaidPersonage$PersonageSkill.class",
+      "sha256": "c552cf725ebd4a3f5213fedbfc1e926b6e364c2860df9eab1bb615d4cadd91c2"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/event/world_raid/entity/WorldRaidPersonage.class",
+      "sha256": "01b681e7157d8e51ef0e133a4f41ae8e6ce71c6aa06382d622d591d58f367e9a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/catalog/ItemModifiersToml$SavingModifier.class",
+      "sha256": "3343319cdf8fb4c42d0f00021c4dd95caa870392888a00bcc44166761dcbcd1f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/catalog/ItemModifiersToml.class",
+      "sha256": "469b30a6d793001f910e418b5e7ca94d274747100689d7a2a4320394a5603ec2"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/catalog/ItemObjectsToml$SavingItemAttack.class",
+      "sha256": "5bbe0552a3b97b756b1058fea05301da4d2a8d7109ec7905366cf782039af2db"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/catalog/ItemObjectsToml$SavingItemDefense.class",
+      "sha256": "3067e434a17ebc62eb6b83a2716c9cb4a12ef53f9250902f12e92207fa1b020d"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/catalog/ItemObjectsToml$SavingItemObject.class",
+      "sha256": "2b52905fc5b6e2af2d49704cf735c394a4363dbdd75fb9cc675cf4bb731ff9d1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/catalog/ItemObjectsToml.class",
+      "sha256": "11fb49aef89a4d1ca22372c0aaa724c81ca8c8846678d52e06c1e32a2aeb72cf"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/AttackType.class",
+      "sha256": "c4f67cee78ce7c0dbafd63a65ade57994813fbbd56f03141c65d31bbb9e5af2a"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/DefaultItems$1.class",
+      "sha256": "db3ccb7a1b3c652b627e3bf903214890ecb3d5c04953343f299a296582ce3c00"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/DefaultItems.class",
+      "sha256": "2fd613388675d165d1e85edba849e3d2345e03e155c54f5ab4e4cd6d5086753c"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/DefenseType.class",
+      "sha256": "2d066d510819f1435e7c031fc023ae95299b1527b092c5feea0c01e95a5a0b4c"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/Item.class",
+      "sha256": "0a0c18174f701fc89c831bab0c0fb37ca90cf61712f3803412312c5d0110f900"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/ItemAttack.class",
+      "sha256": "2d9c5907f33115785c19a81901177caa1070e312684e5812c9f65dd53edf10cd"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/ItemDefense.class",
+      "sha256": "4743142493c983550f0bb0c40ec1772dc7ba6cf68c6767ac38ba9948ed53d894"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/ItemObject.class",
+      "sha256": "f56b9c1808ab6e07d627c9ff06ea88205cd1e63c13d3000bf916d3740fc6c9ae"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/ItemObjectLocale.class",
+      "sha256": "621aa1f295d8093aca1263e0237a8d362abbf276de3086021bc5a94badebb501"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/ItemRarity.class",
+      "sha256": "198470ffcbe2f133a1d42ca547893f2e1d8ed04bfe8c892c4ee847a3bf77a8e2"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/Modifier.class",
+      "sha256": "1e9d5b7efad6c6b6a0dc18938622097d7449f23bec4c74339899a83e1450398e"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/models/ModifierType.class",
+      "sha256": "6a6f3d423476d860d9fd1ec3fc602ff685274436e4e8c6ffb9a9bed300a742e0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/modifier/models/ModifierLocale.class",
+      "sha256": "7f27ab7f9007be65353276691e803405bb9d2ceecff1fc17c2d1175e19f4356b"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/storm/StormEnhanceConfig.class",
+      "sha256": "952cf11532586cf3d837f96051eb743b13adbb628b5074d3027e83c3fc130381"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/item/storm/StormEnhanceProbabilities.class",
+      "sha256": "c262bc3265bc33a60fc8de6cd1006c73d92ec700c3c1fa0b2f6ed4f2cb45e8af"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/models/StormShards.class",
+      "sha256": "27abe6344088313f6b2ff38149681c750366eee4a9acf960d91f0f5ddae16c3f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/Characteristics$1.class",
+      "sha256": "1e5a0f930567b53e18b5bf606cd57cf9bb31c352741667b2ac157883a8bfbbef"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/Characteristics.class",
+      "sha256": "dc514773db50ab0ef195b3a7e8aec38d1ef28d77448aecf04dc2205789a3cdf3"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/PersonageSlot.class",
+      "sha256": "51adfe4eaf275cbcb60d2a6dcf7ebd3f7488ccc4a85958fcff9c06b2f6b796c3"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/effect/PersonageEffect.class",
+      "sha256": "c8ebfa90639e653d7fde3d6e2c66ceacdfa9aa384f9784c1a71942da1249075f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/effect/PersonageEffectType.class",
+      "sha256": "f288d90aa1bb0fd6fa7c91bcedd475baf14a29b2fbee8585214da1179522a1f4"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/effect/PersonageEffects.class",
+      "sha256": "503d9f4cd62a8be5e7a94ef69a90c47bbdafae832f7727a2c06fa288838dd567"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/game/personage/models/errors/StillSame.class",
+      "sha256": "601f39f2356d9120e1d0ecb0bec3ac0f9ff30ebb14de94bce2318c9921bd8fa5"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/infrastructure/Icons$1.class",
+      "sha256": "673aa0ab17a167956da2dffe54eb82bb65404e945d736709820c949dacf11872"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/infrastructure/Icons.class",
+      "sha256": "b347f7b8b8c435df918e89bcf1a77a280535ed7d3e688150a214c89dd8af69f0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/locale/Language$1.class",
+      "sha256": "f0cd6309537a92d437728d1a1307354686983267b35b80c50725a498079d9501"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/locale/Language.class",
+      "sha256": "f4733aa1f10a4ff7e574f1807353ca630c77777b0a0386a9bb1882e7c9a7a7d1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/locale/LocalizationCoverage.class",
+      "sha256": "e624311037a24d75532e14960046a631e5fe60cd64a5ce66a9a9199d2b645714"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/locale/Localized.class",
+      "sha256": "cb0487534364b4ac0783ff9933b869f23ff6cc8b120579f0fd578ce6012d9b6e"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/locale/WordForm$1.class",
+      "sha256": "a77a559bf9ba1ca0a2b1ce66b8e23da8772a722b80cb5e15683c2e3f35369d42"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/locale/WordForm.class",
+      "sha256": "01807ff9398bba30102c215cf62ccc3dfa5d68a66c0ca17a21a39f1bb34cdec6"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/utils/MathUtils.class",
+      "sha256": "95941fb4928cbf0c3e00cf9d90a0d6b2e52473e5b92bece86fe106ba98a2ee2b"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/utils/ProbabilityPicker.class",
+      "sha256": "a2cc6714ea99d05aed086daadbba43131832c1fbc081b9a5bb3ca472c84f4928"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/utils/RandomUtils.class",
+      "sha256": "d3e7d7e4e6b3e884eeedd50f4833fcee7f1fe2d1dcc0d0f36b806a458373bd95"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/utils/ResourceUtils.class",
+      "sha256": "5af5e271b6b356e2ea6b0d2ccb901533e9fcb846774af3df4ef2b2d20867700f"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/utils/TimeUtils.class",
+      "sha256": "d9c5be9c900dba38a3b67468603efa2772162ff99dfd5fbc29aedd249b836fe1"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/classes-6150/ru/homyakin/seeker/utils/models/IntRange.class",
+      "sha256": "e2070d1e45c58b9db948516ceca180588261d4275510f9f4d299281ab3409a24"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/HistoricalCausalProbe.java",
+      "sha256": "50a9d3bb198d535b90b23c41c5a0359e0ded4db8d226afdcbab71461c1d21f00"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/HistoricalConstructionProbe.java",
+      "sha256": "584fc56b1bc3996a012e33629eb6cb6e0ff2e443cbe5dbfd82beffd3a21e6eb0"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/linkage-only/ru/homyakin/seeker/locale/LocalizationCoverage.java",
+      "sha256": "b5875eed4f206dd0c379b0d78d101e01247f141cdc4f3297b0553d2957b92bfb"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/source-basis.json",
+      "sha256": "eab76e6242d68152d78d93bdf61f701b7d1b5a49a405a71f2e0f10ec72b22c95"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/common-preparation-validation.json",
+      "sha256": "090a889746d52728b282d6d826b61ed42251911f405a6a3216e41828c19789e3"
+    },
+    {
+      "path": "/tmp/seeker-step1542-historical.77NJth/preparation-frozen/manifest.json",
+      "sha256": "ade2926fa1b5803bae2722ae659ecd7e154cc7eed3c41e7c24f56262bbd3371e"
+    }
+  ],
+  "sourceCommit": "6150d562546cca22bed139c4d0fa23456e4d801e",
+  "commonFixtureSHA256": "b4aa68845c6498a93b81a6ff70051f970721ba4bd0ddcdcdf08c41289f161058",
+  "executionLimit": 480
+}

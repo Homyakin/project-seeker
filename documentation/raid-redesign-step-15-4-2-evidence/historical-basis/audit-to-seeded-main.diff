@@ -1,0 +1,307 @@
+diff --git a/game/src/main/java/ru/homyakin/seeker/game/battle/Battle.java b/game/src/main/java/ru/homyakin/seeker/game/battle/Battle.java
+index 13950a63..bc2b7f44 100644
+--- a/game/src/main/java/ru/homyakin/seeker/game/battle/Battle.java
++++ b/game/src/main/java/ru/homyakin/seeker/game/battle/Battle.java
+@@ -15,6 +15,17 @@ public class Battle {
+     private record Mover(BattlePersonage personage, Map<UUID, BattlePersonage> enemyAliveTeam) { }
+ 
+     public BattleResult process(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
++        return process(firstTeam, secondTeam, Integer.MAX_VALUE);
++    }
++
++    public BattleResult process(
++        List<BattlePersonage> firstTeam,
++        List<BattlePersonage> secondTeam,
++        int maxRounds
++    ) {
++        if (maxRounds <= 0) {
++            throw new IllegalArgumentException("maxRounds must be positive");
++        }
+         final var battleMap = new BattleContext(firstTeam, secondTeam);
+         final var initState = captureInitState(battleMap, firstTeam, secondTeam);
+         final var actionLog = new BattleActionLog();
+@@ -24,6 +35,9 @@ public class Battle {
+ 
+         int rounds = 0;
+         while (!firstAliveTeam.isEmpty() && !secondAliveTeam.isEmpty()) {
++            if (rounds >= maxRounds) {
++                throw new IllegalStateException("Battle did not finish within %d rounds".formatted(maxRounds));
++            }
+             ++rounds;
+             actionLog.add(new BattleEvent.RoundStarted(rounds));
+             final var movers = new ArrayList<Mover>();
+diff --git a/game/src/main/java/ru/homyakin/seeker/game/battle/BattleContext.java b/game/src/main/java/ru/homyakin/seeker/game/battle/BattleContext.java
+index 9f265ccb..9e27c0cd 100644
+--- a/game/src/main/java/ru/homyakin/seeker/game/battle/BattleContext.java
++++ b/game/src/main/java/ru/homyakin/seeker/game/battle/BattleContext.java
+@@ -1,7 +1,7 @@
+ package ru.homyakin.seeker.game.battle;
+ 
+ import java.util.ArrayList;
+-import java.util.HashMap;
++import java.util.LinkedHashMap;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.UUID;
+@@ -16,13 +16,13 @@ public class BattleContext {
+     private final Map<UUID, BattlePersonage> secondAliveTeam;
+ 
+     public BattleContext(List<BattlePersonage> firstTeam, List<BattlePersonage> secondTeam) {
+-        this.firstAliveTeam = new HashMap<>();
++        this.firstAliveTeam = new LinkedHashMap<>();
+         for (final var p : firstTeam) {
+             if (p.isAlive()) {
+                 firstAliveTeam.put(p.id(), p);
+             }
+         }
+-        this.secondAliveTeam = new HashMap<>();
++        this.secondAliveTeam = new LinkedHashMap<>();
+         for (final var p : secondTeam) {
+             if (p.isAlive()) {
+                 secondAliveTeam.put(p.id(), p);
+@@ -156,9 +156,9 @@ public class BattleContext {
+     }
+ 
+     private static List<BattleLine> linesFromTeam(List<BattlePersonage> team, boolean firstTeam) {
+-        final var front = new HashMap<UUID, BattlePersonage>();
+-        final var mid = new HashMap<UUID, BattlePersonage>();
+-        final var back = new HashMap<UUID, BattlePersonage>();
++        final var front = new LinkedHashMap<UUID, BattlePersonage>();
++        final var mid = new LinkedHashMap<UUID, BattlePersonage>();
++        final var back = new LinkedHashMap<UUID, BattlePersonage>();
+         for (final var personage : team) {
+             switch (personage.startPosition()) {
+                 case FRONT -> front.put(personage.id(), personage);
+diff --git a/game/src/main/java/ru/homyakin/seeker/game/battle/BattleLine.java b/game/src/main/java/ru/homyakin/seeker/game/battle/BattleLine.java
+index 3e40198e..b4a9398c 100644
+--- a/game/src/main/java/ru/homyakin/seeker/game/battle/BattleLine.java
++++ b/game/src/main/java/ru/homyakin/seeker/game/battle/BattleLine.java
+@@ -1,6 +1,6 @@
+ package ru.homyakin.seeker.game.battle;
+ 
+-import java.util.HashMap;
++import java.util.LinkedHashMap;
+ import java.util.Map;
+ import java.util.UUID;
+ 
+@@ -12,7 +12,7 @@ public class BattleLine {
+     public BattleLine(boolean firstTeam, Position position, Map<UUID, BattlePersonage> battlePersonages) {
+         this.firstTeam = firstTeam;
+         this.position = position;
+-        this.battlePersonages = new HashMap<>(battlePersonages);
++        this.battlePersonages = new LinkedHashMap<>(battlePersonages);
+     }
+ 
+     public boolean firstTeam() {
+diff --git a/game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java b/game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java
+index 05f9b8c2..dd520a98 100644
+--- a/game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java
++++ b/game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java
+@@ -17,8 +17,9 @@ import ru.homyakin.seeker.utils.TimeUtils;
+ import java.time.LocalDateTime;
+ import java.util.ArrayList;
+ import java.util.EnumMap;
++import java.util.EnumSet;
+ import java.util.HashMap;
+-import java.util.HashSet;
++import java.util.LinkedHashMap;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Optional;
+@@ -92,13 +93,13 @@ public class BattlePersonage {
+         return (int) Math.round(damageMitigationMultiplier(defenseType, attackType) * 100);
+     }
+ 
+-    private final UUID id = UUID.randomUUID();
++    private final UUID id = RandomUtils.randomUuid();
+     private final Optional<String> name;
+     private final int maxHealth;
+     private final int powerMaxHealth;
+     private final int powerSlotOneAttackSum;
+     private int health;
+-    private final Set<AttackType> attackTypes = new HashSet<>();
++    private final Set<AttackType> attackTypes = EnumSet.noneOf(AttackType.class);
+     private final List<ItemSkill> itemSkills = new ArrayList<>();
+     private final List<BattleItemInitSnapshot> itemSnapshots;
+     private final List<BattleSkillInitSnapshot> skillSnapshots;
+@@ -193,7 +194,7 @@ public class BattlePersonage {
+         this.name = name;
+         this.defense = new EnumMap<>(DefenseType.class);
+         var maxRange = 1;
+-        var activeSkills = new HashMap<ActiveEnum, Integer>();
++        var activeSkills = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
+         var totalCritChance = 0;
+         var totalDodgeChance = 0;
+         var totalCritMultiplier = BASE_CRIT_MULTIPLIER;
+@@ -600,7 +601,7 @@ public class BattlePersonage {
+         for (final var candidate : candidates) {
+             referenceThreat = Math.max(referenceThreat, candidate.totalThreat());
+         }
+-        final var weightMap = new HashMap<BattlePersonage, Integer>();
++        final var weightMap = new LinkedHashMap<BattlePersonage, Integer>();
+         for (final var candidate : candidates) {
+             weightMap.put(
+                 candidate,
+@@ -756,6 +757,14 @@ public class BattlePersonage {
+         return maxHealth;
+     }
+ 
++    /**
++     * Health actually lost after mitigation, variance and overkill clamping.
++     * This intentionally differs from the legacy {@link BattlePersonageStats#damageTaken()} metric.
++     */
++    public long actualDamageTaken() {
++        return actualDamageTaken;
++    }
++
+     public int critChance() {
+         return critChance;
+     }
+diff --git a/game/src/main/java/ru/homyakin/seeker/utils/RandomUtils.java b/game/src/main/java/ru/homyakin/seeker/utils/RandomUtils.java
+index 1269ae00..3b5e5110 100644
+--- a/game/src/main/java/ru/homyakin/seeker/utils/RandomUtils.java
++++ b/game/src/main/java/ru/homyakin/seeker/utils/RandomUtils.java
+@@ -6,8 +6,11 @@ import java.time.OffsetDateTime;
+ import java.util.ArrayList;
+ import java.util.Collections;
+ import java.util.List;
++import java.util.Random;
+ import java.util.Set;
++import java.util.UUID;
+ import java.util.function.ToIntFunction;
++import java.util.function.Supplier;
+ import java.util.random.RandomGenerator;
+ 
+ import org.apache.commons.math3.distribution.AbstractRealDistribution;
+@@ -18,8 +21,27 @@ import ru.homyakin.seeker.utils.models.IntRange;
+ 
+ public class RandomUtils {
+     private static final Logger logger = LoggerFactory.getLogger(RandomUtils.class);
+-    private static final RandomGenerator random = RandomGenerator.getDefault();
++    private static final RandomGenerator defaultRandom = RandomGenerator.getDefault();
+     private static final AbstractRealDistribution characteristicsRandom = new NormalDistribution(0.5, 0.2);
++    private static final ThreadLocal<Random> scopedRandom = new ThreadLocal<>();
++
++    /**
++     * Runs the complete action with a deterministic, thread-confined random stream.
++     * Nested scopes restore the outer stream and exceptions never leak the seeded state.
++     */
++    public static <T> T withSeed(long seed, Supplier<T> action) {
++        final var previous = scopedRandom.get();
++        scopedRandom.set(new Random(seed));
++        try {
++            return action.get();
++        } finally {
++            if (previous == null) {
++                scopedRandom.remove();
++            } else {
++                scopedRandom.set(previous);
++            }
++        }
++    }
+ 
+     public static Duration getRandomDuration(Duration minimum, Duration maximum) {
+         return Duration.ofMillis(getInInterval(minimum.toMillis(), maximum.toMillis()));
+@@ -33,18 +55,18 @@ public class RandomUtils {
+         if (start >= end) {
+             return start;
+         }
+-        return random.nextLong(start, end + 1);
++        return currentRandom().nextLong(start, end + 1);
+     }
+ 
+     public static int getInInterval(int start, int end) {
+         if (start >= end) {
+             return start;
+         }
+-        return random.nextInt(start, end + 1);
++        return currentRandom().nextInt(start, end + 1);
+     }
+ 
+     public static int getWithMax(int max) {
+-        return random.nextInt(max);
++        return currentRandom().nextInt(max);
+     }
+ 
+     public static int getInPercentRange(int start, double percent) {
+@@ -62,7 +84,7 @@ public class RandomUtils {
+             return start;
+         }
+         return OffsetDateTime.of(
+-            LocalDateTime.ofEpochSecond(random.nextLong(startSeconds, endSeconds), 0, start.getOffset()),
++            LocalDateTime.ofEpochSecond(currentRandom().nextLong(startSeconds, endSeconds), 0, start.getOffset()),
+             start.getOffset()
+         );
+     }
+@@ -78,15 +100,15 @@ public class RandomUtils {
+     }
+ 
+     public static <T> T getRandomElement(T[] array) {
+-        return array[random.nextInt(0, array.length)];
++        return array[currentRandom().nextInt(0, array.length)];
+     }
+ 
+     public static <T> T getRandomElement(List<T> list) {
+-        return list.get(random.nextInt(0, list.size()));
++        return list.get(currentRandom().nextInt(0, list.size()));
+     }
+ 
+     public static <T> T getRandomElement(Set<T> set) {
+-        var value = random.nextInt(0, set.size());
++        var value = currentRandom().nextInt(0, set.size());
+         for (final var element: set) {
+             if (value == 0) {
+                 return element;
+@@ -133,16 +155,39 @@ public class RandomUtils {
+ 
+     public static <T> List<T> shuffle(List<T> list) {
+         final var modifiableList = new ArrayList<T>(list);
+-        Collections.shuffle(modifiableList);
++        final var seeded = scopedRandom.get();
++        if (seeded == null) {
++            Collections.shuffle(modifiableList);
++        } else {
++            Collections.shuffle(modifiableList, seeded);
++        }
+         return modifiableList;
+     }
+ 
+     public static boolean bool() {
+-        return random.nextBoolean();
++        return currentRandom().nextBoolean();
++    }
++
++    /**
++     * Production keeps the JDK UUID source; a seeded scope produces deterministic RFC 4122 version-4 UUIDs.
++     */
++    public static UUID randomUuid() {
++        final var seeded = scopedRandom.get();
++        if (seeded == null) {
++            return UUID.randomUUID();
++        }
++        var mostSignificantBits = seeded.nextLong();
++        var leastSignificantBits = seeded.nextLong();
++        mostSignificantBits = mostSignificantBits & 0xffffffffffff0fffL | 0x0000000000004000L;
++        leastSignificantBits = leastSignificantBits & 0x3fffffffffffffffL | 0x8000000000000000L;
++        return new UUID(mostSignificantBits, leastSignificantBits);
+     }
+ 
+     private static double characteristicSampleFrom0To1() {
+-        final var result = characteristicsRandom.sample();
++        final var seeded = scopedRandom.get();
++        final var result = seeded == null
++            ? characteristicsRandom.sample()
++            : seeded.nextGaussian(0.5, 0.2);
+         if (result < 0) {
+             return 0;
+         } else if (result > 1) {
+@@ -150,4 +195,9 @@ public class RandomUtils {
+         }
+         return result;
+     }
++
++    private static RandomGenerator currentRandom() {
++        final var seeded = scopedRandom.get();
++        return seeded == null ? defaultRandom : seeded;
++    }
+ }

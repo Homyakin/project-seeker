@@ -1,0 +1,11 @@
+{
+  "actual15.2FullCalibrationTraitsUuidGaugeAndRngTail" : 148,
+  "actualNeutralPartsExact" : 148,
+  "appendPrefixes" : 15,
+  "archivedInputsCurrentEquality" : 7,
+  "battles" : 0,
+  "fixedNPCexact" : true,
+  "reflection" : "READONLY_CONSTRUCTOR_AND_PRIVATE_METHODS_NO_FIELD_WRITES",
+  "status" : "PASS",
+  "weakHP" : 840
+}

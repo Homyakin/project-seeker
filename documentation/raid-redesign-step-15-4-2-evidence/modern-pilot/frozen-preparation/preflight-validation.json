@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "conditions": 84,
+  "modernBattles": 5040,
+  "expectedHistoricalBattles": 480,
+  "pairs": 30,
+  "seedRecords": 120,
+  "bridge": {
+    "gBranchConstructionChecks": 4,
+    "head32OracleFullTraitsAndRngTail": 24,
+    "independentNpcSkillRangeForceChecks": 9,
+    "legalFullEquipmentMembers": 27,
+    "newWeakHP": 840,
+    "noBattlesInPreparation": true,
+    "oldWeakHP": 720,
+    "status": "PASS"
+  },
+  "scope": "Construction only before outcomes; phasesC0..C7onefactor, C4/C5/C6/C8tempo-range2x2, C9/C10aggregate references; no runtime balancing claim",
+  "files": {
+    "manifest.json": "f92a414d5d41fca4df0840118b98a4281d5aa214a3ac0c2f6ec6005d5a424a73",
+    "inputs.json": "84e0cc090370c01470e9ac17c65aace59a8e1ffb679bec09eda3ccb568c1a09b",
+    "seeds.json": "26268500ccc8e6a9af001f32aa369dd47062ca647ee1388ce7d25b334f2b1e02",
+    "fixture-manifest.json": "b4aa68845c6498a93b81a6ff70051f970721ba4bd0ddcdcdf08c41289f161058",
+    "prepared-pair0.json": "0c1be00eeae533dda15a7f5bb3ac8401f72ec82f47d426711160f6f6d72a95bc"
+  }
+}

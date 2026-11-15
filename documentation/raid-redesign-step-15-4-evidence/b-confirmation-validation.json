@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "rows": 18000,
+  "conditions": 18,
+  "models": [
+    "B_TWO_ANCHOR"
+  ],
+  "pairsPerCondition": 500,
+  "mirroredPairObservations": 9000,
+  "outcomes": {
+    "WIN": 10280,
+    "LOSS": 7720
+  },
+  "weakAliveChecks": 4000,
+  "rawGzipSha256": "9749b889207757642f37026db1f1aa6b9ee9f7d596ab6552dea839354a8f5ce8",
+  "rawUncompressedSha256": "a06e9594a1966aae33fbeee04008918428ec8f014c411ccc606b76e521ba0440",
+  "checks": [
+    "approved18CellMatrix",
+    "canonicalInputEquality",
+    "independentArchivedCanonicalFixtureEquality",
+    "causalPrefixPreservation",
+    "normalAppendMatchesNextCanonicalTeam",
+    "weak840HPDefaults",
+    "SHA256First48BE4500Seeds",
+    "pairSeedsAndMirrors",
+    "actualPreparedEffectsBridgeAndArchivedEffectMaps",
+    "actualEnemyPositions",
+    "actorNeutralComponentsFromBattleInit",
+    "npcWeightedFactoryHPAttackDefense",
+    "V3FourPointSkillsRowsProfiles",
+    "symmetricScoresAndTargets",
+    "achievedCalibrationScore",
+    "outcomesFromFinalHP",
+    "summaryPairScoresCIAndRounds"
+  ],
+  "limitations": [
+    "500 mirrored pairs per condition is exploration, not balance acceptance",
+    "Shared seeds across models/causal variants mean pooled observations are not independent",
+    "hashes cannot validate battle engine independently",
+    "no repeated-JVM reproducibility run in this screen",
+    "pointwise intervals are broad and not simultaneous"
+  ]
+}

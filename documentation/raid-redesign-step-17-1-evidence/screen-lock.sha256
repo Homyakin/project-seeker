@@ -1,0 +1,8 @@
+185626104bcd7d7548f4c522a50975b6c54272ee11d44f799fe9e8c304db6b85  documentation/raid-redesign-step-17-1-evidence/protocol.md
+97a7c59bd74cb96a8bd8a6013ae0f96acefb3bce1d1dd6e987a6276189dc7d36  documentation/raid-redesign-step-17-1-evidence/screen/protocol.json
+086faef1d230b0945a5375fb007cb3a567a33d48ab27df2bedeb397f6605e8b2  documentation/raid-redesign-step-17-1-evidence/screen-sources.tar.gz
+ff9aab05986439f2582dfc4d27d5443484bf134ad8eeb2c9eb89e04e71175ba4  game/src/test/java/ru/homyakin/seeker/game/battle/Step171ZombieCalibrationStudy.java
+2ed168fdba416fa034dd4b8b0680404b2351428cae0cb2da6ed28b090f73ba2c  game/src/test/java/ru/homyakin/seeker/game/battle/Step171ZombieCalibrationStudyTest.java
+8ed474034b18e8af13e5e41bba286f3a838290b02246026f6a3fcf22a1aaf99a  game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/ZombieHordeGenerator.java
+c262c07fd8aaea7fd02fafd82ed21ec902ede0f4994b66474ac7eb5d2e7ab3e9  game/src/test/java/ru/homyakin/seeker/game/event/raid/generator/ZombieEquipmentScalingTest.java
+d8dd1a8ed85586aa8570cdda5370997b6f4c9957d7ac6ff6b0837af75d65523d  game/src/test/java/ru/homyakin/seeker/game/event/raid/generator/RaidNpcCombatVersionTest.java

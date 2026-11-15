@@ -1,0 +1,222 @@
+{
+  "finalAcceptance": {
+    "equalContextWinRate": 0.3601851851851852,
+    "byTier": {
+      "BEGINNER": 0.21444444444444444,
+      "MID": 0.3666666666666666,
+      "STRONG": 0.49944444444444447
+    },
+    "passed": true
+  },
+  "cases": 401,
+  "battles": 8300,
+  "exactReplayBattles": 32,
+  "checkedSourceFiles": 223,
+  "protocolSha256": "a5b7e8d5cd14e468db556b5c606213b14fc1458f672eadcacc4300b6b567ac6e",
+  "rawSha256": "464faec93efd75af22b8304b4af19507adb065fff1ac32b9eaf2a478ed061ed6",
+  "replaySha256": "447b4b0f55d657d2deb29235bd2ab435d7d8b6f726a41df66b9796c5a15748e6",
+  "raids": {
+    "ZOMBIE_HORDE": {
+      "outcomes": {
+        "WIN": 2961,
+        "LOSS": 5339
+      },
+      "rounds": {
+        "count": 8300,
+        "min": 11,
+        "p50": 45,
+        "p95": 101,
+        "max": 146
+      },
+      "skills": {
+        "ENEMY:BERSERK": 0,
+        "ENEMY:BLEEDING": 0,
+        "ENEMY:DOUBLE_ATTACK": 0,
+        "ENEMY:HIT_AND_RUN": 0,
+        "ENEMY:SELF_HEAL": 29784,
+        "ENEMY:THORNS": 141992,
+        "PLAYER:BERSERK": 4352,
+        "PLAYER:BLEEDING": 1395,
+        "PLAYER:DOUBLE_ATTACK": 75408,
+        "PLAYER:HIT_AND_RUN": 0,
+        "PLAYER:SELF_HEAL": 1550,
+        "PLAYER:THORNS": 0
+      },
+      "skillsByKind": {
+        "ENEMY:SELF_HEAL:HEAL": 14892,
+        "ENEMY:SELF_HEAL:WINDOW": 14892,
+        "ENEMY:THORNS:SCALING_DIRECT_DAMAGE": 141992,
+        "PLAYER:BERSERK:WINDOW": 4352,
+        "PLAYER:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 75408,
+        "PLAYER:SELF_HEAL:HEAL": 775,
+        "PLAYER:SELF_HEAL:WINDOW": 775,
+        "PLAYER:BLEEDING:SCALING_PERIODIC_DAMAGE": 1034,
+        "PLAYER:BLEEDING:WINDOW": 361
+      },
+      "bossesDefeated": 2967,
+      "byLevel": {
+        "1": {
+          "WIN": 1727,
+          "LOSS": 33
+        },
+        "5": {
+          "LOSS": 24,
+          "WIN": 276
+        },
+        "10": {
+          "LOSS": 1202,
+          "WIN": 918
+        },
+        "15": {
+          "LOSS": 291,
+          "WIN": 9
+        },
+        "20": {
+          "LOSS": 300
+        },
+        "25": {
+          "LOSS": 2089,
+          "WIN": 31
+        },
+        "50": {
+          "LOSS": 1400
+        }
+      },
+      "byStyle": {
+        "MAIN": {
+          "WIN": 1724,
+          "LOSS": 2896
+        },
+        "SLASH_LEATHER": {
+          "WIN": 163,
+          "LOSS": 377
+        },
+        "SLASH_CLOTH": {
+          "WIN": 179,
+          "LOSS": 361
+        },
+        "PIERCE_LEATHER": {
+          "WIN": 175,
+          "LOSS": 365
+        },
+        "PIERCE_CLOTH": {
+          "WIN": 174,
+          "LOSS": 366
+        },
+        "CAUSAL_BASE": {
+          "LOSS": 95,
+          "WIN": 25
+        },
+        "CAUSAL_NORMAL_APPEND": {
+          "WIN": 28,
+          "LOSS": 92
+        },
+        "CAUSAL_WEAK_APPEND": {
+          "LOSS": 105,
+          "WIN": 15
+        },
+        "CAUSAL_ONE_ENHANCE": {
+          "LOSS": 95,
+          "WIN": 25
+        },
+        "CAUSAL_ONE_RARITY": {
+          "LOSS": 91,
+          "WIN": 29
+        },
+        "CAUSAL_UNEQUIP_ARMOR": {
+          "LOSS": 100,
+          "WIN": 20
+        },
+        "FULL_DEFAULTS": {
+          "WIN": 138,
+          "LOSS": 182
+        },
+        "RITUAL": {
+          "WIN": 143,
+          "LOSS": 97
+        },
+        "COMMAND_CUIRASS": {
+          "WIN": 123,
+          "LOSS": 117
+        }
+      },
+      "bySize": {
+        "1": {
+          "WIN": 451,
+          "LOSS": 993
+        },
+        "2": {
+          "WIN": 66,
+          "LOSS": 174
+        },
+        "3": {
+          "WIN": 1051,
+          "LOSS": 1293
+        },
+        "4": {
+          "WIN": 33,
+          "LOSS": 87
+        },
+        "7": {
+          "WIN": 169,
+          "LOSS": 251
+        },
+        "10": {
+          "WIN": 96,
+          "LOSS": 144
+        },
+        "11": {
+          "WIN": 89,
+          "LOSS": 151
+        },
+        "13": {
+          "WIN": 377,
+          "LOSS": 887
+        },
+        "14": {
+          "WIN": 116,
+          "LOSS": 308
+        },
+        "15": {
+          "WIN": 368,
+          "LOSS": 712
+        },
+        "30": {
+          "WIN": 145,
+          "LOSS": 339
+        }
+      },
+      "byFamily": {
+        "A_MAIN": {
+          "WIN": 1318,
+          "LOSS": 2162
+        },
+        "B_TYPES": {
+          "WIN": 691,
+          "LOSS": 1469
+        },
+        "D_EFFECTS": {
+          "WIN": 121,
+          "LOSS": 119
+        },
+        "E_CAUSAL": {
+          "LOSS": 578,
+          "WIN": 142
+        },
+        "F_DEFAULTS": {
+          "WIN": 138,
+          "LOSS": 182
+        },
+        "G_WORKABLE": {
+          "WIN": 266,
+          "LOSS": 214
+        },
+        "H_INTERMEDIATE": {
+          "LOSS": 615,
+          "WIN": 285
+        }
+      },
+      "largestRelativeError": 0.004282535802958565
+    }
+  }
+}

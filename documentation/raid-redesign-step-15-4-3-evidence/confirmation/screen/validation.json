@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "executions": 80000,
+  "modelConditions": 37,
+  "uniqueConditions": 34,
+  "seedRecords": 11000,
+  "pair0FullLogs": 74,
+  "outcomes": {
+    "WIN": 56336,
+    "LOSS": 23664
+  },
+  "rawGzipSHA256": "b755f354dc14195e99726c6301b68f1f51b7cd88025a0d7f47b52ba4b840d056",
+  "scope": "Owner streaming structural/numeric/summary audit; no new battles, no independent sampling or full balance acceptance"
+}

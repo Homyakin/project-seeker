@@ -45,6 +45,35 @@ public class PowerDependencyGuardTest {
     }
 
     @Test
+    public void equipmentPowerCoreCanOnlyBeUsedByTheDisplayWrapperAndPrivateBattleSnapshot() throws IOException {
+        final var consumers = filesContaining("EquipmentPowerCalculator");
+        consumers.remove("ru/homyakin/seeker/game/personage/power/EquipmentPowerCalculator.java");
+        Assertions.assertEquals(Set.of(
+            "ru/homyakin/seeker/game/battle/BattlePersonage.java",
+            "ru/homyakin/seeker/game/personage/power/ReferencePowerCalculator.java"
+        ), consumers);
+    }
+
+    @Test
+    public void onlyTheSharedRaidSumCanConsumeBattleEquipmentPower() throws IOException {
+        Assertions.assertEquals(Set.of(
+            "ru/homyakin/seeker/game/event/pve/PveEquipmentPowerSum.java"
+        ), filesContaining(".equipmentPowerUnscaled(", "::equipmentPowerUnscaled"));
+    }
+
+    @Test
+    public void onlyTheFourAgreedRaidsCanConsumeTheEquipmentPowerSum() throws IOException {
+        final var consumers = filesContaining("PveEquipmentPowerSum");
+        consumers.remove("ru/homyakin/seeker/game/event/pve/PveEquipmentPowerSum.java");
+        Assertions.assertEquals(Set.of(
+            "ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java",
+            "ru/homyakin/seeker/game/event/raid/generator/WolfPackGenerator.java",
+            "ru/homyakin/seeker/game/event/raid/generator/ZombieHordeGenerator.java",
+            "ru/homyakin/seeker/game/event/raid/generator/MaggeeseFlockGenerator.java"
+        ), consumers);
+    }
+
+    @Test
     public void referenceDisplayServiceHasOnlyPresentationAndActivationReadinessConsumers() throws IOException {
         Assertions.assertEquals(DISPLAY_SERVICE_CONSUMERS, filesContaining("PowerDisplayService"));
         Assertions.assertEquals(Set.of(

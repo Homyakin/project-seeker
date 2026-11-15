@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "purpose": "STATIC_SOURCE_CAUSAL_SCOPE_AUDIT_NO_JAVA_OR_BATTLES",
+  "assertions": 202,
+  "historicalGitFiles": 86,
+  "historicalClasspathJars": 79,
+  "sourceHashes": {
+    "BattlePersonage": "a67592b2d2f42c08c0c6878d87a3a4c6aced567b9492b5ea71834c201c060913",
+    "BattleContext": "7fe2d50af7217fd046d95295ec875a3ece91382fde8bb831396eaa6281c1c0f5",
+    "Battle": "1d62380531e1d32f32390d0f9f2dd83ec08a740cec2eb99a334f99ce610ed80d",
+    "VersionedBattleTurn": "8fcfa166ca95de56fe65e920492c60fe379483f50bb668463affe64050fea4c2",
+    "Myconid": "13fe6e9a0436c2f686c5b9923d8280b443aa668085fb97d89d30fa5b39e2dc43",
+    "PveTeamAssessment": "6ab3957062f028342f7a124f0bf10dec87876031d093ddba68977f5ac0e12cd2"
+  },
+  "conclusions": [
+    "C2 force common flag switches the global turn execution package, not merely reaction order or player skill values.",
+    "The package includes candidate selection, normal attack access, crit/dodge/damage random routing, threat accounting, legacy hook routing, periodic/cooldown/movement handling and turn-order random policy.",
+    "C3 player V3 removes old offensive rating contributions from target even before combat; new skill execution and induced calibration are not isolated by a single switch.",
+    "C4 NPC V3 removes old NPC rating contribution, potentially raising searched m for fixed target; knockback was already rated zero, precise old contribution is small, so no magnitude prediction follows.",
+    "C9 production Q is a package of metric/weights/correction/search isolation, not a pure metric switch.",
+    "Exact MAIN versus common projection changes both GUARD and battle_staff/staff+orb; it is not a pure GUARD effect."
+  ],
+  "limitations": [
+    "Static token checks verify routing/source invariants, not runtime branch coverage or a proof of winrate causation.",
+    "Observed damage/actions/initial geometry are still required; no battle output is inspected here.",
+    "Historical commit6150 includes declared RNG/iteration stabilization versus pre-instrumentation source."
+  ]
+}

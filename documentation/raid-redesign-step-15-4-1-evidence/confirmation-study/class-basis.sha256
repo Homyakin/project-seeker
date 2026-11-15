@@ -1,0 +1,8 @@
+8467ded66404c6e240c0d33c1ad6daae0669d14c0214b7a741903bfdbb979848  game/target/classes/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.class
+5d36e66b5470ab69e17efe4d1eb6ffb9f0d9e4fcac6d45bda2d08f3a0c57331f  game/target/classes/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator$Formation.class
+c77524ed783c9107a2b2c94aa16e505ec9fccedc99c92f40080d28be338f57e8  game/target/classes/ru/homyakin/seeker/game/event/pve/PveTeamAssessment.class
+e5e5ef008ce642e3e7b925f266dc0efe2787bdb841aab8e7a5582654e49a9ccf  game/target/classes/ru/homyakin/seeker/game/event/pve/PveCharacteristicScaling.class
+5ecd89e81c1b53ed868cf2a39adc7eece59a0e96b25c51c6b905a649bdf4ca5d  game/target/classes/ru/homyakin/seeker/game/battle/Battle.class
+9417197afe0b9fff8c09a32ada5e778bf1d66e393011b1780e51ac2175680750  game/target/classes/ru/homyakin/seeker/game/battle/BattlePersonage.class
+2a0a110175860f599735049a87b57bea43b1c67a97a8cceb4ac301b52b7e29b3  game/target/classes/ru/homyakin/seeker/game/battle/CombatRules.class
+a2cb05729bc2468ab0718b20e26a7e55896e4512ab1f348c435f5257cc786708  game/target/test-classes/ru/homyakin/seeker/game/battle/PveAdaptationStudy.class

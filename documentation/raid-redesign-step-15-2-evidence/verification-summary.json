@@ -1,0 +1,35 @@
+{
+  "status": "PASS_STRUCTURAL_AND_REPLAY_NOT_BALANCE_ACCEPTANCE",
+  "comparison": {
+    "status": "STRUCTURAL_RESULTS_NOT_BALANCE_ACCEPTANCE",
+    "historicalCases": 72,
+    "historicalBitExact": true,
+    "modernCases": 90,
+    "directCharacteristicExact": 90,
+    "runtimeCharacteristicExact": 90,
+    "maxima": {
+      "playerQRelativeDelta": 4.440892098500626e-16,
+      "directTargetRelativeDelta": 7.771561172376096e-16,
+      "runtimeTargetRelativeDelta": 7.771561172376096e-16,
+      "directNpcQRelativeDelta": 9.992007221626409e-16,
+      "runtimeNpcQRelativeDelta": 9.992007221626409e-16,
+      "directMultiplierDelta": 0,
+      "runtimeMultiplierDelta": 0
+    },
+    "nonexactCases": []
+  },
+  "replay": {
+    "status": "SEPARATE_JVM_COMBAT_REPLAY_EXACT_NOT_BALANCE_ACCEPTANCE",
+    "conditions": 12,
+    "battlesInOriginalRun": 24,
+    "battlesInVerificationRun": 24,
+    "independentObservationPolicy": "Verification repeats original seeded observations; do not count as 48 independent fights or a winrate sample",
+    "rawByteExact": false,
+    "canonicalByteExact": true,
+    "semanticChangesAllowed": "None; canonicalization orders only slots/availableOnSlots schema sets",
+    "rawA": "6444853859602fa87ea495ee2520c9d2b3cf2fb06ab750f923660e4cb5d91212",
+    "rawB": "42e922fd799918020991ac630ae314b1a64dbc32cd2344f3b465ba015bf17539",
+    "canonical": "299c33d6ca6cd62f0a071fb403af5fcd654020f15483e06080dbc2c3d61de5d4",
+    "timeouts": 0
+  }
+}

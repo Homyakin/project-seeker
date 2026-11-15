@@ -1,0 +1,351 @@
+{
+  "status": "CAUSAL_INPUTS_RAW_Q_AND_POINTWISE_INTERVALS_VALIDATED",
+  "rows": 21000,
+  "cases": 21,
+  "groups": 7,
+  "pairsPerCondition": 500,
+  "seedOffset": 2200000000,
+  "prefixRowsChecked": 14000,
+  "weakLiveRowsChecked": 7000,
+  "enhanceExactlyOneRowsChecked": 0,
+  "rarityExactlyOneRowsChecked": 0,
+  "weakItemCodes": [
+    "bandages",
+    "footcloths",
+    "leaky_pants",
+    "off-fists",
+    "panama",
+    "sword",
+    "torn_jacket"
+  ],
+  "comparisons": [
+    {
+      "groupId": 33,
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.835,
+      "variantWinrate": 0.787,
+      "delta": -0.048,
+      "ci95": [
+        -0.16947229238166103,
+        0.07347229238166103
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 33,
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.835,
+      "variantWinrate": 0.674,
+      "delta": -0.161,
+      "ci95": [
+        -0.28247229238166105,
+        -0.03952770761833897
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.498,
+      "variantWinrate": 0.386,
+      "delta": -0.112,
+      "ci95": [
+        -0.23347229238166103,
+        0.00947229238166103
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.498,
+      "variantWinrate": 0.299,
+      "delta": -0.199,
+      "ci95": [
+        -0.32047229238166103,
+        -0.07752770761833898
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.764,
+      "variantWinrate": 0.933,
+      "delta": 0.169,
+      "ci95": [
+        0.04752770761833898,
+        0.29047229238166106
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.764,
+      "variantWinrate": 0.592,
+      "delta": -0.172,
+      "ci95": [
+        -0.293472292381661,
+        -0.050527707618338955
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.756,
+      "variantWinrate": 0.705,
+      "delta": -0.051,
+      "ci95": [
+        -0.17247229238166104,
+        0.07047229238166103
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.756,
+      "variantWinrate": 0.422,
+      "delta": -0.334,
+      "ci95": [
+        -0.45547229238166104,
+        -0.212527707618339
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": true,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 57,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.895,
+      "variantWinrate": 0.806,
+      "delta": -0.089,
+      "ci95": [
+        -0.21047229238166104,
+        0.032472292381661036
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 57,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.895,
+      "variantWinrate": 0.76,
+      "delta": -0.135,
+      "ci95": [
+        -0.256472292381661,
+        -0.013527707618338977
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.535,
+      "variantWinrate": 0.485,
+      "delta": -0.05,
+      "ci95": [
+        -0.17147229238166103,
+        0.07147229238166103
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.535,
+      "variantWinrate": 0.35,
+      "delta": -0.185,
+      "ci95": [
+        -0.306472292381661,
+        -0.06352770761833897
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.772,
+      "variantWinrate": 0.793,
+      "delta": 0.021,
+      "ci95": [
+        -0.10047229238166103,
+        0.14247229238166104
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.772,
+      "variantWinrate": 0.536,
+      "delta": -0.236,
+      "ci95": [
+        -0.357472292381661,
+        -0.11452770761833896
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    }
+  ],
+  "timeouts": 0,
+  "majorPointSignals": [
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.756,
+      "variantWinrate": 0.422,
+      "delta": -0.334,
+      "ci95": [
+        -0.45547229238166104,
+        -0.212527707618339
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": true,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.772,
+      "variantWinrate": 0.536,
+      "delta": -0.236,
+      "ci95": [
+        -0.357472292381661,
+        -0.11452770761833896
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    }
+  ],
+  "confirmedMajorHarm": [
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 500,
+      "baseWinrate": 0.756,
+      "variantWinrate": 0.422,
+      "delta": -0.334,
+      "ci95": [
+        -0.45547229238166104,
+        -0.212527707618339
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": true,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": true
+    }
+  ]
+}

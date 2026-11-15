@@ -1,0 +1,13 @@
+{
+  "baselineRevision": "bd142e61a0aa2fc0e1b2117164ab4bc6fac29469",
+  "originalCalculatorSha256": "5117757af63560f487fe764e5e4b9b364d9ce88df18fd749c9b74abd15b0a368",
+  "method": "Compile the original calculator under another class name; compare the frozen reference equipment with the extracted core and independent range-enumeration test oracle",
+  "originalUnscaled": 301606.9212747105,
+  "extractedUnscaled": 301606.9212747105,
+  "independentOracleUnscaled": 301606.9212747105,
+  "exactDoubleBits": "4688925179917804353",
+  "exactHexDouble": "0x1.2689baf62a341p18",
+  "originalDisplayed": 1000.0,
+  "bitExactMatch": true,
+  "initialTestCorrection": "A newly added decimal golden was one ULP too high; only that test literal was replaced with the independently verified hexadecimal value"
+}

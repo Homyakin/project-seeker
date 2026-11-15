@@ -1,0 +1,10 @@
+4e555a97764f35f368f3f87f820fe0222f9938af63c1c3f4b15e2e1325dcbbdf  documentation/raid-redesign-steps-16-18-evidence/protocol.md
+a4a42dbc67455d8510d42bf2539ff09cb3207e261bcf1216102932eef0bdc66c  documentation/raid-redesign-steps-16-18-evidence/validate.mjs
+f3d4261cacf93eef53bf0d3a7c9ab6c53cdace66e8a3b9e9dfae7dc56f08bdf2  documentation/raid-redesign-steps-16-18-evidence/run/protocol.json
+7ce858ac75ccb36bc1d34a4c5a6f20ea3249755b08aa8880928aa9849f7acd65  documentation/raid-redesign-steps-16-18-evidence/baseline-classes.tar.gz
+d4d7cbb2260a59495035e5366e7827addb4f3c62c92e2ba403c6d5429f9d3dac  documentation/raid-redesign-steps-16-18-evidence/historical-compatibility.json
+35f6b832f9d59062bde8f345197b95498681013b690d278b867a79a2b164f1d9  documentation/raid-redesign-steps-16-18-evidence/clean-package.log
+bf6a54565bc1a2f821b34b6aef884ba18b37660d01f075464c387d97bdca6bcb  game/src/test/java/ru/homyakin/seeker/game/battle/Step1618RaidValidationStudy.java
+ff14ec0e50de0528bbb929ddf4f0c69d8e644ae26f8fe2bf777a9492c16c1244  game/src/test/java/ru/homyakin/seeker/game/battle/Step1618RaidValidationStudyTest.java
+45acfc9b1865cb6b1ca10bd9b7b1ccc8263c837d889a7cab968239d08b29b349  game/src/test/java/ru/homyakin/seeker/game/battle/RaidHistoricalCompatibilityStudy.java
+7a41dd0622f9e127c6e91cb4b93a9351f146a2f7393b141d6104bac35f5ec1be  game/src/main/java/ru/homyakin/seeker/game/event/pve/PveEquipmentPowerSum.java

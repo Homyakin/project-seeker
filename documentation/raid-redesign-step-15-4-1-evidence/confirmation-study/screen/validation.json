@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "rows": 24000,
+  "conditions": 12,
+  "models": [
+    "SAME",
+    "CROSS"
+  ],
+  "pairsPerModelCondition": 500,
+  "outcomes": {
+    "WIN": 10583,
+    "LOSS": 13417
+  },
+  "sourceFrozenBeforeOutcomes": true,
+  "modelIdentityChecks": 12000,
+  "playerPrefixChecks": 12000,
+  "countertwinsExactChecks": 12000,
+  "weak840Checks": 2000,
+  "identicalInputCounterModelBattleChecks": 4000,
+  "maxSameCrossTargetProductRelativeDelta": 1.6625389998537482e-16,
+  "rawGzipSha256": "056050671b53a779f712fc44fbf920f49780d8473bb59bb27d9f433c78102f7f",
+  "rawJsonlSha256": "92f894baa5bdc50e55a41026fbc9b67bbbad02010f34d7d2f43321b061fba8a9",
+  "checks": [
+    "12FrozenInputs1500SHA48Seeds",
+    "SortedNeutralComponentsFromActualInit",
+    "SAME/CROSSAnchorRatioTargets",
+    "ClosedformNoRowWeightsHpAtkFixedDEF707/309",
+    "IntegerRoundingBounds",
+    "V3ExactlyFourSkillPoints",
+    "UniqueUUIDsAnd48bitUnitSeeds",
+    "ModelAndCountertwinsNPCIdentitiesGauges",
+    "FullPlayerPrefixExceptExpectedAbsoluteFieldIndexShift",
+    "ExactCounter2x2TargetsAndNPCsAtN3AndN4",
+    "AllConfirmationBattlesHaveNoEffects_ConstructionOnlyEffectBridge",
+    "FinalHPOutcomes",
+    "PairSummaryAndIntervals"
+  ],
+  "limitations": [
+    "Fixed last500pair confirmation, not universal balance acceptance",
+    "Mirrors and common model/variant cohorts are correlated",
+    "No new JVM replay or independent combat-engine implementation",
+    "Two inferential families each95percent separately; no joint95percent claim"
+  ]
+}

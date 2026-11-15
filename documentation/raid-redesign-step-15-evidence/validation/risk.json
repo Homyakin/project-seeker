@@ -1,0 +1,36 @@
+{
+  "directory": "/tmp/seeker-step15-package.tDJ8Np/artifacts/runs/risk",
+  "phase": "GUARD_RISK_077",
+  "suite": "causal",
+  "cases": 4,
+  "pairsPerCase": 500,
+  "battles": 4000,
+  "outcomes": {
+    "LOSS": 2728,
+    "WIN": 1272
+  },
+  "rawSha256": "121122e43ed4fa2c5da0887fd9faf30703bd0dd18fd28439a8fdf69ac6822e23",
+  "uncompressedSha256": "51433c4eb86b821f0f246e1d6066d724749a3ce1d8f812b9974a63292b21ff0a",
+  "parameters": {
+    "guardian": {
+      "attack": 70,
+      "defense": 160,
+      "health": 420
+    },
+    "slinger": {
+      "attack": 130,
+      "defense": 70,
+      "health": 280
+    },
+    "correction": 0.77,
+    "g": "LOG4",
+    "origin": "EXPLICIT_HISTORICAL_PHASE_PROFILE"
+  },
+  "warnings": [],
+  "valid": true,
+  "exactReplay": null,
+  "limitations": [
+    "Action and trace digests are checked for presence/format; full logs are not stored.",
+    "Sampling results are not a requirement that all compositions win 50% of their fights."
+  ]
+}

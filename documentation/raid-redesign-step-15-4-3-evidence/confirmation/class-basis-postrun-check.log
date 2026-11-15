@@ -1,0 +1,4 @@
+game/target/classes/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.class: OK
+game/target/classes/ru/homyakin/seeker/game/event/pve/PveTeamAssessment.class: OK
+game/target/test-classes/ru/homyakin/seeker/game/battle/MyconidAdaptationStudy.class: OK
+game/target/test-classes/ru/homyakin/seeker/game/battle/PveAdaptationStudy.class: OK

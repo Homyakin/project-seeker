@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "rows": 6000,
+  "conditions": 50,
+  "models": [
+    "SAME",
+    "CROSS"
+  ],
+  "pairsPerModelCondition": 30,
+  "outcomes": {
+    "WIN": 2423,
+    "LOSS": 3577
+  },
+  "sourceFrozenBeforeOutcomes": true,
+  "modelIdentityChecks": 3000,
+  "playerPrefixChecks": 2400,
+  "countertwinsExactChecks": 420,
+  "weak840Checks": 1440,
+  "identicalInputCounterModelBattleChecks": 240,
+  "maxSameCrossTargetProductRelativeDelta": 2.4469525974145126e-16,
+  "rawGzipSha256": "618cf6f483d3503b19b340dd4712a7c652a310f005d6561f93a9b0a1292ca444",
+  "rawJsonlSha256": "ac73a325903d80f2b860d255a80c8b86fdb2cac21281253353bf5a33708eabb4",
+  "checks": [
+    "50FrozenInputs780SHA48Seeds",
+    "SortedNeutralComponentsFromActualInit",
+    "SAME/CROSSAnchorRatioTargets",
+    "ClosedformNoRowWeightsHpAtkFixedDEF707/309",
+    "IntegerRoundingBounds",
+    "V3ExactlyFourSkillPoints",
+    "UniqueUUIDsAnd48bitUnitSeeds",
+    "ModelAndCountertwinsNPCIdentitiesGauges",
+    "FullPlayerPrefixExceptExpectedAbsoluteFieldIndexShift",
+    "ExactCounter2x2TargetsAndNPCs",
+    "ActualEffects",
+    "FinalHPOutcomes",
+    "PairSummaryAndIntervals"
+  ],
+  "limitations": [
+    "30pairs per condition is exploration, not balance acceptance",
+    "Mirrors and common model/variant cohorts are correlated",
+    "No new JVM replay or independent combat-engine implementation"
+  ]
+}

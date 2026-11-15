@@ -1,0 +1,253 @@
+20:13:11,748 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+20:13:11,749 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - Here is a list of configurators discovered as a service, by rank: 
+20:13:11,749 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+20:13:11,749 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+20:13:11,749 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+20:13:11,750 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+20:13:11,750 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+20:13:11,751 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+20:13:11,751 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+20:13:11,751 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+20:13:11,751 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+20:13:11,751 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+20:13:11,752 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+20:13:11,752 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+20:13:11,752 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+20:13:11,816 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+20:13:11,816 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+20:13:11,844 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+20:13:11,844 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+20:13:11,844 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+20:13:11,844 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+20:13:11,844 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+20:13:11,844 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+20:13:11,844 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+20:13:11,844 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+20:13:11,844 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@68f4865 - End of configuration.
+20:13:11,845 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@4816278d - Registering current configuration as safe fallback point
+20:13:11,845 |-INFO in ch.qos.logback.classic.util.ContextInitializer@5717c37 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 93 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+done=1 BASELINE case1 ORDINARY BASE
+done=2 BLEND_B case1 ORDINARY BASE
+done=3 BLEND_T case1 ORDINARY BASE
+done=4 BASELINE case2 ORDINARY NORMAL_APPEND
+done=5 BLEND_B case2 ORDINARY NORMAL_APPEND
+done=6 BLEND_T case2 ORDINARY NORMAL_APPEND
+done=7 BASELINE case3 ORDINARY WEAK_APPEND
+done=8 BLEND_B case3 ORDINARY WEAK_APPEND
+done=9 BLEND_T case3 ORDINARY WEAK_APPEND
+done=10 BASELINE case4 ORDINARY BASE
+done=11 BLEND_B case4 ORDINARY BASE
+done=12 BLEND_T case4 ORDINARY BASE
+done=13 BASELINE case5 ORDINARY NORMAL_APPEND
+done=14 BLEND_B case5 ORDINARY NORMAL_APPEND
+done=15 BLEND_T case5 ORDINARY NORMAL_APPEND
+done=16 BASELINE case6 ORDINARY WEAK_APPEND
+done=17 BLEND_B case6 ORDINARY WEAK_APPEND
+done=18 BLEND_T case6 ORDINARY WEAK_APPEND
+done=19 BASELINE case7 ORDINARY BASE
+done=20 BLEND_B case7 ORDINARY BASE
+done=21 BLEND_T case7 ORDINARY BASE
+done=22 BASELINE case8 ORDINARY NORMAL_APPEND
+done=23 BLEND_B case8 ORDINARY NORMAL_APPEND
+done=24 BLEND_T case8 ORDINARY NORMAL_APPEND
+done=25 BASELINE case9 ORDINARY WEAK_APPEND
+done=26 BLEND_B case9 ORDINARY WEAK_APPEND
+done=27 BLEND_T case9 ORDINARY WEAK_APPEND
+done=28 BASELINE case10 ORDINARY BASE
+done=29 BLEND_B case10 ORDINARY BASE
+done=30 BLEND_T case10 ORDINARY BASE
+done=31 BASELINE case11 ORDINARY NORMAL_APPEND
+done=32 BLEND_B case11 ORDINARY NORMAL_APPEND
+done=33 BLEND_T case11 ORDINARY NORMAL_APPEND
+done=34 BASELINE case12 ORDINARY WEAK_APPEND
+done=35 BLEND_B case12 ORDINARY WEAK_APPEND
+done=36 BLEND_T case12 ORDINARY WEAK_APPEND
+done=37 BASELINE case13 STRONG_FILLERS BASE
+done=38 BLEND_B case13 STRONG_FILLERS BASE
+done=39 BLEND_T case13 STRONG_FILLERS BASE
+done=40 BASELINE case14 STRONG_FILLERS FILLERS_N2
+done=41 BLEND_B case14 STRONG_FILLERS FILLERS_N2
+done=42 BLEND_T case14 STRONG_FILLERS FILLERS_N2
+done=43 BASELINE case15 STRONG_FILLERS FILLERS_N3
+done=44 BLEND_B case15 STRONG_FILLERS FILLERS_N3
+done=45 BLEND_T case15 STRONG_FILLERS FILLERS_N3
+done=46 BASELINE case16 STRONG_FILLERS FILLERS_N7
+done=47 BLEND_B case16 STRONG_FILLERS FILLERS_N7
+done=48 BLEND_T case16 STRONG_FILLERS FILLERS_N7
+done=49 BASELINE case17 STRONG_FILLERS FILLERS_N15
+done=50 BLEND_B case17 STRONG_FILLERS FILLERS_N15
+done=51 BLEND_T case17 STRONG_FILLERS FILLERS_N15
+done=52 BASELINE case18 STRONG_FILLERS FILLERS_N30
+done=53 BLEND_B case18 STRONG_FILLERS FILLERS_N30
+done=54 BLEND_T case18 STRONG_FILLERS FILLERS_N30
+done=55 BASELINE case19 STRONG_FILLERS BASE
+done=56 BLEND_B case19 STRONG_FILLERS BASE
+done=57 BLEND_T case19 STRONG_FILLERS BASE
+done=58 BASELINE case20 STRONG_FILLERS FILLERS_N2
+done=59 BLEND_B case20 STRONG_FILLERS FILLERS_N2
+done=60 BLEND_T case20 STRONG_FILLERS FILLERS_N2
+done=61 BASELINE case21 STRONG_FILLERS FILLERS_N3
+done=62 BLEND_B case21 STRONG_FILLERS FILLERS_N3
+done=63 BLEND_T case21 STRONG_FILLERS FILLERS_N3
+done=64 BASELINE case22 STRONG_FILLERS FILLERS_N7
+done=65 BLEND_B case22 STRONG_FILLERS FILLERS_N7
+done=66 BLEND_T case22 STRONG_FILLERS FILLERS_N7
+done=67 BASELINE case23 STRONG_FILLERS FILLERS_N15
+done=68 BLEND_B case23 STRONG_FILLERS FILLERS_N15
+done=69 BLEND_T case23 STRONG_FILLERS FILLERS_N15
+done=70 BASELINE case24 STRONG_FILLERS FILLERS_N30
+done=71 BLEND_B case24 STRONG_FILLERS FILLERS_N30
+done=72 BLEND_T case24 STRONG_FILLERS FILLERS_N30
+done=73 BASELINE case25 STRONG_FILLERS BASE
+done=74 BLEND_B case25 STRONG_FILLERS BASE
+done=75 BLEND_T case25 STRONG_FILLERS BASE
+done=76 BASELINE case26 STRONG_FILLERS FILLERS_N2
+done=77 BLEND_B case26 STRONG_FILLERS FILLERS_N2
+done=78 BLEND_T case26 STRONG_FILLERS FILLERS_N2
+done=79 BASELINE case27 STRONG_FILLERS FILLERS_N3
+done=80 BLEND_B case27 STRONG_FILLERS FILLERS_N3
+done=81 BLEND_T case27 STRONG_FILLERS FILLERS_N3
+done=82 BASELINE case28 STRONG_FILLERS FILLERS_N7
+done=83 BLEND_B case28 STRONG_FILLERS FILLERS_N7
+done=84 BLEND_T case28 STRONG_FILLERS FILLERS_N7
+done=85 BASELINE case29 STRONG_FILLERS FILLERS_N15
+done=86 BLEND_B case29 STRONG_FILLERS FILLERS_N15
+done=87 BLEND_T case29 STRONG_FILLERS FILLERS_N15
+done=88 BASELINE case30 STRONG_FILLERS FILLERS_N30
+done=89 BLEND_B case30 STRONG_FILLERS FILLERS_N30
+done=90 BLEND_T case30 STRONG_FILLERS FILLERS_N30
+done=91 BASELINE case31 STRONG_FILLERS_HIGH BASE
+done=92 BLEND_B case31 STRONG_FILLERS_HIGH BASE
+done=93 BLEND_T case31 STRONG_FILLERS_HIGH BASE
+done=94 BASELINE case32 STRONG_FILLERS_HIGH FILLERS_N30
+done=95 BLEND_B case32 STRONG_FILLERS_HIGH FILLERS_N30
+done=96 BLEND_T case32 STRONG_FILLERS_HIGH FILLERS_N30
+done=97 BASELINE case33 STRONG_FILLERS_HIGH BASE
+done=98 BLEND_B case33 STRONG_FILLERS_HIGH BASE
+done=99 BLEND_T case33 STRONG_FILLERS_HIGH BASE
+done=100 BASELINE case34 STRONG_FILLERS_HIGH FILLERS_N30
+done=101 BLEND_B case34 STRONG_FILLERS_HIGH FILLERS_N30
+done=102 BLEND_T case34 STRONG_FILLERS_HIGH FILLERS_N30
+done=103 BASELINE case35 STRONG_FILLERS_HIGH BASE
+done=104 BLEND_B case35 STRONG_FILLERS_HIGH BASE
+done=105 BLEND_T case35 STRONG_FILLERS_HIGH BASE
+done=106 BASELINE case36 STRONG_FILLERS_HIGH FILLERS_N30
+done=107 BLEND_B case36 STRONG_FILLERS_HIGH FILLERS_N30
+done=108 BLEND_T case36 STRONG_FILLERS_HIGH FILLERS_N30
+done=109 BASELINE case37 WEAK_ONLY BASE
+done=110 BLEND_B case37 WEAK_ONLY BASE
+done=111 BLEND_T case37 WEAK_ONLY BASE
+done=112 BASELINE case38 WEAK_ONLY WEAK_N2
+done=113 BLEND_B case38 WEAK_ONLY WEAK_N2
+done=114 BLEND_T case38 WEAK_ONLY WEAK_N2
+done=115 BASELINE case39 WEAK_ONLY WEAK_N3
+done=116 BLEND_B case39 WEAK_ONLY WEAK_N3
+done=117 BLEND_T case39 WEAK_ONLY WEAK_N3
+done=118 BASELINE case40 WEAK_ONLY WEAK_N7
+done=119 BLEND_B case40 WEAK_ONLY WEAK_N7
+done=120 BLEND_T case40 WEAK_ONLY WEAK_N7
+done=121 BASELINE case41 WEAK_ONLY WEAK_N15
+done=122 BLEND_B case41 WEAK_ONLY WEAK_N15
+done=123 BLEND_T case41 WEAK_ONLY WEAK_N15
+done=124 BASELINE case42 WEAK_ONLY WEAK_N30
+done=125 BLEND_B case42 WEAK_ONLY WEAK_N30
+done=126 BLEND_T case42 WEAK_ONLY WEAK_N30
+done=127 BASELINE case43 WEAK_ONLY BASE
+done=128 BLEND_B case43 WEAK_ONLY BASE
+done=129 BLEND_T case43 WEAK_ONLY BASE
+done=130 BASELINE case44 WEAK_ONLY WEAK_N2
+done=131 BLEND_B case44 WEAK_ONLY WEAK_N2
+done=132 BLEND_T case44 WEAK_ONLY WEAK_N2
+done=133 BASELINE case45 WEAK_ONLY WEAK_N3
+done=134 BLEND_B case45 WEAK_ONLY WEAK_N3
+done=135 BLEND_T case45 WEAK_ONLY WEAK_N3
+done=136 BASELINE case46 WEAK_ONLY WEAK_N7
+done=137 BLEND_B case46 WEAK_ONLY WEAK_N7
+done=138 BLEND_T case46 WEAK_ONLY WEAK_N7
+done=139 BASELINE case47 WEAK_ONLY WEAK_N15
+done=140 BLEND_B case47 WEAK_ONLY WEAK_N15
+done=141 BLEND_T case47 WEAK_ONLY WEAK_N15
+done=142 BASELINE case48 WEAK_ONLY WEAK_N30
+done=143 BLEND_B case48 WEAK_ONLY WEAK_N30
+done=144 BLEND_T case48 WEAK_ONLY WEAK_N30
+done=145 BASELINE case49 COUNTER_TWINS BASE
+done=146 BLEND_B case49 COUNTER_TWINS BASE
+done=147 BLEND_T case49 COUNTER_TWINS BASE
+done=148 BASELINE case50 COUNTER_TWINS NORMAL_APPEND
+done=149 BLEND_B case50 COUNTER_TWINS NORMAL_APPEND
+done=150 BLEND_T case50 COUNTER_TWINS NORMAL_APPEND
+done=151 BASELINE case51 COUNTER_TWINS BASE
+done=152 BLEND_B case51 COUNTER_TWINS BASE
+done=153 BLEND_T case51 COUNTER_TWINS BASE
+done=154 BASELINE case52 COUNTER_TWINS NORMAL_APPEND
+done=155 BLEND_B case52 COUNTER_TWINS NORMAL_APPEND
+done=156 BLEND_T case52 COUNTER_TWINS NORMAL_APPEND
+done=157 BASELINE case53 COUNTER_TWINS BASE
+done=158 BLEND_B case53 COUNTER_TWINS BASE
+done=159 BLEND_T case53 COUNTER_TWINS BASE
+done=160 BASELINE case54 COUNTER_TWINS NORMAL_APPEND
+done=161 BLEND_B case54 COUNTER_TWINS NORMAL_APPEND
+done=162 BLEND_T case54 COUNTER_TWINS NORMAL_APPEND
+done=163 BASELINE case55 COUNTER_TWINS BASE
+done=164 BLEND_B case55 COUNTER_TWINS BASE
+done=165 BLEND_T case55 COUNTER_TWINS BASE
+done=166 BASELINE case56 COUNTER_TWINS NORMAL_APPEND
+done=167 BLEND_B case56 COUNTER_TWINS NORMAL_APPEND
+done=168 BLEND_T case56 COUNTER_TWINS NORMAL_APPEND
+done=169 BASELINE case57 MAIN_LARGE ACTUAL_N7
+done=170 BLEND_B case57 MAIN_LARGE ACTUAL_N7
+done=171 BLEND_T case57 MAIN_LARGE ACTUAL_N7
+done=172 BASELINE case58 MAIN_LARGE ACTUAL_N8
+done=173 BLEND_B case58 MAIN_LARGE ACTUAL_N8
+done=174 BLEND_T case58 MAIN_LARGE ACTUAL_N8
+done=175 BASELINE case59 MAIN_LARGE ACTUAL_N15
+done=176 BLEND_B case59 MAIN_LARGE ACTUAL_N15
+done=177 BLEND_T case59 MAIN_LARGE ACTUAL_N15
+done=178 BASELINE case60 MAIN_LARGE ACTUAL_N30
+done=179 BLEND_B case60 MAIN_LARGE ACTUAL_N30
+done=180 BLEND_T case60 MAIN_LARGE ACTUAL_N30
+done=181 BASELINE case61 MAIN_LARGE ACTUAL_N8
+done=182 BLEND_B case61 MAIN_LARGE ACTUAL_N8
+done=183 BLEND_T case61 MAIN_LARGE ACTUAL_N8
+done=184 BASELINE case62 MAIN_LARGE ACTUAL_N30
+done=185 BLEND_B case62 MAIN_LARGE ACTUAL_N30
+done=186 BLEND_T case62 MAIN_LARGE ACTUAL_N30
+done=187 BASELINE case63 CONFIRMED_N8 BASE
+done=188 BLEND_B case63 CONFIRMED_N8 BASE
+done=189 BLEND_T case63 CONFIRMED_N8 BASE
+done=190 BASELINE case64 CONFIRMED_N8 WEAK_APPEND
+done=191 BLEND_B case64 CONFIRMED_N8 WEAK_APPEND
+done=192 BLEND_T case64 CONFIRMED_N8 WEAK_APPEND
+done=193 BASELINE case65 STRIPPED STRIP_MAIN_WEAPON
+done=194 BLEND_B case65 STRIPPED STRIP_MAIN_WEAPON
+done=195 BLEND_T case65 STRIPPED STRIP_MAIN_WEAPON
+done=196 BASELINE case66 STRIPPED STRIP_BODY
+done=197 BLEND_B case66 STRIPPED STRIP_BODY
+done=198 BLEND_T case66 STRIPPED STRIP_BODY
+done=199 BASELINE case67 STRIPPED STRIP_MAIN_WEAPON
+done=200 BLEND_B case67 STRIPPED STRIP_MAIN_WEAPON
+done=201 BLEND_T case67 STRIPPED STRIP_MAIN_WEAPON
+done=202 BASELINE case68 STRIPPED STRIP_BODY
+done=203 BLEND_B case68 STRIPPED STRIP_BODY
+done=204 BLEND_T case68 STRIPPED STRIP_BODY
+done=205 BASELINE case69 STRIPPED STRIP_MAIN_WEAPON
+done=206 BLEND_B case69 STRIPPED STRIP_MAIN_WEAPON
+done=207 BLEND_T case69 STRIPPED STRIP_MAIN_WEAPON
+done=208 BASELINE case70 STRIPPED STRIP_BODY
+done=209 BLEND_B case70 STRIPPED STRIP_BODY
+done=210 BLEND_T case70 STRIPPED STRIP_BODY
+done=211 BASELINE case71 FIXED_NPC BASE
+done=212 BASELINE case72 FIXED_NPC WEAK_APPEND
+done=213 BASELINE case73 MIXED_TIERS BASE
+done=214 BLEND_B case73 MIXED_TIERS BASE
+done=215 BLEND_T case73 MIXED_TIERS BASE
+done=216 BASELINE case74 MIXED_TIERS NORMAL_APPEND
+done=217 BLEND_B case74 MIXED_TIERS NORMAL_APPEND
+done=218 BLEND_T case74 MIXED_TIERS NORMAL_APPEND
+done=219 BASELINE case75 SWORD_CONTINUITY SWORD_PLUS0
+done=220 BLEND_B case75 SWORD_CONTINUITY SWORD_PLUS0
+done=221 BLEND_T case75 SWORD_CONTINUITY SWORD_PLUS0
+done=222 BASELINE case76 SWORD_CONTINUITY SWORD_PLUS1
+done=223 BLEND_B case76 SWORD_CONTINUITY SWORD_PLUS1
+done=224 BLEND_T case76 SWORD_CONTINUITY SWORD_PLUS1

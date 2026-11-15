@@ -1,0 +1,18 @@
+{
+  "battleRoot" : 7026110815300,
+  "catalog" : "SCALING_V5",
+  "confidencePolicy" : "Pointwise 95% Hoeffding on pairs; difference range [-1,1]; no simultaneous guarantee",
+  "firstMemberPolicy" : "Always inputFor(style,STRONG,size=1), never regenerated as a larger main/counter team",
+  "generationRoot" : 6026110815300,
+  "levels" : [ 15 ],
+  "pairPolicy" : "Fresh battle objects per mirror; two orders are one independent pair; common seeds across sizes",
+  "pairs" : 500,
+  "purpose" : "APPEND_ONLY_LIVE_WEAK_MEMBERS_NOT_EQUAL_COST_OR_UNIVERSAL_BALANCE",
+  "seedOffset" : 1000000000,
+  "seedPolicy" : "ROOT + offset + fixedStyleIndex*1000000 + level*10000 + pair; size deliberately absent",
+  "sizes" : [ 1, 2, 30 ],
+  "skills" : "SCALING_SKILLS_V3",
+  "styles" : [ "PIERCE_ARCANE" ],
+  "tempo" : "ACCELERATED_V1",
+  "weakPolicy" : "Original weakWithDefaults helper; common +0 sword plus six defaults; exactly 840 HP and seven slots"
+}

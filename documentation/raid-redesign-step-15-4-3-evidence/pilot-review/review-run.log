@@ -1,0 +1,808 @@
+{
+  "checks": 117621,
+  "rows": 11200,
+  "modelConditions": 224,
+  "immutableModelExecutions": 1800,
+  "outcomes": {
+    "WIN": 4748,
+    "LOSS": 6452,
+    "DRAW": 0,
+    "TIMEOUT": 0
+  },
+  "worst": {
+    "BASELINE": -0.5,
+    "BLEND_B": -0.48,
+    "BLEND_T": 0
+  },
+  "weakCore": [
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 13,
+        "groupId": 5,
+        "family": "STRONG_FILLERS",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 5,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 14,
+        "groupId": 5,
+        "family": "STRONG_FILLERS",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 5,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.6,
+      "appendWinrate": 0.42,
+      "delta": -0.18,
+      "descriptivePointwise95Hoeffding": [
+        -0.7232406062962478,
+        0.3632406062962478
+      ]
+    },
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 19,
+        "groupId": 6,
+        "family": "STRONG_FILLERS",
+        "style": "PIERCE_ARCANE",
+        "tier": "STRONG",
+        "level": 15,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 20,
+        "groupId": 6,
+        "family": "STRONG_FILLERS",
+        "style": "PIERCE_ARCANE",
+        "tier": "STRONG",
+        "level": 15,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.54,
+      "appendWinrate": 0.1,
+      "delta": -0.44,
+      "descriptivePointwise95Hoeffding": [
+        -0.9832406062962478,
+        0.10324060629624782
+      ]
+    },
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 25,
+        "groupId": 7,
+        "family": "STRONG_FILLERS",
+        "style": "RITUAL",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 26,
+        "groupId": 7,
+        "family": "STRONG_FILLERS",
+        "style": "RITUAL",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.5,
+      "appendWinrate": 0,
+      "delta": -0.5,
+      "descriptivePointwise95Hoeffding": [
+        -1,
+        0.04324060629624782
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 13,
+        "groupId": 5,
+        "family": "STRONG_FILLERS",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 5,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 14,
+        "groupId": 5,
+        "family": "STRONG_FILLERS",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 5,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.6,
+      "appendWinrate": 0.72,
+      "delta": 0.12,
+      "descriptivePointwise95Hoeffding": [
+        -0.4232406062962478,
+        0.6632406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 19,
+        "groupId": 6,
+        "family": "STRONG_FILLERS",
+        "style": "PIERCE_ARCANE",
+        "tier": "STRONG",
+        "level": 15,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 20,
+        "groupId": 6,
+        "family": "STRONG_FILLERS",
+        "style": "PIERCE_ARCANE",
+        "tier": "STRONG",
+        "level": 15,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.54,
+      "appendWinrate": 0.44,
+      "delta": -0.1,
+      "descriptivePointwise95Hoeffding": [
+        -0.6432406062962478,
+        0.44324060629624784
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 25,
+        "groupId": 7,
+        "family": "STRONG_FILLERS",
+        "style": "RITUAL",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 26,
+        "groupId": 7,
+        "family": "STRONG_FILLERS",
+        "style": "RITUAL",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.5,
+      "appendWinrate": 0.02,
+      "delta": -0.48,
+      "descriptivePointwise95Hoeffding": [
+        -1,
+        0.06324060629624784
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 13,
+        "groupId": 5,
+        "family": "STRONG_FILLERS",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 5,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 14,
+        "groupId": 5,
+        "family": "STRONG_FILLERS",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 5,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.6,
+      "appendWinrate": 0.92,
+      "delta": 0.32,
+      "descriptivePointwise95Hoeffding": [
+        -0.2232406062962478,
+        0.8632406062962479
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 19,
+        "groupId": 6,
+        "family": "STRONG_FILLERS",
+        "style": "PIERCE_ARCANE",
+        "tier": "STRONG",
+        "level": 15,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 20,
+        "groupId": 6,
+        "family": "STRONG_FILLERS",
+        "style": "PIERCE_ARCANE",
+        "tier": "STRONG",
+        "level": 15,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.54,
+      "appendWinrate": 0.88,
+      "delta": 0.34,
+      "descriptivePointwise95Hoeffding": [
+        -0.2032406062962478,
+        0.8832406062962479
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 25,
+        "groupId": 7,
+        "family": "STRONG_FILLERS",
+        "style": "RITUAL",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "BASE",
+        "N": 1
+      },
+      "append": {
+        "id": 26,
+        "groupId": 7,
+        "family": "STRONG_FILLERS",
+        "style": "RITUAL",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "FILLERS_N2",
+        "N": 2
+      },
+      "baseWinrate": 0.5,
+      "appendWinrate": 0.5,
+      "delta": 0,
+      "descriptivePointwise95Hoeffding": [
+        -0.5432406062962478,
+        0.5432406062962478
+      ]
+    }
+  ],
+  "ordinary": [
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 1,
+        "groupId": 1,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 20,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 2,
+        "groupId": 1,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 20,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.92,
+      "appendWinrate": 0.76,
+      "delta": -0.16,
+      "descriptivePointwise95Hoeffding": [
+        -0.7032406062962478,
+        0.3832406062962478
+      ]
+    },
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 4,
+        "groupId": 2,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 25,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 5,
+        "groupId": 2,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 25,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.32,
+      "appendWinrate": 0.3,
+      "delta": -0.02,
+      "descriptivePointwise95Hoeffding": [
+        -0.5632406062962478,
+        0.5232406062962478
+      ]
+    },
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 7,
+        "groupId": 3,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 20,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 8,
+        "groupId": 3,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 20,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.96,
+      "appendWinrate": 0.82,
+      "delta": -0.14,
+      "descriptivePointwise95Hoeffding": [
+        -0.6832406062962478,
+        0.4032406062962478
+      ]
+    },
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 10,
+        "groupId": 4,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 11,
+        "groupId": 4,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.58,
+      "appendWinrate": 0.56,
+      "delta": -0.02,
+      "descriptivePointwise95Hoeffding": [
+        -0.5632406062962478,
+        0.5232406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 1,
+        "groupId": 1,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 20,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 2,
+        "groupId": 1,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 20,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 1,
+      "appendWinrate": 0.92,
+      "delta": -0.08,
+      "descriptivePointwise95Hoeffding": [
+        -0.6232406062962478,
+        0.4632406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 4,
+        "groupId": 2,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 25,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 5,
+        "groupId": 2,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 25,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.72,
+      "appendWinrate": 0.7,
+      "delta": -0.02,
+      "descriptivePointwise95Hoeffding": [
+        -0.5632406062962478,
+        0.5232406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 7,
+        "groupId": 3,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 20,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 8,
+        "groupId": 3,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 20,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 1,
+      "appendWinrate": 0.98,
+      "delta": -0.02,
+      "descriptivePointwise95Hoeffding": [
+        -0.5632406062962478,
+        0.5232406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 10,
+        "groupId": 4,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 11,
+        "groupId": 4,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.82,
+      "appendWinrate": 0.68,
+      "delta": -0.14,
+      "descriptivePointwise95Hoeffding": [
+        -0.6832406062962478,
+        0.4032406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 1,
+        "groupId": 1,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 20,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 2,
+        "groupId": 1,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 20,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 1,
+      "appendWinrate": 0.92,
+      "delta": -0.08,
+      "descriptivePointwise95Hoeffding": [
+        -0.6232406062962478,
+        0.4632406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 4,
+        "groupId": 2,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 25,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 5,
+        "groupId": 2,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 25,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.8,
+      "appendWinrate": 0.76,
+      "delta": -0.04,
+      "descriptivePointwise95Hoeffding": [
+        -0.5832406062962479,
+        0.5032406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 7,
+        "groupId": 3,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 20,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 8,
+        "groupId": 3,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 20,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.94,
+      "appendWinrate": 1,
+      "delta": 0.06,
+      "descriptivePointwise95Hoeffding": [
+        -0.4832406062962478,
+        0.6032406062962479
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 10,
+        "groupId": 4,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "BASE",
+        "N": 3
+      },
+      "append": {
+        "id": 11,
+        "groupId": 4,
+        "family": "ORDINARY",
+        "style": "MAIN",
+        "tier": "STRONG",
+        "level": 25,
+        "variant": "NORMAL_APPEND",
+        "N": 4
+      },
+      "baseWinrate": 0.84,
+      "appendWinrate": 0.74,
+      "delta": -0.1,
+      "descriptivePointwise95Hoeffding": [
+        -0.6432406062962478,
+        0.44324060629624784
+      ]
+    }
+  ],
+  "n8": [
+    {
+      "rule": "BASELINE",
+      "base": {
+        "id": 63,
+        "groupId": 16,
+        "family": "CONFIRMED_N8",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 30,
+        "variant": "BASE",
+        "N": 8
+      },
+      "append": {
+        "id": 64,
+        "groupId": 16,
+        "family": "CONFIRMED_N8",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 30,
+        "variant": "WEAK_APPEND",
+        "N": 9
+      },
+      "baseWinrate": 0.78,
+      "appendWinrate": 0.46,
+      "delta": -0.32,
+      "descriptivePointwise95Hoeffding": [
+        -0.8632406062962479,
+        0.2232406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_B",
+      "base": {
+        "id": 63,
+        "groupId": 16,
+        "family": "CONFIRMED_N8",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 30,
+        "variant": "BASE",
+        "N": 8
+      },
+      "append": {
+        "id": 64,
+        "groupId": 16,
+        "family": "CONFIRMED_N8",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 30,
+        "variant": "WEAK_APPEND",
+        "N": 9
+      },
+      "baseWinrate": 0.96,
+      "appendWinrate": 0.78,
+      "delta": -0.18,
+      "descriptivePointwise95Hoeffding": [
+        -0.7232406062962478,
+        0.3632406062962478
+      ]
+    },
+    {
+      "rule": "BLEND_T",
+      "base": {
+        "id": 63,
+        "groupId": 16,
+        "family": "CONFIRMED_N8",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 30,
+        "variant": "BASE",
+        "N": 8
+      },
+      "append": {
+        "id": 64,
+        "groupId": 16,
+        "family": "CONFIRMED_N8",
+        "style": "MAIN",
+        "tier": "MID",
+        "level": 30,
+        "variant": "WEAK_APPEND",
+        "N": 9
+      },
+      "baseWinrate": 0.92,
+      "appendWinrate": 0.98,
+      "delta": 0.06,
+      "descriptivePointwise95Hoeffding": [
+        -0.4832406062962478,
+        0.6032406062962479
+      ]
+    }
+  ],
+  "stripped": [
+    {
+      "rule": "BASELINE",
+      "style": "MAIN",
+      "full": 0.42,
+      "weaponRemoved": 0.08,
+      "bodyRemoved": 0.44
+    },
+    {
+      "rule": "BASELINE",
+      "style": "PIERCE_ARCANE",
+      "full": 0.1,
+      "weaponRemoved": 0,
+      "bodyRemoved": 0.18
+    },
+    {
+      "rule": "BASELINE",
+      "style": "RITUAL",
+      "full": 0,
+      "weaponRemoved": 0,
+      "bodyRemoved": 0.12
+    },
+    {
+      "rule": "BLEND_B",
+      "style": "MAIN",
+      "full": 0.72,
+      "weaponRemoved": 0.2,
+      "bodyRemoved": 0.66
+    },
+    {
+      "rule": "BLEND_B",
+      "style": "PIERCE_ARCANE",
+      "full": 0.44,
+      "weaponRemoved": 0.08,
+      "bodyRemoved": 0.24
+    },
+    {
+      "rule": "BLEND_B",
+      "style": "RITUAL",
+      "full": 0.02,
+      "weaponRemoved": 0,
+      "bodyRemoved": 0.12
+    },
+    {
+      "rule": "BLEND_T",
+      "style": "MAIN",
+      "full": 0.92,
+      "weaponRemoved": 0.46,
+      "bodyRemoved": 0.8
+    },
+    {
+      "rule": "BLEND_T",
+      "style": "PIERCE_ARCANE",
+      "full": 0.88,
+      "weaponRemoved": 0.18,
+      "bodyRemoved": 0.5
+    },
+    {
+      "rule": "BLEND_T",
+      "style": "RITUAL",
+      "full": 0.5,
+      "weaponRemoved": 0,
+      "bodyRemoved": 0.28
+    }
+  ]
+}

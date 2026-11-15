@@ -1,0 +1,5594 @@
+{
+  "status": "CAUSAL_INPUTS_RAW_Q_AND_POINTWISE_INTERVALS_VALIDATED",
+  "rows": 14400,
+  "cases": 360,
+  "groups": 72,
+  "pairsPerCondition": 20,
+  "seedOffset": 2100000000,
+  "prefixRowsChecked": 5760,
+  "weakLiveRowsChecked": 2880,
+  "enhanceExactlyOneRowsChecked": 2880,
+  "rarityExactlyOneRowsChecked": 2880,
+  "weakItemCodes": [
+    "bandages",
+    "footcloths",
+    "leaky_pants",
+    "off-fists",
+    "panama",
+    "sword",
+    "torn_jacket"
+  ],
+  "comparisons": [
+    {
+      "groupId": 1,
+      "tier": "MID",
+      "size": 1,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 1,
+      "delta": 0.125,
+      "ci95": [
+        -0.4823614619083052,
+        0.7323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 1,
+      "tier": "MID",
+      "size": 1,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 0.95,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 1,
+      "tier": "MID",
+      "size": 1,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 0.875,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 1,
+      "tier": "MID",
+      "size": 1,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 0.875,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 2,
+      "tier": "MID",
+      "size": 1,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.575,
+      "delta": 0.525,
+      "ci95": [
+        -0.08236146190830518,
+        1
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 2,
+      "tier": "MID",
+      "size": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 2,
+      "tier": "MID",
+      "size": 1,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.125,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 2,
+      "tier": "MID",
+      "size": 1,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.05,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 3,
+      "tier": "MID",
+      "size": 2,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 3,
+      "tier": "MID",
+      "size": 2,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 3,
+      "tier": "MID",
+      "size": 2,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 3,
+      "tier": "MID",
+      "size": 2,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 4,
+      "tier": "MID",
+      "size": 2,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.8,
+      "variantWinrate": 1,
+      "delta": 0.2,
+      "ci95": [
+        -0.4073614619083052,
+        0.8073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 4,
+      "tier": "MID",
+      "size": 2,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.8,
+      "variantWinrate": 0.875,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 4,
+      "tier": "MID",
+      "size": 2,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.8,
+      "variantWinrate": 0.775,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 4,
+      "tier": "MID",
+      "size": 2,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.8,
+      "variantWinrate": 0.8,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 5,
+      "tier": "MID",
+      "size": 3,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 5,
+      "tier": "MID",
+      "size": 3,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 5,
+      "tier": "MID",
+      "size": 3,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 5,
+      "tier": "MID",
+      "size": 3,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 6,
+      "tier": "MID",
+      "size": 3,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 6,
+      "tier": "MID",
+      "size": 3,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 6,
+      "tier": "MID",
+      "size": 3,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 6,
+      "tier": "MID",
+      "size": 3,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 7,
+      "tier": "MID",
+      "size": 7,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 7,
+      "tier": "MID",
+      "size": 7,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 7,
+      "tier": "MID",
+      "size": 7,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 7,
+      "tier": "MID",
+      "size": 7,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 8,
+      "tier": "MID",
+      "size": 7,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 8,
+      "tier": "MID",
+      "size": 7,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 8,
+      "tier": "MID",
+      "size": 7,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 8,
+      "tier": "MID",
+      "size": 7,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 9,
+      "tier": "MID",
+      "size": 8,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 9,
+      "tier": "MID",
+      "size": 8,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 9,
+      "tier": "MID",
+      "size": 8,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 9,
+      "tier": "MID",
+      "size": 8,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 10,
+      "tier": "MID",
+      "size": 8,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 10,
+      "tier": "MID",
+      "size": 8,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 10,
+      "tier": "MID",
+      "size": 8,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 10,
+      "tier": "MID",
+      "size": 8,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 11,
+      "tier": "MID",
+      "size": 15,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 11,
+      "tier": "MID",
+      "size": 15,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 11,
+      "tier": "MID",
+      "size": 15,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 11,
+      "tier": "MID",
+      "size": 15,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 12,
+      "tier": "MID",
+      "size": 15,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 12,
+      "tier": "MID",
+      "size": 15,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 12,
+      "tier": "MID",
+      "size": 15,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 12,
+      "tier": "MID",
+      "size": 15,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 13,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 1,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 13,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 0.875,
+      "delta": -0.1,
+      "ci95": [
+        -0.7073614619083052,
+        0.5073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 13,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 0.975,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 13,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 0.975,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 14,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.075,
+      "variantWinrate": 0.85,
+      "delta": 0.775,
+      "ci95": [
+        0.16763853809169482,
+        1
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 14,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.075,
+      "variantWinrate": 0.05,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 14,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.075,
+      "variantWinrate": 0.075,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 14,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.075,
+      "variantWinrate": 0.075,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 15,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 15,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 15,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 15,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 16,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 1,
+      "delta": 0.175,
+      "ci95": [
+        -0.4323614619083052,
+        0.7823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 16,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 1,
+      "delta": 0.175,
+      "ci95": [
+        -0.4323614619083052,
+        0.7823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 16,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.825,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 16,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.85,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 17,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 17,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 17,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 17,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 18,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 18,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 18,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 18,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 19,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 19,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 19,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 19,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 20,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 20,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 20,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 20,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 21,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 21,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 21,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 21,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 22,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 22,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 22,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 22,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 23,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 1,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 23,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 23,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 1,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 23,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 1,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 24,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 10,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 24,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 24,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 10,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 24,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 10,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 25,
+      "tier": "MID",
+      "size": 1,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.075,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 25,
+      "tier": "MID",
+      "size": 1,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 25,
+      "tier": "MID",
+      "size": 1,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 25,
+      "tier": "MID",
+      "size": 1,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 26,
+      "tier": "MID",
+      "size": 1,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.025,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 26,
+      "tier": "MID",
+      "size": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 26,
+      "tier": "MID",
+      "size": 1,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 26,
+      "tier": "MID",
+      "size": 1,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 27,
+      "tier": "MID",
+      "size": 1,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 27,
+      "tier": "MID",
+      "size": 1,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 27,
+      "tier": "MID",
+      "size": 1,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 27,
+      "tier": "MID",
+      "size": 1,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 28,
+      "tier": "MID",
+      "size": 1,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 28,
+      "tier": "MID",
+      "size": 1,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 28,
+      "tier": "MID",
+      "size": 1,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 28,
+      "tier": "MID",
+      "size": 1,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 29,
+      "tier": "MID",
+      "size": 2,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.225,
+      "variantWinrate": 0.85,
+      "delta": 0.625,
+      "ci95": [
+        0.0176385380916948,
+        1
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 29,
+      "tier": "MID",
+      "size": 2,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.225,
+      "variantWinrate": 0.325,
+      "delta": 0.1,
+      "ci95": [
+        -0.5073614619083052,
+        0.7073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 29,
+      "tier": "MID",
+      "size": 2,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.225,
+      "variantWinrate": 0.225,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 29,
+      "tier": "MID",
+      "size": 2,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.225,
+      "variantWinrate": 0.225,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 30,
+      "tier": "MID",
+      "size": 2,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.5,
+      "delta": 0.5,
+      "ci95": [
+        -0.1073614619083052,
+        1
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 30,
+      "tier": "MID",
+      "size": 2,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.125,
+      "delta": 0.125,
+      "ci95": [
+        -0.4823614619083052,
+        0.7323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 30,
+      "tier": "MID",
+      "size": 2,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 30,
+      "tier": "MID",
+      "size": 2,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 31,
+      "tier": "MID",
+      "size": 2,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.075,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 31,
+      "tier": "MID",
+      "size": 2,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.025,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 31,
+      "tier": "MID",
+      "size": 2,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 31,
+      "tier": "MID",
+      "size": 2,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 32,
+      "tier": "MID",
+      "size": 2,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 32,
+      "tier": "MID",
+      "size": 2,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 32,
+      "tier": "MID",
+      "size": 2,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 32,
+      "tier": "MID",
+      "size": 2,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 33,
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.775,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 33,
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.675,
+      "delta": -0.15,
+      "ci95": [
+        -0.7573614619083052,
+        0.4573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 33,
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.8,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 33,
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.825,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.6,
+      "variantWinrate": 0.5,
+      "delta": -0.1,
+      "ci95": [
+        -0.7073614619083052,
+        0.5073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.6,
+      "variantWinrate": 0.35,
+      "delta": -0.25,
+      "ci95": [
+        -0.8573614619083052,
+        0.3573614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.6,
+      "variantWinrate": 0.6,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.6,
+      "variantWinrate": 0.6,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 35,
+      "tier": "MID",
+      "size": 3,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.15,
+      "variantWinrate": 0.125,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 35,
+      "tier": "MID",
+      "size": 3,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.15,
+      "variantWinrate": 0.05,
+      "delta": -0.1,
+      "ci95": [
+        -0.7073614619083052,
+        0.5073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 35,
+      "tier": "MID",
+      "size": 3,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.15,
+      "variantWinrate": 0.125,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 35,
+      "tier": "MID",
+      "size": 3,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.15,
+      "variantWinrate": 0.15,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 36,
+      "tier": "MID",
+      "size": 3,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 36,
+      "tier": "MID",
+      "size": 3,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 36,
+      "tier": "MID",
+      "size": 3,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 36,
+      "tier": "MID",
+      "size": 3,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 37,
+      "tier": "MID",
+      "size": 7,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.975,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 37,
+      "tier": "MID",
+      "size": 7,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.875,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 37,
+      "tier": "MID",
+      "size": 7,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.925,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 37,
+      "tier": "MID",
+      "size": 7,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.925,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.95,
+      "delta": 0.125,
+      "ci95": [
+        -0.4823614619083052,
+        0.7323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.575,
+      "delta": -0.25,
+      "ci95": [
+        -0.8573614619083052,
+        0.3573614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.775,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.825,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 39,
+      "tier": "MID",
+      "size": 7,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.475,
+      "variantWinrate": 0.85,
+      "delta": 0.375,
+      "ci95": [
+        -0.2323614619083052,
+        0.9823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 39,
+      "tier": "MID",
+      "size": 7,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.475,
+      "variantWinrate": 0.4,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 39,
+      "tier": "MID",
+      "size": 7,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.475,
+      "variantWinrate": 0.525,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 39,
+      "tier": "MID",
+      "size": 7,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.475,
+      "variantWinrate": 0.475,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 40,
+      "tier": "MID",
+      "size": 7,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 40,
+      "tier": "MID",
+      "size": 7,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 40,
+      "tier": "MID",
+      "size": 7,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0.025,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 40,
+      "tier": "MID",
+      "size": 7,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0.025,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 41,
+      "tier": "MID",
+      "size": 8,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 41,
+      "tier": "MID",
+      "size": 8,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 41,
+      "tier": "MID",
+      "size": 8,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 41,
+      "tier": "MID",
+      "size": 8,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 42,
+      "tier": "MID",
+      "size": 8,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.95,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 42,
+      "tier": "MID",
+      "size": 8,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.85,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 42,
+      "tier": "MID",
+      "size": 8,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.925,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 42,
+      "tier": "MID",
+      "size": 8,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.925,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.825,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.4,
+      "delta": -0.425,
+      "ci95": [
+        -1,
+        0.1823614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.725,
+      "delta": -0.1,
+      "ci95": [
+        -0.7073614619083052,
+        0.5073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.825,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 44,
+      "tier": "MID",
+      "size": 8,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.075,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 44,
+      "tier": "MID",
+      "size": 8,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.025,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 44,
+      "tier": "MID",
+      "size": 8,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 44,
+      "tier": "MID",
+      "size": 8,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 45,
+      "tier": "MID",
+      "size": 15,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 45,
+      "tier": "MID",
+      "size": 15,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 45,
+      "tier": "MID",
+      "size": 15,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 45,
+      "tier": "MID",
+      "size": 15,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 46,
+      "tier": "MID",
+      "size": 15,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.95,
+      "variantWinrate": 0.975,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 46,
+      "tier": "MID",
+      "size": 15,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.95,
+      "variantWinrate": 0.875,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 46,
+      "tier": "MID",
+      "size": 15,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.95,
+      "variantWinrate": 0.95,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 46,
+      "tier": "MID",
+      "size": 15,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.95,
+      "variantWinrate": 0.95,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 47,
+      "tier": "MID",
+      "size": 15,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.75,
+      "variantWinrate": 0.825,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 47,
+      "tier": "MID",
+      "size": 15,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.75,
+      "variantWinrate": 0.8,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 47,
+      "tier": "MID",
+      "size": 15,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.75,
+      "variantWinrate": 0.775,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 47,
+      "tier": "MID",
+      "size": 15,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.75,
+      "variantWinrate": 0.75,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 48,
+      "tier": "MID",
+      "size": 15,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 48,
+      "tier": "MID",
+      "size": 15,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.05,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 48,
+      "tier": "MID",
+      "size": 15,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.05,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 48,
+      "tier": "MID",
+      "size": 15,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.05,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 49,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.05,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 49,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 49,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 49,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 50,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 50,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 50,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 50,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 51,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 51,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 51,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 51,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 52,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 52,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 52,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 52,
+      "tier": "STRONG",
+      "size": 1,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 53,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.825,
+      "delta": 0.725,
+      "ci95": [
+        0.11763853809169478,
+        1
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 53,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.375,
+      "delta": 0.275,
+      "ci95": [
+        -0.3323614619083052,
+        0.8823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 53,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 53,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.15,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 54,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0.525,
+      "delta": 0.5,
+      "ci95": [
+        -0.1073614619083052,
+        1
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": true,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 54,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0.075,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 54,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0.025,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 54,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.025,
+      "variantWinrate": 0.025,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 55,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.175,
+      "delta": 0.175,
+      "ci95": [
+        -0.4323614619083052,
+        0.7823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 55,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.025,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 55,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 55,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 56,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 56,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 56,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 56,
+      "tier": "STRONG",
+      "size": 2,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 57,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.9,
+      "variantWinrate": 0.825,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 57,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.9,
+      "variantWinrate": 0.75,
+      "delta": -0.15,
+      "ci95": [
+        -0.7573614619083052,
+        0.4573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 57,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.9,
+      "variantWinrate": 0.9,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 57,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.9,
+      "variantWinrate": 0.9,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.5,
+      "variantWinrate": 0.475,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.5,
+      "variantWinrate": 0.275,
+      "delta": -0.225,
+      "ci95": [
+        -0.8323614619083052,
+        0.3823614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.5,
+      "variantWinrate": 0.5,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.5,
+      "variantWinrate": 0.575,
+      "delta": 0.075,
+      "ci95": [
+        -0.5323614619083052,
+        0.6823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 59,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.25,
+      "variantWinrate": 0.075,
+      "delta": -0.175,
+      "ci95": [
+        -0.7823614619083052,
+        0.4323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 59,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.25,
+      "variantWinrate": 0.175,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 59,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.25,
+      "variantWinrate": 0.225,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 59,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.25,
+      "variantWinrate": 0.275,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 60,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 60,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 60,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 60,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 61,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 1,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 61,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 0.925,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 61,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 0.975,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 61,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.975,
+      "variantWinrate": 1,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 62,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.975,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 62,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.75,
+      "delta": -0.175,
+      "ci95": [
+        -0.7823614619083052,
+        0.4323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 62,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.925,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 62,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.925,
+      "variantWinrate": 0.975,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 63,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.45,
+      "variantWinrate": 0.75,
+      "delta": 0.3,
+      "ci95": [
+        -0.3073614619083052,
+        0.9073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 63,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.45,
+      "variantWinrate": 0.45,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 63,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.45,
+      "variantWinrate": 0.5,
+      "delta": 0.05,
+      "ci95": [
+        -0.5573614619083052,
+        0.6573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 63,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.45,
+      "variantWinrate": 0.55,
+      "delta": 0.1,
+      "ci95": [
+        -0.5073614619083052,
+        0.7073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 64,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0.1,
+      "delta": 0.1,
+      "ci95": [
+        -0.5073614619083052,
+        0.7073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 64,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 64,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 64,
+      "tier": "STRONG",
+      "size": 7,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0,
+      "variantWinrate": 0,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 65,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 65,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 65,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 65,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 66,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 1,
+      "delta": 0.125,
+      "ci95": [
+        -0.4823614619083052,
+        0.7323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 66,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 0.875,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 66,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 0.85,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 66,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.875,
+      "variantWinrate": 0.875,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.775,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.475,
+      "delta": -0.375,
+      "ci95": [
+        -0.9823614619083052,
+        0.2323614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.75,
+      "delta": -0.1,
+      "ci95": [
+        -0.7073614619083052,
+        0.5073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.85,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 68,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.075,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 68,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.025,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 68,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.025,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 68,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.05,
+      "variantWinrate": 0.025,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 69,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 69,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 69,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 20,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 69,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 20,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 70,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 70,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 0.975,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 70,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 25,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 70,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 25,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 1,
+      "variantWinrate": 1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 71,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 30,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.975,
+      "delta": 0.125,
+      "ci95": [
+        -0.4823614619083052,
+        0.7323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 71,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.8,
+      "delta": -0.05,
+      "ci95": [
+        -0.6573614619083052,
+        0.5573614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 71,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 30,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.875,
+      "delta": 0.025,
+      "ci95": [
+        -0.5823614619083052,
+        0.6323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 71,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 30,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.85,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 72,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.025,
+      "delta": -0.075,
+      "ci95": [
+        -0.6823614619083052,
+        0.5323614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 72,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 72,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 40,
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.075,
+      "delta": -0.025,
+      "ci95": [
+        -0.6323614619083052,
+        0.5823614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 72,
+      "tier": "STRONG",
+      "size": 15,
+      "level": 40,
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "pairs": 20,
+      "baseWinrate": 0.1,
+      "variantWinrate": 0.1,
+      "delta": 0,
+      "ci95": [
+        -0.6073614619083052,
+        0.6073614619083052
+      ],
+      "pointMajorHarm": false,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    }
+  ],
+  "timeouts": 0,
+  "majorPointSignals": [
+    {
+      "groupId": 34,
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.6,
+      "variantWinrate": 0.35,
+      "delta": -0.25,
+      "ci95": [
+        -0.8573614619083052,
+        0.3573614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 38,
+      "tier": "MID",
+      "size": 7,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.575,
+      "delta": -0.25,
+      "ci95": [
+        -0.8573614619083052,
+        0.3573614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 43,
+      "tier": "MID",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.825,
+      "variantWinrate": 0.4,
+      "delta": -0.425,
+      "ci95": [
+        -1,
+        0.1823614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 58,
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.5,
+      "variantWinrate": 0.275,
+      "delta": -0.225,
+      "ci95": [
+        -0.8323614619083052,
+        0.3823614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    },
+    {
+      "groupId": 67,
+      "tier": "STRONG",
+      "size": 8,
+      "level": 30,
+      "variant": "WEAK_APPEND",
+      "pairs": 20,
+      "baseWinrate": 0.85,
+      "variantWinrate": 0.475,
+      "delta": -0.375,
+      "ci95": [
+        -0.9823614619083052,
+        0.2323614619083052
+      ],
+      "pointMajorHarm": true,
+      "confirmedMajorHarm": false,
+      "majorHarmRuledOutPointwise": false,
+      "harmBelowZero": false
+    }
+  ],
+  "confirmedMajorHarm": []
+}

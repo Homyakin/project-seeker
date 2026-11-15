@@ -1,0 +1,5 @@
+015324b0a91ab5bda1a4a0f8900b29aa424a7c387ffaf908f6f6635d08445101  game/src/test/java/ru/homyakin/seeker/game/battle/MyconidAdaptationStudy.java
+87ec106931915c9f626525e0219e3f8432a2d39dea891ee53e4b526395eac560  game/src/test/java/ru/homyakin/seeker/game/battle/PveAdaptationStudy.java
+dd61974a1fcb78053341617eda99b8cd0f94e57821de65d5462b28ed40522936  game/src/test/java/ru/homyakin/seeker/game/battle/Step123ReferenceTeams.java
+13fe6e9a0436c2f686c5b9923d8280b443aa668085fb97d89d30fa5b39e2dc43  game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java
+6ab3957062f028342f7a124f0bf10dec87876031d093ddba68977f5ac0e12cd2  game/src/main/java/ru/homyakin/seeker/game/event/pve/PveTeamAssessment.java

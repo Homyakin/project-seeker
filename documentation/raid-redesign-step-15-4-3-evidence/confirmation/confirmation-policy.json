@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-08",
+  "purpose": "ONE_FRESH_CONFIRMATION_OF_TARGET_ONLY_BLEND_T_PROJECT_NOT_IMPLEMENTATION_OR_FULL_BALANCE_ACCEPTANCE",
+  "selection": "Independent audits of all 11200 pilot executions recommend BLEND_T. BLEND_B retained a 48 percentage-point RITUAL weak-append penalty and is not confirmed. Pilot outcomes are not pooled into fresh estimates.",
+  "pilotRawSHA256": "90305838c4e6f8b28d37b574141dc3f5d3b5aef06694a9e22b2d7c02d0a08f21",
+  "pilotHelperSHA256": "29804e3355279d65147c91e6c71b0fc0231b2070fce80b62603cbcebfc3deaf9",
+  "formula": "Same frozen BLEND_T: p_i=H_i*D_i; Q=sum(H_i)*sum(D_i); T=max_k k*k*p_desc(k); F=Q/2+min(T,Q)/2; discount=F/Q. Same exact solo/uniform/zero/finite/ULP policies. Original NPC Q, factories, constants, multiplication order, combat and inputs unchanged.",
+  "productionScope": "User requested checked project first. No production implementation, target rebuild, database, release activation, enhancement-curve change, commit or push.",
+  "casesReferTo": "Frozen pilot inputs.json original case IDs and group IDs, with full exact members preserved",
+  "allocations": [
+    {"rules": ["BLEND_T"], "caseIds": [13,14,19,20,25,26], "pairs": 1000, "executions": 12000, "purpose": "three original strong-solo/weak-append risks"},
+    {"rules": ["BASELINE"], "caseIds": [14,20,26], "pairs": 1000, "executions": 6000, "purpose": "paired direct improvement over unchanged current weak-append target; solo is exactly shared"},
+    {"rules": ["BLEND_T"], "caseIds": [1,2,3,4,5,6,7,8,9,10,11,12], "pairs": 1500, "executions": 36000, "purpose": "actual ordinary MAIN base/normal/weak, MID/STRONG, levels20/25"},
+    {"rules": ["BLEND_T"], "caseIds": [63,64], "pairs": 1500, "executions": 6000, "purpose": "confirmed actual eight-person base and weak append at level30"},
+    {"rules": ["BLEND_T"], "caseIds": [65,66,67,68,69,70], "pairs": 1000, "executions": 12000, "purpose": "six real weapon/body stripping guards paired with original full weak-append cases"},
+    {"rules": ["BLEND_T"], "caseIds": [49,50,51,52,53,54,55,56], "pairs": 500, "executions": 8000, "purpose": "four numerically identical counter-type twins at N3/N4"}
+  ],
+  "uniqueConditions": 34,
+  "modelConditions": 37,
+  "totalMirroredPairs": 40000,
+  "totalExecutions": 80000,
+  "seedRecords": 11000,
+  "seedGroups": {"1":1500,"2":1500,"3":1500,"4":1500,"5":1000,"6":1000,"7":1000,"13":500,"16":1500},
+  "generationNamespace": "MYCONID-15.4.3-HETEROGENEITY-CONFIRM-GEN-20261108-v1",
+  "battleNamespace": "MYCONID-15.4.3-HETEROGENEITY-CONFIRM-BATTLE-20261108-v1",
+  "npcNamespace": "MYCONID-15.4.3-HETEROGENEITY-CONFIRM-NPC-20261108-v1",
+  "seedPolicy": "SHA256(namespace+'/'+groupId+'/'+pair), first48bits big-endian. Same roots across compared rules/variants. Fresh namespaces, disjoint from pilot. NPC namespace recorded but unused: no FIXED_NPC conditions in confirmation.",
+  "samplingUnit": "Mean win score of two freshly constructed mirrored executions, WIN=1/DRAW=.5/LOSS=0. Pair contrasts retain shared random streams. TIMEOUT is explicit, not LOSS; report incomplete pairs and do not claim confirmation for an affected comparison.",
+  "primaryFamily": {
+    "K": 11,
+    "alpha": 0.05,
+    "comparisons": [
+      "BLEND_T14-13", "BLEND_T20-19", "BLEND_T26-25",
+      "BLEND_T14-BASELINE14", "BLEND_T20-BASELINE20", "BLEND_T26-BASELINE26",
+      "BLEND_T2-1", "BLEND_T5-4", "BLEND_T8-7", "BLEND_T11-10",
+      "BLEND_T64-63"
+    ],
+    "interval": "Simultaneous two-sided95percent Hoeffding: every paired difference has support[-1,1], halfwidth=sqrt(2*ln(2*K/alpha)/n), clipped to[-1,1]. Shared exact solo cancels from improvement, so this is NOT a four-score difference with support[-2,2].",
+    "projectCriteria": "Lower bounds of the three candidate weak deltas, four ordinary normal-append deltas and N8 weak delta must exceed -.20; lower bounds of all three direct candidate-current improvements must exceed0. These are risk-specific project checks, not a universal monotonic-ally rule or 50/50 target. Failure is reported as negative or inconclusive, with no formula/sample adjustment."
+  },
+  "secondaryFamily": {
+    "K": 20,
+    "alpha": 0.05,
+    "stripping": ["65-14","66-14","67-20","68-20","69-26","70-26"],
+    "counterSimple": ["49-53","51-55","49-51","53-55","50-54","52-56","50-52","54-56"],
+    "counterExtreme": ["49-55","50-56"],
+    "weakInsteadOfOrdinary": ["3-2","6-5","9-8","12-11"],
+    "interval": "Same simultaneous two-sided95percent Hoeffding with K20 and each comparison's frozen n. This secondary family is separate from primary; no joint95percent claim across both families or all game content.",
+    "interpretation": "Stripping upper<+.20 excludes a large advantage only in six tested strips, not every item exploit. Both extreme counter contrasts lower>0 support preserved useful type choice; the eight individual contrasts are reported even when uncertain, not forced to all be equal or individually significant. Weak-vs-normal contrasts quantify a known cost of the correction, with no invented universal dominance rule; repeated large weak preference is explicitly disclosed as a project tradeoff, not hidden by stripping tests."
+  },
+  "knownPilotCosts": [
+    "Ordinary heterogeneous groups become easier in absolute terms; pilot MID25 base32to80percent and STRONG25 base58to84percent. Do not call this unchanged difficulty.",
+    "A weak ally can outperform the ordinary fourth fighter under this matching; disclose fresh contrasts rather than claiming only removal of a penalty.",
+    "Large-group and upper-level guards remain descriptive25-pair pilot evidence. This confirmation does not certify the whole level progression or all participant counts.",
+    "Mass additions may still reduce win rate and some skill/geometry/counter-specific disadvantages remain; no claim that every ally always helps."
+  ],
+  "prebattleRequirement": "Freeze separate confirmation helper/source inputs/prepared samples/manifest/seeds and this policy before execution; independent read-only preflight ACK required. Do not modify frozen pilot artifacts.",
+  "stopping": "Exactly one run of these80000 executions. No extension, seed replacement, coefficient adjustment, third candidate, extra level search or pooling with pilot after outcomes. Last substantive work is independent raw/result review; show project to user before any15.5 implementation."
+}

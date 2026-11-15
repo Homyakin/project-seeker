@@ -7,8 +7,11 @@ import java.util.Set;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveFormation;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
+import ru.homyakin.seeker.game.event.pve.GeneratedPveEnemies;
+import ru.homyakin.seeker.game.event.pve.PveCharacteristicScaling;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.Item;
 import ru.homyakin.seeker.game.item.models.ItemAttack;
@@ -17,6 +20,7 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 /**
@@ -39,15 +43,38 @@ public class AnomalySafePveGenerator {
     private static final double SAFE_POWER_RATIO = 0.92;
 
     public List<BattlePersonage> generate(AnomalyPveTemplate template, List<BattlePersonage> players) {
+        return generate(template, players, SkillFormulaVersion.LEGACY_SKILLS_V1);
+    }
+
+    public List<BattlePersonage> generate(
+        AnomalyPveTemplate template,
+        List<BattlePersonage> players,
+        SkillFormulaVersion formulaVersion
+    ) {
+        return generateCalibrated(template, players, formulaVersion).enemies();
+    }
+
+    public GeneratedPveEnemies generateCalibrated(
+        AnomalyPveTemplate template,
+        List<BattlePersonage> players,
+        SkillFormulaVersion formulaVersion
+    ) {
+        if (formulaVersion == null) {
+            throw new IllegalArgumentException("Enemy combat formula version must be specified");
+        }
         final int enemyCount = enemyCount(players.size());
         final double targetPower = players.stream().mapToDouble(BattlePersonage::legacyPower).sum() * SAFE_POWER_RATIO;
-        final double multiplier = characteristicsMultiplier(template, enemyCount, targetPower);
+        final var calibration = PveCharacteristicScaling.search(
+            targetPower,
+            PveCharacteristicScaling.maxMultiplier(BASE_ATTACK, BASE_DEFENSE, BASE_HEALTH),
+            multiplier -> totalPower(template, enemyCount, multiplier, formulaVersion)
+        );
         final var positions = positionsFor(template.formation(), enemyCount);
         final var enemies = new ArrayList<BattlePersonage>(enemyCount);
         for (final var position : positions) {
-            enemies.add(enemy(template, position, multiplier));
+            enemies.add(enemy(template, position, calibration.multiplier(), formulaVersion));
         }
-        return enemies;
+        return new GeneratedPveEnemies(enemies, calibration);
     }
 
     static int enemyCount(int players) {
@@ -93,14 +120,19 @@ public class AnomalySafePveGenerator {
         };
     }
 
-    private BattlePersonage enemy(AnomalyPveTemplate template, Position position, double multiplier) {
+    private BattlePersonage enemy(
+        AnomalyPveTemplate template,
+        Position position,
+        double multiplier,
+        SkillFormulaVersion formulaVersion
+    ) {
         final int range = template.attackType() == AttackType.MAGICAL || position == Position.BACK ? 2 : 1;
         final int threat = switch (position) {
             case FRONT -> BASE_THREAT_FRONT;
             case MID -> BASE_THREAT_MID;
             case BACK -> BASE_THREAT_BACK;
         };
-        return new BattlePersonage(
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
@@ -109,13 +141,13 @@ public class AnomalySafePveGenerator {
                         Optional.of(new ItemAttack(
                             template.attackType(),
                             range,
-                            multiply(BASE_ATTACK, multiplier)
+                            PveCharacteristicScaling.multiply(BASE_ATTACK, multiplier)
                         )),
                         Optional.of(new ItemDefense(
                             template.defenseType(),
-                            multiply(BASE_DEFENSE, multiplier)
+                            PveCharacteristicScaling.multiply(BASE_DEFENSE, multiplier)
                         )),
-                        multiply(BASE_HEALTH, multiplier),
+                        PveCharacteristicScaling.multiply(BASE_HEALTH, multiplier),
                         BASE_CRIT_CHANCE,
                         BASE_DODGE_CHANCE,
                         BASE_CRIT_MULTI,
@@ -127,7 +159,10 @@ public class AnomalySafePveGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            position
+            position,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
@@ -140,36 +175,14 @@ public class AnomalySafePveGenerator {
         };
     }
 
-    private double characteristicsMultiplier(AnomalyPveTemplate template, int enemyCount, double targetPower) {
-        double low = 0;
-        double high = 1;
-        if (totalPower(template, enemyCount, low) >= targetPower) {
-            return low;
-        }
-        while (totalPower(template, enemyCount, high) < targetPower) {
-            low = high;
-            high *= 2;
-        }
-        for (int i = 0; i < 32; i++) {
-            final var mid = (low + high) / 2;
-            if (totalPower(template, enemyCount, mid) >= targetPower) {
-                high = mid;
-            } else {
-                low = mid;
-            }
-        }
-        final var lowDiff = Math.abs(totalPower(template, enemyCount, low) - targetPower);
-        final var highDiff = Math.abs(totalPower(template, enemyCount, high) - targetPower);
-        return lowDiff < highDiff ? low : high;
-    }
-
-    private double totalPower(AnomalyPveTemplate template, int enemyCount, double multiplier) {
+    private double totalPower(
+        AnomalyPveTemplate template,
+        int enemyCount,
+        double multiplier,
+        SkillFormulaVersion formulaVersion
+    ) {
         return positionsFor(template.formation(), enemyCount).stream()
-            .mapToDouble(position -> enemy(template, position, multiplier).legacyPower())
+            .mapToDouble(position -> enemy(template, position, multiplier, formulaVersion).legacyPower())
             .sum();
-    }
-
-    private int multiply(int value, double multiplier) {
-        return Math.max(1, (int) Math.ceil(value * multiplier));
     }
 }

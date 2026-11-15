@@ -1,0 +1,21 @@
+{
+  "purpose": "SINGLE_FIXED_ZOMBIE_RETRY_AFTER_FAILED_FIRST_CONFIRMATION",
+  "raid": "ZOMBIE_HORDE",
+  "previousCorrection": 0.78,
+  "previousMainWins": 1431,
+  "previousMainBattles": 3300,
+  "previousConfirmationPassed": false,
+  "selectedCorrection": 0.76,
+  "originalScreenWinsAtSelectedCorrection": 354,
+  "originalScreenBattlesAtSelectedCorrection": 660,
+  "confirmationBounds": {"min": 0.45, "max": 0.55},
+  "generationRoot": 20261126000000,
+  "battleRoot": 30261126000000,
+  "additionalSearchAllowed": false,
+  "previousResultsPooled": false,
+  "unchangedCorrections": {
+    "WOLFPACK": 0.75,
+    "MYCONID_COLONY": 0.82,
+    "MAGGEESE_FLOCK": 0.725
+  }
+}

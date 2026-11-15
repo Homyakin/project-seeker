@@ -12,6 +12,7 @@ import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.event.world_raid.entity.WorldRaidPersonage;
 import ru.homyakin.seeker.game.personage.models.Characteristics;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.power.EquipmentPowerCalculator;
 import ru.homyakin.seeker.game.personage.power.PowerDisplaySnapshot;
 import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.TimeUtils;
@@ -78,6 +79,8 @@ public class BattlePersonage {
     private final UUID id = RandomUtils.randomUuid();
     private final Optional<String> name;
     private final Optional<PowerDisplaySnapshot> displayedPower;
+    private final List<Item> equipmentItems;
+    private Double equipmentPowerUnscaled;
     private final int maxHealth;
     private final int legacyPowerMaxHealth;
     private final int legacyPowerSlotOneAttackSum;
@@ -413,6 +416,7 @@ public class BattlePersonage {
     ) {
         this.name = name;
         this.displayedPower = displayedPower;
+        this.equipmentItems = List.copyOf(items);
         this.defense = new EnumMap<>(DefenseType.class);
         var maxRange = 1;
         var activeSkills = new EnumMap<ActiveEnum, Integer>(ActiveEnum.class);
@@ -1578,6 +1582,17 @@ public class BattlePersonage {
 
         return healthFactor * damageFactor / avgDamageTakenMultiplier / hitChanceMultiplier
             * ((double) speedFactor / CombatRules.INITIATIVE_THRESHOLD);
+    }
+
+    /**
+     * Unscaled assessment of the original permanent equipment, independent of all battle state and display settings.
+     * Validation is intentionally lazy: historical combat accepts inputs outside this assessment's strict domain.
+     */
+    public double equipmentPowerUnscaled() {
+        if (equipmentPowerUnscaled == null) {
+            equipmentPowerUnscaled = EquipmentPowerCalculator.calculate(equipmentItems).unscaled();
+        }
+        return equipmentPowerUnscaled;
     }
 
     private record Target(

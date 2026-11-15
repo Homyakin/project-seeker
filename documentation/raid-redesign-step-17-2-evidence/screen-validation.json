@@ -1,0 +1,1276 @@
+{
+  "phase": "SCREEN",
+  "cases": 825,
+  "battles": 16500,
+  "exactReplayBattles": 0,
+  "passesPredeclaredRule": false,
+  "checkedCommonRandomGroups": 2640,
+  "checkedSourceFiles": 228,
+  "protocolSha256": "66a85403124f0353fae2fc4d72bcb8727340d69618eb083582870c105bbc10cd",
+  "rawSha256": "4feb43c4abdaf97b539389a874569eb977068f1da00164ad2d2dd2b601411f5e",
+  "independentSelection": {
+    "WOLFPACK": {
+      "candidates": [
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.08484848484848485,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.08636363636363636,
+            "MID": 0.09545454545454546,
+            "STRONG": 0.07272727272727274
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.016666666666666666,
+            "2": 0.19999999999999998,
+            "3": 0.4666666666666666,
+            "7": 0.15,
+            "8": 0.08333333333333333,
+            "10": 0,
+            "11": 0.016666666666666666,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 56,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 1,
+          "distanceFromHalf": 0.41515151515151516
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.19545454545454546,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.19545454545454544,
+            "MID": 0.20909090909090908,
+            "STRONG": 0.18181818181818182
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.08333333333333333,
+            "2": 0.2833333333333334,
+            "3": 0.7166666666666667,
+            "7": 0.45,
+            "8": 0.3499999999999999,
+            "10": 0.09999999999999999,
+            "11": 0.16666666666666666,
+            "13": 0,
+            "14": 0,
+            "15": 0,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 129,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.9,
+          "distanceFromHalf": 0.30454545454545456
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.41060606060606064,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.32272727272727275,
+            "MID": 0.4272727272727273,
+            "STRONG": 0.48181818181818187
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.11666666666666665,
+            "2": 0.5333333333333333,
+            "3": 0.8166666666666668,
+            "7": 0.6333333333333334,
+            "8": 0.6333333333333333,
+            "10": 0.6166666666666667,
+            "11": 0.6166666666666667,
+            "13": 0.19999999999999998,
+            "14": 0.2333333333333333,
+            "15": 0.11666666666666665,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 271,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.8,
+          "distanceFromHalf": 0.08939393939393936
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.5651515151515151,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.47272727272727266,
+            "MID": 0.6000000000000001,
+            "STRONG": 0.6227272727272727
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.15,
+            "2": 0.7000000000000001,
+            "3": 0.9,
+            "7": 0.85,
+            "8": 0.65,
+            "10": 0.7333333333333333,
+            "11": 0.7833333333333333,
+            "13": 0.5499999999999999,
+            "14": 0.46666666666666673,
+            "15": 0.4166666666666667,
+            "30": 0.016666666666666666
+          },
+          "rawMainWinsNotAcceptanceMetric": 373,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.75,
+          "distanceFromHalf": 0.06515151515151507
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.7015151515151515,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.6545454545454544,
+            "MID": 0.7318181818181819,
+            "STRONG": 0.7181818181818183
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.20000000000000004,
+            "2": 0.8333333333333334,
+            "3": 0.9499999999999998,
+            "7": 0.9,
+            "8": 0.8833333333333333,
+            "10": 0.85,
+            "11": 0.8666666666666667,
+            "13": 0.8666666666666666,
+            "14": 0.6833333333333332,
+            "15": 0.65,
+            "30": 0.03333333333333333
+          },
+          "rawMainWinsNotAcceptanceMetric": 463,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.7,
+          "distanceFromHalf": 0.20151515151515154
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.8151515151515151,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.7954545454545456,
+            "MID": 0.85,
+            "STRONG": 0.8
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.24999999999999997,
+            "2": 0.9166666666666666,
+            "3": 0.9666666666666667,
+            "7": 0.9666666666666667,
+            "8": 0.9499999999999998,
+            "10": 0.9333333333333332,
+            "11": 0.9666666666666667,
+            "13": 0.9499999999999998,
+            "14": 0.9333333333333332,
+            "15": 0.9666666666666667,
+            "30": 0.16666666666666666
+          },
+          "rawMainWinsNotAcceptanceMetric": 538,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.65,
+          "distanceFromHalf": 0.31515151515151507
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.8924242424242425,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.8454545454545456,
+            "MID": 0.9090909090909091,
+            "STRONG": 0.9227272727272727
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.36666666666666664,
+            "2": 0.9833333333333334,
+            "3": 1,
+            "7": 1,
+            "8": 0.9833333333333334,
+            "10": 1,
+            "11": 0.9833333333333334,
+            "13": 0.9666666666666667,
+            "14": 0.9499999999999998,
+            "15": 0.9666666666666667,
+            "30": 0.6166666666666667
+          },
+          "rawMainWinsNotAcceptanceMetric": 589,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.6,
+          "distanceFromHalf": 0.39242424242424245
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.9333333333333332,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.9181818181818181,
+            "MID": 0.9318181818181818,
+            "STRONG": 0.95
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.3833333333333333,
+            "2": 1,
+            "3": 0.9833333333333334,
+            "7": 1,
+            "8": 1,
+            "10": 1,
+            "11": 1,
+            "13": 1,
+            "14": 0.9833333333333334,
+            "15": 0.9666666666666667,
+            "30": 0.9500000000000001
+          },
+          "rawMainWinsNotAcceptanceMetric": 616,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.55,
+          "distanceFromHalf": 0.43333333333333324
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.956060606060606,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.95,
+            "MID": 0.9590909090909091,
+            "STRONG": 0.9590909090909091
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.5166666666666667,
+            "2": 1,
+            "3": 1,
+            "7": 1,
+            "8": 1,
+            "10": 1,
+            "11": 1,
+            "13": 1,
+            "14": 1,
+            "15": 1,
+            "30": 1
+          },
+          "rawMainWinsNotAcceptanceMetric": 631,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.5,
+          "distanceFromHalf": 0.45606060606060606
+        }
+      ],
+      "selectedCorrection": 0.75,
+      "selectedAssessment": {
+        "mainContextCount": 33,
+        "balancedMainWinFraction": 0.5651515151515151,
+        "balancedTierWinFractions": {
+          "BEGINNER": 0.47272727272727266,
+          "MID": 0.6000000000000001,
+          "STRONG": 0.6227272727272727
+        },
+        "balancedSizeWinFractions": {
+          "1": 0.15,
+          "2": 0.7000000000000001,
+          "3": 0.9,
+          "7": 0.85,
+          "8": 0.65,
+          "10": 0.7333333333333333,
+          "11": 0.7833333333333333,
+          "13": 0.5499999999999999,
+          "14": 0.46666666666666673,
+          "15": 0.4166666666666667,
+          "30": 0.016666666666666666
+        },
+        "rawMainWinsNotAcceptanceMetric": 373,
+        "rawMainBattlesNotAcceptanceMetric": 660,
+        "timeoutsAllCases": 0,
+        "passesPredeclaredRule": false,
+        "correction": 0.75,
+        "distanceFromHalf": 0.06515151515151507
+      },
+      "passesPredeclaredRule": false,
+      "status": "STOP_NO_SELECTION_IN_BAND"
+    },
+    "ZOMBIE_HORDE": {
+      "candidates": [
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.3666666666666667,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.23636363636363641,
+            "MID": 0.35454545454545455,
+            "STRONG": 0.509090909090909
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.2833333333333334,
+            "2": 0.13333333333333333,
+            "3": 0.5833333333333334,
+            "7": 0.7999999999999999,
+            "8": 0.5166666666666667,
+            "10": 0.5833333333333334,
+            "11": 0.3833333333333333,
+            "13": 0.3666666666666667,
+            "14": 0.21666666666666667,
+            "15": 0.16666666666666666,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 242,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.8,
+          "distanceFromHalf": 0.1333333333333333
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.4696969696969697,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.34545454545454546,
+            "MID": 0.4727272727272727,
+            "STRONG": 0.5909090909090909
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.3,
+            "2": 0.15,
+            "3": 0.7000000000000001,
+            "7": 0.8166666666666668,
+            "8": 0.7000000000000001,
+            "10": 0.7333333333333334,
+            "11": 0.6,
+            "13": 0.5333333333333333,
+            "14": 0.3333333333333333,
+            "15": 0.3,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 310,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": true,
+          "correction": 0.78,
+          "distanceFromHalf": 0.030303030303030276
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.5363636363636363,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.3909090909090909,
+            "MID": 0.5454545454545454,
+            "STRONG": 0.6727272727272727
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.26666666666666666,
+            "2": 0.2833333333333333,
+            "3": 0.7000000000000001,
+            "7": 0.8666666666666667,
+            "8": 0.8000000000000002,
+            "10": 0.8333333333333334,
+            "11": 0.6166666666666667,
+            "13": 0.6166666666666667,
+            "14": 0.45,
+            "15": 0.4666666666666666,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 354,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": true,
+          "correction": 0.76,
+          "distanceFromHalf": 0.036363636363636265
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.6378787878787878,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.5409090909090909,
+            "MID": 0.6499999999999999,
+            "STRONG": 0.7227272727272727
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.2833333333333334,
+            "2": 0.3833333333333333,
+            "3": 0.7833333333333333,
+            "7": 0.9333333333333332,
+            "8": 0.8166666666666668,
+            "10": 0.9,
+            "11": 0.8666666666666666,
+            "13": 0.8166666666666668,
+            "14": 0.6666666666666666,
+            "15": 0.5666666666666667,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 421,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.74,
+          "distanceFromHalf": 0.13787878787878782
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.6878787878787879,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.5863636363636364,
+            "MID": 0.7045454545454546,
+            "STRONG": 0.7727272727272726
+          },
+          "balancedSizeWinFractions": {
+            "1": 0.31666666666666665,
+            "2": 0.5166666666666667,
+            "3": 0.7999999999999999,
+            "7": 1,
+            "8": 0.8166666666666668,
+            "10": 0.9166666666666666,
+            "11": 0.8666666666666667,
+            "13": 0.85,
+            "14": 0.8166666666666668,
+            "15": 0.5833333333333334,
+            "30": 0.08333333333333333
+          },
+          "rawMainWinsNotAcceptanceMetric": 454,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.72,
+          "distanceFromHalf": 0.18787878787878787
+        }
+      ],
+      "selectedCorrection": 0.78,
+      "selectedAssessment": {
+        "mainContextCount": 33,
+        "balancedMainWinFraction": 0.4696969696969697,
+        "balancedTierWinFractions": {
+          "BEGINNER": 0.34545454545454546,
+          "MID": 0.4727272727272727,
+          "STRONG": 0.5909090909090909
+        },
+        "balancedSizeWinFractions": {
+          "1": 0.3,
+          "2": 0.15,
+          "3": 0.7000000000000001,
+          "7": 0.8166666666666668,
+          "8": 0.7000000000000001,
+          "10": 0.7333333333333334,
+          "11": 0.6,
+          "13": 0.5333333333333333,
+          "14": 0.3333333333333333,
+          "15": 0.3,
+          "30": 0
+        },
+        "rawMainWinsNotAcceptanceMetric": 310,
+        "rawMainBattlesNotAcceptanceMetric": 660,
+        "timeoutsAllCases": 0,
+        "passesPredeclaredRule": true,
+        "correction": 0.78,
+        "distanceFromHalf": 0.030303030303030276
+      },
+      "passesPredeclaredRule": true,
+      "status": "CLOSEST_PREDECLARED_CANDIDATE_IN_BAND"
+    },
+    "MYCONID_COLONY": {
+      "candidates": [
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.7166666666666667,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.6181818181818182,
+            "MID": 0.7454545454545454,
+            "STRONG": 0.7863636363636364
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.9333333333333332,
+            "3": 0.9500000000000001,
+            "7": 0.8666666666666666,
+            "8": 0.7833333333333333,
+            "10": 0.7166666666666667,
+            "11": 0.8166666666666668,
+            "13": 0.6333333333333334,
+            "14": 0.75,
+            "15": 0.7999999999999999,
+            "30": 0.6333333333333333
+          },
+          "rawMainWinsNotAcceptanceMetric": 473,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.77,
+          "distanceFromHalf": 0.21666666666666667
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.5333333333333333,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.39545454545454545,
+            "MID": 0.5727272727272728,
+            "STRONG": 0.6318181818181818
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.8166666666666668,
+            "3": 0.9333333333333332,
+            "7": 0.65,
+            "8": 0.65,
+            "10": 0.45,
+            "11": 0.6666666666666666,
+            "13": 0.38333333333333336,
+            "14": 0.5499999999999999,
+            "15": 0.6166666666666667,
+            "30": 0.15
+          },
+          "rawMainWinsNotAcceptanceMetric": 352,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": true,
+          "correction": 0.82,
+          "distanceFromHalf": 0.033333333333333326
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.34242424242424235,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.25909090909090904,
+            "MID": 0.34545454545454546,
+            "STRONG": 0.4227272727272726
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.8166666666666668,
+            "3": 0.9333333333333332,
+            "7": 0.43333333333333335,
+            "8": 0.45,
+            "10": 0.13333333333333333,
+            "11": 0.3333333333333333,
+            "13": 0.10000000000000002,
+            "14": 0.26666666666666666,
+            "15": 0.2833333333333333,
+            "30": 0.016666666666666666
+          },
+          "rawMainWinsNotAcceptanceMetric": 226,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.87,
+          "distanceFromHalf": 0.15757575757575765
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.25757575757575757,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.20909090909090908,
+            "MID": 0.2590909090909091,
+            "STRONG": 0.3045454545454545
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.8166666666666668,
+            "3": 0.9833333333333334,
+            "7": 0.31666666666666665,
+            "8": 0.3,
+            "10": 0.05000000000000001,
+            "11": 0.15,
+            "13": 0.016666666666666666,
+            "14": 0.13333333333333333,
+            "15": 0.06666666666666667,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 170,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.92,
+          "distanceFromHalf": 0.24242424242424243
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.1590909090909091,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.11363636363636366,
+            "MID": 0.1590909090909091,
+            "STRONG": 0.2045454545454545
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.5333333333333333,
+            "3": 0.85,
+            "7": 0.13333333333333333,
+            "8": 0.11666666666666665,
+            "10": 0.016666666666666666,
+            "11": 0.06666666666666667,
+            "13": 0,
+            "14": 0,
+            "15": 0.03333333333333333,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 105,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.97,
+          "distanceFromHalf": 0.34090909090909094
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.12121212121212123,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.09545454545454546,
+            "MID": 0.10909090909090911,
+            "STRONG": 0.15909090909090912
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.5166666666666667,
+            "3": 0.7000000000000001,
+            "7": 0.03333333333333333,
+            "8": 0.03333333333333333,
+            "10": 0,
+            "11": 0.016666666666666666,
+            "13": 0,
+            "14": 0.016666666666666666,
+            "15": 0.016666666666666666,
+            "30": 0
+          },
+          "rawMainWinsNotAcceptanceMetric": 80,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 1.02,
+          "distanceFromHalf": 0.3787878787878788
+        }
+      ],
+      "selectedCorrection": 0.82,
+      "selectedAssessment": {
+        "mainContextCount": 33,
+        "balancedMainWinFraction": 0.5333333333333333,
+        "balancedTierWinFractions": {
+          "BEGINNER": 0.39545454545454545,
+          "MID": 0.5727272727272728,
+          "STRONG": 0.6318181818181818
+        },
+        "balancedSizeWinFractions": {
+          "1": 0,
+          "2": 0.8166666666666668,
+          "3": 0.9333333333333332,
+          "7": 0.65,
+          "8": 0.65,
+          "10": 0.45,
+          "11": 0.6666666666666666,
+          "13": 0.38333333333333336,
+          "14": 0.5499999999999999,
+          "15": 0.6166666666666667,
+          "30": 0.15
+        },
+        "rawMainWinsNotAcceptanceMetric": 352,
+        "rawMainBattlesNotAcceptanceMetric": 660,
+        "timeoutsAllCases": 0,
+        "passesPredeclaredRule": true,
+        "correction": 0.82,
+        "distanceFromHalf": 0.033333333333333326
+      },
+      "passesPredeclaredRule": true,
+      "status": "CLOSEST_PREDECLARED_CANDIDATE_IN_BAND"
+    },
+    "MAGGEESE_FLOCK": {
+      "candidates": [
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.3863636363636364,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.3363636363636364,
+            "MID": 0.41818181818181815,
+            "STRONG": 0.40454545454545454
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.9500000000000001,
+            "3": 0.8999999999999999,
+            "7": 0.6666666666666666,
+            "8": 0.4166666666666667,
+            "10": 0.43333333333333335,
+            "11": 0.30000000000000004,
+            "13": 0.21666666666666665,
+            "14": 0.13333333333333333,
+            "15": 0.20000000000000004,
+            "30": 0.03333333333333333
+          },
+          "rawMainWinsNotAcceptanceMetric": 255,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.75,
+          "distanceFromHalf": 0.11363636363636359
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.4666666666666666,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.4090909090909091,
+            "MID": 0.4454545454545454,
+            "STRONG": 0.5454545454545454
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.9500000000000001,
+            "3": 0.9,
+            "7": 0.7333333333333334,
+            "8": 0.5499999999999999,
+            "10": 0.5333333333333333,
+            "11": 0.5166666666666667,
+            "13": 0.3666666666666667,
+            "14": 0.19999999999999998,
+            "15": 0.3666666666666667,
+            "30": 0.016666666666666666
+          },
+          "rawMainWinsNotAcceptanceMetric": 308,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": true,
+          "correction": 0.725,
+          "distanceFromHalf": 0.03333333333333338
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.5333333333333333,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.440909090909091,
+            "MID": 0.5363636363636364,
+            "STRONG": 0.6227272727272729
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.9666666666666667,
+            "3": 0.9333333333333332,
+            "7": 0.8666666666666667,
+            "8": 0.5833333333333334,
+            "10": 0.5833333333333334,
+            "11": 0.5833333333333334,
+            "13": 0.45,
+            "14": 0.35000000000000003,
+            "15": 0.4666666666666666,
+            "30": 0.08333333333333333
+          },
+          "rawMainWinsNotAcceptanceMetric": 352,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": true,
+          "correction": 0.7,
+          "distanceFromHalf": 0.033333333333333326
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.6393939393939395,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.540909090909091,
+            "MID": 0.6681818181818183,
+            "STRONG": 0.7090909090909091
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.9666666666666667,
+            "3": 0.9499999999999998,
+            "7": 0.8833333333333334,
+            "8": 0.75,
+            "10": 0.7333333333333334,
+            "11": 0.7166666666666668,
+            "13": 0.6333333333333333,
+            "14": 0.4666666666666666,
+            "15": 0.6166666666666667,
+            "30": 0.3166666666666667
+          },
+          "rawMainWinsNotAcceptanceMetric": 422,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.675,
+          "distanceFromHalf": 0.13939393939393951
+        },
+        {
+          "mainContextCount": 33,
+          "balancedMainWinFraction": 0.7318181818181818,
+          "balancedTierWinFractions": {
+            "BEGINNER": 0.6227272727272726,
+            "MID": 0.7818181818181817,
+            "STRONG": 0.7909090909090909
+          },
+          "balancedSizeWinFractions": {
+            "1": 0,
+            "2": 0.9833333333333334,
+            "3": 0.9499999999999998,
+            "7": 0.9166666666666666,
+            "8": 0.8833333333333333,
+            "10": 0.8333333333333334,
+            "11": 0.8666666666666667,
+            "13": 0.7666666666666666,
+            "14": 0.6666666666666666,
+            "15": 0.7333333333333334,
+            "30": 0.45
+          },
+          "rawMainWinsNotAcceptanceMetric": 483,
+          "rawMainBattlesNotAcceptanceMetric": 660,
+          "timeoutsAllCases": 0,
+          "passesPredeclaredRule": false,
+          "correction": 0.65,
+          "distanceFromHalf": 0.2318181818181818
+        }
+      ],
+      "selectedCorrection": 0.725,
+      "selectedAssessment": {
+        "mainContextCount": 33,
+        "balancedMainWinFraction": 0.4666666666666666,
+        "balancedTierWinFractions": {
+          "BEGINNER": 0.4090909090909091,
+          "MID": 0.4454545454545454,
+          "STRONG": 0.5454545454545454
+        },
+        "balancedSizeWinFractions": {
+          "1": 0,
+          "2": 0.9500000000000001,
+          "3": 0.9,
+          "7": 0.7333333333333334,
+          "8": 0.5499999999999999,
+          "10": 0.5333333333333333,
+          "11": 0.5166666666666667,
+          "13": 0.3666666666666667,
+          "14": 0.19999999999999998,
+          "15": 0.3666666666666667,
+          "30": 0.016666666666666666
+        },
+        "rawMainWinsNotAcceptanceMetric": 308,
+        "rawMainBattlesNotAcceptanceMetric": 660,
+        "timeoutsAllCases": 0,
+        "passesPredeclaredRule": true,
+        "correction": 0.725,
+        "distanceFromHalf": 0.03333333333333338
+      },
+      "passesPredeclaredRule": true,
+      "status": "CLOSEST_PREDECLARED_CANDIDATE_IN_BAND"
+    }
+  },
+  "raids": {
+    "WOLFPACK": {
+      "outcomes": {
+        "LOSS": 2274,
+        "WIN": 3666
+      },
+      "rounds": {
+        "count": 5940,
+        "mean": 37.01936026936027,
+        "min": 14,
+        "p50": 37,
+        "p90": 50,
+        "p95": 55,
+        "max": 74
+      },
+      "skills": {
+        "ENEMY:BERSERK": 3172,
+        "ENEMY:BLEEDING": 145083,
+        "ENEMY:DOUBLE_ATTACK": 0,
+        "ENEMY:HIT_AND_RUN": 0,
+        "ENEMY:KNOCKBACK": 0,
+        "ENEMY:PRECISE_STRIKE": 0,
+        "ENEMY:SELF_HEAL": 0,
+        "ENEMY:THORNS": 0,
+        "PLAYER:BERSERK": 3542,
+        "PLAYER:BLEEDING": 0,
+        "PLAYER:DOUBLE_ATTACK": 44055,
+        "PLAYER:HIT_AND_RUN": 0,
+        "PLAYER:KNOCKBACK": 0,
+        "PLAYER:PRECISE_STRIKE": 0,
+        "PLAYER:SELF_HEAL": 0,
+        "PLAYER:THORNS": 0
+      },
+      "skillsByKind": {
+        "ENEMY:BLEEDING:SCALING_PERIODIC_DAMAGE": 71612,
+        "ENEMY:BLEEDING:WINDOW": 73471,
+        "ENEMY:BERSERK:WINDOW": 3172,
+        "PLAYER:BERSERK:WINDOW": 3542,
+        "PLAYER:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 44055
+      },
+      "bossesDefeated": 3671,
+      "byLevel": {
+        "10": {
+          "LOSS": 2274,
+          "WIN": 3666
+        }
+      },
+      "byStyle": {
+        "MAIN": {
+          "LOSS": 2274,
+          "WIN": 3666
+        }
+      },
+      "bySize": {
+        "1": {
+          "LOSS": 415,
+          "WIN": 125
+        },
+        "2": {
+          "LOSS": 153,
+          "WIN": 387
+        },
+        "3": {
+          "WIN": 468,
+          "LOSS": 72
+        },
+        "7": {
+          "LOSS": 123,
+          "WIN": 417
+        },
+        "8": {
+          "WIN": 392,
+          "LOSS": 148
+        },
+        "10": {
+          "LOSS": 166,
+          "WIN": 374
+        },
+        "11": {
+          "LOSS": 156,
+          "WIN": 384
+        },
+        "13": {
+          "LOSS": 208,
+          "WIN": 332
+        },
+        "14": {
+          "LOSS": 225,
+          "WIN": 315
+        },
+        "15": {
+          "LOSS": 235,
+          "WIN": 305
+        },
+        "30": {
+          "LOSS": 373,
+          "WIN": 167
+        }
+      },
+      "byFamily": {
+        "S_MAIN": {
+          "LOSS": 2274,
+          "WIN": 3666
+        }
+      },
+      "largestRelativeError": 0.0027825058437562777
+    },
+    "ZOMBIE_HORDE": {
+      "outcomes": {
+        "LOSS": 1519,
+        "WIN": 1781
+      },
+      "rounds": {
+        "count": 3300,
+        "mean": 79.61575757575757,
+        "min": 33,
+        "p50": 81,
+        "p90": 104,
+        "p95": 112,
+        "max": 145
+      },
+      "skills": {
+        "ENEMY:BERSERK": 0,
+        "ENEMY:BLEEDING": 0,
+        "ENEMY:DOUBLE_ATTACK": 0,
+        "ENEMY:HIT_AND_RUN": 0,
+        "ENEMY:KNOCKBACK": 0,
+        "ENEMY:PRECISE_STRIKE": 0,
+        "ENEMY:SELF_HEAL": 17872,
+        "ENEMY:THORNS": 72647,
+        "PLAYER:BERSERK": 3399,
+        "PLAYER:BLEEDING": 0,
+        "PLAYER:DOUBLE_ATTACK": 63271,
+        "PLAYER:HIT_AND_RUN": 0,
+        "PLAYER:KNOCKBACK": 0,
+        "PLAYER:PRECISE_STRIKE": 0,
+        "PLAYER:SELF_HEAL": 0,
+        "PLAYER:THORNS": 0
+      },
+      "skillsByKind": {
+        "ENEMY:SELF_HEAL:HEAL": 8936,
+        "ENEMY:SELF_HEAL:WINDOW": 8936,
+        "ENEMY:THORNS:SCALING_DIRECT_DAMAGE": 72647,
+        "PLAYER:BERSERK:WINDOW": 3399,
+        "PLAYER:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 63271
+      },
+      "bossesDefeated": 1784,
+      "byLevel": {
+        "10": {
+          "LOSS": 1519,
+          "WIN": 1781
+        }
+      },
+      "byStyle": {
+        "MAIN": {
+          "LOSS": 1519,
+          "WIN": 1781
+        }
+      },
+      "bySize": {
+        "1": {
+          "LOSS": 213,
+          "WIN": 87
+        },
+        "2": {
+          "LOSS": 212,
+          "WIN": 88
+        },
+        "3": {
+          "WIN": 214,
+          "LOSS": 86
+        },
+        "7": {
+          "WIN": 265,
+          "LOSS": 35
+        },
+        "8": {
+          "LOSS": 81,
+          "WIN": 219
+        },
+        "10": {
+          "LOSS": 62,
+          "WIN": 238
+        },
+        "11": {
+          "LOSS": 100,
+          "WIN": 200
+        },
+        "13": {
+          "WIN": 191,
+          "LOSS": 109
+        },
+        "14": {
+          "LOSS": 151,
+          "WIN": 149
+        },
+        "15": {
+          "LOSS": 175,
+          "WIN": 125
+        },
+        "30": {
+          "LOSS": 295,
+          "WIN": 5
+        }
+      },
+      "byFamily": {
+        "S_MAIN": {
+          "LOSS": 1519,
+          "WIN": 1781
+        }
+      },
+      "largestRelativeError": 0.0021502839464360157
+    },
+    "MYCONID_COLONY": {
+      "outcomes": {
+        "LOSS": 2554,
+        "WIN": 1406
+      },
+      "rounds": {
+        "count": 3960,
+        "mean": 51.22121212121212,
+        "min": 11,
+        "p50": 52,
+        "p90": 67,
+        "p95": 71,
+        "max": 100
+      },
+      "skills": {
+        "ENEMY:BERSERK": 0,
+        "ENEMY:BLEEDING": 0,
+        "ENEMY:DOUBLE_ATTACK": 0,
+        "ENEMY:HIT_AND_RUN": 0,
+        "ENEMY:KNOCKBACK": 1978,
+        "ENEMY:PRECISE_STRIKE": 2627,
+        "ENEMY:SELF_HEAL": 0,
+        "ENEMY:THORNS": 0,
+        "PLAYER:BERSERK": 2471,
+        "PLAYER:BLEEDING": 0,
+        "PLAYER:DOUBLE_ATTACK": 49030,
+        "PLAYER:HIT_AND_RUN": 0,
+        "PLAYER:KNOCKBACK": 0,
+        "PLAYER:PRECISE_STRIKE": 0,
+        "PLAYER:SELF_HEAL": 0,
+        "PLAYER:THORNS": 0
+      },
+      "skillsByKind": {
+        "ENEMY:PRECISE_STRIKE:SCALING_DIRECT_DAMAGE": 2627,
+        "ENEMY:KNOCKBACK:FORCED_MOVE": 1978,
+        "PLAYER:BERSERK:WINDOW": 2471,
+        "PLAYER:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 49030
+      },
+      "bossesDefeated": 0,
+      "byLevel": {
+        "10": {
+          "LOSS": 2554,
+          "WIN": 1406
+        }
+      },
+      "byStyle": {
+        "MAIN": {
+          "LOSS": 2554,
+          "WIN": 1406
+        }
+      },
+      "bySize": {
+        "1": {
+          "LOSS": 360
+        },
+        "2": {
+          "WIN": 266,
+          "LOSS": 94
+        },
+        "3": {
+          "WIN": 321,
+          "LOSS": 39
+        },
+        "7": {
+          "WIN": 146,
+          "LOSS": 214
+        },
+        "8": {
+          "WIN": 140,
+          "LOSS": 220
+        },
+        "10": {
+          "WIN": 82,
+          "LOSS": 278
+        },
+        "11": {
+          "WIN": 123,
+          "LOSS": 237
+        },
+        "13": {
+          "WIN": 68,
+          "LOSS": 292
+        },
+        "14": {
+          "LOSS": 257,
+          "WIN": 103
+        },
+        "15": {
+          "WIN": 109,
+          "LOSS": 251
+        },
+        "30": {
+          "LOSS": 312,
+          "WIN": 48
+        }
+      },
+      "byFamily": {
+        "S_MAIN": {
+          "LOSS": 2554,
+          "WIN": 1406
+        }
+      },
+      "largestRelativeError": 0.002089179280895248
+    },
+    "MAGGEESE_FLOCK": {
+      "outcomes": {
+        "LOSS": 1480,
+        "WIN": 1820
+      },
+      "rounds": {
+        "count": 3300,
+        "mean": 31.885454545454547,
+        "min": 11,
+        "p50": 32,
+        "p90": 42,
+        "p95": 44,
+        "max": 63
+      },
+      "skills": {
+        "ENEMY:BERSERK": 0,
+        "ENEMY:BLEEDING": 0,
+        "ENEMY:DOUBLE_ATTACK": 37549,
+        "ENEMY:HIT_AND_RUN": 33394,
+        "ENEMY:KNOCKBACK": 0,
+        "ENEMY:PRECISE_STRIKE": 0,
+        "ENEMY:SELF_HEAL": 0,
+        "ENEMY:THORNS": 0,
+        "PLAYER:BERSERK": 1736,
+        "PLAYER:BLEEDING": 0,
+        "PLAYER:DOUBLE_ATTACK": 22241,
+        "PLAYER:HIT_AND_RUN": 0,
+        "PLAYER:KNOCKBACK": 0,
+        "PLAYER:PRECISE_STRIKE": 0,
+        "PLAYER:SELF_HEAL": 0,
+        "PLAYER:THORNS": 0
+      },
+      "skillsByKind": {
+        "ENEMY:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 37549,
+        "ENEMY:HIT_AND_RUN:FORCED_MOVE": 16697,
+        "ENEMY:HIT_AND_RUN:WINDOW": 16697,
+        "PLAYER:BERSERK:WINDOW": 1736,
+        "PLAYER:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 22241
+      },
+      "bossesDefeated": 0,
+      "byLevel": {
+        "10": {
+          "LOSS": 1480,
+          "WIN": 1820
+        }
+      },
+      "byStyle": {
+        "MAIN": {
+          "LOSS": 1480,
+          "WIN": 1820
+        }
+      },
+      "bySize": {
+        "1": {
+          "LOSS": 300
+        },
+        "2": {
+          "WIN": 289,
+          "LOSS": 11
+        },
+        "3": {
+          "WIN": 278,
+          "LOSS": 22
+        },
+        "7": {
+          "LOSS": 56,
+          "WIN": 244
+        },
+        "8": {
+          "LOSS": 109,
+          "WIN": 191
+        },
+        "10": {
+          "WIN": 187,
+          "LOSS": 113
+        },
+        "11": {
+          "LOSS": 121,
+          "WIN": 179
+        },
+        "13": {
+          "LOSS": 154,
+          "WIN": 146
+        },
+        "14": {
+          "LOSS": 191,
+          "WIN": 109
+        },
+        "15": {
+          "LOSS": 157,
+          "WIN": 143
+        },
+        "30": {
+          "LOSS": 246,
+          "WIN": 54
+        }
+      },
+      "byFamily": {
+        "S_MAIN": {
+          "LOSS": 1480,
+          "WIN": 1820
+        }
+      },
+      "largestRelativeError": 0.0017491240867412161
+    }
+  }
+}

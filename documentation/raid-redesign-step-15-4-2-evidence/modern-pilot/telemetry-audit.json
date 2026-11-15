@@ -1,0 +1,8 @@
+{
+  "status": "METADATA_CORRECTION_WITH_FROZEN_ORIGINALS_PRESERVED",
+  "affectedField": "manifest.fullActionLogPolicy",
+  "incorrectPromise": "Full actionLog including traceEvents",
+  "actualSaved": "For pair0/1 each condition bothmirrors, actionLog.events is fully saved. BattleActionLog.traceEvents is @JsonIgnore and was not exported as a separate array. All battles retain traceSha256 and normalAttempts count, full initial/final snapshots and event counts; no per-attempt trace array is claimed.",
+  "reason": "The serializer uses the actual BattleActionLog public JSON contract, which intentionally excludes traceEvents",
+  "handling": "No helper, frozen manifest, summary or raw is changed after outcomes. This sidecar corrects the interpretation. No replay or new battle is authorized merely to recover missing optional telemetry."
+}

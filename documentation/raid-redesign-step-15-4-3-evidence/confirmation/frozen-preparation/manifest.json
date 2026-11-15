@@ -1,0 +1,212 @@
+{
+  "allocations" : [ {
+    "caseId" : 1,
+    "groupId" : 1,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 2,
+    "groupId" : 1,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 3,
+    "groupId" : 1,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 4,
+    "groupId" : 2,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 5,
+    "groupId" : 2,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 6,
+    "groupId" : 2,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 7,
+    "groupId" : 3,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 8,
+    "groupId" : 3,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 9,
+    "groupId" : 3,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 10,
+    "groupId" : 4,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 11,
+    "groupId" : 4,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 12,
+    "groupId" : 4,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 13,
+    "groupId" : 5,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 14,
+    "groupId" : 5,
+    "pairs" : 1000,
+    "rules" : [ "BASELINE", "BLEND_T" ]
+  }, {
+    "caseId" : 19,
+    "groupId" : 6,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 20,
+    "groupId" : 6,
+    "pairs" : 1000,
+    "rules" : [ "BASELINE", "BLEND_T" ]
+  }, {
+    "caseId" : 25,
+    "groupId" : 7,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 26,
+    "groupId" : 7,
+    "pairs" : 1000,
+    "rules" : [ "BASELINE", "BLEND_T" ]
+  }, {
+    "caseId" : 49,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 50,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 51,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 52,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 53,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 54,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 55,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 56,
+    "groupId" : 13,
+    "pairs" : 500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 63,
+    "groupId" : 16,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 64,
+    "groupId" : 16,
+    "pairs" : 1500,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 65,
+    "groupId" : 5,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 66,
+    "groupId" : 5,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 67,
+    "groupId" : 6,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 68,
+    "groupId" : 6,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 69,
+    "groupId" : 7,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  }, {
+    "caseId" : 70,
+    "groupId" : 7,
+    "pairs" : 1000,
+    "rules" : [ "BLEND_T" ]
+  } ],
+  "battleNamespace" : "MYCONID-15.4.3-HETEROGENEITY-CONFIRM-BATTLE-20261108-v1",
+  "battles" : 80000,
+  "bridge" : {
+    "actual15.2FullCalibrationTraitsUuidGaugeAndRngTail" : 68,
+    "actualNeutralPartsExact" : 68,
+    "appendPrefixes" : 13,
+    "archivedInputsCurrentEquality" : 7,
+    "battles" : 0,
+    "fixedNPCIncluded" : false,
+    "reflection" : "READONLY_CONSTRUCTOR_AND_PRIVATE_METHODS_NO_FIELD_WRITES",
+    "status" : "PASS",
+    "weakHP" : 840
+  },
+  "combat" : [ "SCALING_V5", "SCALING_SKILLS_V3", "ACCELERATED_V1" ],
+  "conditions" : 34,
+  "effects" : "NONE",
+  "factory" : "Actual15.2 privateFormation/teamColony and constants read-onlyreflection; samePveCharacteristicScaling bounds/search;trialsisolatedseed0 asproduction",
+  "fixedNPCPolicy" : "NOT_INCLUDED; NPC namespace and npcSeed fields explicitly unused; no fixed-NPC diagnostic in this confirmation",
+  "formula" : "pi=Hi*Di;B=sum_ijmin(pi,pj), ascendingp weighted sum coefficients2*(N-i)-1;T=max_k k*k*p_desc(k),smallestk on exactties;F=Q/2+min(alt,Q)/2;solo/bitidenticalH,D returnsQexact;Q0:F0,d1;otherwise d=F/Q;BASELINEd1",
+  "generationNamespace" : "MYCONID-15.4.3-HETEROGENEITY-CONFIRM-GEN-20261108-v1",
+  "limitations" : "One frozen confirmation, no adaptive extension or pooling with pilot; no universal50/50 claim; exact root policy defines separate primary K11 and secondary K20 simultaneous95 families; stripped controls fill only freed slots with actual unupgraded V5 defaults; large-group/high-level guards remain descriptive pilot evidence",
+  "modelConditions" : 37,
+  "npcNamespace" : "MYCONID-15.4.3-HETEROGENEITY-CONFIRM-NPC-20261108-v1",
+  "numericPolicy" : "Neutral components reproduce actual15.2 fixedAttackType iteration and sortedteam sums; B/T computed from ascendingpi; finitecheck,fail if mathematicalB<=Q orT<=B violated by >64maxULP; min-clamp alt toQ, d clamped[.5,1] only within64ULP; equalH/D testedbitexact",
+  "pairPolicy" : {
+    "group13" : 500,
+    "group16" : 1500,
+    "groups1to4" : 1500,
+    "groups5to7" : 1000
+  },
+  "pilotHelperSHA256" : "29804e3355279d65147c91e6c71b0fc0231b2070fce80b62603cbcebfc3deaf9",
+  "preOutcomeRootPolicySHA256" : "3876690b6ceb542c1bf2a3112d2b6e194ae922c028f706bd2b08686c11e515cf",
+  "purpose" : "15.4.3_ONE_FRESH_TARGET_ONLY_BLEND_T_CONFIRMATION_NOT_IMPLEMENTATION_OR_FULL_BALANCE_ACCEPTANCE",
+  "roundLimit" : 2000,
+  "rules" : [ "BASELINE", "BLEND_T" ],
+  "seedPolicy" : "SHA256(namespace+'/'+groupId+'/'+pair) first48BE; no rule/variant; fresh namespaces disjoint from pilot; thirdNPCseed recorded but unused in every confirmation condition",
+  "seedRecords" : 11000,
+  "targetOrder" : "baselineTarget=actualQ*q*g*C*h left-associative; requestedTarget=baselineTarget*discount. q/g/C/h/weights/search/bases unchanged; no folding discount into levelPowerBonus",
+  "telemetry" : "All initial/final traits,stats,counts,action/trace hashes; full actionLog.events and separate traceEvents for pair0 only each condition/model/mirror"
+}

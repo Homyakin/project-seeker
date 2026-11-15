@@ -1,0 +1,25 @@
+{
+  "status": "INDEPENDENT_JVM_REPLAY_BY_PRIMARY_AGENT",
+  "independentSampleAdded": false,
+  "productionSourceModified": false,
+  "mavenOrDatabaseStarted": false,
+  "sourceBasis": "raid-redesign-step-15-evidence/sources.tar.gz; all 198 selected input SHA256 still match",
+  "qComparison": {
+    "battles": 7200,
+    "rawByteIdentical": true,
+    "summaryByteIdentical": true,
+    "rawSha256": "947b8548f8748a9f1a3d9eed20dd43bbb12a7be0f4b8a6c0f3a34fd3b4d1bd8a",
+    "summarySha256": "1eb94ba2c05013d8ee7a69d3595d734447f8b3a74d5aa4d023ff59ddb9bacea4"
+  },
+  "boundedCandidate": {
+    "battles": 4880,
+    "freshCompilationOutsideGameTarget": true,
+    "rawByteIdentical": true,
+    "parsedSummaryExactlyEqual": true,
+    "summaryByteIdentical": false,
+    "summaryFormattingDifference": "Order of two explanatory manifest keys and final newline only; no numeric or semantic difference",
+    "rawSha256": "875bb4283015c554ece468155d5219aea2adcafaaa5e827ebbe07108388fb1f2",
+    "originalSummarySha256": "44719b8e62cd282e1c3a009289357d51cb62f038ee70ad291e4e99890b87e1ba",
+    "replaySummarySha256": "385dc7d05834441904d7d330f89d1780f8c39dcd4ef897c94b3d5051661d0b03"
+  }
+}

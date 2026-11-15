@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "purpose": "MATHEMATICAL_TARGET_AUDIT_ONLY_NO_BATTLES",
+  "seed": 356720678,
+  "count": 5000,
+  "sizes": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    50
+  ],
+  "checks": 612832,
+  "observedBToQ": {
+    "min": 1.9816315187796067e-9,
+    "max": 1
+  },
+  "witnesses": {
+    "zero": {
+      "Q": 0,
+      "B": 0,
+      "F": 0
+    },
+    "soloCarry": {
+      "Q": 1000,
+      "B": 1000,
+      "F": 1000
+    },
+    "carryPlusZeroDamageTank": {
+      "Q": 101000,
+      "B": 1000,
+      "F": 51000
+    },
+    "equalProductsComplementary": {
+      "Q": 10201,
+      "B": 400,
+      "F": 5300.5
+    },
+    "finiteLarge": {
+      "Q": 2.4999999999999938e+303,
+      "B": 2.5e+303,
+      "F": 2.4999999999999968e+303
+    }
+  },
+  "limitations": [
+    "Safe finite numerical domain is tested, not arbitrary Java double overflow proof.",
+    "Monotone target is not monotone victory probability under adaptive enemies.",
+    "No actual battle strength, meta acceptance or stripping exploit absence follows."
+  ]
+}

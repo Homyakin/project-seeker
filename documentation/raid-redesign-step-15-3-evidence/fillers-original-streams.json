@@ -1,0 +1,47 @@
+{
+  "purpose": "ORIGINAL_GZIP_AND_DECOMPRESSED_CONTENT_HASHES_FOR_LOSSLESS_XZ_REPACK",
+  "originalRoot": "/tmp/seeker-step15-3-fillers.HXdOad",
+  "noNewBattles": true,
+  "streams": [
+    {
+      "originalRelativePath": "screen/battles.jsonl.gz",
+      "originalFormat": "gzip",
+      "compressedBytes": 31168487,
+      "originalCompressedSha256": "94ff0d51008e10886655488532771f85cda918cfb234bcdc28a4a0ead5eadf90",
+      "uncompressedBytes": 793106925,
+      "uncompressedSha256": "c7e85fdc37156e3f9ddac579a618a47671dfef874b34ea7b6dc7f210b7811fb0",
+      "conditions": 270,
+      "battles": 10800
+    },
+    {
+      "originalRelativePath": "confirm-main/battles.jsonl.gz",
+      "originalFormat": "gzip",
+      "compressedBytes": 1233014,
+      "originalCompressedSha256": "c46d38097bed652fec0f39f33ab99065e57af9b435785e967ee89a88586e9909",
+      "uncompressedBytes": 50946719,
+      "uncompressedSha256": "bd809c1cfd40407a00041f7d0ef0df9b7fe25bed1ad05bc09bd796a07c08f990",
+      "conditions": 3,
+      "battles": 3000
+    },
+    {
+      "originalRelativePath": "confirm-pierce/battles.jsonl.gz",
+      "originalFormat": "gzip",
+      "compressedBytes": 8688978,
+      "originalCompressedSha256": "1eb261dcd571b780cfee63245ba2592ff677b48f161fbea7d6bb40ed98f0f765",
+      "uncompressedBytes": 251938033,
+      "uncompressedSha256": "eddfd029991ae8e31c5b3e64fc9604909da6f445d9f4c9df677527e746174b61",
+      "conditions": 3,
+      "battles": 3000
+    },
+    {
+      "originalRelativePath": "confirm-ritual/battles.jsonl.gz",
+      "originalFormat": "gzip",
+      "compressedBytes": 4154323,
+      "originalCompressedSha256": "10ffd342bb9b9e88dda62a44bda2ded04096e0d5d9efa4d5eb800c80727b4f59",
+      "uncompressedBytes": 82908676,
+      "uncompressedSha256": "ea8f7145ad9f0a2192968902d89b8f6ebf588f01e385e6b28f0b85e4752a98e4",
+      "conditions": 3,
+      "battles": 3000
+    }
+  ]
+}

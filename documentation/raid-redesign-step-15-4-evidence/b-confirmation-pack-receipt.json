@@ -1,0 +1,53 @@
+{
+  "name": "b-confirmation",
+  "file": "b-confirmation-battles.jsonl.xz",
+  "battles": 18000,
+  "originalGzipSha256": "9749b889207757642f37026db1f1aa6b9ee9f7d596ab6552dea839354a8f5ce8",
+  "archivedSha256": "85dd3de5f48dc2f5f40c353021b77b1120f61f2f6cd20226267f5c36f3c9ed6c",
+  "archivedBytes": 11101600,
+  "jsonlSha256": "a06e9594a1966aae33fbeee04008918428ec8f014c411ccc606b76e521ba0440",
+  "jsonlBytes": 612770712,
+  "artifacts": [
+    {
+      "file": "b-confirmation-manifest.json",
+      "sha256": "155c35207b69ed45af2323cfc053b546cc905f11e3c6a0089be3a0b12d0ba0a8"
+    },
+    {
+      "file": "b-confirmation-summary.json",
+      "sha256": "7c7a776a84f61002a7b6c46004a65e4d6c959b3ae46e0d5732d24913119cc09a"
+    },
+    {
+      "file": "b-confirmation-inputs.json",
+      "sha256": "570fb12c2d2932728782dc7d3bf91eb49ec50bf872b35c51c6f89e6b48f0f314"
+    },
+    {
+      "file": "b-confirmation-seeds.json",
+      "sha256": "ece5ad447c16f2e2ed806d29d2153de5467a4fbd1c28451c678ff2e63526e04e"
+    },
+    {
+      "file": "b-confirmation-analysis.json",
+      "sha256": "90bfec547a4697c7ddd71adceeaab7e6d1692338d9a62baac7b3ef97efdf0b35"
+    },
+    {
+      "file": "b-confirmation-validation.json",
+      "sha256": "ba6705c3a80cca2ee420e16e2f880f859df13393d425b1b70083b1925caf2f72"
+    },
+    {
+      "file": "b-confirmation-Step154FormulaProbe.java",
+      "sha256": "241077748a04a9a6357426efcf7af6ba7a800b00135a4d5aa60ee079c4a274ca"
+    },
+    {
+      "file": "b-confirmation-preparation-manifest.json",
+      "sha256": "155c35207b69ed45af2323cfc053b546cc905f11e3c6a0089be3a0b12d0ba0a8"
+    },
+    {
+      "file": "b-confirmation-preparation-inputs.json",
+      "sha256": "570fb12c2d2932728782dc7d3bf91eb49ec50bf872b35c51c6f89e6b48f0f314"
+    },
+    {
+      "file": "b-confirmation-preparation-seeds.json",
+      "sha256": "ece5ad447c16f2e2ed806d29d2153de5467a4fbd1c28451c678ff2e63526e04e"
+    }
+  ],
+  "rawPolicy": "Every original JSONL byte retained; only gzip container replaced with xz"
+}

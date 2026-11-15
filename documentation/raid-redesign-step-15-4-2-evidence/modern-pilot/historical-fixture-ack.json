@@ -1,0 +1,84 @@
+{
+  "verdict": "PASS",
+  "checks": 288,
+  "commonFixtureManifest": "/tmp/seeker-step15-4-2-causal.1HOgPK/preparation/fixture-manifest.json",
+  "commonFixtureSHA256": "b4aa68845c6498a93b81a6ff70051f970721ba4bd0ddcdcdf08c41289f161058",
+  "historicalManifest": "/tmp/seeker-step1542-historical.77NJth/preparation-frozen/manifest.json",
+  "historicalManifestSHA256": "ade2926fa1b5803bae2722ae659ecd7e154cc7eed3c41e7c24f56262bbd3371e",
+  "helperSHA256": "50a9d3bb198d535b90b23c41c5a0359e0ded4db8d226afdcbab71461c1d21f00",
+  "scope": "Exact OLD fixture descriptions and order; all120 seed records; all8 pair0 C0 versus coherent historical player/NPC prepared traits including UUID/gauge. Excludes only names and nonhistorical metadata impact/scalingRules/formulaVersion.",
+  "rows": [
+    {
+      "scenarioId": 1,
+      "level": 10,
+      "players": 3,
+      "enemies": 3,
+      "playerPower": 345818.03999769315,
+      "enemyPower": 324744.93565162015,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 2,
+      "level": 10,
+      "players": 4,
+      "enemies": 4,
+      "playerPower": 484875.6317138263,
+      "enemyPower": 462480.64473631023,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 3,
+      "level": 10,
+      "players": 1,
+      "enemies": 2,
+      "playerPower": 183926.56180821478,
+      "enemyPower": 168188.4359124082,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 4,
+      "level": 10,
+      "players": 2,
+      "enemies": 2,
+      "playerPower": 226488.22963948816,
+      "enemyPower": 207577.35825529142,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 1,
+      "level": 25,
+      "players": 3,
+      "enemies": 3,
+      "playerPower": 345818.03999769315,
+      "enemyPower": 580934.8551265169,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 2,
+      "level": 25,
+      "players": 4,
+      "enemies": 4,
+      "playerPower": 484875.6317138263,
+      "enemyPower": 828412.8155875675,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 3,
+      "level": 25,
+      "players": 1,
+      "enemies": 2,
+      "playerPower": 183926.56180821478,
+      "enemyPower": 301581.9998024977,
+      "exactPreparedTraits": true
+    },
+    {
+      "scenarioId": 4,
+      "level": 25,
+      "players": 2,
+      "enemies": 2,
+      "playerPower": 226488.22963948816,
+      "enemyPower": 371486.9359413991,
+      "exactPreparedTraits": true
+    }
+  ]
+}

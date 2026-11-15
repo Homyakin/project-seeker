@@ -1,0 +1,144 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Europe/Moscow",
+  "purpose": "CONTROLLED_CAUSAL_READ_ONLY_15_3_CHECK_NOT_UNIVERSAL_BALANCE_ACCEPTANCE",
+  "status": "ORDINARY_N3_LOCAL_IMPROVEMENT_WEAK_PARTICIPANT_PENALTY_REPEATED_DO_NOT_CLOSE_15_3",
+  "productionChanged": false,
+  "parametersChanged": false,
+  "mavenRunByThisAgent": false,
+  "databaseOrBotUsed": false,
+  "heap": "-Xmx512m",
+  "javaHome": "/home/user/.jdks/axiomjdk-25.0.1",
+  "javaVersion": "25.0.1",
+  "cwd": "/home/user/projects/project-seeker/game",
+  "maxConcurrentHeavyJavaByThisAgent": 1,
+  "dependencyClasspath": "/tmp/seeker-step15-3.LlzF3u/classpath.txt",
+  "sourceBasis": "source-basis.sha256: own hashes of five relevant source files before any successful study; broader203-file15.2 basis was provided and verified by the parent",
+  "classBasis": "class-basis.sha256: own hashes of generator, assessment and two study class files before successful studies; not reread after parent announced clean package",
+  "failedInitialInvocation": {
+    "count": 1,
+    "status": 127,
+    "reason": "JAVA_HOME empty; /bin/java absent; no Java process/battles started",
+    "log": "confirmation.log"
+  },
+  "runs": [
+    {
+      "name": "confirmation",
+      "phase": "STEP_15_3_N3_CAUSAL_CONFIRMATION",
+      "seedOffset": 2000000000,
+      "generationRoot": 2028110815000,
+      "battleRoot": 3028110815000,
+      "pairsPerCondition": 500,
+      "conditions": 12,
+      "groups": 4,
+      "battles": 12000,
+      "groupIds": [
+        29,
+        30,
+        41,
+        42
+      ],
+      "extraLevels": [
+        20,
+        25
+      ],
+      "variants": [
+        "BASE",
+        "NORMAL_APPEND",
+        "WEAK_APPEND"
+      ],
+      "rawGzipSha256": "dbd5b73fa4b6ae6a71deaed7fec46735d932adade58359f8699d05d19db18a4e",
+      "summarySha256": "1c0e121da58164d54194eae497c0fb75d1ab3c22fe79d327088e4ca4b2e81aec",
+      "validationSha256": "7cbde4b8c62076926761910d8b9f389ddd40f260048bf377126fa963e8d773a1",
+      "validatedRows": 12000,
+      "timeouts": 0,
+      "prefixRowsChecked": 8000,
+      "weakLiveRowsChecked": 4000,
+      "enhanceExactlyOneRowsChecked": 0,
+      "rarityExactlyOneRowsChecked": 0
+    },
+    {
+      "name": "broad",
+      "phase": "STEP_15_3_BROAD_CAUSAL_SCREEN",
+      "seedOffset": 2100000000,
+      "generationRoot": 2028210815000,
+      "battleRoot": 3028210815000,
+      "pairsPerCondition": 20,
+      "conditions": 360,
+      "groups": 72,
+      "battles": 14400,
+      "groupIds": [],
+      "extraLevels": [
+        20,
+        25,
+        30,
+        40
+      ],
+      "variants": [
+        "BASE",
+        "NORMAL_APPEND",
+        "WEAK_APPEND",
+        "SINGLE_ITEM_ENHANCE",
+        "SINGLE_MODIFIER_RARITY"
+      ],
+      "rawGzipSha256": "449fce75c09c56010cc2007fab807bbf43ab10001f1d2ea0ffc2ff28759f8ab5",
+      "summarySha256": "965733422432d54abe85792c4d24894ffe90de31cbfdc3733b124c663305758e",
+      "validationSha256": "65cef6781c93f5b468b885a2a1fa953d36095e17bf49e5bdba4c17c0fd6ae3b0",
+      "validatedRows": 14400,
+      "timeouts": 0,
+      "prefixRowsChecked": 5760,
+      "weakLiveRowsChecked": 2880,
+      "enhanceExactlyOneRowsChecked": 2880,
+      "rarityExactlyOneRowsChecked": 2880
+    },
+    {
+      "name": "independent-confirmation",
+      "phase": "STEP_15_3_INDEPENDENT_FIXED_CAUSAL_CONFIRMATION",
+      "seedOffset": 2200000000,
+      "generationRoot": 2028310815000,
+      "battleRoot": 3028310815000,
+      "pairsPerCondition": 500,
+      "conditions": 21,
+      "groups": 7,
+      "battles": 21000,
+      "groupIds": [
+        33,
+        34,
+        38,
+        43,
+        57,
+        58,
+        67
+      ],
+      "extraLevels": [
+        20,
+        25,
+        30,
+        40
+      ],
+      "variants": [
+        "BASE",
+        "NORMAL_APPEND",
+        "WEAK_APPEND"
+      ],
+      "rawGzipSha256": "6cfada843cefd311246d48cd611774aeccd95522ac6bc1f21697d09316a9030a",
+      "summarySha256": "41492c0516ba3622f4c5610195183aee90c2cdf250477ac42e63aa9bccb3bd20",
+      "validationSha256": "5adc4fa81d96aee0385423ddaf477ee3e2ab8bbbddb3ff961ddecbfb5ce7c921",
+      "validatedRows": 21000,
+      "timeouts": 0,
+      "prefixRowsChecked": 14000,
+      "weakLiveRowsChecked": 7000,
+      "enhanceExactlyOneRowsChecked": 0,
+      "rarityExactlyOneRowsChecked": 0
+    }
+  ],
+  "executedBattles": 47400,
+  "statisticalPolicy": "Mirrors form one pair; fixed independent follow-up500; pooled1000 allows at most two data looks per comparison, not simultaneous across conditions. Weak penalty is separate from ordinary20pp acceptance policy.",
+  "aggregate": {
+    "file": "aggregate.json",
+    "sha256": "79932b587efbfe0805c094349cddeda3e1ade1138f2d4e870c59c0f09dab15ef"
+  },
+  "commands": "commands.md",
+  "review": "REVIEW.md",
+  "repackingPolicy": "If gzip is losslessly repacked to xz preserve rawGzipSha256 as provenance and prove equality of decoded byte streams; no rows may be omitted"
+}

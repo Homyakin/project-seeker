@@ -3,6 +3,11 @@ package ru.homyakin.seeker.game.event.raid.generator;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
+import ru.homyakin.seeker.game.event.pve.GeneratedPveEnemies;
+import ru.homyakin.seeker.game.event.pve.PveCharacteristicScaling;
+import ru.homyakin.seeker.game.event.pve.PveEquipmentPowerSum;
+import ru.homyakin.seeker.game.event.pve.PveScalingDiagnostics;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -12,10 +17,13 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.MathUtils;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -59,21 +67,22 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
 
     private static final double GROUP_SCALE_COEF = 0.05;
 
-    /**
-     * Correction applied to the raw calibration target before the binary search.
-     * The {@code power()} formula underestimates myconid combat effectiveness because:
-     * <ul>
-     *   <li>ARCANE defence resists the most common player attack types (SLASH, MAGICAL)
-     *       more than the 4-type average used by {@code power()} suggests.</li>
-     *   <li>KNOCKBACK on guardians wastes player turns by pushing them away from the enemy line.</li>
-     * </ul>
-     * Tune this value so that group-3+ winrates at level 10 sit near 50-60 %.
-     */
-    private static final double POWER_CALIBRATION_CORRECTION = 0.77;
+    // Historical formulas retain their original generation until the explicit V3 release.
+    private static final double LEGACY_POWER_CALIBRATION_CORRECTION = 0.77;
+    // Step 17.2 keeps the encounter correction separate from historical formula versions.
+    private static final double EQUIPMENT_POWER_CALIBRATION_CORRECTION = 0.82;
 
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerBonus) {
+    public GeneratedPveEnemies generateCalibrated(
+        List<BattlePersonage> personages,
+        double powerBonus,
+        SkillFormulaVersion formulaVersion
+    ) {
+        RaidBattlePersonageGenerator.validateInputs(personages, powerBonus, formulaVersion);
         final int myconidCount = Math.max(2, personages.size());
+        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3) {
+            return generateEquipmentCalibrated(personages, powerBonus, myconidCount, formulaVersion);
+        }
         final double groupSizeScaling;
         if (myconidCount <= 7) {
             groupSizeScaling = 1.0 + MathUtils.log(2.2, myconidCount) * GROUP_SCALE_COEF;
@@ -82,18 +91,71 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
         }
         final var targetPower = personages.stream()
             .mapToDouble(BattlePersonage::legacyPower)
-            .sum() * powerBonus * groupSizeScaling * POWER_CALIBRATION_CORRECTION;
-        final var multiplier = characteristicsMultiplier(myconidCount, targetPower);
+            .sum() * powerBonus * groupSizeScaling * LEGACY_POWER_CALIBRATION_CORRECTION;
+        final var calibration = PveCharacteristicScaling.search(
+            targetPower,
+            PveCharacteristicScaling.maxMultiplier(
+                BASE_GUARDIAN_ATTACK, BASE_GUARDIAN_DEFENSE, BASE_GUARDIAN_HEALTH,
+                BASE_SLINGER_ATTACK, BASE_SLINGER_DEFENSE, BASE_SLINGER_HEALTH
+            ),
+            multiplier -> totalRaidPower(myconidCount, multiplier, formulaVersion)
+        );
+        final var multiplier = calibration.multiplier();
 
         final int frontCount = myconidCount / 2;
         final int backCount = myconidCount - frontCount;
 
         final var colony = new ArrayList<BattlePersonage>();
         for (int i = 0; i < frontCount; i++) {
-            colony.add(guardian(multiplier));
+            colony.add(guardian(multiplier, formulaVersion));
         }
         for (int i = 0; i < backCount; i++) {
-            colony.add(slinger(multiplier));
+            colony.add(slinger(multiplier, formulaVersion));
+        }
+        return new GeneratedPveEnemies(colony, calibration);
+    }
+
+    private GeneratedPveEnemies generateEquipmentCalibrated(
+        List<BattlePersonage> personages,
+        double powerBonus,
+        int count,
+        SkillFormulaVersion formulaVersion
+    ) {
+        final var formation = new Formation(count);
+        final var groupSizeScaling = 1.0 + MathUtils.log(4, count) * GROUP_SCALE_COEF;
+        final var participantAssessment = PveEquipmentPowerSum.sum(personages);
+        final var target = participantAssessment * powerBonus * groupSizeScaling
+            * EQUIPMENT_POWER_CALIBRATION_CORRECTION;
+        final var calibration = PveCharacteristicScaling.search(
+            target,
+            PveCharacteristicScaling.maxMultiplier(
+                BASE_GUARDIAN_ATTACK, BASE_GUARDIAN_DEFENSE, BASE_GUARDIAN_HEALTH,
+                BASE_SLINGER_ATTACK, BASE_SLINGER_DEFENSE, BASE_SLINGER_HEALTH
+            ),
+            // UUIDs and initial initiative are irrelevant to power. Preserve the final random stream.
+            multiplier -> RandomUtils.withSeed(0, () -> PveEquipmentPowerSum.sum(
+                equipmentColony(formation, multiplier, formulaVersion)))
+        );
+        final var diagnostics = new PveScalingDiagnostics(PveEquipmentPowerSum.VERSION, participantAssessment, Map.of(
+            "enemyCount", (double) formation.count(),
+            "frontCount", (double) formation.frontCount(),
+            "backCount", (double) formation.backCount(),
+            "groupSizeScaling", groupSizeScaling,
+            "powerBonus", powerBonus,
+            "encounterCorrection", EQUIPMENT_POWER_CALIBRATION_CORRECTION
+        ));
+        return new GeneratedPveEnemies(
+            equipmentColony(formation, calibration.multiplier(), formulaVersion), calibration, Optional.of(diagnostics)
+        );
+    }
+
+    private List<BattlePersonage> equipmentColony(Formation formation, double multiplier, SkillFormulaVersion version) {
+        final var colony = new ArrayList<BattlePersonage>(formation.count());
+        for (int i = 0; i < formation.frontCount(); i++) {
+            colony.add(guardian(multiplier, version));
+        }
+        for (int i = 0; i < formation.backCount(); i++) {
+            colony.add(slinger(multiplier, version));
         }
         return colony;
     }
@@ -102,14 +164,15 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
     // Unit factories
     // -------------------------------------------------------------------------
 
-    private BattlePersonage guardian(double m) {
-        return new BattlePersonage(
+    private BattlePersonage guardian(double m, SkillFormulaVersion formulaVersion) {
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
                         null,
                         Set.of(PersonageSlot.MAIN_HAND),
-                        Optional.of(new ItemAttack(AttackType.MAGICAL, 1, multiply(BASE_GUARDIAN_ATTACK, m))),
+                        Optional.of(new ItemAttack(AttackType.MAGICAL, 1,
+                            multiply(BASE_GUARDIAN_ATTACK, m))),
                         Optional.of(new ItemDefense(DefenseType.ARCANE, multiply(BASE_GUARDIAN_DEFENSE, m))),
                         multiply(BASE_GUARDIAN_HEALTH, m),
                         BASE_GUARDIAN_CRIT_CHANCE, BASE_GUARDIAN_DODGE_CHANCE, BASE_GUARDIAN_CRIT_MULTI,
@@ -119,18 +182,25 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            Position.FRONT
+            Position.FRONT,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
-    private BattlePersonage slinger(double m) {
-        return new BattlePersonage(
+    private BattlePersonage slinger(double m, SkillFormulaVersion formulaVersion) {
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
                         null,
                         Set.of(PersonageSlot.MAIN_HAND),
-                        Optional.of(new ItemAttack(AttackType.MAGICAL, 1, multiply(BASE_SLINGER_ATTACK, m))),
+                        Optional.of(new ItemAttack(
+                            AttackType.MAGICAL, 1,
+                            formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3 ? 3 : 1,
+                            multiply(BASE_SLINGER_ATTACK, m)
+                        )),
                         Optional.of(new ItemDefense(DefenseType.ARCANE, multiply(BASE_SLINGER_DEFENSE, m))),
                         multiply(BASE_SLINGER_HEALTH, m),
                         BASE_SLINGER_CRIT_CHANCE, BASE_SLINGER_DODGE_CHANCE, BASE_SLINGER_CRIT_MULTI,
@@ -140,51 +210,35 @@ public class MyconidColonyGenerator implements RaidBattlePersonageGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            Position.BACK
+            Position.BACK,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
     // -------------------------------------------------------------------------
-    // Power calibration (binary search)
+    // The trial factories use the same skill formulas as the final enemies.
     // -------------------------------------------------------------------------
 
-    private double characteristicsMultiplier(int myconidCount, double targetPower) {
-        double low = 0;
-        double high = 1;
-
-        if (totalRaidPower(myconidCount, low) >= targetPower) {
-            return low;
-        }
-
-        while (totalRaidPower(myconidCount, high) < targetPower) {
-            low = high;
-            high *= 2;
-        }
-
-        for (int i = 0; i < 32; i++) {
-            final var mid = (low + high) / 2;
-            if (totalRaidPower(myconidCount, mid) >= targetPower) {
-                high = mid;
-            } else {
-                low = mid;
-            }
-        }
-        return closestMultiplier(myconidCount, targetPower, low, high);
-    }
-
-    private double closestMultiplier(int myconidCount, double targetPower, double low, double high) {
-        final var lowDiff = Math.abs(totalRaidPower(myconidCount, low) - targetPower);
-        final var highDiff = Math.abs(totalRaidPower(myconidCount, high) - targetPower);
-        return lowDiff < highDiff ? low : high;
-    }
-
-    private double totalRaidPower(int myconidCount, double m) {
+    private double totalRaidPower(int myconidCount, double m, SkillFormulaVersion formulaVersion) {
         final int frontCount = myconidCount / 2;
         final int backCount = myconidCount - frontCount;
-        return guardian(m).legacyPower() * frontCount + slinger(m).legacyPower() * backCount;
+        return guardian(m, formulaVersion).legacyPower() * frontCount
+            + slinger(m, formulaVersion).legacyPower() * backCount;
     }
 
     private int multiply(int value, double multiplier) {
-        return Math.max(1, (int) Math.ceil(value * multiplier));
+        return PveCharacteristicScaling.multiply(value, multiplier);
+    }
+
+    private record Formation(int count) {
+        int frontCount() {
+            return count / 2;
+        }
+
+        int backCount() {
+            return count - frontCount();
+        }
     }
 }

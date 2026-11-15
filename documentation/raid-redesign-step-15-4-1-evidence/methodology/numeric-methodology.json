@@ -1,0 +1,80 @@
+{
+  "status": "PASS_NUMERICAL_METHODOLOGY_ONLY_NOT_BATTLES_OR_BALANCE_ACCEPTANCE",
+  "reference": {
+    "Hplayer": 11735.6070634692,
+    "Dplayer": 154.2861432,
+    "Hnpc": 9616.368128260692,
+    "Dnpc": 235.56672000000003,
+    "level": 25,
+    "guardianDefense": 707,
+    "slingerDefense": 309
+  },
+  "configuration": {
+    "seed": 1515001,
+    "randomCases": 10000,
+    "relativeTolerance": 2e-12
+  },
+  "checks": 93004,
+  "coefficientForms": {
+    "SAME": {
+      "kH": 0.5737073803621603,
+      "kD": 1.0689857806874088
+    },
+    "CROSS": {
+      "kH": 43.638425627211994,
+      "kD": 0.014053784550378937
+    }
+  },
+  "floatingPermutationExamples": [
+    {
+      "armor": 3,
+      "ordinaryArcane": 0.9940370670798763,
+      "ordinaryLeather": 0.9940370670798764
+    },
+    {
+      "armor": 9,
+      "ordinaryArcane": 0.9823294042475326,
+      "ordinaryLeather": 0.9823294042475325
+    },
+    {
+      "armor": 10,
+      "ordinaryArcane": 0.9804058208268895,
+      "ordinaryLeather": 0.9804058208268897
+    },
+    {
+      "armor": 20,
+      "ordinaryArcane": 0.9615900275424882,
+      "ordinaryLeather": 0.9615900275424881
+    }
+  ],
+  "referenceIndependentCeilIllustration": {
+    "continuousH": 5.05469788788417,
+    "continuousD": 4.097126040949221,
+    "hpG": 2123,
+    "hpS": 1416,
+    "attackG": 287,
+    "attackS": 533,
+    "achievedH": 9618.635810495643,
+    "achievedD": 235.73196000000002,
+    "hCeilBound": 5.602616534079557,
+    "dCeilBound": 0.53172,
+    "limitation": "Continuous targets plus ceil, not an actual candidate factory or closest-step search; old role traits are not reproduced."
+  },
+  "sameCrossReferenceGoals": [
+    9616.368128260692,
+    235.56672000000003
+  ],
+  "rawTimeRatiosAtReferenceBeforeTempoDodgeSkillsDeaths": {
+    "npcHOverPlayerD": 62.32813867020491,
+    "playerHOverNpcD": 49.81861216843024
+  },
+  "pointwiseDifferenceHalfAt30pairsPP": 49.590855703539646,
+  "scriptSha256": "0687bb85592514a4496ed04e240c72cffbfac94870d8e074eb36cd53a9d0eada",
+  "limitations": [
+    "The goal checks do not evaluate a Java factory, random effects, skills, attack opportunities or any win probability.",
+    "Single armor type neutrality does not extend to arbitrary mixed-defense maps.",
+    "Normal attacks round each damage component before variance; the skill illustration instead uses exact rational defense and minimum1.",
+    "Phase screen is50conditions*30mirroredpairs*2models=6000battles, not a balance acceptance sample.",
+    "No additional battle conditions or outcome-based constants are proposed here."
+  ]
+}

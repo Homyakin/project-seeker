@@ -1,0 +1,2851 @@
+[ {
+  "battleSeed" : 114829477335866,
+  "generationSeed" : 131145145120101,
+  "groupId" : 1,
+  "npcSeed" : 190930855217120,
+  "pair" : 0
+}, {
+  "battleSeed" : 41160139164484,
+  "generationSeed" : 251994855369555,
+  "groupId" : 1,
+  "npcSeed" : 195628099055018,
+  "pair" : 1
+}, {
+  "battleSeed" : 231320206528509,
+  "generationSeed" : 20311938079514,
+  "groupId" : 1,
+  "npcSeed" : 206045466238023,
+  "pair" : 2
+}, {
+  "battleSeed" : 178515472850555,
+  "generationSeed" : 133629958745828,
+  "groupId" : 1,
+  "npcSeed" : 158196215382460,
+  "pair" : 3
+}, {
+  "battleSeed" : 65929398278140,
+  "generationSeed" : 13019848850175,
+  "groupId" : 1,
+  "npcSeed" : 36824711815653,
+  "pair" : 4
+}, {
+  "battleSeed" : 116407225628396,
+  "generationSeed" : 246855856524071,
+  "groupId" : 1,
+  "npcSeed" : 52763406534851,
+  "pair" : 5
+}, {
+  "battleSeed" : 5609012278786,
+  "generationSeed" : 194280709935570,
+  "groupId" : 1,
+  "npcSeed" : 161205168863887,
+  "pair" : 6
+}, {
+  "battleSeed" : 119161031204659,
+  "generationSeed" : 40457448075968,
+  "groupId" : 1,
+  "npcSeed" : 130578153032595,
+  "pair" : 7
+}, {
+  "battleSeed" : 206776067111287,
+  "generationSeed" : 154895452811894,
+  "groupId" : 1,
+  "npcSeed" : 150166210621733,
+  "pair" : 8
+}, {
+  "battleSeed" : 125568189856260,
+  "generationSeed" : 105195491785837,
+  "groupId" : 1,
+  "npcSeed" : 121400482429699,
+  "pair" : 9
+}, {
+  "battleSeed" : 140555870283405,
+  "generationSeed" : 43542371094972,
+  "groupId" : 1,
+  "npcSeed" : 92850144795712,
+  "pair" : 10
+}, {
+  "battleSeed" : 204264752665763,
+  "generationSeed" : 165145874595143,
+  "groupId" : 1,
+  "npcSeed" : 59058348635175,
+  "pair" : 11
+}, {
+  "battleSeed" : 200005482362738,
+  "generationSeed" : 41754113610593,
+  "groupId" : 1,
+  "npcSeed" : 176974784806032,
+  "pair" : 12
+}, {
+  "battleSeed" : 84499568185184,
+  "generationSeed" : 257404391420036,
+  "groupId" : 1,
+  "npcSeed" : 132592552056082,
+  "pair" : 13
+}, {
+  "battleSeed" : 111877810888128,
+  "generationSeed" : 26671407907344,
+  "groupId" : 1,
+  "npcSeed" : 85815511541464,
+  "pair" : 14
+}, {
+  "battleSeed" : 28420093850419,
+  "generationSeed" : 263489477749769,
+  "groupId" : 1,
+  "npcSeed" : 280510454167373,
+  "pair" : 15
+}, {
+  "battleSeed" : 172920078352073,
+  "generationSeed" : 163197285209296,
+  "groupId" : 1,
+  "npcSeed" : 101446917479202,
+  "pair" : 16
+}, {
+  "battleSeed" : 163169735219670,
+  "generationSeed" : 1751371235803,
+  "groupId" : 1,
+  "npcSeed" : 163332145374464,
+  "pair" : 17
+}, {
+  "battleSeed" : 67411389299343,
+  "generationSeed" : 275385888529664,
+  "groupId" : 1,
+  "npcSeed" : 69722934744954,
+  "pair" : 18
+}, {
+  "battleSeed" : 125735537931573,
+  "generationSeed" : 130753220244765,
+  "groupId" : 1,
+  "npcSeed" : 84968728190102,
+  "pair" : 19
+}, {
+  "battleSeed" : 276976604429033,
+  "generationSeed" : 15846957695662,
+  "groupId" : 1,
+  "npcSeed" : 168030905822276,
+  "pair" : 20
+}, {
+  "battleSeed" : 232820450849675,
+  "generationSeed" : 266928745849950,
+  "groupId" : 1,
+  "npcSeed" : 198070427821649,
+  "pair" : 21
+}, {
+  "battleSeed" : 211934354775473,
+  "generationSeed" : 245084345101458,
+  "groupId" : 1,
+  "npcSeed" : 220271812962979,
+  "pair" : 22
+}, {
+  "battleSeed" : 136305761705234,
+  "generationSeed" : 51877463712434,
+  "groupId" : 1,
+  "npcSeed" : 191118734478569,
+  "pair" : 23
+}, {
+  "battleSeed" : 2847453885999,
+  "generationSeed" : 112268604739260,
+  "groupId" : 1,
+  "npcSeed" : 162420368365221,
+  "pair" : 24
+}, {
+  "battleSeed" : 232624524232119,
+  "generationSeed" : 281089155287822,
+  "groupId" : 2,
+  "npcSeed" : 89974138494968,
+  "pair" : 0
+}, {
+  "battleSeed" : 117751357583018,
+  "generationSeed" : 89424463487794,
+  "groupId" : 2,
+  "npcSeed" : 169670326034875,
+  "pair" : 1
+}, {
+  "battleSeed" : 154782083517571,
+  "generationSeed" : 98456988434648,
+  "groupId" : 2,
+  "npcSeed" : 34510157008660,
+  "pair" : 2
+}, {
+  "battleSeed" : 87183354733338,
+  "generationSeed" : 81199966980440,
+  "groupId" : 2,
+  "npcSeed" : 262148812353363,
+  "pair" : 3
+}, {
+  "battleSeed" : 210312378385832,
+  "generationSeed" : 27400156824101,
+  "groupId" : 2,
+  "npcSeed" : 14716858665546,
+  "pair" : 4
+}, {
+  "battleSeed" : 277669407132484,
+  "generationSeed" : 69270478436628,
+  "groupId" : 2,
+  "npcSeed" : 90730779462854,
+  "pair" : 5
+}, {
+  "battleSeed" : 221801993375741,
+  "generationSeed" : 66491076905220,
+  "groupId" : 2,
+  "npcSeed" : 104867058068433,
+  "pair" : 6
+}, {
+  "battleSeed" : 226171352431551,
+  "generationSeed" : 74732460663846,
+  "groupId" : 2,
+  "npcSeed" : 213305912350115,
+  "pair" : 7
+}, {
+  "battleSeed" : 61569531772929,
+  "generationSeed" : 40229625590087,
+  "groupId" : 2,
+  "npcSeed" : 155468378827045,
+  "pair" : 8
+}, {
+  "battleSeed" : 31197165845609,
+  "generationSeed" : 42608326261364,
+  "groupId" : 2,
+  "npcSeed" : 104799495468373,
+  "pair" : 9
+}, {
+  "battleSeed" : 224901935398534,
+  "generationSeed" : 60849483070940,
+  "groupId" : 2,
+  "npcSeed" : 72222453398873,
+  "pair" : 10
+}, {
+  "battleSeed" : 256680190383800,
+  "generationSeed" : 232822991874734,
+  "groupId" : 2,
+  "npcSeed" : 207943919399546,
+  "pair" : 11
+}, {
+  "battleSeed" : 185267155120734,
+  "generationSeed" : 266373818703563,
+  "groupId" : 2,
+  "npcSeed" : 249926812595341,
+  "pair" : 12
+}, {
+  "battleSeed" : 107409925326916,
+  "generationSeed" : 143760085376936,
+  "groupId" : 2,
+  "npcSeed" : 223627299442170,
+  "pair" : 13
+}, {
+  "battleSeed" : 50044563901670,
+  "generationSeed" : 60446013180182,
+  "groupId" : 2,
+  "npcSeed" : 7912802208385,
+  "pair" : 14
+}, {
+  "battleSeed" : 64670064574626,
+  "generationSeed" : 139232311231369,
+  "groupId" : 2,
+  "npcSeed" : 237352148764100,
+  "pair" : 15
+}, {
+  "battleSeed" : 207118364753269,
+  "generationSeed" : 25965117717333,
+  "groupId" : 2,
+  "npcSeed" : 275920103961471,
+  "pair" : 16
+}, {
+  "battleSeed" : 205320030319806,
+  "generationSeed" : 157926922167887,
+  "groupId" : 2,
+  "npcSeed" : 75011744453232,
+  "pair" : 17
+}, {
+  "battleSeed" : 255893891144668,
+  "generationSeed" : 94175977345636,
+  "groupId" : 2,
+  "npcSeed" : 155537798658447,
+  "pair" : 18
+}, {
+  "battleSeed" : 265381996576350,
+  "generationSeed" : 125698179683061,
+  "groupId" : 2,
+  "npcSeed" : 23405081208399,
+  "pair" : 19
+}, {
+  "battleSeed" : 26547825433596,
+  "generationSeed" : 172853101258715,
+  "groupId" : 2,
+  "npcSeed" : 167728502304326,
+  "pair" : 20
+}, {
+  "battleSeed" : 221650957379290,
+  "generationSeed" : 160321996352989,
+  "groupId" : 2,
+  "npcSeed" : 115212688761920,
+  "pair" : 21
+}, {
+  "battleSeed" : 49919625389332,
+  "generationSeed" : 146323094407968,
+  "groupId" : 2,
+  "npcSeed" : 127376286720027,
+  "pair" : 22
+}, {
+  "battleSeed" : 277995005382067,
+  "generationSeed" : 137445688646775,
+  "groupId" : 2,
+  "npcSeed" : 49094020741994,
+  "pair" : 23
+}, {
+  "battleSeed" : 225782609062638,
+  "generationSeed" : 123465449687642,
+  "groupId" : 2,
+  "npcSeed" : 101414504878948,
+  "pair" : 24
+}, {
+  "battleSeed" : 251469853822417,
+  "generationSeed" : 62160229754385,
+  "groupId" : 3,
+  "npcSeed" : 129664211729269,
+  "pair" : 0
+}, {
+  "battleSeed" : 30465468157600,
+  "generationSeed" : 269790297204644,
+  "groupId" : 3,
+  "npcSeed" : 158013402746389,
+  "pair" : 1
+}, {
+  "battleSeed" : 267459905187296,
+  "generationSeed" : 226054087855267,
+  "groupId" : 3,
+  "npcSeed" : 32578168264495,
+  "pair" : 2
+}, {
+  "battleSeed" : 214957474399489,
+  "generationSeed" : 245001592302152,
+  "groupId" : 3,
+  "npcSeed" : 110445091048464,
+  "pair" : 3
+}, {
+  "battleSeed" : 270864619745750,
+  "generationSeed" : 81436159703801,
+  "groupId" : 3,
+  "npcSeed" : 46146701770340,
+  "pair" : 4
+}, {
+  "battleSeed" : 119654445157764,
+  "generationSeed" : 50457442229597,
+  "groupId" : 3,
+  "npcSeed" : 1527224732877,
+  "pair" : 5
+}, {
+  "battleSeed" : 115245938471683,
+  "generationSeed" : 191882523898804,
+  "groupId" : 3,
+  "npcSeed" : 207109888458909,
+  "pair" : 6
+}, {
+  "battleSeed" : 8641148417198,
+  "generationSeed" : 124399860858218,
+  "groupId" : 3,
+  "npcSeed" : 103570317684009,
+  "pair" : 7
+}, {
+  "battleSeed" : 197179449436960,
+  "generationSeed" : 105081989173140,
+  "groupId" : 3,
+  "npcSeed" : 27155947766105,
+  "pair" : 8
+}, {
+  "battleSeed" : 273651218056241,
+  "generationSeed" : 128588317936000,
+  "groupId" : 3,
+  "npcSeed" : 123404996898124,
+  "pair" : 9
+}, {
+  "battleSeed" : 272678066856793,
+  "generationSeed" : 279502791271693,
+  "groupId" : 3,
+  "npcSeed" : 22412455145004,
+  "pair" : 10
+}, {
+  "battleSeed" : 202974370090100,
+  "generationSeed" : 268153727028305,
+  "groupId" : 3,
+  "npcSeed" : 43928257162456,
+  "pair" : 11
+}, {
+  "battleSeed" : 90390980486046,
+  "generationSeed" : 124161609949376,
+  "groupId" : 3,
+  "npcSeed" : 156327666589445,
+  "pair" : 12
+}, {
+  "battleSeed" : 52323634365335,
+  "generationSeed" : 229194721231352,
+  "groupId" : 3,
+  "npcSeed" : 219778403534936,
+  "pair" : 13
+}, {
+  "battleSeed" : 240069725991718,
+  "generationSeed" : 18229038378131,
+  "groupId" : 3,
+  "npcSeed" : 184904860202562,
+  "pair" : 14
+}, {
+  "battleSeed" : 72391599267844,
+  "generationSeed" : 270132153843275,
+  "groupId" : 3,
+  "npcSeed" : 148348238129799,
+  "pair" : 15
+}, {
+  "battleSeed" : 61882947999880,
+  "generationSeed" : 59020485430654,
+  "groupId" : 3,
+  "npcSeed" : 16762248341242,
+  "pair" : 16
+}, {
+  "battleSeed" : 266109544794300,
+  "generationSeed" : 220068616503318,
+  "groupId" : 3,
+  "npcSeed" : 112688481951950,
+  "pair" : 17
+}, {
+  "battleSeed" : 131999688447576,
+  "generationSeed" : 108841567715990,
+  "groupId" : 3,
+  "npcSeed" : 55540452027451,
+  "pair" : 18
+}, {
+  "battleSeed" : 240276266501067,
+  "generationSeed" : 138280421483896,
+  "groupId" : 3,
+  "npcSeed" : 190963366896067,
+  "pair" : 19
+}, {
+  "battleSeed" : 243550662320321,
+  "generationSeed" : 134406629410349,
+  "groupId" : 3,
+  "npcSeed" : 8607120314358,
+  "pair" : 20
+}, {
+  "battleSeed" : 254695627339263,
+  "generationSeed" : 104323582100768,
+  "groupId" : 3,
+  "npcSeed" : 60170171512442,
+  "pair" : 21
+}, {
+  "battleSeed" : 265892792166824,
+  "generationSeed" : 101618425399097,
+  "groupId" : 3,
+  "npcSeed" : 265428475662903,
+  "pair" : 22
+}, {
+  "battleSeed" : 235075383750871,
+  "generationSeed" : 136843399709779,
+  "groupId" : 3,
+  "npcSeed" : 156969656288628,
+  "pair" : 23
+}, {
+  "battleSeed" : 220499411331422,
+  "generationSeed" : 239181160851344,
+  "groupId" : 3,
+  "npcSeed" : 166529582903608,
+  "pair" : 24
+}, {
+  "battleSeed" : 269284030633678,
+  "generationSeed" : 120721135547573,
+  "groupId" : 4,
+  "npcSeed" : 246960175119525,
+  "pair" : 0
+}, {
+  "battleSeed" : 9424314862572,
+  "generationSeed" : 20427549010243,
+  "groupId" : 4,
+  "npcSeed" : 24457329124257,
+  "pair" : 1
+}, {
+  "battleSeed" : 51863269703675,
+  "generationSeed" : 128412303281391,
+  "groupId" : 4,
+  "npcSeed" : 175294755418950,
+  "pair" : 2
+}, {
+  "battleSeed" : 41536763263169,
+  "generationSeed" : 3820115100316,
+  "groupId" : 4,
+  "npcSeed" : 65918960615281,
+  "pair" : 3
+}, {
+  "battleSeed" : 167034242757770,
+  "generationSeed" : 280827917067275,
+  "groupId" : 4,
+  "npcSeed" : 77737875437083,
+  "pair" : 4
+}, {
+  "battleSeed" : 130505442495475,
+  "generationSeed" : 176803164457333,
+  "groupId" : 4,
+  "npcSeed" : 238065292911919,
+  "pair" : 5
+}, {
+  "battleSeed" : 201383205711010,
+  "generationSeed" : 205354042941653,
+  "groupId" : 4,
+  "npcSeed" : 140704745594337,
+  "pair" : 6
+}, {
+  "battleSeed" : 204427067362564,
+  "generationSeed" : 61870994071375,
+  "groupId" : 4,
+  "npcSeed" : 52214685719521,
+  "pair" : 7
+}, {
+  "battleSeed" : 230695479778924,
+  "generationSeed" : 137925932936185,
+  "groupId" : 4,
+  "npcSeed" : 76763710632694,
+  "pair" : 8
+}, {
+  "battleSeed" : 151713377931769,
+  "generationSeed" : 64246908981768,
+  "groupId" : 4,
+  "npcSeed" : 100057165188157,
+  "pair" : 9
+}, {
+  "battleSeed" : 66170807916527,
+  "generationSeed" : 35685260274085,
+  "groupId" : 4,
+  "npcSeed" : 37632522251074,
+  "pair" : 10
+}, {
+  "battleSeed" : 182361361605501,
+  "generationSeed" : 178085544430767,
+  "groupId" : 4,
+  "npcSeed" : 281424707205582,
+  "pair" : 11
+}, {
+  "battleSeed" : 244519172515936,
+  "generationSeed" : 70371875898209,
+  "groupId" : 4,
+  "npcSeed" : 257175011289636,
+  "pair" : 12
+}, {
+  "battleSeed" : 221608178210135,
+  "generationSeed" : 178945575549133,
+  "groupId" : 4,
+  "npcSeed" : 25711736481597,
+  "pair" : 13
+}, {
+  "battleSeed" : 121772789129269,
+  "generationSeed" : 226799720963319,
+  "groupId" : 4,
+  "npcSeed" : 172536748861846,
+  "pair" : 14
+}, {
+  "battleSeed" : 51935058275937,
+  "generationSeed" : 106364045597162,
+  "groupId" : 4,
+  "npcSeed" : 24388734165735,
+  "pair" : 15
+}, {
+  "battleSeed" : 112609342682298,
+  "generationSeed" : 154598127827584,
+  "groupId" : 4,
+  "npcSeed" : 16626231382200,
+  "pair" : 16
+}, {
+  "battleSeed" : 134125601468055,
+  "generationSeed" : 187543549142409,
+  "groupId" : 4,
+  "npcSeed" : 258173112834696,
+  "pair" : 17
+}, {
+  "battleSeed" : 246356067631614,
+  "generationSeed" : 190741777650765,
+  "groupId" : 4,
+  "npcSeed" : 45057597298099,
+  "pair" : 18
+}, {
+  "battleSeed" : 188816746802448,
+  "generationSeed" : 197673476087194,
+  "groupId" : 4,
+  "npcSeed" : 175291721106534,
+  "pair" : 19
+}, {
+  "battleSeed" : 120690581918165,
+  "generationSeed" : 100235160377712,
+  "groupId" : 4,
+  "npcSeed" : 13046531649293,
+  "pair" : 20
+}, {
+  "battleSeed" : 54480073270450,
+  "generationSeed" : 273918842938377,
+  "groupId" : 4,
+  "npcSeed" : 55303459830486,
+  "pair" : 21
+}, {
+  "battleSeed" : 249949636108382,
+  "generationSeed" : 38294805178858,
+  "groupId" : 4,
+  "npcSeed" : 240276914551227,
+  "pair" : 22
+}, {
+  "battleSeed" : 192175190950909,
+  "generationSeed" : 187618423529936,
+  "groupId" : 4,
+  "npcSeed" : 180715318318787,
+  "pair" : 23
+}, {
+  "battleSeed" : 84837294620711,
+  "generationSeed" : 73362724686496,
+  "groupId" : 4,
+  "npcSeed" : 190096140039557,
+  "pair" : 24
+}, {
+  "battleSeed" : 233510442993080,
+  "generationSeed" : 263750283309140,
+  "groupId" : 5,
+  "npcSeed" : 276926869989509,
+  "pair" : 0
+}, {
+  "battleSeed" : 254560023631092,
+  "generationSeed" : 180567249821628,
+  "groupId" : 5,
+  "npcSeed" : 73965231073317,
+  "pair" : 1
+}, {
+  "battleSeed" : 154470694577522,
+  "generationSeed" : 40459407620219,
+  "groupId" : 5,
+  "npcSeed" : 155301325594282,
+  "pair" : 2
+}, {
+  "battleSeed" : 67376555121765,
+  "generationSeed" : 204504704557121,
+  "groupId" : 5,
+  "npcSeed" : 96212968184440,
+  "pair" : 3
+}, {
+  "battleSeed" : 210650138543742,
+  "generationSeed" : 46797691778613,
+  "groupId" : 5,
+  "npcSeed" : 201624984357046,
+  "pair" : 4
+}, {
+  "battleSeed" : 80054379565350,
+  "generationSeed" : 91467492590509,
+  "groupId" : 5,
+  "npcSeed" : 72719191187950,
+  "pair" : 5
+}, {
+  "battleSeed" : 236485163246172,
+  "generationSeed" : 127024000454444,
+  "groupId" : 5,
+  "npcSeed" : 19795336786616,
+  "pair" : 6
+}, {
+  "battleSeed" : 57919884921102,
+  "generationSeed" : 32778440065834,
+  "groupId" : 5,
+  "npcSeed" : 122102326301869,
+  "pair" : 7
+}, {
+  "battleSeed" : 78503554826420,
+  "generationSeed" : 242850391859423,
+  "groupId" : 5,
+  "npcSeed" : 180892348462072,
+  "pair" : 8
+}, {
+  "battleSeed" : 198432825329162,
+  "generationSeed" : 268619884378842,
+  "groupId" : 5,
+  "npcSeed" : 94234486698667,
+  "pair" : 9
+}, {
+  "battleSeed" : 77194824528440,
+  "generationSeed" : 131348680044086,
+  "groupId" : 5,
+  "npcSeed" : 134584627041341,
+  "pair" : 10
+}, {
+  "battleSeed" : 97964188131471,
+  "generationSeed" : 205596562808474,
+  "groupId" : 5,
+  "npcSeed" : 171800269691275,
+  "pair" : 11
+}, {
+  "battleSeed" : 141158705413098,
+  "generationSeed" : 54775279081797,
+  "groupId" : 5,
+  "npcSeed" : 223129675044789,
+  "pair" : 12
+}, {
+  "battleSeed" : 253139338761288,
+  "generationSeed" : 37750108227879,
+  "groupId" : 5,
+  "npcSeed" : 199749660146097,
+  "pair" : 13
+}, {
+  "battleSeed" : 212873919475879,
+  "generationSeed" : 164440602506236,
+  "groupId" : 5,
+  "npcSeed" : 177652426072872,
+  "pair" : 14
+}, {
+  "battleSeed" : 244943809306124,
+  "generationSeed" : 54507738401698,
+  "groupId" : 5,
+  "npcSeed" : 151928101457131,
+  "pair" : 15
+}, {
+  "battleSeed" : 246074412393057,
+  "generationSeed" : 87589934937261,
+  "groupId" : 5,
+  "npcSeed" : 60110968783256,
+  "pair" : 16
+}, {
+  "battleSeed" : 27314341855543,
+  "generationSeed" : 146018158646928,
+  "groupId" : 5,
+  "npcSeed" : 100892148266013,
+  "pair" : 17
+}, {
+  "battleSeed" : 61731572732091,
+  "generationSeed" : 116079292317999,
+  "groupId" : 5,
+  "npcSeed" : 12352368421738,
+  "pair" : 18
+}, {
+  "battleSeed" : 68553491916204,
+  "generationSeed" : 224285625051929,
+  "groupId" : 5,
+  "npcSeed" : 37259462702710,
+  "pair" : 19
+}, {
+  "battleSeed" : 93283188487959,
+  "generationSeed" : 19544211444178,
+  "groupId" : 5,
+  "npcSeed" : 86076539828614,
+  "pair" : 20
+}, {
+  "battleSeed" : 34672373317933,
+  "generationSeed" : 97436065135856,
+  "groupId" : 5,
+  "npcSeed" : 41563994842108,
+  "pair" : 21
+}, {
+  "battleSeed" : 194008985091165,
+  "generationSeed" : 49623819245498,
+  "groupId" : 5,
+  "npcSeed" : 268172133593347,
+  "pair" : 22
+}, {
+  "battleSeed" : 172271000698777,
+  "generationSeed" : 159784938336720,
+  "groupId" : 5,
+  "npcSeed" : 189204378361021,
+  "pair" : 23
+}, {
+  "battleSeed" : 176583783279644,
+  "generationSeed" : 258657176617102,
+  "groupId" : 5,
+  "npcSeed" : 102954082944846,
+  "pair" : 24
+}, {
+  "battleSeed" : 146185323751409,
+  "generationSeed" : 187088496194552,
+  "groupId" : 6,
+  "npcSeed" : 156168925542987,
+  "pair" : 0
+}, {
+  "battleSeed" : 156164208301631,
+  "generationSeed" : 166014166304820,
+  "groupId" : 6,
+  "npcSeed" : 33229937469891,
+  "pair" : 1
+}, {
+  "battleSeed" : 109156806564220,
+  "generationSeed" : 269460456240566,
+  "groupId" : 6,
+  "npcSeed" : 97353911704832,
+  "pair" : 2
+}, {
+  "battleSeed" : 159377132995833,
+  "generationSeed" : 222330820072685,
+  "groupId" : 6,
+  "npcSeed" : 14937458287876,
+  "pair" : 3
+}, {
+  "battleSeed" : 182349514552788,
+  "generationSeed" : 108515551591140,
+  "groupId" : 6,
+  "npcSeed" : 144215844353668,
+  "pair" : 4
+}, {
+  "battleSeed" : 232016090228971,
+  "generationSeed" : 257215852412118,
+  "groupId" : 6,
+  "npcSeed" : 117078532389985,
+  "pair" : 5
+}, {
+  "battleSeed" : 140994556137727,
+  "generationSeed" : 135714167957501,
+  "groupId" : 6,
+  "npcSeed" : 232309194952213,
+  "pair" : 6
+}, {
+  "battleSeed" : 49701500051028,
+  "generationSeed" : 269759602499916,
+  "groupId" : 6,
+  "npcSeed" : 194606496268851,
+  "pair" : 7
+}, {
+  "battleSeed" : 56704365956405,
+  "generationSeed" : 96736838805877,
+  "groupId" : 6,
+  "npcSeed" : 25484923960329,
+  "pair" : 8
+}, {
+  "battleSeed" : 34504656102183,
+  "generationSeed" : 160058983801046,
+  "groupId" : 6,
+  "npcSeed" : 68191385531526,
+  "pair" : 9
+}, {
+  "battleSeed" : 42734309212688,
+  "generationSeed" : 223255969384736,
+  "groupId" : 6,
+  "npcSeed" : 10823500746722,
+  "pair" : 10
+}, {
+  "battleSeed" : 234610061997968,
+  "generationSeed" : 162880601519391,
+  "groupId" : 6,
+  "npcSeed" : 160063998241877,
+  "pair" : 11
+}, {
+  "battleSeed" : 180115157832304,
+  "generationSeed" : 118934037379740,
+  "groupId" : 6,
+  "npcSeed" : 92099872700182,
+  "pair" : 12
+}, {
+  "battleSeed" : 154323847145247,
+  "generationSeed" : 132022545808481,
+  "groupId" : 6,
+  "npcSeed" : 143114135083240,
+  "pair" : 13
+}, {
+  "battleSeed" : 6588082888270,
+  "generationSeed" : 222390236800404,
+  "groupId" : 6,
+  "npcSeed" : 31710123442415,
+  "pair" : 14
+}, {
+  "battleSeed" : 256436000841103,
+  "generationSeed" : 21347148190642,
+  "groupId" : 6,
+  "npcSeed" : 62406111701569,
+  "pair" : 15
+}, {
+  "battleSeed" : 201173264911728,
+  "generationSeed" : 116206785044414,
+  "groupId" : 6,
+  "npcSeed" : 123821482984924,
+  "pair" : 16
+}, {
+  "battleSeed" : 156270039410481,
+  "generationSeed" : 280449062688717,
+  "groupId" : 6,
+  "npcSeed" : 78318245216418,
+  "pair" : 17
+}, {
+  "battleSeed" : 82263182866467,
+  "generationSeed" : 33852918460429,
+  "groupId" : 6,
+  "npcSeed" : 63398168502239,
+  "pair" : 18
+}, {
+  "battleSeed" : 34017292629861,
+  "generationSeed" : 251646294993015,
+  "groupId" : 6,
+  "npcSeed" : 277214044632728,
+  "pair" : 19
+}, {
+  "battleSeed" : 1239586375653,
+  "generationSeed" : 98397677298456,
+  "groupId" : 6,
+  "npcSeed" : 246756963413051,
+  "pair" : 20
+}, {
+  "battleSeed" : 271010032293068,
+  "generationSeed" : 19272650561831,
+  "groupId" : 6,
+  "npcSeed" : 197048244035616,
+  "pair" : 21
+}, {
+  "battleSeed" : 162756308418368,
+  "generationSeed" : 181287093035092,
+  "groupId" : 6,
+  "npcSeed" : 58273251602718,
+  "pair" : 22
+}, {
+  "battleSeed" : 67458610252463,
+  "generationSeed" : 166819146485617,
+  "groupId" : 6,
+  "npcSeed" : 243269935978246,
+  "pair" : 23
+}, {
+  "battleSeed" : 216712490777031,
+  "generationSeed" : 31520221688011,
+  "groupId" : 6,
+  "npcSeed" : 74365753659697,
+  "pair" : 24
+}, {
+  "battleSeed" : 139602267963822,
+  "generationSeed" : 37663026310428,
+  "groupId" : 7,
+  "npcSeed" : 83066729664347,
+  "pair" : 0
+}, {
+  "battleSeed" : 95896139636551,
+  "generationSeed" : 258663052772204,
+  "groupId" : 7,
+  "npcSeed" : 150919389077941,
+  "pair" : 1
+}, {
+  "battleSeed" : 77508620856823,
+  "generationSeed" : 263206655833827,
+  "groupId" : 7,
+  "npcSeed" : 60769109873703,
+  "pair" : 2
+}, {
+  "battleSeed" : 271232940409766,
+  "generationSeed" : 235777893445049,
+  "groupId" : 7,
+  "npcSeed" : 176129176553677,
+  "pair" : 3
+}, {
+  "battleSeed" : 60707322166244,
+  "generationSeed" : 228478341987674,
+  "groupId" : 7,
+  "npcSeed" : 137329700157607,
+  "pair" : 4
+}, {
+  "battleSeed" : 49650582207658,
+  "generationSeed" : 149279595191429,
+  "groupId" : 7,
+  "npcSeed" : 70085790278860,
+  "pair" : 5
+}, {
+  "battleSeed" : 42240738744534,
+  "generationSeed" : 201655879881536,
+  "groupId" : 7,
+  "npcSeed" : 48695073331868,
+  "pair" : 6
+}, {
+  "battleSeed" : 35362304405316,
+  "generationSeed" : 8041312116299,
+  "groupId" : 7,
+  "npcSeed" : 159618017844009,
+  "pair" : 7
+}, {
+  "battleSeed" : 267742155317281,
+  "generationSeed" : 45396770181262,
+  "groupId" : 7,
+  "npcSeed" : 80666540872594,
+  "pair" : 8
+}, {
+  "battleSeed" : 82821580118774,
+  "generationSeed" : 269486813609056,
+  "groupId" : 7,
+  "npcSeed" : 235295314612983,
+  "pair" : 9
+}, {
+  "battleSeed" : 14969473998170,
+  "generationSeed" : 270706397841381,
+  "groupId" : 7,
+  "npcSeed" : 251058375802418,
+  "pair" : 10
+}, {
+  "battleSeed" : 263782574324630,
+  "generationSeed" : 190892315195861,
+  "groupId" : 7,
+  "npcSeed" : 258883159782577,
+  "pair" : 11
+}, {
+  "battleSeed" : 102559997859507,
+  "generationSeed" : 15604308774759,
+  "groupId" : 7,
+  "npcSeed" : 222622413811871,
+  "pair" : 12
+}, {
+  "battleSeed" : 248638875698300,
+  "generationSeed" : 45734997066756,
+  "groupId" : 7,
+  "npcSeed" : 131908018383350,
+  "pair" : 13
+}, {
+  "battleSeed" : 43599331262969,
+  "generationSeed" : 39978711969808,
+  "groupId" : 7,
+  "npcSeed" : 175030198959571,
+  "pair" : 14
+}, {
+  "battleSeed" : 138706561769028,
+  "generationSeed" : 118029350106763,
+  "groupId" : 7,
+  "npcSeed" : 170196748480072,
+  "pair" : 15
+}, {
+  "battleSeed" : 87951952447236,
+  "generationSeed" : 71658573509744,
+  "groupId" : 7,
+  "npcSeed" : 213832874957383,
+  "pair" : 16
+}, {
+  "battleSeed" : 277650055880175,
+  "generationSeed" : 100008577789439,
+  "groupId" : 7,
+  "npcSeed" : 103930353937881,
+  "pair" : 17
+}, {
+  "battleSeed" : 193432826327167,
+  "generationSeed" : 26843258416914,
+  "groupId" : 7,
+  "npcSeed" : 106385358129614,
+  "pair" : 18
+}, {
+  "battleSeed" : 278003719311859,
+  "generationSeed" : 83102169727334,
+  "groupId" : 7,
+  "npcSeed" : 150118423884093,
+  "pair" : 19
+}, {
+  "battleSeed" : 21781668854907,
+  "generationSeed" : 42043651482672,
+  "groupId" : 7,
+  "npcSeed" : 168351299529626,
+  "pair" : 20
+}, {
+  "battleSeed" : 224542517651188,
+  "generationSeed" : 151932234339799,
+  "groupId" : 7,
+  "npcSeed" : 46811279563091,
+  "pair" : 21
+}, {
+  "battleSeed" : 46178678303933,
+  "generationSeed" : 182122828383639,
+  "groupId" : 7,
+  "npcSeed" : 114741140760181,
+  "pair" : 22
+}, {
+  "battleSeed" : 153172379020297,
+  "generationSeed" : 39516348057053,
+  "groupId" : 7,
+  "npcSeed" : 16837992819041,
+  "pair" : 23
+}, {
+  "battleSeed" : 240533937077335,
+  "generationSeed" : 108474403970416,
+  "groupId" : 7,
+  "npcSeed" : 176519882178028,
+  "pair" : 24
+}, {
+  "battleSeed" : 151887715891530,
+  "generationSeed" : 92131456509614,
+  "groupId" : 8,
+  "npcSeed" : 259203407547147,
+  "pair" : 0
+}, {
+  "battleSeed" : 271855055115704,
+  "generationSeed" : 225275109631806,
+  "groupId" : 8,
+  "npcSeed" : 259508552605826,
+  "pair" : 1
+}, {
+  "battleSeed" : 166104968545613,
+  "generationSeed" : 198268027689960,
+  "groupId" : 8,
+  "npcSeed" : 104308168455165,
+  "pair" : 2
+}, {
+  "battleSeed" : 239162235235811,
+  "generationSeed" : 3238804973348,
+  "groupId" : 8,
+  "npcSeed" : 198456328831730,
+  "pair" : 3
+}, {
+  "battleSeed" : 58854684254786,
+  "generationSeed" : 129068888136539,
+  "groupId" : 8,
+  "npcSeed" : 149177311020063,
+  "pair" : 4
+}, {
+  "battleSeed" : 205097687224105,
+  "generationSeed" : 234875072521771,
+  "groupId" : 8,
+  "npcSeed" : 167065160468384,
+  "pair" : 5
+}, {
+  "battleSeed" : 156821376870687,
+  "generationSeed" : 32926760214054,
+  "groupId" : 8,
+  "npcSeed" : 138552403601794,
+  "pair" : 6
+}, {
+  "battleSeed" : 187814183727787,
+  "generationSeed" : 263498052190962,
+  "groupId" : 8,
+  "npcSeed" : 75056048062949,
+  "pair" : 7
+}, {
+  "battleSeed" : 75332337325404,
+  "generationSeed" : 94195316662629,
+  "groupId" : 8,
+  "npcSeed" : 229536026458451,
+  "pair" : 8
+}, {
+  "battleSeed" : 89641844133031,
+  "generationSeed" : 149097141113745,
+  "groupId" : 8,
+  "npcSeed" : 27167161260414,
+  "pair" : 9
+}, {
+  "battleSeed" : 174113959180591,
+  "generationSeed" : 97093472135730,
+  "groupId" : 8,
+  "npcSeed" : 48484716439490,
+  "pair" : 10
+}, {
+  "battleSeed" : 133387577121183,
+  "generationSeed" : 33395354938927,
+  "groupId" : 8,
+  "npcSeed" : 162790512493081,
+  "pair" : 11
+}, {
+  "battleSeed" : 252159899657745,
+  "generationSeed" : 4166433469383,
+  "groupId" : 8,
+  "npcSeed" : 61285150409715,
+  "pair" : 12
+}, {
+  "battleSeed" : 252581756719122,
+  "generationSeed" : 131634092411331,
+  "groupId" : 8,
+  "npcSeed" : 173916277607246,
+  "pair" : 13
+}, {
+  "battleSeed" : 67076959350538,
+  "generationSeed" : 88880974890989,
+  "groupId" : 8,
+  "npcSeed" : 36932930510524,
+  "pair" : 14
+}, {
+  "battleSeed" : 154158289088784,
+  "generationSeed" : 184816525297218,
+  "groupId" : 8,
+  "npcSeed" : 252094029248794,
+  "pair" : 15
+}, {
+  "battleSeed" : 100641152327911,
+  "generationSeed" : 204492927045414,
+  "groupId" : 8,
+  "npcSeed" : 63731588292001,
+  "pair" : 16
+}, {
+  "battleSeed" : 141265091115195,
+  "generationSeed" : 118463912729710,
+  "groupId" : 8,
+  "npcSeed" : 249068497243992,
+  "pair" : 17
+}, {
+  "battleSeed" : 193355539559339,
+  "generationSeed" : 16315690122498,
+  "groupId" : 8,
+  "npcSeed" : 258111307442094,
+  "pair" : 18
+}, {
+  "battleSeed" : 243919935150029,
+  "generationSeed" : 97496316434236,
+  "groupId" : 8,
+  "npcSeed" : 159411143493005,
+  "pair" : 19
+}, {
+  "battleSeed" : 123354451914024,
+  "generationSeed" : 93732908978320,
+  "groupId" : 8,
+  "npcSeed" : 167077024294696,
+  "pair" : 20
+}, {
+  "battleSeed" : 105601362375079,
+  "generationSeed" : 273304511074168,
+  "groupId" : 8,
+  "npcSeed" : 197775673935755,
+  "pair" : 21
+}, {
+  "battleSeed" : 142589589827958,
+  "generationSeed" : 119465859360236,
+  "groupId" : 8,
+  "npcSeed" : 8388294136101,
+  "pair" : 22
+}, {
+  "battleSeed" : 251453984403085,
+  "generationSeed" : 117719165886472,
+  "groupId" : 8,
+  "npcSeed" : 111545674633232,
+  "pair" : 23
+}, {
+  "battleSeed" : 231692960604440,
+  "generationSeed" : 26350131676701,
+  "groupId" : 8,
+  "npcSeed" : 123622718444112,
+  "pair" : 24
+}, {
+  "battleSeed" : 280875672834695,
+  "generationSeed" : 24327131612607,
+  "groupId" : 9,
+  "npcSeed" : 98138289201882,
+  "pair" : 0
+}, {
+  "battleSeed" : 279564184803924,
+  "generationSeed" : 105530576250479,
+  "groupId" : 9,
+  "npcSeed" : 806868430336,
+  "pair" : 1
+}, {
+  "battleSeed" : 209725909317064,
+  "generationSeed" : 183175192609233,
+  "groupId" : 9,
+  "npcSeed" : 221528442883204,
+  "pair" : 2
+}, {
+  "battleSeed" : 44809975014031,
+  "generationSeed" : 42420626489990,
+  "groupId" : 9,
+  "npcSeed" : 71539142335467,
+  "pair" : 3
+}, {
+  "battleSeed" : 55280761625584,
+  "generationSeed" : 156980607001960,
+  "groupId" : 9,
+  "npcSeed" : 5024705151813,
+  "pair" : 4
+}, {
+  "battleSeed" : 224258947131879,
+  "generationSeed" : 110464849449791,
+  "groupId" : 9,
+  "npcSeed" : 223933276083267,
+  "pair" : 5
+}, {
+  "battleSeed" : 36704492819564,
+  "generationSeed" : 103838064029480,
+  "groupId" : 9,
+  "npcSeed" : 65720336210357,
+  "pair" : 6
+}, {
+  "battleSeed" : 259319995275982,
+  "generationSeed" : 159359722049332,
+  "groupId" : 9,
+  "npcSeed" : 256073554040761,
+  "pair" : 7
+}, {
+  "battleSeed" : 145651755253265,
+  "generationSeed" : 211701344739166,
+  "groupId" : 9,
+  "npcSeed" : 238814861931295,
+  "pair" : 8
+}, {
+  "battleSeed" : 79816009859483,
+  "generationSeed" : 104235055681670,
+  "groupId" : 9,
+  "npcSeed" : 223012423731923,
+  "pair" : 9
+}, {
+  "battleSeed" : 102506574565483,
+  "generationSeed" : 263348386156550,
+  "groupId" : 9,
+  "npcSeed" : 267032970895002,
+  "pair" : 10
+}, {
+  "battleSeed" : 85367923423683,
+  "generationSeed" : 41843454666270,
+  "groupId" : 9,
+  "npcSeed" : 118263404712157,
+  "pair" : 11
+}, {
+  "battleSeed" : 178932216810978,
+  "generationSeed" : 21073460183845,
+  "groupId" : 9,
+  "npcSeed" : 111040259717172,
+  "pair" : 12
+}, {
+  "battleSeed" : 165562325526257,
+  "generationSeed" : 22859166612793,
+  "groupId" : 9,
+  "npcSeed" : 183131358632752,
+  "pair" : 13
+}, {
+  "battleSeed" : 187230267835860,
+  "generationSeed" : 236731491728598,
+  "groupId" : 9,
+  "npcSeed" : 190639284807927,
+  "pair" : 14
+}, {
+  "battleSeed" : 233135096560717,
+  "generationSeed" : 241563954291251,
+  "groupId" : 9,
+  "npcSeed" : 129676964707438,
+  "pair" : 15
+}, {
+  "battleSeed" : 272710703214823,
+  "generationSeed" : 70980789124316,
+  "groupId" : 9,
+  "npcSeed" : 166887212884368,
+  "pair" : 16
+}, {
+  "battleSeed" : 213777659680727,
+  "generationSeed" : 34482756869123,
+  "groupId" : 9,
+  "npcSeed" : 61561481047962,
+  "pair" : 17
+}, {
+  "battleSeed" : 16987019376547,
+  "generationSeed" : 251036825820365,
+  "groupId" : 9,
+  "npcSeed" : 49929325435323,
+  "pair" : 18
+}, {
+  "battleSeed" : 278520308229850,
+  "generationSeed" : 244539297782194,
+  "groupId" : 9,
+  "npcSeed" : 162489009061308,
+  "pair" : 19
+}, {
+  "battleSeed" : 86768676330217,
+  "generationSeed" : 57941672167822,
+  "groupId" : 9,
+  "npcSeed" : 95802162523329,
+  "pair" : 20
+}, {
+  "battleSeed" : 81803637923700,
+  "generationSeed" : 39896107220908,
+  "groupId" : 9,
+  "npcSeed" : 86193236753437,
+  "pair" : 21
+}, {
+  "battleSeed" : 58865276936020,
+  "generationSeed" : 172923769064902,
+  "groupId" : 9,
+  "npcSeed" : 99462908298730,
+  "pair" : 22
+}, {
+  "battleSeed" : 210061202463256,
+  "generationSeed" : 99160636469278,
+  "groupId" : 9,
+  "npcSeed" : 151031593269832,
+  "pair" : 23
+}, {
+  "battleSeed" : 193244408005164,
+  "generationSeed" : 124287324343981,
+  "groupId" : 9,
+  "npcSeed" : 34066159103976,
+  "pair" : 24
+}, {
+  "battleSeed" : 224901597626918,
+  "generationSeed" : 205591172448636,
+  "groupId" : 10,
+  "npcSeed" : 102069715162428,
+  "pair" : 0
+}, {
+  "battleSeed" : 230275614586823,
+  "generationSeed" : 142065416898821,
+  "groupId" : 10,
+  "npcSeed" : 64151457530799,
+  "pair" : 1
+}, {
+  "battleSeed" : 93936389344073,
+  "generationSeed" : 73941851426124,
+  "groupId" : 10,
+  "npcSeed" : 147231477708889,
+  "pair" : 2
+}, {
+  "battleSeed" : 101868876303727,
+  "generationSeed" : 85485296350732,
+  "groupId" : 10,
+  "npcSeed" : 87954243406566,
+  "pair" : 3
+}, {
+  "battleSeed" : 125942799160633,
+  "generationSeed" : 258821208579792,
+  "groupId" : 10,
+  "npcSeed" : 59757626293078,
+  "pair" : 4
+}, {
+  "battleSeed" : 163768878334520,
+  "generationSeed" : 185699233717907,
+  "groupId" : 10,
+  "npcSeed" : 124936538009903,
+  "pair" : 5
+}, {
+  "battleSeed" : 182973146610784,
+  "generationSeed" : 234595782270529,
+  "groupId" : 10,
+  "npcSeed" : 248948511576989,
+  "pair" : 6
+}, {
+  "battleSeed" : 232720640316732,
+  "generationSeed" : 261172838941718,
+  "groupId" : 10,
+  "npcSeed" : 170957308777978,
+  "pair" : 7
+}, {
+  "battleSeed" : 3521294194973,
+  "generationSeed" : 233917802921003,
+  "groupId" : 10,
+  "npcSeed" : 228554681913774,
+  "pair" : 8
+}, {
+  "battleSeed" : 278102637930644,
+  "generationSeed" : 201007786793702,
+  "groupId" : 10,
+  "npcSeed" : 206181010143930,
+  "pair" : 9
+}, {
+  "battleSeed" : 212513565504390,
+  "generationSeed" : 63254805118216,
+  "groupId" : 10,
+  "npcSeed" : 71033511559278,
+  "pair" : 10
+}, {
+  "battleSeed" : 21769070882046,
+  "generationSeed" : 10571329731430,
+  "groupId" : 10,
+  "npcSeed" : 207317716137371,
+  "pair" : 11
+}, {
+  "battleSeed" : 201791486950783,
+  "generationSeed" : 168830615026491,
+  "groupId" : 10,
+  "npcSeed" : 112637158356863,
+  "pair" : 12
+}, {
+  "battleSeed" : 147213372829581,
+  "generationSeed" : 3701818649753,
+  "groupId" : 10,
+  "npcSeed" : 103486863737738,
+  "pair" : 13
+}, {
+  "battleSeed" : 76635043240936,
+  "generationSeed" : 153259971898636,
+  "groupId" : 10,
+  "npcSeed" : 175741345661194,
+  "pair" : 14
+}, {
+  "battleSeed" : 252623899621959,
+  "generationSeed" : 208564311047012,
+  "groupId" : 10,
+  "npcSeed" : 125476144235695,
+  "pair" : 15
+}, {
+  "battleSeed" : 182613618552105,
+  "generationSeed" : 37894233375419,
+  "groupId" : 10,
+  "npcSeed" : 214168350399061,
+  "pair" : 16
+}, {
+  "battleSeed" : 192652641700881,
+  "generationSeed" : 48199984876067,
+  "groupId" : 10,
+  "npcSeed" : 182077186814147,
+  "pair" : 17
+}, {
+  "battleSeed" : 256920441770968,
+  "generationSeed" : 213643171241777,
+  "groupId" : 10,
+  "npcSeed" : 149538893266145,
+  "pair" : 18
+}, {
+  "battleSeed" : 179542345889976,
+  "generationSeed" : 129099820100443,
+  "groupId" : 10,
+  "npcSeed" : 210233252265453,
+  "pair" : 19
+}, {
+  "battleSeed" : 204995715856119,
+  "generationSeed" : 79397213257270,
+  "groupId" : 10,
+  "npcSeed" : 452237126440,
+  "pair" : 20
+}, {
+  "battleSeed" : 54744581183824,
+  "generationSeed" : 38157116808046,
+  "groupId" : 10,
+  "npcSeed" : 113697712653046,
+  "pair" : 21
+}, {
+  "battleSeed" : 279549299852041,
+  "generationSeed" : 75432345508068,
+  "groupId" : 10,
+  "npcSeed" : 258132992717697,
+  "pair" : 22
+}, {
+  "battleSeed" : 181571721551810,
+  "generationSeed" : 110971732016987,
+  "groupId" : 10,
+  "npcSeed" : 13645548624127,
+  "pair" : 23
+}, {
+  "battleSeed" : 96063143913537,
+  "generationSeed" : 122829069899644,
+  "groupId" : 10,
+  "npcSeed" : 77073360090229,
+  "pair" : 24
+}, {
+  "battleSeed" : 7728666192124,
+  "generationSeed" : 140164418373752,
+  "groupId" : 11,
+  "npcSeed" : 191055897502846,
+  "pair" : 0
+}, {
+  "battleSeed" : 91481532760213,
+  "generationSeed" : 46250463777805,
+  "groupId" : 11,
+  "npcSeed" : 258983958931121,
+  "pair" : 1
+}, {
+  "battleSeed" : 277092511078195,
+  "generationSeed" : 245346672553100,
+  "groupId" : 11,
+  "npcSeed" : 47108486144292,
+  "pair" : 2
+}, {
+  "battleSeed" : 262391031292023,
+  "generationSeed" : 96133154439893,
+  "groupId" : 11,
+  "npcSeed" : 154273363542696,
+  "pair" : 3
+}, {
+  "battleSeed" : 205803620837678,
+  "generationSeed" : 134918613854077,
+  "groupId" : 11,
+  "npcSeed" : 218459174970429,
+  "pair" : 4
+}, {
+  "battleSeed" : 87472686803207,
+  "generationSeed" : 27104580164900,
+  "groupId" : 11,
+  "npcSeed" : 118222687743565,
+  "pair" : 5
+}, {
+  "battleSeed" : 45687492378926,
+  "generationSeed" : 117887609174279,
+  "groupId" : 11,
+  "npcSeed" : 126628926283198,
+  "pair" : 6
+}, {
+  "battleSeed" : 241155491744088,
+  "generationSeed" : 192727493104406,
+  "groupId" : 11,
+  "npcSeed" : 155591753603560,
+  "pair" : 7
+}, {
+  "battleSeed" : 7097675748353,
+  "generationSeed" : 125317064852541,
+  "groupId" : 11,
+  "npcSeed" : 95703455916139,
+  "pair" : 8
+}, {
+  "battleSeed" : 178714889985538,
+  "generationSeed" : 52265975980207,
+  "groupId" : 11,
+  "npcSeed" : 259477538879414,
+  "pair" : 9
+}, {
+  "battleSeed" : 113769032798596,
+  "generationSeed" : 221826202148193,
+  "groupId" : 11,
+  "npcSeed" : 108569724134333,
+  "pair" : 10
+}, {
+  "battleSeed" : 209476957046534,
+  "generationSeed" : 169312674426084,
+  "groupId" : 11,
+  "npcSeed" : 95437968708733,
+  "pair" : 11
+}, {
+  "battleSeed" : 160821229784188,
+  "generationSeed" : 260158276087934,
+  "groupId" : 11,
+  "npcSeed" : 105079624903804,
+  "pair" : 12
+}, {
+  "battleSeed" : 75302678338415,
+  "generationSeed" : 242466211464474,
+  "groupId" : 11,
+  "npcSeed" : 280849845125316,
+  "pair" : 13
+}, {
+  "battleSeed" : 35243191175693,
+  "generationSeed" : 3029064293745,
+  "groupId" : 11,
+  "npcSeed" : 272702579204024,
+  "pair" : 14
+}, {
+  "battleSeed" : 198499745383253,
+  "generationSeed" : 96640093448190,
+  "groupId" : 11,
+  "npcSeed" : 37049570224566,
+  "pair" : 15
+}, {
+  "battleSeed" : 247087786104914,
+  "generationSeed" : 201960001956493,
+  "groupId" : 11,
+  "npcSeed" : 2510193849718,
+  "pair" : 16
+}, {
+  "battleSeed" : 124046208711277,
+  "generationSeed" : 171118110394761,
+  "groupId" : 11,
+  "npcSeed" : 72343037334375,
+  "pair" : 17
+}, {
+  "battleSeed" : 147941761483109,
+  "generationSeed" : 163943326690282,
+  "groupId" : 11,
+  "npcSeed" : 131137283168713,
+  "pair" : 18
+}, {
+  "battleSeed" : 23691882866153,
+  "generationSeed" : 231141658030935,
+  "groupId" : 11,
+  "npcSeed" : 123385203396346,
+  "pair" : 19
+}, {
+  "battleSeed" : 279351319147793,
+  "generationSeed" : 8296405309113,
+  "groupId" : 11,
+  "npcSeed" : 87798164877359,
+  "pair" : 20
+}, {
+  "battleSeed" : 186884591056417,
+  "generationSeed" : 250175560267375,
+  "groupId" : 11,
+  "npcSeed" : 53549740894730,
+  "pair" : 21
+}, {
+  "battleSeed" : 246571662688133,
+  "generationSeed" : 108885212381687,
+  "groupId" : 11,
+  "npcSeed" : 7277424762324,
+  "pair" : 22
+}, {
+  "battleSeed" : 280162989775933,
+  "generationSeed" : 236134004106013,
+  "groupId" : 11,
+  "npcSeed" : 5647604866971,
+  "pair" : 23
+}, {
+  "battleSeed" : 157713787489864,
+  "generationSeed" : 90280893324458,
+  "groupId" : 11,
+  "npcSeed" : 96474414809362,
+  "pair" : 24
+}, {
+  "battleSeed" : 149101762950427,
+  "generationSeed" : 146419033369481,
+  "groupId" : 12,
+  "npcSeed" : 153651543218708,
+  "pair" : 0
+}, {
+  "battleSeed" : 193595992439970,
+  "generationSeed" : 229794827097810,
+  "groupId" : 12,
+  "npcSeed" : 21377955173722,
+  "pair" : 1
+}, {
+  "battleSeed" : 218491115940289,
+  "generationSeed" : 202025094322833,
+  "groupId" : 12,
+  "npcSeed" : 76376380575349,
+  "pair" : 2
+}, {
+  "battleSeed" : 190864297974986,
+  "generationSeed" : 172993764034666,
+  "groupId" : 12,
+  "npcSeed" : 199979915290882,
+  "pair" : 3
+}, {
+  "battleSeed" : 120334707073656,
+  "generationSeed" : 246793848998976,
+  "groupId" : 12,
+  "npcSeed" : 78735371369175,
+  "pair" : 4
+}, {
+  "battleSeed" : 5614466954717,
+  "generationSeed" : 236204828327470,
+  "groupId" : 12,
+  "npcSeed" : 245127444003540,
+  "pair" : 5
+}, {
+  "battleSeed" : 139786794715934,
+  "generationSeed" : 224592339758253,
+  "groupId" : 12,
+  "npcSeed" : 77802981509460,
+  "pair" : 6
+}, {
+  "battleSeed" : 110054227201120,
+  "generationSeed" : 90239738574840,
+  "groupId" : 12,
+  "npcSeed" : 88899596301522,
+  "pair" : 7
+}, {
+  "battleSeed" : 7594866636941,
+  "generationSeed" : 86116018054180,
+  "groupId" : 12,
+  "npcSeed" : 102455904662504,
+  "pair" : 8
+}, {
+  "battleSeed" : 30274757725715,
+  "generationSeed" : 254932354767073,
+  "groupId" : 12,
+  "npcSeed" : 8202714512469,
+  "pair" : 9
+}, {
+  "battleSeed" : 86469984193289,
+  "generationSeed" : 202374761095292,
+  "groupId" : 12,
+  "npcSeed" : 259383086650865,
+  "pair" : 10
+}, {
+  "battleSeed" : 173469912214873,
+  "generationSeed" : 248410924766971,
+  "groupId" : 12,
+  "npcSeed" : 17265532874941,
+  "pair" : 11
+}, {
+  "battleSeed" : 195926698932146,
+  "generationSeed" : 1506467750885,
+  "groupId" : 12,
+  "npcSeed" : 128257226303481,
+  "pair" : 12
+}, {
+  "battleSeed" : 266876304256884,
+  "generationSeed" : 214144361620654,
+  "groupId" : 12,
+  "npcSeed" : 108028089475620,
+  "pair" : 13
+}, {
+  "battleSeed" : 93061160240883,
+  "generationSeed" : 166974677302773,
+  "groupId" : 12,
+  "npcSeed" : 85785039491266,
+  "pair" : 14
+}, {
+  "battleSeed" : 188436509624740,
+  "generationSeed" : 15898155666811,
+  "groupId" : 12,
+  "npcSeed" : 31432963185938,
+  "pair" : 15
+}, {
+  "battleSeed" : 118203954848787,
+  "generationSeed" : 8527305752232,
+  "groupId" : 12,
+  "npcSeed" : 255608780726946,
+  "pair" : 16
+}, {
+  "battleSeed" : 150979224554089,
+  "generationSeed" : 212125800387545,
+  "groupId" : 12,
+  "npcSeed" : 199818705875048,
+  "pair" : 17
+}, {
+  "battleSeed" : 263159700770446,
+  "generationSeed" : 264201248600425,
+  "groupId" : 12,
+  "npcSeed" : 163161908469443,
+  "pair" : 18
+}, {
+  "battleSeed" : 186796700323841,
+  "generationSeed" : 164126645167201,
+  "groupId" : 12,
+  "npcSeed" : 257128536146466,
+  "pair" : 19
+}, {
+  "battleSeed" : 37591200165416,
+  "generationSeed" : 85013700661951,
+  "groupId" : 12,
+  "npcSeed" : 104119409339091,
+  "pair" : 20
+}, {
+  "battleSeed" : 278189244937994,
+  "generationSeed" : 145720064503544,
+  "groupId" : 12,
+  "npcSeed" : 26146709777048,
+  "pair" : 21
+}, {
+  "battleSeed" : 213971557671453,
+  "generationSeed" : 118586504102886,
+  "groupId" : 12,
+  "npcSeed" : 254928006707290,
+  "pair" : 22
+}, {
+  "battleSeed" : 54223343313735,
+  "generationSeed" : 259478062350016,
+  "groupId" : 12,
+  "npcSeed" : 30857786430997,
+  "pair" : 23
+}, {
+  "battleSeed" : 199885577142771,
+  "generationSeed" : 17461034045668,
+  "groupId" : 12,
+  "npcSeed" : 117933690544801,
+  "pair" : 24
+}, {
+  "battleSeed" : 63554810529257,
+  "generationSeed" : 68691312349053,
+  "groupId" : 13,
+  "npcSeed" : 226143482590541,
+  "pair" : 0
+}, {
+  "battleSeed" : 187525158028761,
+  "generationSeed" : 14621965128592,
+  "groupId" : 13,
+  "npcSeed" : 109062982772870,
+  "pair" : 1
+}, {
+  "battleSeed" : 157053057785658,
+  "generationSeed" : 25094710997796,
+  "groupId" : 13,
+  "npcSeed" : 13703734562503,
+  "pair" : 2
+}, {
+  "battleSeed" : 158474046774892,
+  "generationSeed" : 227307517382862,
+  "groupId" : 13,
+  "npcSeed" : 112705528491257,
+  "pair" : 3
+}, {
+  "battleSeed" : 55318177218429,
+  "generationSeed" : 201096233248441,
+  "groupId" : 13,
+  "npcSeed" : 26530517702160,
+  "pair" : 4
+}, {
+  "battleSeed" : 161497357390570,
+  "generationSeed" : 214875295177329,
+  "groupId" : 13,
+  "npcSeed" : 226367770707364,
+  "pair" : 5
+}, {
+  "battleSeed" : 156485527984807,
+  "generationSeed" : 241533094372615,
+  "groupId" : 13,
+  "npcSeed" : 158882239284760,
+  "pair" : 6
+}, {
+  "battleSeed" : 100611976420718,
+  "generationSeed" : 81061267082861,
+  "groupId" : 13,
+  "npcSeed" : 28734091223503,
+  "pair" : 7
+}, {
+  "battleSeed" : 232864744907130,
+  "generationSeed" : 236094416555824,
+  "groupId" : 13,
+  "npcSeed" : 96406603818720,
+  "pair" : 8
+}, {
+  "battleSeed" : 203844209577245,
+  "generationSeed" : 221134566013099,
+  "groupId" : 13,
+  "npcSeed" : 121823577777075,
+  "pair" : 9
+}, {
+  "battleSeed" : 71642412687011,
+  "generationSeed" : 94785709545690,
+  "groupId" : 13,
+  "npcSeed" : 212642567845207,
+  "pair" : 10
+}, {
+  "battleSeed" : 16702865992226,
+  "generationSeed" : 28680656161126,
+  "groupId" : 13,
+  "npcSeed" : 106724617178547,
+  "pair" : 11
+}, {
+  "battleSeed" : 46244831527572,
+  "generationSeed" : 136558771965975,
+  "groupId" : 13,
+  "npcSeed" : 91947517657369,
+  "pair" : 12
+}, {
+  "battleSeed" : 145546572944601,
+  "generationSeed" : 136627870496678,
+  "groupId" : 13,
+  "npcSeed" : 97862515435798,
+  "pair" : 13
+}, {
+  "battleSeed" : 27166487126925,
+  "generationSeed" : 195565192864914,
+  "groupId" : 13,
+  "npcSeed" : 92189956900730,
+  "pair" : 14
+}, {
+  "battleSeed" : 225978416608976,
+  "generationSeed" : 280713762584306,
+  "groupId" : 13,
+  "npcSeed" : 170143400697295,
+  "pair" : 15
+}, {
+  "battleSeed" : 66528589311971,
+  "generationSeed" : 167439189994704,
+  "groupId" : 13,
+  "npcSeed" : 140345111773541,
+  "pair" : 16
+}, {
+  "battleSeed" : 277306234651691,
+  "generationSeed" : 54957774400713,
+  "groupId" : 13,
+  "npcSeed" : 192417126240411,
+  "pair" : 17
+}, {
+  "battleSeed" : 183061582585520,
+  "generationSeed" : 96635296193349,
+  "groupId" : 13,
+  "npcSeed" : 266647157239192,
+  "pair" : 18
+}, {
+  "battleSeed" : 46461504536089,
+  "generationSeed" : 169640205332207,
+  "groupId" : 13,
+  "npcSeed" : 280768992642225,
+  "pair" : 19
+}, {
+  "battleSeed" : 12791226008887,
+  "generationSeed" : 148756496306269,
+  "groupId" : 13,
+  "npcSeed" : 93888585881926,
+  "pair" : 20
+}, {
+  "battleSeed" : 137267562099895,
+  "generationSeed" : 227869650549214,
+  "groupId" : 13,
+  "npcSeed" : 125827728373977,
+  "pair" : 21
+}, {
+  "battleSeed" : 153891551149817,
+  "generationSeed" : 178678567151096,
+  "groupId" : 13,
+  "npcSeed" : 33430813766732,
+  "pair" : 22
+}, {
+  "battleSeed" : 120323611194816,
+  "generationSeed" : 84809636244135,
+  "groupId" : 13,
+  "npcSeed" : 118806907305714,
+  "pair" : 23
+}, {
+  "battleSeed" : 179231156682831,
+  "generationSeed" : 228603658814784,
+  "groupId" : 13,
+  "npcSeed" : 83700112933186,
+  "pair" : 24
+}, {
+  "battleSeed" : 196754275134014,
+  "generationSeed" : 225247587055877,
+  "groupId" : 14,
+  "npcSeed" : 259032515812851,
+  "pair" : 0
+}, {
+  "battleSeed" : 223665155070740,
+  "generationSeed" : 213415103338294,
+  "groupId" : 14,
+  "npcSeed" : 64112979373647,
+  "pair" : 1
+}, {
+  "battleSeed" : 21449561740288,
+  "generationSeed" : 197125064033892,
+  "groupId" : 14,
+  "npcSeed" : 112135777007189,
+  "pair" : 2
+}, {
+  "battleSeed" : 170625927039796,
+  "generationSeed" : 50260358333246,
+  "groupId" : 14,
+  "npcSeed" : 89556313281114,
+  "pair" : 3
+}, {
+  "battleSeed" : 51907330761796,
+  "generationSeed" : 27846309211321,
+  "groupId" : 14,
+  "npcSeed" : 40908230889161,
+  "pair" : 4
+}, {
+  "battleSeed" : 178939632171900,
+  "generationSeed" : 206802440828843,
+  "groupId" : 14,
+  "npcSeed" : 175601768408674,
+  "pair" : 5
+}, {
+  "battleSeed" : 131690317432859,
+  "generationSeed" : 65721133045755,
+  "groupId" : 14,
+  "npcSeed" : 195257073626488,
+  "pair" : 6
+}, {
+  "battleSeed" : 152443823282647,
+  "generationSeed" : 109161478383216,
+  "groupId" : 14,
+  "npcSeed" : 52314461285900,
+  "pair" : 7
+}, {
+  "battleSeed" : 230175867368315,
+  "generationSeed" : 201552280936059,
+  "groupId" : 14,
+  "npcSeed" : 258858628178888,
+  "pair" : 8
+}, {
+  "battleSeed" : 275068544178118,
+  "generationSeed" : 52301360426706,
+  "groupId" : 14,
+  "npcSeed" : 62619402509,
+  "pair" : 9
+}, {
+  "battleSeed" : 209948847392603,
+  "generationSeed" : 21126914010670,
+  "groupId" : 14,
+  "npcSeed" : 27157309580462,
+  "pair" : 10
+}, {
+  "battleSeed" : 141213797624531,
+  "generationSeed" : 112249045589815,
+  "groupId" : 14,
+  "npcSeed" : 229033875850508,
+  "pair" : 11
+}, {
+  "battleSeed" : 250561204660453,
+  "generationSeed" : 256762403706764,
+  "groupId" : 14,
+  "npcSeed" : 21635896288005,
+  "pair" : 12
+}, {
+  "battleSeed" : 80553294622616,
+  "generationSeed" : 66089441485663,
+  "groupId" : 14,
+  "npcSeed" : 164674330227237,
+  "pair" : 13
+}, {
+  "battleSeed" : 243762427880349,
+  "generationSeed" : 166388097480268,
+  "groupId" : 14,
+  "npcSeed" : 186447670288103,
+  "pair" : 14
+}, {
+  "battleSeed" : 236399036029243,
+  "generationSeed" : 109595779023965,
+  "groupId" : 14,
+  "npcSeed" : 204216344792664,
+  "pair" : 15
+}, {
+  "battleSeed" : 116779210106084,
+  "generationSeed" : 138991981208544,
+  "groupId" : 14,
+  "npcSeed" : 196274089805123,
+  "pair" : 16
+}, {
+  "battleSeed" : 110970785830653,
+  "generationSeed" : 151628546038105,
+  "groupId" : 14,
+  "npcSeed" : 176773598881645,
+  "pair" : 17
+}, {
+  "battleSeed" : 160886314973252,
+  "generationSeed" : 224692846112336,
+  "groupId" : 14,
+  "npcSeed" : 150935593012439,
+  "pair" : 18
+}, {
+  "battleSeed" : 97903863387313,
+  "generationSeed" : 98564076279840,
+  "groupId" : 14,
+  "npcSeed" : 229332813826151,
+  "pair" : 19
+}, {
+  "battleSeed" : 279979587809586,
+  "generationSeed" : 92716453308779,
+  "groupId" : 14,
+  "npcSeed" : 32422769897853,
+  "pair" : 20
+}, {
+  "battleSeed" : 122921298226761,
+  "generationSeed" : 107271762242801,
+  "groupId" : 14,
+  "npcSeed" : 257216033383003,
+  "pair" : 21
+}, {
+  "battleSeed" : 91952884317679,
+  "generationSeed" : 98928605253507,
+  "groupId" : 14,
+  "npcSeed" : 146924385530024,
+  "pair" : 22
+}, {
+  "battleSeed" : 7643916277478,
+  "generationSeed" : 191470321835401,
+  "groupId" : 14,
+  "npcSeed" : 216520287985709,
+  "pair" : 23
+}, {
+  "battleSeed" : 280094261115720,
+  "generationSeed" : 167224908678802,
+  "groupId" : 14,
+  "npcSeed" : 278755093336850,
+  "pair" : 24
+}, {
+  "battleSeed" : 273159066787971,
+  "generationSeed" : 209302898619600,
+  "groupId" : 15,
+  "npcSeed" : 183672372067315,
+  "pair" : 0
+}, {
+  "battleSeed" : 165338308856510,
+  "generationSeed" : 22006774287794,
+  "groupId" : 15,
+  "npcSeed" : 279383139512119,
+  "pair" : 1
+}, {
+  "battleSeed" : 132700707279694,
+  "generationSeed" : 19733898604524,
+  "groupId" : 15,
+  "npcSeed" : 237458001604892,
+  "pair" : 2
+}, {
+  "battleSeed" : 113968239982426,
+  "generationSeed" : 43196369785610,
+  "groupId" : 15,
+  "npcSeed" : 229123336533087,
+  "pair" : 3
+}, {
+  "battleSeed" : 268053389737186,
+  "generationSeed" : 193915264482934,
+  "groupId" : 15,
+  "npcSeed" : 72790814330658,
+  "pair" : 4
+}, {
+  "battleSeed" : 243514771940816,
+  "generationSeed" : 37700391476316,
+  "groupId" : 15,
+  "npcSeed" : 170625650472806,
+  "pair" : 5
+}, {
+  "battleSeed" : 91662604291819,
+  "generationSeed" : 66152793612961,
+  "groupId" : 15,
+  "npcSeed" : 240958146470925,
+  "pair" : 6
+}, {
+  "battleSeed" : 270346809119529,
+  "generationSeed" : 132445321297718,
+  "groupId" : 15,
+  "npcSeed" : 68276125254327,
+  "pair" : 7
+}, {
+  "battleSeed" : 255930682875656,
+  "generationSeed" : 111646358204921,
+  "groupId" : 15,
+  "npcSeed" : 220933977916666,
+  "pair" : 8
+}, {
+  "battleSeed" : 251559381796068,
+  "generationSeed" : 61460455418142,
+  "groupId" : 15,
+  "npcSeed" : 229940040408659,
+  "pair" : 9
+}, {
+  "battleSeed" : 141911520575137,
+  "generationSeed" : 217400203241220,
+  "groupId" : 15,
+  "npcSeed" : 86497773688255,
+  "pair" : 10
+}, {
+  "battleSeed" : 13525490401442,
+  "generationSeed" : 103580444211942,
+  "groupId" : 15,
+  "npcSeed" : 13132118664952,
+  "pair" : 11
+}, {
+  "battleSeed" : 228887436318472,
+  "generationSeed" : 38920257484062,
+  "groupId" : 15,
+  "npcSeed" : 174581563085813,
+  "pair" : 12
+}, {
+  "battleSeed" : 205985224751764,
+  "generationSeed" : 194105374643766,
+  "groupId" : 15,
+  "npcSeed" : 142091156531997,
+  "pair" : 13
+}, {
+  "battleSeed" : 166910336350551,
+  "generationSeed" : 108330485787380,
+  "groupId" : 15,
+  "npcSeed" : 178925923571625,
+  "pair" : 14
+}, {
+  "battleSeed" : 197031852962082,
+  "generationSeed" : 9324940154078,
+  "groupId" : 15,
+  "npcSeed" : 36632474312547,
+  "pair" : 15
+}, {
+  "battleSeed" : 141201549961094,
+  "generationSeed" : 41771403993262,
+  "groupId" : 15,
+  "npcSeed" : 63572464917180,
+  "pair" : 16
+}, {
+  "battleSeed" : 254485725022656,
+  "generationSeed" : 226059109585644,
+  "groupId" : 15,
+  "npcSeed" : 173376933459490,
+  "pair" : 17
+}, {
+  "battleSeed" : 176005195065799,
+  "generationSeed" : 17412116293960,
+  "groupId" : 15,
+  "npcSeed" : 105939427467062,
+  "pair" : 18
+}, {
+  "battleSeed" : 231542534329984,
+  "generationSeed" : 16620125627645,
+  "groupId" : 15,
+  "npcSeed" : 80980425805481,
+  "pair" : 19
+}, {
+  "battleSeed" : 206558604117207,
+  "generationSeed" : 267419919893818,
+  "groupId" : 15,
+  "npcSeed" : 254893478684813,
+  "pair" : 20
+}, {
+  "battleSeed" : 211087935831150,
+  "generationSeed" : 9651901251776,
+  "groupId" : 15,
+  "npcSeed" : 253571412614422,
+  "pair" : 21
+}, {
+  "battleSeed" : 92026419081231,
+  "generationSeed" : 115859812134297,
+  "groupId" : 15,
+  "npcSeed" : 152483189692360,
+  "pair" : 22
+}, {
+  "battleSeed" : 178689725170456,
+  "generationSeed" : 96647010369433,
+  "groupId" : 15,
+  "npcSeed" : 149003098200360,
+  "pair" : 23
+}, {
+  "battleSeed" : 187901013702423,
+  "generationSeed" : 166739929482058,
+  "groupId" : 15,
+  "npcSeed" : 46530578789981,
+  "pair" : 24
+}, {
+  "battleSeed" : 112352247086796,
+  "generationSeed" : 23816570936681,
+  "groupId" : 16,
+  "npcSeed" : 120187741486629,
+  "pair" : 0
+}, {
+  "battleSeed" : 107455777415945,
+  "generationSeed" : 217410383328969,
+  "groupId" : 16,
+  "npcSeed" : 90579719494206,
+  "pair" : 1
+}, {
+  "battleSeed" : 173262240384705,
+  "generationSeed" : 175736222212771,
+  "groupId" : 16,
+  "npcSeed" : 154578413705200,
+  "pair" : 2
+}, {
+  "battleSeed" : 107141183592682,
+  "generationSeed" : 113891917139966,
+  "groupId" : 16,
+  "npcSeed" : 225456700365559,
+  "pair" : 3
+}, {
+  "battleSeed" : 232905474336548,
+  "generationSeed" : 266431046165470,
+  "groupId" : 16,
+  "npcSeed" : 277487411986256,
+  "pair" : 4
+}, {
+  "battleSeed" : 172629958219558,
+  "generationSeed" : 230993286605201,
+  "groupId" : 16,
+  "npcSeed" : 171416386762536,
+  "pair" : 5
+}, {
+  "battleSeed" : 192813022937184,
+  "generationSeed" : 135269017272578,
+  "groupId" : 16,
+  "npcSeed" : 114614650427072,
+  "pair" : 6
+}, {
+  "battleSeed" : 71453558636437,
+  "generationSeed" : 131980053985650,
+  "groupId" : 16,
+  "npcSeed" : 44828329083750,
+  "pair" : 7
+}, {
+  "battleSeed" : 256892617634448,
+  "generationSeed" : 235801312174719,
+  "groupId" : 16,
+  "npcSeed" : 170893467831486,
+  "pair" : 8
+}, {
+  "battleSeed" : 122133519470818,
+  "generationSeed" : 207190071331109,
+  "groupId" : 16,
+  "npcSeed" : 267373430197992,
+  "pair" : 9
+}, {
+  "battleSeed" : 239571161610353,
+  "generationSeed" : 82161585857207,
+  "groupId" : 16,
+  "npcSeed" : 173058919875444,
+  "pair" : 10
+}, {
+  "battleSeed" : 231253607387146,
+  "generationSeed" : 144214387494612,
+  "groupId" : 16,
+  "npcSeed" : 227327834788300,
+  "pair" : 11
+}, {
+  "battleSeed" : 266204614134780,
+  "generationSeed" : 214258595590335,
+  "groupId" : 16,
+  "npcSeed" : 34852527585795,
+  "pair" : 12
+}, {
+  "battleSeed" : 184264604138527,
+  "generationSeed" : 150541533915998,
+  "groupId" : 16,
+  "npcSeed" : 21857287448264,
+  "pair" : 13
+}, {
+  "battleSeed" : 78610183241628,
+  "generationSeed" : 125954382213627,
+  "groupId" : 16,
+  "npcSeed" : 218431889389023,
+  "pair" : 14
+}, {
+  "battleSeed" : 162394806534513,
+  "generationSeed" : 71695014576386,
+  "groupId" : 16,
+  "npcSeed" : 175065137094219,
+  "pair" : 15
+}, {
+  "battleSeed" : 79521724642269,
+  "generationSeed" : 258987696016866,
+  "groupId" : 16,
+  "npcSeed" : 273958550565239,
+  "pair" : 16
+}, {
+  "battleSeed" : 92877711202456,
+  "generationSeed" : 5872760355062,
+  "groupId" : 16,
+  "npcSeed" : 278607893723185,
+  "pair" : 17
+}, {
+  "battleSeed" : 194804870485887,
+  "generationSeed" : 46939442042422,
+  "groupId" : 16,
+  "npcSeed" : 137057023277072,
+  "pair" : 18
+}, {
+  "battleSeed" : 275159196691812,
+  "generationSeed" : 113789641677809,
+  "groupId" : 16,
+  "npcSeed" : 272902712847352,
+  "pair" : 19
+}, {
+  "battleSeed" : 62676908348836,
+  "generationSeed" : 108211037724851,
+  "groupId" : 16,
+  "npcSeed" : 155666233586635,
+  "pair" : 20
+}, {
+  "battleSeed" : 232440610251842,
+  "generationSeed" : 26108566984324,
+  "groupId" : 16,
+  "npcSeed" : 47099446342883,
+  "pair" : 21
+}, {
+  "battleSeed" : 43929954375843,
+  "generationSeed" : 209451409704096,
+  "groupId" : 16,
+  "npcSeed" : 202870950898646,
+  "pair" : 22
+}, {
+  "battleSeed" : 11746389077658,
+  "generationSeed" : 192459885270542,
+  "groupId" : 16,
+  "npcSeed" : 234162620899034,
+  "pair" : 23
+}, {
+  "battleSeed" : 26994523993887,
+  "generationSeed" : 139510088290171,
+  "groupId" : 16,
+  "npcSeed" : 85259653440183,
+  "pair" : 24
+}, {
+  "battleSeed" : 195170784296709,
+  "generationSeed" : 161251673911174,
+  "groupId" : 17,
+  "npcSeed" : 111175408581236,
+  "pair" : 0
+}, {
+  "battleSeed" : 193120411405757,
+  "generationSeed" : 244943413521932,
+  "groupId" : 17,
+  "npcSeed" : 33247887825751,
+  "pair" : 1
+}, {
+  "battleSeed" : 65095487112211,
+  "generationSeed" : 45363156979020,
+  "groupId" : 17,
+  "npcSeed" : 246555873098494,
+  "pair" : 2
+}, {
+  "battleSeed" : 176395535772182,
+  "generationSeed" : 46343169106184,
+  "groupId" : 17,
+  "npcSeed" : 18301389380500,
+  "pair" : 3
+}, {
+  "battleSeed" : 230231305944993,
+  "generationSeed" : 46200417530431,
+  "groupId" : 17,
+  "npcSeed" : 56737284627235,
+  "pair" : 4
+}, {
+  "battleSeed" : 230431289565621,
+  "generationSeed" : 184723870223613,
+  "groupId" : 17,
+  "npcSeed" : 172217098874358,
+  "pair" : 5
+}, {
+  "battleSeed" : 81094109836359,
+  "generationSeed" : 7937221351567,
+  "groupId" : 17,
+  "npcSeed" : 249220215934571,
+  "pair" : 6
+}, {
+  "battleSeed" : 280257508966750,
+  "generationSeed" : 120648613032091,
+  "groupId" : 17,
+  "npcSeed" : 2650045342314,
+  "pair" : 7
+}, {
+  "battleSeed" : 54774616806356,
+  "generationSeed" : 76556678240513,
+  "groupId" : 17,
+  "npcSeed" : 224123359790659,
+  "pair" : 8
+}, {
+  "battleSeed" : 131022172762102,
+  "generationSeed" : 125822831580924,
+  "groupId" : 17,
+  "npcSeed" : 84185562418272,
+  "pair" : 9
+}, {
+  "battleSeed" : 187040290388904,
+  "generationSeed" : 93554702406122,
+  "groupId" : 17,
+  "npcSeed" : 137850181248549,
+  "pair" : 10
+}, {
+  "battleSeed" : 105854647508753,
+  "generationSeed" : 176728413806541,
+  "groupId" : 17,
+  "npcSeed" : 224856735770286,
+  "pair" : 11
+}, {
+  "battleSeed" : 42165739927545,
+  "generationSeed" : 229259093940391,
+  "groupId" : 17,
+  "npcSeed" : 146802619478087,
+  "pair" : 12
+}, {
+  "battleSeed" : 207608216271707,
+  "generationSeed" : 250425028669168,
+  "groupId" : 17,
+  "npcSeed" : 86894833861895,
+  "pair" : 13
+}, {
+  "battleSeed" : 249414461171141,
+  "generationSeed" : 274043848290331,
+  "groupId" : 17,
+  "npcSeed" : 12813145645031,
+  "pair" : 14
+}, {
+  "battleSeed" : 30593738605781,
+  "generationSeed" : 268593810724741,
+  "groupId" : 17,
+  "npcSeed" : 133509108176917,
+  "pair" : 15
+}, {
+  "battleSeed" : 278174914813919,
+  "generationSeed" : 254097426365179,
+  "groupId" : 17,
+  "npcSeed" : 68008349754099,
+  "pair" : 16
+}, {
+  "battleSeed" : 187132534174159,
+  "generationSeed" : 190308795629828,
+  "groupId" : 17,
+  "npcSeed" : 68238537405015,
+  "pair" : 17
+}, {
+  "battleSeed" : 74480735805037,
+  "generationSeed" : 240597234890939,
+  "groupId" : 17,
+  "npcSeed" : 50674633309478,
+  "pair" : 18
+}, {
+  "battleSeed" : 2511390031713,
+  "generationSeed" : 155768442678624,
+  "groupId" : 17,
+  "npcSeed" : 147657362604686,
+  "pair" : 19
+}, {
+  "battleSeed" : 263217466273341,
+  "generationSeed" : 277772155730503,
+  "groupId" : 17,
+  "npcSeed" : 114764210396144,
+  "pair" : 20
+}, {
+  "battleSeed" : 239983133868490,
+  "generationSeed" : 175877118046847,
+  "groupId" : 17,
+  "npcSeed" : 208199962178221,
+  "pair" : 21
+}, {
+  "battleSeed" : 113072062024983,
+  "generationSeed" : 85068260460227,
+  "groupId" : 17,
+  "npcSeed" : 267780108711310,
+  "pair" : 22
+}, {
+  "battleSeed" : 275929628311545,
+  "generationSeed" : 67693310433191,
+  "groupId" : 17,
+  "npcSeed" : 203998856931763,
+  "pair" : 23
+}, {
+  "battleSeed" : 252401746607663,
+  "generationSeed" : 191844245389520,
+  "groupId" : 17,
+  "npcSeed" : 108950387285465,
+  "pair" : 24
+}, {
+  "battleSeed" : 152847322556889,
+  "generationSeed" : 114686684308167,
+  "groupId" : 18,
+  "npcSeed" : 263618016902065,
+  "pair" : 0
+}, {
+  "battleSeed" : 167108497129747,
+  "generationSeed" : 136758246017080,
+  "groupId" : 18,
+  "npcSeed" : 130601196150509,
+  "pair" : 1
+}, {
+  "battleSeed" : 55038434279572,
+  "generationSeed" : 30232069641204,
+  "groupId" : 18,
+  "npcSeed" : 12548440063288,
+  "pair" : 2
+}, {
+  "battleSeed" : 10159390870492,
+  "generationSeed" : 75418985409212,
+  "groupId" : 18,
+  "npcSeed" : 260626808006231,
+  "pair" : 3
+}, {
+  "battleSeed" : 272585892644024,
+  "generationSeed" : 115378233844280,
+  "groupId" : 18,
+  "npcSeed" : 161881709727979,
+  "pair" : 4
+}, {
+  "battleSeed" : 41533004417150,
+  "generationSeed" : 119750761598590,
+  "groupId" : 18,
+  "npcSeed" : 191732528310192,
+  "pair" : 5
+}, {
+  "battleSeed" : 117041706115915,
+  "generationSeed" : 201835490446989,
+  "groupId" : 18,
+  "npcSeed" : 207312011810552,
+  "pair" : 6
+}, {
+  "battleSeed" : 52684861125441,
+  "generationSeed" : 124601484086954,
+  "groupId" : 18,
+  "npcSeed" : 23769176059851,
+  "pair" : 7
+}, {
+  "battleSeed" : 158099924869119,
+  "generationSeed" : 265153185345227,
+  "groupId" : 18,
+  "npcSeed" : 262426504367764,
+  "pair" : 8
+}, {
+  "battleSeed" : 240445897398316,
+  "generationSeed" : 186350506687918,
+  "groupId" : 18,
+  "npcSeed" : 184776938973934,
+  "pair" : 9
+}, {
+  "battleSeed" : 209277563507018,
+  "generationSeed" : 177445865795066,
+  "groupId" : 18,
+  "npcSeed" : 91190599564513,
+  "pair" : 10
+}, {
+  "battleSeed" : 51019861069336,
+  "generationSeed" : 64667639309224,
+  "groupId" : 18,
+  "npcSeed" : 102556610014201,
+  "pair" : 11
+}, {
+  "battleSeed" : 206124124298276,
+  "generationSeed" : 240763741119457,
+  "groupId" : 18,
+  "npcSeed" : 25251931708769,
+  "pair" : 12
+}, {
+  "battleSeed" : 34025554932628,
+  "generationSeed" : 247989231146522,
+  "groupId" : 18,
+  "npcSeed" : 51346777788916,
+  "pair" : 13
+}, {
+  "battleSeed" : 256467288200008,
+  "generationSeed" : 53615967447399,
+  "groupId" : 18,
+  "npcSeed" : 134302605439548,
+  "pair" : 14
+}, {
+  "battleSeed" : 256704244244604,
+  "generationSeed" : 140716922705963,
+  "groupId" : 18,
+  "npcSeed" : 221983831099667,
+  "pair" : 15
+}, {
+  "battleSeed" : 187005162773425,
+  "generationSeed" : 183895978107987,
+  "groupId" : 18,
+  "npcSeed" : 59571343928686,
+  "pair" : 16
+}, {
+  "battleSeed" : 219144214133274,
+  "generationSeed" : 176890467670428,
+  "groupId" : 18,
+  "npcSeed" : 227827385679245,
+  "pair" : 17
+}, {
+  "battleSeed" : 68256254720000,
+  "generationSeed" : 258925220499516,
+  "groupId" : 18,
+  "npcSeed" : 231686561782302,
+  "pair" : 18
+}, {
+  "battleSeed" : 279831151416758,
+  "generationSeed" : 55322022714751,
+  "groupId" : 18,
+  "npcSeed" : 133353644839659,
+  "pair" : 19
+}, {
+  "battleSeed" : 275425018342412,
+  "generationSeed" : 246236806137660,
+  "groupId" : 18,
+  "npcSeed" : 29987057935527,
+  "pair" : 20
+}, {
+  "battleSeed" : 182324173959569,
+  "generationSeed" : 82236395736354,
+  "groupId" : 18,
+  "npcSeed" : 10535744661340,
+  "pair" : 21
+}, {
+  "battleSeed" : 213812955499653,
+  "generationSeed" : 143239633091093,
+  "groupId" : 18,
+  "npcSeed" : 110536048521304,
+  "pair" : 22
+}, {
+  "battleSeed" : 188167512480103,
+  "generationSeed" : 129171685344815,
+  "groupId" : 18,
+  "npcSeed" : 242157115701041,
+  "pair" : 23
+}, {
+  "battleSeed" : 193140850475762,
+  "generationSeed" : 260605641930585,
+  "groupId" : 18,
+  "npcSeed" : 170444219893552,
+  "pair" : 24
+}, {
+  "battleSeed" : 232785077101895,
+  "generationSeed" : 22593394761003,
+  "groupId" : 19,
+  "npcSeed" : 112411889769705,
+  "pair" : 0
+}, {
+  "battleSeed" : 16794507311903,
+  "generationSeed" : 72372290653426,
+  "groupId" : 19,
+  "npcSeed" : 226081001892269,
+  "pair" : 1
+}, {
+  "battleSeed" : 95462381609193,
+  "generationSeed" : 244143538797491,
+  "groupId" : 19,
+  "npcSeed" : 240839735057742,
+  "pair" : 2
+}, {
+  "battleSeed" : 64059335257051,
+  "generationSeed" : 38074609281033,
+  "groupId" : 19,
+  "npcSeed" : 152802223888421,
+  "pair" : 3
+}, {
+  "battleSeed" : 2678477208076,
+  "generationSeed" : 139000067428195,
+  "groupId" : 19,
+  "npcSeed" : 257429214531256,
+  "pair" : 4
+}, {
+  "battleSeed" : 61761272056689,
+  "generationSeed" : 210891764126704,
+  "groupId" : 19,
+  "npcSeed" : 192668810730301,
+  "pair" : 5
+}, {
+  "battleSeed" : 20240685345869,
+  "generationSeed" : 28225923004420,
+  "groupId" : 19,
+  "npcSeed" : 213279657315376,
+  "pair" : 6
+}, {
+  "battleSeed" : 281304603166231,
+  "generationSeed" : 84856164775666,
+  "groupId" : 19,
+  "npcSeed" : 403092697184,
+  "pair" : 7
+}, {
+  "battleSeed" : 175588153257840,
+  "generationSeed" : 82816393408414,
+  "groupId" : 19,
+  "npcSeed" : 173538572788102,
+  "pair" : 8
+}, {
+  "battleSeed" : 251274059824856,
+  "generationSeed" : 265122041589134,
+  "groupId" : 19,
+  "npcSeed" : 52216767849733,
+  "pair" : 9
+}, {
+  "battleSeed" : 26240675445865,
+  "generationSeed" : 90831118824800,
+  "groupId" : 19,
+  "npcSeed" : 127920229545515,
+  "pair" : 10
+}, {
+  "battleSeed" : 158858172229941,
+  "generationSeed" : 233102671036076,
+  "groupId" : 19,
+  "npcSeed" : 164547628098881,
+  "pair" : 11
+}, {
+  "battleSeed" : 161593900371264,
+  "generationSeed" : 243625775289817,
+  "groupId" : 19,
+  "npcSeed" : 91030008307847,
+  "pair" : 12
+}, {
+  "battleSeed" : 115070778347993,
+  "generationSeed" : 156510494223710,
+  "groupId" : 19,
+  "npcSeed" : 29486804317981,
+  "pair" : 13
+}, {
+  "battleSeed" : 257879016400777,
+  "generationSeed" : 179711822968928,
+  "groupId" : 19,
+  "npcSeed" : 48800695433200,
+  "pair" : 14
+}, {
+  "battleSeed" : 119261275470212,
+  "generationSeed" : 232704079343856,
+  "groupId" : 19,
+  "npcSeed" : 160568451187822,
+  "pair" : 15
+}, {
+  "battleSeed" : 269245809414313,
+  "generationSeed" : 103834579737746,
+  "groupId" : 19,
+  "npcSeed" : 64629099124636,
+  "pair" : 16
+}, {
+  "battleSeed" : 177332683156331,
+  "generationSeed" : 152378407009058,
+  "groupId" : 19,
+  "npcSeed" : 217065250380499,
+  "pair" : 17
+}, {
+  "battleSeed" : 251415567105488,
+  "generationSeed" : 102269357688033,
+  "groupId" : 19,
+  "npcSeed" : 222964329753649,
+  "pair" : 18
+}, {
+  "battleSeed" : 137045250496738,
+  "generationSeed" : 145775089248838,
+  "groupId" : 19,
+  "npcSeed" : 120122243981587,
+  "pair" : 19
+}, {
+  "battleSeed" : 177833636997331,
+  "generationSeed" : 267220030929023,
+  "groupId" : 19,
+  "npcSeed" : 132128852281246,
+  "pair" : 20
+}, {
+  "battleSeed" : 50879946275849,
+  "generationSeed" : 138376880108683,
+  "groupId" : 19,
+  "npcSeed" : 267450449798272,
+  "pair" : 21
+}, {
+  "battleSeed" : 100032875562373,
+  "generationSeed" : 209394364321008,
+  "groupId" : 19,
+  "npcSeed" : 31359079588618,
+  "pair" : 22
+}, {
+  "battleSeed" : 173363501754540,
+  "generationSeed" : 154133628236864,
+  "groupId" : 19,
+  "npcSeed" : 203282263551781,
+  "pair" : 23
+}, {
+  "battleSeed" : 269320566722110,
+  "generationSeed" : 211639869375236,
+  "groupId" : 19,
+  "npcSeed" : 154937645905784,
+  "pair" : 24
+} ]

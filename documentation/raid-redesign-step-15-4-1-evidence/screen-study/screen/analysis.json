@@ -1,0 +1,3647 @@
+{
+  "purpose": "STEP15.4.1_FIXED50CELL_TWO_MODEL_EXPLORATION_NOT_ACCEPTANCE",
+  "conditions": 50,
+  "models": [
+    "SAME",
+    "CROSS"
+  ],
+  "pairsPerModelCondition": 30,
+  "battles": 6000,
+  "cells": [
+    {
+      "id": 1,
+      "groupId": 1,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 60.0,
+          "meanRounds": 54.25,
+          "outcomes": {
+            "LOSS": 24,
+            "WIN": 36
+          }
+        },
+        "CROSS": {
+          "winratePP": 60.0,
+          "meanRounds": 54.25,
+          "outcomes": {
+            "LOSS": 24,
+            "WIN": 36
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "groupId": 1,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 4,
+      "models": {
+        "SAME": {
+          "winratePP": 21.666666666666668,
+          "meanRounds": 51.13333333333333,
+          "outcomes": {
+            "LOSS": 47,
+            "WIN": 13
+          }
+        },
+        "CROSS": {
+          "winratePP": 15.0,
+          "meanRounds": 52.78333333333333,
+          "outcomes": {
+            "LOSS": 51,
+            "WIN": 9
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "groupId": 2,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 61.66666666666667,
+          "meanRounds": 54.266666666666666,
+          "outcomes": {
+            "LOSS": 23,
+            "WIN": 37
+          }
+        },
+        "CROSS": {
+          "winratePP": 65.0,
+          "meanRounds": 54.083333333333336,
+          "outcomes": {
+            "LOSS": 21,
+            "WIN": 39
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "groupId": 2,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 4,
+      "models": {
+        "SAME": {
+          "winratePP": 21.666666666666668,
+          "meanRounds": 48.75,
+          "outcomes": {
+            "LOSS": 47,
+            "WIN": 13
+          }
+        },
+        "CROSS": {
+          "winratePP": 21.666666666666668,
+          "meanRounds": 51.016666666666666,
+          "outcomes": {
+            "LOSS": 47,
+            "WIN": 13
+          }
+        }
+      }
+    },
+    {
+      "id": 5,
+      "groupId": 3,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 6,
+      "models": {
+        "SAME": {
+          "winratePP": 33.33333333333333,
+          "meanRounds": 52.983333333333334,
+          "outcomes": {
+            "LOSS": 40,
+            "WIN": 20
+          }
+        },
+        "CROSS": {
+          "winratePP": 28.333333333333332,
+          "meanRounds": 65.73333333333333,
+          "outcomes": {
+            "LOSS": 43,
+            "WIN": 17
+          }
+        }
+      }
+    },
+    {
+      "id": 6,
+      "groupId": 3,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 7,
+      "models": {
+        "SAME": {
+          "winratePP": 18.333333333333332,
+          "meanRounds": 51.35,
+          "outcomes": {
+            "LOSS": 49,
+            "WIN": 11
+          }
+        },
+        "CROSS": {
+          "winratePP": 6.666666666666667,
+          "meanRounds": 53.81666666666667,
+          "outcomes": {
+            "LOSS": 56,
+            "WIN": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 7,
+      "groupId": 3,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 7,
+      "models": {
+        "SAME": {
+          "winratePP": 11.666666666666666,
+          "meanRounds": 46.46666666666667,
+          "outcomes": {
+            "LOSS": 53,
+            "WIN": 7
+          }
+        },
+        "CROSS": {
+          "winratePP": 10.0,
+          "meanRounds": 61.25,
+          "outcomes": {
+            "LOSS": 54,
+            "WIN": 6
+          }
+        }
+      }
+    },
+    {
+      "id": 8,
+      "groupId": 4,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 6,
+      "models": {
+        "SAME": {
+          "winratePP": 45.0,
+          "meanRounds": 52.86666666666667,
+          "outcomes": {
+            "LOSS": 33,
+            "WIN": 27
+          }
+        },
+        "CROSS": {
+          "winratePP": 35.0,
+          "meanRounds": 62.71666666666667,
+          "outcomes": {
+            "LOSS": 39,
+            "WIN": 21
+          }
+        }
+      }
+    },
+    {
+      "id": 9,
+      "groupId": 4,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 7,
+      "models": {
+        "SAME": {
+          "winratePP": 31.666666666666664,
+          "meanRounds": 52.1,
+          "outcomes": {
+            "LOSS": 41,
+            "WIN": 19
+          }
+        },
+        "CROSS": {
+          "winratePP": 10.0,
+          "meanRounds": 57.03333333333333,
+          "outcomes": {
+            "LOSS": 54,
+            "WIN": 6
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "groupId": 5,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "BASE",
+      "effects": false,
+      "N": 6,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 39.36666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 45.083333333333336,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 11,
+      "groupId": 5,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 7,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 34.46666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 39.516666666666666,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 12,
+      "groupId": 6,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "BASE",
+      "effects": false,
+      "N": 6,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 39.5,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 44.983333333333334,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 13,
+      "groupId": 6,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 7,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 35.53333333333333,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 39.61666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 14,
+      "groupId": 7,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "BASE",
+      "effects": false,
+      "N": 12,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 34.05,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 38.93333333333333,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 15,
+      "groupId": 7,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 13,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 31.55,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 38.38333333333333,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 16,
+      "groupId": 7,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 13,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 31.6,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 37.95,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 17,
+      "groupId": 8,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 1,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 100.0,
+          "meanRounds": 37.03333333333333,
+          "outcomes": {
+            "WIN": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 37.03333333333333,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 18,
+      "groupId": 8,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 100.0,
+          "meanRounds": 35.166666666666664,
+          "outcomes": {
+            "WIN": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 43.68333333333333,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 19,
+      "groupId": 9,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 96.66666666666667,
+          "meanRounds": 37.86666666666667,
+          "outcomes": {
+            "LOSS": 2,
+            "WIN": 58
+          }
+        },
+        "CROSS": {
+          "winratePP": 96.66666666666667,
+          "meanRounds": 41.78333333333333,
+          "outcomes": {
+            "LOSS": 2,
+            "WIN": 58
+          }
+        }
+      }
+    },
+    {
+      "id": 20,
+      "groupId": 9,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 75.0,
+          "meanRounds": 35.88333333333333,
+          "outcomes": {
+            "LOSS": 15,
+            "WIN": 45
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 45.9,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 21,
+      "groupId": 10,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 50.0,
+          "meanRounds": 36.733333333333334,
+          "outcomes": {
+            "LOSS": 30,
+            "WIN": 30
+          }
+        },
+        "CROSS": {
+          "winratePP": 60.0,
+          "meanRounds": 44.28333333333333,
+          "outcomes": {
+            "LOSS": 24,
+            "WIN": 36
+          }
+        }
+      }
+    },
+    {
+      "id": 22,
+      "groupId": 10,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 21.666666666666668,
+          "meanRounds": 34.1,
+          "outcomes": {
+            "LOSS": 47,
+            "WIN": 13
+          }
+        },
+        "CROSS": {
+          "winratePP": 55.00000000000001,
+          "meanRounds": 47.6,
+          "outcomes": {
+            "LOSS": 27,
+            "WIN": 33
+          }
+        }
+      }
+    },
+    {
+      "id": 23,
+      "groupId": 11,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 100.0,
+          "meanRounds": 27.666666666666668,
+          "outcomes": {
+            "WIN": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 33.5,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 24,
+      "groupId": 11,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 100.0,
+          "meanRounds": 28.266666666666666,
+          "outcomes": {
+            "WIN": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 39.36666666666667,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 25,
+      "groupId": 12,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 15,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 100.0,
+          "meanRounds": 29.133333333333333,
+          "outcomes": {
+            "WIN": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 40.233333333333334,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 26,
+      "groupId": 12,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 15,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 61.66666666666667,
+          "meanRounds": 30.433333333333334,
+          "outcomes": {
+            "LOSS": 23,
+            "WIN": 37
+          }
+        },
+        "CROSS": {
+          "winratePP": 95.0,
+          "meanRounds": 50.4,
+          "outcomes": {
+            "LOSS": 3,
+            "WIN": 57
+          }
+        }
+      }
+    },
+    {
+      "id": 27,
+      "groupId": 13,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 35.0,
+          "meanRounds": 31.3,
+          "outcomes": {
+            "LOSS": 39,
+            "WIN": 21
+          }
+        },
+        "CROSS": {
+          "winratePP": 76.66666666666667,
+          "meanRounds": 44.86666666666667,
+          "outcomes": {
+            "LOSS": 14,
+            "WIN": 46
+          }
+        }
+      }
+    },
+    {
+      "id": 28,
+      "groupId": 13,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 6.666666666666667,
+          "meanRounds": 29.133333333333333,
+          "outcomes": {
+            "LOSS": 56,
+            "WIN": 4
+          }
+        },
+        "CROSS": {
+          "winratePP": 15.0,
+          "meanRounds": 51.13333333333333,
+          "outcomes": {
+            "LOSS": 51,
+            "WIN": 9
+          }
+        }
+      }
+    },
+    {
+      "id": 29,
+      "groupId": 14,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 100.0,
+          "meanRounds": 27.983333333333334,
+          "outcomes": {
+            "WIN": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 33.18333333333333,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 30,
+      "groupId": 14,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 96.66666666666667,
+          "meanRounds": 28.716666666666665,
+          "outcomes": {
+            "LOSS": 2,
+            "WIN": 58
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 48.85,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 31,
+      "groupId": 15,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 76.66666666666667,
+          "meanRounds": 31.9,
+          "outcomes": {
+            "LOSS": 14,
+            "WIN": 46
+          }
+        },
+        "CROSS": {
+          "winratePP": 91.66666666666666,
+          "meanRounds": 41.88333333333333,
+          "outcomes": {
+            "LOSS": 5,
+            "WIN": 55
+          }
+        }
+      }
+    },
+    {
+      "id": 32,
+      "groupId": 15,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 46.666666666666664,
+          "meanRounds": 38.766666666666666,
+          "outcomes": {
+            "LOSS": 32,
+            "WIN": 28
+          }
+        },
+        "CROSS": {
+          "winratePP": 28.333333333333332,
+          "meanRounds": 56.55,
+          "outcomes": {
+            "LOSS": 43,
+            "WIN": 17
+          }
+        }
+      }
+    },
+    {
+      "id": 33,
+      "groupId": 16,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 40,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 41.66666666666667,
+          "meanRounds": 32.3,
+          "outcomes": {
+            "LOSS": 35,
+            "WIN": 25
+          }
+        },
+        "CROSS": {
+          "winratePP": 53.333333333333336,
+          "meanRounds": 43.05,
+          "outcomes": {
+            "LOSS": 28,
+            "WIN": 32
+          }
+        }
+      }
+    },
+    {
+      "id": 34,
+      "groupId": 16,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 2,
+      "models": {
+        "SAME": {
+          "winratePP": 18.333333333333332,
+          "meanRounds": 37.63333333333333,
+          "outcomes": {
+            "LOSS": 49,
+            "WIN": 11
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 47.28333333333333,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 35,
+      "groupId": 17,
+      "style": "RITUAL",
+      "tier": "BEGINNER",
+      "originalSize": 15,
+      "level": 50,
+      "variant": "BASE",
+      "effects": false,
+      "N": 15,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 42.56666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 47.75,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 36,
+      "groupId": 18,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 30,
+      "level": 30,
+      "variant": "BASE",
+      "effects": false,
+      "N": 30,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 47.71666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 60.15,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 37,
+      "groupId": 19,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 30,
+      "level": 50,
+      "variant": "BASE",
+      "effects": false,
+      "N": 30,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 34.56666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 40.81666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 38,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_PIERCE_ARCANE",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 95.0,
+          "meanRounds": 48.38333333333333,
+          "outcomes": {
+            "LOSS": 3,
+            "WIN": 57
+          }
+        },
+        "CROSS": {
+          "winratePP": 95.0,
+          "meanRounds": 48.38333333333333,
+          "outcomes": {
+            "LOSS": 3,
+            "WIN": 57
+          }
+        }
+      }
+    },
+    {
+      "id": 39,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_PIERCE_LEATHER",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 56.666666666666664,
+          "meanRounds": 47.833333333333336,
+          "outcomes": {
+            "LOSS": 26,
+            "WIN": 34
+          }
+        },
+        "CROSS": {
+          "winratePP": 56.666666666666664,
+          "meanRounds": 47.833333333333336,
+          "outcomes": {
+            "LOSS": 26,
+            "WIN": 34
+          }
+        }
+      }
+    },
+    {
+      "id": 40,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_SLASH_ARCANE",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 68.33333333333333,
+          "meanRounds": 58.53333333333333,
+          "outcomes": {
+            "LOSS": 19,
+            "WIN": 41
+          }
+        },
+        "CROSS": {
+          "winratePP": 68.33333333333333,
+          "meanRounds": 58.53333333333333,
+          "outcomes": {
+            "LOSS": 19,
+            "WIN": 41
+          }
+        }
+      }
+    },
+    {
+      "id": 41,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_SLASH_LEATHER",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 25.0,
+          "meanRounds": 52.71666666666667,
+          "outcomes": {
+            "LOSS": 45,
+            "WIN": 15
+          }
+        },
+        "CROSS": {
+          "winratePP": 25.0,
+          "meanRounds": 52.71666666666667,
+          "outcomes": {
+            "LOSS": 45,
+            "WIN": 15
+          }
+        }
+      }
+    },
+    {
+      "id": 42,
+      "groupId": 21,
+      "style": "WEAK_ONLY",
+      "tier": "BEGINNER",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "BASE",
+      "effects": false,
+      "N": 1,
+      "models": {
+        "SAME": {
+          "winratePP": 20.0,
+          "meanRounds": 26.816666666666666,
+          "outcomes": {
+            "LOSS": 48,
+            "WIN": 12
+          }
+        },
+        "CROSS": {
+          "winratePP": 100.0,
+          "meanRounds": 45.85,
+          "outcomes": {
+            "WIN": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 43,
+      "groupId": 22,
+      "style": "WEAK_ONLY",
+      "tier": "BEGINNER",
+      "originalSize": 30,
+      "level": 30,
+      "variant": "BASE",
+      "effects": false,
+      "N": 30,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 17.083333333333332,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 37.483333333333334,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 44,
+      "groupId": 23,
+      "style": "WEAK_ONLY",
+      "tier": "BEGINNER",
+      "originalSize": 30,
+      "level": 50,
+      "variant": "BASE",
+      "effects": false,
+      "N": 30,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 16.1,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 30.366666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 45,
+      "groupId": 24,
+      "style": "STRONG_PLUS_WEAK",
+      "tier": "STRONG",
+      "originalSize": 30,
+      "level": 30,
+      "variant": "BASE",
+      "effects": false,
+      "N": 30,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 17.466666666666665,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 36.46666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 46,
+      "groupId": 25,
+      "style": "STRONG_PLUS_WEAK",
+      "tier": "STRONG",
+      "originalSize": 30,
+      "level": 50,
+      "variant": "BASE",
+      "effects": false,
+      "N": 30,
+      "models": {
+        "SAME": {
+          "winratePP": 0.0,
+          "meanRounds": 15.366666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        },
+        "CROSS": {
+          "winratePP": 0.0,
+          "meanRounds": 30.616666666666667,
+          "outcomes": {
+            "LOSS": 60
+          }
+        }
+      }
+    },
+    {
+      "id": 47,
+      "groupId": 26,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "BASE",
+      "effects": false,
+      "N": 8,
+      "models": {
+        "SAME": {
+          "winratePP": 35.0,
+          "meanRounds": 53.78333333333333,
+          "outcomes": {
+            "LOSS": 39,
+            "WIN": 21
+          }
+        },
+        "CROSS": {
+          "winratePP": 21.666666666666668,
+          "meanRounds": 63.8,
+          "outcomes": {
+            "LOSS": 47,
+            "WIN": 13
+          }
+        }
+      }
+    },
+    {
+      "id": 48,
+      "groupId": 26,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "effects": false,
+      "N": 9,
+      "models": {
+        "SAME": {
+          "winratePP": 35.0,
+          "meanRounds": 53.95,
+          "outcomes": {
+            "LOSS": 39,
+            "WIN": 21
+          }
+        },
+        "CROSS": {
+          "winratePP": 20.0,
+          "meanRounds": 65.61666666666666,
+          "outcomes": {
+            "LOSS": 48,
+            "WIN": 12
+          }
+        }
+      }
+    },
+    {
+      "id": 49,
+      "groupId": 26,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "effects": false,
+      "N": 9,
+      "models": {
+        "SAME": {
+          "winratePP": 28.333333333333332,
+          "meanRounds": 49.21666666666667,
+          "outcomes": {
+            "LOSS": 43,
+            "WIN": 17
+          }
+        },
+        "CROSS": {
+          "winratePP": 6.666666666666667,
+          "meanRounds": 62.68333333333333,
+          "outcomes": {
+            "LOSS": 56,
+            "WIN": 4
+          }
+        }
+      }
+    },
+    {
+      "id": 50,
+      "groupId": 1,
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "EFFECTS",
+      "effects": true,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 70.0,
+          "meanRounds": 52.8,
+          "outcomes": {
+            "LOSS": 18,
+            "WIN": 42
+          }
+        },
+        "CROSS": {
+          "winratePP": 56.666666666666664,
+          "meanRounds": 53.25,
+          "outcomes": {
+            "LOSS": 26,
+            "WIN": 34
+          }
+        }
+      }
+    }
+  ],
+  "causal": [
+    {
+      "caseId": 2,
+      "baseCaseId": 1,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 60.0,
+      "appendWinratePP": 21.666666666666668,
+      "deltaPP": -38.333333333333336,
+      "pairedDeltas": [
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        -1.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -87.92418903687297,
+        11.25752237020631
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 2,
+      "baseCaseId": 1,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 60.0,
+      "appendWinratePP": 15.0,
+      "deltaPP": -45.0,
+      "pairedDeltas": [
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        -1.0,
+        0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.5,
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -94.59085570353965,
+        4.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 4,
+      "baseCaseId": 3,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 61.66666666666667,
+      "appendWinratePP": 21.666666666666668,
+      "deltaPP": -40.0,
+      "pairedDeltas": [
+        0.0,
+        -1.0,
+        -0.5,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        0.5,
+        0.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        1.0,
+        -0.5,
+        0.0,
+        -1.0,
+        0.5,
+        -1.0,
+        -1.0,
+        -0.5,
+        -0.5,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -89.59085570353965,
+        9.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 4,
+      "baseCaseId": 3,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 65.0,
+      "appendWinratePP": 21.666666666666668,
+      "deltaPP": -43.333333333333336,
+      "pairedDeltas": [
+        0.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.5,
+        -1.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        1.0,
+        0.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -92.92418903687297,
+        6.25752237020631
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 6,
+      "baseCaseId": 5,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 33.33333333333333,
+      "appendWinratePP": 18.333333333333332,
+      "deltaPP": -15.0,
+      "pairedDeltas": [
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.5,
+        0.0,
+        -1.0,
+        0.5,
+        0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.5,
+        -1.0,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -64.59085570353965,
+        34.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 6,
+      "baseCaseId": 5,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 28.333333333333332,
+      "appendWinratePP": 6.666666666666667,
+      "deltaPP": -21.666666666666668,
+      "pairedDeltas": [
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        -0.5,
+        0.5,
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -71.25752237020632,
+        27.924189036872978
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 7,
+      "baseCaseId": 5,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 33.33333333333333,
+      "appendWinratePP": 11.666666666666666,
+      "deltaPP": -21.666666666666668,
+      "pairedDeltas": [
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        -1.0,
+        -0.5,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        -0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -71.25752237020632,
+        27.924189036872978
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 7,
+      "baseCaseId": 5,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 28.333333333333332,
+      "appendWinratePP": 10.0,
+      "deltaPP": -18.333333333333332,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        -0.5,
+        -1.0,
+        -0.5,
+        0.0,
+        -1.0,
+        -1.0,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -67.92418903687297,
+        31.257522370206313
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 9,
+      "baseCaseId": 8,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 45.0,
+      "appendWinratePP": 31.666666666666664,
+      "deltaPP": -13.333333333333334,
+      "pairedDeltas": [
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        -1.0,
+        -0.5,
+        0.0,
+        -1.0,
+        0.0,
+        0.5,
+        0.5,
+        -1.0,
+        0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        -1.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        -1.0,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -62.92418903687298,
+        36.25752237020631
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 9,
+      "baseCaseId": 8,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 35.0,
+      "appendWinratePP": 10.0,
+      "deltaPP": -25.0,
+      "pairedDeltas": [
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        -0.5,
+        0.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.5,
+        0.0,
+        -1.0,
+        1.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -74.59085570353965,
+        24.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 11,
+      "baseCaseId": 10,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 11,
+      "baseCaseId": 10,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 13,
+      "baseCaseId": 12,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 13,
+      "baseCaseId": 12,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 6,
+      "level": 40,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 15,
+      "baseCaseId": 14,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 15,
+      "baseCaseId": 14,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 16,
+      "baseCaseId": 14,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 16,
+      "baseCaseId": 14,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 12,
+      "level": 50,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 0.0,
+      "appendWinratePP": 0.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 18,
+      "baseCaseId": 17,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 100.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 18,
+      "baseCaseId": 17,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 1,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 100.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 20,
+      "baseCaseId": 19,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 96.66666666666667,
+      "appendWinratePP": 75.0,
+      "deltaPP": -21.666666666666668,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -71.25752237020632,
+        27.924189036872978
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 20,
+      "baseCaseId": 19,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 96.66666666666667,
+      "appendWinratePP": 100.0,
+      "deltaPP": 3.3333333333333335,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -46.25752237020631,
+        52.92418903687298
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 22,
+      "baseCaseId": 21,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 50.0,
+      "appendWinratePP": 21.666666666666668,
+      "deltaPP": -28.333333333333332,
+      "pairedDeltas": [
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        -1.0,
+        1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -77.92418903687297,
+        21.257522370206313
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 22,
+      "baseCaseId": 21,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 60.0,
+      "appendWinratePP": 55.00000000000001,
+      "deltaPP": -5.0,
+      "pairedDeltas": [
+        1.0,
+        -0.5,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        -1.0,
+        0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.5,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        1.0,
+        0.0,
+        1.0,
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -54.590855703539646,
+        44.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 24,
+      "baseCaseId": 23,
+      "model": "SAME",
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 100.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 24,
+      "baseCaseId": 23,
+      "model": "CROSS",
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 5,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 100.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 26,
+      "baseCaseId": 25,
+      "model": "SAME",
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 15,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 61.66666666666667,
+      "deltaPP": -38.333333333333336,
+      "pairedDeltas": [
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -87.92418903687297,
+        11.25752237020631
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 26,
+      "baseCaseId": 25,
+      "model": "CROSS",
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 15,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 95.0,
+      "deltaPP": -5.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -54.590855703539646,
+        44.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 28,
+      "baseCaseId": 27,
+      "model": "SAME",
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 35.0,
+      "appendWinratePP": 6.666666666666667,
+      "deltaPP": -28.333333333333332,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.5,
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -77.92418903687297,
+        21.257522370206313
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 28,
+      "baseCaseId": 27,
+      "model": "CROSS",
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 76.66666666666667,
+      "appendWinratePP": 15.0,
+      "deltaPP": -61.66666666666667,
+      "pairedDeltas": [
+        -0.5,
+        -0.5,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        -1.0,
+        -1.0,
+        -0.5,
+        0.0,
+        0.0,
+        -1.0,
+        -0.5,
+        -0.5,
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -0.5,
+        -0.5,
+        -0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -100,
+        -12.075810963127026
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 30,
+      "baseCaseId": 29,
+      "model": "SAME",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 96.66666666666667,
+      "deltaPP": -3.3333333333333335,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -52.92418903687298,
+        46.25752237020631
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 30,
+      "baseCaseId": 29,
+      "model": "CROSS",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 10,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 100.0,
+      "appendWinratePP": 100.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 32,
+      "baseCaseId": 31,
+      "model": "SAME",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 76.66666666666667,
+      "appendWinratePP": 46.666666666666664,
+      "deltaPP": -30.0,
+      "pairedDeltas": [
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        1.0,
+        -0.5,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        -0.5,
+        1.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        -1.0,
+        -0.5,
+        -1.0,
+        0.5,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -79.59085570353965,
+        19.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 32,
+      "baseCaseId": 31,
+      "model": "CROSS",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 91.66666666666666,
+      "appendWinratePP": 28.333333333333332,
+      "deltaPP": -63.33333333333333,
+      "pairedDeltas": [
+        -0.5,
+        -1.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -0.5,
+        -0.5,
+        0.0,
+        0.5,
+        -0.5,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -100,
+        -13.742477629793683
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 34,
+      "baseCaseId": 33,
+      "model": "SAME",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 41.66666666666667,
+      "appendWinratePP": 18.333333333333332,
+      "deltaPP": -23.333333333333332,
+      "pairedDeltas": [
+        -0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -0.5,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -72.92418903687297,
+        26.257522370206313
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 34,
+      "baseCaseId": 33,
+      "model": "CROSS",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "originalSize": 1,
+      "level": 40,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 53.333333333333336,
+      "appendWinratePP": 0.0,
+      "deltaPP": -53.333333333333336,
+      "pairedDeltas": [
+        -1.0,
+        -1.0,
+        -1.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -0.5,
+        -1.0,
+        -1.0,
+        -0.5,
+        -0.5,
+        -1.0,
+        -0.5,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -100,
+        -3.74247762979369
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 48,
+      "baseCaseId": 47,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 35.0,
+      "appendWinratePP": 35.0,
+      "deltaPP": 0.0,
+      "pairedDeltas": [
+        -0.5,
+        1.0,
+        -0.5,
+        -0.5,
+        -1.0,
+        0.5,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        -0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        1.0,
+        -0.5,
+        0.0,
+        0.5,
+        -0.5,
+        1.0,
+        0.0,
+        -0.5,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -49.590855703539646,
+        49.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 48,
+      "baseCaseId": 47,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "baseWinratePP": 21.666666666666668,
+      "appendWinratePP": 20.0,
+      "deltaPP": -1.6666666666666667,
+      "pairedDeltas": [
+        -0.5,
+        0.5,
+        -0.5,
+        0.0,
+        -1.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.5,
+        0.5,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -51.25752237020631,
+        47.92418903687298
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 49,
+      "baseCaseId": 47,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 35.0,
+      "appendWinratePP": 28.333333333333332,
+      "deltaPP": -6.666666666666667,
+      "pairedDeltas": [
+        -0.5,
+        1.0,
+        -0.5,
+        -0.5,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        1.0,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.5,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -56.25752237020631,
+        42.92418903687298
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 49,
+      "baseCaseId": 47,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 8,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "baseWinratePP": 21.666666666666668,
+      "appendWinratePP": 6.666666666666667,
+      "deltaPP": -15.0,
+      "pairedDeltas": [
+        -0.5,
+        1.0,
+        -0.5,
+        0.0,
+        -1.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        -0.5,
+        0.5,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -64.59085570353965,
+        34.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 50,
+      "baseCaseId": 1,
+      "model": "SAME",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "EFFECTS",
+      "baseWinratePP": 60.0,
+      "appendWinratePP": 70.0,
+      "deltaPP": 10.0,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        1.0,
+        0.0,
+        0.5,
+        0.5,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -39.590855703539646,
+        59.590855703539646
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    },
+    {
+      "caseId": 50,
+      "baseCaseId": 1,
+      "model": "CROSS",
+      "style": "MAIN",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "EFFECTS",
+      "baseWinratePP": 60.0,
+      "appendWinratePP": 56.666666666666664,
+      "deltaPP": -3.3333333333333335,
+      "pairedDeltas": [
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "exploratoryPointwise95HoeffdingDeltaPP": [
+        -52.92418903687298,
+        46.25752237020631
+      ],
+      "policy": "30pair exploratory pointwise interval only, no simultaneous guarantee and no acceptance by zero-zero or100-100 saturation"
+    }
+  ],
+  "counterType2x2": [
+    {
+      "id": 38,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_PIERCE_ARCANE",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 95.0,
+          "meanRounds": 48.38333333333333,
+          "outcomes": {
+            "LOSS": 3,
+            "WIN": 57
+          }
+        },
+        "CROSS": {
+          "winratePP": 95.0,
+          "meanRounds": 48.38333333333333,
+          "outcomes": {
+            "LOSS": 3,
+            "WIN": 57
+          }
+        }
+      }
+    },
+    {
+      "id": 39,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_PIERCE_LEATHER",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 56.666666666666664,
+          "meanRounds": 47.833333333333336,
+          "outcomes": {
+            "LOSS": 26,
+            "WIN": 34
+          }
+        },
+        "CROSS": {
+          "winratePP": 56.666666666666664,
+          "meanRounds": 47.833333333333336,
+          "outcomes": {
+            "LOSS": 26,
+            "WIN": 34
+          }
+        }
+      }
+    },
+    {
+      "id": 40,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_SLASH_ARCANE",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 68.33333333333333,
+          "meanRounds": 58.53333333333333,
+          "outcomes": {
+            "LOSS": 19,
+            "WIN": 41
+          }
+        },
+        "CROSS": {
+          "winratePP": 68.33333333333333,
+          "meanRounds": 58.53333333333333,
+          "outcomes": {
+            "LOSS": 19,
+            "WIN": 41
+          }
+        }
+      }
+    },
+    {
+      "id": 41,
+      "groupId": 20,
+      "style": "COUNTER",
+      "tier": "MID",
+      "originalSize": 3,
+      "level": 25,
+      "variant": "COUNTER_SLASH_LEATHER",
+      "effects": false,
+      "N": 3,
+      "models": {
+        "SAME": {
+          "winratePP": 25.0,
+          "meanRounds": 52.71666666666667,
+          "outcomes": {
+            "LOSS": 45,
+            "WIN": 15
+          }
+        },
+        "CROSS": {
+          "winratePP": 25.0,
+          "meanRounds": 52.71666666666667,
+          "outcomes": {
+            "LOSS": 45,
+            "WIN": 15
+          }
+        }
+      }
+    }
+  ],
+  "conclusion": "NEITHER_SAME_NOR_CROSS_IS_READY: ordinary3to4 and several weak additions show large negative sample changes; upper controls saturate at loss. Countertype advantage remains despite identical targets and NPCs.",
+  "limitations": [
+    "30pair samples cannot decide all20pp harm margins; these are risk signals for separately approved fresh confirmation",
+    "SAME/CROSS differ only in H:D allocation and mathematically share target product; neither restores the removed row weights",
+    "Fixed NPC DEF707/309 is a prototype setting, not an accepted gameplay formula",
+    "No50/50 requirement for every matchup; no claim that every possible scalar or split model is impossible",
+    "All6000battles, both models and all50conditions retained, no outcome fitting or adaptive extensions",
+    "An independent-JVM replay has not been run for this screen; same-input countermodel hashes are checked within the existing data"
+  ]
+}

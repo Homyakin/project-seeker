@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
 import ru.homyakin.seeker.game.event.anomaly.entity.AnomalyPveTemplate;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
@@ -19,6 +21,7 @@ import ru.homyakin.seeker.game.item.models.ItemDefense;
 import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.Optional;
 
@@ -51,6 +54,60 @@ class AnomalySafePveGeneratorTest {
         Assertions.assertTrue(enemies.size() >= 2 && enemies.size() <= 3);
         Assertions.assertTrue(enemies.stream().allMatch(it ->
             it.attackTypes().contains(AttackType.MAGICAL)
+        ));
+    }
+
+    @ParameterizedTest
+    @EnumSource(AnomalyPveTemplate.class)
+    void explicitScalingVersionAppliesDuringCalibrationAndFinalGeneration(AnomalyPveTemplate template) {
+        final var generated = RandomUtils.withSeed(2026110714L, () -> generator.generateCalibrated(
+            template,
+            List.of(player(), player(), player()),
+            SkillFormulaVersion.SCALING_SKILLS_V3
+        ));
+
+        Assertions.assertEquals(3, generated.enemies().size());
+        for (final var enemy : generated.enemies()) {
+            Assertions.assertEquals(1, enemy.skillSnapshots().size());
+            final var skill = enemy.skillSnapshots().getFirst();
+            Assertions.assertEquals(4, skill.points(), "The legendary single-slot item supplies the skill points once");
+            Assertions.assertEquals(SkillFormulaVersion.SCALING_SKILLS_V3, skill.formulaVersion());
+        }
+        final var finalPower = generated.enemies().stream().mapToDouble(BattlePersonage::legacyPower).sum();
+        Assertions.assertEquals(generated.calibration().achievedPower(), finalPower, finalPower * 1e-12);
+        Assertions.assertTrue(generated.calibration().evaluations() > 1);
+    }
+
+    @ParameterizedTest
+    @EnumSource(AnomalyPveTemplate.class)
+    void oldOverloadRetainsLegacySkillVersion(AnomalyPveTemplate template) {
+        final var implicit = RandomUtils.withSeed(2026110714L, () -> generator.generate(
+            template,
+            List.of(player())
+        ));
+        final var explicit = RandomUtils.withSeed(2026110714L, () -> generator.generate(
+            template,
+            List.of(player()),
+            SkillFormulaVersion.LEGACY_SKILLS_V1
+        ));
+
+        Assertions.assertEquals(implicit.size(), explicit.size());
+        for (int i = 0; i < implicit.size(); i++) {
+            Assertions.assertEquals(explicit.get(i).legacyPower(), implicit.get(i).legacyPower());
+            Assertions.assertEquals(explicit.get(i).skillSnapshots(), implicit.get(i).skillSnapshots());
+            Assertions.assertEquals(
+                SkillFormulaVersion.LEGACY_SKILLS_V1,
+                implicit.get(i).skillSnapshots().getFirst().formulaVersion()
+            );
+        }
+    }
+
+    @Test
+    void missingExplicitVersionIsRejected() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> generator.generate(
+            AnomalyPveTemplate.CRYSTAL_STORM,
+            List.of(player()),
+            null
         ));
     }
 

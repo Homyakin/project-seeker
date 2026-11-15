@@ -1,0 +1,113 @@
+21:58:44,454 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+21:58:44,455 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - Here is a list of configurators discovered as a service, by rank: 
+21:58:44,455 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+21:58:44,455 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+21:58:44,455 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+21:58:44,456 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+21:58:44,456 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+21:58:44,457 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+21:58:44,457 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+21:58:44,457 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+21:58:44,457 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+21:58:44,457 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+21:58:44,457 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+21:58:44,458 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+21:58:44,458 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/home/user/projects/project-seeker/game/target/classes/logback.xml]
+21:58:44,542 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [sout]
+21:58:44,542 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+21:58:44,581 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+21:58:44,581 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+21:58:44,581 |-WARN in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+21:58:44,581 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+21:58:44,581 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - console in production environments, especially in high volume systems.
+21:58:44,581 |-INFO in ch.qos.logback.core.ConsoleAppender[sout] - See also https://logback.qos.ch/codes.html#slowConsole
+21:58:44,581 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+21:58:44,581 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [sout] to Logger[ROOT]
+21:58:44,582 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@50d13246 - End of configuration.
+21:58:44,582 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@2bd08376 - Registering current configuration as safe fallback point
+21:58:44,582 |-INFO in ch.qos.logback.classic.util.ContextInitializer@ab7395e - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 125 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+completed phase=SCREEN cells=10/825
+completed phase=SCREEN cells=20/825
+completed phase=SCREEN cells=30/825
+completed phase=SCREEN cells=40/825
+completed phase=SCREEN cells=50/825
+completed phase=SCREEN cells=60/825
+completed phase=SCREEN cells=70/825
+completed phase=SCREEN cells=80/825
+completed phase=SCREEN cells=90/825
+completed phase=SCREEN cells=100/825
+completed phase=SCREEN cells=110/825
+completed phase=SCREEN cells=120/825
+completed phase=SCREEN cells=130/825
+completed phase=SCREEN cells=140/825
+completed phase=SCREEN cells=150/825
+completed phase=SCREEN cells=160/825
+completed phase=SCREEN cells=170/825
+completed phase=SCREEN cells=180/825
+completed phase=SCREEN cells=190/825
+completed phase=SCREEN cells=200/825
+completed phase=SCREEN cells=210/825
+completed phase=SCREEN cells=220/825
+completed phase=SCREEN cells=230/825
+completed phase=SCREEN cells=240/825
+completed phase=SCREEN cells=250/825
+completed phase=SCREEN cells=260/825
+completed phase=SCREEN cells=270/825
+completed phase=SCREEN cells=280/825
+completed phase=SCREEN cells=290/825
+completed phase=SCREEN cells=300/825
+completed phase=SCREEN cells=310/825
+completed phase=SCREEN cells=320/825
+completed phase=SCREEN cells=330/825
+completed phase=SCREEN cells=340/825
+completed phase=SCREEN cells=350/825
+completed phase=SCREEN cells=360/825
+completed phase=SCREEN cells=370/825
+completed phase=SCREEN cells=380/825
+completed phase=SCREEN cells=390/825
+completed phase=SCREEN cells=400/825
+completed phase=SCREEN cells=410/825
+completed phase=SCREEN cells=420/825
+completed phase=SCREEN cells=430/825
+completed phase=SCREEN cells=440/825
+completed phase=SCREEN cells=450/825
+completed phase=SCREEN cells=460/825
+completed phase=SCREEN cells=470/825
+completed phase=SCREEN cells=480/825
+completed phase=SCREEN cells=490/825
+completed phase=SCREEN cells=500/825
+completed phase=SCREEN cells=510/825
+completed phase=SCREEN cells=520/825
+completed phase=SCREEN cells=530/825
+completed phase=SCREEN cells=540/825
+completed phase=SCREEN cells=550/825
+completed phase=SCREEN cells=560/825
+completed phase=SCREEN cells=570/825
+completed phase=SCREEN cells=580/825
+completed phase=SCREEN cells=590/825
+completed phase=SCREEN cells=600/825
+completed phase=SCREEN cells=610/825
+completed phase=SCREEN cells=620/825
+completed phase=SCREEN cells=630/825
+completed phase=SCREEN cells=640/825
+completed phase=SCREEN cells=650/825
+completed phase=SCREEN cells=660/825
+completed phase=SCREEN cells=670/825
+completed phase=SCREEN cells=680/825
+completed phase=SCREEN cells=690/825
+completed phase=SCREEN cells=700/825
+completed phase=SCREEN cells=710/825
+completed phase=SCREEN cells=720/825
+completed phase=SCREEN cells=730/825
+completed phase=SCREEN cells=740/825
+completed phase=SCREEN cells=750/825
+completed phase=SCREEN cells=760/825
+completed phase=SCREEN cells=770/825
+completed phase=SCREEN cells=780/825
+completed phase=SCREEN cells=790/825
+completed phase=SCREEN cells=800/825
+completed phase=SCREEN cells=810/825
+completed phase=SCREEN cells=820/825
+completed phase=SCREEN cells=825/825
+complete phase=SCREEN cells=825 battles=16500

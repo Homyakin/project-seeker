@@ -1,0 +1,20 @@
+{
+  "status": "SUMMARY_AND_SOURCE_CHECKS_VALID_BALANCE_NOT_ACCEPTED",
+  "runs": 9,
+  "battles": 91200,
+  "draws": 0,
+  "timeouts": 0,
+  "sourceFilesUnchanged": 203,
+  "repeatedCleanBuild": {
+    "tests": 1733,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 29,
+    "passed": 1704
+  },
+  "twoLookIntervalsVerified": 8,
+  "fixedWeakConfirmationsVerified": 3,
+  "recomputedAggregateExact": true,
+  "rawContentIntegrityIsSeparate": "verify-raw.cjs",
+  "productionOrParametersChangedThisPart": false
+}

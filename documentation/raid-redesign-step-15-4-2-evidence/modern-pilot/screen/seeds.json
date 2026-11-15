@@ -1,0 +1,601 @@
+[ {
+  "battleSeed" : 178313376898442,
+  "generationSeed" : 121084703331462,
+  "groupId" : 101,
+  "pair" : 0
+}, {
+  "battleSeed" : 2429130761463,
+  "generationSeed" : 147741048554776,
+  "groupId" : 101,
+  "pair" : 1
+}, {
+  "battleSeed" : 2189602631324,
+  "generationSeed" : 138238328735007,
+  "groupId" : 101,
+  "pair" : 2
+}, {
+  "battleSeed" : 147638955004874,
+  "generationSeed" : 390583763285,
+  "groupId" : 101,
+  "pair" : 3
+}, {
+  "battleSeed" : 28693049826570,
+  "generationSeed" : 191845793456725,
+  "groupId" : 101,
+  "pair" : 4
+}, {
+  "battleSeed" : 172053182059241,
+  "generationSeed" : 47163784407514,
+  "groupId" : 101,
+  "pair" : 5
+}, {
+  "battleSeed" : 133901113765785,
+  "generationSeed" : 113643750578881,
+  "groupId" : 101,
+  "pair" : 6
+}, {
+  "battleSeed" : 271872826772802,
+  "generationSeed" : 35154515333879,
+  "groupId" : 101,
+  "pair" : 7
+}, {
+  "battleSeed" : 28855083076235,
+  "generationSeed" : 147316363989457,
+  "groupId" : 101,
+  "pair" : 8
+}, {
+  "battleSeed" : 136894807199074,
+  "generationSeed" : 130439091165162,
+  "groupId" : 101,
+  "pair" : 9
+}, {
+  "battleSeed" : 12311724854939,
+  "generationSeed" : 29594916010329,
+  "groupId" : 101,
+  "pair" : 10
+}, {
+  "battleSeed" : 34484926537484,
+  "generationSeed" : 32776216713521,
+  "groupId" : 101,
+  "pair" : 11
+}, {
+  "battleSeed" : 211711715445700,
+  "generationSeed" : 264151929734393,
+  "groupId" : 101,
+  "pair" : 12
+}, {
+  "battleSeed" : 228238457939302,
+  "generationSeed" : 81093875967741,
+  "groupId" : 101,
+  "pair" : 13
+}, {
+  "battleSeed" : 111912331129313,
+  "generationSeed" : 71261799299673,
+  "groupId" : 101,
+  "pair" : 14
+}, {
+  "battleSeed" : 240552356252244,
+  "generationSeed" : 59078260852214,
+  "groupId" : 101,
+  "pair" : 15
+}, {
+  "battleSeed" : 115275608055073,
+  "generationSeed" : 129202951147922,
+  "groupId" : 101,
+  "pair" : 16
+}, {
+  "battleSeed" : 19683299503776,
+  "generationSeed" : 122318393928412,
+  "groupId" : 101,
+  "pair" : 17
+}, {
+  "battleSeed" : 3285031753584,
+  "generationSeed" : 150502621130082,
+  "groupId" : 101,
+  "pair" : 18
+}, {
+  "battleSeed" : 268294747287128,
+  "generationSeed" : 158721504596509,
+  "groupId" : 101,
+  "pair" : 19
+}, {
+  "battleSeed" : 195550624333591,
+  "generationSeed" : 278190000074908,
+  "groupId" : 101,
+  "pair" : 20
+}, {
+  "battleSeed" : 121297307820181,
+  "generationSeed" : 195866378764595,
+  "groupId" : 101,
+  "pair" : 21
+}, {
+  "battleSeed" : 132273183229258,
+  "generationSeed" : 167471877797920,
+  "groupId" : 101,
+  "pair" : 22
+}, {
+  "battleSeed" : 238669332638300,
+  "generationSeed" : 192820307493772,
+  "groupId" : 101,
+  "pair" : 23
+}, {
+  "battleSeed" : 141963303084476,
+  "generationSeed" : 99632452271626,
+  "groupId" : 101,
+  "pair" : 24
+}, {
+  "battleSeed" : 148608424217388,
+  "generationSeed" : 36090640646269,
+  "groupId" : 101,
+  "pair" : 25
+}, {
+  "battleSeed" : 198618004153798,
+  "generationSeed" : 171674245688251,
+  "groupId" : 101,
+  "pair" : 26
+}, {
+  "battleSeed" : 10033773451534,
+  "generationSeed" : 250179798030205,
+  "groupId" : 101,
+  "pair" : 27
+}, {
+  "battleSeed" : 151187062651303,
+  "generationSeed" : 134940570520853,
+  "groupId" : 101,
+  "pair" : 28
+}, {
+  "battleSeed" : 157223008814888,
+  "generationSeed" : 167877124992661,
+  "groupId" : 101,
+  "pair" : 29
+}, {
+  "battleSeed" : 270054687759825,
+  "generationSeed" : 99579052810460,
+  "groupId" : 102,
+  "pair" : 0
+}, {
+  "battleSeed" : 245477342224631,
+  "generationSeed" : 81557639768512,
+  "groupId" : 102,
+  "pair" : 1
+}, {
+  "battleSeed" : 123831347991198,
+  "generationSeed" : 220856352013952,
+  "groupId" : 102,
+  "pair" : 2
+}, {
+  "battleSeed" : 87884255506216,
+  "generationSeed" : 203372308901891,
+  "groupId" : 102,
+  "pair" : 3
+}, {
+  "battleSeed" : 5021973034891,
+  "generationSeed" : 229683098353398,
+  "groupId" : 102,
+  "pair" : 4
+}, {
+  "battleSeed" : 211990979451048,
+  "generationSeed" : 156491543455809,
+  "groupId" : 102,
+  "pair" : 5
+}, {
+  "battleSeed" : 104769653348352,
+  "generationSeed" : 46678642321332,
+  "groupId" : 102,
+  "pair" : 6
+}, {
+  "battleSeed" : 185236555758799,
+  "generationSeed" : 63652634724289,
+  "groupId" : 102,
+  "pair" : 7
+}, {
+  "battleSeed" : 127691025695191,
+  "generationSeed" : 125582264511767,
+  "groupId" : 102,
+  "pair" : 8
+}, {
+  "battleSeed" : 271970738245223,
+  "generationSeed" : 229211338529311,
+  "groupId" : 102,
+  "pair" : 9
+}, {
+  "battleSeed" : 195767169139944,
+  "generationSeed" : 75333777787982,
+  "groupId" : 102,
+  "pair" : 10
+}, {
+  "battleSeed" : 41398399995100,
+  "generationSeed" : 224314898626256,
+  "groupId" : 102,
+  "pair" : 11
+}, {
+  "battleSeed" : 5298880780173,
+  "generationSeed" : 46995122617840,
+  "groupId" : 102,
+  "pair" : 12
+}, {
+  "battleSeed" : 166683169457314,
+  "generationSeed" : 220268228161921,
+  "groupId" : 102,
+  "pair" : 13
+}, {
+  "battleSeed" : 146467350545796,
+  "generationSeed" : 221376115637533,
+  "groupId" : 102,
+  "pair" : 14
+}, {
+  "battleSeed" : 263815481098623,
+  "generationSeed" : 48523831275000,
+  "groupId" : 102,
+  "pair" : 15
+}, {
+  "battleSeed" : 183686539603903,
+  "generationSeed" : 237148481629166,
+  "groupId" : 102,
+  "pair" : 16
+}, {
+  "battleSeed" : 217728267266924,
+  "generationSeed" : 203545632442668,
+  "groupId" : 102,
+  "pair" : 17
+}, {
+  "battleSeed" : 189669745665770,
+  "generationSeed" : 238164008138604,
+  "groupId" : 102,
+  "pair" : 18
+}, {
+  "battleSeed" : 267994653990576,
+  "generationSeed" : 132006029194613,
+  "groupId" : 102,
+  "pair" : 19
+}, {
+  "battleSeed" : 234765007263691,
+  "generationSeed" : 107908445815694,
+  "groupId" : 102,
+  "pair" : 20
+}, {
+  "battleSeed" : 120035624002037,
+  "generationSeed" : 29484517226276,
+  "groupId" : 102,
+  "pair" : 21
+}, {
+  "battleSeed" : 115379275910952,
+  "generationSeed" : 197723668492428,
+  "groupId" : 102,
+  "pair" : 22
+}, {
+  "battleSeed" : 239773775289193,
+  "generationSeed" : 144059121364713,
+  "groupId" : 102,
+  "pair" : 23
+}, {
+  "battleSeed" : 76884128133444,
+  "generationSeed" : 271245385642875,
+  "groupId" : 102,
+  "pair" : 24
+}, {
+  "battleSeed" : 155265778328412,
+  "generationSeed" : 249318970342353,
+  "groupId" : 102,
+  "pair" : 25
+}, {
+  "battleSeed" : 272225358194384,
+  "generationSeed" : 246466776301110,
+  "groupId" : 102,
+  "pair" : 26
+}, {
+  "battleSeed" : 27574214780187,
+  "generationSeed" : 145573278045291,
+  "groupId" : 102,
+  "pair" : 27
+}, {
+  "battleSeed" : 132875432750382,
+  "generationSeed" : 137876503944473,
+  "groupId" : 102,
+  "pair" : 28
+}, {
+  "battleSeed" : 274479575513667,
+  "generationSeed" : 120536471402828,
+  "groupId" : 102,
+  "pair" : 29
+}, {
+  "battleSeed" : 118313358752829,
+  "generationSeed" : 196404563896169,
+  "groupId" : 251,
+  "pair" : 0
+}, {
+  "battleSeed" : 127237604482098,
+  "generationSeed" : 2294609186674,
+  "groupId" : 251,
+  "pair" : 1
+}, {
+  "battleSeed" : 145785995572204,
+  "generationSeed" : 49568551051655,
+  "groupId" : 251,
+  "pair" : 2
+}, {
+  "battleSeed" : 122389656181482,
+  "generationSeed" : 52520017450061,
+  "groupId" : 251,
+  "pair" : 3
+}, {
+  "battleSeed" : 271437202080839,
+  "generationSeed" : 133073922888125,
+  "groupId" : 251,
+  "pair" : 4
+}, {
+  "battleSeed" : 250977638121202,
+  "generationSeed" : 155605651751551,
+  "groupId" : 251,
+  "pair" : 5
+}, {
+  "battleSeed" : 249963122956860,
+  "generationSeed" : 251580241039068,
+  "groupId" : 251,
+  "pair" : 6
+}, {
+  "battleSeed" : 94287011158281,
+  "generationSeed" : 74428196422617,
+  "groupId" : 251,
+  "pair" : 7
+}, {
+  "battleSeed" : 247799638910201,
+  "generationSeed" : 133544422185286,
+  "groupId" : 251,
+  "pair" : 8
+}, {
+  "battleSeed" : 30846691083121,
+  "generationSeed" : 28528158115171,
+  "groupId" : 251,
+  "pair" : 9
+}, {
+  "battleSeed" : 80813463540967,
+  "generationSeed" : 125508260893779,
+  "groupId" : 251,
+  "pair" : 10
+}, {
+  "battleSeed" : 206462322153476,
+  "generationSeed" : 183696884646840,
+  "groupId" : 251,
+  "pair" : 11
+}, {
+  "battleSeed" : 209479568962873,
+  "generationSeed" : 34404052274626,
+  "groupId" : 251,
+  "pair" : 12
+}, {
+  "battleSeed" : 194034438632193,
+  "generationSeed" : 91333466844738,
+  "groupId" : 251,
+  "pair" : 13
+}, {
+  "battleSeed" : 104751907100686,
+  "generationSeed" : 161337977103630,
+  "groupId" : 251,
+  "pair" : 14
+}, {
+  "battleSeed" : 60763879939103,
+  "generationSeed" : 155212271824633,
+  "groupId" : 251,
+  "pair" : 15
+}, {
+  "battleSeed" : 188297122196183,
+  "generationSeed" : 231269061302875,
+  "groupId" : 251,
+  "pair" : 16
+}, {
+  "battleSeed" : 203990784811461,
+  "generationSeed" : 233630685908407,
+  "groupId" : 251,
+  "pair" : 17
+}, {
+  "battleSeed" : 137609493830908,
+  "generationSeed" : 248825644902263,
+  "groupId" : 251,
+  "pair" : 18
+}, {
+  "battleSeed" : 276532010109331,
+  "generationSeed" : 26760539091170,
+  "groupId" : 251,
+  "pair" : 19
+}, {
+  "battleSeed" : 78493308363943,
+  "generationSeed" : 106850161783466,
+  "groupId" : 251,
+  "pair" : 20
+}, {
+  "battleSeed" : 141150884855415,
+  "generationSeed" : 117088343584631,
+  "groupId" : 251,
+  "pair" : 21
+}, {
+  "battleSeed" : 273476645866205,
+  "generationSeed" : 232283149946680,
+  "groupId" : 251,
+  "pair" : 22
+}, {
+  "battleSeed" : 143170371046547,
+  "generationSeed" : 160728921634150,
+  "groupId" : 251,
+  "pair" : 23
+}, {
+  "battleSeed" : 80291225236998,
+  "generationSeed" : 110521852826102,
+  "groupId" : 251,
+  "pair" : 24
+}, {
+  "battleSeed" : 198923997328864,
+  "generationSeed" : 54782901144848,
+  "groupId" : 251,
+  "pair" : 25
+}, {
+  "battleSeed" : 230532298451434,
+  "generationSeed" : 246898727898476,
+  "groupId" : 251,
+  "pair" : 26
+}, {
+  "battleSeed" : 232960221792316,
+  "generationSeed" : 101566609597062,
+  "groupId" : 251,
+  "pair" : 27
+}, {
+  "battleSeed" : 128883270338737,
+  "generationSeed" : 68695404505952,
+  "groupId" : 251,
+  "pair" : 28
+}, {
+  "battleSeed" : 57018917382369,
+  "generationSeed" : 272568970034877,
+  "groupId" : 251,
+  "pair" : 29
+}, {
+  "battleSeed" : 137104354546404,
+  "generationSeed" : 131616163882911,
+  "groupId" : 252,
+  "pair" : 0
+}, {
+  "battleSeed" : 142753680961354,
+  "generationSeed" : 190544388972751,
+  "groupId" : 252,
+  "pair" : 1
+}, {
+  "battleSeed" : 6092391397513,
+  "generationSeed" : 160752330817959,
+  "groupId" : 252,
+  "pair" : 2
+}, {
+  "battleSeed" : 66988227481134,
+  "generationSeed" : 49141325513520,
+  "groupId" : 252,
+  "pair" : 3
+}, {
+  "battleSeed" : 215770738472946,
+  "generationSeed" : 234909885153462,
+  "groupId" : 252,
+  "pair" : 4
+}, {
+  "battleSeed" : 95613476949311,
+  "generationSeed" : 254011965937138,
+  "groupId" : 252,
+  "pair" : 5
+}, {
+  "battleSeed" : 234069962797643,
+  "generationSeed" : 154002143780144,
+  "groupId" : 252,
+  "pair" : 6
+}, {
+  "battleSeed" : 91235105985562,
+  "generationSeed" : 40259471813741,
+  "groupId" : 252,
+  "pair" : 7
+}, {
+  "battleSeed" : 154329155185839,
+  "generationSeed" : 271833915729535,
+  "groupId" : 252,
+  "pair" : 8
+}, {
+  "battleSeed" : 44180058992863,
+  "generationSeed" : 233650470481071,
+  "groupId" : 252,
+  "pair" : 9
+}, {
+  "battleSeed" : 258792721515989,
+  "generationSeed" : 107340349797075,
+  "groupId" : 252,
+  "pair" : 10
+}, {
+  "battleSeed" : 148535401141447,
+  "generationSeed" : 123681135781391,
+  "groupId" : 252,
+  "pair" : 11
+}, {
+  "battleSeed" : 49613028526775,
+  "generationSeed" : 251992443944696,
+  "groupId" : 252,
+  "pair" : 12
+}, {
+  "battleSeed" : 239356829208321,
+  "generationSeed" : 162656468617233,
+  "groupId" : 252,
+  "pair" : 13
+}, {
+  "battleSeed" : 122782609043299,
+  "generationSeed" : 250420355135704,
+  "groupId" : 252,
+  "pair" : 14
+}, {
+  "battleSeed" : 72930227217582,
+  "generationSeed" : 55389829506273,
+  "groupId" : 252,
+  "pair" : 15
+}, {
+  "battleSeed" : 231063312292647,
+  "generationSeed" : 210320533324999,
+  "groupId" : 252,
+  "pair" : 16
+}, {
+  "battleSeed" : 113618065283161,
+  "generationSeed" : 87712437857292,
+  "groupId" : 252,
+  "pair" : 17
+}, {
+  "battleSeed" : 258506360510417,
+  "generationSeed" : 15313987145204,
+  "groupId" : 252,
+  "pair" : 18
+}, {
+  "battleSeed" : 86971011605929,
+  "generationSeed" : 247255690082183,
+  "groupId" : 252,
+  "pair" : 19
+}, {
+  "battleSeed" : 128939681663423,
+  "generationSeed" : 57948445024182,
+  "groupId" : 252,
+  "pair" : 20
+}, {
+  "battleSeed" : 179451349787320,
+  "generationSeed" : 142954561613433,
+  "groupId" : 252,
+  "pair" : 21
+}, {
+  "battleSeed" : 233571889999311,
+  "generationSeed" : 127100053049389,
+  "groupId" : 252,
+  "pair" : 22
+}, {
+  "battleSeed" : 100980048584118,
+  "generationSeed" : 185698664634530,
+  "groupId" : 252,
+  "pair" : 23
+}, {
+  "battleSeed" : 107579295637660,
+  "generationSeed" : 64414974111350,
+  "groupId" : 252,
+  "pair" : 24
+}, {
+  "battleSeed" : 47670775855131,
+  "generationSeed" : 148170581029624,
+  "groupId" : 252,
+  "pair" : 25
+}, {
+  "battleSeed" : 113039306124216,
+  "generationSeed" : 187679560351695,
+  "groupId" : 252,
+  "pair" : 26
+}, {
+  "battleSeed" : 157786236712985,
+  "generationSeed" : 167234261892976,
+  "groupId" : 252,
+  "pair" : 27
+}, {
+  "battleSeed" : 26051444744461,
+  "generationSeed" : 26973850211715,
+  "groupId" : 252,
+  "pair" : 28
+}, {
+  "battleSeed" : 210373550662062,
+  "generationSeed" : 224554394784046,
+  "groupId" : 252,
+  "pair" : 29
+} ]

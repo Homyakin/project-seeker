@@ -1,0 +1,49 @@
+{
+  "purpose": "LAST_FIXED_CONFIRMATION_OF_TWO_UNCHANGED_RESEARCH_MODELS_NOT_PRODUCTION_ACCEPTANCE",
+  "date": "2026-11-08",
+  "models": ["SAME", "CROSS"],
+  "conditions": 12,
+  "mirroredPairsPerCondition": 500,
+  "executions": 24000,
+  "caseOrder": [
+    "PIERCE_ARCANE_MAIN_MID_N3_L25_BASE",
+    "PIERCE_ARCANE_MAIN_MID_N3_L25_NORMAL_APPEND",
+    "PIERCE_LEATHER_MAIN_MID_N3_L25_BASE",
+    "PIERCE_LEATHER_MAIN_MID_N3_L25_NORMAL_APPEND",
+    "SLASH_ARCANE_MAIN_MID_N3_L25_BASE",
+    "SLASH_ARCANE_MAIN_MID_N3_L25_NORMAL_APPEND",
+    "SLASH_LEATHER_MAIN_MID_N3_L25_BASE",
+    "SLASH_LEATHER_MAIN_MID_N3_L25_NORMAL_APPEND",
+    "ORIGINAL_MAIN_MID_N3_L25_BASE",
+    "ORIGINAL_MAIN_MID_N3_L25_NORMAL_APPEND",
+    "RITUAL_STRONG_N1_L25_BASE",
+    "RITUAL_STRONG_N1_L25_WEAK_APPEND"
+  ],
+  "generationNamespace": "MYCONID-15.4.1-SPLIT-CONFIRM-GEN-20261108-v1",
+  "battleNamespace": "MYCONID-15.4.1-SPLIT-CONFIRM-BATTLE-20261108-v1",
+  "seedPolicy": "First48 big-endian bits of SHA256(namespace+'/'+groupId+'/'+pair); no model or variant; groups1counter,2originalMAIN,3RITUAL;1500seed records",
+  "families": {
+    "append": {
+      "comparisonsPerModel": [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12]],
+      "orientation": "second minus first mirrored-pair score",
+      "comparisonsIncludingBothModels": 12,
+      "alpha": 0.05,
+      "interval": "Bonferroni-Hoeffding two-sided simultaneous within family; halfWidth=sqrt(2*ln(2*12/0.05)/500)"
+    },
+    "counterChoice": {
+      "comparisonsPerModel": [[5,1],[3,1],[7,1],[6,2],[4,2],[8,2]],
+      "orientation": "second minus first mirrored-pair score",
+      "comparisonsIncludingBothModels": 12,
+      "alpha": 0.05,
+      "interval": "Same separate12-comparison family, not joint95 coverage of both families"
+    }
+  },
+  "limitations": [
+    "Frozen after exploration, before reading these fresh confirmation outcomes; no tuning or optional extension",
+    "Same-model mirrors and shared-seed variants are correlated; one pair is one observation",
+    "SAME/CROSS counter baselines atN3 are identical executions, not extra independent observations",
+    "No50/50 target, no universal guarantee across all possible equipment or groups",
+    "Ordinary20percentage-point harm signal is not silently imposed as a newly approved weak-player acceptance policy",
+    "After this run only validation, documentation and independent review; no further battles in15.4.1"
+  ]
+}

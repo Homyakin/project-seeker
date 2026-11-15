@@ -1,0 +1,40 @@
+{
+  "baseCommit": "bd142e61a0aa2fc0e1b2117164ab4bc6fac29469",
+  "date": "2026-11-08",
+  "workingTreeSourceSnapshot": true,
+  "sourceInputCount": 198,
+  "step15Accepted": false,
+  "finalProfile": {
+    "guardian": {
+      "attack": 70,
+      "defense": 160,
+      "health": 420,
+      "speed": 190
+    },
+    "slinger": {
+      "attack": 130,
+      "defense": 70,
+      "health": 280,
+      "speed": 160
+    },
+    "correction": 0.77,
+    "g": "LOG4",
+    "slingerV3Range": [
+      1,
+      3
+    ]
+  },
+  "snapshotExclusions": [
+    "ignored development properties and credentials",
+    "target resources and compiled artifacts",
+    "unrelated pre-existing InMemoryLockServiceTest.java edit",
+    "production database contents"
+  ],
+  "testResultMetadata": "test-summary.json",
+  "java": "Axiom JDK 25.0.1",
+  "javaTarget": 24,
+  "productionDatabaseAccessed": false,
+  "postgresIntegrationTestsRun": false,
+  "botStarted": false,
+  "releaseActivated": false
+}

@@ -1,0 +1,747 @@
+[
+  {
+    "caseId": 294,
+    "cell": {
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "BEGINNER",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false
+    },
+    "guardian": {
+      "build": "GUARDIAN",
+      "position": "FRONT",
+      "tactic": "THREAT",
+      "items": [
+        {
+          "code": "mace",
+          "slots": [
+            "MAIN_HAND"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [
+            {
+              "attackType": "BLUNT",
+              "minRange": 1,
+              "maxRange": 1,
+              "attack": 360
+            }
+          ],
+          "defense": null
+        },
+        {
+          "code": "tower_shield",
+          "slots": [
+            "OFF_HAND"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "cuirass",
+          "slots": [
+            "BODY"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 240
+          }
+        },
+        {
+          "code": "greaves",
+          "slots": [
+            "PANTS"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "sabatons",
+          "slots": [
+            "SHOES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "great_helm",
+          "slots": [
+            "HELMET"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "gauntlets",
+          "slots": [
+            "GLOVES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        }
+      ],
+      "nominalGold": 700
+    },
+    "ritual": {
+      "build": "RITUAL",
+      "position": "BACK",
+      "tactic": "EXECUTIONER",
+      "items": [
+        {
+          "code": "ritual_staff",
+          "slots": [
+            "OFF_HAND",
+            "MAIN_HAND"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [
+            {
+              "attackType": "MAGICAL",
+              "minRange": 1,
+              "maxRange": 3,
+              "attack": 360
+            }
+          ],
+          "defense": null
+        },
+        {
+          "code": "phantom_vestment",
+          "slots": [
+            "BODY"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 180
+          }
+        },
+        {
+          "code": "phantom_chausses",
+          "slots": [
+            "PANTS"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "phantom_boots",
+          "slots": [
+            "SHOES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "phantom_crown",
+          "slots": [
+            "HELMET"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "phantom_gloves",
+          "slots": [
+            "GLOVES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 0,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        }
+      ],
+      "nominalGold": 700
+    },
+    "guardianActualSkills": [],
+    "ritualActualSkills": [],
+    "allRestIdentical": true,
+    "nominalTeamGold": 10500,
+    "nominalScope": "Common bases and one rarity chain; excludes desired modifier acquisition, storm shards, enhancement gold/time/risk"
+  },
+  {
+    "caseId": 306,
+    "cell": {
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "MID",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false
+    },
+    "guardian": {
+      "build": "GUARDIAN",
+      "position": "FRONT",
+      "tactic": "THREAT",
+      "items": [
+        {
+          "code": "mace",
+          "slots": [
+            "MAIN_HAND"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [
+            {
+              "attackType": "BLUNT",
+              "minRange": 1,
+              "maxRange": 1,
+              "attack": 360
+            }
+          ],
+          "defense": null
+        },
+        {
+          "code": "tower_shield",
+          "slots": [
+            "OFF_HAND"
+          ],
+          "rarity": "RARE",
+          "enhanceLevel": 3,
+          "modifier": "GUARD",
+          "skillPoints": 2,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "cuirass",
+          "slots": [
+            "BODY"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 240
+          }
+        },
+        {
+          "code": "greaves",
+          "slots": [
+            "PANTS"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "sabatons",
+          "slots": [
+            "SHOES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "great_helm",
+          "slots": [
+            "HELMET"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "gauntlets",
+          "slots": [
+            "GLOVES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        }
+      ],
+      "nominalGold": 1150
+    },
+    "ritual": {
+      "build": "RITUAL",
+      "position": "BACK",
+      "tactic": "EXECUTIONER",
+      "items": [
+        {
+          "code": "ritual_staff",
+          "slots": [
+            "OFF_HAND",
+            "MAIN_HAND"
+          ],
+          "rarity": "UNCOMMON",
+          "enhanceLevel": 3,
+          "modifier": "ACCUMULATION",
+          "skillPoints": 2,
+          "attacks": [
+            {
+              "attackType": "MAGICAL",
+              "minRange": 1,
+              "maxRange": 3,
+              "attack": 360
+            }
+          ],
+          "defense": null
+        },
+        {
+          "code": "phantom_vestment",
+          "slots": [
+            "BODY"
+          ],
+          "rarity": "RARE",
+          "enhanceLevel": 3,
+          "modifier": "SELF_HEAL",
+          "skillPoints": 2,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 180
+          }
+        },
+        {
+          "code": "phantom_chausses",
+          "slots": [
+            "PANTS"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "phantom_boots",
+          "slots": [
+            "SHOES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "phantom_crown",
+          "slots": [
+            "HELMET"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "phantom_gloves",
+          "slots": [
+            "GLOVES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 3,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        }
+      ],
+      "nominalGold": 1300
+    },
+    "guardianActualSkills": [
+      {
+        "code": "GUARD",
+        "points": 2,
+        "formulaVersion": "SCALING_SKILLS_V3"
+      }
+    ],
+    "ritualActualSkills": [
+      {
+        "code": "SELF_HEAL",
+        "points": 2,
+        "formulaVersion": "SCALING_SKILLS_V3"
+      },
+      {
+        "code": "ACCUMULATION",
+        "points": 2,
+        "formulaVersion": "SCALING_SKILLS_V3"
+      }
+    ],
+    "allRestIdentical": true,
+    "nominalTeamGold": 19350,
+    "nominalScope": "Common bases and one rarity chain; excludes desired modifier acquisition, storm shards, enhancement gold/time/risk"
+  },
+  {
+    "caseId": 318,
+    "cell": {
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false
+    },
+    "guardian": {
+      "build": "GUARDIAN",
+      "position": "FRONT",
+      "tactic": "THREAT",
+      "items": [
+        {
+          "code": "mace",
+          "slots": [
+            "MAIN_HAND"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [
+            {
+              "attackType": "BLUNT",
+              "minRange": 1,
+              "maxRange": 1,
+              "attack": 360
+            }
+          ],
+          "defense": null
+        },
+        {
+          "code": "tower_shield",
+          "slots": [
+            "OFF_HAND"
+          ],
+          "rarity": "LEGENDARY",
+          "enhanceLevel": 6,
+          "modifier": "GUARD",
+          "skillPoints": 4,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "cuirass",
+          "slots": [
+            "BODY"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 240
+          }
+        },
+        {
+          "code": "greaves",
+          "slots": [
+            "PANTS"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "sabatons",
+          "slots": [
+            "SHOES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "great_helm",
+          "slots": [
+            "HELMET"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "gauntlets",
+          "slots": [
+            "GLOVES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "PLATE",
+            "defense": 60
+          }
+        }
+      ],
+      "nominalGold": 2425
+    },
+    "ritual": {
+      "build": "RITUAL",
+      "position": "BACK",
+      "tactic": "EXECUTIONER",
+      "items": [
+        {
+          "code": "ritual_staff",
+          "slots": [
+            "OFF_HAND",
+            "MAIN_HAND"
+          ],
+          "rarity": "RARE",
+          "enhanceLevel": 6,
+          "modifier": "ACCUMULATION",
+          "skillPoints": 4,
+          "attacks": [
+            {
+              "attackType": "MAGICAL",
+              "minRange": 1,
+              "maxRange": 3,
+              "attack": 360
+            }
+          ],
+          "defense": null
+        },
+        {
+          "code": "phantom_vestment",
+          "slots": [
+            "BODY"
+          ],
+          "rarity": "LEGENDARY",
+          "enhanceLevel": 6,
+          "modifier": "SELF_HEAL",
+          "skillPoints": 4,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 180
+          }
+        },
+        {
+          "code": "phantom_chausses",
+          "slots": [
+            "PANTS"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 120
+          }
+        },
+        {
+          "code": "phantom_boots",
+          "slots": [
+            "SHOES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "phantom_crown",
+          "slots": [
+            "HELMET"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        },
+        {
+          "code": "phantom_gloves",
+          "slots": [
+            "GLOVES"
+          ],
+          "rarity": "COMMON",
+          "enhanceLevel": 6,
+          "modifier": null,
+          "skillPoints": 0,
+          "attacks": [],
+          "defense": {
+            "defenseType": "ARCANE",
+            "defense": 60
+          }
+        }
+      ],
+      "nominalGold": 2875
+    },
+    "guardianActualSkills": [
+      {
+        "code": "GUARD",
+        "points": 4,
+        "formulaVersion": "SCALING_SKILLS_V3"
+      }
+    ],
+    "ritualActualSkills": [
+      {
+        "code": "SELF_HEAL",
+        "points": 4,
+        "formulaVersion": "SCALING_SKILLS_V3"
+      },
+      {
+        "code": "ACCUMULATION",
+        "points": 4,
+        "formulaVersion": "SCALING_SKILLS_V3"
+      }
+    ],
+    "allRestIdentical": true,
+    "nominalTeamGold": 42675,
+    "nominalScope": "Common bases and one rarity chain; excludes desired modifier acquisition, storm shards, enhancement gold/time/risk"
+  }
+]

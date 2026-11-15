@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-08",
+  "command": "mvn -o clean package",
+  "module": "game",
+  "result": "PASS",
+  "totalTests": 1616,
+  "passed": 1587,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 29,
+  "checkstyleViolations": 0,
+  "newMyconidChecks": {
+    "total": 46,
+    "passed": 46,
+    "skipped": 0
+  },
+  "postgresIntegrationTestsRun": false,
+  "unrelatedPreExistingLockTestEditReadByBuild": true,
+  "unrelatedLockTestExcludedFromSourceSnapshot": true,
+  "reportSource": "Root agent final build /tmp/seeker-step15.N6LMen/build.log",
+  "testPassIsNotBalanceAcceptance": true
+}

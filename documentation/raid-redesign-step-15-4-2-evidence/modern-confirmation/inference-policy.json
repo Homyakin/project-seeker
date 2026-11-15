@@ -1,0 +1,39 @@
+{
+  "purpose": "FRESH_CONFIRMATION_OF_SELECTED_HISTORICAL_APPEND_FAILURE_NOT_NEW_FORMULA_OR_BALANCE_ACCEPTANCE",
+  "date": "2026-11-08",
+  "selectedAfterPilot": true,
+  "pilotExecutions": 5520,
+  "historicalCommit": "6150d562546cca22bed139c4d0fa23456e4d801e",
+  "phases": ["H", "C9"],
+  "phaseMeaning": {
+    "H": "Coherent historical runtime, original sum of individual power, original 32-step search and trial RNG consumption",
+    "C9": "Actual current production implementation 15.2, V5 gear and V3 skills both sides, tempo 1.75 and slinger range 1..3, same common-projection fixtures as pilot"
+  },
+  "fixtureManifestSHA256": "b4aa68845c6498a93b81a6ff70051f970721ba4bd0ddcdcdf08c41289f161058",
+  "scenarioIds": [1, 2],
+  "scenarioMeaning": "Unchanged common-projection MID+3 T3 versus the identical T3 with one ordinary MID+3 BRUISER; no GUARD, staff+orb instead of battle_staff",
+  "levels": [25],
+  "pairsPerCondition": 500,
+  "mirrorsPerPair": 2,
+  "conditionsPerPhase": 2,
+  "executionsPerPhase": 2000,
+  "totalNewExecutions": 4000,
+  "generationNamespace": "MYCONID-15.4.2-CAUSAL-CONFIRM-GEN-20261108-v1",
+  "battleNamespace": "MYCONID-15.4.2-CAUSAL-CONFIRM-BATTLE-20261108-v1",
+  "seedDerivation": "First six bytes of SHA256(namespace+'/'+groupId+'/'+pair), big-endian positive long; groupId=251, pair=0..499; same roots for both conditions and phases, not a claim of identical engine event streams",
+  "score": "Mean of two mirrored outcomes: WIN=1, DRAW=0.5, LOSS=0; TIMEOUT is not LOSS and makes the whole associated comparison pair incomplete",
+  "confidence": {
+    "familySize": 3,
+    "alpha": 0.05,
+    "contrasts": ["deltaH=scoreH_added-scoreH_base", "deltaC9=scoreC9_added-scoreC9_base", "DID=deltaC9-deltaH"],
+    "method": "Simultaneous two-sided Hoeffding by complete independent pair index, Bonferroni family of three; means in probability units",
+    "appendSupport": [-1, 1],
+    "appendHalfWidth": "sqrt(2*ln(2*3/0.05)/n)",
+    "didSupport": [-2, 2],
+    "didHalfWidth": "sqrt(8*ln(2*3/0.05)/n)",
+    "pilotExcluded": true,
+    "scope": "Fixed compositions and level only; not universal win probabilities, monotonicity guarantee or a 50/50 target"
+  },
+  "stopping": "Exactly this single confirmation, no interim selection, formula/parameter changes, extra levels, extra phases or sample extension after outcomes; report uncertainty if inconclusive",
+  "authorizationScope": "Outside-production diagnostic helpers and evidence only; no game source, target rebuild, database, bot, release activation, enhancement outcome curve, commit or push"
+}

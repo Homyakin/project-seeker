@@ -1,0 +1,41 @@
+{
+  "name": "b-screen",
+  "file": "b-screen-battles.jsonl.xz",
+  "battles": 1440,
+  "originalGzipSha256": "5ec5e6e98485921b544fbb3c837f333d36a980e88fb259a50be70769b22de38c",
+  "archivedSha256": "a79c8a39a268c0b0950f92dfcd12fdbb2bdf3d52e3aa42e9b953abf7c132d38c",
+  "archivedBytes": 1573968,
+  "jsonlSha256": "5f1d865cf8d62d190751bdd8ee40b2133f2b5a5a5215bd08dddae8a40615a29c",
+  "jsonlBytes": 106610845,
+  "artifacts": [
+    {
+      "file": "b-screen-manifest.json",
+      "sha256": "6ae922129a946becc62d1f24ce04cfcee70d557fb01697ebca2169bb0f4dbe99"
+    },
+    {
+      "file": "b-screen-summary.json",
+      "sha256": "dd648f511dc7eeed063924aa056ab08cd15709bc4e8dfe39de352df57823dfb3"
+    },
+    {
+      "file": "b-screen-inputs.json",
+      "sha256": "df8ebd35d459dee9ebe3cccad361a6e6c2b4eb0943070cb8e65151b21f1401bf"
+    },
+    {
+      "file": "b-screen-validation.json",
+      "sha256": "a4ae7cb45c6cdc23897cd2d1db3274203b5fc7d6e8ba3efd2b76618dc8ec7559"
+    },
+    {
+      "file": "b-screen-Step154FormulaProbe.java",
+      "sha256": "c6e12002528dec3b591d8fef1c18b460d42ee902c61d7610ea3fec2dd77fe599"
+    },
+    {
+      "file": "b-screen-preparation-manifest.json",
+      "sha256": "6ae922129a946becc62d1f24ce04cfcee70d557fb01697ebca2169bb0f4dbe99"
+    },
+    {
+      "file": "b-screen-preparation-inputs.json",
+      "sha256": "df8ebd35d459dee9ebe3cccad361a6e6c2b4eb0943070cb8e65151b21f1401bf"
+    }
+  ],
+  "rawPolicy": "Every original JSONL byte retained; only gzip container replaced with xz"
+}

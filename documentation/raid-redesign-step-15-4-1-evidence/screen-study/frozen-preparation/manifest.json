@@ -1,0 +1,256 @@
+{
+  "anchors" : {
+    "actualNPCParts" : [ {
+      "D" : 89.92320000000001,
+      "H" : 6629.285643426635,
+      "criticalFactor" : 1.02,
+      "frequency" : 0.19,
+      "hp" : 2781,
+      "id" : "9500dbe9-b09d-4096-a884-71bc37f770d8",
+      "maximumAttack" : 464.0,
+      "mu" : 0.4195022132976788,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "D" : 72.82176000000001,
+      "H" : 1493.5412424170288,
+      "criticalFactor" : 1.056,
+      "frequency" : 0.16,
+      "hp" : 928,
+      "id" : "af6b50f4-2fe5-4d14-bf33-63589d52522e",
+      "maximumAttack" : 431.0,
+      "mu" : 0.621342065183415,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "D" : 72.82176000000001,
+      "H" : 1493.5412424170288,
+      "criticalFactor" : 1.056,
+      "frequency" : 0.16,
+      "hp" : 928,
+      "id" : "6e2d1fa7-31d4-4a80-b586-596a65dd826c",
+      "maximumAttack" : 431.0,
+      "mu" : 0.621342065183415,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "anchorPolicy" : "Preserve aggregate neutral H/D after integer rounding; removal of role weights intentionally changes individual NPC HP/ATK",
+    "kConceptual" : {
+      "CROSS_D" : 0.014053784550378937,
+      "CROSS_H" : 43.638425627211994,
+      "SAME_D" : 1.0689857806874088,
+      "SAME_H" : 0.5737073803621603
+    },
+    "playerParts" : [ {
+      "D" : 32.670539999999995,
+      "H" : 6681.032422174888,
+      "criticalFactor" : 1.005,
+      "frequency" : 0.086,
+      "hp" : 2835,
+      "id" : "9506bad7-6bbd-44f6-bd1d-2ec66ae2e805",
+      "maximumAttack" : 378.0,
+      "mu" : 0.42433561474576975,
+      "skills" : [ {
+        "code" : "GUARD",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "D" : 60.807801600000005,
+      "H" : 2527.2873206471563,
+      "criticalFactor" : 1.0312000000000001,
+      "frequency" : 0.156,
+      "hp" : 1449,
+      "id" : "f542883e-67a1-4be6-b47c-027e3e8c3297",
+      "maximumAttack" : 378.0,
+      "mu" : 0.5733420130596619,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    }, {
+      "D" : 60.807801600000005,
+      "H" : 2527.2873206471563,
+      "criticalFactor" : 1.0312000000000001,
+      "frequency" : 0.156,
+      "hp" : 1449,
+      "id" : "c1ea0760-4b70-42b9-a16c-bfd1d9f3503b",
+      "maximumAttack" : 378.0,
+      "mu" : 0.5733420130596619,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ]
+    } ],
+    "q25" : 2.04,
+    "referenceDefMultiplier" : 4.414285714285715,
+    "referenceNPC" : {
+      "H" : 9616.368128260692,
+      "D" : 235.56672000000003
+    },
+    "referencePlayers" : {
+      "H" : 11735.6070634692,
+      "D" : 154.2861432
+    },
+    "sqrtQ25" : 1.42828568570857
+  },
+  "battleNamespace" : "MYCONID-15.4.1-SPLIT-SCREEN-BATTLE-20261108-v1",
+  "battles" : 6000,
+  "bridges" : {
+    "actualPreparedEffectsExact" : true,
+    "actualUnweightedFactoryRebuilds" : 30,
+    "counterType2x2ExactForBothModels" : true,
+    "independentAxes" : 2,
+    "levelMonotonicConstructionChecks" : 400,
+    "outerRngTailExact" : true,
+    "playerPrefixesExact" : 20,
+    "sameCrossAnchorExact" : true,
+    "status" : "PASS"
+  },
+  "conditions" : 50,
+  "defensePolicy" : "FIXED_G707_S309_FROM_ACTUAL15.2_ANCHOR; no level/size/type adaptation",
+  "factoryPolicy" : "Actual guardian(double,V3)/slinger(double,V3) with weight1; reconstruct immutable synthetic item from actual template, change only HP/attack parts, then forCombat on the same isolated unitseed. No writes to BattlePersonage final fields.",
+  "formulaCROSS" : "targetH=HrefNPC*(sqrt(qL)/sqrt(q25))*(Dplayers/DrefPlayers); targetD=DrefNPC*(sqrt(qL)/sqrt(q25))*(Hplayers/HrefPlayers)",
+  "formulaSAME" : "targetH=HrefNPC*(sqrt(qL)/sqrt(q25))*(Hplayers/HrefPlayers); targetD=DrefNPC*(sqrt(qL)/sqrt(q25))*(Dplayers/DrefPlayers)",
+  "generationNamespace" : "MYCONID-15.4.1-SPLIT-SCREEN-GEN-20261108-v1",
+  "limitations" : "Exploration30pairs, not50/50 target or universal monotonicity; mirrors/model/variant cohorts correlated; fixed DEF is an experimental design, not a production decision",
+  "models" : [ "SAME", "CROSS" ],
+  "naturalByCount" : {
+    "2" : {
+      "H" : 1451.8240566479658,
+      "D" : 35.5308
+    },
+    "3" : {
+      "H" : 1902.46150048069,
+      "D" : 57.495599999999996
+    },
+    "4" : {
+      "H" : 2903.6481132959316,
+      "D" : 71.0616
+    },
+    "5" : {
+      "H" : 3354.2855571286555,
+      "D" : 93.0264
+    },
+    "6" : {
+      "H" : 4355.472169943897,
+      "D" : 106.5924
+    },
+    "7" : {
+      "H" : 4806.109613776622,
+      "D" : 128.5572
+    },
+    "8" : {
+      "H" : 5807.296226591863,
+      "D" : 142.1232
+    },
+    "9" : {
+      "H" : 6257.933670424587,
+      "D" : 164.088
+    },
+    "10" : {
+      "H" : 7259.1202832398285,
+      "D" : 177.654
+    },
+    "11" : {
+      "H" : 7709.757727072552,
+      "D" : 199.6188
+    },
+    "12" : {
+      "H" : 8710.944339887794,
+      "D" : 213.1848
+    },
+    "13" : {
+      "H" : 9161.58178372052,
+      "D" : 235.1496
+    },
+    "14" : {
+      "H" : 10162.768396535761,
+      "D" : 248.7156
+    },
+    "15" : {
+      "H" : 10613.405840368485,
+      "D" : 270.6804
+    },
+    "16" : {
+      "H" : 11614.592453183726,
+      "D" : 284.24640000000005
+    },
+    "17" : {
+      "H" : 12065.22989701645,
+      "D" : 306.2112000000001
+    },
+    "18" : {
+      "H" : 13066.416509831692,
+      "D" : 319.77720000000005
+    },
+    "19" : {
+      "H" : 13517.053953664416,
+      "D" : 341.7420000000001
+    },
+    "20" : {
+      "H" : 14518.240566479657,
+      "D" : 355.3080000000001
+    },
+    "21" : {
+      "H" : 14968.87801031238,
+      "D" : 377.27280000000013
+    },
+    "22" : {
+      "H" : 15970.064623127622,
+      "D" : 390.83880000000016
+    },
+    "23" : {
+      "H" : 16420.702066960348,
+      "D" : 412.8036000000002
+    },
+    "24" : {
+      "H" : 17421.88867977559,
+      "D" : 426.36960000000016
+    },
+    "25" : {
+      "H" : 17872.526123608313,
+      "D" : 448.3344000000002
+    },
+    "26" : {
+      "H" : 18873.712736423557,
+      "D" : 461.9004000000002
+    },
+    "27" : {
+      "H" : 19324.350180256282,
+      "D" : 483.86520000000024
+    },
+    "28" : {
+      "H" : 20325.536793071526,
+      "D" : 497.4312000000003
+    },
+    "29" : {
+      "H" : 20776.17423690425,
+      "D" : 519.3960000000003
+    },
+    "30" : {
+      "H" : 21777.360849719495,
+      "D" : 532.9620000000003
+    }
+  },
+  "neutralPolicy" : "H=sum(maxHP/mean4damageTakenMultiplier); D=sum(maxProfileAttack*clampedCritExpectation*cappedFrequency); sorted reductions and team sums; skills/dodge/range access ignored in assessment but active in real combat",
+  "pairs" : 30,
+  "purpose" : "STEP15.4.1_FIXED_TWO_MODEL_EXPLORATION_NOT_BALANCE_ACCEPTANCE",
+  "qL" : "1+((L-10)*.06+.14), unchanged existing level bonus",
+  "removed" : "No shared HP/ATK/DEF multiplier, no M/(2F/S) weights, no g/h/a/r or outcome fitting",
+  "roundLimit" : 2000,
+  "roundingPolicy" : "Closedform targetH/naturalH and targetD/naturalD, no row weights; min1ceil naturalHP/ATK once; defense retained from actual factory at referenceDefMultiplier",
+  "seedPolicy" : "SHA256(namespace+'/'+groupId+'/'+pair), first48BE; no model/variant. GEN constructs players then draws one48bit unitseed per NPC; template/rebuild replay that unitseed. SAME/CROSS and countertwins share NPC IDs/gauges; BASE/APPEND only player prefix promised.",
+  "versions" : [ "SCALING_V5", "SCALING_SKILLS_V3", "ACCELERATED_V1" ]
+}

@@ -1,0 +1,853 @@
+[ {
+  "calibration" : {
+    "actualEnemyLegacyPower" : 825641.561155899,
+    "actualPlayerLegacyPower" : 479628.6714806887,
+    "encounterCorrection" : 0.5900075417594784,
+    "groupScaling" : 1.0396240625180289,
+    "metric" : "ACTUAL_PRODUCTION15.2_Q",
+    "multiplier" : 4.438095238095239,
+    "q" : 2.04,
+    "result" : {
+      "multiplier" : 4.438095238095239,
+      "targetPower" : 2296026.0063327434,
+      "achievedPower" : 2297096.4932995327,
+      "status" : "CLOSEST_STEP",
+      "evaluations" : 57
+    },
+    "targetPower" : 2296026.0063327434
+  },
+  "caseId" : 1,
+  "diagnostics" : {
+    "actualEnemyScalingRules" : [ true, true, true ],
+    "actualPlayerScalingRules" : [ true, true, true ],
+    "enemyRanges" : [ 1, 3, 3 ],
+    "generationDiagnostics" : {
+      "assessmentVersion" : "NEUTRAL_TEAM_V1",
+      "participantAssessment" : 1834901.4739628292,
+      "parameters" : {
+        "backCount" : 2.0,
+        "backWeight" : 0.75,
+        "encounterCorrection" : 0.5900075417594784,
+        "enemyCount" : 3.0,
+        "frontCount" : 1.0,
+        "frontWeight" : 1.5,
+        "groupSizeScaling" : 1.0396240625180289,
+        "powerBonus" : 2.04,
+        "sizeCorrection" : 1.0
+      }
+    },
+    "globalScalingSkillOrder" : true,
+    "legacyPlayerProxy" : 484959.4786261297
+  },
+  "enemies" : [ {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 467
+      }
+    } ],
+    "crit" : 4,
+    "critMultiplier" : 1.5,
+    "defenses" : {
+      "ARCANE" : 711
+    },
+    "dodge" : 3,
+    "gauge" : 218,
+    "hp" : 2797,
+    "id" : "4d6c716b-4f0e-4662-9979-b04f8af90c5c",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 605396.3652779338,
+    "position" : "FRONT",
+    "range" : 1,
+    "reductions" : {
+      "SLASH" : 0.3899851805631386,
+      "BLUNT" : 0.4386349679796474,
+      "PIERCE" : 0.48390999274135016,
+      "MAGICAL" : 0.36003600360036003
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "KNOCKBACK",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 190,
+    "tactic" : "THREAT",
+    "threat" : 35
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 433
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "MAGICAL" : 433
+      }
+    }, {
+      "range" : 3,
+      "attack" : {
+        "MAGICAL" : 433
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.7,
+    "defenses" : {
+      "ARCANE" : 311
+    },
+    "dodge" : 5,
+    "gauge" : 320,
+    "hp" : 933,
+    "id" : "183b90fc-c099-4919-bf8b-00846813dd5d",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 110122.59793898261,
+    "position" : "BACK",
+    "range" : 3,
+    "reductions" : {
+      "SLASH" : 0.5937537109606935,
+      "BLUNT" : 0.6411078343377357,
+      "PIERCE" : 0.6818956699624957,
+      "MAGICAL" : 0.5625879043600562
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "PRECISE_STRIKE",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 160,
+    "tactic" : "THREAT",
+    "threat" : 15
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 433
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "MAGICAL" : 433
+      }
+    }, {
+      "range" : 3,
+      "attack" : {
+        "MAGICAL" : 433
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.7,
+    "defenses" : {
+      "ARCANE" : 311
+    },
+    "dodge" : 5,
+    "gauge" : 413,
+    "hp" : 933,
+    "id" : "d585e812-34b2-4b09-82ee-08c702a24565",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 110122.59793898261,
+    "position" : "BACK",
+    "range" : 3,
+    "reductions" : {
+      "SLASH" : 0.5937537109606935,
+      "BLUNT" : 0.6411078343377357,
+      "PIERCE" : 0.6818956699624957,
+      "MAGICAL" : 0.5625879043600562
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "PRECISE_STRIKE",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 160,
+    "tactic" : "THREAT",
+    "threat" : 15
+  } ],
+  "level" : 25,
+  "phase" : "C9",
+  "players" : [ {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "BLUNT" : 378
+      }
+    } ],
+    "crit" : 2,
+    "critMultiplier" : 1.25,
+    "defenses" : {
+      "PLATE" : 693
+    },
+    "dodge" : 0,
+    "gauge" : 16,
+    "hp" : 2835,
+    "id" : "f5b9cdf7-8719-4836-b78e-8a44376e32bf",
+    "impact" : 80,
+    "items" : [ {
+      "code" : "mace",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "tower_shield",
+      "rarity" : "RARE",
+      "skill" : null
+    }, {
+      "code" : "cuirass",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "greaves",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "sabatons",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "great_helm",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "gauntlets",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 218272.9369899615,
+    "position" : "FRONT",
+    "range" : 1,
+    "reductions" : {
+      "SLASH" : 0.36596523330283626,
+      "BLUNT" : 0.4903162539838196,
+      "PIERCE" : 0.3961023528479759,
+      "MAGICAL" : 0.4449586188484471
+    },
+    "scalingRules" : true,
+    "skills" : [ ],
+    "speed" : 86,
+    "tactic" : "THREAT",
+    "threat" : 50
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "PIERCE" : 252
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "PIERCE" : 252
+      }
+    }, {
+      "range" : 3,
+      "attack" : {
+        "PIERCE" : 378
+      }
+    }, {
+      "range" : 4,
+      "attack" : {
+        "PIERCE" : 378
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.3900000000000001,
+    "defenses" : {
+      "CLOTH" : 378
+    },
+    "dodge" : 11,
+    "gauge" : 305,
+    "hp" : 1449,
+    "id" : "1dcf3d7f-a824-4ed7-a956-52fc240c31f9",
+    "impact" : 87,
+    "items" : [ {
+      "code" : "longbow",
+      "rarity" : "UNCOMMON",
+      "skill" : "DOUBLE_ATTACK"
+    }, {
+      "code" : "robe",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_chausses",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_boots",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "hood",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_gloves",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 102452.5239867386,
+    "position" : "MID",
+    "range" : 4,
+    "reductions" : {
+      "SLASH" : 0.6381620931716656,
+      "BLUNT" : 0.5141388174807198,
+      "PIERCE" : 0.5950964056177102,
+      "MAGICAL" : 0.5459707359685521
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "DOUBLE_ATTACK",
+      "points" : 2,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 156,
+    "tactic" : "EXPLOIT_WEAKNESS",
+    "threat" : 4
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 378
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "MAGICAL" : 378
+      }
+    } ],
+    "crit" : 9,
+    "critMultiplier" : 1.4400000000000002,
+    "defenses" : {
+      "CLOTH" : 378
+    },
+    "dodge" : 11,
+    "gauge" : 403,
+    "hp" : 1449,
+    "id" : "82d55743-fd3a-4a1a-89ba-45417aa7d210",
+    "impact" : 92,
+    "items" : [ {
+      "code" : "staff",
+      "rarity" : "RARE",
+      "skill" : "DOUBLE_ATTACK"
+    }, {
+      "code" : "orb",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "robe",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_chausses",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_boots",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "hood",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_gloves",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 158903.21050398858,
+    "position" : "MID",
+    "range" : 2,
+    "reductions" : {
+      "SLASH" : 0.6381620931716656,
+      "BLUNT" : 0.5141388174807198,
+      "PIERCE" : 0.5950964056177102,
+      "MAGICAL" : 0.5459707359685521
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "DOUBLE_ATTACK",
+      "points" : 2,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 160,
+    "tactic" : "EXPLOIT_WEAKNESS",
+    "threat" : 3
+  } ],
+  "scenarioId" : 1
+}, {
+  "calibration" : {
+    "actualEnemyLegacyPower" : 881832.505242369,
+    "actualPlayerLegacyPower" : 750416.5195868298,
+    "encounterCorrection" : 0.5900075417594784,
+    "groupScaling" : 1.05,
+    "metric" : "ACTUAL_PRODUCTION15.2_Q",
+    "multiplier" : 4.343750000000001,
+    "q" : 2.04,
+    "result" : {
+      "multiplier" : 4.343750000000001,
+      "targetPower" : 3870299.0201642257,
+      "achievedPower" : 3870842.635172157,
+      "status" : "CLOSEST_STEP",
+      "evaluations" : 57
+    },
+    "targetPower" : 3870299.0201642257
+  },
+  "caseId" : 2,
+  "diagnostics" : {
+    "actualEnemyScalingRules" : [ true, true, true, true ],
+    "actualPlayerScalingRules" : [ true, true, true, true ],
+    "enemyRanges" : [ 1, 1, 3, 3 ],
+    "generationDiagnostics" : {
+      "assessmentVersion" : "NEUTRAL_TEAM_V1",
+      "participantAssessment" : 3525109.9943474084,
+      "parameters" : {
+        "backCount" : 2.0,
+        "backWeight" : 1.0,
+        "encounterCorrection" : 0.5900075417594784,
+        "enemyCount" : 4.0,
+        "frontCount" : 2.0,
+        "frontWeight" : 1.0,
+        "groupSizeScaling" : 1.05,
+        "powerBonus" : 2.04,
+        "sizeCorrection" : 0.8687499999999999
+      }
+    },
+    "globalScalingSkillOrder" : true,
+    "legacyPlayerProxy" : 767573.271185664
+  },
+  "enemies" : [ {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 305
+      }
+    } ],
+    "crit" : 4,
+    "critMultiplier" : 1.5,
+    "defenses" : {
+      "ARCANE" : 696
+    },
+    "dodge" : 3,
+    "gauge" : 320,
+    "hp" : 1825,
+    "id" : "183b90fc-c099-4919-bf8b-00846813dd5d",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 254846.1001566438,
+    "position" : "FRONT",
+    "range" : 1,
+    "reductions" : {
+      "SLASH" : 0.3950695322376737,
+      "BLUNT" : 0.4438920454545455,
+      "PIERCE" : 0.4892367906066536,
+      "MAGICAL" : 0.36496350364963503
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "KNOCKBACK",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 190,
+    "tactic" : "THREAT",
+    "threat" : 35
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 305
+      }
+    } ],
+    "crit" : 4,
+    "critMultiplier" : 1.5,
+    "defenses" : {
+      "ARCANE" : 696
+    },
+    "dodge" : 3,
+    "gauge" : 413,
+    "hp" : 1825,
+    "id" : "d585e812-34b2-4b09-82ee-08c702a24565",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 254846.1001566438,
+    "position" : "FRONT",
+    "range" : 1,
+    "reductions" : {
+      "SLASH" : 0.3950695322376737,
+      "BLUNT" : 0.4438920454545455,
+      "PIERCE" : 0.4892367906066536,
+      "MAGICAL" : 0.36496350364963503
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "KNOCKBACK",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 190,
+    "tactic" : "THREAT",
+    "threat" : 35
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 565
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "MAGICAL" : 565
+      }
+    }, {
+      "range" : 3,
+      "attack" : {
+        "MAGICAL" : 565
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.7,
+    "defenses" : {
+      "ARCANE" : 305
+    },
+    "dodge" : 5,
+    "gauge" : 236,
+    "hp" : 1217,
+    "id" : "5bdc3db2-ffb6-4963-80ab-638bd6366e8d",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 186070.1524645407,
+    "position" : "BACK",
+    "range" : 3,
+    "reductions" : {
+      "SLASH" : 0.5984440454817475,
+      "BLUNT" : 0.6455777921239509,
+      "PIERCE" : 0.6861063464837049,
+      "MAGICAL" : 0.5673758865248226
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "PRECISE_STRIKE",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 160,
+    "tactic" : "THREAT",
+    "threat" : 15
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 565
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "MAGICAL" : 565
+      }
+    }, {
+      "range" : 3,
+      "attack" : {
+        "MAGICAL" : 565
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.7,
+    "defenses" : {
+      "ARCANE" : 305
+    },
+    "dodge" : 5,
+    "gauge" : 198,
+    "hp" : 1217,
+    "id" : "0db13ae0-b527-47a7-bc6a-fd53ab0c9395",
+    "impact" : 80,
+    "items" : [ ],
+    "legacyPower" : 186070.1524645407,
+    "position" : "BACK",
+    "range" : 3,
+    "reductions" : {
+      "SLASH" : 0.5984440454817475,
+      "BLUNT" : 0.6455777921239509,
+      "PIERCE" : 0.6861063464837049,
+      "MAGICAL" : 0.5673758865248226
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "PRECISE_STRIKE",
+      "points" : 4,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 160,
+    "tactic" : "THREAT",
+    "threat" : 15
+  } ],
+  "level" : 25,
+  "phase" : "C9",
+  "players" : [ {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "BLUNT" : 378
+      }
+    } ],
+    "crit" : 2,
+    "critMultiplier" : 1.25,
+    "defenses" : {
+      "PLATE" : 693
+    },
+    "dodge" : 0,
+    "gauge" : 16,
+    "hp" : 2835,
+    "id" : "f5b9cdf7-8719-4836-b78e-8a44376e32bf",
+    "impact" : 80,
+    "items" : [ {
+      "code" : "mace",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "tower_shield",
+      "rarity" : "RARE",
+      "skill" : null
+    }, {
+      "code" : "cuirass",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "greaves",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "sabatons",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "great_helm",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "gauntlets",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 218272.9369899615,
+    "position" : "FRONT",
+    "range" : 1,
+    "reductions" : {
+      "SLASH" : 0.36596523330283626,
+      "BLUNT" : 0.4903162539838196,
+      "PIERCE" : 0.3961023528479759,
+      "MAGICAL" : 0.4449586188484471
+    },
+    "scalingRules" : true,
+    "skills" : [ ],
+    "speed" : 86,
+    "tactic" : "THREAT",
+    "threat" : 50
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "PIERCE" : 252
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "PIERCE" : 252
+      }
+    }, {
+      "range" : 3,
+      "attack" : {
+        "PIERCE" : 378
+      }
+    }, {
+      "range" : 4,
+      "attack" : {
+        "PIERCE" : 378
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.3900000000000001,
+    "defenses" : {
+      "CLOTH" : 378
+    },
+    "dodge" : 11,
+    "gauge" : 305,
+    "hp" : 1449,
+    "id" : "1dcf3d7f-a824-4ed7-a956-52fc240c31f9",
+    "impact" : 87,
+    "items" : [ {
+      "code" : "longbow",
+      "rarity" : "UNCOMMON",
+      "skill" : "DOUBLE_ATTACK"
+    }, {
+      "code" : "robe",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_chausses",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_boots",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "hood",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_gloves",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 102452.5239867386,
+    "position" : "MID",
+    "range" : 4,
+    "reductions" : {
+      "SLASH" : 0.6381620931716656,
+      "BLUNT" : 0.5141388174807198,
+      "PIERCE" : 0.5950964056177102,
+      "MAGICAL" : 0.5459707359685521
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "DOUBLE_ATTACK",
+      "points" : 2,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 156,
+    "tactic" : "EXPLOIT_WEAKNESS",
+    "threat" : 4
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "MAGICAL" : 378
+      }
+    }, {
+      "range" : 2,
+      "attack" : {
+        "MAGICAL" : 378
+      }
+    } ],
+    "crit" : 9,
+    "critMultiplier" : 1.4400000000000002,
+    "defenses" : {
+      "CLOTH" : 378
+    },
+    "dodge" : 11,
+    "gauge" : 403,
+    "hp" : 1449,
+    "id" : "82d55743-fd3a-4a1a-89ba-45417aa7d210",
+    "impact" : 92,
+    "items" : [ {
+      "code" : "staff",
+      "rarity" : "RARE",
+      "skill" : "DOUBLE_ATTACK"
+    }, {
+      "code" : "orb",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "robe",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_chausses",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_boots",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "hood",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "cloth_gloves",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 158903.21050398858,
+    "position" : "MID",
+    "range" : 2,
+    "reductions" : {
+      "SLASH" : 0.6381620931716656,
+      "BLUNT" : 0.5141388174807198,
+      "PIERCE" : 0.5950964056177102,
+      "MAGICAL" : 0.5459707359685521
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "DOUBLE_ATTACK",
+      "points" : 2,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 160,
+    "tactic" : "EXPLOIT_WEAKNESS",
+    "threat" : 3
+  }, {
+    "attacks" : [ {
+      "range" : 1,
+      "attack" : {
+        "BLUNT" : 504
+      }
+    } ],
+    "crit" : 8,
+    "critMultiplier" : 1.3800000000000001,
+    "defenses" : {
+      "LEATHER" : 504
+    },
+    "dodge" : 12,
+    "gauge" : 218,
+    "hp" : 2016,
+    "id" : "4d6c716b-4f0e-4662-9979-b04f8af90c5c",
+    "impact" : 85,
+    "items" : [ {
+      "code" : "sledgehammer",
+      "rarity" : "UNCOMMON",
+      "skill" : "BERSERK"
+    }, {
+      "code" : "breastplate",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "leather_chausses",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "boots",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "leather_helm",
+      "rarity" : "COMMON",
+      "skill" : null
+    }, {
+      "code" : "leather_gloves",
+      "rarity" : "COMMON",
+      "skill" : null
+    } ],
+    "legacyPower" : 270787.84810614114,
+    "position" : "FRONT",
+    "range" : 1,
+    "reductions" : {
+      "SLASH" : 0.5243288590604027,
+      "BLUNT" : 0.4742033383915022,
+      "PIERCE" : 0.4424778761061947,
+      "MAGICAL" : 0.5694760820045558
+    },
+    "scalingRules" : true,
+    "skills" : [ {
+      "code" : "BERSERK",
+      "points" : 2,
+      "formulaVersion" : "SCALING_SKILLS_V3"
+    } ],
+    "speed" : 130,
+    "tactic" : "WOUNDED_HUNTER",
+    "threat" : 18
+  } ],
+  "scenarioId" : 2
+} ]

@@ -1,0 +1,163 @@
+{
+  "status": "PASS",
+  "purpose": "INDEPENDENT_SAVED_SUMMARY_ARITHMETIC_NOT_NEW_BATTLES_NOT_RAW_STREAM_VALIDATION",
+  "root": "/tmp/seeker-step15-4-b-confirm.9rPIEP",
+  "conditions": 18,
+  "pairsPerCondition": 500,
+  "battles": 18000,
+  "assertions": 286,
+  "familySize": 9,
+  "pointwiseHalfPP": 12.147229238166103,
+  "simultaneousFamilyHalfPP": 15.344189820841184,
+  "comparisons": [
+    {
+      "caseId": 2,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "level": 5,
+      "originalSize": 1,
+      "variant": "WEAK_APPEND",
+      "baseWinrate": 0.671,
+      "appendedWinrate": 0.835,
+      "deltaPP": 16.400000000000002,
+      "simultaneousNine95PP": [
+        1.0558101791588186,
+        31.744189820841186
+      ]
+    },
+    {
+      "caseId": 4,
+      "style": "PIERCE_ARCANE",
+      "tier": "STRONG",
+      "level": 15,
+      "originalSize": 1,
+      "variant": "WEAK_APPEND",
+      "baseWinrate": 0.581,
+      "appendedWinrate": 0.665,
+      "deltaPP": 8.4,
+      "simultaneousNine95PP": [
+        -6.944189820841183,
+        23.744189820841186
+      ]
+    },
+    {
+      "caseId": 6,
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "level": 25,
+      "originalSize": 1,
+      "variant": "WEAK_APPEND",
+      "baseWinrate": 0.475,
+      "appendedWinrate": 0.291,
+      "deltaPP": -18.4,
+      "simultaneousNine95PP": [
+        -33.744189820841186,
+        -3.055810179158815
+      ]
+    },
+    {
+      "caseId": 8,
+      "style": "MAIN",
+      "tier": "MID",
+      "level": 25,
+      "originalSize": 3,
+      "variant": "NORMAL_APPEND",
+      "baseWinrate": 0.513,
+      "appendedWinrate": 0.949,
+      "deltaPP": 43.6,
+      "simultaneousNine95PP": [
+        28.255810179158818,
+        58.94418982084119
+      ]
+    },
+    {
+      "caseId": 10,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "level": 25,
+      "originalSize": 3,
+      "variant": "NORMAL_APPEND",
+      "baseWinrate": 0.529,
+      "appendedWinrate": 0.972,
+      "deltaPP": 44.3,
+      "simultaneousNine95PP": [
+        28.955810179158814,
+        59.64418982084118
+      ]
+    },
+    {
+      "caseId": 12,
+      "style": "MAIN",
+      "tier": "MID",
+      "level": 50,
+      "originalSize": 12,
+      "variant": "NORMAL_APPEND",
+      "baseWinrate": 0.62,
+      "appendedWinrate": 0.176,
+      "deltaPP": -44.4,
+      "simultaneousNine95PP": [
+        -59.744189820841186,
+        -29.055810179158815
+      ]
+    },
+    {
+      "caseId": 13,
+      "style": "MAIN",
+      "tier": "MID",
+      "level": 50,
+      "originalSize": 12,
+      "variant": "WEAK_APPEND",
+      "baseWinrate": 0.62,
+      "appendedWinrate": 0.234,
+      "deltaPP": -38.6,
+      "simultaneousNine95PP": [
+        -53.94418982084119,
+        -23.255810179158818
+      ]
+    },
+    {
+      "caseId": 15,
+      "style": "MAIN",
+      "tier": "MID",
+      "level": 40,
+      "originalSize": 6,
+      "variant": "NORMAL_APPEND",
+      "baseWinrate": 0.858,
+      "appendedWinrate": 0.363,
+      "deltaPP": -49.5,
+      "simultaneousNine95PP": [
+        -64.84418982084118,
+        -34.15581017915882
+      ]
+    },
+    {
+      "caseId": 17,
+      "style": "MAIN",
+      "tier": "STRONG",
+      "level": 50,
+      "originalSize": 6,
+      "variant": "NORMAL_APPEND",
+      "baseWinrate": 0.507,
+      "appendedWinrate": 0.071,
+      "deltaPP": -43.6,
+      "simultaneousNine95PP": [
+        -58.94418982084119,
+        -28.255810179158818
+      ]
+    }
+  ],
+  "ritualBeginnerN15L50": 0.97,
+  "sourceSha256": {
+    "screen/summary.json": "7c7a776a84f61002a7b6c46004a65e4d6c959b3ae46e0d5732d24913119cc09a",
+    "screen/analysis.json": "90bfec547a4697c7ddd71adceeaab7e6d1692338d9a62baac7b3ef97efdf0b35",
+    "screen/inputs.json": "570fb12c2d2932728782dc7d3bf91eb49ec50bf872b35c51c6f89e6b48f0f314",
+    "inference-policy.json": "5e09c8a740891fd1d09acd29455fe85998f3d3bcc2386821ac6ef59d7a15a18d"
+  },
+  "scriptSha256": "f829b47e6570be48020d96827ecd9d48256808ae50e64748aeb6749443e9251a",
+  "limitations": [
+    "This independently checks saved pairs, arithmetic, input prefixes and the stated nine-comparison family; raw rows are checked by a separate validator.",
+    "The confidence family is only these nine fixed differences, not all earlier pilot/wide screens.",
+    "RITUAL weak delta excludes zero but does not establish a loss greater than20pp; no blanket weak20pp tolerance is inferred.",
+    "The rejected B evidence does not show that every neutral scalar is impossible."
+  ]
+}

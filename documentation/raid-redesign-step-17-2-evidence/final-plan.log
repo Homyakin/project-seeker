@@ -1,0 +1,2 @@
+[0.001s][warning][perf,memops] Cannot use file /tmp/hsperfdata_user/2 because it is locked by another process (errno = 11)
+planned phase=FINAL cells=1004 battles=23600 protocolSha256=e578a72e2ed5f619e11e5560d40221d987207b455d8d8b0b913bc6cc652e6989

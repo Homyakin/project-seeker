@@ -1,0 +1,112 @@
+{
+  "status": "CONSISTENT_EXPLORATORY_DATA_NOT_ACCEPTANCE",
+  "cases": 40,
+  "rows": 4000,
+  "timeouts": 0,
+  "differences": [
+    {
+      "tier": "MID",
+      "level": 15,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 95,
+      "addedWins": 91,
+      "delta": -0.039999999999999925,
+      "pointwiseHoeffding95": [
+        -0.42412911652796825,
+        0.3441291165279684
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 20,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 65,
+      "addedWins": 44,
+      "delta": -0.21000000000000002,
+      "pointwiseHoeffding95": [
+        -0.5941291165279683,
+        0.1741291165279683
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 25,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 45,
+      "addedWins": 8,
+      "delta": -0.37,
+      "pointwiseHoeffding95": [
+        -0.7541291165279683,
+        0.014129116527968333
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 30,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 13,
+      "addedWins": 0,
+      "delta": -0.13,
+      "pointwiseHoeffding95": [
+        -0.5141291165279683,
+        0.2541291165279683
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 15,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 94,
+      "addedWins": 82,
+      "delta": -0.12,
+      "pointwiseHoeffding95": [
+        -0.5041291165279683,
+        0.26412911652796833
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 20,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 81,
+      "addedWins": 53,
+      "delta": -0.28,
+      "pointwiseHoeffding95": [
+        -0.6641291165279684,
+        0.1041291165279683
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 35,
+      "addedWins": 14,
+      "delta": -0.20999999999999996,
+      "pointwiseHoeffding95": [
+        -0.5941291165279683,
+        0.17412911652796836
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 30,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 14,
+      "addedWins": 1,
+      "delta": -0.13,
+      "pointwiseHoeffding95": [
+        -0.5141291165279683,
+        0.2541291165279683
+      ]
+    }
+  ]
+}

@@ -1,0 +1,497 @@
+{
+  "status": "POOLED_DISJOINT_CONFIRMED_CAUSAL_INPUTS_NOT_UNIVERSAL_BALANCE_ACCEPTANCE",
+  "note": "Second500-pair plan fixed after inspecting first500; final pooled confidence intervals explicitly allow at most two views. Selected follow-up conditions use separate new fixed500-pair cohorts. Not universal balance acceptance.",
+  "pooled": [
+    {
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 1662,
+      "variantWins": 1569,
+      "baseWinrate": 0.831,
+      "variantWinrate": 0.7845,
+      "delta": -0.0465,
+      "pointwise95Hoeffding": [
+        -0.14011652241643974,
+        0.047116522416439724
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": true,
+      "ordinary20ppHarmRuledOutPointwise": true,
+      "weakThresholdPolicy": null,
+      "prefixInputSha256": "a4356d2528c227c89327d27a54153b2634a53d1a98c68828b5f658e58c0e9a73",
+      "variantInputSha256": "ad36ddc771c557560bf80ada61dce61ed3c673474d02821e2ba67416795fa7d5",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 29,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120844000,
+          "generationEnd": 2028120844499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 33,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320848000,
+          "generationEnd": 2028320848499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.1323938816693475,
+        0.039393881669347514
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "MID",
+      "size": 3,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 1662,
+      "variantWins": 1346,
+      "baseWinrate": 0.831,
+      "variantWinrate": 0.673,
+      "delta": -0.158,
+      "pointwise95Hoeffding": [
+        -0.2516165224164397,
+        -0.06438347758356028
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": false,
+      "ordinary20ppHarmRuledOutPointwise": null,
+      "weakThresholdPolicy": "Separate repeated penalty; do not silently apply ordinary-participant acceptance policy",
+      "prefixInputSha256": "a4356d2528c227c89327d27a54153b2634a53d1a98c68828b5f658e58c0e9a73",
+      "variantInputSha256": "e2466623e6b3c4df109984a0e03680ec4dfa99f96a1131930bd38471fafbef21",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 29,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120844000,
+          "generationEnd": 2028120844499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 33,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320848000,
+          "generationEnd": 2028320848499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.2438938816693475,
+        -0.07210611833065249
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 977,
+      "variantWins": 778,
+      "baseWinrate": 0.4885,
+      "variantWinrate": 0.389,
+      "delta": -0.0995,
+      "pointwise95Hoeffding": [
+        -0.19311652241643973,
+        -0.0058834775835602815
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": true,
+      "ordinary20ppHarmRuledOutPointwise": true,
+      "weakThresholdPolicy": null,
+      "prefixInputSha256": "a4356d2528c227c89327d27a54153b2634a53d1a98c68828b5f658e58c0e9a73",
+      "variantInputSha256": "ad36ddc771c557560bf80ada61dce61ed3c673474d02821e2ba67416795fa7d5",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 30,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120845000,
+          "generationEnd": 2028120845499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 34,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320849000,
+          "generationEnd": 2028320849499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.1853938816693475,
+        -0.013606118330652492
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "MID",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 977,
+      "variantWins": 583,
+      "baseWinrate": 0.4885,
+      "variantWinrate": 0.2915,
+      "delta": -0.197,
+      "pointwise95Hoeffding": [
+        -0.29061652241643976,
+        -0.10338347758356028
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": false,
+      "ordinary20ppHarmRuledOutPointwise": null,
+      "weakThresholdPolicy": "Separate repeated penalty; do not silently apply ordinary-participant acceptance policy",
+      "prefixInputSha256": "a4356d2528c227c89327d27a54153b2634a53d1a98c68828b5f658e58c0e9a73",
+      "variantInputSha256": "e2466623e6b3c4df109984a0e03680ec4dfa99f96a1131930bd38471fafbef21",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 30,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120845000,
+          "generationEnd": 2028120845499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 34,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320849000,
+          "generationEnd": 2028320849499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.28289388166934754,
+        -0.1111061183306525
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "NORMAL_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 1779,
+      "variantWins": 1633,
+      "baseWinrate": 0.8895,
+      "variantWinrate": 0.8165,
+      "delta": -0.073,
+      "pointwise95Hoeffding": [
+        -0.1666165224164397,
+        0.020616522416439728
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": true,
+      "ordinary20ppHarmRuledOutPointwise": true,
+      "weakThresholdPolicy": null,
+      "prefixInputSha256": "0965b257412fe63b9f12f03f89ff1a4b08ca92556ce22001ea2e3c0f1221ebe9",
+      "variantInputSha256": "4307e2e06c3fea12f543476ebfbcb0d8fc9455895a9e52eece21bbde6e2b7cbd",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 41,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120856000,
+          "generationEnd": 2028120856499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 57,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320872000,
+          "generationEnd": 2028320872499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.1588938816693475,
+        0.012893881669347518
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "STRONG",
+      "size": 3,
+      "level": 20,
+      "variant": "WEAK_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 1779,
+      "variantWins": 1526,
+      "baseWinrate": 0.8895,
+      "variantWinrate": 0.763,
+      "delta": -0.1265,
+      "pointwise95Hoeffding": [
+        -0.22011652241643972,
+        -0.03288347758356028
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": false,
+      "ordinary20ppHarmRuledOutPointwise": null,
+      "weakThresholdPolicy": "Separate repeated penalty; do not silently apply ordinary-participant acceptance policy",
+      "prefixInputSha256": "0965b257412fe63b9f12f03f89ff1a4b08ca92556ce22001ea2e3c0f1221ebe9",
+      "variantInputSha256": "8b71427edae83b71fe14013dc45d22f3ceb53050f2f96c6f5fa7321da3bba0c7",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 41,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120856000,
+          "generationEnd": 2028120856499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 57,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320872000,
+          "generationEnd": 2028320872499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.21239388166934753,
+        -0.04060611833065249
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "NORMAL_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 1087,
+      "variantWins": 934,
+      "baseWinrate": 0.5435,
+      "variantWinrate": 0.467,
+      "delta": -0.0765,
+      "pointwise95Hoeffding": [
+        -0.1701165224164397,
+        0.017116522416439725
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": true,
+      "ordinary20ppHarmRuledOutPointwise": true,
+      "weakThresholdPolicy": null,
+      "prefixInputSha256": "0965b257412fe63b9f12f03f89ff1a4b08ca92556ce22001ea2e3c0f1221ebe9",
+      "variantInputSha256": "4307e2e06c3fea12f543476ebfbcb0d8fc9455895a9e52eece21bbde6e2b7cbd",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 42,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120857000,
+          "generationEnd": 2028120857499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 58,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320873000,
+          "generationEnd": 2028320873499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.1623938816693475,
+        0.009393881669347515
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    },
+    {
+      "tier": "STRONG",
+      "size": 3,
+      "level": 25,
+      "variant": "WEAK_APPEND",
+      "pairs": 1000,
+      "fightsPerCondition": 2000,
+      "baseWins": 1087,
+      "variantWins": 687,
+      "baseWinrate": 0.5435,
+      "variantWinrate": 0.3435,
+      "delta": -0.2,
+      "pointwise95Hoeffding": [
+        -0.29361652241643976,
+        -0.10638347758356029
+      ],
+      "halfWidth": 0.09361652241643972,
+      "ordinaryMajorHarmCriterionApplies": false,
+      "ordinary20ppHarmRuledOutPointwise": null,
+      "weakThresholdPolicy": "Separate repeated penalty; do not silently apply ordinary-participant acceptance policy",
+      "prefixInputSha256": "0965b257412fe63b9f12f03f89ff1a4b08ca92556ce22001ea2e3c0f1221ebe9",
+      "variantInputSha256": "8b71427edae83b71fe14013dc45d22f3ceb53050f2f96c6f5fa7321da3bba0c7",
+      "cohorts": [
+        {
+          "run": "confirmation",
+          "groupId": 42,
+          "seedOffset": 2000000000,
+          "generationStart": 2028120857000,
+          "generationEnd": 2028120857499
+        },
+        {
+          "run": "independent-confirmation",
+          "groupId": 58,
+          "seedOffset": 2200000000,
+          "generationStart": 2028320873000,
+          "generationEnd": 2028320873499
+        }
+      ],
+      "singleLook95Hoeffding": [
+        -0.28589388166934754,
+        -0.1141061183306525
+      ],
+      "singleLookHalfWidth": 0.08589388166934751,
+      "maxLooks": 2,
+      "perComparisonAlpha": 0.05,
+      "alphaPerLook": 0.025
+    }
+  ],
+  "broadVariantSummary": [
+    {
+      "variant": "NORMAL_APPEND",
+      "comparisons": 72,
+      "pairsPerCondition": 20,
+      "minimumPointDelta": -0.175,
+      "maximumPointDelta": 0.775,
+      "pointDropsOver20pp": 0,
+      "worstCondition": {
+        "groupId": 59,
+        "tier": "STRONG",
+        "size": 3,
+        "level": 30,
+        "variant": "NORMAL_APPEND",
+        "pairs": 20,
+        "baseWinrate": 0.25,
+        "variantWinrate": 0.075,
+        "delta": -0.175,
+        "ci95": [
+          -0.7823614619083052,
+          0.4323614619083052
+        ],
+        "pointMajorHarm": false,
+        "confirmedMajorHarm": false,
+        "majorHarmRuledOutPointwise": false,
+        "harmBelowZero": false
+      },
+      "limitation": "Short exploratory screen; absence of a large point drop is not a simultaneous guarantee"
+    },
+    {
+      "variant": "WEAK_APPEND",
+      "comparisons": 72,
+      "pairsPerCondition": 20,
+      "minimumPointDelta": -0.425,
+      "maximumPointDelta": 0.275,
+      "pointDropsOver20pp": 5,
+      "worstCondition": {
+        "groupId": 43,
+        "tier": "MID",
+        "size": 8,
+        "level": 30,
+        "variant": "WEAK_APPEND",
+        "pairs": 20,
+        "baseWinrate": 0.825,
+        "variantWinrate": 0.4,
+        "delta": -0.425,
+        "ci95": [
+          -1,
+          0.1823614619083052
+        ],
+        "pointMajorHarm": true,
+        "confirmedMajorHarm": false,
+        "majorHarmRuledOutPointwise": false,
+        "harmBelowZero": false
+      },
+      "limitation": "Short exploratory screen; absence of a large point drop is not a simultaneous guarantee"
+    },
+    {
+      "variant": "SINGLE_ITEM_ENHANCE",
+      "comparisons": 72,
+      "pairsPerCondition": 20,
+      "minimumPointDelta": -0.1,
+      "maximumPointDelta": 0.075,
+      "pointDropsOver20pp": 0,
+      "worstCondition": {
+        "groupId": 43,
+        "tier": "MID",
+        "size": 8,
+        "level": 30,
+        "variant": "SINGLE_ITEM_ENHANCE",
+        "pairs": 20,
+        "baseWinrate": 0.825,
+        "variantWinrate": 0.725,
+        "delta": -0.1,
+        "ci95": [
+          -0.7073614619083052,
+          0.5073614619083052
+        ],
+        "pointMajorHarm": false,
+        "confirmedMajorHarm": false,
+        "majorHarmRuledOutPointwise": false,
+        "harmBelowZero": false
+      },
+      "limitation": "Short exploratory screen; absence of a large point drop is not a simultaneous guarantee"
+    },
+    {
+      "variant": "SINGLE_MODIFIER_RARITY",
+      "comparisons": 72,
+      "pairsPerCondition": 20,
+      "minimumPointDelta": -0.025,
+      "maximumPointDelta": 0.1,
+      "pointDropsOver20pp": 0,
+      "worstCondition": {
+        "groupId": 68,
+        "tier": "STRONG",
+        "size": 8,
+        "level": 40,
+        "variant": "SINGLE_MODIFIER_RARITY",
+        "pairs": 20,
+        "baseWinrate": 0.05,
+        "variantWinrate": 0.025,
+        "delta": -0.025,
+        "ci95": [
+          -0.6323614619083052,
+          0.5823614619083052
+        ],
+        "pointMajorHarm": false,
+        "confirmedMajorHarm": false,
+        "majorHarmRuledOutPointwise": false,
+        "harmBelowZero": false
+      },
+      "limitation": "Short exploratory screen; absence of a large point drop is not a simultaneous guarantee"
+    }
+  ],
+  "poolingConfidencePolicy": "At most two data views per comparison:500 then1000 pairs; Bonferroni alpha/2; not simultaneous across conditions or variants"
+}

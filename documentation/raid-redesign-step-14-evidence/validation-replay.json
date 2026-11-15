@@ -1,0 +1,21 @@
+{
+  "cells": 696,
+  "battles": 4176,
+  "outcomes": {
+    "WIN": 2658,
+    "LOSS": 1518
+  },
+  "modes": {
+    "RAID": 2736,
+    "ANOMALY_SAFE": 720,
+    "ANOMALY_FALLBACK": 720
+  },
+  "calibration": {
+    "CLOSEST_STEP": 4176
+  },
+  "maxRounds": 129,
+  "attempts": 258513,
+  "maxRelativeCalibrationError": 0.0027714315868858637,
+  "uncompressedBattlesSha256": "a017da45c08622a9b16aba91264e71c5a38afc7d10118493360efa5f7a883bee",
+  "independentReplayMatched": true
+}

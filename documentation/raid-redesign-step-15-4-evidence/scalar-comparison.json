@@ -1,0 +1,172 @@
+{
+  "input": "/tmp/seeker-step15-3-fillers.HXdOad/independent-review/summary.json",
+  "purpose": "Analytic comparison only; no new balance evidence or accepted formula",
+  "confirmations": [
+    {
+      "style": "MAIN",
+      "level": 5,
+      "strongOwnProduct": 304162.6043772484,
+      "weakOwnProduct": 66824.83246811047,
+      "weakToStrongHealth": 0.310921712193147,
+      "weakToStrongDamage": 0.7066120021283063,
+      "N1to2TargetRatiosAtSameMAndParameters": {
+        "currentQ": 2.2372347278794136,
+        "sumOwnProducts": 1.2197010135579607,
+        "squaredSumSquareRoots": 2.157146507563795,
+        "pairwiseMinimumB": 1.659103040673882,
+        "rootSquaredMinimumR": 1.069955889780128,
+        "herfindahlEffectiveCount": 1.4191693371447929,
+        "meanOwnProducts": 0.6098505067789803
+      },
+      "N1to30StrongPlus29SameWeakPlayerRatios": {
+        "sumOwnProducts": 7.371329393180859,
+        "pairwiseMinimumB": 198.51121118860664,
+        "rootSquaredMinimumR": 6.6628382306039295
+      },
+      "actualM2NpcOwnProducts": [
+        53967.329607225845,
+        44297.09253279217
+      ],
+      "guardianToSlingerOwnProduct": 1.2183041035317388,
+      "conditionalUnroundedR4to3AtSameUnweightedNpcStats": 1.3362671223093847
+    },
+    {
+      "style": "PIERCE_ARCANE",
+      "level": 15,
+      "strongOwnProduct": 262216.6501307913,
+      "weakOwnProduct": 66824.83246811047,
+      "weakToStrongHealth": 0.3684998070437298,
+      "weakToStrongDamage": 0.6915766936064426,
+      "N1to2TargetRatiosAtSameMAndParameters": {
+        "currentQ": 2.314922378800087,
+        "sumOwnProducts": 1.2548458781499148,
+        "squaredSumSquareRoots": 2.2644911191131247,
+        "pairwiseMinimumB": 1.7645376344497443,
+        "rootSquaredMinimumR": 1.0930870344258976,
+        "herfindahlEffectiveCount": 1.478607886704075,
+        "meanOwnProducts": 0.6274229390749574
+      },
+      "N1to30StrongPlus29SameWeakPlayerRatios": {
+        "sumOwnProducts": 8.390530466347528,
+        "pairwiseMinimumB": 230.10644445677337,
+        "rootSquaredMinimumR": 7.7062852936671815
+      },
+      "actualM2NpcOwnProducts": [
+        80430.44696349157,
+        64108.717228546375
+      ],
+      "guardianToSlingerOwnProduct": 1.2545945456490502,
+      "conditionalUnroundedR4to3AtSameUnweightedNpcStats": 1.3200511322795312
+    },
+    {
+      "style": "RITUAL",
+      "level": 25,
+      "strongOwnProduct": 227636.09441177783,
+      "weakOwnProduct": 66824.83246811047,
+      "weakToStrongHealth": 0.3684998070437298,
+      "weakToStrongDamage": 0.7966351925629742,
+      "N1to2TargetRatiosAtSameMAndParameters": {
+        "currentQ": 2.4586949143504047,
+        "sumOwnProducts": 1.2935599147437005,
+        "squaredSumSquareRoots": 2.377183308259548,
+        "pairwiseMinimumB": 1.8806797442311018,
+        "rootSquaredMinimumR": 1.1218432469079564,
+        "herfindahlEffectiveCount": 1.5405376845078935,
+        "meanOwnProducts": 0.6467799573718502
+      },
+      "N1to30StrongPlus29SameWeakPlayerRatios": {
+        "sumOwnProducts": 9.513237527567316,
+        "pairwiseMinimumB": 264.9103633545868,
+        "rootSquaredMinimumR": 8.85852717816859
+      },
+      "actualM2NpcOwnProducts": [
+        99292.94179847122,
+        77962.20564621771
+      ],
+      "guardianToSlingerOwnProduct": 1.2736035489946191,
+      "conditionalUnroundedR4to3AtSameUnweightedNpcStats": 1.3118558168153196
+    }
+  ],
+  "counterexamples": {
+    "concentrationMultiply": {
+      "definition": "S * n_eff = S^3 / sum(p_i^2)",
+      "before": {
+        "p": [
+          3,
+          1,
+          1,
+          1,
+          1
+        ],
+        "value": 26.384615384615383
+      },
+      "afterOneImprovement": {
+        "p": [
+          4,
+          1,
+          1,
+          1,
+          1
+        ],
+        "value": 25.6
+      }
+    },
+    "concentrationDivide": {
+      "definition": "S / n_eff = sum(p_i^2) / S",
+      "before": {
+        "p": [
+          100,
+          1
+        ],
+        "value": 99.01980198019803
+      },
+      "afterOneImprovement": {
+        "p": [
+          100,
+          2
+        ],
+        "value": 98.07843137254902
+      }
+    },
+    "splitSpecialization": {
+      "equalTotals": {
+        "sumH": 200,
+        "sumD": 200,
+        "Q": 40000
+      },
+      "balanced": {
+        "H_D": [
+          [
+            100,
+            100
+          ],
+          [
+            100,
+            100
+          ]
+        ],
+        "P": 20000,
+        "B": 40000,
+        "rootSquaredMinimumR": 20000,
+        "squaredSumSquareRoots": 40000
+      },
+      "split": {
+        "H_D": [
+          [
+            199,
+            1
+          ],
+          [
+            1,
+            199
+          ]
+        ],
+        "P": 398,
+        "B": 796,
+        "rootSquaredMinimumR": 398,
+        "squaredSumSquareRoots": 796
+      },
+      "limitation": "This is an information-loss counterexample, not a simulated victory claim."
+    }
+  }
+}

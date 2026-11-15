@@ -1,0 +1,42 @@
+{
+  "fullBuild": {
+    "command": "mvn clean package",
+    "workingDirectory": "game",
+    "result": "BUILD SUCCESS",
+    "tests": 1570,
+    "passed": 1541,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 29,
+    "checkstyleViolations": 0,
+    "postgresIntegrationTestsSkipped": 10,
+    "otherPreexistingTestsSkipped": 19,
+    "databaseIntegrationClaimed": false,
+    "includesPreexistingUnrelatedLockTestEdit": true
+  },
+  "affectedTests": {
+    "tests": 79,
+    "passed": 79,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "newCases": 72,
+    "classes": {
+      "PveAdaptationStudyTest": 10,
+      "PveCharacteristicScalingTest": 32,
+      "AnomalyBattleServiceCombatVersionTest": 2,
+      "AnomalySafePveGeneratorTest": 16,
+      "RaidProcessingCombatVersionTest": 2,
+      "RaidNpcCombatVersionTest": 17
+    }
+  },
+  "fullBuildSkippedClasses": {
+    "BadgeViewPrintTest": 1,
+    "RaidWinrateTest": 12,
+    "WorldRaidBattleSimulatorTest": 1,
+    "WolfPackGeneratorTest": 1,
+    "EquipmentCatalogPostgresIntegrationTest": 3,
+    "EquipmentReleasePostgresIntegrationTest": 7,
+    "RaidLevelItemConfigTest": 4
+  }
+}

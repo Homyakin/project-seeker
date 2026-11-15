@@ -1,0 +1,715 @@
+{
+  "purpose": "INDEPENDENT_EXPLORATORY_NOT_BALANCE_ACCEPTANCE",
+  "rawRows": 3000,
+  "rawSha256": "dd2107f66b8a5ae488a335f55d3c22d9ca7b1bf474e5290b3b2ff0b4a50a4885",
+  "inputPolicy": "ACTUAL_PRODUCTION_NO_OVERLAY",
+  "validation": "PASS",
+  "intervals": "500 independent pairs per cell; pointwise Hoeffding halfwidth 0.060736146190830516, not simultaneous",
+  "overall": {
+    "conditions": 3,
+    "outcomes": {
+      "LOSS": 481,
+      "WIN": 2519
+    },
+    "byOrder": {
+      "ENEMIES_FIRST": {
+        "LOSS": 250,
+        "WIN": 1250
+      },
+      "PLAYERS_FIRST": {
+        "LOSS": 231,
+        "WIN": 1269
+      }
+    },
+    "metrics": {
+      "rounds": {
+        "count": 3000,
+        "min": 43,
+        "max": 95,
+        "maxCellP95": 77,
+        "mean": 57.842
+      },
+      "actionCount": {
+        "count": 3000,
+        "min": 1740,
+        "max": 2463,
+        "maxCellP95": 2321,
+        "mean": 2111.692
+      },
+      "normalAttempts": {
+        "count": 3000,
+        "min": 146,
+        "max": 198,
+        "maxCellP95": 190,
+        "mean": 171.075
+      },
+      "moves": {
+        "count": 3000,
+        "min": 29,
+        "max": 30,
+        "maxCellP95": 30,
+        "mean": 29.970333333333333
+      },
+      "forcedMoves": {
+        "count": 3000,
+        "min": 0,
+        "max": 2,
+        "maxCellP95": 1,
+        "mean": 0.078
+      }
+    }
+  },
+  "distributions": {
+    "rounds": {
+      "count": 3000,
+      "min": 43,
+      "mean": 57.842,
+      "p50": 57,
+      "p90": 67,
+      "p95": 72,
+      "max": 95
+    },
+    "actions": {
+      "count": 3000,
+      "min": 1740,
+      "mean": 2111.692,
+      "p50": 2102,
+      "p90": 2243,
+      "p95": 2286,
+      "max": 2463
+    }
+  },
+  "timeoutCells": [],
+  "mainByTierLevel": [
+    {
+      "tier": "BEGINNER",
+      "level": 1,
+      "cases": []
+    },
+    {
+      "tier": "BEGINNER",
+      "level": 10,
+      "cases": []
+    },
+    {
+      "tier": "BEGINNER",
+      "level": 20,
+      "cases": []
+    },
+    {
+      "tier": "BEGINNER",
+      "level": 25,
+      "cases": []
+    },
+    {
+      "tier": "BEGINNER",
+      "level": 30,
+      "cases": []
+    },
+    {
+      "tier": "BEGINNER",
+      "level": 40,
+      "cases": []
+    },
+    {
+      "tier": "BEGINNER",
+      "level": 50,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 1,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 10,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 20,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 25,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 30,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 40,
+      "cases": []
+    },
+    {
+      "tier": "MID",
+      "level": 50,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 1,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 10,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 20,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 30,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 40,
+      "cases": []
+    },
+    {
+      "tier": "STRONG",
+      "level": 50,
+      "cases": []
+    }
+  ],
+  "upperLevelNonzeroWins": [
+    {
+      "id": 294,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "BEGINNER",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.614,
+      "outcomes": {
+        "LOSS": 386,
+        "WIN": 614
+      },
+      "interval": {
+        "high": 0.6747361461908306,
+        "low": 0.5532638538091694,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 202,
+          "WIN": 298
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 184,
+          "WIN": 316
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 95,
+        "mean": 62.041,
+        "min": 43,
+        "p50": 62,
+        "p90": 72,
+        "p95": 77
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2293,
+        "mean": 2063.779,
+        "min": 1740,
+        "p50": 2064,
+        "p90": 2173,
+        "p95": 2211
+      },
+      "forced": {
+        "count": 1000,
+        "max": 1,
+        "mean": 0.084,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      }
+    },
+    {
+      "id": 306,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "MID",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.924,
+      "outcomes": {
+        "LOSS": 76,
+        "WIN": 924
+      },
+      "interval": {
+        "high": 0.9847361461908306,
+        "low": 0.8632638538091695,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 36,
+          "WIN": 464
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 40,
+          "WIN": 460
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 89,
+        "mean": 57.033,
+        "min": 49,
+        "p50": 56,
+        "p90": 65,
+        "p95": 70
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2463,
+        "mean": 2149.169,
+        "min": 1920,
+        "p50": 2141,
+        "p90": 2285,
+        "p95": 2321
+      },
+      "forced": {
+        "count": 1000,
+        "max": 1,
+        "mean": 0.08,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      }
+    },
+    {
+      "id": 318,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.981,
+      "outcomes": {
+        "LOSS": 19,
+        "WIN": 981
+      },
+      "interval": {
+        "high": 1,
+        "low": 0.9202638538091694,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 12,
+          "WIN": 488
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 7,
+          "WIN": 493
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 83,
+        "mean": 54.452,
+        "min": 49,
+        "p50": 52,
+        "p90": 59,
+        "p95": 64
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2422,
+        "mean": 2122.128,
+        "min": 1949,
+        "p50": 2106,
+        "p90": 2239,
+        "p95": 2285
+      },
+      "forced": {
+        "count": 1000,
+        "max": 2,
+        "mean": 0.07,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      }
+    }
+  ],
+  "lowerLevelWeakCells": [],
+  "extraStyles": [
+    {
+      "id": 294,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "BEGINNER",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.614,
+      "outcomes": {
+        "LOSS": 386,
+        "WIN": 614
+      },
+      "interval": {
+        "high": 0.6747361461908306,
+        "low": 0.5532638538091694,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 202,
+          "WIN": 298
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 184,
+          "WIN": 316
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 95,
+        "mean": 62.041,
+        "min": 43,
+        "p50": 62,
+        "p90": 72,
+        "p95": 77
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2293,
+        "mean": 2063.779,
+        "min": 1740,
+        "p50": 2064,
+        "p90": 2173,
+        "p95": 2211
+      },
+      "forced": {
+        "count": 1000,
+        "max": 1,
+        "mean": 0.084,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      }
+    },
+    {
+      "id": 306,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "MID",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.924,
+      "outcomes": {
+        "LOSS": 76,
+        "WIN": 924
+      },
+      "interval": {
+        "high": 0.9847361461908306,
+        "low": 0.8632638538091695,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 36,
+          "WIN": 464
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 40,
+          "WIN": 460
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 89,
+        "mean": 57.033,
+        "min": 49,
+        "p50": 56,
+        "p90": 65,
+        "p95": 70
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2463,
+        "mean": 2149.169,
+        "min": 1920,
+        "p50": 2141,
+        "p90": 2285,
+        "p95": 2321
+      },
+      "forced": {
+        "count": 1000,
+        "max": 1,
+        "mean": 0.08,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      }
+    },
+    {
+      "id": 318,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.981,
+      "outcomes": {
+        "LOSS": 19,
+        "WIN": 981
+      },
+      "interval": {
+        "high": 1,
+        "low": 0.9202638538091694,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 12,
+          "WIN": 488
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 7,
+          "WIN": 493
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 83,
+        "mean": 54.452,
+        "min": 49,
+        "p50": 52,
+        "p90": 59,
+        "p95": 64
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2422,
+        "mean": 2122.128,
+        "min": 1949,
+        "p50": 2106,
+        "p90": 2239,
+        "p95": 2285
+      },
+      "forced": {
+        "count": 1000,
+        "max": 2,
+        "mean": 0.07,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      }
+    }
+  ],
+  "specializations": [],
+  "effects": [],
+  "largestSideOrderGaps": [
+    {
+      "id": 294,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "BEGINNER",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.614,
+      "outcomes": {
+        "LOSS": 386,
+        "WIN": 614
+      },
+      "interval": {
+        "high": 0.6747361461908306,
+        "low": 0.5532638538091694,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 202,
+          "WIN": 298
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 184,
+          "WIN": 316
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 95,
+        "mean": 62.041,
+        "min": 43,
+        "p50": 62,
+        "p90": 72,
+        "p95": 77
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2293,
+        "mean": 2063.779,
+        "min": 1740,
+        "p50": 2064,
+        "p90": 2173,
+        "p95": 2211
+      },
+      "forced": {
+        "count": 1000,
+        "max": 1,
+        "mean": 0.084,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      },
+      "orderGap": 0.03600000000000003
+    },
+    {
+      "id": 318,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "STRONG",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.981,
+      "outcomes": {
+        "LOSS": 19,
+        "WIN": 981
+      },
+      "interval": {
+        "high": 1,
+        "low": 0.9202638538091694,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 12,
+          "WIN": 488
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 7,
+          "WIN": 493
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 83,
+        "mean": 54.452,
+        "min": 49,
+        "p50": 52,
+        "p90": 59,
+        "p95": 64
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2422,
+        "mean": 2122.128,
+        "min": 1949,
+        "p50": 2106,
+        "p90": 2239,
+        "p95": 2285
+      },
+      "forced": {
+        "count": 1000,
+        "max": 2,
+        "mean": 0.07,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      },
+      "orderGap": 0.010000000000000009
+    },
+    {
+      "id": 306,
+      "mode": "RAID",
+      "encounter": "MYCONID_COLONY",
+      "style": "RITUAL",
+      "tier": "MID",
+      "size": 15,
+      "raidLevel": 50,
+      "effects": false,
+      "win": 0.924,
+      "outcomes": {
+        "LOSS": 76,
+        "WIN": 924
+      },
+      "interval": {
+        "high": 0.9847361461908306,
+        "low": 0.8632638538091695,
+        "unclippedHalfWidth": 0.060736146190830516
+      },
+      "byOrder": {
+        "ENEMIES_FIRST": {
+          "LOSS": 36,
+          "WIN": 464
+        },
+        "PLAYERS_FIRST": {
+          "LOSS": 40,
+          "WIN": 460
+        }
+      },
+      "rounds": {
+        "count": 1000,
+        "max": 89,
+        "mean": 57.033,
+        "min": 49,
+        "p50": 56,
+        "p90": 65,
+        "p95": 70
+      },
+      "actions": {
+        "count": 1000,
+        "max": 2463,
+        "mean": 2149.169,
+        "min": 1920,
+        "p50": 2141,
+        "p90": 2285,
+        "p95": 2321
+      },
+      "forced": {
+        "count": 1000,
+        "max": 1,
+        "mean": 0.08,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 1
+      },
+      "orderGap": -0.008000000000000007
+    }
+  ]
+}

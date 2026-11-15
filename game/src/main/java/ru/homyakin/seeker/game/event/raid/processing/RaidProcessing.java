@@ -101,7 +101,9 @@ public class RaidProcessing {
         final var now = TimeUtils.moscowTime();
         final var groupPassiveEffectsCache = new HashMap<GroupId, List<GroupPassiveEffect>>();
         final var personages = toBattlePersonages(participants);
-        final var enemies = raidGenerator.generate(RaidType.fromCode(raid.code()), raidEvent, personages);
+        final var enemies = raidGenerator.generate(
+            RaidType.fromCode(raid.code()), raidEvent, personages, playerCombatConfig.version()
+        );
         final var result = battle.process(enemies, personages, playerCombatConfig.tempoVersion());
         eventBattleLogService.save(launchedEvent.id(), result);
         boolean doesParticipantsWin = !result.firstWin();

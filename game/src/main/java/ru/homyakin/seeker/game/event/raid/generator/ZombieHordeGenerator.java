@@ -3,6 +3,11 @@ package ru.homyakin.seeker.game.event.raid.generator;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
+import ru.homyakin.seeker.game.event.pve.GeneratedPveEnemies;
+import ru.homyakin.seeker.game.event.pve.PveCharacteristicScaling;
+import ru.homyakin.seeker.game.event.pve.PveEquipmentPowerSum;
+import ru.homyakin.seeker.game.event.pve.PveScalingDiagnostics;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -12,19 +17,22 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.MathUtils;
 import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 /**
  * Zombie Horde raid: slow, heavily PLATE-armoured undead.
  * Each zombie carries a single randomly chosen BLUNT or SLASH attack —
- * the 50/50 mix in practice matches the {@code power()} formula's averaged
- * damage-reduction assumption, keeping the difficulty calibration accurate.
+ * each attack remains fixed throughout matching and the final V3 encounter.
+ * The personal equipment assessment is neutral to the attacker's own type;
+ * this is not a prediction of the resulting encounter's difficulty.
  * Regular zombies carry {@link ActiveEnum#THORNS}; the boss carries
  * {@link ActiveEnum#SELF_HEAL}.
  */
@@ -52,10 +60,20 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
 
     /** Each extra group member forces the raid to scale up by this log factor. */
     private static final double GROUP_SCALE_COEF = 0.05;
+    // Step 17.2: a single encounter correction; it does not depend on the participant's build or level.
+    private static final double EQUIPMENT_POWER_CALIBRATION_CORRECTION = 0.76;
 
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerBonus) {
+    public GeneratedPveEnemies generateCalibrated(
+        List<BattlePersonage> personages,
+        double powerBonus,
+        SkillFormulaVersion formulaVersion
+    ) {
+        RaidBattlePersonageGenerator.validateInputs(personages, powerBonus, formulaVersion);
         final int zombieCount = personages.size();
+        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3) {
+            return generateEquipmentCalibrated(personages, powerBonus, zombieCount, formulaVersion);
+        }
         final double groupSizeScaling;
         if (personages.size() <= 10) {
             groupSizeScaling = 1.0 + MathUtils.log(2.2, zombieCount) * GROUP_SCALE_COEF;
@@ -67,12 +85,81 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
         final var targetPower = personages.stream()
             .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus * groupSizeScaling;
-        final var multiplier = characteristicsMultiplier(zombieCount, targetPower);
+        final var calibration = PveCharacteristicScaling.search(
+            targetPower,
+            PveCharacteristicScaling.maxMultiplier(
+                BASE_ATTACK, BASE_DEFENSE, BASE_HEALTH,
+                BASE_BOSS_ATTACK, BASE_BOSS_DEFENSE, BASE_BOSS_HEALTH
+            ),
+            multiplier -> totalRaidPower(zombieCount, multiplier, formulaVersion)
+        );
+        final var multiplier = calibration.multiplier();
 
         final var horde = new ArrayList<BattlePersonage>();
-        horde.add(boss(multiplier, randomAttack()));
+        horde.add(boss(multiplier, randomAttack(), formulaVersion));
         for (int i = 0; i < zombieCount; i++) {
-            horde.add(zombie(multiplier, randomAttack()));
+            horde.add(zombie(multiplier, randomAttack(), formulaVersion));
+        }
+        return new GeneratedPveEnemies(horde, calibration);
+    }
+
+    private GeneratedPveEnemies generateEquipmentCalibrated(
+        List<BattlePersonage> personages,
+        double powerBonus,
+        int count,
+        SkillFormulaVersion version
+    ) {
+        final var participantAssessment = PveEquipmentPowerSum.sum(personages);
+        final var groupScaling = equipmentGroupScaling(count);
+        final var target = participantAssessment * powerBonus * groupScaling
+            * EQUIPMENT_POWER_CALIBRATION_CORRECTION;
+        final var attacks = new ArrayList<AttackType>();
+        for (int index = 0; index <= count; ++index) {
+            attacks.add(randomAttack());
+        }
+        final var attackTypes = List.copyOf(attacks);
+        final var calibration = PveCharacteristicScaling.search(
+            target,
+            PveCharacteristicScaling.maxMultiplier(
+                BASE_ATTACK, BASE_DEFENSE, BASE_HEALTH,
+                BASE_BOSS_ATTACK, BASE_BOSS_DEFENSE, BASE_BOSS_HEALTH
+            ),
+            multiplier -> RandomUtils.withSeed(0, () -> PveEquipmentPowerSum.sum(
+                equipmentHorde(attackTypes, multiplier, version)))
+        );
+        final var bluntCount = attackTypes.stream().filter(type -> type == AttackType.BLUNT).count();
+        final var diagnostics = new PveScalingDiagnostics(PveEquipmentPowerSum.VERSION, participantAssessment, Map.of(
+            "enemyCount", (double) attackTypes.size(),
+            "zombieCount", (double) count,
+            "bossCount", 1.0,
+            "bluntCount", (double) bluntCount,
+            "slashCount", (double) attackTypes.size() - bluntCount,
+            "groupSizeScaling", groupScaling,
+            "powerBonus", powerBonus,
+            "encounterCorrection", EQUIPMENT_POWER_CALIBRATION_CORRECTION
+        ));
+        return new GeneratedPveEnemies(
+            equipmentHorde(attackTypes, calibration.multiplier(), version), calibration, Optional.of(diagnostics)
+        );
+    }
+
+    private static double equipmentGroupScaling(int count) {
+        if (count <= 10) {
+            return 1.0 + MathUtils.log(2.2, count) * GROUP_SCALE_COEF;
+        }
+        final var atTen = 1.0 + MathUtils.log(2.2, 10) * GROUP_SCALE_COEF;
+        if (count <= 13) {
+            return atTen + MathUtils.log(4, count / 10.0) * GROUP_SCALE_COEF;
+        }
+        final var atThirteen = atTen + MathUtils.log(4, 13 / 10.0) * GROUP_SCALE_COEF;
+        return atThirteen + MathUtils.log(8, count / 13.0) * GROUP_SCALE_COEF;
+    }
+
+    private List<BattlePersonage> equipmentHorde(List<AttackType> attacks, double multiplier, SkillFormulaVersion version) {
+        final var horde = new ArrayList<BattlePersonage>(attacks.size());
+        horde.add(boss(multiplier, attacks.getFirst(), version));
+        for (int index = 1; index < attacks.size(); ++index) {
+            horde.add(zombie(multiplier, attacks.get(index), version));
         }
         return horde;
     }
@@ -81,8 +168,8 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
     // Unit factories
     // -------------------------------------------------------------------------
 
-    private BattlePersonage zombie(double m, AttackType attackType) {
-        return new BattlePersonage(
+    private BattlePersonage zombie(double m, AttackType attackType, SkillFormulaVersion formulaVersion) {
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
@@ -98,12 +185,15 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            Position.FRONT
+            Position.FRONT,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
-    private BattlePersonage boss(double m, AttackType attackType) {
-        return new BattlePersonage(
+    private BattlePersonage boss(double m, AttackType attackType, SkillFormulaVersion formulaVersion) {
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
@@ -119,7 +209,10 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            Position.FRONT
+            Position.FRONT,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
@@ -137,42 +230,12 @@ public class ZombieHordeGenerator implements RaidBattlePersonageGenerator {
     // determinism; power() is independent of the unit's own attack type)
     // -------------------------------------------------------------------------
 
-    private double characteristicsMultiplier(int zombieCount, double targetPower) {
-        double low = 0;
-        double high = 1;
-
-        if (totalRaidPower(zombieCount, low) >= targetPower) {
-            return low;
-        }
-
-        while (totalRaidPower(zombieCount, high) < targetPower) {
-            low = high;
-            high *= 2;
-        }
-
-        for (int i = 0; i < 32; i++) {
-            final var mid = (low + high) / 2;
-            if (totalRaidPower(zombieCount, mid) >= targetPower) {
-                high = mid;
-            } else {
-                low = mid;
-            }
-        }
-        return closestMultiplier(zombieCount, targetPower, low, high);
-    }
-
-    private double closestMultiplier(int zombieCount, double targetPower, double low, double high) {
-        final var lowDiff = Math.abs(totalRaidPower(zombieCount, low) - targetPower);
-        final var highDiff = Math.abs(totalRaidPower(zombieCount, high) - targetPower);
-        return lowDiff < highDiff ? low : high;
-    }
-
-    private double totalRaidPower(int zombieCount, double m) {
-        return boss(m, AttackType.SLASH).legacyPower()
-            + zombie(m, AttackType.SLASH).legacyPower() * zombieCount;
+    private double totalRaidPower(int zombieCount, double m, SkillFormulaVersion formulaVersion) {
+        return boss(m, AttackType.SLASH, formulaVersion).legacyPower()
+            + zombie(m, AttackType.SLASH, formulaVersion).legacyPower() * zombieCount;
     }
 
     private int multiply(int value, double multiplier) {
-        return Math.max(1, (int) Math.ceil(value * multiplier));
+        return PveCharacteristicScaling.multiply(value, multiplier);
     }
 }

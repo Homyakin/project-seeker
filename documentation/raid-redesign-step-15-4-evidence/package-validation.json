@@ -1,0 +1,74 @@
+{
+  "status": "PACKAGE_CONTENT_AND_DERIVED_SUMMARIES_VALID",
+  "artifacts": 50,
+  "compressedMetadataFiles": 14,
+  "totalBattles": 60080,
+  "runs": [
+    {
+      "name": "q-p-sum-screen",
+      "conditions": 36,
+      "models": [
+        "Q_CURRENT",
+        "P_SUM"
+      ],
+      "pairsPerCondition": 20,
+      "battles": 2880,
+      "rawValidationStatus": "PASS"
+    },
+    {
+      "name": "b-screen",
+      "conditions": 36,
+      "models": [
+        "B_TWO_ANCHOR"
+      ],
+      "pairsPerCondition": 20,
+      "battles": 1440,
+      "rawValidationStatus": "PASS"
+    },
+    {
+      "name": "b-wide-screen",
+      "conditions": 519,
+      "models": [
+        "B_TWO_ANCHOR"
+      ],
+      "pairsPerCondition": 10,
+      "battles": 10380,
+      "rawValidationStatus": "PASS"
+    },
+    {
+      "name": "b-confirmation",
+      "conditions": 18,
+      "models": [
+        "B_TWO_ANCHOR"
+      ],
+      "pairsPerCondition": 500,
+      "battles": 18000,
+      "rawValidationStatus": "PASS",
+      "pairedFamilyComparisonsRecomputed": 9,
+      "familyHalfWidthPP": 15.344189820841184
+    },
+    {
+      "name": "bnorm-wide-screen",
+      "conditions": 519,
+      "models": [
+        "B_NORM_TWO_ANCHOR"
+      ],
+      "pairsPerCondition": 10,
+      "battles": 10380,
+      "rawValidationStatus": "PASS"
+    },
+    {
+      "name": "bnorm-confirmation",
+      "conditions": 17,
+      "models": [
+        "B_NORM_TWO_ANCHOR"
+      ],
+      "pairsPerCondition": 500,
+      "battles": 17000,
+      "rawValidationStatus": "PASS",
+      "pairedFamilyComparisonsRecomputed": 9,
+      "familyHalfWidthPP": 15.344189820841184
+    }
+  ],
+  "note": "Integrity and saved-data verification only, not balance acceptance or a new battle run."
+}

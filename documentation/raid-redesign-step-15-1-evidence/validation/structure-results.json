@@ -1,0 +1,138 @@
+{
+  "status": "CONSISTENT_EXPLORATORY_DATA_NOT_ACCEPTANCE",
+  "cases": 46,
+  "rows": 5200,
+  "timeouts": 0,
+  "differences": [
+    {
+      "tier": "MID",
+      "level": 25,
+      "model": "STANDARD_ROLE",
+      "pairs": 100,
+      "baseWins": 91,
+      "addedWins": 16,
+      "delta": -0.375,
+      "pointwiseHoeffding95": [
+        -0.6466203031481239,
+        -0.10337969685187609
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "model": "STANDARD_ROLE",
+      "pairs": 100,
+      "baseWins": 101,
+      "addedWins": 27,
+      "delta": -0.37,
+      "pointwiseHoeffding95": [
+        -0.6416203031481239,
+        -0.09837969685187609
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 15,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 100,
+      "addedWins": 91,
+      "delta": -0.08999999999999997,
+      "pointwiseHoeffding95": [
+        -0.4741291165279683,
+        0.29412911652796836
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 20,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 81,
+      "addedWins": 44,
+      "delta": -0.37000000000000005,
+      "pointwiseHoeffding95": [
+        -0.7541291165279684,
+        0.014129116527968277
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 25,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 52,
+      "addedWins": 8,
+      "delta": -0.44,
+      "pointwiseHoeffding95": [
+        -0.8241291165279683,
+        -0.055870883472031674
+      ]
+    },
+    {
+      "tier": "MID",
+      "level": 30,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 11,
+      "addedWins": 0,
+      "delta": -0.11,
+      "pointwiseHoeffding95": [
+        -0.4941291165279683,
+        0.27412911652796834
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 15,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 100,
+      "addedWins": 82,
+      "delta": -0.18000000000000005,
+      "pointwiseHoeffding95": [
+        -0.5641291165279684,
+        0.20412911652796828
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 20,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 93,
+      "addedWins": 53,
+      "delta": -0.4,
+      "pointwiseHoeffding95": [
+        -0.7841291165279684,
+        -0.015870883472031694
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 25,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 56,
+      "addedWins": 14,
+      "delta": -0.42000000000000004,
+      "pointwiseHoeffding95": [
+        -0.8041291165279684,
+        -0.03587088347203171
+      ]
+    },
+    {
+      "tier": "STRONG",
+      "level": 30,
+      "model": "RANDOM_ODD_ROLE",
+      "pairs": 50,
+      "baseWins": 6,
+      "addedWins": 1,
+      "delta": -0.049999999999999996,
+      "pointwiseHoeffding95": [
+        -0.4341291165279683,
+        0.33412911652796834
+      ]
+    }
+  ]
+}

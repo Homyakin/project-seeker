@@ -1,0 +1,12 @@
+ac8cb1a0bd3fb9a071a94a68901b83f91f7458cd72084df4939d80d051b9c538  documentation/raid-redesign-step-15-7-evidence/README.md
+450e5ae41c7fd01125cc5a131c4999b78711311acb7051167237e5be2599044f  documentation/raid-redesign-step-15-7-evidence/pre-run-lock.sha256
+d6acca91d3686c23e34e37c353e891d0e9a12713a4dc28b7e4e468d08240411d  documentation/raid-redesign-step-15-7-evidence/protocol.md
+f7c9522dc73abc8715a371072cae0429abf68abd5f2a0459400e65933a3eaf6f  documentation/raid-redesign-step-15-7-evidence/replay-compare.cjs
+e2568ba51571ae8021ded7f01e43af0ac2ab847504e1a27388e03752e47ef777  documentation/raid-redesign-step-15-7-evidence/replay-verification.json
+ddd14183f077ec9a8a0e22a4cf78267fa4801813197a73954371960eb4d5ca3a  documentation/raid-redesign-step-15-7-evidence/replay/battles.jsonl.gz
+2098ed400ae1d53d6f674694d2330e7fad20633f5d118f37c9874a09793eeca5  documentation/raid-redesign-step-15-7-evidence/run/battles.jsonl.gz
+d7b4d8696853d55f1268dfe6b7589c5d02656779c4710fce85a0ffa37957b19d  documentation/raid-redesign-step-15-7-evidence/run/protocol.json
+b9c4efc36b85692e6147bd454746cd5b31b2628a077440171a736dbbe84a2e45  documentation/raid-redesign-step-15-7-evidence/run/summary.json
+3d65348e6186a3ed5e97a54434f636a6728a03f1fbe784b143b1b278ddef0ffc  documentation/raid-redesign-step-15-7-evidence/test-summary.json
+b75b258ec3757b52ff4c15d21b1add628f75a7f98a0b67f962d324afba324290  documentation/raid-redesign-step-15-7-evidence/validate-study.cjs
+945e97c1fe75d52be117965833ff248a045e988b0bfd2d26aaa1f94dbad9979e  documentation/raid-redesign-step-15-7-evidence/verification-summary.json

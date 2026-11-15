@@ -1,0 +1,4 @@
+d6acca91d3686c23e34e37c353e891d0e9a12713a4dc28b7e4e468d08240411d  documentation/raid-redesign-step-15-7-evidence/protocol.md
+d7b4d8696853d55f1268dfe6b7589c5d02656779c4710fce85a0ffa37957b19d  documentation/raid-redesign-step-15-7-evidence/run/protocol.json
+197cf6bb79fa5608f1e6aa008e2cb50a868e419300efdd43e1dd0467ea2487e7  game/src/test/java/ru/homyakin/seeker/game/battle/Step157MyconidValidationStudy.java
+796d7e550cac8701818dce0839fcd9cac788b87150fbc6e3e4bad45913865bd8  game/src/test/java/ru/homyakin/seeker/game/battle/Step157MyconidValidationStudyTest.java

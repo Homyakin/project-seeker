@@ -1,0 +1,927 @@
+{
+  "purpose": "INDEPENDENT_NUMERIC_DECOMPOSITION_OF_COMPLETE_FRESH_CONFIRMATION_NO_NEW_BATTLES",
+  "validationSha256": "b8ca9d255d79ee89a0a8b87d2bea8cea38f9cfaaf04d4f4ce5a9fa65109fd62f",
+  "validatorSha256": "be7237c9cbb545900af12779dcb2d5aac5a04fcea69e46e46d7609c86edd58e5",
+  "rawGzipSha256": "056050671b53a779f712fc44fbf920f49780d8473bb59bb27d9f433c78102f7f",
+  "rawPlainSha256": "92f894baa5bdc50e55a41026fbc9b67bbbad02010f34d7d2f43321b061fba8a9",
+  "comparisons": [
+    {
+      "model": "SAME",
+      "label": "ORIGINAL_MAIN_N3_TO_N4",
+      "baseline": {
+        "playerH": 11735.6070634692,
+        "playerD": 154.2861432,
+        "targetH": 9616.368128260692,
+        "targetD": 235.56672000000003,
+        "achievedH": 9618.635810495643,
+        "achievedD": 235.73196000000002,
+        "hpMultiplier": 5.05469788788417,
+        "attackMultiplier": 4.097126040949221,
+        "playerComponents": [
+          {
+            "hp": 2835,
+            "mu": 0.42433561474576975,
+            "H": 6681.032422174888,
+            "maximumAttack": 378,
+            "criticalFactor": 1.005,
+            "frequency": 0.086,
+            "D": 32.670539999999995
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          }
+        ],
+        "guardian": {
+          "count": 1,
+          "hp": 2123,
+          "attack": 287,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 2,
+          "hp": 1416,
+          "attack": 533,
+          "defense": 309
+        }
+      },
+      "added": {
+        "playerH": 15746.577234881897,
+        "playerD": 221.7979512,
+        "targetH": 12903.029441235438,
+        "targetD": 338.64490214895767,
+        "achievedH": 12908.480154684134,
+        "achievedD": 338.9688,
+        "hpMultiplier": 4.443730416971637,
+        "attackMultiplier": 4.765511924146905,
+        "playerComponents": [
+          {
+            "hp": 2835,
+            "mu": 0.42433561474576975,
+            "H": 6681.032422174888,
+            "maximumAttack": 378,
+            "criticalFactor": 1.005,
+            "frequency": 0.086,
+            "D": 32.670539999999995
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          },
+          {
+            "hp": 2016,
+            "mu": 0.5026215388906639,
+            "H": 4010.9701714126977,
+            "maximumAttack": 504,
+            "criticalFactor": 1.0304,
+            "frequency": 0.13,
+            "D": 67.511808
+          }
+        ],
+        "guardian": {
+          "count": 2,
+          "hp": 1867,
+          "attack": 334,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 2,
+          "hp": 1245,
+          "attack": 620,
+          "defense": 309
+        }
+      },
+      "playerHRatio": 1.3417778176893902,
+      "playerDRatio": 1.4375753168739525,
+      "targetHRatio": 1.3417778176893902,
+      "targetDRatio": 1.4375753168739525,
+      "npcCountBase": 3,
+      "npcCountAdded": 4,
+      "guardianTotalHPRatio": 1.7588318417333961,
+      "slingerTotalHPRatio": 0.8792372881355932,
+      "winrateBaseline": 0.588,
+      "winrateAdded": 0.128,
+      "delta": -0.45999999999999996,
+      "simultaneousAppendInterval": [
+        -0.6171468880239368,
+        -0.3028531119760632
+      ],
+      "observedBaseline": [
+        {
+          "build": "GUARDIAN",
+          "meanTurns": 1.244,
+          "meanRecordedDamage": 334.419,
+          "diedFraction": 0.992,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_PHYSICAL",
+          "meanTurns": 7.702,
+          "meanRecordedDamage": 2328.965,
+          "diedFraction": 0.515,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_MAGICAL",
+          "meanTurns": 8.01,
+          "meanRecordedDamage": 1960.397,
+          "diedFraction": 0.495,
+          "zeroTurnsFraction": 0
+        }
+      ],
+      "observedAdded": [
+        {
+          "build": "GUARDIAN",
+          "meanTurns": 1.21,
+          "meanRecordedDamage": 322.738,
+          "diedFraction": 1,
+          "zeroTurnsFraction": 0.004
+        },
+        {
+          "build": "RANGER_PHYSICAL",
+          "meanTurns": 6.694,
+          "meanRecordedDamage": 2028.029,
+          "diedFraction": 0.896,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_MAGICAL",
+          "meanTurns": 6.913,
+          "meanRecordedDamage": 1715.301,
+          "diedFraction": 0.892,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "BRUISER",
+          "meanTurns": 2.319,
+          "meanRecordedDamage": 887.064,
+          "diedFraction": 0.998,
+          "zeroTurnsFraction": 0.001
+        }
+      ]
+    },
+    {
+      "model": "SAME",
+      "label": "RITUAL_N1_TO_N2_WEAK",
+      "baseline": {
+        "playerH": 3628.578133869404,
+        "playerD": 62.734240799999995,
+        "targetH": 2973.32237938191,
+        "targetD": 95.7837109051941,
+        "achievedH": 2976.23931612833,
+        "achievedD": 95.93316,
+        "hpMultiplier": 2.047990846939708,
+        "attackMultiplier": 2.695793815652732,
+        "playerComponents": [
+          {
+            "hp": 1782,
+            "mu": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maximumAttack": 396,
+            "criticalFactor": 1.0287,
+            "frequency": 0.154,
+            "D": 62.734240799999995
+          }
+        ],
+        "guardian": {
+          "count": 1,
+          "hp": 861,
+          "attack": 189,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 1,
+          "hp": 574,
+          "attack": 351,
+          "defense": 309
+        }
+      },
+      "added": {
+        "playerH": 4965.708476043377,
+        "playerD": 112.71054479999998,
+        "targetH": 4068.991102462948,
+        "targetD": 172.08838588654964,
+        "achievedH": 4071.484333355684,
+        "achievedD": 172.3368,
+        "hpMultiplier": 2.8026750788643158,
+        "attackMultiplier": 4.843358041095321,
+        "playerComponents": [
+          {
+            "hp": 1782,
+            "mu": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maximumAttack": 396,
+            "criticalFactor": 1.0287,
+            "frequency": 0.154,
+            "D": 62.734240799999995
+          },
+          {
+            "hp": 840,
+            "mu": 0.6282110079368077,
+            "H": 1337.1303421739726,
+            "maximumAttack": 420,
+            "criticalFactor": 1.0084,
+            "frequency": 0.118,
+            "D": 49.97630399999999
+          }
+        ],
+        "guardian": {
+          "count": 1,
+          "hp": 1178,
+          "attack": 340,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 1,
+          "hp": 785,
+          "attack": 630,
+          "defense": 309
+        }
+      },
+      "playerHRatio": 1.36849980704373,
+      "playerDRatio": 1.7966351925629742,
+      "targetHRatio": 1.36849980704373,
+      "targetDRatio": 1.7966351925629742,
+      "npcCountBase": 2,
+      "npcCountAdded": 2,
+      "guardianTotalHPRatio": 1.3681765389082463,
+      "slingerTotalHPRatio": 1.367595818815331,
+      "winrateBaseline": 0.79,
+      "winrateAdded": 0.427,
+      "delta": -0.36300000000000004,
+      "simultaneousAppendInterval": [
+        -0.5201468880239368,
+        -0.20585311197606315
+      ],
+      "observedBaseline": [
+        {
+          "build": "RITUAL",
+          "meanTurns": 5.04,
+          "meanRecordedDamage": 1365.524,
+          "diedFraction": 0.21,
+          "zeroTurnsFraction": 0
+        }
+      ],
+      "observedAdded": [
+        {
+          "build": "RITUAL",
+          "meanTurns": 5.911,
+          "meanRecordedDamage": 1673.364,
+          "diedFraction": 0.573,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "WEAK_WITH_DEFAULTS",
+          "meanTurns": 0.367,
+          "meanRecordedDamage": 76.025,
+          "diedFraction": 1,
+          "zeroTurnsFraction": 0.633
+        }
+      ]
+    },
+    {
+      "model": "CROSS",
+      "label": "ORIGINAL_MAIN_N3_TO_N4",
+      "baseline": {
+        "playerH": 11735.6070634692,
+        "playerD": 154.2861432,
+        "targetH": 9616.368128260692,
+        "targetD": 235.56672000000003,
+        "achievedH": 9618.635810495643,
+        "achievedD": 235.73196000000002,
+        "hpMultiplier": 5.05469788788417,
+        "attackMultiplier": 4.097126040949221,
+        "playerComponents": [
+          {
+            "hp": 2835,
+            "mu": 0.42433561474576975,
+            "H": 6681.032422174888,
+            "maximumAttack": 378,
+            "criticalFactor": 1.005,
+            "frequency": 0.086,
+            "D": 32.670539999999995
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          }
+        ],
+        "guardian": {
+          "count": 1,
+          "hp": 2123,
+          "attack": 287,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 2,
+          "hp": 1416,
+          "attack": 533,
+          "defense": 309
+        }
+      },
+      "added": {
+        "playerH": 15746.577234881897,
+        "playerD": 221.7979512,
+        "targetH": 13824.253459160942,
+        "targetD": 316.07819948184766,
+        "achievedH": 13829.041670189352,
+        "achievedD": 316.58688,
+        "hpMultiplier": 4.760994762367754,
+        "attackMultiplier": 4.447946563007977,
+        "playerComponents": [
+          {
+            "hp": 2835,
+            "mu": 0.42433561474576975,
+            "H": 6681.032422174888,
+            "maximumAttack": 378,
+            "criticalFactor": 1.005,
+            "frequency": 0.086,
+            "D": 32.670539999999995
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          },
+          {
+            "hp": 1449,
+            "mu": 0.5733420130596619,
+            "H": 2527.2873206471563,
+            "maximumAttack": 378,
+            "criticalFactor": 1.0312000000000001,
+            "frequency": 0.156,
+            "D": 60.807801600000005
+          },
+          {
+            "hp": 2016,
+            "mu": 0.5026215388906639,
+            "H": 4010.9701714126977,
+            "maximumAttack": 504,
+            "criticalFactor": 1.0304,
+            "frequency": 0.13,
+            "D": 67.511808
+          }
+        ],
+        "guardian": {
+          "count": 2,
+          "hp": 2000,
+          "attack": 312,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 2,
+          "hp": 1334,
+          "attack": 579,
+          "defense": 309
+        }
+      },
+      "playerHRatio": 1.3417778176893902,
+      "playerDRatio": 1.4375753168739525,
+      "targetHRatio": 1.4375753168739525,
+      "targetDRatio": 1.3417778176893902,
+      "npcCountBase": 3,
+      "npcCountAdded": 4,
+      "guardianTotalHPRatio": 1.8841262364578426,
+      "slingerTotalHPRatio": 0.942090395480226,
+      "winrateBaseline": 0.588,
+      "winrateAdded": 0.075,
+      "delta": -0.513,
+      "simultaneousAppendInterval": [
+        -0.6701468880239368,
+        -0.3558531119760632
+      ],
+      "observedBaseline": [
+        {
+          "build": "GUARDIAN",
+          "meanTurns": 1.244,
+          "meanRecordedDamage": 334.419,
+          "diedFraction": 0.992,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_PHYSICAL",
+          "meanTurns": 7.702,
+          "meanRecordedDamage": 2328.965,
+          "diedFraction": 0.515,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_MAGICAL",
+          "meanTurns": 8.01,
+          "meanRecordedDamage": 1960.397,
+          "diedFraction": 0.495,
+          "zeroTurnsFraction": 0
+        }
+      ],
+      "observedAdded": [
+        {
+          "build": "GUARDIAN",
+          "meanTurns": 1.299,
+          "meanRecordedDamage": 344.479,
+          "diedFraction": 0.999,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_PHYSICAL",
+          "meanTurns": 6.834,
+          "meanRecordedDamage": 2102.306,
+          "diedFraction": 0.937,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "RANGER_MAGICAL",
+          "meanTurns": 7.034,
+          "meanRecordedDamage": 1760.405,
+          "diedFraction": 0.94,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "BRUISER",
+          "meanTurns": 2.493,
+          "meanRecordedDamage": 954.688,
+          "diedFraction": 0.997,
+          "zeroTurnsFraction": 0
+        }
+      ]
+    },
+    {
+      "model": "CROSS",
+      "label": "RITUAL_N1_TO_N2_WEAK",
+      "baseline": {
+        "playerH": 3628.578133869404,
+        "playerD": 62.734240799999995,
+        "targetH": 3910.1084599524265,
+        "targetD": 72.8357932092057,
+        "achievedH": 3913.5479782081275,
+        "achievedD": 73.01952,
+        "hpMultiplier": 2.6932385105811334,
+        "attackMultiplier": 2.0499339505219614,
+        "playerComponents": [
+          {
+            "hp": 1782,
+            "mu": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maximumAttack": 396,
+            "criticalFactor": 1.0287,
+            "frequency": 0.154,
+            "D": 62.734240799999995
+          }
+        ],
+        "guardian": {
+          "count": 1,
+          "hp": 1132,
+          "attack": 144,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 1,
+          "hp": 755,
+          "attack": 267,
+          "defense": 309
+        }
+      },
+      "added": {
+        "playerH": 4965.708476043377,
+        "playerD": 112.71054479999998,
+        "targetH": 7025.0384658887415,
+        "targetD": 99.67576895267503,
+        "achievedH": 7026.983305817614,
+        "achievedD": 99.849,
+        "hpMultiplier": 4.838767090075952,
+        "attackMultiplier": 2.8053342157416954,
+        "playerComponents": [
+          {
+            "hp": 1782,
+            "mu": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maximumAttack": 396,
+            "criticalFactor": 1.0287,
+            "frequency": 0.154,
+            "D": 62.734240799999995
+          },
+          {
+            "hp": 840,
+            "mu": 0.6282110079368077,
+            "H": 1337.1303421739726,
+            "maximumAttack": 420,
+            "criticalFactor": 1.0084,
+            "frequency": 0.118,
+            "D": 49.97630399999999
+          }
+        ],
+        "guardian": {
+          "count": 1,
+          "hp": 2033,
+          "attack": 197,
+          "defense": 707
+        },
+        "slinger": {
+          "count": 1,
+          "hp": 1355,
+          "attack": 365,
+          "defense": 309
+        }
+      },
+      "playerHRatio": 1.36849980704373,
+      "playerDRatio": 1.7966351925629742,
+      "targetHRatio": 1.796635192562974,
+      "targetDRatio": 1.36849980704373,
+      "npcCountBase": 2,
+      "npcCountAdded": 2,
+      "guardianTotalHPRatio": 1.7959363957597174,
+      "slingerTotalHPRatio": 1.794701986754967,
+      "winrateBaseline": 0.875,
+      "winrateAdded": 0.296,
+      "delta": -0.579,
+      "simultaneousAppendInterval": [
+        -0.7361468880239368,
+        -0.4218531119760631
+      ],
+      "observedBaseline": [
+        {
+          "build": "RITUAL",
+          "meanTurns": 6.545,
+          "meanRecordedDamage": 1846.694,
+          "diedFraction": 0.125,
+          "zeroTurnsFraction": 0
+        }
+      ],
+      "observedAdded": [
+        {
+          "build": "RITUAL",
+          "meanTurns": 8.566,
+          "meanRecordedDamage": 2636.014,
+          "diedFraction": 0.704,
+          "zeroTurnsFraction": 0
+        },
+        {
+          "build": "WEAK_WITH_DEFAULTS",
+          "meanTurns": 1.034,
+          "meanRecordedDamage": 281.318,
+          "diedFraction": 1,
+          "zeroTurnsFraction": 0.016
+        }
+      ]
+    }
+  ],
+  "families": {
+    "append": {
+      "comparisons": 12,
+      "simultaneousCoverage": 0.95,
+      "independentPairs": 500,
+      "halfWidth": 0.15714688802393684,
+      "note": "Separate family95 coverage; no joint95 coverage across both families.",
+      "results": [
+        {
+          "model": "SAME",
+          "first": 1,
+          "second": 2,
+          "firstWinrate": 0.899,
+          "secondWinrate": 0.75,
+          "pairedMeanDifference": -0.149,
+          "simultaneousInterval": [
+            -0.30614688802393686,
+            0.008146888023936844
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 3,
+          "second": 4,
+          "firstWinrate": 0.555,
+          "secondWinrate": 0.144,
+          "pairedMeanDifference": -0.411,
+          "simultaneousInterval": [
+            -0.5681468880239369,
+            -0.25385311197606314
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 5,
+          "second": 6,
+          "firstWinrate": 0.621,
+          "secondWinrate": 0.281,
+          "pairedMeanDifference": -0.34,
+          "simultaneousInterval": [
+            -0.49714688802393686,
+            -0.1828531119760632
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 7,
+          "second": 8,
+          "firstWinrate": 0.155,
+          "secondWinrate": 0.015,
+          "pairedMeanDifference": -0.14,
+          "simultaneousInterval": [
+            -0.29714688802393685,
+            0.017146888023936824
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 9,
+          "second": 10,
+          "firstWinrate": 0.588,
+          "secondWinrate": 0.128,
+          "pairedMeanDifference": -0.46,
+          "simultaneousInterval": [
+            -0.6171468880239368,
+            -0.3028531119760632
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 11,
+          "second": 12,
+          "firstWinrate": 0.79,
+          "secondWinrate": 0.427,
+          "pairedMeanDifference": -0.363,
+          "simultaneousInterval": [
+            -0.5201468880239368,
+            -0.20585311197606315
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 1,
+          "second": 2,
+          "firstWinrate": 0.899,
+          "secondWinrate": 0.789,
+          "pairedMeanDifference": -0.11,
+          "simultaneousInterval": [
+            -0.2671468880239368,
+            0.04714688802393684
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 3,
+          "second": 4,
+          "firstWinrate": 0.555,
+          "secondWinrate": 0.167,
+          "pairedMeanDifference": -0.388,
+          "simultaneousInterval": [
+            -0.5451468880239368,
+            -0.23085311197606317
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 5,
+          "second": 6,
+          "firstWinrate": 0.621,
+          "secondWinrate": 0.2,
+          "pairedMeanDifference": -0.421,
+          "simultaneousInterval": [
+            -0.5781468880239369,
+            -0.26385311197606315
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 7,
+          "second": 8,
+          "firstWinrate": 0.155,
+          "secondWinrate": 0.01,
+          "pairedMeanDifference": -0.145,
+          "simultaneousInterval": [
+            -0.30214688802393685,
+            0.012146888023936847
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 9,
+          "second": 10,
+          "firstWinrate": 0.588,
+          "secondWinrate": 0.075,
+          "pairedMeanDifference": -0.513,
+          "simultaneousInterval": [
+            -0.6701468880239368,
+            -0.3558531119760632
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 11,
+          "second": 12,
+          "firstWinrate": 0.875,
+          "secondWinrate": 0.296,
+          "pairedMeanDifference": -0.579,
+          "simultaneousInterval": [
+            -0.7361468880239368,
+            -0.4218531119760631
+          ]
+        }
+      ]
+    },
+    "counterChoice": {
+      "comparisons": 12,
+      "simultaneousCoverage": 0.95,
+      "independentPairs": 500,
+      "halfWidth": 0.15714688802393684,
+      "note": "Separate family95 coverage; no joint95 coverage across both families.",
+      "results": [
+        {
+          "model": "SAME",
+          "first": 5,
+          "second": 1,
+          "firstWinrate": 0.621,
+          "secondWinrate": 0.899,
+          "pairedMeanDifference": 0.278,
+          "simultaneousInterval": [
+            0.12085311197606319,
+            0.43514688802393686
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 3,
+          "second": 1,
+          "firstWinrate": 0.555,
+          "secondWinrate": 0.899,
+          "pairedMeanDifference": 0.344,
+          "simultaneousInterval": [
+            0.18685311197606314,
+            0.5011468880239368
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 7,
+          "second": 1,
+          "firstWinrate": 0.155,
+          "secondWinrate": 0.899,
+          "pairedMeanDifference": 0.744,
+          "simultaneousInterval": [
+            0.5868531119760632,
+            0.9011468880239368
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 6,
+          "second": 2,
+          "firstWinrate": 0.281,
+          "secondWinrate": 0.75,
+          "pairedMeanDifference": 0.469,
+          "simultaneousInterval": [
+            0.31185311197606314,
+            0.6261468880239368
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 4,
+          "second": 2,
+          "firstWinrate": 0.144,
+          "secondWinrate": 0.75,
+          "pairedMeanDifference": 0.606,
+          "simultaneousInterval": [
+            0.44885311197606315,
+            0.7631468880239368
+          ]
+        },
+        {
+          "model": "SAME",
+          "first": 8,
+          "second": 2,
+          "firstWinrate": 0.015,
+          "secondWinrate": 0.75,
+          "pairedMeanDifference": 0.735,
+          "simultaneousInterval": [
+            0.5778531119760631,
+            0.8921468880239368
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 5,
+          "second": 1,
+          "firstWinrate": 0.621,
+          "secondWinrate": 0.899,
+          "pairedMeanDifference": 0.278,
+          "simultaneousInterval": [
+            0.12085311197606319,
+            0.43514688802393686
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 3,
+          "second": 1,
+          "firstWinrate": 0.555,
+          "secondWinrate": 0.899,
+          "pairedMeanDifference": 0.344,
+          "simultaneousInterval": [
+            0.18685311197606314,
+            0.5011468880239368
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 7,
+          "second": 1,
+          "firstWinrate": 0.155,
+          "secondWinrate": 0.899,
+          "pairedMeanDifference": 0.744,
+          "simultaneousInterval": [
+            0.5868531119760632,
+            0.9011468880239368
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 6,
+          "second": 2,
+          "firstWinrate": 0.2,
+          "secondWinrate": 0.789,
+          "pairedMeanDifference": 0.589,
+          "simultaneousInterval": [
+            0.43185311197606313,
+            0.7461468880239368
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 4,
+          "second": 2,
+          "firstWinrate": 0.167,
+          "secondWinrate": 0.789,
+          "pairedMeanDifference": 0.622,
+          "simultaneousInterval": [
+            0.46485311197606316,
+            0.7791468880239368
+          ]
+        },
+        {
+          "model": "CROSS",
+          "first": 8,
+          "second": 2,
+          "firstWinrate": 0.01,
+          "secondWinrate": 0.789,
+          "pairedMeanDifference": 0.779,
+          "simultaneousInterval": [
+            0.6218531119760632,
+            0.9361468880239369
+          ]
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Damage/turn contributions are averages of saved engine statistics; no independent event-log damage replay is claimed.",
+    "Both target sums and changed role counts/positions form a package; these comparisons do not identify a single causal parameter.",
+    "Two separate12-comparison families each have95 coverage, not joint95 across both families.",
+    "No universal scalar impossibility,50percent target,acceptance of weak-player policy or production switch follows."
+  ]
+}

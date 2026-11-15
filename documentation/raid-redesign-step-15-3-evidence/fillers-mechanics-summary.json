@@ -1,0 +1,985 @@
+{
+  "purpose": "INDEPENDENT_READ_ONLY_MECHANICS_FROM_FRESH_CONFIRMED_RAW_NO_NEW_BATTLES",
+  "rawRoot": "/tmp/seeker-step15-3-fillers.HXdOad",
+  "productionUnchanged": true,
+  "results": [
+    {
+      "style": "MAIN",
+      "level": 5,
+      "completePairs": 500,
+      "baseWins": 647,
+      "appendWins": 282,
+      "baseWinrate": 0.647,
+      "appendWinrate": 0.282,
+      "difference": -0.365,
+      "pointwisePairedDifference95Hoeffding": [
+        -0.486472292381661,
+        -0.24352770761833897
+      ],
+      "strong": {
+        "health": 2112,
+        "meanDamageTakenMultiplier": 0.491101454690113,
+        "H": 4300.5370475489235,
+        "maxAttack": 528,
+        "criticalExpectation": 1.0304,
+        "speed": 130,
+        "frequency": 0.13,
+        "D": 70.726656,
+        "skills": [
+          {
+            "code": "BERSERK",
+            "points": 4,
+            "formulaVersion": "SCALING_SKILLS_V3"
+          }
+        ],
+        "attacksByRange": [
+          {
+            "range": 1,
+            "attack": {
+              "BLUNT": 528
+            }
+          }
+        ]
+      },
+      "weak": {
+        "health": 840,
+        "meanDamageTakenMultiplier": 0.6282110079368077,
+        "H": 1337.1303421739726,
+        "maxAttack": 420,
+        "criticalExpectation": 1.0084,
+        "speed": 118,
+        "frequency": 0.118,
+        "D": 49.97630399999999,
+        "skills": [],
+        "attacksByRange": [
+          {
+            "range": 1,
+            "attack": {
+              "SLASH": 360,
+              "BLUNT": 60
+            }
+          }
+        ]
+      },
+      "simultaneousThreeConfirmations95BonferroniHoeffding": {
+        "familySize": 3,
+        "halfWidth": 0.13838340569276428,
+        "interval": [
+          -0.5033834056927643,
+          -0.2266165943072357
+        ],
+        "scope": "Only three fixed N1-to-N2 confirmations on fresh offset 1000000000; not the 270-cell discovery screen or other append comparisons"
+      },
+      "crossTerms": {
+        "strongSelf": 304162.6043772484,
+        "strongHealthWeakDamage": 214924.94685156742,
+        "weakHealthStrongDamage": 94570.75773810086,
+        "weakSelf": 66824.83246811047,
+        "sumAdditionalQ": 376320.5370577788,
+        "weakOwnProductShareOfAdditionalQ": 0.17757423761821015
+      },
+      "base": {
+        "players": [
+          {
+            "health": 2112,
+            "meanDamageTakenMultiplier": 0.491101454690113,
+            "H": 4300.5370475489235,
+            "maxAttack": 528,
+            "criticalExpectation": 1.0304,
+            "speed": 130,
+            "frequency": 0.13,
+            "D": 70.726656,
+            "skills": [
+              {
+                "code": "BERSERK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "BLUNT": 528
+                }
+              }
+            ]
+          }
+        ],
+        "npcs": [
+          {
+            "role": "GUARDIAN",
+            "health": 979,
+            "attack": 164,
+            "defenses": {
+              "ARCANE": 373
+            },
+            "speed": 190,
+            "skills": [
+              {
+                "code": "KNOCKBACK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          },
+          {
+            "role": "SLINGER",
+            "health": 653,
+            "attack": 303,
+            "defenses": {
+              "ARCANE": 164
+            },
+            "speed": 160,
+            "skills": [
+              {
+                "code": "PRECISE_STRIKE",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          }
+        ],
+        "playerQ": 304162.6043772484,
+        "target": 212456.11263766384,
+        "achieved": 212693.31456014974,
+        "m": 2.328571428571429,
+        "parameters": {
+          "backCount": 1,
+          "backWeight": 1,
+          "encounterCorrection": 0.5900075417594784,
+          "enemyCount": 2,
+          "frontCount": 1,
+          "frontWeight": 1,
+          "groupSizeScaling": 1.025,
+          "powerBonus": 0.8400000000000001,
+          "sizeCorrection": 1.375
+        },
+        "strongToEnemies": [
+          1,
+          3
+        ]
+      },
+      "append": {
+        "players": [
+          {
+            "health": 2112,
+            "meanDamageTakenMultiplier": 0.491101454690113,
+            "H": 4300.5370475489235,
+            "maxAttack": 528,
+            "criticalExpectation": 1.0304,
+            "speed": 130,
+            "frequency": 0.13,
+            "D": 70.726656,
+            "skills": [
+              {
+                "code": "BERSERK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "BLUNT": 528
+                }
+              }
+            ]
+          },
+          {
+            "health": 840,
+            "meanDamageTakenMultiplier": 0.6282110079368077,
+            "H": 1337.1303421739726,
+            "maxAttack": 420,
+            "criticalExpectation": 1.0084,
+            "speed": 118,
+            "frequency": 0.118,
+            "D": 49.97630399999999,
+            "skills": [],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "SLASH": 360,
+                  "BLUNT": 60
+                }
+              }
+            ]
+          }
+        ],
+        "npcs": [
+          {
+            "role": "GUARDIAN",
+            "health": 1369,
+            "attack": 229,
+            "defenses": {
+              "ARCANE": 522
+            },
+            "speed": 190,
+            "skills": [
+              {
+                "code": "KNOCKBACK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          },
+          {
+            "role": "SLINGER",
+            "health": 913,
+            "attack": 424,
+            "defenses": {
+              "ARCANE": 229
+            },
+            "speed": 160,
+            "skills": [
+              {
+                "code": "PRECISE_STRIKE",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          }
+        ],
+        "playerQ": 680483.141435027,
+        "target": 475314.1933432419,
+        "achieved": 475449.6790044185,
+        "m": 3.2571428571428576,
+        "parameters": {
+          "backCount": 1,
+          "backWeight": 1,
+          "encounterCorrection": 0.5900075417594784,
+          "enemyCount": 2,
+          "frontCount": 1,
+          "frontWeight": 1,
+          "groupSizeScaling": 1.025,
+          "powerBonus": 0.8400000000000001,
+          "sizeCorrection": 1.375
+        },
+        "strongToEnemies": [
+          1,
+          3
+        ]
+      },
+      "ratios": {
+        "playerQ": 2.2372347278794136,
+        "target": 2.2372347278794136,
+        "multiplier": 1.3987730061349692,
+        "neutralHealth": 1.310921712193147,
+        "neutralDamageRate": 1.7066120021283062
+      },
+      "actualBattleMeans": {
+        "base": {
+          "win": 0.647,
+          "rounds": 36.375,
+          "playerRecordedDamage": 1400.532,
+          "enemyRecordedDamage": 1912.621,
+          "playerTurns": 4.714,
+          "enemyTurns": 8.253,
+          "playerSurvivors": 0.647,
+          "enemySurvivors": 0.356,
+          "playerRemainHealth": 199.379,
+          "enemyRemainHealth": 231.468,
+          "forcedMoves": 0.041,
+          "allNormalAttempts": 10.748
+        },
+        "append": {
+          "win": 0.282,
+          "rounds": 39.502,
+          "playerRecordedDamage": 1846.818,
+          "enemyRecordedDamage": 2855.376,
+          "playerTurns": 7.344,
+          "enemyTurns": 9.425,
+          "playerSurvivors": 0.342,
+          "enemySurvivors": 0.724,
+          "playerRemainHealth": 96.624,
+          "enemyRemainHealth": 435.182,
+          "forcedMoves": 0.04,
+          "allNormalAttempts": 14.047
+        }
+      },
+      "limitation": "Raw contains team totals, initial snapshots and action hashes, not individual final stats/full logs. No attribution of actual damage or turns specifically to weak member is possible."
+    },
+    {
+      "style": "PIERCE_ARCANE",
+      "level": 15,
+      "completePairs": 500,
+      "baseWins": 576,
+      "appendWins": 134,
+      "baseWinrate": 0.576,
+      "appendWinrate": 0.134,
+      "difference": -0.442,
+      "pointwisePairedDifference95Hoeffding": [
+        -0.5634722923816611,
+        -0.320527707618339
+      ],
+      "strong": {
+        "health": 1782,
+        "meanDamageTakenMultiplier": 0.491101454690113,
+        "H": 3628.578133869404,
+        "maxAttack": 396,
+        "criticalExpectation": 1.0252000000000001,
+        "speed": 178,
+        "frequency": 0.178,
+        "D": 72.2642976,
+        "skills": [
+          {
+            "code": "BLEEDING",
+            "points": 2,
+            "formulaVersion": "SCALING_SKILLS_V3"
+          },
+          {
+            "code": "SELF_HEAL",
+            "points": 2,
+            "formulaVersion": "SCALING_SKILLS_V3"
+          }
+        ],
+        "attacksByRange": [
+          {
+            "range": 1,
+            "attack": {
+              "PIERCE": 396
+            }
+          },
+          {
+            "range": 2,
+            "attack": {
+              "PIERCE": 264
+            }
+          }
+        ]
+      },
+      "weak": {
+        "health": 840,
+        "meanDamageTakenMultiplier": 0.6282110079368077,
+        "H": 1337.1303421739726,
+        "maxAttack": 420,
+        "criticalExpectation": 1.0084,
+        "speed": 118,
+        "frequency": 0.118,
+        "D": 49.97630399999999,
+        "skills": [],
+        "attacksByRange": [
+          {
+            "range": 1,
+            "attack": {
+              "SLASH": 360,
+              "BLUNT": 60
+            }
+          }
+        ]
+      },
+      "simultaneousThreeConfirmations95BonferroniHoeffding": {
+        "familySize": 3,
+        "halfWidth": 0.13838340569276428,
+        "interval": [
+          -0.5803834056927643,
+          -0.30361659430723575
+        ],
+        "scope": "Only three fixed N1-to-N2 confirmations on fresh offset 1000000000; not the 270-cell discovery screen or other append comparisons"
+      },
+      "crossTerms": {
+        "strongSelf": 262216.6501307913,
+        "strongHealthWeakDamage": 181342.92390601002,
+        "weakHealthStrongDamage": 96626.7849768498,
+        "weakSelf": 66824.83246811047,
+        "sumAdditionalQ": 344794.5413509703,
+        "weakOwnProductShareOfAdditionalQ": 0.19381058704200516
+      },
+      "base": {
+        "players": [
+          {
+            "health": 1782,
+            "meanDamageTakenMultiplier": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maxAttack": 396,
+            "criticalExpectation": 1.0252000000000001,
+            "speed": 178,
+            "frequency": 0.178,
+            "D": 72.2642976,
+            "skills": [
+              {
+                "code": "BLEEDING",
+                "points": 2,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              },
+              {
+                "code": "SELF_HEAL",
+                "points": 2,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "PIERCE": 396
+                }
+              },
+              {
+                "range": 2,
+                "attack": {
+                  "PIERCE": 264
+                }
+              }
+            ]
+          }
+        ],
+        "npcs": [
+          {
+            "role": "GUARDIAN",
+            "health": 1153,
+            "attack": 193,
+            "defenses": {
+              "ARCANE": 440
+            },
+            "speed": 190,
+            "skills": [
+              {
+                "code": "KNOCKBACK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          },
+          {
+            "role": "SLINGER",
+            "health": 769,
+            "attack": 357,
+            "defenses": {
+              "ARCANE": 193
+            },
+            "speed": 160,
+            "skills": [
+              {
+                "code": "PRECISE_STRIKE",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          }
+        ],
+        "playerQ": 262216.6501307913,
+        "target": 313983.54143813293,
+        "achieved": 313999.15987092693,
+        "m": 2.7437500000000004,
+        "parameters": {
+          "backCount": 1,
+          "backWeight": 1,
+          "encounterCorrection": 0.5900075417594784,
+          "enemyCount": 2,
+          "frontCount": 1,
+          "frontWeight": 1,
+          "groupSizeScaling": 1.025,
+          "powerBonus": 1.44,
+          "sizeCorrection": 1.375
+        },
+        "strongToEnemies": [
+          1,
+          3
+        ]
+      },
+      "append": {
+        "players": [
+          {
+            "health": 1782,
+            "meanDamageTakenMultiplier": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maxAttack": 396,
+            "criticalExpectation": 1.0252000000000001,
+            "speed": 178,
+            "frequency": 0.178,
+            "D": 72.2642976,
+            "skills": [
+              {
+                "code": "BLEEDING",
+                "points": 2,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              },
+              {
+                "code": "SELF_HEAL",
+                "points": 2,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "PIERCE": 396
+                }
+              },
+              {
+                "range": 2,
+                "attack": {
+                  "PIERCE": 264
+                }
+              }
+            ]
+          },
+          {
+            "health": 840,
+            "meanDamageTakenMultiplier": 0.6282110079368077,
+            "H": 1337.1303421739726,
+            "maxAttack": 420,
+            "criticalExpectation": 1.0084,
+            "speed": 118,
+            "frequency": 0.118,
+            "D": 49.97630399999999,
+            "skills": [],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "SLASH": 360,
+                  "BLUNT": 60
+                }
+              }
+            ]
+          }
+        ],
+        "npcs": [
+          {
+            "role": "GUARDIAN",
+            "health": 1627,
+            "attack": 272,
+            "defenses": {
+              "ARCANE": 620
+            },
+            "speed": 190,
+            "skills": [
+              {
+                "code": "KNOCKBACK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          },
+          {
+            "role": "SLINGER",
+            "health": 1085,
+            "attack": 504,
+            "defenses": {
+              "ARCANE": 272
+            },
+            "speed": 160,
+            "skills": [
+              {
+                "code": "PRECISE_STRIKE",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          }
+        ],
+        "playerQ": 607011.1914817615,
+        "target": 726847.5266500383,
+        "achieved": 726770.5360532696,
+        "m": 3.873809523809524,
+        "parameters": {
+          "backCount": 1,
+          "backWeight": 1,
+          "encounterCorrection": 0.5900075417594784,
+          "enemyCount": 2,
+          "frontCount": 1,
+          "frontWeight": 1,
+          "groupSizeScaling": 1.025,
+          "powerBonus": 1.44,
+          "sizeCorrection": 1.375
+        },
+        "strongToEnemies": [
+          1,
+          3
+        ]
+      },
+      "ratios": {
+        "playerQ": 2.314922378800087,
+        "target": 2.314922378800087,
+        "multiplier": 1.4118667968326282,
+        "neutralHealth": 1.36849980704373,
+        "neutralDamageRate": 1.6915766936064425
+      },
+      "actualBattleMeans": {
+        "base": {
+          "win": 0.576,
+          "rounds": 35.876,
+          "playerRecordedDamage": 1813.216,
+          "enemyRecordedDamage": 1700.063,
+          "playerTurns": 6.236,
+          "enemyTurns": 8.769,
+          "playerSurvivors": 0.576,
+          "enemySurvivors": 0.425,
+          "playerRemainHealth": 162.762,
+          "enemyRemainHealth": 108.784,
+          "forcedMoves": 0.036,
+          "allNormalAttempts": 13.585
+        },
+        "append": {
+          "win": 0.134,
+          "rounds": 35.975,
+          "playerRecordedDamage": 2078.132,
+          "enemyRecordedDamage": 2653.784,
+          "playerTurns": 7.546,
+          "enemyTurns": 9.639,
+          "playerSurvivors": 0.15,
+          "enemySurvivors": 0.911,
+          "playerRemainHealth": 35.685,
+          "enemyRemainHealth": 633.868,
+          "forcedMoves": 0.046,
+          "allNormalAttempts": 15.693
+        }
+      },
+      "limitation": "Raw contains team totals, initial snapshots and action hashes, not individual final stats/full logs. No attribution of actual damage or turns specifically to weak member is possible."
+    },
+    {
+      "style": "RITUAL",
+      "level": 25,
+      "completePairs": 500,
+      "baseWins": 481,
+      "appendWins": 20,
+      "baseWinrate": 0.481,
+      "appendWinrate": 0.02,
+      "difference": -0.461,
+      "pointwisePairedDifference95Hoeffding": [
+        -0.5824722923816611,
+        -0.339527707618339
+      ],
+      "strong": {
+        "health": 1782,
+        "meanDamageTakenMultiplier": 0.491101454690113,
+        "H": 3628.578133869404,
+        "maxAttack": 396,
+        "criticalExpectation": 1.0287,
+        "speed": 154,
+        "frequency": 0.154,
+        "D": 62.734240799999995,
+        "skills": [
+          {
+            "code": "SELF_HEAL",
+            "points": 4,
+            "formulaVersion": "SCALING_SKILLS_V3"
+          },
+          {
+            "code": "ACCUMULATION",
+            "points": 4,
+            "formulaVersion": "SCALING_SKILLS_V3"
+          }
+        ],
+        "attacksByRange": [
+          {
+            "range": 1,
+            "attack": {
+              "MAGICAL": 396
+            }
+          },
+          {
+            "range": 2,
+            "attack": {
+              "MAGICAL": 396
+            }
+          },
+          {
+            "range": 3,
+            "attack": {
+              "MAGICAL": 396
+            }
+          }
+        ]
+      },
+      "weak": {
+        "health": 840,
+        "meanDamageTakenMultiplier": 0.6282110079368077,
+        "H": 1337.1303421739726,
+        "maxAttack": 420,
+        "criticalExpectation": 1.0084,
+        "speed": 118,
+        "frequency": 0.118,
+        "D": 49.97630399999999,
+        "skills": [],
+        "attacksByRange": [
+          {
+            "range": 1,
+            "attack": {
+              "SLASH": 360,
+              "BLUNT": 60
+            }
+          }
+        ]
+      },
+      "simultaneousThreeConfirmations95BonferroniHoeffding": {
+        "familySize": 3,
+        "halfWidth": 0.13838340569276428,
+        "interval": [
+          -0.5993834056927643,
+          -0.32261659430723577
+        ],
+        "scope": "Only three fixed N1-to-N2 confirmations on fresh offset 1000000000; not the 270-cell discovery screen or other append comparisons"
+      },
+      "crossTerms": {
+        "strongSelf": 227636.09441177783,
+        "strongHealthWeakDamage": 181342.92390601002,
+        "weakHealthStrongDamage": 83883.85686692838,
+        "weakSelf": 66824.83246811047,
+        "sumAdditionalQ": 332051.6132410489,
+        "weakOwnProductShareOfAdditionalQ": 0.2012483294866566
+      },
+      "base": {
+        "players": [
+          {
+            "health": 1782,
+            "meanDamageTakenMultiplier": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maxAttack": 396,
+            "criticalExpectation": 1.0287,
+            "speed": 154,
+            "frequency": 0.154,
+            "D": 62.734240799999995,
+            "skills": [
+              {
+                "code": "SELF_HEAL",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              },
+              {
+                "code": "ACCUMULATION",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "MAGICAL": 396
+                }
+              },
+              {
+                "range": 2,
+                "attack": {
+                  "MAGICAL": 396
+                }
+              },
+              {
+                "range": 3,
+                "attack": {
+                  "MAGICAL": 396
+                }
+              }
+            ]
+          }
+        ],
+        "npcs": [
+          {
+            "role": "GUARDIAN",
+            "health": 1257,
+            "attack": 210,
+            "defenses": {
+              "ARCANE": 479
+            },
+            "speed": 190,
+            "skills": [
+              {
+                "code": "KNOCKBACK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          },
+          {
+            "role": "SLINGER",
+            "health": 838,
+            "attack": 389,
+            "defenses": {
+              "ARCANE": 210
+            },
+            "speed": 160,
+            "skills": [
+              {
+                "code": "PRECISE_STRIKE",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          }
+        ],
+        "playerQ": 227636.09441177783,
+        "target": 386149.449255472,
+        "achieved": 385883.9393450953,
+        "m": 2.9923076923076923,
+        "parameters": {
+          "backCount": 1,
+          "backWeight": 1,
+          "encounterCorrection": 0.5900075417594784,
+          "enemyCount": 2,
+          "frontCount": 1,
+          "frontWeight": 1,
+          "groupSizeScaling": 1.025,
+          "powerBonus": 2.04,
+          "sizeCorrection": 1.375
+        },
+        "strongToEnemies": [
+          1,
+          3
+        ]
+      },
+      "append": {
+        "players": [
+          {
+            "health": 1782,
+            "meanDamageTakenMultiplier": 0.491101454690113,
+            "H": 3628.578133869404,
+            "maxAttack": 396,
+            "criticalExpectation": 1.0287,
+            "speed": 154,
+            "frequency": 0.154,
+            "D": 62.734240799999995,
+            "skills": [
+              {
+                "code": "SELF_HEAL",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              },
+              {
+                "code": "ACCUMULATION",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "MAGICAL": 396
+                }
+              },
+              {
+                "range": 2,
+                "attack": {
+                  "MAGICAL": 396
+                }
+              },
+              {
+                "range": 3,
+                "attack": {
+                  "MAGICAL": 396
+                }
+              }
+            ]
+          },
+          {
+            "health": 840,
+            "meanDamageTakenMultiplier": 0.6282110079368077,
+            "H": 1337.1303421739726,
+            "maxAttack": 420,
+            "criticalExpectation": 1.0084,
+            "speed": 118,
+            "frequency": 0.118,
+            "D": 49.97630399999999,
+            "skills": [],
+            "attacksByRange": [
+              {
+                "range": 1,
+                "attack": {
+                  "SLASH": 360,
+                  "BLUNT": 60
+                }
+              }
+            ]
+          }
+        ],
+        "npcs": [
+          {
+            "role": "GUARDIAN",
+            "health": 1812,
+            "attack": 302,
+            "defenses": {
+              "ARCANE": 691
+            },
+            "speed": 190,
+            "skills": [
+              {
+                "code": "KNOCKBACK",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          },
+          {
+            "role": "SLINGER",
+            "health": 1208,
+            "attack": 561,
+            "defenses": {
+              "ARCANE": 302
+            },
+            "speed": 160,
+            "skills": [
+              {
+                "code": "PRECISE_STRIKE",
+                "points": 4,
+                "formulaVersion": "SCALING_SKILLS_V3"
+              }
+            ]
+          }
+        ],
+        "playerQ": 559687.7076528267,
+        "target": 949423.6870636386,
+        "achieved": 949140.5156369274,
+        "m": 4.314285714285714,
+        "parameters": {
+          "backCount": 1,
+          "backWeight": 1,
+          "encounterCorrection": 0.5900075417594784,
+          "enemyCount": 2,
+          "frontCount": 1,
+          "frontWeight": 1,
+          "groupSizeScaling": 1.025,
+          "powerBonus": 2.04,
+          "sizeCorrection": 1.375
+        },
+        "strongToEnemies": [
+          3,
+          5
+        ]
+      },
+      "ratios": {
+        "playerQ": 2.4586949143504047,
+        "target": 2.4586949143504047,
+        "multiplier": 1.4417921410209327,
+        "neutralHealth": 1.36849980704373,
+        "neutralDamageRate": 1.7966351925629742
+      },
+      "actualBattleMeans": {
+        "base": {
+          "win": 0.481,
+          "rounds": 33.478,
+          "playerRecordedDamage": 1762.015,
+          "enemyRecordedDamage": 1707.901,
+          "playerTurns": 5.066,
+          "enemyTurns": 9.346,
+          "playerSurvivors": 0.481,
+          "enemySurvivors": 0.79,
+          "playerRemainHealth": 183.299,
+          "enemyRemainHealth": 332.985,
+          "forcedMoves": 0,
+          "allNormalAttempts": 14.219
+        },
+        "append": {
+          "win": 0.02,
+          "rounds": 39.401,
+          "playerRecordedDamage": 1906.523,
+          "enemyRecordedDamage": 2685.03,
+          "playerTurns": 6.127,
+          "enemyTurns": 13.207,
+          "playerSurvivors": 0.02,
+          "enemySurvivors": 1.721,
+          "playerRemainHealth": 5.85,
+          "enemyRemainHealth": 1113.477,
+          "forcedMoves": 0.006,
+          "allNormalAttempts": 15.16
+        }
+      },
+      "limitation": "Raw contains team totals, initial snapshots and action hashes, not individual final stats/full logs. No attribution of actual damage or turns specifically to weak member is possible."
+    }
+  ]
+}

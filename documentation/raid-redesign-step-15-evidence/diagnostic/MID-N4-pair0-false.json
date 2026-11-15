@@ -1,0 +1,5187 @@
+{
+  "actors" : [ {
+    "attackBasisSum" : 378,
+    "attacksAgainst" : {
+      "E0_FRONT" : 1,
+      "E1_FRONT" : 1,
+      "E2_BACK" : 2,
+      "E3_BACK" : 2
+    },
+    "attemptDistances" : {
+      "1" : 1
+    },
+    "attempts" : 1,
+    "damageDealt" : {
+      "E1_FRONT" : 0
+    },
+    "damageReceived" : {
+      "E0_FRONT" : 373,
+      "E1_FRONT" : 387,
+      "E2_BACK" : 1010,
+      "E3_BACK" : 1065
+    },
+    "defeatRound" : 11,
+    "dodgedAttempts" : 1,
+    "firstAttackRound" : 11,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 0,
+    "init" : {
+      "id" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+      "name" : "GUARDIAN",
+      "firstTeam" : false,
+      "health" : 2835,
+      "lineIndex" : 3,
+      "advanceDirection" : "TOWARD_FIRST_TEAM",
+      "initiative" : 86,
+      "initiativeGauge" : 139,
+      "range" : 1,
+      "totalThreat" : 50,
+      "impactStrength" : 80,
+      "targetingTactic" : "THREAT",
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : "GUARD"
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "skills" : [ {
+        "code" : "GUARD",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 2,
+      "dodgeChance" : 0,
+      "critMultiplier" : 1.25,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 378
+        }
+      } ],
+      "defenses" : {
+        "PLATE" : 693
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.36596523330283626,
+        "BLUNT" : 0.4903162539838196,
+        "PIERCE" : 0.3961023528479759,
+        "MAGICAL" : 0.4449586188484471
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "P0_GUARDIAN",
+    "normalDamageSum" : 0,
+    "originalTargets" : {
+      "E1_FRONT" : 1
+    },
+    "power" : 218272.9369899615,
+    "stats" : {
+      "initialHealth" : 2835,
+      "remainHealth" : 0,
+      "attack" : 378,
+      "defense" : 693,
+      "normalDamageDealt" : 0,
+      "normalAttackCount" : 0,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 3965,
+      "blockCount" : 6,
+      "damageDodged" : 0,
+      "dodgesCount" : 0,
+      "missesCount" : 1,
+      "turnsCount" : 1,
+      "skillDamageDealt" : 0,
+      "skillDamageCount" : 0,
+      "displayedPower" : {
+        "version" : "REFERENCE_V1",
+        "value" : 724
+      }
+    },
+    "targets" : {
+      "E1_FRONT" : 1
+    },
+    "turnLines" : {
+      "3" : 1
+    },
+    "turns" : 1
+  }, {
+    "attackBasisSum" : 1386,
+    "attacksAgainst" : {
+      "E0_FRONT" : 2,
+      "E1_FRONT" : 1
+    },
+    "attemptDistances" : {
+      "2" : 1,
+      "3" : 2,
+      "4" : 1
+    },
+    "attempts" : 4,
+    "damageDealt" : {
+      "E1_FRONT" : 0,
+      "E2_BACK" : 962,
+      "E3_BACK" : 432
+    },
+    "damageReceived" : {
+      "E0_FRONT" : 968,
+      "E1_FRONT" : 481
+    },
+    "defeatRound" : 30,
+    "dodgedAttempts" : 1,
+    "firstAttackRound" : 6,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 0,
+    "init" : {
+      "id" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+      "name" : "RANGER_PHYSICAL",
+      "firstTeam" : false,
+      "health" : 1449,
+      "lineIndex" : 4,
+      "advanceDirection" : "TOWARD_FIRST_TEAM",
+      "initiative" : 156,
+      "initiativeGauge" : 177,
+      "range" : 4,
+      "totalThreat" : 4,
+      "impactStrength" : 87,
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 8,
+      "dodgeChance" : 11,
+      "critMultiplier" : 1.3900000000000001,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 252
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 252
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 378
+        }
+      }, {
+        "range" : 4,
+        "attack" : {
+          "PIERCE" : 378
+        }
+      } ],
+      "defenses" : {
+        "CLOTH" : 378
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6381620931716656,
+        "BLUNT" : 0.5141388174807198,
+        "PIERCE" : 0.5950964056177102,
+        "MAGICAL" : 0.5459707359685521
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "P1_RANGER_PHYSICAL",
+    "normalDamageSum" : 1341,
+    "originalTargets" : {
+      "E1_FRONT" : 1,
+      "E2_BACK" : 2,
+      "E3_BACK" : 1
+    },
+    "power" : 102452.5239867386,
+    "stats" : {
+      "initialHealth" : 1449,
+      "remainHealth" : 0,
+      "attack" : 252,
+      "defense" : 378,
+      "normalDamageDealt" : 1341,
+      "normalAttackCount" : 3,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 1521,
+      "blockCount" : 3,
+      "damageDodged" : 0,
+      "dodgesCount" : 0,
+      "missesCount" : 1,
+      "turnsCount" : 4,
+      "skillDamageDealt" : 53,
+      "skillDamageCount" : 1,
+      "displayedPower" : {
+        "version" : "REFERENCE_V1",
+        "value" : 573
+      }
+    },
+    "targets" : {
+      "E1_FRONT" : 1,
+      "E2_BACK" : 2,
+      "E3_BACK" : 1
+    },
+    "turnLines" : {
+      "4" : 4
+    },
+    "turns" : 4
+  }, {
+    "attackBasisSum" : 1260,
+    "attacksAgainst" : {
+      "E2_BACK" : 2,
+      "E3_BACK" : 1
+    },
+    "attemptDistances" : {
+      "2" : 2,
+      "3" : 1,
+      "4" : 1
+    },
+    "attempts" : 4,
+    "damageDealt" : {
+      "E0_FRONT" : 157,
+      "E1_FRONT" : 157,
+      "E3_BACK" : 712
+    },
+    "damageReceived" : {
+      "E2_BACK" : 1144,
+      "E3_BACK" : 305
+    },
+    "defeatRound" : 30,
+    "dodgedAttempts" : 0,
+    "firstAttackRound" : 7,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 0,
+    "init" : {
+      "id" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+      "name" : "RANGER_MAGICAL",
+      "firstTeam" : false,
+      "health" : 1449,
+      "lineIndex" : 4,
+      "advanceDirection" : "TOWARD_FIRST_TEAM",
+      "initiative" : 156,
+      "initiativeGauge" : 11,
+      "range" : 4,
+      "totalThreat" : 4,
+      "impactStrength" : 87,
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "items" : [ {
+        "code" : "battle_staff",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 8,
+      "dodgeChance" : 11,
+      "critMultiplier" : 1.3900000000000001,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 252
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 252
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 378
+        }
+      }, {
+        "range" : 4,
+        "attack" : {
+          "MAGICAL" : 378
+        }
+      } ],
+      "defenses" : {
+        "CLOTH" : 378
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6381620931716656,
+        "BLUNT" : 0.5141388174807198,
+        "PIERCE" : 0.5950964056177102,
+        "MAGICAL" : 0.5459707359685521
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "P2_RANGER_MAGICAL",
+    "normalDamageSum" : 948,
+    "originalTargets" : {
+      "E0_FRONT" : 1,
+      "E1_FRONT" : 1,
+      "E3_BACK" : 2
+    },
+    "power" : 102452.5239867386,
+    "stats" : {
+      "initialHealth" : 1449,
+      "remainHealth" : 0,
+      "attack" : 252,
+      "defense" : 378,
+      "normalDamageDealt" : 948,
+      "normalAttackCount" : 4,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 1595,
+      "blockCount" : 3,
+      "damageDodged" : 628,
+      "dodgesCount" : 1,
+      "missesCount" : 0,
+      "turnsCount" : 4,
+      "skillDamageDealt" : 78,
+      "skillDamageCount" : 3,
+      "displayedPower" : {
+        "version" : "REFERENCE_V1",
+        "value" : 573
+      }
+    },
+    "targets" : {
+      "E0_FRONT" : 1,
+      "E1_FRONT" : 1,
+      "E3_BACK" : 2
+    },
+    "turnLines" : {
+      "4" : 4
+    },
+    "turns" : 4
+  }, {
+    "attackBasisSum" : 1008,
+    "attacksAgainst" : {
+      "E0_FRONT" : 2,
+      "E1_FRONT" : 2
+    },
+    "attemptDistances" : {
+      "1" : 2
+    },
+    "attempts" : 2,
+    "damageDealt" : {
+      "E1_FRONT" : 730
+    },
+    "damageReceived" : {
+      "E0_FRONT" : 992,
+      "E1_FRONT" : 1024
+    },
+    "defeatRound" : 16,
+    "dodgedAttempts" : 0,
+    "firstAttackRound" : 7,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 0,
+    "init" : {
+      "id" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+      "name" : "BRUISER",
+      "firstTeam" : false,
+      "health" : 2016,
+      "lineIndex" : 3,
+      "advanceDirection" : "TOWARD_FIRST_TEAM",
+      "initiative" : 130,
+      "initiativeGauge" : 186,
+      "range" : 1,
+      "totalThreat" : 18,
+      "impactStrength" : 85,
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "UNCOMMON",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 2,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 8,
+      "dodgeChance" : 12,
+      "critMultiplier" : 1.3800000000000001,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 504
+        }
+      } ],
+      "defenses" : {
+        "LEATHER" : 504
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.5243288590604027,
+        "BLUNT" : 0.4742033383915022,
+        "PIERCE" : 0.4424778761061947,
+        "MAGICAL" : 0.5694760820045558
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "P3_BRUISER",
+    "normalDamageSum" : 730,
+    "originalTargets" : {
+      "E1_FRONT" : 2
+    },
+    "power" : 270787.84810614114,
+    "stats" : {
+      "initialHealth" : 2016,
+      "remainHealth" : 0,
+      "attack" : 504,
+      "defense" : 504,
+      "normalDamageDealt" : 730,
+      "normalAttackCount" : 2,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 2028,
+      "blockCount" : 4,
+      "damageDodged" : 0,
+      "dodgesCount" : 0,
+      "missesCount" : 0,
+      "turnsCount" : 2,
+      "skillDamageDealt" : 0,
+      "skillDamageCount" : 0,
+      "displayedPower" : {
+        "version" : "REFERENCE_V1",
+        "value" : 1020
+      }
+    },
+    "targets" : {
+      "E1_FRONT" : 2
+    },
+    "turnLines" : {
+      "3" : 2
+    },
+    "turns" : 2
+  }, {
+    "attackBasisSum" : 2535,
+    "attacksAgainst" : {
+      "P2_RANGER_MAGICAL" : 1
+    },
+    "attemptDistances" : {
+      "1" : 5
+    },
+    "attempts" : 5,
+    "damageDealt" : {
+      "P0_GUARDIAN" : 373,
+      "P1_RANGER_PHYSICAL" : 968,
+      "P3_BRUISER" : 992
+    },
+    "damageReceived" : {
+      "P2_RANGER_MAGICAL" : 157
+    },
+    "defeatRound" : null,
+    "dodgedAttempts" : 0,
+    "firstAttackRound" : 4,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 1,
+    "init" : {
+      "id" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+      "name" : null,
+      "firstTeam" : true,
+      "health" : 1351,
+      "lineIndex" : 2,
+      "advanceDirection" : "TOWARD_SECOND_TEAM",
+      "initiative" : 190,
+      "initiativeGauge" : 403,
+      "range" : 1,
+      "totalThreat" : 35,
+      "impactStrength" : 80,
+      "targetingTactic" : "THREAT",
+      "items" : [ ],
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 4,
+      "dodgeChance" : 3,
+      "critMultiplier" : 1.5,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 507
+        }
+      } ],
+      "defenses" : {
+        "ARCANE" : 772
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.37058997924696113,
+        "BLUNT" : 0.4184800803481754,
+        "PIERCE" : 0.4633920296570899,
+        "MAGICAL" : 0.341296928327645
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "E0_FRONT",
+    "normalDamageSum" : 2333,
+    "originalTargets" : {
+      "P0_GUARDIAN" : 1,
+      "P1_RANGER_PHYSICAL" : 2,
+      "P3_BRUISER" : 2
+    },
+    "power" : 333161.1997441702,
+    "stats" : {
+      "initialHealth" : 1351,
+      "remainHealth" : 1194,
+      "attack" : 507,
+      "defense" : 772,
+      "normalDamageDealt" : 2333,
+      "normalAttackCount" : 5,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 282,
+      "blockCount" : 2,
+      "damageDodged" : 0,
+      "dodgesCount" : 0,
+      "missesCount" : 0,
+      "turnsCount" : 6,
+      "skillDamageDealt" : 0,
+      "skillDamageCount" : 0
+    },
+    "targets" : {
+      "P0_GUARDIAN" : 1,
+      "P1_RANGER_PHYSICAL" : 2,
+      "P3_BRUISER" : 2
+    },
+    "turnLines" : {
+      "2" : 4,
+      "3" : 2
+    },
+    "turns" : 6
+  }, {
+    "attackBasisSum" : 2028,
+    "attacksAgainst" : {
+      "P0_GUARDIAN" : 1,
+      "P1_RANGER_PHYSICAL" : 1,
+      "P2_RANGER_MAGICAL" : 1,
+      "P3_BRUISER" : 2
+    },
+    "attemptDistances" : {
+      "1" : 4
+    },
+    "attempts" : 4,
+    "damageDealt" : {
+      "P0_GUARDIAN" : 387,
+      "P1_RANGER_PHYSICAL" : 481,
+      "P3_BRUISER" : 1024
+    },
+    "damageReceived" : {
+      "P0_GUARDIAN" : 0,
+      "P1_RANGER_PHYSICAL" : 0,
+      "P2_RANGER_MAGICAL" : 157,
+      "P3_BRUISER" : 730
+    },
+    "defeatRound" : null,
+    "dodgedAttempts" : 0,
+    "firstAttackRound" : 6,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 1,
+    "init" : {
+      "id" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+      "name" : null,
+      "firstTeam" : true,
+      "health" : 1351,
+      "lineIndex" : 2,
+      "advanceDirection" : "TOWARD_SECOND_TEAM",
+      "initiative" : 190,
+      "initiativeGauge" : 35,
+      "range" : 1,
+      "totalThreat" : 35,
+      "impactStrength" : 80,
+      "targetingTactic" : "THREAT",
+      "items" : [ ],
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 4,
+      "dodgeChance" : 3,
+      "critMultiplier" : 1.5,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 507
+        }
+      } ],
+      "defenses" : {
+        "ARCANE" : 772
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.37058997924696113,
+        "BLUNT" : 0.4184800803481754,
+        "PIERCE" : 0.4633920296570899,
+        "MAGICAL" : 0.341296928327645
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "E1_FRONT",
+    "normalDamageSum" : 1892,
+    "originalTargets" : {
+      "P0_GUARDIAN" : 1,
+      "P1_RANGER_PHYSICAL" : 1,
+      "P3_BRUISER" : 2
+    },
+    "power" : 333161.1997441702,
+    "stats" : {
+      "initialHealth" : 1351,
+      "remainHealth" : 464,
+      "attack" : 507,
+      "defense" : 772,
+      "normalDamageDealt" : 1892,
+      "normalAttackCount" : 4,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 1290,
+      "blockCount" : 4,
+      "damageDodged" : 630,
+      "dodgesCount" : 2,
+      "missesCount" : 0,
+      "turnsCount" : 5,
+      "skillDamageDealt" : 0,
+      "skillDamageCount" : 0
+    },
+    "targets" : {
+      "P0_GUARDIAN" : 1,
+      "P1_RANGER_PHYSICAL" : 1,
+      "P3_BRUISER" : 2
+    },
+    "turnLines" : {
+      "2" : 4,
+      "3" : 1
+    },
+    "turns" : 5
+  }, {
+    "attackBasisSum" : 2512,
+    "attacksAgainst" : {
+      "P1_RANGER_PHYSICAL" : 2
+    },
+    "attemptDistances" : {
+      "3" : 4
+    },
+    "attempts" : 4,
+    "damageDealt" : {
+      "P0_GUARDIAN" : 1010,
+      "P2_RANGER_MAGICAL" : 1144
+    },
+    "damageReceived" : {
+      "P1_RANGER_PHYSICAL" : 962
+    },
+    "defeatRound" : null,
+    "dodgedAttempts" : 0,
+    "firstAttackRound" : 5,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 1,
+    "init" : {
+      "id" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+      "name" : null,
+      "firstTeam" : true,
+      "health" : 1351,
+      "lineIndex" : 0,
+      "advanceDirection" : "TOWARD_SECOND_TEAM",
+      "initiative" : 160,
+      "initiativeGauge" : 289,
+      "range" : 3,
+      "totalThreat" : 15,
+      "impactStrength" : 80,
+      "targetingTactic" : "THREAT",
+      "items" : [ ],
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 8,
+      "dodgeChance" : 5,
+      "critMultiplier" : 1.7,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 628
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 628
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 628
+        }
+      } ],
+      "defenses" : {
+        "ARCANE" : 338
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.5735260380821289,
+        "BLUNT" : 0.6217358865953744,
+        "PIERCE" : 0.6635700066357001,
+        "MAGICAL" : 0.5420054200542006
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "E2_BACK",
+    "normalDamageSum" : 2154,
+    "originalTargets" : {
+      "P0_GUARDIAN" : 2,
+      "P2_RANGER_MAGICAL" : 2
+    },
+    "power" : 238833.99647769454,
+    "stats" : {
+      "initialHealth" : 1351,
+      "remainHealth" : 389,
+      "attack" : 628,
+      "defense" : 338,
+      "normalDamageDealt" : 2154,
+      "normalAttackCount" : 4,
+      "critDamageDealt" : 0,
+      "critsCount" : 0,
+      "damageBlocked" : 801,
+      "blockCount" : 3,
+      "damageDodged" : 0,
+      "dodgesCount" : 0,
+      "missesCount" : 0,
+      "turnsCount" : 5,
+      "skillDamageDealt" : 0,
+      "skillDamageCount" : 0
+    },
+    "targets" : {
+      "P0_GUARDIAN" : 2,
+      "P2_RANGER_MAGICAL" : 2
+    },
+    "turnLines" : {
+      "0" : 3,
+      "1" : 2
+    },
+    "turns" : 5
+  }, {
+    "attackBasisSum" : 1884,
+    "attacksAgainst" : {
+      "P1_RANGER_PHYSICAL" : 1,
+      "P2_RANGER_MAGICAL" : 2
+    },
+    "attemptDistances" : {
+      "3" : 3
+    },
+    "attempts" : 3,
+    "damageDealt" : {
+      "P0_GUARDIAN" : 1065,
+      "P2_RANGER_MAGICAL" : 305
+    },
+    "damageReceived" : {
+      "P1_RANGER_PHYSICAL" : 432,
+      "P2_RANGER_MAGICAL" : 712
+    },
+    "defeatRound" : null,
+    "dodgedAttempts" : 1,
+    "firstAttackRound" : 5,
+    "forcedBy" : { },
+    "forcedMoves" : 0,
+    "forwardMoves" : 1,
+    "init" : {
+      "id" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+      "name" : null,
+      "firstTeam" : true,
+      "health" : 1351,
+      "lineIndex" : 0,
+      "advanceDirection" : "TOWARD_SECOND_TEAM",
+      "initiative" : 160,
+      "initiativeGauge" : 280,
+      "range" : 3,
+      "totalThreat" : 15,
+      "impactStrength" : 80,
+      "targetingTactic" : "THREAT",
+      "items" : [ ],
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4,
+        "formulaVersion" : "SCALING_SKILLS_V3"
+      } ],
+      "critChance" : 8,
+      "dodgeChance" : 5,
+      "critMultiplier" : 1.7,
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 628
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 628
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 628
+        }
+      } ],
+      "defenses" : {
+        "ARCANE" : 338
+      },
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.5735260380821289,
+        "BLUNT" : 0.6217358865953744,
+        "PIERCE" : 0.6635700066357001,
+        "MAGICAL" : 0.5420054200542006
+      }
+    },
+    "initiativeDelay" : 0,
+    "intercepts" : 0,
+    "label" : "E3_BACK",
+    "normalDamageSum" : 1065,
+    "originalTargets" : {
+      "P0_GUARDIAN" : 2,
+      "P2_RANGER_MAGICAL" : 1
+    },
+    "power" : 238833.99647769454,
+    "stats" : {
+      "initialHealth" : 1351,
+      "remainHealth" : 207,
+      "attack" : 628,
+      "defense" : 338,
+      "normalDamageDealt" : 529,
+      "normalAttackCount" : 1,
+      "critDamageDealt" : 536,
+      "critsCount" : 1,
+      "damageBlocked" : 1179,
+      "blockCount" : 4,
+      "damageDodged" : 0,
+      "dodgesCount" : 0,
+      "missesCount" : 1,
+      "turnsCount" : 4,
+      "skillDamageDealt" : 305,
+      "skillDamageCount" : 1
+    },
+    "targets" : {
+      "P0_GUARDIAN" : 2,
+      "P2_RANGER_MAGICAL" : 1
+    },
+    "turnLines" : {
+      "0" : 3,
+      "1" : 1
+    },
+    "turns" : 4
+  } ],
+  "battleSeed" : 3026420842000,
+  "calibration" : {
+    "multiplier" : 4.825,
+    "targetPower" : 1144585.6071149812,
+    "achievedPower" : 1143990.3924437296,
+    "status" : "CLOSEST_STEP",
+    "evaluations" : 57
+  },
+  "generationSeed" : 2026420842000,
+  "labels" : {
+    "8402a37b-2c3d-498e-a6a4-758aaac7f61b" : "E0_FRONT",
+    "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3" : "P2_RANGER_MAGICAL",
+    "d14eb2ed-6073-4319-a626-d7bea63c2d19" : "P1_RANGER_PHYSICAL",
+    "e14ac05d-2715-4128-a440-ff1eb9116069" : "P3_BRUISER",
+    "e3df9bfa-0052-4c1c-8eff-8af61a528747" : "E1_FRONT",
+    "efe494a4-e8ff-4b42-a7d8-c7f3f5220923" : "E2_BACK",
+    "376d9a4a-c2d9-403c-b4d5-7b56e66702d2" : "E3_BACK",
+    "79d68395-0b61-4949-836c-6ec10fbbd8e8" : "P0_GUARDIAN"
+  },
+  "outcome" : "LOSS",
+  "pair" : 0,
+  "result" : {
+    "initState" : {
+      "lines" : [ {
+        "lineIndex" : 0,
+        "firstTeam" : true,
+        "position" : "BACK",
+        "personageIds" : [ "efe494a4-e8ff-4b42-a7d8-c7f3f5220923", "376d9a4a-c2d9-403c-b4d5-7b56e66702d2" ]
+      }, {
+        "lineIndex" : 1,
+        "firstTeam" : true,
+        "position" : "MID",
+        "personageIds" : [ ]
+      }, {
+        "lineIndex" : 2,
+        "firstTeam" : true,
+        "position" : "FRONT",
+        "personageIds" : [ "8402a37b-2c3d-498e-a6a4-758aaac7f61b", "e3df9bfa-0052-4c1c-8eff-8af61a528747" ]
+      }, {
+        "lineIndex" : 3,
+        "firstTeam" : false,
+        "position" : "FRONT",
+        "personageIds" : [ "e14ac05d-2715-4128-a440-ff1eb9116069", "79d68395-0b61-4949-836c-6ec10fbbd8e8" ]
+      }, {
+        "lineIndex" : 4,
+        "firstTeam" : false,
+        "position" : "MID",
+        "personageIds" : [ "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3", "d14eb2ed-6073-4319-a626-d7bea63c2d19" ]
+      }, {
+        "lineIndex" : 5,
+        "firstTeam" : false,
+        "position" : "BACK",
+        "personageIds" : [ ]
+      } ],
+      "personagesById" : {
+        "8402a37b-2c3d-498e-a6a4-758aaac7f61b" : {
+          "id" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+          "name" : null,
+          "firstTeam" : true,
+          "health" : 1351,
+          "lineIndex" : 2,
+          "advanceDirection" : "TOWARD_SECOND_TEAM",
+          "initiative" : 190,
+          "initiativeGauge" : 403,
+          "range" : 1,
+          "totalThreat" : 35,
+          "impactStrength" : 80,
+          "targetingTactic" : "THREAT",
+          "items" : [ ],
+          "skills" : [ {
+            "code" : "KNOCKBACK",
+            "points" : 4,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 4,
+          "dodgeChance" : 3,
+          "critMultiplier" : 1.5,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "MAGICAL" : 507
+            }
+          } ],
+          "defenses" : {
+            "ARCANE" : 772
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.37058997924696113,
+            "BLUNT" : 0.4184800803481754,
+            "PIERCE" : 0.4633920296570899,
+            "MAGICAL" : 0.341296928327645
+          }
+        },
+        "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3" : {
+          "id" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+          "name" : "RANGER_MAGICAL",
+          "firstTeam" : false,
+          "health" : 1449,
+          "lineIndex" : 4,
+          "advanceDirection" : "TOWARD_FIRST_TEAM",
+          "initiative" : 156,
+          "initiativeGauge" : 11,
+          "range" : 4,
+          "totalThreat" : 4,
+          "impactStrength" : 87,
+          "targetingTactic" : "EXPLOIT_WEAKNESS",
+          "items" : [ {
+            "code" : "battle_staff",
+            "rarity" : "UNCOMMON",
+            "skill" : "DOUBLE_ATTACK"
+          }, {
+            "code" : "robe",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "cloth_chausses",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "cloth_boots",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "hood",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "cloth_gloves",
+            "rarity" : "COMMON",
+            "skill" : null
+          } ],
+          "skills" : [ {
+            "code" : "DOUBLE_ATTACK",
+            "points" : 2,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 8,
+          "dodgeChance" : 11,
+          "critMultiplier" : 1.3900000000000001,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "MAGICAL" : 252
+            }
+          }, {
+            "range" : 2,
+            "attack" : {
+              "MAGICAL" : 252
+            }
+          }, {
+            "range" : 3,
+            "attack" : {
+              "MAGICAL" : 378
+            }
+          }, {
+            "range" : 4,
+            "attack" : {
+              "MAGICAL" : 378
+            }
+          } ],
+          "defenses" : {
+            "CLOTH" : 378
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.6381620931716656,
+            "BLUNT" : 0.5141388174807198,
+            "PIERCE" : 0.5950964056177102,
+            "MAGICAL" : 0.5459707359685521
+          }
+        },
+        "d14eb2ed-6073-4319-a626-d7bea63c2d19" : {
+          "id" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+          "name" : "RANGER_PHYSICAL",
+          "firstTeam" : false,
+          "health" : 1449,
+          "lineIndex" : 4,
+          "advanceDirection" : "TOWARD_FIRST_TEAM",
+          "initiative" : 156,
+          "initiativeGauge" : 177,
+          "range" : 4,
+          "totalThreat" : 4,
+          "impactStrength" : 87,
+          "targetingTactic" : "EXPLOIT_WEAKNESS",
+          "items" : [ {
+            "code" : "longbow",
+            "rarity" : "UNCOMMON",
+            "skill" : "DOUBLE_ATTACK"
+          }, {
+            "code" : "robe",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "cloth_chausses",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "cloth_boots",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "hood",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "cloth_gloves",
+            "rarity" : "COMMON",
+            "skill" : null
+          } ],
+          "skills" : [ {
+            "code" : "DOUBLE_ATTACK",
+            "points" : 2,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 8,
+          "dodgeChance" : 11,
+          "critMultiplier" : 1.3900000000000001,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "PIERCE" : 252
+            }
+          }, {
+            "range" : 2,
+            "attack" : {
+              "PIERCE" : 252
+            }
+          }, {
+            "range" : 3,
+            "attack" : {
+              "PIERCE" : 378
+            }
+          }, {
+            "range" : 4,
+            "attack" : {
+              "PIERCE" : 378
+            }
+          } ],
+          "defenses" : {
+            "CLOTH" : 378
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.6381620931716656,
+            "BLUNT" : 0.5141388174807198,
+            "PIERCE" : 0.5950964056177102,
+            "MAGICAL" : 0.5459707359685521
+          }
+        },
+        "e14ac05d-2715-4128-a440-ff1eb9116069" : {
+          "id" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+          "name" : "BRUISER",
+          "firstTeam" : false,
+          "health" : 2016,
+          "lineIndex" : 3,
+          "advanceDirection" : "TOWARD_FIRST_TEAM",
+          "initiative" : 130,
+          "initiativeGauge" : 186,
+          "range" : 1,
+          "totalThreat" : 18,
+          "impactStrength" : 85,
+          "targetingTactic" : "WOUNDED_HUNTER",
+          "items" : [ {
+            "code" : "sledgehammer",
+            "rarity" : "UNCOMMON",
+            "skill" : "BERSERK"
+          }, {
+            "code" : "breastplate",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "leather_chausses",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "boots",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "leather_helm",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "leather_gloves",
+            "rarity" : "COMMON",
+            "skill" : null
+          } ],
+          "skills" : [ {
+            "code" : "BERSERK",
+            "points" : 2,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 8,
+          "dodgeChance" : 12,
+          "critMultiplier" : 1.3800000000000001,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "BLUNT" : 504
+            }
+          } ],
+          "defenses" : {
+            "LEATHER" : 504
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.5243288590604027,
+            "BLUNT" : 0.4742033383915022,
+            "PIERCE" : 0.4424778761061947,
+            "MAGICAL" : 0.5694760820045558
+          }
+        },
+        "e3df9bfa-0052-4c1c-8eff-8af61a528747" : {
+          "id" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+          "name" : null,
+          "firstTeam" : true,
+          "health" : 1351,
+          "lineIndex" : 2,
+          "advanceDirection" : "TOWARD_SECOND_TEAM",
+          "initiative" : 190,
+          "initiativeGauge" : 35,
+          "range" : 1,
+          "totalThreat" : 35,
+          "impactStrength" : 80,
+          "targetingTactic" : "THREAT",
+          "items" : [ ],
+          "skills" : [ {
+            "code" : "KNOCKBACK",
+            "points" : 4,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 4,
+          "dodgeChance" : 3,
+          "critMultiplier" : 1.5,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "MAGICAL" : 507
+            }
+          } ],
+          "defenses" : {
+            "ARCANE" : 772
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.37058997924696113,
+            "BLUNT" : 0.4184800803481754,
+            "PIERCE" : 0.4633920296570899,
+            "MAGICAL" : 0.341296928327645
+          }
+        },
+        "efe494a4-e8ff-4b42-a7d8-c7f3f5220923" : {
+          "id" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+          "name" : null,
+          "firstTeam" : true,
+          "health" : 1351,
+          "lineIndex" : 0,
+          "advanceDirection" : "TOWARD_SECOND_TEAM",
+          "initiative" : 160,
+          "initiativeGauge" : 289,
+          "range" : 3,
+          "totalThreat" : 15,
+          "impactStrength" : 80,
+          "targetingTactic" : "THREAT",
+          "items" : [ ],
+          "skills" : [ {
+            "code" : "PRECISE_STRIKE",
+            "points" : 4,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 8,
+          "dodgeChance" : 5,
+          "critMultiplier" : 1.7,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "MAGICAL" : 628
+            }
+          }, {
+            "range" : 2,
+            "attack" : {
+              "MAGICAL" : 628
+            }
+          }, {
+            "range" : 3,
+            "attack" : {
+              "MAGICAL" : 628
+            }
+          } ],
+          "defenses" : {
+            "ARCANE" : 338
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.5735260380821289,
+            "BLUNT" : 0.6217358865953744,
+            "PIERCE" : 0.6635700066357001,
+            "MAGICAL" : 0.5420054200542006
+          }
+        },
+        "376d9a4a-c2d9-403c-b4d5-7b56e66702d2" : {
+          "id" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+          "name" : null,
+          "firstTeam" : true,
+          "health" : 1351,
+          "lineIndex" : 0,
+          "advanceDirection" : "TOWARD_SECOND_TEAM",
+          "initiative" : 160,
+          "initiativeGauge" : 280,
+          "range" : 3,
+          "totalThreat" : 15,
+          "impactStrength" : 80,
+          "targetingTactic" : "THREAT",
+          "items" : [ ],
+          "skills" : [ {
+            "code" : "PRECISE_STRIKE",
+            "points" : 4,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 8,
+          "dodgeChance" : 5,
+          "critMultiplier" : 1.7,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "MAGICAL" : 628
+            }
+          }, {
+            "range" : 2,
+            "attack" : {
+              "MAGICAL" : 628
+            }
+          }, {
+            "range" : 3,
+            "attack" : {
+              "MAGICAL" : 628
+            }
+          } ],
+          "defenses" : {
+            "ARCANE" : 338
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.5735260380821289,
+            "BLUNT" : 0.6217358865953744,
+            "PIERCE" : 0.6635700066357001,
+            "MAGICAL" : 0.5420054200542006
+          }
+        },
+        "79d68395-0b61-4949-836c-6ec10fbbd8e8" : {
+          "id" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+          "name" : "GUARDIAN",
+          "firstTeam" : false,
+          "health" : 2835,
+          "lineIndex" : 3,
+          "advanceDirection" : "TOWARD_FIRST_TEAM",
+          "initiative" : 86,
+          "initiativeGauge" : 139,
+          "range" : 1,
+          "totalThreat" : 50,
+          "impactStrength" : 80,
+          "targetingTactic" : "THREAT",
+          "items" : [ {
+            "code" : "mace",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "tower_shield",
+            "rarity" : "RARE",
+            "skill" : "GUARD"
+          }, {
+            "code" : "cuirass",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "greaves",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "sabatons",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "great_helm",
+            "rarity" : "COMMON",
+            "skill" : null
+          }, {
+            "code" : "gauntlets",
+            "rarity" : "COMMON",
+            "skill" : null
+          } ],
+          "skills" : [ {
+            "code" : "GUARD",
+            "points" : 2,
+            "formulaVersion" : "SCALING_SKILLS_V3"
+          } ],
+          "critChance" : 2,
+          "dodgeChance" : 0,
+          "critMultiplier" : 1.25,
+          "attacksByRange" : [ {
+            "range" : 1,
+            "attack" : {
+              "BLUNT" : 378
+            }
+          } ],
+          "defenses" : {
+            "PLATE" : 693
+          },
+          "damageTakenMultipliers" : {
+            "SLASH" : 0.36596523330283626,
+            "BLUNT" : 0.4903162539838196,
+            "PIERCE" : 0.3961023528479759,
+            "MAGICAL" : 0.4449586188484471
+          }
+        }
+      },
+      "tempoVersion" : "ACCELERATED_V1"
+    },
+    "actionLog" : {
+      "events" : [ {
+        "type" : "RoundStarted",
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 593,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 225,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 449,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 440,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 225,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 333,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 167,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 316,
+        "turnGranted" : false,
+        "round" : 1
+      }, {
+        "type" : "RoundStarted",
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 783,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 415,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 609,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 600,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 311,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 489,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 323,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 446,
+        "turnGranted" : false,
+        "round" : 2
+      }, {
+        "type" : "RoundStarted",
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 973,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 605,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 769,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 760,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 397,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 645,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 479,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 576,
+        "turnGranted" : false,
+        "round" : 3
+      }, {
+        "type" : "RoundStarted",
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 163,
+        "turnGranted" : true,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 795,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 929,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 920,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 483,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 801,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 635,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 706,
+        "turnGranted" : false,
+        "round" : 4
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "distance" : 1,
+        "round" : 4
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 373,
+        "remainingHealth" : 2462,
+        "round" : 4
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 40,
+        "reason" : "NORMAL_HIT",
+        "round" : 4
+      }, {
+        "type" : "RoundStarted",
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 353,
+        "turnGranted" : false,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 985,
+        "turnGranted" : false,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 89,
+        "turnGranted" : true,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 80,
+        "turnGranted" : true,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 569,
+        "turnGranted" : false,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 957,
+        "turnGranted" : false,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 791,
+        "turnGranted" : false,
+        "round" : 5
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 836,
+        "turnGranted" : false,
+        "round" : 5
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "distance" : 3,
+        "round" : 5
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 628
+          },
+          "crit" : false
+        },
+        "damageTaken" : 481,
+        "remainingHealth" : 1981,
+        "round" : 5
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 20,
+        "reason" : "NORMAL_HIT",
+        "round" : 5
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "distance" : 3,
+        "round" : 5
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 628
+          },
+          "crit" : false
+        },
+        "damageTaken" : 529,
+        "remainingHealth" : 1452,
+        "round" : 5
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 20,
+        "reason" : "NORMAL_HIT",
+        "round" : 5
+      }, {
+        "type" : "RoundStarted",
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 543,
+        "turnGranted" : false,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 175,
+        "turnGranted" : true,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 249,
+        "turnGranted" : false,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 240,
+        "turnGranted" : false,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 655,
+        "turnGranted" : false,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 113,
+        "turnGranted" : true,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 947,
+        "turnGranted" : false,
+        "round" : 6
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 966,
+        "turnGranted" : false,
+        "round" : 6
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "originalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "finalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "distance" : 4,
+        "round" : 6
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "roll" : {
+          "attack" : {
+            "PIERCE" : 378
+          },
+          "crit" : false
+        },
+        "damageTaken" : 431,
+        "remainingHealth" : 920,
+        "round" : 6
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 15,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 6
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 9,
+        "reason" : "NORMAL_HIT",
+        "round" : 6
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "distance" : 1,
+        "round" : 6
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 387,
+        "remainingHealth" : 1065,
+        "round" : 6
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 40,
+        "reason" : "NORMAL_HIT",
+        "round" : 6
+      }, {
+        "type" : "RoundStarted",
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 733,
+        "turnGranted" : false,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 365,
+        "turnGranted" : false,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 409,
+        "turnGranted" : false,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 400,
+        "turnGranted" : false,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 741,
+        "turnGranted" : false,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 269,
+        "turnGranted" : false,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 103,
+        "turnGranted" : true,
+        "round" : 7
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 96,
+        "turnGranted" : true,
+        "round" : 7
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "originalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "finalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "distance" : 4,
+        "round" : 7
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 378
+          },
+          "crit" : false
+        },
+        "damageTaken" : 329,
+        "remainingHealth" : 1022,
+        "round" : 7
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 15,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 7
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 9,
+        "reason" : "NORMAL_HIT",
+        "round" : 7
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "distance" : 1,
+        "round" : 7
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "attackerId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "roll" : {
+          "attack" : {
+            "BLUNT" : 504
+          },
+          "crit" : false
+        },
+        "damageTaken" : 347,
+        "remainingHealth" : 1004,
+        "round" : 7
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 35,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 7
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "sourceId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 23,
+        "reason" : "NORMAL_HIT",
+        "round" : 7
+      }, {
+        "type" : "RoundStarted",
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 923,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 555,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 569,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 560,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 827,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 425,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 259,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 226,
+        "turnGranted" : false,
+        "round" : 8
+      }, {
+        "type" : "RoundStarted",
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 113,
+        "turnGranted" : true,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 745,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 729,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 720,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 913,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 581,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 415,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 356,
+        "turnGranted" : false,
+        "round" : 9
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "distance" : 1,
+        "round" : 9
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 453,
+        "remainingHealth" : 1563,
+        "round" : 9
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 18,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 9
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 45,
+        "reason" : "NORMAL_HIT",
+        "round" : 9
+      }, {
+        "type" : "RoundStarted",
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 303,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 935,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 889,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 880,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 999,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 737,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 571,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 486,
+        "turnGranted" : false,
+        "round" : 10
+      }, {
+        "type" : "RoundStarted",
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 493,
+        "turnGranted" : false,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 125,
+        "turnGranted" : true,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 49,
+        "turnGranted" : true,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 40,
+        "turnGranted" : true,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "gaugeAfterTick" : 85,
+        "turnGranted" : true,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 893,
+        "turnGranted" : false,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 727,
+        "turnGranted" : false,
+        "round" : 11
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 616,
+        "turnGranted" : false,
+        "round" : 11
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "distance" : 1,
+        "round" : 11
+      }, {
+        "type" : "AttackDodged",
+        "attackerId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "targetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "round" : 11
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "distance" : 3,
+        "round" : 11
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 628
+          },
+          "crit" : false
+        },
+        "damageTaken" : 529,
+        "remainingHealth" : 536,
+        "round" : 11
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 20,
+        "reason" : "NORMAL_HIT",
+        "round" : 11
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "distance" : 3,
+        "round" : 11
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 1067
+          },
+          "crit" : true
+        },
+        "damageTaken" : 536,
+        "remainingHealth" : 0,
+        "round" : 11
+      }, {
+        "type" : "PersonageDefeated",
+        "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+        "killerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "round" : 11
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "skill" : null,
+        "delta" : 50,
+        "resultingThreat" : 65,
+        "reason" : "KILL",
+        "round" : 11
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "distance" : 1,
+        "round" : 11
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 541,
+        "remainingHealth" : 1022,
+        "round" : 11
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 40,
+        "reason" : "NORMAL_HIT",
+        "round" : 11
+      }, {
+        "type" : "RoundStarted",
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 683,
+        "turnGranted" : false,
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 315,
+        "turnGranted" : false,
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 209,
+        "turnGranted" : false,
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 200,
+        "turnGranted" : false,
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 49,
+        "turnGranted" : true,
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 883,
+        "turnGranted" : false,
+        "round" : 12
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 746,
+        "turnGranted" : false,
+        "round" : 12
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "distance" : 2,
+        "round" : 12
+      }, {
+        "type" : "AttackDodged",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "targetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "round" : 12
+      }, {
+        "type" : "RoundStarted",
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 873,
+        "turnGranted" : false,
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 505,
+        "turnGranted" : false,
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 369,
+        "turnGranted" : false,
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 360,
+        "turnGranted" : false,
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 205,
+        "turnGranted" : false,
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 39,
+        "turnGranted" : true,
+        "round" : 13
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 876,
+        "turnGranted" : false,
+        "round" : 13
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "originalTargetId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "finalTargetId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "distance" : 2,
+        "round" : 13
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 252
+          },
+          "crit" : false
+        },
+        "damageTaken" : 138,
+        "remainingHealth" : 1213,
+        "round" : 13
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : -8,
+        "resultingThreat" : 37,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 13
+      }, {
+        "type" : "ScalingSkillDamage",
+        "targetId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : "DOUBLE_ATTACK",
+        "basis" : {
+          "MAGICAL" : 252
+        },
+        "coefficientNumerator" : 12,
+        "coefficientDenominator" : 100,
+        "periodic" : false,
+        "damageTaken" : 19,
+        "remainingHealth" : 1194,
+        "round" : 13
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : "DOUBLE_ATTACK",
+        "delta" : -2,
+        "resultingThreat" : 35,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 13
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 14,
+        "reason" : "NORMAL_HIT",
+        "round" : 13
+      }, {
+        "type" : "RoundStarted",
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 63,
+        "turnGranted" : true,
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 695,
+        "turnGranted" : false,
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 529,
+        "turnGranted" : false,
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 520,
+        "turnGranted" : false,
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 361,
+        "turnGranted" : false,
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 195,
+        "turnGranted" : false,
+        "round" : 14
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 6,
+        "turnGranted" : true,
+        "round" : 14
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "distance" : 1,
+        "round" : 14
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "attackerId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "roll" : {
+          "attack" : {
+            "BLUNT" : 504
+          },
+          "crit" : false
+        },
+        "damageTaken" : 383,
+        "remainingHealth" : 621,
+        "round" : 14
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 35,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 14
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "sourceId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 23,
+        "reason" : "NORMAL_HIT",
+        "round" : 14
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "distance" : 1,
+        "round" : 14
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 539,
+        "remainingHealth" : 483,
+        "round" : 14
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 18,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 14
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 40,
+        "reason" : "NORMAL_HIT",
+        "round" : 14
+      }, {
+        "type" : "RoundStarted",
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 253,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 885,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 689,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 680,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 517,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 351,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 136,
+        "turnGranted" : false,
+        "round" : 15
+      }, {
+        "type" : "RoundStarted",
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 443,
+        "turnGranted" : false,
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 75,
+        "turnGranted" : true,
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 849,
+        "turnGranted" : false,
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 840,
+        "turnGranted" : false,
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 673,
+        "turnGranted" : false,
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 507,
+        "turnGranted" : false,
+        "round" : 16
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "gaugeAfterTick" : 266,
+        "turnGranted" : false,
+        "round" : 16
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "distance" : 1,
+        "round" : 16
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 483,
+        "remainingHealth" : 0,
+        "round" : 16
+      }, {
+        "type" : "PersonageDefeated",
+        "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+        "killerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "round" : 16
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "skill" : null,
+        "delta" : 50,
+        "resultingThreat" : 85,
+        "reason" : "KILL",
+        "round" : 16
+      }, {
+        "type" : "RoundStarted",
+        "round" : 17
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 633,
+        "turnGranted" : false,
+        "round" : 17
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 265,
+        "turnGranted" : false,
+        "round" : 17
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 9,
+        "turnGranted" : true,
+        "round" : 17
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 0,
+        "turnGranted" : true,
+        "round" : 17
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 829,
+        "turnGranted" : false,
+        "round" : 17
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 663,
+        "turnGranted" : false,
+        "round" : 17
+      }, {
+        "type" : "MovedTowardEnemy",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "newLineIndex" : 1,
+        "round" : 17
+      }, {
+        "type" : "MovedTowardEnemy",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "newLineIndex" : 1,
+        "round" : 17
+      }, {
+        "type" : "RoundStarted",
+        "round" : 18
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 823,
+        "turnGranted" : false,
+        "round" : 18
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 455,
+        "turnGranted" : false,
+        "round" : 18
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 169,
+        "turnGranted" : false,
+        "round" : 18
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 160,
+        "turnGranted" : false,
+        "round" : 18
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 985,
+        "turnGranted" : false,
+        "round" : 18
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 819,
+        "turnGranted" : false,
+        "round" : 18
+      }, {
+        "type" : "RoundStarted",
+        "round" : 19
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 13,
+        "turnGranted" : true,
+        "round" : 19
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 645,
+        "turnGranted" : false,
+        "round" : 19
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 329,
+        "turnGranted" : false,
+        "round" : 19
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 320,
+        "turnGranted" : false,
+        "round" : 19
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 141,
+        "turnGranted" : true,
+        "round" : 19
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 975,
+        "turnGranted" : false,
+        "round" : 19
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "originalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "finalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "distance" : 3,
+        "round" : 19
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "roll" : {
+          "attack" : {
+            "PIERCE" : 378
+          },
+          "crit" : false
+        },
+        "damageTaken" : 478,
+        "remainingHealth" : 442,
+        "round" : 19
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 15,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 19
+      }, {
+        "type" : "ScalingSkillDamage",
+        "targetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : "DOUBLE_ATTACK",
+        "basis" : {
+          "PIERCE" : 378
+        },
+        "coefficientNumerator" : 12,
+        "coefficientDenominator" : 100,
+        "periodic" : false,
+        "damageTaken" : 53,
+        "remainingHealth" : 389,
+        "round" : 19
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 14,
+        "reason" : "NORMAL_HIT",
+        "round" : 19
+      }, {
+        "type" : "MovedTowardEnemy",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "newLineIndex" : 3,
+        "round" : 19
+      }, {
+        "type" : "RoundStarted",
+        "round" : 20
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 203,
+        "turnGranted" : false,
+        "round" : 20
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 835,
+        "turnGranted" : false,
+        "round" : 20
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 489,
+        "turnGranted" : false,
+        "round" : 20
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 480,
+        "turnGranted" : false,
+        "round" : 20
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 297,
+        "turnGranted" : false,
+        "round" : 20
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 131,
+        "turnGranted" : true,
+        "round" : 20
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "distance" : 2,
+        "round" : 20
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 252
+          },
+          "crit" : false
+        },
+        "damageTaken" : 138,
+        "remainingHealth" : 483,
+        "round" : 20
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : -8,
+        "resultingThreat" : 77,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 20
+      }, {
+        "type" : "ScalingSkillDamage",
+        "targetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : "DOUBLE_ATTACK",
+        "basis" : {
+          "MAGICAL" : 252
+        },
+        "coefficientNumerator" : 12,
+        "coefficientDenominator" : 100,
+        "periodic" : false,
+        "damageTaken" : 19,
+        "remainingHealth" : 464,
+        "round" : 20
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : "DOUBLE_ATTACK",
+        "delta" : -8,
+        "resultingThreat" : 69,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 20
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 19,
+        "reason" : "NORMAL_HIT",
+        "round" : 20
+      }, {
+        "type" : "RoundStarted",
+        "round" : 21
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 393,
+        "turnGranted" : false,
+        "round" : 21
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 25,
+        "turnGranted" : true,
+        "round" : 21
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 649,
+        "turnGranted" : false,
+        "round" : 21
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 640,
+        "turnGranted" : false,
+        "round" : 21
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 453,
+        "turnGranted" : false,
+        "round" : 21
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 287,
+        "turnGranted" : false,
+        "round" : 21
+      }, {
+        "type" : "MovedTowardEnemy",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "newLineIndex" : 3,
+        "round" : 21
+      }, {
+        "type" : "RoundStarted",
+        "round" : 22
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 583,
+        "turnGranted" : false,
+        "round" : 22
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 215,
+        "turnGranted" : false,
+        "round" : 22
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 809,
+        "turnGranted" : false,
+        "round" : 22
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 800,
+        "turnGranted" : false,
+        "round" : 22
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 609,
+        "turnGranted" : false,
+        "round" : 22
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 443,
+        "turnGranted" : false,
+        "round" : 22
+      }, {
+        "type" : "RoundStarted",
+        "round" : 23
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 773,
+        "turnGranted" : false,
+        "round" : 23
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 405,
+        "turnGranted" : false,
+        "round" : 23
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 969,
+        "turnGranted" : false,
+        "round" : 23
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 960,
+        "turnGranted" : false,
+        "round" : 23
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 765,
+        "turnGranted" : false,
+        "round" : 23
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 599,
+        "turnGranted" : false,
+        "round" : 23
+      }, {
+        "type" : "RoundStarted",
+        "round" : 24
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 963,
+        "turnGranted" : false,
+        "round" : 24
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 595,
+        "turnGranted" : false,
+        "round" : 24
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 129,
+        "turnGranted" : true,
+        "round" : 24
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 120,
+        "turnGranted" : true,
+        "round" : 24
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 921,
+        "turnGranted" : false,
+        "round" : 24
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 755,
+        "turnGranted" : false,
+        "round" : 24
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "originalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "finalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "distance" : 3,
+        "round" : 24
+      }, {
+        "type" : "AttackDodged",
+        "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "targetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "round" : 24
+      }, {
+        "type" : "ScalingSkillDamage",
+        "targetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "skill" : "PRECISE_STRIKE",
+        "basis" : {
+          "MAGICAL" : 628
+        },
+        "coefficientNumerator" : 54,
+        "coefficientDenominator" : 100,
+        "periodic" : false,
+        "damageTaken" : 305,
+        "remainingHealth" : 1144,
+        "round" : 24
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "skill" : "PRECISE_STRIKE",
+        "delta" : -8,
+        "resultingThreat" : 11,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 24
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "originalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "finalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "distance" : 3,
+        "round" : 24
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 628
+          },
+          "crit" : false
+        },
+        "damageTaken" : 620,
+        "remainingHealth" : 524,
+        "round" : 24
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "skill" : null,
+        "delta" : -7,
+        "resultingThreat" : 4,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 24
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 20,
+        "reason" : "NORMAL_HIT",
+        "round" : 24
+      }, {
+        "type" : "RoundStarted",
+        "round" : 25
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 153,
+        "turnGranted" : true,
+        "round" : 25
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 785,
+        "turnGranted" : false,
+        "round" : 25
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 289,
+        "turnGranted" : false,
+        "round" : 25
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 280,
+        "turnGranted" : false,
+        "round" : 25
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 77,
+        "turnGranted" : true,
+        "round" : 25
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 911,
+        "turnGranted" : false,
+        "round" : 25
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "originalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "finalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "distance" : 3,
+        "round" : 25
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "roll" : {
+          "attack" : {
+            "PIERCE" : 378
+          },
+          "crit" : false
+        },
+        "damageTaken" : 432,
+        "remainingHealth" : 590,
+        "round" : 25
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : null,
+        "delta" : -8,
+        "resultingThreat" : 57,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 25
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "sourceId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 19,
+        "reason" : "NORMAL_HIT",
+        "round" : 25
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "originalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "finalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "distance" : 1,
+        "round" : 25
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 494,
+        "remainingHealth" : 955,
+        "round" : 25
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : -8,
+        "resultingThreat" : 11,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 25
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 45,
+        "reason" : "NORMAL_HIT",
+        "round" : 25
+      }, {
+        "type" : "RoundStarted",
+        "round" : 26
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 343,
+        "turnGranted" : false,
+        "round" : 26
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 975,
+        "turnGranted" : false,
+        "round" : 26
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 449,
+        "turnGranted" : false,
+        "round" : 26
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 440,
+        "turnGranted" : false,
+        "round" : 26
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 233,
+        "turnGranted" : false,
+        "round" : 26
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 67,
+        "turnGranted" : true,
+        "round" : 26
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "originalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "finalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "distance" : 3,
+        "round" : 26
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 378
+          },
+          "crit" : false
+        },
+        "damageTaken" : 343,
+        "remainingHealth" : 247,
+        "round" : 26
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : -8,
+        "resultingThreat" : 49,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 26
+      }, {
+        "type" : "ScalingSkillDamage",
+        "targetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : "DOUBLE_ATTACK",
+        "basis" : {
+          "MAGICAL" : 378
+        },
+        "coefficientNumerator" : 12,
+        "coefficientDenominator" : 100,
+        "periodic" : false,
+        "damageTaken" : 40,
+        "remainingHealth" : 207,
+        "round" : 26
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : "DOUBLE_ATTACK",
+        "delta" : -8,
+        "resultingThreat" : 41,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 26
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 9,
+        "reason" : "NORMAL_HIT",
+        "round" : 26
+      }, {
+        "type" : "RoundStarted",
+        "round" : 27
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 533,
+        "turnGranted" : false,
+        "round" : 27
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 165,
+        "turnGranted" : true,
+        "round" : 27
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 609,
+        "turnGranted" : false,
+        "round" : 27
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 600,
+        "turnGranted" : false,
+        "round" : 27
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 389,
+        "turnGranted" : false,
+        "round" : 27
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 223,
+        "turnGranted" : false,
+        "round" : 27
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "originalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "finalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "distance" : 1,
+        "round" : 27
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 481,
+        "remainingHealth" : 474,
+        "round" : 27
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "sourceId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "skill" : null,
+        "delta" : -7,
+        "resultingThreat" : 4,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 27
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "sourceId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "skill" : null,
+        "delta" : 5,
+        "resultingThreat" : 74,
+        "reason" : "NORMAL_HIT",
+        "round" : 27
+      }, {
+        "type" : "RoundStarted",
+        "round" : 28
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 723,
+        "turnGranted" : false,
+        "round" : 28
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 355,
+        "turnGranted" : false,
+        "round" : 28
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 769,
+        "turnGranted" : false,
+        "round" : 28
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 760,
+        "turnGranted" : false,
+        "round" : 28
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 545,
+        "turnGranted" : false,
+        "round" : 28
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 379,
+        "turnGranted" : false,
+        "round" : 28
+      }, {
+        "type" : "RoundStarted",
+        "round" : 29
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 913,
+        "turnGranted" : false,
+        "round" : 29
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 545,
+        "turnGranted" : false,
+        "round" : 29
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 929,
+        "turnGranted" : false,
+        "round" : 29
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 920,
+        "turnGranted" : false,
+        "round" : 29
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 701,
+        "turnGranted" : false,
+        "round" : 29
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 535,
+        "turnGranted" : false,
+        "round" : 29
+      }, {
+        "type" : "RoundStarted",
+        "round" : 30
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "gaugeAfterTick" : 103,
+        "turnGranted" : true,
+        "round" : 30
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+        "gaugeAfterTick" : 735,
+        "turnGranted" : false,
+        "round" : 30
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "gaugeAfterTick" : 89,
+        "turnGranted" : true,
+        "round" : 30
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+        "gaugeAfterTick" : 80,
+        "turnGranted" : true,
+        "round" : 30
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "gaugeAfterTick" : 857,
+        "turnGranted" : false,
+        "round" : 30
+      }, {
+        "type" : "InitiativeAfterTick",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "gaugeAfterTick" : 691,
+        "turnGranted" : false,
+        "round" : 30
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "originalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "finalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "distance" : 3,
+        "round" : 30
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 628
+          },
+          "crit" : false
+        },
+        "damageTaken" : 524,
+        "remainingHealth" : 0,
+        "round" : 30
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "sourceId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "skill" : null,
+        "delta" : -5,
+        "resultingThreat" : 4,
+        "reason" : "DAMAGE_TAKEN",
+        "round" : 30
+      }, {
+        "type" : "PersonageDefeated",
+        "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+        "killerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "round" : 30
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "sourceId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+        "skill" : null,
+        "delta" : 50,
+        "resultingThreat" : 70,
+        "reason" : "KILL",
+        "round" : 30
+      }, {
+        "type" : "TargetSelected",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "originalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "finalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "distance" : 1,
+        "round" : 30
+      }, {
+        "type" : "DamageReceived",
+        "targetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "roll" : {
+          "attack" : {
+            "MAGICAL" : 507
+          },
+          "crit" : false
+        },
+        "damageTaken" : 474,
+        "remainingHealth" : 0,
+        "round" : 30
+      }, {
+        "type" : "PersonageDefeated",
+        "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+        "killerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "round" : 30
+      }, {
+        "type" : "ThreatChanged",
+        "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "sourceId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+        "skill" : null,
+        "delta" : 50,
+        "resultingThreat" : 95,
+        "reason" : "KILL",
+        "round" : 30
+      } ]
+    },
+    "rounds" : 30,
+    "firstWin" : true,
+    "personageStats" : {
+      "8402a37b-2c3d-498e-a6a4-758aaac7f61b" : {
+        "initialHealth" : 1351,
+        "remainHealth" : 1194,
+        "attack" : 507,
+        "defense" : 772,
+        "normalDamageDealt" : 2333,
+        "normalAttackCount" : 5,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 282,
+        "blockCount" : 2,
+        "damageDodged" : 0,
+        "dodgesCount" : 0,
+        "missesCount" : 0,
+        "turnsCount" : 6,
+        "skillDamageDealt" : 0,
+        "skillDamageCount" : 0
+      },
+      "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3" : {
+        "initialHealth" : 1449,
+        "remainHealth" : 0,
+        "attack" : 252,
+        "defense" : 378,
+        "normalDamageDealt" : 948,
+        "normalAttackCount" : 4,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 1595,
+        "blockCount" : 3,
+        "damageDodged" : 628,
+        "dodgesCount" : 1,
+        "missesCount" : 0,
+        "turnsCount" : 4,
+        "skillDamageDealt" : 78,
+        "skillDamageCount" : 3,
+        "displayedPower" : {
+          "version" : "REFERENCE_V1",
+          "value" : 573
+        }
+      },
+      "d14eb2ed-6073-4319-a626-d7bea63c2d19" : {
+        "initialHealth" : 1449,
+        "remainHealth" : 0,
+        "attack" : 252,
+        "defense" : 378,
+        "normalDamageDealt" : 1341,
+        "normalAttackCount" : 3,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 1521,
+        "blockCount" : 3,
+        "damageDodged" : 0,
+        "dodgesCount" : 0,
+        "missesCount" : 1,
+        "turnsCount" : 4,
+        "skillDamageDealt" : 53,
+        "skillDamageCount" : 1,
+        "displayedPower" : {
+          "version" : "REFERENCE_V1",
+          "value" : 573
+        }
+      },
+      "e14ac05d-2715-4128-a440-ff1eb9116069" : {
+        "initialHealth" : 2016,
+        "remainHealth" : 0,
+        "attack" : 504,
+        "defense" : 504,
+        "normalDamageDealt" : 730,
+        "normalAttackCount" : 2,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 2028,
+        "blockCount" : 4,
+        "damageDodged" : 0,
+        "dodgesCount" : 0,
+        "missesCount" : 0,
+        "turnsCount" : 2,
+        "skillDamageDealt" : 0,
+        "skillDamageCount" : 0,
+        "displayedPower" : {
+          "version" : "REFERENCE_V1",
+          "value" : 1020
+        }
+      },
+      "e3df9bfa-0052-4c1c-8eff-8af61a528747" : {
+        "initialHealth" : 1351,
+        "remainHealth" : 464,
+        "attack" : 507,
+        "defense" : 772,
+        "normalDamageDealt" : 1892,
+        "normalAttackCount" : 4,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 1290,
+        "blockCount" : 4,
+        "damageDodged" : 630,
+        "dodgesCount" : 2,
+        "missesCount" : 0,
+        "turnsCount" : 5,
+        "skillDamageDealt" : 0,
+        "skillDamageCount" : 0
+      },
+      "efe494a4-e8ff-4b42-a7d8-c7f3f5220923" : {
+        "initialHealth" : 1351,
+        "remainHealth" : 389,
+        "attack" : 628,
+        "defense" : 338,
+        "normalDamageDealt" : 2154,
+        "normalAttackCount" : 4,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 801,
+        "blockCount" : 3,
+        "damageDodged" : 0,
+        "dodgesCount" : 0,
+        "missesCount" : 0,
+        "turnsCount" : 5,
+        "skillDamageDealt" : 0,
+        "skillDamageCount" : 0
+      },
+      "376d9a4a-c2d9-403c-b4d5-7b56e66702d2" : {
+        "initialHealth" : 1351,
+        "remainHealth" : 207,
+        "attack" : 628,
+        "defense" : 338,
+        "normalDamageDealt" : 529,
+        "normalAttackCount" : 1,
+        "critDamageDealt" : 536,
+        "critsCount" : 1,
+        "damageBlocked" : 1179,
+        "blockCount" : 4,
+        "damageDodged" : 0,
+        "dodgesCount" : 0,
+        "missesCount" : 1,
+        "turnsCount" : 4,
+        "skillDamageDealt" : 305,
+        "skillDamageCount" : 1
+      },
+      "79d68395-0b61-4949-836c-6ec10fbbd8e8" : {
+        "initialHealth" : 2835,
+        "remainHealth" : 0,
+        "attack" : 378,
+        "defense" : 693,
+        "normalDamageDealt" : 0,
+        "normalAttackCount" : 0,
+        "critDamageDealt" : 0,
+        "critsCount" : 0,
+        "damageBlocked" : 3965,
+        "blockCount" : 6,
+        "damageDodged" : 0,
+        "dodgesCount" : 0,
+        "missesCount" : 1,
+        "turnsCount" : 1,
+        "skillDamageDealt" : 0,
+        "skillDamageCount" : 0,
+        "displayedPower" : {
+          "version" : "REFERENCE_V1",
+          "value" : 724
+        }
+      }
+    }
+  },
+  "reverse" : false,
+  "rounds" : 30,
+  "size" : 4,
+  "tier" : "MID",
+  "trace" : [ {
+    "turnId" : 1,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 1,
+    "lineIndex" : 2,
+    "round" : 4
+  }, {
+    "turnId" : 1,
+    "attemptId" : 1,
+    "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 1,
+    "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 373,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 2,
+    "lineAfterRetreat" : 2,
+    "round" : 4
+  }, {
+    "turnId" : 1,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 1,
+    "startLineIndex" : 2,
+    "endLineIndex" : 2,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 4
+  }, {
+    "turnId" : 2,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 1,
+    "lineIndex" : 0,
+    "round" : 5
+  }, {
+    "turnId" : 2,
+    "attemptId" : 2,
+    "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 1,
+    "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 481,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 0,
+    "lineAfterRetreat" : 0,
+    "round" : 5
+  }, {
+    "turnId" : 2,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 1,
+    "startLineIndex" : 0,
+    "endLineIndex" : 0,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 5
+  }, {
+    "turnId" : 3,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 1,
+    "lineIndex" : 0,
+    "round" : 5
+  }, {
+    "turnId" : 3,
+    "attemptId" : 3,
+    "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 1,
+    "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 529,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 0,
+    "lineAfterRetreat" : 0,
+    "round" : 5
+  }, {
+    "turnId" : 3,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 1,
+    "startLineIndex" : 0,
+    "endLineIndex" : 0,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 5
+  }, {
+    "turnId" : 4,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 1,
+    "lineIndex" : 4,
+    "round" : 6
+  }, {
+    "turnId" : 4,
+    "attemptId" : 4,
+    "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 1,
+    "originalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "finalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 4,
+    "savedBasis" : {
+      "PIERCE" : 378
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 431,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 6
+  }, {
+    "turnId" : 4,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 1,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 6
+  }, {
+    "turnId" : 5,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 1,
+    "lineIndex" : 2,
+    "round" : 6
+  }, {
+    "turnId" : 5,
+    "attemptId" : 5,
+    "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 1,
+    "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 387,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 2,
+    "lineAfterRetreat" : 2,
+    "round" : 6
+  }, {
+    "turnId" : 5,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 1,
+    "startLineIndex" : 2,
+    "endLineIndex" : 2,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 6
+  }, {
+    "turnId" : 6,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 1,
+    "lineIndex" : 4,
+    "round" : 7
+  }, {
+    "turnId" : 6,
+    "attemptId" : 6,
+    "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 1,
+    "originalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "finalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 4,
+    "savedBasis" : {
+      "MAGICAL" : 378
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 329,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 7
+  }, {
+    "turnId" : 6,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 1,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 7
+  }, {
+    "turnId" : 7,
+    "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "ownTurn" : 1,
+    "lineIndex" : 3,
+    "round" : 7
+  }, {
+    "turnId" : 7,
+    "attemptId" : 7,
+    "attackerId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "ownTurn" : 1,
+    "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "BLUNT" : 504
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 347,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 3,
+    "lineAfterRetreat" : 3,
+    "round" : 7
+  }, {
+    "turnId" : 7,
+    "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "ownTurn" : 1,
+    "startLineIndex" : 3,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 7
+  }, {
+    "turnId" : 8,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 2,
+    "lineIndex" : 2,
+    "round" : 9
+  }, {
+    "turnId" : 8,
+    "attemptId" : 8,
+    "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 2,
+    "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 453,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 2,
+    "lineAfterRetreat" : 2,
+    "round" : 9
+  }, {
+    "turnId" : 8,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 2,
+    "startLineIndex" : 2,
+    "endLineIndex" : 2,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 9
+  }, {
+    "turnId" : 9,
+    "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "ownTurn" : 1,
+    "lineIndex" : 3,
+    "round" : 11
+  }, {
+    "turnId" : 9,
+    "attemptId" : 9,
+    "attackerId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "ownTurn" : 1,
+    "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "BLUNT" : 378
+    },
+    "critical" : false,
+    "dodged" : true,
+    "normalDamage" : 0,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 3,
+    "lineAfterRetreat" : 3,
+    "round" : 11
+  }, {
+    "turnId" : 9,
+    "personageId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "ownTurn" : 1,
+    "startLineIndex" : 3,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 11
+  }, {
+    "turnId" : 10,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 2,
+    "lineIndex" : 0,
+    "round" : 11
+  }, {
+    "turnId" : 10,
+    "attemptId" : 10,
+    "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 2,
+    "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 529,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 0,
+    "lineAfterRetreat" : 0,
+    "round" : 11
+  }, {
+    "turnId" : 10,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 2,
+    "startLineIndex" : 0,
+    "endLineIndex" : 0,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 11
+  }, {
+    "turnId" : 11,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 2,
+    "lineIndex" : 0,
+    "round" : 11
+  }, {
+    "turnId" : 11,
+    "attemptId" : 11,
+    "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 2,
+    "originalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "finalTargetId" : "79d68395-0b61-4949-836c-6ec10fbbd8e8",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : true,
+    "dodged" : false,
+    "normalDamage" : 536,
+    "targetDefeated" : true,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 0,
+    "lineAfterRetreat" : 0,
+    "round" : 11
+  }, {
+    "turnId" : 11,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 2,
+    "startLineIndex" : 0,
+    "endLineIndex" : 0,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 11
+  }, {
+    "turnId" : 12,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 2,
+    "lineIndex" : 2,
+    "round" : 11
+  }, {
+    "turnId" : 12,
+    "attemptId" : 12,
+    "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 2,
+    "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 541,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 2,
+    "lineAfterRetreat" : 2,
+    "round" : 11
+  }, {
+    "turnId" : 12,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 2,
+    "startLineIndex" : 2,
+    "endLineIndex" : 2,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 11
+  }, {
+    "turnId" : 13,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 2,
+    "lineIndex" : 4,
+    "round" : 12
+  }, {
+    "turnId" : 13,
+    "attemptId" : 13,
+    "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 2,
+    "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 2,
+    "savedBasis" : {
+      "PIERCE" : 252
+    },
+    "critical" : false,
+    "dodged" : true,
+    "normalDamage" : 0,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 12
+  }, {
+    "turnId" : 13,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 2,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 12
+  }, {
+    "turnId" : 14,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 2,
+    "lineIndex" : 4,
+    "round" : 13
+  }, {
+    "turnId" : 14,
+    "attemptId" : 14,
+    "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 2,
+    "originalTargetId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "finalTargetId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 2,
+    "savedBasis" : {
+      "MAGICAL" : 252
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 138,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 13
+  }, {
+    "turnId" : 14,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 2,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 13
+  }, {
+    "turnId" : 15,
+    "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "ownTurn" : 2,
+    "lineIndex" : 3,
+    "round" : 14
+  }, {
+    "turnId" : 15,
+    "attemptId" : 15,
+    "attackerId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "ownTurn" : 2,
+    "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "BLUNT" : 504
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 383,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 3,
+    "lineAfterRetreat" : 3,
+    "round" : 14
+  }, {
+    "turnId" : 15,
+    "personageId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "ownTurn" : 2,
+    "startLineIndex" : 3,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 14
+  }, {
+    "turnId" : 16,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 3,
+    "lineIndex" : 2,
+    "round" : 14
+  }, {
+    "turnId" : 16,
+    "attemptId" : 16,
+    "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 3,
+    "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 539,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 2,
+    "lineAfterRetreat" : 2,
+    "round" : 14
+  }, {
+    "turnId" : 16,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 3,
+    "startLineIndex" : 2,
+    "endLineIndex" : 2,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 14
+  }, {
+    "turnId" : 17,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 3,
+    "lineIndex" : 2,
+    "round" : 16
+  }, {
+    "turnId" : 17,
+    "attemptId" : 17,
+    "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 3,
+    "originalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "finalTargetId" : "e14ac05d-2715-4128-a440-ff1eb9116069",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 483,
+    "targetDefeated" : true,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 2,
+    "lineAfterRetreat" : 2,
+    "round" : 16
+  }, {
+    "turnId" : 17,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 3,
+    "startLineIndex" : 2,
+    "endLineIndex" : 2,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 16
+  }, {
+    "turnId" : 18,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 3,
+    "lineIndex" : 0,
+    "round" : 17
+  }, {
+    "turnId" : 18,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 3,
+    "startLineIndex" : 0,
+    "endLineIndex" : 1,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 17
+  }, {
+    "turnId" : 19,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 3,
+    "lineIndex" : 0,
+    "round" : 17
+  }, {
+    "turnId" : 19,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 3,
+    "startLineIndex" : 0,
+    "endLineIndex" : 1,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 17
+  }, {
+    "turnId" : 20,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 3,
+    "lineIndex" : 4,
+    "round" : 19
+  }, {
+    "turnId" : 20,
+    "attemptId" : 18,
+    "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 3,
+    "originalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "finalTargetId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 3,
+    "savedBasis" : {
+      "PIERCE" : 378
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 478,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 19
+  }, {
+    "turnId" : 20,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 3,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 19
+  }, {
+    "turnId" : 21,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 4,
+    "lineIndex" : 2,
+    "round" : 19
+  }, {
+    "turnId" : 21,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 4,
+    "startLineIndex" : 2,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 19
+  }, {
+    "turnId" : 22,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 3,
+    "lineIndex" : 4,
+    "round" : 20
+  }, {
+    "turnId" : 22,
+    "attemptId" : 19,
+    "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 3,
+    "originalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "finalTargetId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 2,
+    "savedBasis" : {
+      "MAGICAL" : 252
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 138,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 20
+  }, {
+    "turnId" : 22,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 3,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 20
+  }, {
+    "turnId" : 23,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 4,
+    "lineIndex" : 2,
+    "round" : 21
+  }, {
+    "turnId" : 23,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 4,
+    "startLineIndex" : 2,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 21
+  }, {
+    "turnId" : 24,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 4,
+    "lineIndex" : 1,
+    "round" : 24
+  }, {
+    "turnId" : 24,
+    "attemptId" : 20,
+    "attackerId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 4,
+    "originalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "finalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : false,
+    "dodged" : true,
+    "normalDamage" : 0,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 1,
+    "lineAfterRetreat" : 1,
+    "round" : 24
+  }, {
+    "turnId" : 24,
+    "personageId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "ownTurn" : 4,
+    "startLineIndex" : 1,
+    "endLineIndex" : 1,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 24
+  }, {
+    "turnId" : 25,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 4,
+    "lineIndex" : 1,
+    "round" : 24
+  }, {
+    "turnId" : 25,
+    "attemptId" : 21,
+    "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 4,
+    "originalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "finalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 620,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 1,
+    "lineAfterRetreat" : 1,
+    "round" : 24
+  }, {
+    "turnId" : 25,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 4,
+    "startLineIndex" : 1,
+    "endLineIndex" : 1,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 24
+  }, {
+    "turnId" : 26,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 4,
+    "lineIndex" : 4,
+    "round" : 25
+  }, {
+    "turnId" : 26,
+    "attemptId" : 22,
+    "attackerId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 4,
+    "originalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "finalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 3,
+    "savedBasis" : {
+      "PIERCE" : 378
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 432,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 25
+  }, {
+    "turnId" : 26,
+    "personageId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "ownTurn" : 4,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 25
+  }, {
+    "turnId" : 27,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 5,
+    "lineIndex" : 3,
+    "round" : 25
+  }, {
+    "turnId" : 27,
+    "attemptId" : 23,
+    "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 5,
+    "originalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "finalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 494,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 3,
+    "lineAfterRetreat" : 3,
+    "round" : 25
+  }, {
+    "turnId" : 27,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 5,
+    "startLineIndex" : 3,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 25
+  }, {
+    "turnId" : 28,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 4,
+    "lineIndex" : 4,
+    "round" : 26
+  }, {
+    "turnId" : 28,
+    "attemptId" : 24,
+    "attackerId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 4,
+    "originalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "finalTargetId" : "376d9a4a-c2d9-403c-b4d5-7b56e66702d2",
+    "access" : "NORMAL",
+    "ordinaryRange" : 4,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 378
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 343,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 4,
+    "lineAfterRetreat" : 4,
+    "round" : 26
+  }, {
+    "turnId" : 28,
+    "personageId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "ownTurn" : 4,
+    "startLineIndex" : 4,
+    "endLineIndex" : 4,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 26
+  }, {
+    "turnId" : 29,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 5,
+    "lineIndex" : 3,
+    "round" : 27
+  }, {
+    "turnId" : 29,
+    "attemptId" : 25,
+    "attackerId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 5,
+    "originalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "finalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 481,
+    "targetDefeated" : false,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 3,
+    "lineAfterRetreat" : 3,
+    "round" : 27
+  }, {
+    "turnId" : 29,
+    "personageId" : "e3df9bfa-0052-4c1c-8eff-8af61a528747",
+    "ownTurn" : 5,
+    "startLineIndex" : 3,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 27
+  }, {
+    "turnId" : 30,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 5,
+    "lineIndex" : 1,
+    "round" : 30
+  }, {
+    "turnId" : 30,
+    "attemptId" : 26,
+    "attackerId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 5,
+    "originalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "finalTargetId" : "b1a6c421-0cbe-4cfa-b96c-ab8ef2399be3",
+    "access" : "NORMAL",
+    "ordinaryRange" : 3,
+    "distance" : 3,
+    "savedBasis" : {
+      "MAGICAL" : 628
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 524,
+    "targetDefeated" : true,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 1,
+    "lineAfterRetreat" : 1,
+    "round" : 30
+  }, {
+    "turnId" : 30,
+    "personageId" : "efe494a4-e8ff-4b42-a7d8-c7f3f5220923",
+    "ownTurn" : 5,
+    "startLineIndex" : 1,
+    "endLineIndex" : 1,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 30
+  }, {
+    "turnId" : 31,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 6,
+    "lineIndex" : 3,
+    "round" : 30
+  }, {
+    "turnId" : 31,
+    "attemptId" : 27,
+    "attackerId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 6,
+    "originalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "finalTargetId" : "d14eb2ed-6073-4319-a626-d7bea63c2d19",
+    "access" : "NORMAL",
+    "ordinaryRange" : 1,
+    "distance" : 1,
+    "savedBasis" : {
+      "MAGICAL" : 507
+    },
+    "critical" : false,
+    "dodged" : false,
+    "normalDamage" : 474,
+    "targetDefeated" : true,
+    "discharge" : false,
+    "dischargeBasis" : { },
+    "dischargeCoefficientNumerator" : 0,
+    "dischargeCoefficientDenominator" : 1,
+    "dischargeDamage" : 0,
+    "accumulationChargesBefore" : 0,
+    "accumulationChargesAfter" : 0,
+    "lineBeforeRetreat" : 3,
+    "lineAfterRetreat" : 3,
+    "round" : 30
+  }, {
+    "turnId" : 31,
+    "personageId" : "8402a37b-2c3d-498e-a6a4-758aaac7f61b",
+    "ownTurn" : 6,
+    "startLineIndex" : 3,
+    "endLineIndex" : 3,
+    "actionPerformed" : true,
+    "alive" : true,
+    "round" : 30
+  } ]
+}

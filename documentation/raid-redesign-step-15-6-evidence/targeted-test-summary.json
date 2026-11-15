@@ -1,0 +1,219 @@
+{
+  "phase": "TARGETED_CLEAN_TEST",
+  "java": "25.0.1; compilation target 24",
+  "maven": "3.9.12",
+  "mockitoAgent": "5.18.0",
+  "totals": {
+    "tests": 279,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 279
+  },
+  "checkstyleViolations": 0,
+  "affectedTests": 279,
+  "affectedSuites": [
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattlePersonageEquipmentPowerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattlePersonagePersonageEffectsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.MyconidColonyAdaptationTest",
+      "tests": 48,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.PveAdaptationStudyTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.pve.PveCharacteristicScalingTest",
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.pve.PveScalingDiagnosticsTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.pve.PveTeamAssessmentTest",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.generator.MyconidTeamScalingTest",
+      "tests": 66,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.generator.RaidNpcCombatVersionTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.processing.RaidProcessingCombatVersionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.EquipmentPowerCalculatorTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.PowerDependencyGuardTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.PowerDisplayServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.ReferencePowerCalculatorTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "buildLogSha256": "78163619ae571d3a743d2a63816ff9fdfdf00a5fc6ae49493da1671a55e83c22",
+  "suites": [
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattlePersonageEquipmentPowerTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.BattlePersonagePersonageEffectsTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.MyconidColonyAdaptationTest",
+      "tests": 48,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.battle.PveAdaptationStudyTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.pve.PveCharacteristicScalingTest",
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.pve.PveScalingDiagnosticsTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.pve.PveTeamAssessmentTest",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.generator.MyconidTeamScalingTest",
+      "tests": 66,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.generator.RaidNpcCombatVersionTest",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.event.raid.processing.RaidProcessingCombatVersionTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.EquipmentPowerCalculatorTest",
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.PowerDependencyGuardTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.PowerDisplayServiceTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "ru.homyakin.seeker.game.personage.power.ReferencePowerCalculatorTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "applicationStarted": false,
+  "databaseStarted": false,
+  "releaseEnabled": false
+}

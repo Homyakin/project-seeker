@@ -1,0 +1,368 @@
+{
+  "purpose": "PUBLIC_HISTORICAL_SOURCE_CLOSURE_ONLY_NO_APPLICATION_OR_CURRENT_CLASSES",
+  "commit": "6150d562546cca22bed139c4d0fa23456e4d801e",
+  "rawAuditCommit": "8ce51fc079f7330860dd0999ab5d138de11f65fc",
+  "target": "/tmp/seeker-step1542-historical.77NJth/basis-6150",
+  "sourceCount": 84,
+  "resourceCount": 2,
+  "checks": [
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/Battle.java",
+      "sha256": "075ffc5dff1b4784c85ca791e1a27795e22e20daf8da6f61bd9e9378105159f0"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleActionLog.java",
+      "sha256": "d6bb14570b279a6c2dae6b79b1176dc2b14309ff6256714653cba86fcde13463"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleAdvanceDirection.java",
+      "sha256": "bab65b31ed8d78d7865f7111e574a0f16447d176b6227d00925ab09f184b7660"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleContext.java",
+      "sha256": "866f55d037090ca3d7a913e95502f6bc6745ffbf09aee01201e27b08ada12ba5"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleEvent.java",
+      "sha256": "cee921045dff11d156afc2784e4677c0e94678296c9d5a2955c178fd238474a9"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleInitState.java",
+      "sha256": "b613f43c14000816ec0259effccaf64a3f2662a885ac1aa9ff9ec74bc7e36c4a"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleItemInitSnapshot.java",
+      "sha256": "34f1c932bf11f283f1a984dfa494356c561f7456e131fb92282f2f5c022d4db3"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleLine.java",
+      "sha256": "96023dab5bb8e6a250a1aa833a07280c756d283563b2862355eb27f42703fbec"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleLineInitSnapshot.java",
+      "sha256": "3eed311d66cba38040684140858aad99939f1e8906b5925d2c518e5013645838"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java",
+      "sha256": "cc984ca6a5518f9649b49c3fdf19b171afa121f1890875ae3ed8b7f626e51dd0"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonageInitSnapshot.java",
+      "sha256": "e45fa01445d5373987ae9b2079a78cc020863da30f1b74dd3d61aa9942b59899"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonageStats.java",
+      "sha256": "c5c5846879f695e74919351e098f1bcc577346db33e26ee6b6180848d1492000"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleRangeAttackInitSnapshot.java",
+      "sha256": "713ba28af4d8ff13b8868f9775bc220e459738a67e914e0154808147f666c394"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleResult.java",
+      "sha256": "c219ca8310c0f05d36e7e23946a7e0baa6d798f8dc824162400a323d552aacc9"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/BattleSkillInitSnapshot.java",
+      "sha256": "72b07ba482d0aa22222cf6ad70d1e9a2c28f9dd88dfd9a392d3e0a4629de114f"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/DamageRoll.java",
+      "sha256": "0f018fe748ffe1c64677ac14b056cf37cf8226532eb3af629cd4fa68d14061e4"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/Position.java",
+      "sha256": "b75d1a769cba31ddbf5636d0cf6b0b9b308ff169c4c5b9551740d7a579aebde1"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/effect/PeriodicDamageEffect.java",
+      "sha256": "dc60603a5f22bd033c4d0456327c5dd0df1577b92f524f9ed2cedd9c4254396c"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/effect/PersonageBattleEffects.java",
+      "sha256": "0565bc2ee2df27d9a525c21f824912bdcd4d8702c0b01ad6275455aecdef3398"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/effect/TemporaryMaxRangeBonus.java",
+      "sha256": "3790986405058b6b2a27c59f38eac3e4d9a73f546cef559363e7c074911bb20b"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/ActiveSkill.java",
+      "sha256": "be5b3903171a3fcab8327997ba69f24c67aad3db86ca542da149c47e19d794de"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/AttackPowerSkill.java",
+      "sha256": "416ad867cf561d978d3e3d3bf0aa9bbdf961901b3a6e630a0b93264baa3182af"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/DamageDealSkill.java",
+      "sha256": "04d9a9a5e6efb7c187d9a3342f19e133ab2d07448e7c2fe6fbb9efd96c08837b"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/HealthPowerSkill.java",
+      "sha256": "39b23013020828ffb82adabf865395a55f70c793bbd1e7bdd826e8e9beed49b9"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/ItemSkill.java",
+      "sha256": "08f7308aa43fa5b08104e99f48928a8dd5f38714a040d1299ffaf962f12cc060"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/MovePowerSkill.java",
+      "sha256": "8704760a59185bdb70e4237d01cb9b5fefb9faef18b767953bfbffba35e2ee1a"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/SkillPowerInputs.java",
+      "sha256": "5adb2d306a09666bfaeaeb2cebb407b462a5b80a9b94f2c049af8cc856adc3dc"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/SkillRank.java",
+      "sha256": "c419f13c16065503ff2306a20b3ae31a64eccfd7bc1354a3ae334186c26998b4"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/TurnSkill.java",
+      "sha256": "f588c3ad0ed573aad8d4fc290a3ba20b3ee77431faf27e87c78a9df6251bb574"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/ActiveEnum.java",
+      "sha256": "b8f870bae1add305512400d763a051e0d036c488923845dd8e401e951053813a"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/Berserk.java",
+      "sha256": "d68216c370dfa3f830623087eec81377d7cc3f520bbdabd6e129b7a6039f1aaf"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/Bleeding.java",
+      "sha256": "53a3c95d43c106b0425e1451e9839a11d5bdab3c5090e9360775865d4a0d4779"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/CounterAttack.java",
+      "sha256": "2b691d1ae96bc1da9e7e285a962bfd7e5c0c42f0b6391cebf6836d6f74425765"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/DoubleAttack.java",
+      "sha256": "d89563d10773c80c2905e7520585b31a4021dc2a7bd60335c32e40dd48436f21"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/Feint.java",
+      "sha256": "f04a6038c01c704554a6f43bb9d11c31c964fcbe1d7f4a36b2ad2ab7f05a897f"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/HitAndRun.java",
+      "sha256": "a9c119c097c5fd7a49932d714ca24cb08b7af9516b951643d816877fad33467a"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/Knockback.java",
+      "sha256": "a4f82a5d8cc6b3351a0487ebb1cf357f6318f15265e7c65d54bcd11bffed8a5c"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/PreciseStrike.java",
+      "sha256": "35077993eb27d7b830fc6fb69a78e9e2a2c7a2f5133976ff3f5e6023cd9ab6af"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/Retreat.java",
+      "sha256": "bd4d0f862237fe1a59f6e834d790f6482f0d8c05cf11ab9939d79cabf5947dc1"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/SelfHeal.java",
+      "sha256": "6cb36a662e2c299665271a5fd2536927e9cfe24fce7ce31d6a09a3c539c88bbb"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/SkillMapper.java",
+      "sha256": "b444eaa5254c70ae7f99f76c60229b25223ff33ca937cdae63c09b2753782f95"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/skill/active_impl/Thorns.java",
+      "sha256": "6cd75eeca18f643f74eb6e8e951aa576c1874b901ad32f6a3003153ef2d7200d"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/targeting/TargetingMath.java",
+      "sha256": "e16d6f473571943ef32acef13c7971fda4713d4ed05e50414eefe4af832c2214"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/targeting/TargetingTactic.java",
+      "sha256": "35cbaad54fa0b17c0b2d4c4ad96e37b60bc1d0700a19577a43a8d8dd9977c122"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/battle/targeting/TargetingTacticCoefficients.java",
+      "sha256": "71f50a4f6034ca9bfbbebebb09f1a48f3fe3890222686ec90f1fef45f9a94c46"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/effect/Effect.java",
+      "sha256": "5018f1d79578796c57154403ec84d4bad60544ca833ca1222877083e56cfa016"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/effect/EffectCharacteristic.java",
+      "sha256": "9e8f30a54bf36f17f25d83e358240194c14646b9a30d5dc22f7ccfdb98625b13"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java",
+      "sha256": "a497f26240f98792be1ed270269a774a8a5ce6d6714adcbbc38b56ba1cad1690"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/RaidBattlePersonageGenerator.java",
+      "sha256": "931d14944d0317d202a774c54877c9c46b99c980bb313c6343366e1b80dd340d"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/event/world_raid/entity/WorldRaidPersonage.java",
+      "sha256": "2f8a7e6e0add615689d185ca6f8f6e1382951c3970705f7be99015964819ff61"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/catalog/ItemModifiersToml.java",
+      "sha256": "509b573e6d8f72ba3d3aa2b4acec559fbce22733fd6dacd2e1720afa93b6d84b"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/catalog/ItemObjectsToml.java",
+      "sha256": "3af5f19fbd3a7f963677430fb9beb9f59b4947a0b7d673166fdbadffa607cc5d"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/AttackType.java",
+      "sha256": "7fec6d94938e77201f4dd466c66103e4a573affde89fc891ab862f63b9b4cdce"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/DefaultItems.java",
+      "sha256": "80568430645dfbf3f4e5c40a76e362907c20e800c8d50c4d7b11cd0ff2d35ec8"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/DefenseType.java",
+      "sha256": "63453ce5db1445d1e1148a59f59f0c85436367ebb2691309c06c8211738e16e3"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/Item.java",
+      "sha256": "7cf2ba76d04ed3009136516b7a92f73cb48b2e7929f4246adee08ba2168e4bb0"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/ItemAttack.java",
+      "sha256": "d0a7bceda2fe68da7c5b2366b02de1c82b3c19798eaa55f08b055e63432d824e"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/ItemDefense.java",
+      "sha256": "7760728d4b66f0007df71e1f32f3f7b0fe94dbec2f55de8847d34e7b374c4cee"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/ItemObject.java",
+      "sha256": "133b5418f108c0ef1284935a124ac34f7cef83a4ca1d2bfb1e40cc6e0c1b5534"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/ItemObjectLocale.java",
+      "sha256": "5357f1ea2e12155bb6b3b83e7f0236b5b74889baf748a3d1820b5c420bfd2e27"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/ItemRarity.java",
+      "sha256": "e731f6c9caba69e4adf6150537d4db14af38c2b5bd70de51dae836fbff743eb4"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/Modifier.java",
+      "sha256": "68f10cc74bdd288405d3fa6e3ab9cfb5386d580f5f75b6708ce3f0ee8e0ab5bc"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/models/ModifierType.java",
+      "sha256": "53e8cc19ecb8ee5eb3fa9634de693131ef4a0d099580a4bc80c3486badde7efb"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/modifier/models/ModifierLocale.java",
+      "sha256": "da37a21d1bc671118aff6e683fcc4c0f8477f4e1ac30aca64d56c02125f99258"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/storm/StormEnhanceConfig.java",
+      "sha256": "9f8b2f215092d8cacef55fc3c4d7dcfd04266c3c6f4386cfa12c2a4e41e95d75"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/item/storm/StormEnhanceProbabilities.java",
+      "sha256": "1afed7c4a0afdc9480a8279a53146e9561a56dfecc4bc1071a188afc69a93623"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/models/StormShards.java",
+      "sha256": "23fcb156056f7441d28978957637dbe8573b6c47edd43027bd89d8461506b2c5"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/personage/models/Characteristics.java",
+      "sha256": "5f6b9ee314192de117a46da68ab3fc609d8e4d206cda21de8d04234650fcf66e"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/personage/models/PersonageSlot.java",
+      "sha256": "669f299082df2432abcfba51ab2b545f3b9776ad5f61d9120820d5c8fb33f87e"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/personage/models/effect/PersonageEffect.java",
+      "sha256": "fcf00e04475211db27350c7cb1ed740bbc069a9021c6dc581dd49a8a8758a3e0"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/personage/models/effect/PersonageEffectType.java",
+      "sha256": "be44612aeec0483128ce9db7e483cf5960013574346719f6c392723e963472c9"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/personage/models/effect/PersonageEffects.java",
+      "sha256": "1637cb973e6c652e984609843c1597d5ec4b7106f951a86c0cdc734f1b7706d6"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/game/personage/models/errors/StillSame.java",
+      "sha256": "63f22c2e1c107e69d1abc0ff2e0e5d72f9b8bf1882ccfae233517a7fbfcf472a"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/infrastructure/Icons.java",
+      "sha256": "ce3f097d1111a4db4c1fbbfc36c4dffc22197873e377e5b0804db57a748bd972"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/locale/Language.java",
+      "sha256": "35af974d0dacbcd12f3396ddaa410021b8405993d1c6eea849a4f7f8c14c0507"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/locale/Localized.java",
+      "sha256": "7985ef85796b8311d2650a570818017c19b9cd97f98cbe45564171dd3b8d1f7b"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/locale/WordForm.java",
+      "sha256": "10f05a8c00c5723b09bac95d7b0a59b0fdf997eaaf2443996a221bdac91ef92d"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/utils/MathUtils.java",
+      "sha256": "f697e8872840fc741ea597579537f875481a0281d5570e1a63e1459cfc979183"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/utils/ProbabilityPicker.java",
+      "sha256": "9d1444c06366bebd4a8935500ccdf7b2a1cebcb97a0f6de2fe71339241d61ede"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/utils/RandomUtils.java",
+      "sha256": "e2f521e308738031e6e3417d74145bc0755984e4aa641c312cf234beefb7af3a"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/utils/ResourceUtils.java",
+      "sha256": "50d1ae30be1e48002df19f23f72004ff8af64ddf9ff3f89f63c8117ee30c78c1"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/utils/TimeUtils.java",
+      "sha256": "dd8b4acae1e10648162cdb1b1972779a26d31a03d64a7d13da1880d6b49c56d9"
+    },
+    {
+      "path": "game/src/main/java/ru/homyakin/seeker/utils/models/IntRange.java",
+      "sha256": "bc434aa0c69dcef64b8437c7e1f9c8dbbbf5927e2ec74507b2950112a1bc247c"
+    },
+    {
+      "path": "game/src/main/resources/game-data/item_modifiers_catalog.toml",
+      "sha256": "6e8c08e6a6511ca3c0fa241274cea60c3b9c1e653f2157e7db3570c35627c83f"
+    },
+    {
+      "path": "game/src/main/resources/game-data/item_objects_catalog.toml",
+      "sha256": "ed1f656034e3ab5978189bc69d3f601bb7980bb52a1d10392dd02f7e3de3e7af"
+    },
+    {
+      "path": "game/src/test/java/ru/homyakin/seeker/game/battle/simulation/RaidSimulationFixtures.java",
+      "sha256": "9af378d906b1a8454f98a68673791ef537b2590c08b8901ffe25a36e8cdfebd4"
+    }
+  ],
+  "compileOnlyExcluded": [
+    "game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java"
+  ],
+  "classpathEntries": 79,
+  "classpathPolicy": "Only pre-existing Maven dependency JARs; current target/classes and test-classes deliberately excluded",
+  "linkageOnly": {
+    "original": "game/src/main/java/ru/homyakin/seeker/locale/LocalizationCoverage.java",
+    "preservedReference": "/tmp/seeker-step1542-historical.77NJth/reference-only/LocalizationCoverage.java",
+    "originalSHA256": "2bb38459f94e8d61d44e73ca268e1b8170e2ba146f48c233c1ebba3ca978bc8d",
+    "compiledReplacement": "/tmp/seeker-step1542-historical.77NJth/linkage-only/ru/homyakin/seeker/locale/LocalizationCoverage.java",
+    "policy": "Only Language.buttonText UI coverage wiring. Replacement always throws; any accidental use aborts. No original combat or catalog source changed."
+  },
+  "determinizationCaveat": "6150 preserves 8ce item/NPC/skill formulas and catalog but changes RNG injection, UUIDs, collection ordering and a round-limit overload. Collection ordering can affect stochastic draw attribution; this is a coherent early seeded old-rule snapshot, not byte-identical unseeded audit runtime.",
+  "constructionOnly": true
+}

@@ -1,0 +1,41 @@
+{
+  "name": "q-p-sum-screen",
+  "file": "q-p-sum-screen-battles.jsonl.xz",
+  "battles": 2880,
+  "originalGzipSha256": "fb01dd3b346ee01307b37b736eec39e7810004e2593cc4d190d68dd0db770ee2",
+  "archivedSha256": "cd16fffa75900b1c2ed2d5778be329d82bbe0381d5aaed2e3fe877e4f55e76de",
+  "archivedBytes": 2915176,
+  "jsonlSha256": "0770a27778739f596f09773fc658605cf4308865d27a0bb8778e97055eddb12f",
+  "jsonlBytes": 213180646,
+  "artifacts": [
+    {
+      "file": "q-p-sum-screen-manifest.json",
+      "sha256": "3dd5557bbb9d8ef496953b5881f6eeaa2ba180fc35dbbca6ba41b1acc5a5f20c"
+    },
+    {
+      "file": "q-p-sum-screen-summary.json",
+      "sha256": "9ea80455c135cec9f9d6ab8b97de3b297e5c8e5e239834c91989d7c9428d56f2"
+    },
+    {
+      "file": "q-p-sum-screen-inputs.json",
+      "sha256": "4773703603ace2fb0cf802254c714460ae7a55f45e8891e7f47e9b7ca06ca4dc"
+    },
+    {
+      "file": "q-p-sum-screen-validation.json",
+      "sha256": "98b440ef99f6ec17f745e6c1ca5bbfa8dae059c9a374799a346d4f1698b280f7"
+    },
+    {
+      "file": "q-p-sum-screen-Step154FormulaProbe.java",
+      "sha256": "71636ed2862ba572c226038e208ce15975addc871154a14725e4f9aacd4b058a"
+    },
+    {
+      "file": "q-p-sum-screen-preparation-manifest.json",
+      "sha256": "3dd5557bbb9d8ef496953b5881f6eeaa2ba180fc35dbbca6ba41b1acc5a5f20c"
+    },
+    {
+      "file": "q-p-sum-screen-preparation-inputs.json",
+      "sha256": "4773703603ace2fb0cf802254c714460ae7a55f45e8891e7f47e9b7ca06ca4dc"
+    }
+  ],
+  "rawPolicy": "Every original JSONL byte retained; only gzip container replaced with xz"
+}

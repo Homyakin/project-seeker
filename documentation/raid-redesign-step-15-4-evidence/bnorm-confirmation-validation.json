@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "rows": 17000,
+  "conditions": 17,
+  "models": [
+    "B_NORM_TWO_ANCHOR"
+  ],
+  "pairsPerCondition": 500,
+  "mirroredPairObservations": 8500,
+  "outcomes": {
+    "WIN": 8133,
+    "LOSS": 8867
+  },
+  "weakAliveChecks": 3000,
+  "rawGzipSha256": "adeceaef7030d61b2e3f85025f6d953f8fa11d64472bc53844fe2300fa58ba92",
+  "rawUncompressedSha256": "fd6449ca829b6a25cf19f695866a2462e5abcc20dc13975981dd36f0d3e5b433",
+  "fixedNpcRowChecks": 3000,
+  "playerPrefixRowChecks": 8000,
+  "npcAbsoluteLineIndexShiftRows": {
+    "case17/PLAYERS_FIRST=True": 500
+  },
+  "npcAbsoluteLineIndexShiftPatterns": {
+    "case17/PLAYERS_FIRST=True": {
+      "baseIndices": [
+        1,
+        3
+      ],
+      "appendIndices": [
+        3,
+        5
+      ],
+      "relativeRows": [
+        "FRONT",
+        "BACK"
+      ]
+    }
+  },
+  "checks": [
+    "approved17CellMatrix",
+    "preArchivedInputsAnd4000SeedTriples",
+    "SHA256First48BEThreeNamespaces",
+    "canonicalInputEquality",
+    "independentArchivedCanonicalFixtures",
+    "causalPrefixPreservation",
+    "normalAppendMatchesNextCanonicalTeam",
+    "weak840HPDefaults",
+    "pairSeedsAndMirrors",
+    "fixedNPCAllInitFieldsExceptAbsoluteLineIndexPlusExactRelativeRowsAndBaseCalibration",
+    "actualPreparedEffectsBridgeAndArchivedEffectMaps",
+    "actualEnemyPositions",
+    "actorNeutralComponentsFromBattleInit",
+    "npcWeightedFactoryHPAttackDefense",
+    "V3FourPointSkillsRowsProfiles",
+    "symmetricScoresAndTargetsWithFixedConcentrationCorrection",
+    "achievedCalibrationScore",
+    "outcomesFromFinalHP",
+    "summaryPairScoresCIAndRounds"
+  ],
+  "limitations": [
+    "500 mirrored pairs per condition is exploration, not balance acceptance",
+    "Shared seeds across models/causal variants mean pooled observations are not independent",
+    "hashes cannot validate battle engine independently",
+    "no repeated-JVM reproducibility run in this screen",
+    "Absolute lineIndex can shift when adding an occupied ally row; exact relative FRONT/BACK and all other NPC init fields are checked and all index shifts reported",
+    "Per-cell summary intervals are pointwise; causal analysis.json separately supplies the fixed9-family correction"
+  ]
+}

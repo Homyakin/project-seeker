@@ -99,7 +99,7 @@ public class AnomalyBattleService {
         boolean safePve
     ) {
         final var players = toBattlePersonages(participants);
-        final var enemies = new AnomalySafePveGenerator().generate(template, players);
+        final var enemies = new AnomalySafePveGenerator().generate(template, players, playerCombatConfig.version());
         final var battleResult = battle.process(enemies, players, playerCombatConfig.tempoVersion());
         eventBattleLogService.save(event.id(), battleResult);
 

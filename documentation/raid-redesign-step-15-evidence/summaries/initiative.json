@@ -1,0 +1,1112 @@
+{
+  "battleRoot" : 3026410815000,
+  "caseIdPolicy" : "Five reserved variants per stable group; filtering does not change IDs or seeds",
+  "cases" : [ {
+    "actualEnemyPositionCounts" : {
+      "BACK" : 400,
+      "FRONT" : 200
+    },
+    "attemptedBattles" : 200,
+    "baseCell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "MAIN",
+      "tier" : "MID",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "calibrationAbsoluteRelativeError" : {
+      "count" : 200,
+      "max" : 2.3232753381763338E-4,
+      "mean" : 2.3232753381763338E-4,
+      "min" : 2.3232753381763338E-4,
+      "p50" : 2.3232753381763338E-4,
+      "p90" : 2.3232753381763338E-4,
+      "p95" : 2.3232753381763338E-4
+    },
+    "calibrationStatuses" : {
+      "CLOSEST_STEP" : 200
+    },
+    "caseId" : 131,
+    "causalGroupId" : 27,
+    "cell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "CAUSAL_BASE",
+      "tier" : "MID",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "completePairs" : 100,
+    "completedBattleMetrics" : {
+      "actionCount" : {
+        "count" : 200,
+        "max" : 595.0,
+        "mean" : 481.595,
+        "min" : 410.0,
+        "p50" : 482.0,
+        "p90" : 522.0,
+        "p95" : 538.0
+      },
+      "enemyTotals.critDamage" : {
+        "count" : 200,
+        "max" : 2036.0,
+        "mean" : 478.485,
+        "min" : 0.0,
+        "p50" : 406.0,
+        "p90" : 1163.0,
+        "p95" : 1402.0
+      },
+      "enemyTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 5347.0,
+        "mean" : 5347.0,
+        "min" : 5347.0,
+        "p50" : 5347.0,
+        "p90" : 5347.0,
+        "p95" : 5347.0
+      },
+      "enemyTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 14.0,
+        "mean" : 10.22,
+        "min" : 6.0,
+        "p50" : 10.0,
+        "p90" : 12.0,
+        "p95" : 13.0
+      },
+      "enemyTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 5733.0,
+        "mean" : 4146.885,
+        "min" : 2085.0,
+        "p50" : 4105.0,
+        "p90" : 4982.0,
+        "p95" : 5397.0
+      },
+      "enemyTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 1229.0,
+        "mean" : 74.98,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 248.0,
+        "p95" : 632.0
+      },
+      "enemyTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 736.0,
+        "mean" : 10.905,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 0.0
+      },
+      "enemyTotals.survivors" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 0.185,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 1.0,
+        "p95" : 1.0
+      },
+      "enemyTotals.turns" : {
+        "count" : 200,
+        "max" : 20.0,
+        "mean" : 13.975,
+        "min" : 9.0,
+        "p50" : 14.0,
+        "p90" : 16.0,
+        "p95" : 17.0
+      },
+      "forcedMoves" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 0.085,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 1.0
+      },
+      "moves" : {
+        "count" : 200,
+        "max" : 5.0,
+        "mean" : 2.44,
+        "min" : 1.0,
+        "p50" : 2.0,
+        "p90" : 3.0,
+        "p95" : 3.0
+      },
+      "normalAttempts" : {
+        "count" : 200,
+        "max" : 39.0,
+        "mean" : 32.64,
+        "min" : 27.0,
+        "p50" : 33.0,
+        "p90" : 35.0,
+        "p95" : 36.0
+      },
+      "playerTotals.critDamage" : {
+        "count" : 200,
+        "max" : 2028.0,
+        "mean" : 540.23,
+        "min" : 0.0,
+        "p50" : 457.0,
+        "p90" : 1153.0,
+        "p95" : 1409.0
+      },
+      "playerTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 5733.0,
+        "mean" : 5733.0,
+        "min" : 5733.0,
+        "p50" : 5733.0,
+        "p90" : 5733.0,
+        "p95" : 5733.0
+      },
+      "playerTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 23.0,
+        "mean" : 18.705,
+        "min" : 13.0,
+        "p50" : 19.0,
+        "p90" : 21.0,
+        "p95" : 22.0
+      },
+      "playerTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 5217.0,
+        "mean" : 4490.78,
+        "min" : 3127.0,
+        "p50" : 4540.0,
+        "p90" : 5093.0,
+        "p95" : 5135.0
+      },
+      "playerTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 2898.0,
+        "mean" : 1096.725,
+        "min" : 0.0,
+        "p50" : 1113.0,
+        "p90" : 1854.0,
+        "p95" : 2162.0
+      },
+      "playerTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 421.0,
+        "mean" : 241.01,
+        "min" : 57.0,
+        "p50" : 244.0,
+        "p90" : 317.0,
+        "p95" : 349.0
+      },
+      "playerTotals.survivors" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 1.48,
+        "min" : 0.0,
+        "p50" : 2.0,
+        "p90" : 2.0,
+        "p95" : 2.0
+      },
+      "playerTotals.turns" : {
+        "count" : 200,
+        "max" : 25.0,
+        "mean" : 21.315,
+        "min" : 15.0,
+        "p50" : 22.0,
+        "p90" : 23.0,
+        "p95" : 23.0
+      },
+      "rounds" : {
+        "count" : 200,
+        "max" : 107.0,
+        "mean" : 67.04,
+        "min" : 49.0,
+        "p50" : 64.0,
+        "p90" : 77.0,
+        "p95" : 83.0
+      }
+    },
+    "completedBattles" : 200,
+    "incompletePairs" : 0,
+    "outcomes" : {
+      "LOSS" : 30,
+      "WIN" : 170
+    },
+    "outcomesByOrder" : {
+      "ENEMIES_FIRST" : {
+        "LOSS" : 14,
+        "WIN" : 86
+      },
+      "PLAYERS_FIRST" : {
+        "LOSS" : 16,
+        "WIN" : 84
+      }
+    },
+    "pairScores" : [ 1.0, 1.0, 0.5, 1.0, 0.5, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 0.5, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 ],
+    "pairScoresByIndex" : [ 1.0, 1.0, 0.5, 1.0, 0.5, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 0.5, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 ],
+    "pairedScore95Hoeffding" : {
+      "high" : 0.9858101515740619,
+      "low" : 0.714189848425938,
+      "unclippedHalfWidth" : 0.13581015157406195
+    },
+    "pairedScoreMean" : 0.85,
+    "playerWinsPerAttempt" : 0.85,
+    "sourceChange" : "Unchanged main reference input",
+    "variant" : "BASE"
+  }, {
+    "actualEnemyPositionCounts" : {
+      "BACK" : 400,
+      "FRONT" : 400
+    },
+    "attemptedBattles" : 200,
+    "baseCell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "MAIN",
+      "tier" : "MID",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "calibrationAbsoluteRelativeError" : {
+      "count" : 200,
+      "max" : 7.1189522249826E-5,
+      "mean" : 7.1189522249826E-5,
+      "min" : 7.1189522249826E-5,
+      "p50" : 7.1189522249826E-5,
+      "p90" : 7.1189522249826E-5,
+      "p95" : 7.1189522249826E-5
+    },
+    "calibrationStatuses" : {
+      "CLOSEST_STEP" : 200
+    },
+    "caseId" : 132,
+    "causalGroupId" : 27,
+    "cell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "CAUSAL_NORMAL_APPEND",
+      "tier" : "MID",
+      "size" : 4,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "completePairs" : 100,
+    "completedBattleMetrics" : {
+      "actionCount" : {
+        "count" : 200,
+        "max" : 774.0,
+        "mean" : 607.265,
+        "min" : 468.0,
+        "p50" : 606.0,
+        "p90" : 680.0,
+        "p95" : 715.0
+      },
+      "enemyTotals.critDamage" : {
+        "count" : 200,
+        "max" : 3397.0,
+        "mean" : 604.385,
+        "min" : 0.0,
+        "p50" : 488.0,
+        "p90" : 1568.0,
+        "p95" : 1845.0
+      },
+      "enemyTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 8114.0,
+        "mean" : 8114.0,
+        "min" : 8114.0,
+        "p50" : 8114.0,
+        "p90" : 8114.0,
+        "p95" : 8114.0
+      },
+      "enemyTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 20.0,
+        "mean" : 16.89,
+        "min" : 11.0,
+        "p50" : 17.0,
+        "p90" : 19.0,
+        "p95" : 19.0
+      },
+      "enemyTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 7749.0,
+        "mean" : 7018.35,
+        "min" : 4352.0,
+        "p50" : 7212.0,
+        "p90" : 7749.0,
+        "p95" : 7749.0
+      },
+      "enemyTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 4248.0,
+        "mean" : 2249.91,
+        "min" : 0.0,
+        "p50" : 2276.0,
+        "p90" : 3192.0,
+        "p95" : 3600.0
+      },
+      "enemyTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 838.0,
+        "mean" : 112.805,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 408.0,
+        "p95" : 420.0
+      },
+      "enemyTotals.survivors" : {
+        "count" : 200,
+        "max" : 4.0,
+        "mean" : 2.545,
+        "min" : 0.0,
+        "p50" : 2.0,
+        "p90" : 4.0,
+        "p95" : 4.0
+      },
+      "enemyTotals.turns" : {
+        "count" : 200,
+        "max" : 28.0,
+        "mean" : 22.825,
+        "min" : 19.0,
+        "p50" : 23.0,
+        "p90" : 25.0,
+        "p95" : 26.0
+      },
+      "forcedMoves" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 0.19,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 1.0,
+        "p95" : 1.0
+      },
+      "moves" : {
+        "count" : 200,
+        "max" : 7.0,
+        "mean" : 3.57,
+        "min" : 1.0,
+        "p50" : 4.0,
+        "p90" : 4.0,
+        "p95" : 5.0
+      },
+      "normalAttempts" : {
+        "count" : 200,
+        "max" : 56.0,
+        "mean" : 41.355,
+        "min" : 30.0,
+        "p50" : 41.0,
+        "p90" : 47.0,
+        "p95" : 50.0
+      },
+      "playerTotals.critDamage" : {
+        "count" : 200,
+        "max" : 1957.0,
+        "mean" : 592.59,
+        "min" : 0.0,
+        "p50" : 532.0,
+        "p90" : 1248.0,
+        "p95" : 1488.0
+      },
+      "playerTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 7749.0,
+        "mean" : 7749.0,
+        "min" : 7749.0,
+        "p50" : 7749.0,
+        "p90" : 7749.0,
+        "p95" : 7749.0
+      },
+      "playerTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 30.0,
+        "mean" : 19.365,
+        "min" : 12.0,
+        "p50" : 19.0,
+        "p90" : 24.0,
+        "p95" : 26.0
+      },
+      "playerTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 7321.0,
+        "mean" : 5037.56,
+        "min" : 3608.0,
+        "p50" : 4970.0,
+        "p90" : 5967.0,
+        "p95" : 6229.0
+      },
+      "playerTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 1357.0,
+        "mean" : 13.46,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 0.0
+      },
+      "playerTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 381.0,
+        "mean" : 233.94,
+        "min" : 53.0,
+        "p50" : 236.0,
+        "p90" : 327.0,
+        "p95" : 350.0
+      },
+      "playerTotals.survivors" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 0.02,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 0.0
+      },
+      "playerTotals.turns" : {
+        "count" : 200,
+        "max" : 33.0,
+        "mean" : 22.455,
+        "min" : 16.0,
+        "p50" : 22.0,
+        "p90" : 26.0,
+        "p95" : 29.0
+      },
+      "rounds" : {
+        "count" : 200,
+        "max" : 100.0,
+        "mean" : 62.75,
+        "min" : 46.0,
+        "p50" : 60.0,
+        "p90" : 75.0,
+        "p95" : 82.0
+      }
+    },
+    "completedBattles" : 200,
+    "incompletePairs" : 0,
+    "outcomes" : {
+      "LOSS" : 198,
+      "WIN" : 2
+    },
+    "outcomesByOrder" : {
+      "ENEMIES_FIRST" : {
+        "LOSS" : 99,
+        "WIN" : 1
+      },
+      "PLAYERS_FIRST" : {
+        "LOSS" : 99,
+        "WIN" : 1
+      }
+    },
+    "pairScores" : [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+    "pairScoresByIndex" : [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+    "pairedScore95Hoeffding" : {
+      "high" : 0.14581015157406196,
+      "low" : 0.0,
+      "unclippedHalfWidth" : 0.13581015157406195
+    },
+    "pairedScoreMean" : 0.01,
+    "playerWinsPerAttempt" : 0.01,
+    "sourceChange" : "Append only the next canonical member; retain every existing item, position and tactic",
+    "variant" : "NORMAL_APPEND"
+  }, {
+    "actualEnemyPositionCounts" : {
+      "BACK" : 400,
+      "FRONT" : 200
+    },
+    "attemptedBattles" : 200,
+    "baseCell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "MAIN",
+      "tier" : "STRONG",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "calibrationAbsoluteRelativeError" : {
+      "count" : 200,
+      "max" : 4.172528011405774E-4,
+      "mean" : 4.172528011405774E-4,
+      "min" : 4.172528011405774E-4,
+      "p50" : 4.172528011405774E-4,
+      "p90" : 4.172528011405774E-4,
+      "p95" : 4.172528011405774E-4
+    },
+    "calibrationStatuses" : {
+      "CLOSEST_STEP" : 200
+    },
+    "caseId" : 161,
+    "causalGroupId" : 33,
+    "cell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "CAUSAL_BASE",
+      "tier" : "STRONG",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "completePairs" : 100,
+    "completedBattleMetrics" : {
+      "actionCount" : {
+        "count" : 200,
+        "max" : 586.0,
+        "mean" : 480.53,
+        "min" : 400.0,
+        "p50" : 478.0,
+        "p90" : 527.0,
+        "p95" : 543.0
+      },
+      "enemyTotals.critDamage" : {
+        "count" : 200,
+        "max" : 2350.0,
+        "mean" : 421.04,
+        "min" : 0.0,
+        "p50" : 44.0,
+        "p90" : 1083.0,
+        "p95" : 1516.0
+      },
+      "enemyTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 5600.0,
+        "mean" : 5600.0,
+        "min" : 5600.0,
+        "p50" : 5600.0,
+        "p90" : 5600.0,
+        "p95" : 5600.0
+      },
+      "enemyTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 15.0,
+        "mean" : 10.26,
+        "min" : 7.0,
+        "p50" : 10.0,
+        "p90" : 12.0,
+        "p95" : 13.0
+      },
+      "enemyTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 6006.0,
+        "mean" : 4341.27,
+        "min" : 2872.0,
+        "p50" : 4185.0,
+        "p90" : 5439.0,
+        "p95" : 5919.0
+      },
+      "enemyTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 1990.0,
+        "mean" : 107.035,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 356.0,
+        "p95" : 844.0
+      },
+      "enemyTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 390.0,
+        "mean" : 10.14,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 0.0
+      },
+      "enemyTotals.survivors" : {
+        "count" : 200,
+        "max" : 3.0,
+        "mean" : 0.225,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 1.0,
+        "p95" : 2.0
+      },
+      "enemyTotals.turns" : {
+        "count" : 200,
+        "max" : 19.0,
+        "mean" : 13.925,
+        "min" : 10.0,
+        "p50" : 14.0,
+        "p90" : 17.0,
+        "p95" : 17.0
+      },
+      "forcedMoves" : {
+        "count" : 200,
+        "max" : 1.0,
+        "mean" : 0.07,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 1.0
+      },
+      "moves" : {
+        "count" : 200,
+        "max" : 4.0,
+        "mean" : 2.37,
+        "min" : 1.0,
+        "p50" : 2.0,
+        "p90" : 3.0,
+        "p95" : 3.0
+      },
+      "normalAttempts" : {
+        "count" : 200,
+        "max" : 39.0,
+        "mean" : 32.6,
+        "min" : 26.0,
+        "p50" : 33.0,
+        "p90" : 36.0,
+        "p95" : 36.0
+      },
+      "playerTotals.critDamage" : {
+        "count" : 200,
+        "max" : 1719.0,
+        "mean" : 494.18,
+        "min" : 0.0,
+        "p50" : 468.0,
+        "p90" : 1034.0,
+        "p95" : 1330.0
+      },
+      "playerTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 6006.0,
+        "mean" : 6006.0,
+        "min" : 6006.0,
+        "p50" : 6006.0,
+        "p90" : 6006.0,
+        "p95" : 6006.0
+      },
+      "playerTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 23.0,
+        "mean" : 18.825,
+        "min" : 10.0,
+        "p50" : 19.0,
+        "p90" : 21.0,
+        "p95" : 22.0
+      },
+      "playerTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 5398.0,
+        "mean" : 4631.535,
+        "min" : 2876.0,
+        "p50" : 4694.0,
+        "p90" : 5214.0,
+        "p95" : 5286.0
+      },
+      "playerTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 2693.0,
+        "mean" : 1233.55,
+        "min" : 0.0,
+        "p50" : 1312.0,
+        "p90" : 2154.0,
+        "p95" : 2302.0
+      },
+      "playerTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 608.0,
+        "mean" : 367.25,
+        "min" : 128.0,
+        "p50" : 371.0,
+        "p90" : 514.0,
+        "p95" : 536.0
+      },
+      "playerTotals.survivors" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 1.54,
+        "min" : 0.0,
+        "p50" : 2.0,
+        "p90" : 2.0,
+        "p95" : 2.0
+      },
+      "playerTotals.turns" : {
+        "count" : 200,
+        "max" : 25.0,
+        "mean" : 21.285,
+        "min" : 15.0,
+        "p50" : 21.0,
+        "p90" : 23.0,
+        "p95" : 24.0
+      },
+      "rounds" : {
+        "count" : 200,
+        "max" : 90.0,
+        "mean" : 66.01,
+        "min" : 48.0,
+        "p50" : 64.0,
+        "p90" : 75.0,
+        "p95" : 82.0
+      }
+    },
+    "completedBattles" : 200,
+    "incompletePairs" : 0,
+    "outcomes" : {
+      "LOSS" : 31,
+      "WIN" : 169
+    },
+    "outcomesByOrder" : {
+      "ENEMIES_FIRST" : {
+        "LOSS" : 18,
+        "WIN" : 82
+      },
+      "PLAYERS_FIRST" : {
+        "LOSS" : 13,
+        "WIN" : 87
+      }
+    },
+    "pairScores" : [ 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0 ],
+    "pairScoresByIndex" : [ 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.5, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5, 1.0, 1.0 ],
+    "pairedScore95Hoeffding" : {
+      "high" : 0.9808101515740619,
+      "low" : 0.709189848425938,
+      "unclippedHalfWidth" : 0.13581015157406195
+    },
+    "pairedScoreMean" : 0.845,
+    "playerWinsPerAttempt" : 0.845,
+    "sourceChange" : "Unchanged main reference input",
+    "variant" : "BASE"
+  }, {
+    "actualEnemyPositionCounts" : {
+      "BACK" : 400,
+      "FRONT" : 400
+    },
+    "attemptedBattles" : 200,
+    "baseCell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "MAIN",
+      "tier" : "STRONG",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "calibrationAbsoluteRelativeError" : {
+      "count" : 200,
+      "max" : 6.12728721770539E-5,
+      "mean" : 6.12728721770539E-5,
+      "min" : 6.12728721770539E-5,
+      "p50" : 6.12728721770539E-5,
+      "p90" : 6.12728721770539E-5,
+      "p95" : 6.12728721770539E-5
+    },
+    "calibrationStatuses" : {
+      "CLOSEST_STEP" : 200
+    },
+    "caseId" : 162,
+    "causalGroupId" : 33,
+    "cell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "CAUSAL_NORMAL_APPEND",
+      "tier" : "STRONG",
+      "size" : 4,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "completePairs" : 100,
+    "completedBattleMetrics" : {
+      "actionCount" : {
+        "count" : 200,
+        "max" : 787.0,
+        "mean" : 621.74,
+        "min" : 498.0,
+        "p50" : 621.0,
+        "p90" : 698.0,
+        "p95" : 726.0
+      },
+      "enemyTotals.critDamage" : {
+        "count" : 200,
+        "max" : 3163.0,
+        "mean" : 624.29,
+        "min" : 0.0,
+        "p50" : 520.0,
+        "p90" : 1633.0,
+        "p95" : 2032.0
+      },
+      "enemyTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 8488.0,
+        "mean" : 8488.0,
+        "min" : 8488.0,
+        "p50" : 8488.0,
+        "p90" : 8488.0,
+        "p95" : 8488.0
+      },
+      "enemyTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 20.0,
+        "mean" : 17.23,
+        "min" : 12.0,
+        "p50" : 17.0,
+        "p90" : 19.0,
+        "p95" : 19.0
+      },
+      "enemyTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 8118.0,
+        "mean" : 7400.795,
+        "min" : 4955.0,
+        "p50" : 7555.0,
+        "p90" : 8118.0,
+        "p95" : 8118.0
+      },
+      "enemyTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 3851.0,
+        "mean" : 2159.73,
+        "min" : 0.0,
+        "p50" : 2143.0,
+        "p90" : 3081.0,
+        "p95" : 3420.0
+      },
+      "enemyTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 837.0,
+        "mean" : 76.75,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 408.0,
+        "p95" : 436.0
+      },
+      "enemyTotals.survivors" : {
+        "count" : 200,
+        "max" : 4.0,
+        "mean" : 2.315,
+        "min" : 0.0,
+        "p50" : 2.0,
+        "p90" : 3.0,
+        "p95" : 4.0
+      },
+      "enemyTotals.turns" : {
+        "count" : 200,
+        "max" : 28.0,
+        "mean" : 23.335,
+        "min" : 19.0,
+        "p50" : 23.0,
+        "p90" : 26.0,
+        "p95" : 26.0
+      },
+      "forcedMoves" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 0.205,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 1.0,
+        "p95" : 1.0
+      },
+      "moves" : {
+        "count" : 200,
+        "max" : 7.0,
+        "mean" : 3.755,
+        "min" : 1.0,
+        "p50" : 4.0,
+        "p90" : 5.0,
+        "p95" : 6.0
+      },
+      "normalAttempts" : {
+        "count" : 200,
+        "max" : 54.0,
+        "mean" : 42.375,
+        "min" : 33.0,
+        "p50" : 42.0,
+        "p90" : 48.0,
+        "p95" : 50.0
+      },
+      "playerTotals.critDamage" : {
+        "count" : 200,
+        "max" : 2158.0,
+        "mean" : 577.195,
+        "min" : 0.0,
+        "p50" : 509.0,
+        "p90" : 1264.0,
+        "p95" : 1360.0
+      },
+      "playerTotals.initialHealth" : {
+        "count" : 200,
+        "max" : 8118.0,
+        "mean" : 8118.0,
+        "min" : 8118.0,
+        "p50" : 8118.0,
+        "p90" : 8118.0,
+        "p95" : 8118.0
+      },
+      "playerTotals.normalAttacksHit" : {
+        "count" : 200,
+        "max" : 31.0,
+        "mean" : 20.375,
+        "min" : 12.0,
+        "p50" : 20.0,
+        "p90" : 24.0,
+        "p95" : 26.0
+      },
+      "playerTotals.normalDamage" : {
+        "count" : 200,
+        "max" : 7340.0,
+        "mean" : 5396.375,
+        "min" : 3304.0,
+        "p50" : 5326.0,
+        "p90" : 6300.0,
+        "p95" : 6464.0
+      },
+      "playerTotals.remainHealth" : {
+        "count" : 200,
+        "max" : 2257.0,
+        "mean" : 16.165,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 0.0
+      },
+      "playerTotals.skillDamage" : {
+        "count" : 200,
+        "max" : 611.0,
+        "mean" : 354.7,
+        "min" : 73.0,
+        "p50" : 355.0,
+        "p90" : 488.0,
+        "p95" : 532.0
+      },
+      "playerTotals.survivors" : {
+        "count" : 200,
+        "max" : 2.0,
+        "mean" : 0.025,
+        "min" : 0.0,
+        "p50" : 0.0,
+        "p90" : 0.0,
+        "p95" : 0.0
+      },
+      "playerTotals.turns" : {
+        "count" : 200,
+        "max" : 33.0,
+        "mean" : 23.15,
+        "min" : 17.0,
+        "p50" : 23.0,
+        "p90" : 27.0,
+        "p95" : 29.0
+      },
+      "rounds" : {
+        "count" : 200,
+        "max" : 106.0,
+        "mean" : 65.3,
+        "min" : 47.0,
+        "p50" : 65.0,
+        "p90" : 80.0,
+        "p95" : 83.0
+      }
+    },
+    "completedBattles" : 200,
+    "incompletePairs" : 0,
+    "outcomes" : {
+      "LOSS" : 197,
+      "WIN" : 3
+    },
+    "outcomesByOrder" : {
+      "ENEMIES_FIRST" : {
+        "LOSS" : 99,
+        "WIN" : 1
+      },
+      "PLAYERS_FIRST" : {
+        "LOSS" : 98,
+        "WIN" : 2
+      }
+    },
+    "pairScores" : [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+    "pairScoresByIndex" : [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+    "pairedScore95Hoeffding" : {
+      "high" : 0.15081015157406197,
+      "low" : 0.0,
+      "unclippedHalfWidth" : 0.13581015157406195
+    },
+    "pairedScoreMean" : 0.015,
+    "playerWinsPerAttempt" : 0.015,
+    "sourceChange" : "Append only the next canonical member; retain every existing item, position and tactic",
+    "variant" : "NORMAL_APPEND"
+  } ],
+  "catalog" : "SCALING_V5",
+  "causalExtraLevels" : [ 25 ],
+  "causalGroupIds" : [ 27, 33 ],
+  "causalVariants" : [ "BASE", "NORMAL_APPEND" ],
+  "comparisons" : [ {
+    "baseCaseId" : 131,
+    "baseCell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "MAIN",
+      "tier" : "MID",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "causalGroupId" : 27,
+    "distribution" : {
+      "count" : 100,
+      "max" : 0.0,
+      "mean" : -0.84,
+      "min" : -1.0,
+      "p50" : -1.0,
+      "p90" : -0.5,
+      "p95" : 0.0
+    },
+    "pairedDelta95Hoeffding" : {
+      "high" : -0.5683796968518761,
+      "low" : -1.0,
+      "unclippedHalfWidth" : 0.2716203031481239
+    },
+    "pairedScoreDeltas" : [ -1.0, -1.0, -0.5, -1.0, -0.5, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, 0.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -0.5, -1.0, 0.0, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -0.5, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0, -1.0, -1.0, -0.5, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, 0.0, -1.0, -1.0, -0.5, -0.5, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0 ],
+    "variant" : "NORMAL_APPEND",
+    "variantCaseId" : 132
+  }, {
+    "baseCaseId" : 161,
+    "baseCell" : {
+      "mode" : "RAID",
+      "encounter" : "MYCONID_COLONY",
+      "style" : "MAIN",
+      "tier" : "STRONG",
+      "size" : 3,
+      "raidLevel" : 25,
+      "effects" : false
+    },
+    "causalGroupId" : 33,
+    "distribution" : {
+      "count" : 100,
+      "max" : 0.0,
+      "mean" : -0.83,
+      "min" : -1.0,
+      "p50" : -1.0,
+      "p90" : -0.5,
+      "p95" : 0.0
+    },
+    "pairedDelta95Hoeffding" : {
+      "high" : -0.558379696851876,
+      "low" : -1.0,
+      "unclippedHalfWidth" : 0.2716203031481239
+    },
+    "pairedScoreDeltas" : [ -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -1.0, 0.0, -1.0, -1.0, -0.5, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -0.5, -1.0, -0.5, -1.0, -0.5, -1.0, 0.0, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -0.5, -1.0, -0.5, -1.0, 0.0, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, 0.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0, -0.5, -1.0, -1.0, -1.0, -0.5, -1.0, -1.0 ],
+    "variant" : "NORMAL_APPEND",
+    "variantCaseId" : 162
+  } ],
+  "confidencePolicy" : "Per-cell 95% Hoeffding; paired-delta range [-1,1], not simultaneous",
+  "couplingCaveat" : "Adding a member consumes IDs and changes enemy IDs; seeds do not promise identical random draws",
+  "generationRoot" : 2026410815000,
+  "npcSkills" : "SCALING_SKILLS_V3",
+  "pairs" : 100,
+  "phase" : "INITIATIVE_077",
+  "playerSkills" : "SCALING_SKILLS_V3",
+  "purpose" : "CONTROLLED_SAME_OLD_MEMBERS_COMPARISON_NOT_CANONICAL_TEAM_SIZE_COMPARISON",
+  "rawSha256" : "8428cf95043586fc1ea2b08695d8d8e1a418f82d567c6e632d02db45ca193874",
+  "seedOffset" : 300000000,
+  "seedPolicy" : "ROOT + (10000 + causalGroupId) * 1000 + pair, shared by all group variants",
+  "skippedVariants" : [ ],
+  "suite" : "causal",
+  "tempo" : "ACCELERATED_V1",
+  "timeoutPolicy" : "TIMEOUT is not LOSS; comparisons use only indices complete in both variants",
+  "weakParticipantModel" : "WEAK_WITH_DEFAULTS_V1_LIVE_COMMON_SWORD_PLUS_SIX_DEFAULTS_ALL_ZERO"
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "rows": 5040,
+  "conditions": 84,
+  "pairs": 30,
+  "outcomes": {
+    "WIN": 1488,
+    "LOSS": 3552
+  },
+  "fullEventLogsVerified": 336,
+  "playerPrefixChecks": 2520,
+  "pair0FrozenSnapshotChecks": 168,
+  "scalarTargetChecks": 4320,
+  "scalarIntegerStatsChecks": 11880,
+  "v3ActualLegacyPowerChecks": 18000,
+  "rawGzipSha256": "dc8785d489603d023125b04dace447a10f96f33e8875e9d971feccbfbed20a77",
+  "rawJsonlSha256": "759636cd6aa461566b170831f067c2413ce036249e6cc2fe7e90a65d44bbfb15",
+  "scope": "Saved-data validation only; n30pilot is descriptive, no acceptance or universal50/50 claim. Modern full event logs exclude @JsonIgnore traceEvents; audit preserves this correction. No new battles."
+}

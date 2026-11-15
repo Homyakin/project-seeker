@@ -1,0 +1,18 @@
+{
+  "status": "FIXED_BEFORE_READING_CONFIRMATION_OUTCOMES",
+  "purpose": "One approved B candidate confirmation, not a new formula selection or tuning run",
+  "pairsPerCondition": 500,
+  "conditions": 18,
+  "battles": 18000,
+  "generationNamespace": "MYCONID-15.4-CONFIRM-GEN-20261108-v1",
+  "battleNamespace": "MYCONID-15.4-CONFIRM-BATTLE-20261108-v1",
+  "seedPolicy": "SHA256(namespace+'/'+groupId+'/'+pair), first6bytes big-endian unsigned",
+  "pairedScore": "Mean of two mirror outcomes WIN1 DRAW0.5 LOSS0; pair, not battle, is the experimental unit",
+  "causalComparisons": 9,
+  "pointwiseCausal95": "Paired differences in [-1,1]; half=sqrt(2*ln(40)/500)",
+  "simultaneousCausal95": "Bonferroni over all9 fixed differences; half=sqrt(2*ln(2*9/.05)/500)",
+  "ordinaryReferenceMarginPP": 20,
+  "marginLimitation": "Original20pp criterion applies to ordinary additions, not automatically a blanket tolerance for weak additions; describe all losses and their uncertainty",
+  "ritualGroup9": "Report500 pair outcome distribution and pointwise bounded mean CI; all mirrors and exact count retained; no universal win guarantee",
+  "selectionLimitation": "Conditions were selected using earlier exploratory matrices, but all confirmation seeds are novel and the complete18-condition list was fixed before this run. No adaptive extra samples or extensions."
+}

@@ -1,0 +1,5466 @@
+{
+  "classLocation" : "file:/tmp/seeker-step1542-historical.77NJth/classes-6150/",
+  "commit" : "6150d562546cca22bed139c4d0fa23456e4d801e",
+  "construction" : [ {
+    "battleSeed" : 178313376898442,
+    "fixture" : {
+      "id" : 1,
+      "name" : "T3",
+      "group" : "T",
+      "members" : [ {
+        "name" : "G",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "code" : "mace",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "tower_shield",
+          "rarity" : "RARE",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cuirass",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "greaves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "sabatons",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "great_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "gauntlets",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "R",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "longbow",
+          "rarity" : "UNCOMMON",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "M",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "staff",
+          "rarity" : "RARE",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "orb",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      } ]
+    },
+    "generationSeed" : 121084703331462,
+    "level" : 10,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 232
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.46168051708217916,
+        "BLUNT" : 0.5117707267144319,
+        "PIERCE" : 0.5571030640668524,
+        "MAGICAL" : 0.4301075268817204
+      },
+      "defenses" : {
+        "ARCANE" : 530
+      },
+      "dodgeChance" : 3,
+      "hp" : 1391,
+      "id" : "7b2db2f9-27d0-4f24-b794-0551d0339aa1",
+      "initiative" : 190,
+      "initiativeGauge" : 358,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1391,
+      "name" : null,
+      "power" : 127592.80461666799,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 431
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6620762711864407,
+        "BLUNT" : 0.7054176072234762,
+        "PIERCE" : 0.741839762611276,
+        "MAGICAL" : 0.6329113924050633
+      },
+      "defenses" : {
+        "ARCANE" : 232
+      },
+      "dodgeChance" : 5,
+      "hp" : 927,
+      "id" : "7b7d19f6-cbc3-4f31-895b-0b3b3bf8672f",
+      "initiative" : 160,
+      "initiativeGauge" : 151,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 927,
+      "name" : null,
+      "power" : 98576.06551747608,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 431
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6620762711864407,
+        "BLUNT" : 0.7054176072234762,
+        "PIERCE" : 0.741839762611276,
+        "MAGICAL" : 0.6329113924050633
+      },
+      "defenses" : {
+        "ARCANE" : 232
+      },
+      "dodgeChance" : 5,
+      "hp" : 927,
+      "id" : "57a93832-081d-4b76-b802-6ad3dc496fcd",
+      "initiative" : 160,
+      "initiativeGauge" : 59,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 927,
+      "name" : null,
+      "power" : 98576.06551747608,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 232
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.46168051708217916,
+        "BLUNT" : 0.5117707267144319,
+        "PIERCE" : 0.5571030640668524,
+        "MAGICAL" : 0.4301075268817204
+      },
+      "defenses" : {
+        "ARCANE" : 530
+      },
+      "dodgeChance" : 3,
+      "hp" : 1391,
+      "id" : "7b2db2f9-27d0-4f24-b794-0551d0339aa1",
+      "initiative" : 190,
+      "initiativeGauge" : 358,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1391,
+      "name" : null,
+      "power" : 127592.80461666799,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 431
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6620762711864407,
+        "BLUNT" : 0.7054176072234762,
+        "PIERCE" : 0.741839762611276,
+        "MAGICAL" : 0.6329113924050633
+      },
+      "defenses" : {
+        "ARCANE" : 232
+      },
+      "dodgeChance" : 5,
+      "hp" : 927,
+      "id" : "7b7d19f6-cbc3-4f31-895b-0b3b3bf8672f",
+      "initiative" : 160,
+      "initiativeGauge" : 151,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 927,
+      "name" : null,
+      "power" : 98576.06551747608,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 431
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6620762711864407,
+        "BLUNT" : 0.7054176072234762,
+        "PIERCE" : 0.741839762611276,
+        "MAGICAL" : 0.6329113924050633
+      },
+      "defenses" : {
+        "ARCANE" : 232
+      },
+      "dodgeChance" : 5,
+      "hp" : 927,
+      "id" : "57a93832-081d-4b76-b802-6ad3dc496fcd",
+      "initiative" : 160,
+      "initiativeGauge" : 59,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 927,
+      "name" : null,
+      "power" : 98576.06551747608,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "2f7d6515-eb36-4da5-94c2-406981ad97c7",
+      "initiative" : 87,
+      "initiativeGauge" : 42,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "ae12c678-9757-43c3-bb9b-8e4dae89b18d",
+      "initiative" : 177,
+      "initiativeGauge" : 163,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "985bb6da-7bc8-4329-824d-a205307245c6",
+      "initiative" : 178,
+      "initiativeGauge" : 242,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "2f7d6515-eb36-4da5-94c2-406981ad97c7",
+      "initiative" : 87,
+      "initiativeGauge" : 42,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "ae12c678-9757-43c3-bb9b-8e4dae89b18d",
+      "initiative" : 177,
+      "initiativeGauge" : 163,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "985bb6da-7bc8-4329-824d-a205307245c6",
+      "initiative" : 178,
+      "initiativeGauge" : 242,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    } ]
+  }, {
+    "battleSeed" : 178313376898442,
+    "fixture" : {
+      "id" : 2,
+      "name" : "T3_PLUS_ORDINARY",
+      "group" : "T",
+      "members" : [ {
+        "name" : "G",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "code" : "mace",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "tower_shield",
+          "rarity" : "RARE",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cuirass",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "greaves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "sabatons",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "great_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "gauntlets",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "R",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "longbow",
+          "rarity" : "UNCOMMON",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "M",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "staff",
+          "rarity" : "RARE",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "orb",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "B",
+        "position" : "FRONT",
+        "tactic" : "WOUNDED_HUNTER",
+        "items" : [ {
+          "code" : "sledgehammer",
+          "rarity" : "UNCOMMON",
+          "active" : "BERSERK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "breastplate",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "leather_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "leather_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "leather_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      } ]
+    },
+    "generationSeed" : 121084703331462,
+    "level" : 10,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 234
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4593477262287552,
+        "BLUNT" : 0.5094243504839531,
+        "PIERCE" : 0.5547850208044383,
+        "MAGICAL" : 0.4278074866310161
+      },
+      "defenses" : {
+        "ARCANE" : 535
+      },
+      "dodgeChance" : 3,
+      "hp" : 1404,
+      "id" : "7b7d19f6-cbc3-4f31-895b-0b3b3bf8672f",
+      "initiative" : 190,
+      "initiativeGauge" : 151,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1404,
+      "name" : null,
+      "power" : 130514.36377850274,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 234
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4593477262287552,
+        "BLUNT" : 0.5094243504839531,
+        "PIERCE" : 0.5547850208044383,
+        "MAGICAL" : 0.4278074866310161
+      },
+      "defenses" : {
+        "ARCANE" : 535
+      },
+      "dodgeChance" : 3,
+      "hp" : 1404,
+      "id" : "57a93832-081d-4b76-b802-6ad3dc496fcd",
+      "initiative" : 190,
+      "initiativeGauge" : 59,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1404,
+      "name" : null,
+      "power" : 130514.36377850274,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 435
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6601531555320834,
+        "BLUNT" : 0.7036307345904869,
+        "PIERCE" : 0.7401924500370096,
+        "MAGICAL" : 0.6309148264984228
+      },
+      "defenses" : {
+        "ARCANE" : 234
+      },
+      "dodgeChance" : 5,
+      "hp" : 936,
+      "id" : "e6dad639-025d-4f37-a0a7-bb41ed4f3ec9",
+      "initiative" : 160,
+      "initiativeGauge" : 160,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 936,
+      "name" : null,
+      "power" : 100725.95858965236,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 435
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6601531555320834,
+        "BLUNT" : 0.7036307345904869,
+        "PIERCE" : 0.7401924500370096,
+        "MAGICAL" : 0.6309148264984228
+      },
+      "defenses" : {
+        "ARCANE" : 234
+      },
+      "dodgeChance" : 5,
+      "hp" : 936,
+      "id" : "a1272480-167b-4966-8a2b-750f20becc40",
+      "initiative" : 160,
+      "initiativeGauge" : 436,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 936,
+      "name" : null,
+      "power" : 100725.95858965236,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 234
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4593477262287552,
+        "BLUNT" : 0.5094243504839531,
+        "PIERCE" : 0.5547850208044383,
+        "MAGICAL" : 0.4278074866310161
+      },
+      "defenses" : {
+        "ARCANE" : 535
+      },
+      "dodgeChance" : 3,
+      "hp" : 1404,
+      "id" : "7b7d19f6-cbc3-4f31-895b-0b3b3bf8672f",
+      "initiative" : 190,
+      "initiativeGauge" : 151,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1404,
+      "name" : null,
+      "power" : 130514.36377850274,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 234
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4593477262287552,
+        "BLUNT" : 0.5094243504839531,
+        "PIERCE" : 0.5547850208044383,
+        "MAGICAL" : 0.4278074866310161
+      },
+      "defenses" : {
+        "ARCANE" : 535
+      },
+      "dodgeChance" : 3,
+      "hp" : 1404,
+      "id" : "57a93832-081d-4b76-b802-6ad3dc496fcd",
+      "initiative" : 190,
+      "initiativeGauge" : 59,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1404,
+      "name" : null,
+      "power" : 130514.36377850274,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 435
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6601531555320834,
+        "BLUNT" : 0.7036307345904869,
+        "PIERCE" : 0.7401924500370096,
+        "MAGICAL" : 0.6309148264984228
+      },
+      "defenses" : {
+        "ARCANE" : 234
+      },
+      "dodgeChance" : 5,
+      "hp" : 936,
+      "id" : "e6dad639-025d-4f37-a0a7-bb41ed4f3ec9",
+      "initiative" : 160,
+      "initiativeGauge" : 160,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 936,
+      "name" : null,
+      "power" : 100725.95858965236,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 435
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6601531555320834,
+        "BLUNT" : 0.7036307345904869,
+        "PIERCE" : 0.7401924500370096,
+        "MAGICAL" : 0.6309148264984228
+      },
+      "defenses" : {
+        "ARCANE" : 234
+      },
+      "dodgeChance" : 5,
+      "hp" : 936,
+      "id" : "a1272480-167b-4966-8a2b-750f20becc40",
+      "initiative" : 160,
+      "initiativeGauge" : 436,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 936,
+      "name" : null,
+      "power" : 100725.95858965236,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "2f7d6515-eb36-4da5-94c2-406981ad97c7",
+      "initiative" : 87,
+      "initiativeGauge" : 42,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "ae12c678-9757-43c3-bb9b-8e4dae89b18d",
+      "initiative" : 177,
+      "initiativeGauge" : 163,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "985bb6da-7bc8-4329-824d-a205307245c6",
+      "initiative" : 178,
+      "initiativeGauge" : 242,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 477
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8322237017310252,
+        "BLUNT" : 0.8023106546854942,
+        "PIERCE" : 0.78125,
+        "MAGICAL" : 0.8561643835616438
+      },
+      "defenses" : {
+        "LEATHER" : 112
+      },
+      "dodgeChance" : 5,
+      "hp" : 1840,
+      "id" : "bfa82ac6-38b8-4634-bca9-ce374acb72d7",
+      "initiative" : 120,
+      "initiativeGauge" : 5,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "UNCOMMON",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 1840,
+      "name" : "B",
+      "power" : 139057.5917161332,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 2
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "2f7d6515-eb36-4da5-94c2-406981ad97c7",
+      "initiative" : 87,
+      "initiativeGauge" : 42,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "ae12c678-9757-43c3-bb9b-8e4dae89b18d",
+      "initiative" : 177,
+      "initiativeGauge" : 163,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "985bb6da-7bc8-4329-824d-a205307245c6",
+      "initiative" : 178,
+      "initiativeGauge" : 242,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 477
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8322237017310252,
+        "BLUNT" : 0.8023106546854942,
+        "PIERCE" : 0.78125,
+        "MAGICAL" : 0.8561643835616438
+      },
+      "defenses" : {
+        "LEATHER" : 112
+      },
+      "dodgeChance" : 5,
+      "hp" : 1840,
+      "id" : "bfa82ac6-38b8-4634-bca9-ce374acb72d7",
+      "initiative" : 120,
+      "initiativeGauge" : 5,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "UNCOMMON",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1840,
+      "name" : "B",
+      "power" : 139057.5917161332,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 2
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ]
+  }, {
+    "battleSeed" : 270054687759825,
+    "fixture" : {
+      "id" : 3,
+      "name" : "S1_STRONG",
+      "group" : "S",
+      "members" : [ {
+        "name" : "S",
+        "position" : "FRONT",
+        "tactic" : "WOUNDED_HUNTER",
+        "items" : [ {
+          "code" : "sledgehammer",
+          "rarity" : "RARE",
+          "active" : "BERSERK",
+          "enhanceLevel" : 6
+        }, {
+          "code" : "breastplate",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        } ]
+      } ]
+    },
+    "generationSeed" : 99579052810460,
+    "level" : 10,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 205
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4921744266167929,
+        "BLUNT" : 0.5422405379026136,
+        "PIERCE" : 0.587026709715292,
+        "MAGICAL" : 0.46029919447640966
+      },
+      "defenses" : {
+        "ARCANE" : 469
+      },
+      "dodgeChance" : 3,
+      "hp" : 1230,
+      "id" : "8ff7ec05-50e1-4d32-85db-8388a40e2217",
+      "initiative" : 190,
+      "initiativeGauge" : 7,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1230,
+      "name" : null,
+      "power" : 93895.77873879255,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 381
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6891798759476223,
+        "BLUNT" : 0.7304601899196494,
+        "PIERCE" : 0.7648183556405354,
+        "MAGICAL" : 0.6611570247933884
+      },
+      "defenses" : {
+        "ARCANE" : 205
+      },
+      "dodgeChance" : 5,
+      "hp" : 820,
+      "id" : "28e6944e-8b54-4fe7-a7db-df75d943f5a9",
+      "initiative" : 160,
+      "initiativeGauge" : 407,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 820,
+      "name" : null,
+      "power" : 74292.65717361565,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 205
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4921744266167929,
+        "BLUNT" : 0.5422405379026136,
+        "PIERCE" : 0.587026709715292,
+        "MAGICAL" : 0.46029919447640966
+      },
+      "defenses" : {
+        "ARCANE" : 469
+      },
+      "dodgeChance" : 3,
+      "hp" : 1230,
+      "id" : "8ff7ec05-50e1-4d32-85db-8388a40e2217",
+      "initiative" : 190,
+      "initiativeGauge" : 7,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1230,
+      "name" : null,
+      "power" : 93895.77873879255,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 381
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6891798759476223,
+        "BLUNT" : 0.7304601899196494,
+        "PIERCE" : 0.7648183556405354,
+        "MAGICAL" : 0.6611570247933884
+      },
+      "defenses" : {
+        "ARCANE" : 205
+      },
+      "dodgeChance" : 5,
+      "hp" : 820,
+      "id" : "28e6944e-8b54-4fe7-a7db-df75d943f5a9",
+      "initiative" : 160,
+      "initiativeGauge" : 407,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 820,
+      "name" : null,
+      "power" : 74292.65717361565,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "7ba4f8ea-602b-4498-8acc-c03caabca779",
+      "initiative" : 120,
+      "initiativeGauge" : 453,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "7ba4f8ea-602b-4498-8acc-c03caabca779",
+      "initiative" : 120,
+      "initiativeGauge" : 453,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ]
+  }, {
+    "battleSeed" : 270054687759825,
+    "fixture" : {
+      "id" : 4,
+      "name" : "S1_PLUS_WEAK",
+      "group" : "S",
+      "members" : [ {
+        "name" : "S",
+        "position" : "FRONT",
+        "tactic" : "WOUNDED_HUNTER",
+        "items" : [ {
+          "code" : "sledgehammer",
+          "rarity" : "RARE",
+          "active" : "BERSERK",
+          "enhanceLevel" : 6
+        }, {
+          "code" : "breastplate",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        } ]
+      }, {
+        "name" : "W",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "code" : "sword",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "off-fists",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "torn_jacket",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "leaky_pants",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "footcloths",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "panama",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "bandages",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        } ]
+      } ]
+    },
+    "generationSeed" : 99579052810460,
+    "level" : 10,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 224
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4707654646455135,
+        "BLUNT" : 0.5208875924575477,
+        "PIERCE" : 0.5660911406736484,
+        "MAGICAL" : 0.4390779363336992
+      },
+      "defenses" : {
+        "ARCANE" : 511
+      },
+      "dodgeChance" : 3,
+      "hp" : 1342,
+      "id" : "28e6944e-8b54-4fe7-a7db-df75d943f5a9",
+      "initiative" : 190,
+      "initiativeGauge" : 407,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1342,
+      "name" : null,
+      "power" : 116701.09100819651,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 416
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.669882100750268,
+        "BLUNT" : 0.7126567844925884,
+        "PIERCE" : 0.7485029940119761,
+        "MAGICAL" : 0.641025641025641
+      },
+      "defenses" : {
+        "ARCANE" : 224
+      },
+      "dodgeChance" : 5,
+      "hp" : 895,
+      "id" : "45731cc1-392d-4cec-a648-c09e760422fd",
+      "initiative" : 160,
+      "initiativeGauge" : 155,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 895,
+      "name" : null,
+      "power" : 90876.26724709492,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 224
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.4707654646455135,
+        "BLUNT" : 0.5208875924575477,
+        "PIERCE" : 0.5660911406736484,
+        "MAGICAL" : 0.4390779363336992
+      },
+      "defenses" : {
+        "ARCANE" : 511
+      },
+      "dodgeChance" : 3,
+      "hp" : 1342,
+      "id" : "28e6944e-8b54-4fe7-a7db-df75d943f5a9",
+      "initiative" : 190,
+      "initiativeGauge" : 407,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1342,
+      "name" : null,
+      "power" : 116701.09100819651,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 416
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.669882100750268,
+        "BLUNT" : 0.7126567844925884,
+        "PIERCE" : 0.7485029940119761,
+        "MAGICAL" : 0.641025641025641
+      },
+      "defenses" : {
+        "ARCANE" : 224
+      },
+      "dodgeChance" : 5,
+      "hp" : 895,
+      "id" : "45731cc1-392d-4cec-a648-c09e760422fd",
+      "initiative" : 160,
+      "initiativeGauge" : 155,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 895,
+      "name" : null,
+      "power" : 90876.26724709492,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "7ba4f8ea-602b-4498-8acc-c03caabca779",
+      "initiative" : 120,
+      "initiativeGauge" : 453,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "SLASH" : 300,
+          "BLUNT" : 50
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.7000000000000004,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.9124087591240876,
+        "BLUNT" : 0.8620689655172413,
+        "PIERCE" : 0.896700143472023,
+        "MAGICAL" : 0.876577840112202
+      },
+      "defenses" : {
+        "CLOTH" : 64
+      },
+      "dodgeChance" : 19,
+      "hp" : 720,
+      "id" : "8eb3b65a-1289-4240-ba38-42f51b8c1dab",
+      "initiative" : 140,
+      "initiativeGauge" : 425,
+      "items" : [ {
+        "code" : "sword",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 720,
+      "name" : "W",
+      "power" : 42561.667831273364,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 24
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "7ba4f8ea-602b-4498-8acc-c03caabca779",
+      "initiative" : 120,
+      "initiativeGauge" : 453,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "SLASH" : 300,
+          "BLUNT" : 50
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.7000000000000004,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.9124087591240876,
+        "BLUNT" : 0.8620689655172413,
+        "PIERCE" : 0.896700143472023,
+        "MAGICAL" : 0.876577840112202
+      },
+      "defenses" : {
+        "CLOTH" : 64
+      },
+      "dodgeChance" : 19,
+      "hp" : 720,
+      "id" : "8eb3b65a-1289-4240-ba38-42f51b8c1dab",
+      "initiative" : 140,
+      "initiativeGauge" : 425,
+      "items" : [ {
+        "code" : "sword",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 720,
+      "name" : "W",
+      "power" : 42561.667831273364,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 24
+    } ]
+  }, {
+    "battleSeed" : 118313358752829,
+    "fixture" : {
+      "id" : 1,
+      "name" : "T3",
+      "group" : "T",
+      "members" : [ {
+        "name" : "G",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "code" : "mace",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "tower_shield",
+          "rarity" : "RARE",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cuirass",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "greaves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "sabatons",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "great_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "gauntlets",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "R",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "longbow",
+          "rarity" : "UNCOMMON",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "M",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "staff",
+          "rarity" : "RARE",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "orb",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      } ]
+    },
+    "generationSeed" : 196404563896169,
+    "level" : 25,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 295
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.40241448692152904,
+        "BLUNT" : 0.4514672686230248,
+        "PIERCE" : 0.49689440993788825,
+        "MAGICAL" : 0.37209302325581395
+      },
+      "defenses" : {
+        "ARCANE" : 675
+      },
+      "dodgeChance" : 3,
+      "hp" : 1770,
+      "id" : "0aefc9ad-1376-47e4-80e3-64f4f4647d39",
+      "initiative" : 190,
+      "initiativeGauge" : 60,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1770,
+      "name" : null,
+      "power" : 234939.8797342438,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 548
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6064281382656156,
+        "BLUNT" : 0.6531678641410843,
+        "PIERCE" : 0.6932409012131715,
+        "MAGICAL" : 0.5755395683453237
+      },
+      "defenses" : {
+        "ARCANE" : 295
+      },
+      "dodgeChance" : 5,
+      "hp" : 1180,
+      "id" : "82ccdf84-f644-49c0-9cd3-7ba1eb186963",
+      "initiative" : 160,
+      "initiativeGauge" : 157,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1180,
+      "name" : null,
+      "power" : 172997.48769613655,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 548
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6064281382656156,
+        "BLUNT" : 0.6531678641410843,
+        "PIERCE" : 0.6932409012131715,
+        "MAGICAL" : 0.5755395683453237
+      },
+      "defenses" : {
+        "ARCANE" : 295
+      },
+      "dodgeChance" : 5,
+      "hp" : 1180,
+      "id" : "b1771b66-d081-47bc-94c8-0b69e1225b33",
+      "initiative" : 160,
+      "initiativeGauge" : 4,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1180,
+      "name" : null,
+      "power" : 172997.48769613655,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 295
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.40241448692152904,
+        "BLUNT" : 0.4514672686230248,
+        "PIERCE" : 0.49689440993788825,
+        "MAGICAL" : 0.37209302325581395
+      },
+      "defenses" : {
+        "ARCANE" : 675
+      },
+      "dodgeChance" : 3,
+      "hp" : 1770,
+      "id" : "0aefc9ad-1376-47e4-80e3-64f4f4647d39",
+      "initiative" : 190,
+      "initiativeGauge" : 60,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1770,
+      "name" : null,
+      "power" : 234939.8797342438,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 548
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6064281382656156,
+        "BLUNT" : 0.6531678641410843,
+        "PIERCE" : 0.6932409012131715,
+        "MAGICAL" : 0.5755395683453237
+      },
+      "defenses" : {
+        "ARCANE" : 295
+      },
+      "dodgeChance" : 5,
+      "hp" : 1180,
+      "id" : "82ccdf84-f644-49c0-9cd3-7ba1eb186963",
+      "initiative" : 160,
+      "initiativeGauge" : 157,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1180,
+      "name" : null,
+      "power" : 172997.48769613655,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 548
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6064281382656156,
+        "BLUNT" : 0.6531678641410843,
+        "PIERCE" : 0.6932409012131715,
+        "MAGICAL" : 0.5755395683453237
+      },
+      "defenses" : {
+        "ARCANE" : 295
+      },
+      "dodgeChance" : 5,
+      "hp" : 1180,
+      "id" : "b1771b66-d081-47bc-94c8-0b69e1225b33",
+      "initiative" : 160,
+      "initiativeGauge" : 4,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1180,
+      "name" : null,
+      "power" : 172997.48769613655,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "3104e652-ab99-46b3-8333-23534a9d66fc",
+      "initiative" : 87,
+      "initiativeGauge" : 189,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "0a222d6a-3c93-4b03-b7e9-1bf034e4f0aa",
+      "initiative" : 177,
+      "initiativeGauge" : 59,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "872a99e1-1859-4b2d-9d06-bf223eed1981",
+      "initiative" : 178,
+      "initiativeGauge" : 349,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "3104e652-ab99-46b3-8333-23534a9d66fc",
+      "initiative" : 87,
+      "initiativeGauge" : 189,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "0a222d6a-3c93-4b03-b7e9-1bf034e4f0aa",
+      "initiative" : 177,
+      "initiativeGauge" : 59,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "872a99e1-1859-4b2d-9d06-bf223eed1981",
+      "initiative" : 178,
+      "initiativeGauge" : 349,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    } ]
+  }, {
+    "battleSeed" : 118313358752829,
+    "fixture" : {
+      "id" : 2,
+      "name" : "T3_PLUS_ORDINARY",
+      "group" : "T",
+      "members" : [ {
+        "name" : "G",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "code" : "mace",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "tower_shield",
+          "rarity" : "RARE",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cuirass",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "greaves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "sabatons",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "great_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "gauntlets",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "R",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "longbow",
+          "rarity" : "UNCOMMON",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "M",
+        "position" : "MID",
+        "tactic" : "EXPLOIT_WEAKNESS",
+        "items" : [ {
+          "code" : "staff",
+          "rarity" : "RARE",
+          "active" : "DOUBLE_ATTACK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "orb",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "robe",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "hood",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "cloth_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      }, {
+        "name" : "B",
+        "position" : "FRONT",
+        "tactic" : "WOUNDED_HUNTER",
+        "items" : [ {
+          "code" : "sledgehammer",
+          "rarity" : "UNCOMMON",
+          "active" : "BERSERK",
+          "enhanceLevel" : 3
+        }, {
+          "code" : "breastplate",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "leather_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "leather_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        }, {
+          "code" : "leather_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 3
+        } ]
+      } ]
+    },
+    "generationSeed" : 196404563896169,
+    "level" : 25,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 297
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.40099446627636537,
+        "BLUNT" : 0.45000450004500037,
+        "PIERCE" : 0.49541738915035916,
+        "MAGICAL" : 0.37071362372567196
+      },
+      "defenses" : {
+        "ARCANE" : 679
+      },
+      "dodgeChance" : 3,
+      "hp" : 1781,
+      "id" : "82ccdf84-f644-49c0-9cd3-7ba1eb186963",
+      "initiative" : 190,
+      "initiativeGauge" : 157,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1781,
+      "name" : null,
+      "power" : 238798.1523633174,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 297
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.40099446627636537,
+        "BLUNT" : 0.45000450004500037,
+        "PIERCE" : 0.49541738915035916,
+        "MAGICAL" : 0.37071362372567196
+      },
+      "defenses" : {
+        "ARCANE" : 679
+      },
+      "dodgeChance" : 3,
+      "hp" : 1781,
+      "id" : "b1771b66-d081-47bc-94c8-0b69e1225b33",
+      "initiative" : 190,
+      "initiativeGauge" : 4,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1781,
+      "name" : null,
+      "power" : 238798.1523633174,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 551
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.604814322003145,
+        "BLUNT" : 0.6516356053694774,
+        "PIERCE" : 0.6918021445866482,
+        "MAGICAL" : 0.5738880918220948
+      },
+      "defenses" : {
+        "ARCANE" : 297
+      },
+      "dodgeChance" : 5,
+      "hp" : 1187,
+      "id" : "1c35889b-c1b0-441a-b648-e8ea835b17d1",
+      "initiative" : 160,
+      "initiativeGauge" : 163,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1187,
+      "name" : null,
+      "power" : 175408.25543046635,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 551
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.604814322003145,
+        "BLUNT" : 0.6516356053694774,
+        "PIERCE" : 0.6918021445866482,
+        "MAGICAL" : 0.5738880918220948
+      },
+      "defenses" : {
+        "ARCANE" : 297
+      },
+      "dodgeChance" : 5,
+      "hp" : 1187,
+      "id" : "404fdee9-e367-4db3-8866-c64c9f979f6b",
+      "initiative" : 160,
+      "initiativeGauge" : 140,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1187,
+      "name" : null,
+      "power" : 175408.25543046635,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 297
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.40099446627636537,
+        "BLUNT" : 0.45000450004500037,
+        "PIERCE" : 0.49541738915035916,
+        "MAGICAL" : 0.37071362372567196
+      },
+      "defenses" : {
+        "ARCANE" : 679
+      },
+      "dodgeChance" : 3,
+      "hp" : 1781,
+      "id" : "82ccdf84-f644-49c0-9cd3-7ba1eb186963",
+      "initiative" : 190,
+      "initiativeGauge" : 157,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1781,
+      "name" : null,
+      "power" : 238798.1523633174,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 297
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.40099446627636537,
+        "BLUNT" : 0.45000450004500037,
+        "PIERCE" : 0.49541738915035916,
+        "MAGICAL" : 0.37071362372567196
+      },
+      "defenses" : {
+        "ARCANE" : 679
+      },
+      "dodgeChance" : 3,
+      "hp" : 1781,
+      "id" : "b1771b66-d081-47bc-94c8-0b69e1225b33",
+      "initiative" : 190,
+      "initiativeGauge" : 4,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1781,
+      "name" : null,
+      "power" : 238798.1523633174,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 551
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.604814322003145,
+        "BLUNT" : 0.6516356053694774,
+        "PIERCE" : 0.6918021445866482,
+        "MAGICAL" : 0.5738880918220948
+      },
+      "defenses" : {
+        "ARCANE" : 297
+      },
+      "dodgeChance" : 5,
+      "hp" : 1187,
+      "id" : "1c35889b-c1b0-441a-b648-e8ea835b17d1",
+      "initiative" : 160,
+      "initiativeGauge" : 163,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1187,
+      "name" : null,
+      "power" : 175408.25543046635,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 551
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.604814322003145,
+        "BLUNT" : 0.6516356053694774,
+        "PIERCE" : 0.6918021445866482,
+        "MAGICAL" : 0.5738880918220948
+      },
+      "defenses" : {
+        "ARCANE" : 297
+      },
+      "dodgeChance" : 5,
+      "hp" : 1187,
+      "id" : "404fdee9-e367-4db3-8866-c64c9f979f6b",
+      "initiative" : 160,
+      "initiativeGauge" : 140,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1187,
+      "name" : null,
+      "power" : 175408.25543046635,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "3104e652-ab99-46b3-8333-23534a9d66fc",
+      "initiative" : 87,
+      "initiativeGauge" : 189,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "0a222d6a-3c93-4b03-b7e9-1bf034e4f0aa",
+      "initiative" : 177,
+      "initiativeGauge" : 59,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "872a99e1-1859-4b2d-9d06-bf223eed1981",
+      "initiative" : 178,
+      "initiativeGauge" : 349,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 477
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8322237017310252,
+        "BLUNT" : 0.8023106546854942,
+        "PIERCE" : 0.78125,
+        "MAGICAL" : 0.8561643835616438
+      },
+      "defenses" : {
+        "LEATHER" : 112
+      },
+      "dodgeChance" : 5,
+      "hp" : 1840,
+      "id" : "e38d3162-a92d-42d0-9954-9c3dad734d33",
+      "initiative" : 120,
+      "initiativeGauge" : 33,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "UNCOMMON",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 1840,
+      "name" : "B",
+      "power" : 139057.5917161332,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 2
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 343
+        }
+      } ],
+      "critChance" : 2,
+      "critMultiplier" : 1.25,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6379585326953747,
+        "BLUNT" : 0.7459903021260723,
+        "PIERCE" : 0.6669334400426837,
+        "MAGICAL" : 0.7099247479767145
+      },
+      "defenses" : {
+        "PLATE" : 227
+      },
+      "dodgeChance" : 1,
+      "hp" : 2622,
+      "id" : "3104e652-ab99-46b3-8333-23534a9d66fc",
+      "initiative" : 87,
+      "initiativeGauge" : 189,
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2622,
+      "name" : "G",
+      "power" : 113929.46607196904,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 56
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "PIERCE" : 437
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 6,
+      "hp" : 1254,
+      "id" : "0a222d6a-3c93-4b03-b7e9-1bf034e4f0aa",
+      "initiative" : 177,
+      "initiativeGauge" : 59,
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "R",
+      "power" : 117733.63893803756,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 8
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 414
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 357
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.5800000000000003,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.898876404494382,
+        "BLUNT" : 0.8421052631578947,
+        "PIERCE" : 0.8810572687224669,
+        "MAGICAL" : 0.8583690987124464
+      },
+      "defenses" : {
+        "CLOTH" : 75
+      },
+      "dodgeChance" : 7,
+      "hp" : 1254,
+      "id" : "872a99e1-1859-4b2d-9d06-bf223eed1981",
+      "initiative" : 178,
+      "initiativeGauge" : 349,
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "skill" : "DOUBLE_ATTACK"
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1254,
+      "name" : "M",
+      "power" : 114154.93498768652,
+      "range" : 3,
+      "skills" : [ {
+        "code" : "DOUBLE_ATTACK",
+        "points" : 2
+      } ],
+      "startPosition" : "MID",
+      "targetingTactic" : "EXPLOIT_WEAKNESS",
+      "totalThreat" : 10
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 477
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8322237017310252,
+        "BLUNT" : 0.8023106546854942,
+        "PIERCE" : 0.78125,
+        "MAGICAL" : 0.8561643835616438
+      },
+      "defenses" : {
+        "LEATHER" : 112
+      },
+      "dodgeChance" : 5,
+      "hp" : 1840,
+      "id" : "e38d3162-a92d-42d0-9954-9c3dad734d33",
+      "initiative" : 120,
+      "initiativeGauge" : 33,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "UNCOMMON",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 1840,
+      "name" : "B",
+      "power" : 139057.5917161332,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 2
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ]
+  }, {
+    "battleSeed" : 137104354546404,
+    "fixture" : {
+      "id" : 3,
+      "name" : "S1_STRONG",
+      "group" : "S",
+      "members" : [ {
+        "name" : "S",
+        "position" : "FRONT",
+        "tactic" : "WOUNDED_HUNTER",
+        "items" : [ {
+          "code" : "sledgehammer",
+          "rarity" : "RARE",
+          "active" : "BERSERK",
+          "enhanceLevel" : 6
+        }, {
+          "code" : "breastplate",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        } ]
+      } ]
+    },
+    "generationSeed" : 131616163882911,
+    "level" : 25,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 261
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.432264199878966,
+        "BLUNT" : 0.4820206304829847,
+        "PIERCE" : 0.5275652862041678,
+        "MAGICAL" : 0.40120361083249745
+      },
+      "defenses" : {
+        "ARCANE" : 597
+      },
+      "dodgeChance" : 3,
+      "hp" : 1565,
+      "id" : "bf2d2538-12ac-40d0-86b5-efef949bad4e",
+      "initiative" : 190,
+      "initiativeGauge" : 463,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1565,
+      "name" : null,
+      "power" : 171802.95033879753,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 485
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6352432981832041,
+        "BLUNT" : 0.6803646754660497,
+        "PIERCE" : 0.7186489399928135,
+        "MAGICAL" : 0.605143721633888
+      },
+      "defenses" : {
+        "ARCANE" : 261
+      },
+      "dodgeChance" : 5,
+      "hp" : 1044,
+      "id" : "44436933-a406-4e27-b347-1e0ed1ac70c5",
+      "initiative" : 160,
+      "initiativeGauge" : 401,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1044,
+      "name" : null,
+      "power" : 129779.04946370018,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 261
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.432264199878966,
+        "BLUNT" : 0.4820206304829847,
+        "PIERCE" : 0.5275652862041678,
+        "MAGICAL" : 0.40120361083249745
+      },
+      "defenses" : {
+        "ARCANE" : 597
+      },
+      "dodgeChance" : 3,
+      "hp" : 1565,
+      "id" : "bf2d2538-12ac-40d0-86b5-efef949bad4e",
+      "initiative" : 190,
+      "initiativeGauge" : 463,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1565,
+      "name" : null,
+      "power" : 171802.95033879753,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 485
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6352432981832041,
+        "BLUNT" : 0.6803646754660497,
+        "PIERCE" : 0.7186489399928135,
+        "MAGICAL" : 0.605143721633888
+      },
+      "defenses" : {
+        "ARCANE" : 261
+      },
+      "dodgeChance" : 5,
+      "hp" : 1044,
+      "id" : "44436933-a406-4e27-b347-1e0ed1ac70c5",
+      "initiative" : 160,
+      "initiativeGauge" : 401,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1044,
+      "name" : null,
+      "power" : 129779.04946370018,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "aca91670-948a-4727-91a2-01018097e942",
+      "initiative" : 120,
+      "initiativeGauge" : 293,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "aca91670-948a-4727-91a2-01018097e942",
+      "initiative" : 120,
+      "initiativeGauge" : 293,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    } ]
+  }, {
+    "battleSeed" : 137104354546404,
+    "fixture" : {
+      "id" : 4,
+      "name" : "S1_PLUS_WEAK",
+      "group" : "S",
+      "members" : [ {
+        "name" : "S",
+        "position" : "FRONT",
+        "tactic" : "WOUNDED_HUNTER",
+        "items" : [ {
+          "code" : "sledgehammer",
+          "rarity" : "RARE",
+          "active" : "BERSERK",
+          "enhanceLevel" : 6
+        }, {
+          "code" : "breastplate",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_chausses",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "boots",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_helm",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        }, {
+          "code" : "leather_gloves",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 6
+        } ]
+      }, {
+        "name" : "W",
+        "position" : "FRONT",
+        "tactic" : "THREAT",
+        "items" : [ {
+          "code" : "sword",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "off-fists",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "torn_jacket",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "leaky_pants",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "footcloths",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "panama",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        }, {
+          "code" : "bandages",
+          "rarity" : "COMMON",
+          "active" : null,
+          "enhanceLevel" : 0
+        } ]
+      } ]
+    },
+    "generationSeed" : 131616163882911,
+    "level" : 25,
+    "npcPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 284
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.41152263374485587,
+        "BLUNT" : 0.4608294930875576,
+        "PIERCE" : 0.5063291139240507,
+        "MAGICAL" : 0.38095238095238093
+      },
+      "defenses" : {
+        "ARCANE" : 650
+      },
+      "dodgeChance" : 3,
+      "hp" : 1704,
+      "id" : "6a394dee-1732-4f6c-91c8-09cb4bcea6f2",
+      "initiative" : 190,
+      "initiativeGauge" : 158,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1704,
+      "name" : null,
+      "power" : 213196.19185025615,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 528
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6154603643525357,
+        "BLUNT" : 0.6617257808364214,
+        "PIERCE" : 0.7012622720897616,
+        "MAGICAL" : 0.5847953216374269
+      },
+      "defenses" : {
+        "ARCANE" : 284
+      },
+      "dodgeChance" : 5,
+      "hp" : 1136,
+      "id" : "ffacfb21-041b-42ef-9d47-2dcdabd1d75d",
+      "initiative" : 160,
+      "initiativeGauge" : 349,
+      "items" : [ ],
+      "lineIndex" : 3,
+      "maxHp" : 1136,
+      "name" : null,
+      "power" : 158290.74409114293,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "npcPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 284
+        }
+      } ],
+      "critChance" : 4,
+      "critMultiplier" : 1.5,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.41152263374485587,
+        "BLUNT" : 0.4608294930875576,
+        "PIERCE" : 0.5063291139240507,
+        "MAGICAL" : 0.38095238095238093
+      },
+      "defenses" : {
+        "ARCANE" : 650
+      },
+      "dodgeChance" : 3,
+      "hp" : 1704,
+      "id" : "6a394dee-1732-4f6c-91c8-09cb4bcea6f2",
+      "initiative" : 190,
+      "initiativeGauge" : 158,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1704,
+      "name" : null,
+      "power" : 213196.19185025615,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 35
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 528
+        }
+      } ],
+      "critChance" : 8,
+      "critMultiplier" : 1.7,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.6154603643525357,
+        "BLUNT" : 0.6617257808364214,
+        "PIERCE" : 0.7012622720897616,
+        "MAGICAL" : 0.5847953216374269
+      },
+      "defenses" : {
+        "ARCANE" : 284
+      },
+      "dodgeChance" : 5,
+      "hp" : 1136,
+      "id" : "ffacfb21-041b-42ef-9d47-2dcdabd1d75d",
+      "initiative" : 160,
+      "initiativeGauge" : 349,
+      "items" : [ ],
+      "lineIndex" : -1,
+      "maxHp" : 1136,
+      "name" : null,
+      "power" : 158290.74409114293,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "startPosition" : "BACK",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 15
+    } ],
+    "playersPlaced" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "aca91670-948a-4727-91a2-01018097e942",
+      "initiative" : 120,
+      "initiativeGauge" : 293,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "SLASH" : 300,
+          "BLUNT" : 50
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.7000000000000004,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.9124087591240876,
+        "BLUNT" : 0.8620689655172413,
+        "PIERCE" : 0.896700143472023,
+        "MAGICAL" : 0.876577840112202
+      },
+      "defenses" : {
+        "CLOTH" : 64
+      },
+      "dodgeChance" : 19,
+      "hp" : 720,
+      "id" : "a7b1dc24-8b2e-4f5a-a7f7-42c6f789ce0a",
+      "initiative" : 140,
+      "initiativeGauge" : 128,
+      "items" : [ {
+        "code" : "sword",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : 2,
+      "maxHp" : 720,
+      "name" : "W",
+      "power" : 42561.667831273364,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 24
+    } ],
+    "playersPrepared" : [ {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 540
+        }
+      } ],
+      "critChance" : 7,
+      "critMultiplier" : 1.5000000000000002,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.8175277959450621,
+        "BLUNT" : 0.7856693903205532,
+        "PIERCE" : 0.7633587786259541,
+        "MAGICAL" : 0.8431703204047217
+      },
+      "defenses" : {
+        "LEATHER" : 124
+      },
+      "dodgeChance" : 5,
+      "hp" : 2080,
+      "id" : "aca91670-948a-4727-91a2-01018097e942",
+      "initiative" : 120,
+      "initiativeGauge" : 293,
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "skill" : "BERSERK"
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 2080,
+      "name" : "S",
+      "power" : 183926.56180821478,
+      "range" : 1,
+      "skills" : [ {
+        "code" : "BERSERK",
+        "points" : 4
+      } ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "WOUNDED_HUNTER",
+      "totalThreat" : 18
+    }, {
+      "attacksByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "SLASH" : 300,
+          "BLUNT" : 50
+        }
+      } ],
+      "critChance" : 10,
+      "critMultiplier" : 1.7000000000000004,
+      "damageTakenMultipliers" : {
+        "SLASH" : 0.9124087591240876,
+        "BLUNT" : 0.8620689655172413,
+        "PIERCE" : 0.896700143472023,
+        "MAGICAL" : 0.876577840112202
+      },
+      "defenses" : {
+        "CLOTH" : 64
+      },
+      "dodgeChance" : 19,
+      "hp" : 720,
+      "id" : "a7b1dc24-8b2e-4f5a-a7f7-42c6f789ce0a",
+      "initiative" : 140,
+      "initiativeGauge" : 128,
+      "items" : [ {
+        "code" : "sword",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ],
+      "lineIndex" : -1,
+      "maxHp" : 720,
+      "name" : "W",
+      "power" : 42561.667831273364,
+      "range" : 1,
+      "skills" : [ ],
+      "startPosition" : "FRONT",
+      "targetingTactic" : "THREAT",
+      "totalThreat" : 24
+    } ]
+  } ],
+  "fixtures" : [ {
+    "id" : 1,
+    "name" : "T3",
+    "group" : "T",
+    "members" : [ {
+      "name" : "G",
+      "position" : "FRONT",
+      "tactic" : "THREAT",
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    }, {
+      "name" : "R",
+      "position" : "MID",
+      "tactic" : "EXPLOIT_WEAKNESS",
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "active" : "DOUBLE_ATTACK",
+        "enhanceLevel" : 3
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    }, {
+      "name" : "M",
+      "position" : "MID",
+      "tactic" : "EXPLOIT_WEAKNESS",
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "active" : "DOUBLE_ATTACK",
+        "enhanceLevel" : 3
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    } ]
+  }, {
+    "id" : 2,
+    "name" : "T3_PLUS_ORDINARY",
+    "group" : "T",
+    "members" : [ {
+      "name" : "G",
+      "position" : "FRONT",
+      "tactic" : "THREAT",
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "RARE",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    }, {
+      "name" : "R",
+      "position" : "MID",
+      "tactic" : "EXPLOIT_WEAKNESS",
+      "items" : [ {
+        "code" : "longbow",
+        "rarity" : "UNCOMMON",
+        "active" : "DOUBLE_ATTACK",
+        "enhanceLevel" : 3
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    }, {
+      "name" : "M",
+      "position" : "MID",
+      "tactic" : "EXPLOIT_WEAKNESS",
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "RARE",
+        "active" : "DOUBLE_ATTACK",
+        "enhanceLevel" : 3
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "robe",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "hood",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "cloth_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    }, {
+      "name" : "B",
+      "position" : "FRONT",
+      "tactic" : "WOUNDED_HUNTER",
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "UNCOMMON",
+        "active" : "BERSERK",
+        "enhanceLevel" : 3
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 3
+      } ]
+    } ]
+  }, {
+    "id" : 3,
+    "name" : "S1_STRONG",
+    "group" : "S",
+    "members" : [ {
+      "name" : "S",
+      "position" : "FRONT",
+      "tactic" : "WOUNDED_HUNTER",
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "active" : "BERSERK",
+        "enhanceLevel" : 6
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      } ]
+    } ]
+  }, {
+    "id" : 4,
+    "name" : "S1_PLUS_WEAK",
+    "group" : "S",
+    "members" : [ {
+      "name" : "S",
+      "position" : "FRONT",
+      "tactic" : "WOUNDED_HUNTER",
+      "items" : [ {
+        "code" : "sledgehammer",
+        "rarity" : "RARE",
+        "active" : "BERSERK",
+        "enhanceLevel" : 6
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 6
+      } ]
+    }, {
+      "name" : "W",
+      "position" : "FRONT",
+      "tactic" : "THREAT",
+      "items" : [ {
+        "code" : "sword",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "active" : null,
+        "enhanceLevel" : 0
+      } ]
+    } ]
+  } ],
+  "groupId" : "10*level + (T=1,S=2)",
+  "levels" : [ 10, 25 ],
+  "namespaces" : {
+    "battle" : "MYCONID-15.4.2-CAUSAL-PILOT-BATTLE-20261108-v1",
+    "generation" : "MYCONID-15.4.2-CAUSAL-PILOT-GEN-20261108-v1"
+  },
+  "npcRules" : "Literal historical MyconidColonyGenerator: all historical trial RNG retained; q=1+((L-10)*.06+.14), g(M), calibration .77; both NPC range1",
+  "pairs" : 30,
+  "purpose" : "COHERENT_HISTORICAL_RULES_DIAGNOSIS_NO_PRODUCTION_CHANGE",
+  "roundLimit" : 2000,
+  "seedDerivation" : "SHA256(namespace+'/'+groupId+'/'+pair), first six bytes big-endian positive long"
+}

@@ -1,0 +1,28 @@
+{
+  "basis": "step 15 selected public input overlay",
+  "previousFiles": 198,
+  "unchangedFiles": 190,
+  "changedFiles": [
+    "game/src/main/java/ru/homyakin/seeker/game/event/pve/GeneratedPveEnemies.java",
+    "game/src/main/java/ru/homyakin/seeker/game/event/pve/PveCharacteristicScaling.java",
+    "game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java",
+    "game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/RaidGenerator.java",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/MyconidColonyAdaptationTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/PveAdaptationStudy.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/pve/PveCharacteristicScalingTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/raid/generator/RaidNpcCombatVersionTest.java"
+  ],
+  "newFiles": [
+    "game/src/main/java/ru/homyakin/seeker/game/event/pve/PveTeamAssessment.java",
+    "game/src/main/java/ru/homyakin/seeker/game/event/pve/PveScalingDiagnostics.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/pve/PveTeamAssessmentTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/pve/PveScalingDiagnosticsTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/raid/generator/MyconidTeamScalingTest.java"
+  ],
+  "snapshotFiles": 203,
+  "excluded": [
+    "ignored local application configuration",
+    "build artifacts",
+    "unrelated InMemoryLockServiceTest changes"
+  ]
+}

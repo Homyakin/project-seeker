@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "rows": 2000,
+  "conditions": 2,
+  "pairs": 500,
+  "outcomes": {
+    "LOSS": 1385,
+    "WIN": 615
+  },
+  "fullEventLogsVerified": 8,
+  "playerPrefixChecks": 1000,
+  "pair0FrozenSnapshotChecks": 4,
+  "scalarTargetChecks": 0,
+  "scalarIntegerStatsChecks": 0,
+  "v3ActualLegacyPowerChecks": 14000,
+  "rawGzipSha256": "15f0ec4ab239fb64d7f71904bec97505d95e9f096de5fadd1e244ee161b3cf7f",
+  "rawJsonlSha256": "400058a412a33d5e04e387be61f7fc9f43ec3d6f80d18563b3c42d7a2a314bba",
+  "scope": "Saved-data validation only; fixed500pairC9confirmation, no acceptance or universal50/50 claim. Full event logs and separately exported trace arrays checked for first2pairs each condition; no new battles."
+}

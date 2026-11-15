@@ -1,0 +1,109 @@
+{
+  "status": "BALANCE_NOT_ACCEPTED",
+  "date": "2026-11-08",
+  "baseCommit": "bd142e61a0aa2fc0e1b2117164ab4bc6fac29469",
+  "sourceSnapshot": "../raid-redesign-step-15-2-evidence/sources.tar.gz",
+  "sourceSnapshotSha256": "88cb5b11036788a0f211f417d2f2cde81c2268aed373afa31c447686c38cf842",
+  "model": {
+    "assessment": "NEUTRAL_TEAM_V1",
+    "catalog": "SCALING_V5",
+    "skills": "SCALING_SKILLS_V3",
+    "tempo": "ACCELERATED_V1",
+    "C": 0.5900075417594784,
+    "a": 0.7
+  },
+  "rawPolicy": "Complete original JSONL contents, recompressed gzip to xz without semantic or byte changes after decompression; no action logs, only original log digests",
+  "runs": [
+    {
+      "name": "matrix",
+      "file": "matrix-battles.jsonl.xz",
+      "battles": 21000,
+      "originalGzipSha256": "9bdf2344291e4602dc4394f63fdf4757c91ee4451356f15b34600becd7892b1a",
+      "archivedSha256": "81f45032c59f8cf72daf34e19b10cd090f09f689abd49cb6ee6002f64e235222",
+      "jsonlSha256": "4d645c2a78a0b5278a30143445ea56ce76eae05aec193c0cfc72a52b776730ed",
+      "jsonlBytes": 1298193744,
+      "archivedBytes": 12684336
+    },
+    {
+      "name": "ordinary-confirmation",
+      "file": "ordinary-confirmation-battles.jsonl.xz",
+      "battles": 12000,
+      "originalGzipSha256": "dbd5b73fa4b6ae6a71deaed7fec46735d932adade58359f8699d05d19db18a4e",
+      "archivedSha256": "8de568b59746de19e7aa00fef63e9a2c1a1e149f3f3667917af5477162cdc2fe",
+      "jsonlSha256": "4f9ed38c5ff7e9ed1d6a7a4f795ffcd60715d9392cfde4372254832fd2e9c7a1",
+      "jsonlBytes": 361249466,
+      "archivedBytes": 4550484
+    },
+    {
+      "name": "causal-screen",
+      "file": "causal-screen-battles.jsonl.xz",
+      "battles": 14400,
+      "originalGzipSha256": "449fce75c09c56010cc2007fab807bbf43ab10001f1d2ea0ffc2ff28759f8ab5",
+      "archivedSha256": "e73a2902b92a9570a296d329e3ee7a47968210438bfd08b2f9d5608c8ef694b2",
+      "jsonlSha256": "8f23151521b2ba208e0fd966a1baff8e464f95c6514abf97ecfd36be0499c0f8",
+      "jsonlBytes": 723699517,
+      "archivedBytes": 5791464
+    },
+    {
+      "name": "causal-confirmation",
+      "file": "causal-confirmation-battles.jsonl.xz",
+      "battles": 21000,
+      "originalGzipSha256": "6cfada843cefd311246d48cd611774aeccd95522ac6bc1f21697d09316a9030a",
+      "archivedSha256": "c02f1b74d7c4f5b2f8bc123de634ac2ac9f2782309a1eafdf465c45686990563",
+      "jsonlSha256": "b543a9a0534afe16daa69afb0d0223a1eed5570b687663a50406bad6db3ffff3",
+      "jsonlBytes": 942566314,
+      "archivedBytes": 10346624
+    },
+    {
+      "name": "fillers-screen",
+      "file": "fillers-screen-battles.jsonl.xz",
+      "battles": 10800,
+      "originalGzipSha256": "94ff0d51008e10886655488532771f85cda918cfb234bcdc28a4a0ead5eadf90",
+      "archivedSha256": "abfc917c604c075cd8369d243dd48237d14a135154809e7be626b69935548b06",
+      "jsonlSha256": "c7e85fdc37156e3f9ddac579a618a47671dfef874b34ea7b6dc7f210b7811fb0",
+      "jsonlBytes": 793106925,
+      "archivedBytes": 6539280
+    },
+    {
+      "name": "fillers-main-confirmation",
+      "file": "fillers-main-confirmation-battles.jsonl.xz",
+      "battles": 3000,
+      "originalGzipSha256": "c46d38097bed652fec0f39f33ab99065e57af9b435785e967ee89a88586e9909",
+      "archivedSha256": "b6f962fdc441c4f3b3459bf1e4e357c4ecbe6ecb6e24fbb937a9400262609c66",
+      "jsonlSha256": "bd809c1cfd40407a00041f7d0ef0df9b7fe25bed1ad05bc09bd796a07c08f990",
+      "jsonlBytes": 50946719,
+      "archivedBytes": 798952
+    },
+    {
+      "name": "fillers-pierce-confirmation",
+      "file": "fillers-pierce-confirmation-battles.jsonl.xz",
+      "battles": 3000,
+      "originalGzipSha256": "1eb261dcd571b780cfee63245ba2592ff677b48f161fbea7d6bb40ed98f0f765",
+      "archivedSha256": "de386cd73d507320fd2063a53c30f2a3a57746cea58721d4ad17c9fd5bcdb138",
+      "jsonlSha256": "eddfd029991ae8e31c5b3e64fc9604909da6f445d9f4c9df677527e746174b61",
+      "jsonlBytes": 251938033,
+      "archivedBytes": 2155672
+    },
+    {
+      "name": "fillers-ritual-confirmation",
+      "file": "fillers-ritual-confirmation-battles.jsonl.xz",
+      "battles": 3000,
+      "originalGzipSha256": "10ffd342bb9b9e88dda62a44bda2ded04096e0d5d9efa4d5eb800c80727b4f59",
+      "archivedSha256": "f66f14cb50c157e618b9f037a22c659a8544dfe6b5785290a7aa295de30c8c7c",
+      "jsonlSha256": "ea8f7145ad9f0a2192968902d89b8f6ebf588f01e385e6b28f0b85e4752a98e4",
+      "jsonlBytes": 82908676,
+      "archivedBytes": 1040772
+    },
+    {
+      "name": "ritual-confirmation",
+      "file": "ritual-confirmation-battles.jsonl.xz",
+      "battles": 3000,
+      "originalGzipSha256": "dd2107f66b8a5ae488a335f55d3c22d9ca7b1bf474e5290b3b2ff0b4a50a4885",
+      "archivedSha256": "8790618367435f72a8e038b4684365fd1a42647c77e8b8b8e85a99884a684122",
+      "jsonlSha256": "6a2487d2c7c1c87f740dca664a36cfef91a12a2e2690ba0799a84d3aa2085296",
+      "jsonlBytes": 356509861,
+      "archivedBytes": 2892372
+    }
+  ],
+  "totalBattles": 91200
+}

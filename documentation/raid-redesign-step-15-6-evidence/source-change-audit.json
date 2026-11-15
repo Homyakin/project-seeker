@@ -1,0 +1,16 @@
+{
+  "baseline": "step15.2 public input manifest",
+  "files": 203,
+  "unchanged": 196,
+  "changed": [
+    "game/src/main/java/ru/homyakin/seeker/game/battle/BattlePersonage.java",
+    "game/src/main/java/ru/homyakin/seeker/game/event/raid/generator/MyconidColonyGenerator.java",
+    "game/src/main/java/ru/homyakin/seeker/game/personage/power/ReferencePowerCalculator.java",
+    "game/src/test/java/ru/homyakin/seeker/game/battle/MyconidColonyAdaptationTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/raid/generator/MyconidTeamScalingTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/raid/generator/RaidNpcCombatVersionTest.java",
+    "game/src/test/java/ru/homyakin/seeker/game/event/raid/processing/RaidProcessingCombatVersionTest.java"
+  ],
+  "unrelatedChanges": 0,
+  "userLockTestUnchanged": true
+}

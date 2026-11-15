@@ -1,0 +1,3035 @@
+{
+  "purpose" : "HISTORICAL_CONSTRUCTION_ONLY_NO_BATTLES",
+  "sourceCommit" : "6150d562546cca22bed139c4d0fa23456e4d801e",
+  "battleClassLocation" : "file:/tmp/seeker-step1542-historical.77NJth/classes-6150/",
+  "personageClassLocation" : "file:/tmp/seeker-step1542-historical.77NJth/classes-6150/",
+  "oldCatalogCount" : 40,
+  "oldModifiers" : [ {
+    "code" : "counter",
+    "activeEnum" : "COUNTER_ATTACK",
+    "type" : "DEFENSE",
+    "availableOnSlots" : [ "HELMET", "GLOVES", "BODY", "PANTS" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Ответный",
+          "FEMININE" : "Ответная",
+          "NEUTER" : "Ответное",
+          "PLURAL" : "Ответные"
+        }
+      }
+    }
+  }, {
+    "code" : "thorny",
+    "activeEnum" : "THORNS",
+    "type" : "DEFENSE",
+    "availableOnSlots" : [ "GLOVES", "BODY", "PANTS" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Колючий",
+          "FEMININE" : "Колючая",
+          "NEUTER" : "Колючее",
+          "PLURAL" : "Колючие"
+        }
+      }
+    }
+  }, {
+    "code" : "double",
+    "activeEnum" : "DOUBLE_ATTACK",
+    "type" : "ATTACK",
+    "availableOnSlots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Двойной",
+          "FEMININE" : "Двойная",
+          "NEUTER" : "Двойное",
+          "PLURAL" : "Двойные"
+        }
+      }
+    }
+  }, {
+    "code" : "furious",
+    "activeEnum" : "BERSERK",
+    "type" : "ANY",
+    "availableOnSlots" : [ "OFF_HAND", "BODY", "MAIN_HAND" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Гневный",
+          "FEMININE" : "Гневная",
+          "NEUTER" : "Гневное",
+          "PLURAL" : "Гневные"
+        }
+      }
+    }
+  }, {
+    "code" : "swift",
+    "activeEnum" : "HIT_AND_RUN",
+    "type" : "DEFENSE",
+    "availableOnSlots" : [ "HELMET", "GLOVES", "SHOES" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Резвый",
+          "FEMININE" : "Резвая",
+          "NEUTER" : "Резвое",
+          "PLURAL" : "Резвые"
+        }
+      }
+    }
+  }, {
+    "code" : "sharp",
+    "activeEnum" : "BLEEDING",
+    "type" : "ATTACK",
+    "availableOnSlots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Острый",
+          "FEMININE" : "Острая",
+          "NEUTER" : "Острое",
+          "PLURAL" : "Острые"
+        }
+      }
+    }
+  }, {
+    "code" : "knocking",
+    "activeEnum" : "KNOCKBACK",
+    "type" : "ANY",
+    "availableOnSlots" : [ "GLOVES", "OFF_HAND", "MAIN_HAND", "SHOES" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Сбивающий",
+          "FEMININE" : "Сбивающая",
+          "NEUTER" : "Сбивающее",
+          "PLURAL" : "Сбивающие"
+        }
+      }
+    }
+  }, {
+    "code" : "healing",
+    "activeEnum" : "SELF_HEAL",
+    "type" : "DEFENSE",
+    "availableOnSlots" : [ "HELMET", "BODY", "PANTS", "SHOES" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Лечебный",
+          "FEMININE" : "Лечебная",
+          "NEUTER" : "Лечебное",
+          "PLURAL" : "Лечебные"
+        }
+      }
+    }
+  }, {
+    "code" : "precise",
+    "activeEnum" : "PRECISE_STRIKE",
+    "type" : "ATTACK",
+    "availableOnSlots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Точный",
+          "FEMININE" : "Точная",
+          "NEUTER" : "Точное",
+          "PLURAL" : "Точные"
+        }
+      }
+    }
+  }, {
+    "code" : "retreating",
+    "activeEnum" : "RETREAT",
+    "type" : "DEFENSE",
+    "availableOnSlots" : [ "HELMET", "PANTS", "SHOES" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Отступающий",
+          "FEMININE" : "Отступающая",
+          "NEUTER" : "Отступающее",
+          "PLURAL" : "Отступающие"
+        }
+      }
+    }
+  }, {
+    "code" : "cunning",
+    "activeEnum" : "FEINT",
+    "type" : "ANY",
+    "availableOnSlots" : [ "GLOVES", "OFF_HAND", "MAIN_HAND", "SHOES" ],
+    "locales" : {
+      "RU" : {
+        "form" : {
+          "MASCULINE" : "Хитрый",
+          "FEMININE" : "Хитрая",
+          "NEUTER" : "Хитрое",
+          "PLURAL" : "Хитрые"
+        }
+      }
+    }
+  } ],
+  "commonItemCodes" : [ "arcane_boots", "arcane_chausses", "arcane_gloves", "boots", "bow", "breastplate", "buckler", "circlet", "cloth_boots", "cloth_chausses", "cloth_gloves", "club", "crossbow", "cuirass", "dagger", "dirk", "gauntlets", "great_helm", "greaves", "halberd", "hood", "leather_chausses", "leather_gloves", "leather_helm", "longbow", "mace", "orb", "rapier", "robe", "sabatons", "shield", "shortsword", "sledgehammer", "spear", "staff", "sword", "tome", "tower_shield", "two_handed_sword", "wizard_robe" ],
+  "newOnlyItemCodes" : [ "battle_staff", "brigandine", "ceremonial_gloves", "ceremonial_slippers", "ceremonial_trousers", "ceremonial_tunic", "ceremonial_veil", "command_staff", "fencing_gloves", "hunter_jacket", "light_sabatons", "mail_gauntlets", "mail_greaves", "open_helm", "phantom_boots", "phantom_chausses", "phantom_crown", "phantom_gloves", "phantom_vestment", "riding_breeches", "ritual_staff", "soft_boots", "wide_brim_hat" ],
+  "oldOnlyItemCodes" : [ ],
+  "oldCatalog" : [ {
+    "code" : "sword",
+    "slots" : [ "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "SLASH",
+      "range" : 1,
+      "attack" : 300
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 2,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.05,
+    "speed" : 15,
+    "baseThreat" : 8,
+    "locales" : {
+      "RU" : {
+        "text" : "Меч",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "rapier",
+    "slots" : [ "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "PIERCE",
+      "range" : 1,
+      "attack" : 285
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 4,
+    "dodgeChance" : 5,
+    "critMultiplier" : 0.08,
+    "speed" : 20,
+    "baseThreat" : 4,
+    "locales" : {
+      "RU" : {
+        "text" : "Рапира",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "mace",
+    "slots" : [ "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "BLUNT",
+      "range" : 1,
+      "attack" : 298
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 2,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 15,
+    "baseThreat" : 12,
+    "locales" : {
+      "RU" : {
+        "text" : "Булава",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "spear",
+    "slots" : [ "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "PIERCE",
+      "range" : 2,
+      "attack" : 310
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 3,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.05,
+    "speed" : 10,
+    "baseThreat" : 5,
+    "locales" : {
+      "RU" : {
+        "text" : "Копьё",
+        "form" : "NEUTER"
+      }
+    }
+  }, {
+    "code" : "staff",
+    "slots" : [ "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "MAGICAL",
+      "range" : 3,
+      "attack" : 310
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 3,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.08,
+    "speed" : 10,
+    "baseThreat" : 5,
+    "locales" : {
+      "RU" : {
+        "text" : "Посох",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "bow",
+    "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "PIERCE",
+      "range" : 2,
+      "attack" : 360
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 4,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.05,
+    "speed" : 35,
+    "baseThreat" : 4,
+    "locales" : {
+      "RU" : {
+        "text" : "Лук",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "longbow",
+    "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "PIERCE",
+      "range" : 3,
+      "attack" : 380
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 3,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 31,
+    "baseThreat" : 5,
+    "locales" : {
+      "RU" : {
+        "text" : "Длинный Лук",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "crossbow",
+    "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "BLUNT",
+      "range" : 4,
+      "attack" : 370
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 5,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.08,
+    "speed" : 35,
+    "baseThreat" : 8,
+    "locales" : {
+      "RU" : {
+        "text" : "Арбалет",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "two_handed_sword",
+    "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "SLASH",
+      "range" : 1,
+      "attack" : 400
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 4,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.1,
+    "speed" : 25,
+    "baseThreat" : 10,
+    "locales" : {
+      "RU" : {
+        "text" : "Двуручный Меч",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "sledgehammer",
+    "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "BLUNT",
+      "range" : 1,
+      "attack" : 415
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 2,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.05,
+    "speed" : 20,
+    "baseThreat" : 12,
+    "locales" : {
+      "RU" : {
+        "text" : "Кувалда",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "halberd",
+    "slots" : [ "OFF_HAND", "MAIN_HAND" ],
+    "attack" : {
+      "attackType" : "PIERCE",
+      "range" : 2,
+      "attack" : 398
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 3,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.05,
+    "speed" : 25,
+    "baseThreat" : 10,
+    "locales" : {
+      "RU" : {
+        "text" : "Алебарда",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "shortsword",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : {
+      "attackType" : "SLASH",
+      "range" : 1,
+      "attack" : 50
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 2,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.05,
+    "speed" : 25,
+    "baseThreat" : 2,
+    "locales" : {
+      "RU" : {
+        "text" : "Короткий Меч",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "club",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : {
+      "attackType" : "BLUNT",
+      "range" : 1,
+      "attack" : 50
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.03,
+    "speed" : 25,
+    "baseThreat" : 8,
+    "locales" : {
+      "RU" : {
+        "text" : "Дубина",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "dagger",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : {
+      "attackType" : "SLASH",
+      "range" : 1,
+      "attack" : 42
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 5,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.1,
+    "speed" : 18,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Кинжал",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "dirk",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : {
+      "attackType" : "PIERCE",
+      "range" : 1,
+      "attack" : 52
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 2,
+    "dodgeChance" : 5,
+    "critMultiplier" : 0.05,
+    "speed" : 28,
+    "baseThreat" : 4,
+    "locales" : {
+      "RU" : {
+        "text" : "Кортик",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "orb",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : {
+      "attackType" : "MAGICAL",
+      "range" : 2,
+      "attack" : 50
+    },
+    "defense" : null,
+    "health" : 0,
+    "critChance" : 2,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 22,
+    "baseThreat" : 2,
+    "locales" : {
+      "RU" : {
+        "text" : "Сфера",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "buckler",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "CLOTH",
+      "defense" : 10
+    },
+    "health" : 160,
+    "critChance" : 0,
+    "dodgeChance" : 4,
+    "critMultiplier" : 0.0,
+    "speed" : 28,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Баклер",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "shield",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "LEATHER",
+      "defense" : 16
+    },
+    "health" : 280,
+    "critChance" : 0,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.0,
+    "speed" : 20,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Щит",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "tower_shield",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "PLATE",
+      "defense" : 32
+    },
+    "health" : 340,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 12,
+    "baseThreat" : 8,
+    "locales" : {
+      "RU" : {
+        "text" : "Башенный Щит",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "tome",
+    "slots" : [ "OFF_HAND" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "ARCANE",
+      "defense" : 22
+    },
+    "health" : 250,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 26,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Том",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "robe",
+    "slots" : [ "BODY" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "CLOTH",
+      "defense" : 32
+    },
+    "health" : 500,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 38,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Мантия",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "cuirass",
+    "slots" : [ "BODY" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "PLATE",
+      "defense" : 64
+    },
+    "health" : 680,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 16,
+    "baseThreat" : 12,
+    "locales" : {
+      "RU" : {
+        "text" : "Кираса",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "breastplate",
+    "slots" : [ "BODY" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "LEATHER",
+      "defense" : 48
+    },
+    "health" : 600,
+    "critChance" : 1,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.05,
+    "speed" : 26,
+    "baseThreat" : 2,
+    "locales" : {
+      "RU" : {
+        "text" : "Нагрудник",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "wizard_robe",
+    "slots" : [ "BODY" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "ARCANE",
+      "defense" : 58
+    },
+    "health" : 510,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 32,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Магическая Мантия",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "cloth_chausses",
+    "slots" : [ "PANTS" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "CLOTH",
+      "defense" : 12
+    },
+    "health" : 230,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 32,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Тканевые Шоссы",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "leather_chausses",
+    "slots" : [ "PANTS" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "LEATHER",
+      "defense" : 18
+    },
+    "health" : 340,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 24,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Кожаные Шоссы",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "greaves",
+    "slots" : [ "PANTS" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "PLATE",
+      "defense" : 36
+    },
+    "health" : 420,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 14,
+    "baseThreat" : 8,
+    "locales" : {
+      "RU" : {
+        "text" : "Латные Поножи",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "arcane_chausses",
+    "slots" : [ "PANTS" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "ARCANE",
+      "defense" : 22
+    },
+    "health" : 280,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 28,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Зачарованные Шоссы",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "cloth_boots",
+    "slots" : [ "SHOES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "CLOTH",
+      "defense" : 7
+    },
+    "health" : 120,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 26,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Тканевые Сапоги",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "boots",
+    "slots" : [ "SHOES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "LEATHER",
+      "defense" : 10
+    },
+    "health" : 220,
+    "critChance" : 1,
+    "dodgeChance" : 2,
+    "critMultiplier" : 0.05,
+    "speed" : 18,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Сапоги",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "sabatons",
+    "slots" : [ "SHOES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "PLATE",
+      "defense" : 22
+    },
+    "health" : 280,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 10,
+    "baseThreat" : 6,
+    "locales" : {
+      "RU" : {
+        "text" : "Латные Сапоги",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "arcane_boots",
+    "slots" : [ "SHOES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "ARCANE",
+      "defense" : 14
+    },
+    "health" : 160,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 22,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Магические Сапоги",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "hood",
+    "slots" : [ "HELMET" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "CLOTH",
+      "defense" : 7
+    },
+    "health" : 120,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 24,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Капюшон",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "leather_helm",
+    "slots" : [ "HELMET" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "LEATHER",
+      "defense" : 10
+    },
+    "health" : 220,
+    "critChance" : 1,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.05,
+    "speed" : 16,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Кожаный Шлем",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "great_helm",
+    "slots" : [ "HELMET" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "PLATE",
+      "defense" : 22
+    },
+    "health" : 280,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 10,
+    "baseThreat" : 6,
+    "locales" : {
+      "RU" : {
+        "text" : "Латный Шлем",
+        "form" : "MASCULINE"
+      }
+    }
+  }, {
+    "code" : "circlet",
+    "slots" : [ "HELMET" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "ARCANE",
+      "defense" : 14
+    },
+    "health" : 160,
+    "critChance" : 4,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.1,
+    "speed" : 20,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Диадема",
+        "form" : "FEMININE"
+      }
+    }
+  }, {
+    "code" : "cloth_gloves",
+    "slots" : [ "GLOVES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "CLOTH",
+      "defense" : 7
+    },
+    "health" : 120,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 26,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Перчатки",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "leather_gloves",
+    "slots" : [ "GLOVES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "LEATHER",
+      "defense" : 10
+    },
+    "health" : 220,
+    "critChance" : 1,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.05,
+    "speed" : 16,
+    "baseThreat" : 1,
+    "locales" : {
+      "RU" : {
+        "text" : "Кожаные Перчатки",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "gauntlets",
+    "slots" : [ "GLOVES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "PLATE",
+      "defense" : 22
+    },
+    "health" : 280,
+    "critChance" : 0,
+    "dodgeChance" : 0,
+    "critMultiplier" : 0.0,
+    "speed" : 10,
+    "baseThreat" : 4,
+    "locales" : {
+      "RU" : {
+        "text" : "Латные Рукавицы",
+        "form" : "PLURAL"
+      }
+    }
+  }, {
+    "code" : "arcane_gloves",
+    "slots" : [ "GLOVES" ],
+    "attack" : null,
+    "defense" : {
+      "defenseType" : "ARCANE",
+      "defense" : 14
+    },
+    "health" : 160,
+    "critChance" : 1,
+    "dodgeChance" : 1,
+    "critMultiplier" : 0.05,
+    "speed" : 22,
+    "baseThreat" : 0,
+    "locales" : {
+      "RU" : {
+        "text" : "Магические Перчатки",
+        "form" : "PLURAL"
+      }
+    }
+  } ],
+  "fixtureT3DurationReference" : [ "LEATHER_PIERCE", "ARCANE_MAGE", "PLATE_TANK" ],
+  "construction" : [ {
+    "name" : "T3_MIXED_COMMON",
+    "level" : 10,
+    "q" : 1.1400000000000001,
+    "g" : 1.069668465531259,
+    "targetPower" : 261940.3712241227,
+    "actualEnemyPower" : 262042.7973003958,
+    "playersBeforeContext" : [ {
+      "id" : "8eb29970-b51f-4192-b4bf-920b80191128",
+      "name" : "LEATHER_PIERCE",
+      "hp" : 1600,
+      "power" : 100421.68574320764,
+      "range" : 2,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 138,
+      "gauge" : 325,
+      "crit" : 10,
+      "dodge" : 12,
+      "critMultiplier" : 1.5500000000000003,
+      "defense" : {
+        "LEATHER" : 96
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 362
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8064516129032258,
+        "BLUNT" : 0.8256274768824307,
+        "SLASH" : 0.8526603001364257,
+        "MAGICAL" : 0.8741258741258742
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "spear",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "dirk",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "39048c5a-3b68-4a6d-b15d-ef349f38e887",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 156,
+      "gauge" : 365,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "0b56998e-f475-49ed-bf9b-53965369082a",
+      "name" : "PLATE_TANK",
+      "hp" : 2280,
+      "power" : 82689.66498519675,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 87,
+      "gauge" : 321,
+      "crit" : 2,
+      "dodge" : 1,
+      "critMultiplier" : 1.25,
+      "defense" : {
+        "PLATE" : 198
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 298
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.6965728615213151,
+        "BLUNT" : 0.7710100231303008,
+        "SLASH" : 0.6688963210702341,
+        "MAGICAL" : 0.7372456502506635
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesBeforeContext" : [ {
+      "id" : "6eae9d55-44c0-4b6a-a63f-ebc3c7ced9ce",
+      "name" : null,
+      "hp" : 1270,
+      "power" : 101782.9371546543,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 190,
+      "gauge" : 466,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 484
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 212
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.5793742757821553,
+        "BLUNT" : 0.5344164172723386,
+        "SLASH" : 0.48430840759395577,
+        "MAGICAL" : 0.4524886877828054
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "95e3d754-dcf3-433a-a78c-08ed4e07429b",
+      "name" : null,
+      "hp" : 847,
+      "power" : 80129.93007287075,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 160,
+      "gauge" : 3,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 394
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "b938d6d1-42b3-4923-8477-1005597ac700",
+      "name" : null,
+      "hp" : 847,
+      "power" : 80129.93007287075,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 160,
+      "gauge" : 491,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 394
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ],
+    "playersAfterContext" : [ {
+      "id" : "8eb29970-b51f-4192-b4bf-920b80191128",
+      "name" : "LEATHER_PIERCE",
+      "hp" : 1600,
+      "power" : 100421.68574320764,
+      "range" : 2,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 2,
+      "speed" : 138,
+      "gauge" : 325,
+      "crit" : 10,
+      "dodge" : 12,
+      "critMultiplier" : 1.5500000000000003,
+      "defense" : {
+        "LEATHER" : 96
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 362
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8064516129032258,
+        "BLUNT" : 0.8256274768824307,
+        "SLASH" : 0.8526603001364257,
+        "MAGICAL" : 0.8741258741258742
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "spear",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "dirk",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "39048c5a-3b68-4a6d-b15d-ef349f38e887",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 0,
+      "speed" : 156,
+      "gauge" : 365,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "0b56998e-f475-49ed-bf9b-53965369082a",
+      "name" : "PLATE_TANK",
+      "hp" : 2280,
+      "power" : 82689.66498519675,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 2,
+      "speed" : 87,
+      "gauge" : 321,
+      "crit" : 2,
+      "dodge" : 1,
+      "critMultiplier" : 1.25,
+      "defense" : {
+        "PLATE" : 198
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 298
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.6965728615213151,
+        "BLUNT" : 0.7710100231303008,
+        "SLASH" : 0.6688963210702341,
+        "MAGICAL" : 0.7372456502506635
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesAfterContext" : [ {
+      "id" : "6eae9d55-44c0-4b6a-a63f-ebc3c7ced9ce",
+      "name" : null,
+      "hp" : 1270,
+      "power" : 101782.9371546543,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 3,
+      "speed" : 190,
+      "gauge" : 466,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 484
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 212
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.5793742757821553,
+        "BLUNT" : 0.5344164172723386,
+        "SLASH" : 0.48430840759395577,
+        "MAGICAL" : 0.4524886877828054
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "95e3d754-dcf3-433a-a78c-08ed4e07429b",
+      "name" : null,
+      "hp" : 847,
+      "power" : 80129.93007287075,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 3,
+      "speed" : 160,
+      "gauge" : 3,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 394
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "b938d6d1-42b3-4923-8477-1005597ac700",
+      "name" : null,
+      "hp" : 847,
+      "power" : 80129.93007287075,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 3,
+      "speed" : 160,
+      "gauge" : 491,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 394
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ]
+  }, {
+    "name" : "T4_MIXED_PLUS_ORDINARY_COMMON",
+    "level" : 10,
+    "q" : 1.1400000000000001,
+    "g" : 1.0879118155786773,
+    "targetPower" : 362307.3980374345,
+    "actualEnemyPower" : 362358.56811896584,
+    "playersBeforeContext" : [ {
+      "id" : "afb28143-6dec-4cff-961e-010afd714fab",
+      "name" : "LEATHER_PIERCE",
+      "hp" : 1600,
+      "power" : 100421.68574320764,
+      "range" : 2,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 138,
+      "gauge" : 489,
+      "crit" : 10,
+      "dodge" : 12,
+      "critMultiplier" : 1.5500000000000003,
+      "defense" : {
+        "LEATHER" : 96
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 362
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8064516129032258,
+        "BLUNT" : 0.8256274768824307,
+        "SLASH" : 0.8526603001364257,
+        "MAGICAL" : 0.8741258741258742
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "spear",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "dirk",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "15546cf3-5b30-44c2-bef2-7b144d8cff5d",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 156,
+      "gauge" : 346,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "d6c7b975-e090-42f1-b64c-3a48f3c86697",
+      "name" : "PLATE_TANK",
+      "hp" : 2280,
+      "power" : 82689.66498519675,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 87,
+      "gauge" : 44,
+      "crit" : 2,
+      "dodge" : 1,
+      "critMultiplier" : 1.25,
+      "defense" : {
+        "PLATE" : 198
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 298
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.6965728615213151,
+        "BLUNT" : 0.7710100231303008,
+        "SLASH" : 0.6688963210702341,
+        "MAGICAL" : 0.7372456502506635
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "d8e520d9-ecb8-4cea-a914-c3cbdfe04300",
+      "name" : "LEATHER_PIERCE",
+      "hp" : 1600,
+      "power" : 100421.68574320764,
+      "range" : 2,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 138,
+      "gauge" : 345,
+      "crit" : 10,
+      "dodge" : 12,
+      "critMultiplier" : 1.5500000000000003,
+      "defense" : {
+        "LEATHER" : 96
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 362
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8064516129032258,
+        "BLUNT" : 0.8256274768824307,
+        "SLASH" : 0.8526603001364257,
+        "MAGICAL" : 0.8741258741258742
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "spear",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "dirk",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesBeforeContext" : [ {
+      "id" : "c7f1f8ec-53e5-4b62-a68d-ccce40eccac4",
+      "name" : null,
+      "hp" : 1267,
+      "power" : 101441.21449169292,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 190,
+      "gauge" : 314,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 483
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 212
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.5798782255726298,
+        "BLUNT" : 0.5349309939017868,
+        "SLASH" : 0.48482497818287595,
+        "MAGICAL" : 0.45300113250283125
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "880d15bf-d467-46f8-8b5d-e6d8c9781034",
+      "name" : null,
+      "hp" : 1267,
+      "power" : 101441.21449169292,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 190,
+      "gauge" : 456,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 483
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 212
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.5798782255726298,
+        "BLUNT" : 0.5349309939017868,
+        "SLASH" : 0.48482497818287595,
+        "MAGICAL" : 0.45300113250283125
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "419ae4d9-5b04-42f4-8661-e801191734d9",
+      "name" : null,
+      "hp" : 845,
+      "power" : 79738.06956778998,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 160,
+      "gauge" : 476,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 393
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "c4bb3722-d7d1-4cf5-9bb1-184aa2abcaa9",
+      "name" : null,
+      "hp" : 845,
+      "power" : 79738.06956778998,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 160,
+      "gauge" : 414,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 393
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ],
+    "playersAfterContext" : [ {
+      "id" : "afb28143-6dec-4cff-961e-010afd714fab",
+      "name" : "LEATHER_PIERCE",
+      "hp" : 1600,
+      "power" : 100421.68574320764,
+      "range" : 2,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 2,
+      "speed" : 138,
+      "gauge" : 489,
+      "crit" : 10,
+      "dodge" : 12,
+      "critMultiplier" : 1.5500000000000003,
+      "defense" : {
+        "LEATHER" : 96
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 362
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8064516129032258,
+        "BLUNT" : 0.8256274768824307,
+        "SLASH" : 0.8526603001364257,
+        "MAGICAL" : 0.8741258741258742
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "spear",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "dirk",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "15546cf3-5b30-44c2-bef2-7b144d8cff5d",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 0,
+      "speed" : 156,
+      "gauge" : 346,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "d6c7b975-e090-42f1-b64c-3a48f3c86697",
+      "name" : "PLATE_TANK",
+      "hp" : 2280,
+      "power" : 82689.66498519675,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 2,
+      "speed" : 87,
+      "gauge" : 44,
+      "crit" : 2,
+      "dodge" : 1,
+      "critMultiplier" : 1.25,
+      "defense" : {
+        "PLATE" : 198
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 298
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.6965728615213151,
+        "BLUNT" : 0.7710100231303008,
+        "SLASH" : 0.6688963210702341,
+        "MAGICAL" : 0.7372456502506635
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "mace",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "tower_shield",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "cuirass",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "greaves",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "sabatons",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "great_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "gauntlets",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "d8e520d9-ecb8-4cea-a914-c3cbdfe04300",
+      "name" : "LEATHER_PIERCE",
+      "hp" : 1600,
+      "power" : 100421.68574320764,
+      "range" : 2,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 2,
+      "speed" : 138,
+      "gauge" : 345,
+      "crit" : 10,
+      "dodge" : 12,
+      "critMultiplier" : 1.5500000000000003,
+      "defense" : {
+        "LEATHER" : 96
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "PIERCE" : 362
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "PIERCE" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8064516129032258,
+        "BLUNT" : 0.8256274768824307,
+        "SLASH" : 0.8526603001364257,
+        "MAGICAL" : 0.8741258741258742
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "spear",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "dirk",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "breastplate",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_helm",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leather_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesAfterContext" : [ {
+      "id" : "c7f1f8ec-53e5-4b62-a68d-ccce40eccac4",
+      "name" : null,
+      "hp" : 1267,
+      "power" : 101441.21449169292,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 3,
+      "speed" : 190,
+      "gauge" : 314,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 483
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 212
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.5798782255726298,
+        "BLUNT" : 0.5349309939017868,
+        "SLASH" : 0.48482497818287595,
+        "MAGICAL" : 0.45300113250283125
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "880d15bf-d467-46f8-8b5d-e6d8c9781034",
+      "name" : null,
+      "hp" : 1267,
+      "power" : 101441.21449169292,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 3,
+      "speed" : 190,
+      "gauge" : 456,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 483
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 212
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.5798782255726298,
+        "BLUNT" : 0.5349309939017868,
+        "SLASH" : 0.48482497818287595,
+        "MAGICAL" : 0.45300113250283125
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "419ae4d9-5b04-42f4-8661-e801191734d9",
+      "name" : null,
+      "hp" : 845,
+      "power" : 79738.06956778998,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 3,
+      "speed" : 160,
+      "gauge" : 476,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 393
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "c4bb3722-d7d1-4cf5-9bb1-184aa2abcaa9",
+      "name" : null,
+      "hp" : 845,
+      "power" : 79738.06956778998,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 3,
+      "speed" : 160,
+      "gauge" : 414,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 212
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 393
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.7587253414264037,
+        "BLUNT" : 0.7237984944991314,
+        "SLASH" : 0.6819421713038734,
+        "MAGICAL" : 0.6535947712418301
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ]
+  }, {
+    "name" : "S1_ARCANE_COMMON",
+    "level" : 10,
+    "q" : 1.1400000000000001,
+    "g" : 1.0439559077893388,
+    "targetPower" : 87843.47828562814,
+    "actualEnemyPower" : 87818.27460092265,
+    "playersBeforeContext" : [ {
+      "id" : "717239bb-635c-4647-b7f1-c2631377423b",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 156,
+      "gauge" : 89,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesBeforeContext" : [ {
+      "id" : "7a744644-e751-4618-ae05-a03cc788ab54",
+      "name" : null,
+      "hp" : 933,
+      "power" : 47986.95080399822,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 190,
+      "gauge" : 317,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 356
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 156
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.651890482398957,
+        "BLUNT" : 0.6094588005850805,
+        "SLASH" : 0.5607895917451772,
+        "MAGICAL" : 0.5291005291005291
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "e8821dc7-73fc-4197-868c-23765b565966",
+      "name" : null,
+      "hp" : 622,
+      "power" : 39831.32379692443,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 160,
+      "gauge" : 384,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 156
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 289
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8103727714748784,
+        "BLUNT" : 0.7807620237351656,
+        "SLASH" : 0.7444907683144728,
+        "MAGICAL" : 0.7194244604316546
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ],
+    "playersAfterContext" : [ {
+      "id" : "717239bb-635c-4647-b7f1-c2631377423b",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 0,
+      "speed" : 156,
+      "gauge" : 89,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesAfterContext" : [ {
+      "id" : "7a744644-e751-4618-ae05-a03cc788ab54",
+      "name" : null,
+      "hp" : 933,
+      "power" : 47986.95080399822,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 1,
+      "speed" : 190,
+      "gauge" : 317,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 356
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 156
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.651890482398957,
+        "BLUNT" : 0.6094588005850805,
+        "SLASH" : 0.5607895917451772,
+        "MAGICAL" : 0.5291005291005291
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "e8821dc7-73fc-4197-868c-23765b565966",
+      "name" : null,
+      "hp" : 622,
+      "power" : 39831.32379692443,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 1,
+      "speed" : 160,
+      "gauge" : 384,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 156
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 289
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8103727714748784,
+        "BLUNT" : 0.7807620237351656,
+        "SLASH" : 0.7444907683144728,
+        "MAGICAL" : 0.7194244604316546
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ]
+  }, {
+    "name" : "S1_ARCANE_PLUS_VIRTUAL_DEFAULT",
+    "level" : 10,
+    "q" : 1.1400000000000001,
+    "g" : 1.0439559077893388,
+    "targetPower" : 110078.74934752834,
+    "actualEnemyPower" : 110064.79741857725,
+    "playersBeforeContext" : [ {
+      "id" : "ba8d22f2-8b0c-4846-a7d4-c60391997941",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 156,
+      "gauge" : 169,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "645f1483-0881-4c2e-859d-523f219328e2",
+      "name" : "VIRTUAL_DEFAULT",
+      "hp" : 720,
+      "power" : 24264.128389791364,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 140,
+      "gauge" : 451,
+      "crit" : 9,
+      "dodge" : 18,
+      "critMultiplier" : 1.7500000000000004,
+      "defense" : {
+        "CLOTH" : 64
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 200
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.896700143472023,
+        "BLUNT" : 0.8620689655172413,
+        "SLASH" : 0.9124087591240876,
+        "MAGICAL" : 0.876577840112202
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "main-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesBeforeContext" : [ {
+      "id" : "381d4211-1801-4cdd-b154-07b827429a41",
+      "name" : null,
+      "hp" : 1027,
+      "power" : 60643.613704167474,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : -1,
+      "speed" : 190,
+      "gauge" : 90,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 392
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 172
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.6297229219143576,
+        "BLUNT" : 0.5863039399624765,
+        "SLASH" : 0.5369415807560137,
+        "MAGICAL" : 0.505050505050505
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "b44a3dd0-2a21-4de3-ac2f-a97dc26d98f0",
+      "name" : null,
+      "hp" : 685,
+      "power" : 49421.18371440978,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : -1,
+      "speed" : 160,
+      "gauge" : 99,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 172
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 318
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.794912559618442,
+        "BLUNT" : 0.7635919364691508,
+        "SLASH" : 0.7254788160185722,
+        "MAGICAL" : 0.6993006993006994
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ],
+    "playersAfterContext" : [ {
+      "id" : "ba8d22f2-8b0c-4846-a7d4-c60391997941",
+      "name" : "ARCANE_MAGE",
+      "hp" : 1270,
+      "power" : 95858.75654021298,
+      "range" : 3,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 0,
+      "speed" : 156,
+      "gauge" : 169,
+      "crit" : 13,
+      "dodge" : 7,
+      "critMultiplier" : 1.6300000000000003,
+      "defense" : {
+        "ARCANE" : 122
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 2,
+        "attack" : {
+          "MAGICAL" : 360
+        }
+      }, {
+        "range" : 3,
+        "attack" : {
+          "MAGICAL" : 310
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.8453085376162299,
+        "BLUNT" : 0.819940964250574,
+        "SLASH" : 0.7883948281299274,
+        "MAGICAL" : 0.7662835249042146
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "staff",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "orb",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "wizard_robe",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_chausses",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_boots",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "circlet",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "arcane_gloves",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    }, {
+      "id" : "645f1483-0881-4c2e-859d-523f219328e2",
+      "name" : "VIRTUAL_DEFAULT",
+      "hp" : 720,
+      "power" : 24264.128389791364,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 2,
+      "speed" : 140,
+      "gauge" : 451,
+      "crit" : 9,
+      "dodge" : 18,
+      "critMultiplier" : 1.7500000000000004,
+      "defense" : {
+        "CLOTH" : 64
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "BLUNT" : 200
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.896700143472023,
+        "BLUNT" : 0.8620689655172413,
+        "SLASH" : 0.9124087591240876,
+        "MAGICAL" : 0.876577840112202
+      },
+      "skills" : [ ],
+      "items" : [ {
+        "code" : "main-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "off-fists",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "torn_jacket",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "leaky_pants",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "footcloths",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "panama",
+        "rarity" : "COMMON",
+        "skill" : null
+      }, {
+        "code" : "bandages",
+        "rarity" : "COMMON",
+        "skill" : null
+      } ]
+    } ],
+    "enemiesAfterContext" : [ {
+      "id" : "381d4211-1801-4cdd-b154-07b827429a41",
+      "name" : null,
+      "hp" : 1027,
+      "power" : 60643.613704167474,
+      "range" : 1,
+      "positionDeclared" : "FRONT",
+      "lineIndex" : 3,
+      "speed" : 190,
+      "gauge" : 90,
+      "crit" : 4,
+      "dodge" : 3,
+      "critMultiplier" : 1.5,
+      "defense" : {
+        "ARCANE" : 392
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 172
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.6297229219143576,
+        "BLUNT" : 0.5863039399624765,
+        "SLASH" : 0.5369415807560137,
+        "MAGICAL" : 0.505050505050505
+      },
+      "skills" : [ {
+        "code" : "KNOCKBACK",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    }, {
+      "id" : "b44a3dd0-2a21-4de3-ac2f-a97dc26d98f0",
+      "name" : null,
+      "hp" : 685,
+      "power" : 49421.18371440978,
+      "range" : 1,
+      "positionDeclared" : "BACK",
+      "lineIndex" : 3,
+      "speed" : 160,
+      "gauge" : 99,
+      "crit" : 8,
+      "dodge" : 5,
+      "critMultiplier" : 1.7,
+      "defense" : {
+        "ARCANE" : 172
+      },
+      "attackByRange" : [ {
+        "range" : 1,
+        "attack" : {
+          "MAGICAL" : 318
+        }
+      } ],
+      "defenseMultipliers" : {
+        "PIERCE" : 0.794912559618442,
+        "BLUNT" : 0.7635919364691508,
+        "SLASH" : 0.7254788160185722,
+        "MAGICAL" : 0.6993006993006994
+      },
+      "skills" : [ {
+        "code" : "PRECISE_STRIKE",
+        "points" : 4
+      } ],
+      "items" : [ ]
+    } ]
+  } ]
+}

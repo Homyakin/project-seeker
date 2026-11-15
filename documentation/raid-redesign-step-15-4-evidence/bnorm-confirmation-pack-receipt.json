@@ -1,0 +1,53 @@
+{
+  "name": "bnorm-confirmation",
+  "file": "bnorm-confirmation-battles.jsonl.xz",
+  "battles": 17000,
+  "originalGzipSha256": "adeceaef7030d61b2e3f85025f6d953f8fa11d64472bc53844fe2300fa58ba92",
+  "archivedSha256": "ae9628b95f3e4b8cf2f7c7e0ad8346a45c7cae4ae1161e91028ac33abbc91ed6",
+  "archivedBytes": 13144680,
+  "jsonlSha256": "fd6449ca829b6a25cf19f695866a2462e5abcc20dc13975981dd36f0d3e5b433",
+  "jsonlBytes": 758728134,
+  "artifacts": [
+    {
+      "file": "bnorm-confirmation-manifest.json",
+      "sha256": "b8a6491204cb912d7a7f9a96187ad4ff63f1ecc3f8be3d5970b745c44739b8c9"
+    },
+    {
+      "file": "bnorm-confirmation-summary.json",
+      "sha256": "88458a4b4ab805f071649baeeec327f4391a3d7bc09f149d911802bed14d1427"
+    },
+    {
+      "file": "bnorm-confirmation-inputs.json",
+      "sha256": "45e0782a0cf6f8bb2a536e78682ee4df55bd0772f9f9db7507773e2a6e26cb6d"
+    },
+    {
+      "file": "bnorm-confirmation-seeds.json",
+      "sha256": "085d9396e86a9e5a002d6927a204b4f7480f1d3973a38380ee24fff58fd3b1bc"
+    },
+    {
+      "file": "bnorm-confirmation-analysis.json",
+      "sha256": "88042d45240a0fe87267d8419f896c3c9fec4c247c2b50f4dab8c152139bae4c"
+    },
+    {
+      "file": "bnorm-confirmation-validation.json",
+      "sha256": "784303b3ef0bf2ec3e9d1ab30a43f29522d73605c89527c46ee2d2a39564e3ba"
+    },
+    {
+      "file": "bnorm-confirmation-Step154FormulaProbe.java",
+      "sha256": "271ddd47b83e9009d9f2942cf5752c60cafdf609dafe46f3d5804dfd50961843"
+    },
+    {
+      "file": "bnorm-confirmation-preparation-manifest.json",
+      "sha256": "b8a6491204cb912d7a7f9a96187ad4ff63f1ecc3f8be3d5970b745c44739b8c9"
+    },
+    {
+      "file": "bnorm-confirmation-preparation-inputs.json",
+      "sha256": "45e0782a0cf6f8bb2a536e78682ee4df55bd0772f9f9db7507773e2a6e26cb6d"
+    },
+    {
+      "file": "bnorm-confirmation-preparation-seeds.json",
+      "sha256": "085d9396e86a9e5a002d6927a204b4f7480f1d3973a38380ee24fff58fd3b1bc"
+    }
+  ],
+  "rawPolicy": "Every original JSONL byte retained; only gzip container replaced with xz"
+}

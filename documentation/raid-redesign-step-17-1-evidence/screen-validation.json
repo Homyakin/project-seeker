@@ -1,0 +1,195 @@
+{
+  "cases": 156,
+  "battles": 3120,
+  "independentHoldoutBattles": 0,
+  "checkedCommonRandomGroups": 780,
+  "exploratorySelection": {
+    "purpose": "DESCRIPTIVE_SCREEN_ONLY_NOT_HOLDOUT_OR_AUTOMATIC_RELEASE",
+    "candidates": [
+      {
+        "correction": 1,
+        "mainWins": 11,
+        "mainBattles": 540,
+        "mainWinsByTier": {
+          "BEGINNER": 1,
+          "MID": 3,
+          "STRONG": 7
+        },
+        "mainBattlesPerTier": 180,
+        "diagnosticWinsByStyle": {
+          "RITUAL": 120,
+          "BLUNT_LEATHER": 80
+        },
+        "diagnosticBattlesPerStyle": 120,
+        "timeoutsAllStyles": 0,
+        "passesPredeclaredRule": false
+      },
+      {
+        "correction": 0.8,
+        "mainWins": 196,
+        "mainBattles": 540,
+        "mainWinsByTier": {
+          "BEGINNER": 49,
+          "MID": 65,
+          "STRONG": 82
+        },
+        "mainBattlesPerTier": 180,
+        "diagnosticWinsByStyle": {
+          "RITUAL": 120,
+          "BLUNT_LEATHER": 112
+        },
+        "diagnosticBattlesPerStyle": 120,
+        "timeoutsAllStyles": 0,
+        "passesPredeclaredRule": true
+      },
+      {
+        "correction": 0.65,
+        "mainWins": 462,
+        "mainBattles": 540,
+        "mainWinsByTier": {
+          "BEGINNER": 148,
+          "MID": 152,
+          "STRONG": 162
+        },
+        "mainBattlesPerTier": 180,
+        "diagnosticWinsByStyle": {
+          "RITUAL": 120,
+          "BLUNT_LEATHER": 120
+        },
+        "diagnosticBattlesPerStyle": 120,
+        "timeoutsAllStyles": 0,
+        "passesPredeclaredRule": true
+      },
+      {
+        "correction": 0.5,
+        "mainWins": 536,
+        "mainBattles": 540,
+        "mainWinsByTier": {
+          "BEGINNER": 178,
+          "MID": 180,
+          "STRONG": 178
+        },
+        "mainBattlesPerTier": 180,
+        "diagnosticWinsByStyle": {
+          "RITUAL": 120,
+          "BLUNT_LEATHER": 120
+        },
+        "diagnosticBattlesPerStyle": 120,
+        "timeoutsAllStyles": 0,
+        "passesPredeclaredRule": true
+      }
+    ],
+    "selectedCorrection": 0.8,
+    "status": "LARGEST_PASSING_CANDIDATE"
+  },
+  "checkedSourceFiles": 223,
+  "protocolSha256": "97a7c59bd74cb96a8bd8a6013ae0f96acefb3bce1d1dd6e987a6276189dc7d36",
+  "rawSha256": "7b2b44249d2668a03a72ef234322279d5a7835be3819560d272020be8b2e5a6c",
+  "raids": {
+    "ZOMBIE_HORDE": {
+      "outcomes": {
+        "LOSS": 1003,
+        "WIN": 2117
+      },
+      "rounds": {
+        "count": 3120,
+        "min": 30,
+        "p50": 55,
+        "p95": 98,
+        "max": 144
+      },
+      "skills": {
+        "ENEMY:BERSERK": 0,
+        "ENEMY:BLEEDING": 0,
+        "ENEMY:DOUBLE_ATTACK": 0,
+        "ENEMY:HIT_AND_RUN": 0,
+        "ENEMY:SELF_HEAL": 12236,
+        "ENEMY:THORNS": 61364,
+        "PLAYER:BERSERK": 2539,
+        "PLAYER:BLEEDING": 0,
+        "PLAYER:DOUBLE_ATTACK": 39344,
+        "PLAYER:HIT_AND_RUN": 0,
+        "PLAYER:SELF_HEAL": 4864,
+        "PLAYER:THORNS": 0
+      },
+      "skillsByKind": {
+        "ENEMY:SELF_HEAL:HEAL": 6118,
+        "ENEMY:SELF_HEAL:WINDOW": 6118,
+        "ENEMY:THORNS:SCALING_DIRECT_DAMAGE": 61364,
+        "PLAYER:BERSERK:WINDOW": 2539,
+        "PLAYER:DOUBLE_ATTACK:SCALING_DIRECT_DAMAGE": 39344,
+        "PLAYER:SELF_HEAL:HEAL": 2432,
+        "PLAYER:SELF_HEAL:WINDOW": 2432
+      },
+      "bossesDefeated": 2120,
+      "byLevel": {
+        "10": {
+          "LOSS": 1003,
+          "WIN": 2117
+        }
+      },
+      "byStyle": {
+        "MAIN": {
+          "LOSS": 955,
+          "WIN": 1205
+        },
+        "RITUAL": {
+          "WIN": 480
+        },
+        "BLUNT_LEATHER": {
+          "WIN": 432,
+          "LOSS": 48
+        }
+      },
+      "bySize": {
+        "1": {
+          "LOSS": 147,
+          "WIN": 93
+        },
+        "3": {
+          "LOSS": 122,
+          "WIN": 598
+        },
+        "7": {
+          "LOSS": 64,
+          "WIN": 176
+        },
+        "10": {
+          "LOSS": 83,
+          "WIN": 157
+        },
+        "11": {
+          "LOSS": 100,
+          "WIN": 140
+        },
+        "13": {
+          "LOSS": 108,
+          "WIN": 612
+        },
+        "14": {
+          "LOSS": 106,
+          "WIN": 134
+        },
+        "15": {
+          "LOSS": 112,
+          "WIN": 128
+        },
+        "30": {
+          "LOSS": 161,
+          "WIN": 79
+        }
+      },
+      "byFamily": {
+        "S_MAIN": {
+          "LOSS": 955,
+          "WIN": 1205
+        },
+        "S_DIAGNOSTIC": {
+          "WIN": 912,
+          "LOSS": 48
+        }
+      },
+      "largestRelativeError": 0.0023815929677315495
+    }
+  }
+}

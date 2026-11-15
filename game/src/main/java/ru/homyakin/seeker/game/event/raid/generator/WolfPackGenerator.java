@@ -3,6 +3,11 @@ package ru.homyakin.seeker.game.event.raid.generator;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
 import ru.homyakin.seeker.game.battle.Position;
 import ru.homyakin.seeker.game.battle.skill.active_impl.ActiveEnum;
+import ru.homyakin.seeker.game.battle.skill.scaling.SkillFormulaVersion;
+import ru.homyakin.seeker.game.event.pve.GeneratedPveEnemies;
+import ru.homyakin.seeker.game.event.pve.PveCharacteristicScaling;
+import ru.homyakin.seeker.game.event.pve.PveEquipmentPowerSum;
+import ru.homyakin.seeker.game.event.pve.PveScalingDiagnostics;
 import ru.homyakin.seeker.game.item.models.AttackType;
 import ru.homyakin.seeker.game.item.models.DefenseType;
 import ru.homyakin.seeker.game.item.models.Item;
@@ -12,10 +17,13 @@ import ru.homyakin.seeker.game.item.models.ItemObject;
 import ru.homyakin.seeker.game.item.models.ItemRarity;
 import ru.homyakin.seeker.game.item.models.Modifier;
 import ru.homyakin.seeker.game.personage.models.PersonageSlot;
+import ru.homyakin.seeker.game.personage.models.effect.PersonageEffects;
 import ru.homyakin.seeker.utils.MathUtils;
+import ru.homyakin.seeker.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,9 +44,18 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
     private static final double BASE_ALPHA_CRIT_MULTI = 1;
     private static final int BASE_ALPHA_SPEED = 200;
     private static final int BASE_ALPHA_THREAT = 10;
+    private static final double EQUIPMENT_POWER_CALIBRATION_CORRECTION = 0.75;
 
     @Override
-    public List<BattlePersonage> generate(List<BattlePersonage> personages, double powerBonus) {
+    public GeneratedPveEnemies generateCalibrated(
+        List<BattlePersonage> personages,
+        double powerBonus,
+        SkillFormulaVersion formulaVersion
+    ) {
+        RaidBattlePersonageGenerator.validateInputs(personages, powerBonus, formulaVersion);
+        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3) {
+            return generateEquipmentCalibrated(personages, powerBonus, formulaVersion);
+        }
         int wolfsCount = personages.size();
         final double groupSizeScaling;
         if (personages.size() <= 13) {
@@ -49,53 +66,78 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
         final var targetPower = personages.stream()
             .mapToDouble(BattlePersonage::legacyPower)
             .sum() * powerBonus * groupSizeScaling;
-        final var characteristicsMultiplier = characteristicsMultiplier(wolfsCount, targetPower);
+        final var calibration = PveCharacteristicScaling.search(
+            targetPower,
+            PveCharacteristicScaling.maxMultiplier(
+                BASE_ATTACK, BASE_DEFENSE, BASE_HEALTH,
+                BASE_ALPHA_ATTACK, BASE_ALPHA_DEFENSE, BASE_ALPHA_HEALTH
+            ),
+            multiplier -> totalRaidPower(wolfsCount, multiplier, formulaVersion)
+        );
+        final var characteristicsMultiplier = calibration.multiplier();
 
         final var wolfPack = new ArrayList<BattlePersonage>();
-        wolfPack.add(alpha(characteristicsMultiplier));
+        wolfPack.add(alpha(characteristicsMultiplier, formulaVersion));
         for (int i = 0; i < wolfsCount; i++) {
-            wolfPack.add(wolf(characteristicsMultiplier));
+            wolfPack.add(wolf(characteristicsMultiplier, formulaVersion));
         }
-        return wolfPack;
+        return new GeneratedPveEnemies(wolfPack, calibration);
     }
 
-    private double characteristicsMultiplier(int wolfsCount, double targetPower) {
-        double low = 0;
-        double high = 1;
-
-        if (totalRaidPower(wolfsCount, low) >= targetPower) {
-            return low;
+    private GeneratedPveEnemies generateEquipmentCalibrated(
+        List<BattlePersonage> personages,
+        double powerBonus,
+        SkillFormulaVersion formulaVersion
+    ) {
+        final int wolfCount = personages.size();
+        final double groupSizeScaling;
+        if (wolfCount <= 13) {
+            groupSizeScaling = 1.0 + MathUtils.log(2.2, wolfCount) * 0.045;
+        } else {
+            final var boundaryScaling = 1.0 + MathUtils.log(2.2, 13) * 0.045;
+            groupSizeScaling = boundaryScaling + MathUtils.log(10, wolfCount / 13.0) * 0.045;
         }
-
-        while (totalRaidPower(wolfsCount, high) < targetPower) {
-            low = high;
-            high *= 2;
-        }
-
-        for (int i = 0; i < 32; i++) {
-            final var mid = (low + high) / 2;
-            if (totalRaidPower(wolfsCount, mid) >= targetPower) {
-                high = mid;
-            } else {
-                low = mid;
-            }
-        }
-        return closestMultiplier(wolfsCount, targetPower, low, high);
+        final var participantAssessment = PveEquipmentPowerSum.sum(personages);
+        final var target = participantAssessment * powerBonus * groupSizeScaling
+            * EQUIPMENT_POWER_CALIBRATION_CORRECTION;
+        final var calibration = PveCharacteristicScaling.search(
+            target,
+            PveCharacteristicScaling.maxMultiplier(
+                BASE_ATTACK, BASE_DEFENSE, BASE_HEALTH,
+                BASE_ALPHA_ATTACK, BASE_ALPHA_DEFENSE, BASE_ALPHA_HEALTH
+            ),
+            multiplier -> RandomUtils.withSeed(0, () -> PveEquipmentPowerSum.sum(
+                equipmentPack(wolfCount, multiplier, formulaVersion)))
+        );
+        final var diagnostics = new PveScalingDiagnostics(PveEquipmentPowerSum.VERSION, participantAssessment, Map.of(
+            "enemyCount", (double) wolfCount + 1,
+            "wolfCount", (double) wolfCount,
+            "alphaCount", 1.0,
+            "groupSizeScaling", groupSizeScaling,
+            "powerBonus", powerBonus,
+            "encounterCorrection", EQUIPMENT_POWER_CALIBRATION_CORRECTION
+        ));
+        return new GeneratedPveEnemies(
+            equipmentPack(wolfCount, calibration.multiplier(), formulaVersion), calibration, Optional.of(diagnostics)
+        );
     }
 
-    private double closestMultiplier(int wolfsCount, double targetPower, double low, double high) {
-        final var lowDiff = Math.abs(totalRaidPower(wolfsCount, low) - targetPower);
-        final var highDiff = Math.abs(totalRaidPower(wolfsCount, high) - targetPower);
-        return lowDiff < highDiff ? low : high;
+    private List<BattlePersonage> equipmentPack(int wolfCount, double multiplier, SkillFormulaVersion formulaVersion) {
+        final var pack = new ArrayList<BattlePersonage>();
+        pack.add(alpha(multiplier, formulaVersion));
+        for (int index = 0; index < wolfCount; ++index) {
+            pack.add(wolf(multiplier, formulaVersion));
+        }
+        return pack;
     }
 
-    private double totalRaidPower(int wolfsCount, double characteristicsMultiplier) {
-        return alpha(characteristicsMultiplier).legacyPower()
-            + wolf(characteristicsMultiplier).legacyPower() * wolfsCount;
+    private double totalRaidPower(int wolfsCount, double characteristicsMultiplier, SkillFormulaVersion formulaVersion) {
+        return alpha(characteristicsMultiplier, formulaVersion).legacyPower()
+            + wolf(characteristicsMultiplier, formulaVersion).legacyPower() * wolfsCount;
     }
 
-    private BattlePersonage alpha(double characteristicsMultiplier) {
-        return new BattlePersonage(
+    private BattlePersonage alpha(double characteristicsMultiplier, SkillFormulaVersion formulaVersion) {
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
@@ -126,12 +168,15 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            Position.FRONT
+            Position.FRONT,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
-    private BattlePersonage wolf(double characteristicsMultiplier) {
-        return new BattlePersonage(
+    private BattlePersonage wolf(double characteristicsMultiplier, SkillFormulaVersion formulaVersion) {
+        return BattlePersonage.forCombat(
             List.of(
                 new Item(
                     new ItemObject(
@@ -164,11 +209,14 @@ public class WolfPackGenerator implements RaidBattlePersonageGenerator {
                     ItemRarity.LEGENDARY
                 )
             ),
-            Position.FRONT
+            Position.FRONT,
+            PersonageEffects.EMPTY,
+            Optional.empty(),
+            formulaVersion
         );
     }
 
     private int multiply(int value, double multiplier) {
-        return Math.max(1, (int) Math.ceil(value * multiplier));
+        return PveCharacteristicScaling.multiply(value, multiplier);
     }
 }
