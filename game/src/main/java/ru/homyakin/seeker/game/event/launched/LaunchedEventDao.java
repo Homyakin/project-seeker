@@ -102,6 +102,14 @@ public class LaunchedEventDao {
             .optional();
     }
 
+    /** The caller must keep its transaction open until all event changes have been written. */
+    public Optional<LaunchedEvent> getByIdForUpdate(Long launchedEventId) {
+        return jdbcClient.sql(GET_LAUNCHED_EVENT_BY_ID + " FOR UPDATE")
+            .param("id", launchedEventId)
+            .query(this::mapRow)
+            .optional();
+    }
+
     public List<CurrentEvent> getActiveEventsByPersonageId(PersonageId personageId) {
         final var sql = """
             SELECT

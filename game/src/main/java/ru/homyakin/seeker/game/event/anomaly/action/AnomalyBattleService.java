@@ -3,6 +3,7 @@ package ru.homyakin.seeker.game.event.anomaly.action;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.homyakin.seeker.common.models.GroupId;
 import ru.homyakin.seeker.game.battle.Battle;
 import ru.homyakin.seeker.game.battle.BattlePersonage;
@@ -130,6 +131,23 @@ public class AnomalyBattleService {
         );
     }
 
+    /** Coordinates the matchmaker's immediate fight with expiry processing in other instances. */
+    @Transactional
+    public Optional<EventResult.AnomalyResult.BattleFinished> fightAcceptedIfActive(long launchedEventId) {
+        final var event = launchedEventService.getByIdForUpdate(launchedEventId);
+        if (event.isEmpty() || event.get().isInFinalStatus()) {
+            return Optional.empty();
+        }
+        final var anomaly = anomalyStorage.findByLaunchedEventId(launchedEventId);
+        if (!(anomaly.orElse(null) instanceof Anomaly.Dangerous.Accepted accepted)
+            || accepted.winnerGroupId().isPresent()
+        ) {
+            return Optional.empty();
+        }
+        return Optional.of(fight(event.get(), accepted));
+    }
+
+    /** The completion command must already hold the event row lock in its transaction. */
     public EventResult.AnomalyResult.BattleFinished fight(
         LaunchedEvent event,
         Anomaly.Dangerous.Accepted accepted

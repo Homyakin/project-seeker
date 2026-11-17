@@ -1,0 +1,14 @@
+{
+  "containerId": "621f2d36d19d5a33df4233cd8e6c563fd9edf382d5f2015c995bb80f3fc1cabe",
+  "containerName": "seeker-anomaly-194-20261117",
+  "label": "seeker.test=anomaly-19.4",
+  "image": "postgres:16",
+  "database": "seeker_anomaly_194",
+  "temporaryStorage": "/var/lib/postgresql/data (tmpfs)",
+  "publicTablesBeforeRemoval": 0,
+  "remainingTestSchemasBeforeRemoval": 0,
+  "stopExitCode": 0,
+  "removeExitCode": 0,
+  "existingDatabaseOrVolumeUsed": false,
+  "testDataRecovery": "Disposable tmpfs data removed; fixtures are reproducible and evidence retained."
+}

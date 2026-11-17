@@ -96,6 +96,10 @@ public class LaunchedEventService {
         return launchedEventDao.getById(launchedEventId);
     }
 
+    public Optional<LaunchedEvent> getByIdForUpdate(Long launchedEventId) {
+        return launchedEventDao.getByIdForUpdate(launchedEventId);
+    }
+
     public void updateResult(LaunchedRaidEvent event, EventResult.RaidResult raidResult) {
         // Обновляем статус события
         final var status = switch (raidResult) {

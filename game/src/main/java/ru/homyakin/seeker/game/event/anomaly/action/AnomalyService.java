@@ -146,17 +146,26 @@ public class AnomalyService {
         return Either.right(launchedEventService.getById(launched.id()).orElse(launched));
     }
 
+    @Transactional
     public Either<AnomalyError, LaunchedEvent> join(long launchedEventId, PersonageId personageId) {
         return withLock(launchedEventId, () -> joinLogic(launchedEventId, personageId));
     }
 
+    @Transactional
     public Either<AnomalyError, AnomalyReadyResult> ready(long launchedEventId, PersonageId personageId) {
         return withLock(launchedEventId, () -> readyLogic(launchedEventId, personageId));
     }
 
-    public EventResult processExpired(LaunchedEvent launchedEvent) {
-        if (launchedEvent.isInFinalStatus()) {
+    @Transactional
+    public EventResult processExpired(LaunchedEvent snapshot) {
+        // The scheduler reads its snapshot before taking the local lock; another instance may have advanced it.
+        final var current = launchedEventService.getByIdForUpdate(snapshot.id());
+        if (current.isEmpty() || current.get().isInFinalStatus()) {
             return EventResult.AnomalyResult.AlreadyFinal.INSTANCE;
+        }
+        final var launchedEvent = current.get();
+        if (launchedEvent.endDate().isAfter(TimeUtils.moscowTime())) {
+            return EventResult.AnomalyResult.NotDue.INSTANCE;
         }
         final var anomalyOpt = findAnomaly(launchedEvent.id());
         if (anomalyOpt.isEmpty()) {
@@ -366,7 +375,7 @@ public class AnomalyService {
     }
 
     private Either<AnomalyError, LaunchedEvent> requireEvent(long launchedEventId) {
-        final var event = launchedEventService.getById(launchedEventId);
+        final var event = launchedEventService.getByIdForUpdate(launchedEventId);
         if (event.isEmpty() || event.get().isInFinalStatus()) {
             return Either.left(event.isEmpty() ? AnomalyError.EventNotFound.INSTANCE : AnomalyError.FinalStatus.INSTANCE);
         }

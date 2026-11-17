@@ -81,6 +81,20 @@ public class AnomalyPostgresDao implements AnomalyStorage {
         if (hostAccepted.opponentLaunchedEventId().filter(id -> id == guestLaunchedEventId).isEmpty()) {
             return false;
         }
+        // Completion locks its launched event first. Reserve both parents in one order before touching anomalies.
+        final var parentStatuses = jdbcClient.sql("""
+                SELECT status_id FROM launched_event
+                WHERE id IN (:host_id, :guest_id)
+                ORDER BY id
+                FOR UPDATE
+                """)
+            .param("host_id", hostId)
+            .param("guest_id", guestLaunchedEventId)
+            .query((rs, _) -> rs.getInt("status_id"))
+            .list();
+        if (parentStatuses.size() != 2 || parentStatuses.stream().anyMatch(status -> status != EventStatus.LAUNCHED.id())) {
+            return false;
+        }
         final var updateHostSql = """
             UPDATE anomaly
             SET owner_personage_id = :owner_personage_id,

@@ -84,6 +84,8 @@ public sealed interface EventResult {
 
         enum AlreadyFinal implements AnomalyResult { INSTANCE }
 
+        enum NotDue implements AnomalyResult { INSTANCE }
+
         record GatheringStarted(LaunchedEvent launchedEvent) implements AnomalyResult { }
 
         record BattleFinished(

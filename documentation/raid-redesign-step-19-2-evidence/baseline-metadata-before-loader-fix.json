@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "56c258e9eed49761a229f036de5c2eabcf968c7c",
+  "baselineClass": "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class",
+  "baselineClassSha256": "5684e14f91f33696f84e3cc10b01ec38f7c877f20f02b1ecd363157e7dfc4d33",
+  "baselineSource": "game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+  "baselineSourceSha256": "5467fb2c2b9cb264f12cf8780b56df3e8b580a8d5c25802638c3b69c1bd5b929",
+  "sourceArchive": "documentation/raid-redesign-step-19-2-evidence/baseline-sources.tar.gz",
+  "sourceArchiveSha256": "7c8326904d3467e1054001d6d4adc17bd1fc3e6c07a3d7d929ecd3a6861aa9b3",
+  "classArchive": "documentation/raid-redesign-step-19-2-evidence/baseline-classes.tar.gz",
+  "classArchiveSha256": "e6d4aad88915251fef70f2f68b7cc9cce9004895721555772e8f961fb85bd51c",
+  "compiler": "javac 25.0.1 --release 24 -encoding UTF-8",
+  "isolatedClasses": ["ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator"]
+}

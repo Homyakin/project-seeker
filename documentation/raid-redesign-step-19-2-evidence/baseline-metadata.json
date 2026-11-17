@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "56c258e9eed49761a229f036de5c2eabcf968c7c",
+  "baselineClass": "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class",
+  "baselineClassSha256": "5684e14f91f33696f84e3cc10b01ec38f7c877f20f02b1ecd363157e7dfc4d33",
+  "baselineSource": "game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+  "baselineSourceSha256": "5467fb2c2b9cb264f12cf8780b56df3e8b580a8d5c25802638c3b69c1bd5b929",
+  "sourceArchive": "documentation/raid-redesign-step-19-2-evidence/baseline-sources.tar.gz",
+  "sourceArchiveSha256": "7c8326904d3467e1054001d6d4adc17bd1fc3e6c07a3d7d929ecd3a6861aa9b3",
+  "classArchive": "documentation/raid-redesign-step-19-2-evidence/baseline-classes-v2.tar.gz",
+  "classArchiveSha256": "231753ee41f1b1a355e733ab5cbde5d4a17d99a94b6fabe037e8b454fc688a29",
+  "compiler": "javac 25.0.1 --release 24 -encoding UTF-8",
+  "isolatedClasses": [
+    "ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator",
+    "ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator$1"
+  ],
+  "baselineClassFamilySha256": {
+    "ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator": "5684e14f91f33696f84e3cc10b01ec38f7c877f20f02b1ecd363157e7dfc4d33",
+    "ru.homyakin.seeker.game.event.anomaly.generator.AnomalySafePveGenerator$1": "30952aff62ca91916671351a54e9d84051172e9531dd74efa686b36d3604ec56"
+  },
+  "preBattleCorrection": "First plan and historical comparison stopped before protocol/battles: Java switch synthetic class was not isolated with the original generator. Both original compiled files were already captured together before production changes. The original one-class archive and logs are retained; v2 includes the complete generator class family."
+}

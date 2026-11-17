@@ -1,0 +1,164 @@
+{
+  "rule": "A_MAIN pooled wins/attempts in [0.75,0.90]; nearest 0.80; then nearest 0.92; then smaller ratio",
+  "selectedRatio": "1.10",
+  "screenRunPath": "documentation/raid-redesign-step-19-3-evidence/screen-v2",
+  "screenProtocolSha256": "043f5fa8021f0b6e0c4d992003dba81f920c9704f7c7f9b2eea7ca13bfb63974",
+  "screenRawSha256": "2b53f5509520d10ff8943726366cebd576152a8f323275ef979f2887ea12be27",
+  "screenSummarySha256": "f7d187fe741016bb984018c04f8bcacccd216f4067bd8e3ff4c3ecb23374e5ae",
+  "mainByRatio": [
+    {
+      "ratio": "0.92",
+      "wins": 1385,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0.9618055555555556,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0.9618055555555556,
+        "min": 0,
+        "p50": 1,
+        "p90": 1,
+        "p95": 1,
+        "max": 1
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0.9111921003965302,
+        "high": 1,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    },
+    {
+      "ratio": "1.10",
+      "wins": 1118,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0.7763888888888889,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0.7763888888888889,
+        "min": 0,
+        "p50": 1,
+        "p90": 1,
+        "p95": 1,
+        "max": 1
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0.7257754337298635,
+        "high": 0.8270023440479143,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    },
+    {
+      "ratio": "1.30",
+      "wins": 692,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0.48055555555555557,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0.48055555555555557,
+        "min": 0,
+        "p50": 0.5,
+        "p90": 1,
+        "p95": 1,
+        "max": 1
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0.42994210039653014,
+        "high": 0.531169010714581,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    },
+    {
+      "ratio": "1.50",
+      "wins": 275,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0.1909722222222222,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0.1909722222222222,
+        "min": 0,
+        "p50": 0,
+        "p90": 1,
+        "p95": 1,
+        "max": 1
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0.14035876706319678,
+        "high": 0.24158567738124764,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    },
+    {
+      "ratio": "1.75",
+      "wins": 73,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0.050694444444444445,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0.050694444444444445,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 0.5,
+        "max": 1
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0.00008098928541901834,
+        "high": 0.10130789960346986,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    },
+    {
+      "ratio": "2.00",
+      "wins": 8,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0.005555555555555556,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0.005555555555555556,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 0,
+        "max": 0.5
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0,
+        "high": 0.05616901071458098,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    },
+    {
+      "ratio": "2.40",
+      "wins": 0,
+      "battles": 1440,
+      "timeouts": 0,
+      "winFraction": 0,
+      "independentPairIndices": 720,
+      "pairedScore": {
+        "count": 720,
+        "mean": 0,
+        "min": 0,
+        "p50": 0,
+        "p90": 0,
+        "p95": 0,
+        "max": 0
+      },
+      "pairedScore95Hoeffding": {
+        "low": 0,
+        "high": 0.050613455159025426,
+        "unclippedHalfWidth": 0.050613455159025426
+      }
+    }
+  ]
+}

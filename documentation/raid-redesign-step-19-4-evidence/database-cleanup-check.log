@@ -1,0 +1,5 @@
+  current_database  | public_tables | remaining_test_schemas 
+--------------------+---------------+------------------------
+ seeker_anomaly_194 |             0 |                      0
+(1 row)
+

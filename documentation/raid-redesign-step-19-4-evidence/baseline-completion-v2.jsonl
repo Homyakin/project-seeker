@@ -1,0 +1,1 @@
+{"scenario":"database","stage":"BASELINE","details":{"database":"seeker_anomaly_194","schema":"anomaly_194_6303db55ef0c49f9bf75e1ef2ad93940","controlledOutcome":"real battle init/log/stats; firstWin branch flag is test-controlled","stage":"BASELINE","version":"16.15 (Debian 16.15-1.pgdg13+2)"}}

@@ -102,7 +102,7 @@ public class TelegramAnomalyService implements NotifyAnomalyBattleFinished {
                 editGroupEventsToCurrent(started.launchedEvent());
             case EventResult.AnomalyResult.ExpiredGathering _ ->
                 editGroupEventsToExpired(event.id());
-            case EventResult.AnomalyResult.AlreadyFinal _ -> { }
+            case EventResult.AnomalyResult.AlreadyFinal _, EventResult.AnomalyResult.NotDue _ -> { }
         }
     }
 

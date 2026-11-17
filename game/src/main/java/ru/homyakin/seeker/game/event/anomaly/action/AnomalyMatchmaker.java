@@ -150,11 +150,8 @@ public class AnomalyMatchmaker {
             return Optional.empty();
         }
 
-        final var battleResult = anomalyBattleService.fight(
-            launchedEventService.getById(hostEvent.id()).orElse(hostEvent),
-            accepted
-        );
-        notifyAnomalyBattleFinished.notify(battleResult);
+        anomalyBattleService.fightAcceptedIfActive(hostEvent.id())
+            .ifPresent(notifyAnomalyBattleFinished::notify);
         logger.info(
             "Anomaly pool matched host {} (group {}) with guest {} (group {})",
             host.launchedEventId(),

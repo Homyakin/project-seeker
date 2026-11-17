@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "baselineRows": 76,
+  "finalRows": 89,
+  "baselineScenarios": {
+    "concurrent": 2,
+    "database": 1,
+    "empty-filtered-fallback": 1,
+    "exact-payout": 20,
+    "fault-restart": 20,
+    "historical-final": 2,
+    "mid-transition-fault": 4,
+    "notification-failure": 2,
+    "phase-rollback": 2,
+    "ready-mid-transition-fault": 4,
+    "reduced-fallback-roster": 4,
+    "stale-deadline": 2,
+    "stale-final": 10,
+    "stale-phase": 2
+  },
+  "finalScenarios": {
+    "accepted-completion": 4,
+    "accepted-expiry-concurrency": 1,
+    "accepted-noop": 5,
+    "accepted-rollback": 1,
+    "concurrent": 2,
+    "database": 1,
+    "empty-filtered-fallback": 1,
+    "exact-payout": 20,
+    "fault-restart": 20,
+    "historical-final": 2,
+    "idempotence": 2,
+    "mid-transition-fault": 4,
+    "notification-failure": 2,
+    "phase-rollback": 2,
+    "ready-mid-transition-fault": 4,
+    "reduced-fallback-roster": 4,
+    "stale-deadline": 2,
+    "stale-final": 10,
+    "stale-phase": 2
+  },
+  "baselineFaultRetryResults": {
+    "AlreadyFinal": 6,
+    "ERROR: PSQLException": 12,
+    "PveBattleFinished": 2
+  },
+  "inputFiles": {
+    "baseline-completion-v5.jsonl": "5c706331f56e201afa9c73d714268080d2503d538cb660bed14525685ad9bbbe",
+    "clean-completion.jsonl": "1c47018ca3382bb0d87af78ae74d1be648503014af48643353e8cfc6d57d903d"
+  },
+  "limitations": [
+    "Controlled firstWin exercises payout branches, not balance.",
+    "No automatic repair of pre-existing partially completed events.",
+    "Empty fallback remains rejected without writes.",
+    "No exactly-once Telegram delivery guarantee."
+  ]
+}

@@ -71,8 +71,8 @@ public class AnomalyMatchmakerTest {
         );
         Mockito.when(anomalyStorage.tryMergeSearchingInto(Mockito.any(), Mockito.eq(guestEventId)))
             .thenReturn(true);
-        Mockito.when(anomalyBattleService.fight(Mockito.eq(hostEvent), Mockito.any()))
-            .thenReturn(battleResult);
+        Mockito.when(anomalyBattleService.fightAcceptedIfActive(hostEventId))
+            .thenReturn(Optional.of(battleResult));
 
         matchmaker.matchSearchingExpeditions();
 
@@ -81,8 +81,26 @@ public class AnomalyMatchmakerTest {
         Assertions.assertEquals(guestGroupId, acceptedCaptor.getValue().opponentGroupId());
         Assertions.assertEquals(guestOwnerId, acceptedCaptor.getValue().opponentOwnerPersonageId());
         Assertions.assertEquals(Optional.of(guestEventId), acceptedCaptor.getValue().opponentLaunchedEventId());
-        Mockito.verify(anomalyBattleService).fight(Mockito.eq(hostEvent), Mockito.eq(acceptedCaptor.getValue()));
+        Mockito.verify(anomalyBattleService).fightAcceptedIfActive(hostEventId);
+        Mockito.verifyNoMoreInteractions(anomalyBattleService);
         Mockito.verify(notifyAnomalyBattleFinished).notify(battleResult);
+    }
+
+    @Test
+    void Given_AnotherInstanceFinishedAfterMerge_When_Match_Then_SkipsBattleNotification() {
+        final var host = searchingAnomaly(hostEventId, hostGroupId, hostOwnerId);
+        final var guest = searchingAnomaly(guestEventId, guestGroupId, guestOwnerId);
+        mockPool(host, guest, launchedEvent(hostEventId), launchedEvent(guestEventId));
+        Mockito.when(anomalyStorage.tryMergeSearchingInto(Mockito.any(), Mockito.eq(guestEventId)))
+            .thenReturn(true);
+        Mockito.when(anomalyBattleService.fightAcceptedIfActive(hostEventId)).thenReturn(Optional.empty());
+
+        matchmaker.matchSearchingExpeditions();
+
+        Mockito.verify(anomalyStorage).tryMergeSearchingInto(Mockito.any(), Mockito.eq(guestEventId));
+        Mockito.verify(anomalyBattleService).fightAcceptedIfActive(hostEventId);
+        Mockito.verifyNoMoreInteractions(anomalyBattleService);
+        Mockito.verifyNoInteractions(notifyAnomalyBattleFinished);
     }
 
     @Test

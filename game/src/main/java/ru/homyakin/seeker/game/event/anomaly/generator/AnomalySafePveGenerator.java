@@ -41,6 +41,7 @@ public class AnomalySafePveGenerator {
     private static final int BASE_THREAT_MID = 20;
     private static final int BASE_THREAT_BACK = 12;
     private static final double SAFE_POWER_RATIO = 0.92;
+    private static final double V3_SAFE_POWER_RATIO = 1.10;
 
     public List<BattlePersonage> generate(AnomalyPveTemplate template, List<BattlePersonage> players) {
         return generate(template, players, SkillFormulaVersion.LEGACY_SKILLS_V1);
@@ -62,8 +63,20 @@ public class AnomalySafePveGenerator {
         if (formulaVersion == null) {
             throw new IllegalArgumentException("Enemy combat formula version must be specified");
         }
+        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3) {
+            if (template == null) {
+                throw new IllegalArgumentException("Anomaly template must be specified");
+            }
+            if (players == null || players.isEmpty() || players.size() > 5) {
+                throw new IllegalArgumentException("Anomaly party must contain between one and five players");
+            }
+            if (players.stream().anyMatch(java.util.Objects::isNull)) {
+                throw new IllegalArgumentException("Anomaly party must not contain null players");
+            }
+        }
         final int enemyCount = enemyCount(players.size());
-        final double targetPower = players.stream().mapToDouble(BattlePersonage::legacyPower).sum() * SAFE_POWER_RATIO;
+        final double targetPower = players.stream().mapToDouble(BattlePersonage::legacyPower).sum()
+            * (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3 ? V3_SAFE_POWER_RATIO : SAFE_POWER_RATIO);
         final var calibration = PveCharacteristicScaling.search(
             targetPower,
             PveCharacteristicScaling.maxMultiplier(BASE_ATTACK, BASE_DEFENSE, BASE_HEALTH),
@@ -126,7 +139,16 @@ public class AnomalySafePveGenerator {
         double multiplier,
         SkillFormulaVersion formulaVersion
     ) {
-        final int range = template.attackType() == AttackType.MAGICAL || position == Position.BACK ? 2 : 1;
+        final int range;
+        if (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3) {
+            range = switch (position) {
+                case FRONT -> template.attackType() == AttackType.MAGICAL ? 2 : 1;
+                case MID -> 2;
+                case BACK -> 3;
+            };
+        } else {
+            range = template.attackType() == AttackType.MAGICAL || position == Position.BACK ? 2 : 1;
+        }
         final int threat = switch (position) {
             case FRONT -> BASE_THREAT_FRONT;
             case MID -> BASE_THREAT_MID;

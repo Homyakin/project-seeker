@@ -1,0 +1,78 @@
+{
+  "purpose": "Single V3 ratio substitution in captured post-19.2 real generator; no runtime override",
+  "baselineSourcePath": "documentation/raid-redesign-step-19-3-evidence/baseline-source/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+  "baselineSourceSha256": "838e31ca00f740e78633b85f4621c143ef72a08f44944493e8b3fb76adc4d751",
+  "sourceArchive": "documentation/raid-redesign-step-19-3-evidence/pre-calibration-sources.tar.gz",
+  "sourceArchiveSha256": "a04fa5551c36229b6e47c5dba9d9f241d90ff570b2ba39fa0d28a2adb225f5cd",
+  "sourceArchiveFileCount": 256,
+  "substitution": {
+    "from": "final double targetPower = players.stream().mapToDouble(BattlePersonage::legacyPower).sum() * SAFE_POWER_RATIO;",
+    "toTemplate": "final double targetPower = players.stream().mapToDouble(BattlePersonage::legacyPower).sum()\n            * (formulaVersion == SkillFormulaVersion.SCALING_SKILLS_V3 ? {RATIO} : SAFE_POWER_RATIO);"
+  },
+  "compiler": "javac 25.0.1 --release 24 -encoding UTF-8",
+  "candidates": {
+    "0.92": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-0.92/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "ca775c5b5c61c783c203f773c4e1a8b1242dd11bd154ad4c942358b4f5518b71",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-0.92",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "dd143b80b698f333feecdb7135f0618c31c59a0cb6f1f0e6cfc70ba7cb5d1d36",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    },
+    "1.10": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-1.10/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "144e5e217513135cce04455dd0fcd31841f2020c0380cc66543921382160a717",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-1.10",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "386bce242359623332be9c5845eeae7228bc8625fda9450551eb78bd5cc1c6f5",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    },
+    "1.30": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-1.30/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "416527ed5506d55efec569a3e99a5fd3080b2f46f2b91491e588cd8f445ebc2f",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-1.30",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "8fb5fb46aa48480e499cdab5010b9681aca77089ca7fc420cb4666786f4eeadb",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    },
+    "1.50": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-1.50/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "3fa81d442cb8e620084f6adc1cf880ae8bb1bf912dfb507bfbbeae17a62fce81",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-1.50",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "19bd1a86785dd38e76858e4dbe80d08e7d679006a7ba421a7311e2806b743961",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    },
+    "1.75": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-1.75/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "0ffa66ca5529a9410399be7960d5ad25341d5b242bf8cc0ae0e3f37f0383db7a",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-1.75",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "6960689080ab928d592f059c4b4105186568d23c0882c73e9b4c230222140c1d",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    },
+    "2.00": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-2.00/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "e11cc3136d55f79b253b715cfee37f086ff4ed04acef6b0303301382908f39a5",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-2.00",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "0a42877c031e998ebbd4591d74a7addc508e570411615c3dcbe01ffa04ef5675",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    },
+    "2.40": {
+      "sourcePath": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/sources/ratio-2.40/game/src/main/java/ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.java",
+      "sourceSha256": "d6494c6c64cf3af037576d6235e61be5823400b82fb70212aca5ee7efec19b0f",
+      "classesDirectory": "documentation/raid-redesign-step-19-3-evidence/candidate-generators/ratio-2.40",
+      "classSha256ByPath": {
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator.class": "7e0ee4ef906fc2a3fdb1a9431bb4a32941bee7269df73acba19c504c20cd0e6c",
+        "ru/homyakin/seeker/game/event/anomaly/generator/AnomalySafePveGenerator$1.class": "76db3bd0530b274316a061733640c296465f19ad4c3f0991554a73b47866720e"
+      }
+    }
+  }
+}
